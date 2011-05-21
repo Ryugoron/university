@@ -1,0 +1,952 @@
+#LyX 1.6.7 created this file. For more info see http://www.lyx.org/
+\lyxformat 345
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\language ngerman
+\inputencoding auto
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_amsmath 1
+\use_esint 1
+\cite_engine basic
+\use_bibtopic false
+\paperorientation portrait
+\leftmargin 3cm
+\topmargin 2cm
+\rightmargin 2cm
+\bottommargin 2cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\defskip medskip
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\author "" 
+\author "" 
+\end_header
+
+\begin_body
+
+\begin_layout Title
+
+\lang english
+Technische Informatik IV: Praktikum
+\end_layout
+
+\begin_layout Author
+Protokoll zu Aufgabe 4
+\end_layout
+
+\begin_layout Date
+von Alexander Steen, Max Wisniewski
+\end_layout
+
+\begin_layout Section*
+Vorbereitung
+\end_layout
+
+\begin_layout Standard
+Zur Vorbereitung habe wir im Skript 
+\emph on
+AT Commands Interface Guide
+\emph default
+ das Kapitel 17 gelesen, indem es um die 
+\emph on
+Short Message Commands
+\emph default
+ zum senden, empfangen und organisieren von SMS ging.
+\end_layout
+
+\begin_layout Section*
+Aufgaben
+\end_layout
+
+\begin_layout Enumerate
+Wählen Sie als SMS-Speicher den Speicher der SIM-Karte aus.
+\end_layout
+
+\begin_layout Enumerate
+Schicken Sie vom Handy eine oder mehrere SMS an das Modul.
+ 
+\end_layout
+
+\begin_layout Enumerate
+Lassen Sie sich alle ungelesenen SMS anzeigen.
+ 
+\end_layout
+
+\begin_layout Enumerate
+Lesen Sie gezielt eine SMS über die Nummer des Eintrags.
+ 
+\end_layout
+
+\begin_layout Enumerate
+Lassen Sie sich nun alle gelesenen SMS anzeigen.
+ 
+\end_layout
+
+\begin_layout Enumerate
+Löschen Sie gezielt eine oder alle SMS aus dem Speicher.
+ 
+\end_layout
+
+\begin_layout Enumerate
+Verschicken Sie eine SMS vom Modul aus.
+ 
+\end_layout
+
+\begin_layout Enumerate
+Schalten Sie das Modul aus und schicken Sie von einem Handy eine SMS an
+ das Modul.
+ Dann warten Sie ein oder zwei Minuten und schalten es wieder an.
+ Überprüfen Sie, ob nach der Eingabe der PIN die SMS zugestellt wurde.
+\end_layout
+
+\begin_layout Section*
+Dokumentation
+\end_layout
+
+\begin_layout Description
+AT+CPMS Legt den Speicher für SMS fest.
+ Mit 
+\emph on
+AT+CPMS=?
+\emph default
+ können die Mögliche Speicherorte angezeigt werden.
+\end_layout
+
+\begin_deeper
+\begin_layout Description
+SM Speicher auf der Simkarte
+\end_layout
+
+\begin_layout Description
+ME Speicher auf dem Gerät
+\end_layout
+
+\begin_layout Description
+SR Speicher für den Status Report der SMS
+\end_layout
+
+\begin_layout Description
+BM Speicher für das Cell Broadcasting
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+
+\size small
+Mit 
+\emph on
+AT+CPMS?
+\emph default
+ kann man den Status des ausgewählten Speichers anzeigen.
+\end_layout
+
+\begin_layout Standard
+Die Antwort 
+\emph on
++CPMS=<Eingang>,<belegt>,<max>,<Ausgang>,
+\end_layout
+
+\begin_layout Standard
+
+\emph on
+<belegt>,<max>,<Sicherung>,<belegt>,<max>
+\emph default
+, beschreibt die drei Speicher, die man benutzen kann.
+ SMS Eingang, SMS Ausgang und ein Sicherungsspeicher.
+\begin_inset Newline newline
+\end_inset
+
+Mit 
+\emph on
+At+CPMS=<Eingang>[,<Ausgang>[,<Sicherung>]] 
+\emph default
+kann man die Speicher setzen.
+\end_layout
+
+\begin_layout Description
+AT+CMGS Mit diesem Befehl kann man SMS versenden.
+ Mit 
+\emph on
+AT+CMGS=<Nummer>
+\emph default
+ wählt man zunächst die Telefonnummer des Empfängers aus.
+ Drückt man nun auf 
+\emph on
+Enter
+\emph default
+ springt der Cursor auf die nächste Zeile und ist bereit die Nachricht aufzunehm
+en.
+ Die Nachricht tippt man nun einfach ein.
+ Man kann das eintippen abbrechen und nicht senden, indem man auf 
+\emph on
+ESC
+\emph default
+ drückt.
+ Ist die Nachricht fertig, so kann man sie mit 
+\emph on
+Strg+Z
+\emph default
+ senden.
+\begin_inset Newline newline
+\end_inset
+
+Als Antwort auf das Abschicken erhält man mit 
+\emph on
++CMGS=<Nummer>
+\emph default
+ eine fortlaufende Nummer zurück.
+ Diese wird jedesmal, wenn man eine Nachricht abschickt inkrementiert (und
+ modulo 256 gerechnet).
+\begin_inset Newline newline
+\end_inset
+
+Wir haben hier immer nur den Textmodus verwenden.
+ Den zweiten Modus, die 
+\emph on
+Protocol Description Unit 
+\emph default
+(kurz PDU), werden wir hier nicht weiter erläutern.
+\end_layout
+
+\begin_layout Description
+AT+CMGL Mit diesem Befehl kann man alle SMS ihrem Status gemäß aus dem Speicher
+ auflisten.
+ Die Syntax dabei ist 
+\emph on
+AT+CMGL=<Status>
+\emph default
+.
+ Es gibt folgende Speicher:
+\end_layout
+
+\begin_deeper
+\begin_layout Description
+REC
+\begin_inset Formula $\;$
+\end_inset
+
+UNREAD Alle ungelesenen Nachrichtem im Eingang
+\end_layout
+
+\begin_layout Description
+REC
+\begin_inset Formula $\;$
+\end_inset
+
+READ Alle gelesenen Nachrichten im Eingang
+\end_layout
+
+\begin_layout Description
+STO
+\begin_inset Formula $\;$
+\end_inset
+
+UNSENT Alle nichtgesendeten Nachrichten im Ausgang
+\end_layout
+
+\begin_layout Description
+STO
+\begin_inset Formula $\;$
+\end_inset
+
+SENT Alle gesendeten Nachrichtem im Ausgan
+\end_layout
+
+\begin_layout Description
+READ Alle gelesenen Nachrichten
+\end_layout
+
+\begin_layout Description
+ALL Alle Nachrichten
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+Als Antwort auf die Anfrage erhält man die Nachricht 
+\emph on
++CMGL=<Index>,<Status>,<Telefonnummer>[,<Name>]
+\end_layout
+
+\begin_layout Standard
+
+\emph on
+[,<Zeit>,<Typ>,<Länge>],<data>
+\emph default
+.
+ Der Index steht für die Stelle im Speicher, an der die Nachricht gespeichert
+ ist.
+ Der Status steht für den aktuellen Status der Nachricht, wobei eine ungelesene
+ Nachricht bei betrachtung auf gelesen wechselt.
+\end_layout
+
+\begin_layout Standard
+Falls der Sender im Telefonbuch steht, so wird sein Name unter <Name> angezeigt.
+ Desweiteren werden ein Zeitstempel zu empfang der Nachricht, ihr Typ und
+ ihre Länge angezeigt.
+\end_layout
+
+\begin_layout Standard
+Hat man alle Informationen über die Nachricht, so wird danach die eigentliche
+ Nachricht unter 
+\emph on
+<data>
+\emph default
+ angezeigt.
+\end_layout
+
+\begin_layout Description
+AT+CMGD Mit diesem Befehl kann mein eine oder mehrere Nachrichten löschen.
+ Die Syntax sieht folgender Maßen aus: 
+\emph on
+AT+CMGD=<Index>[,<DelFlag>]
+\emph default
+.
+ Der Index beschreibt wie immer die Position im Speicher.
+ Bei der DelFlag kann aus folgenden Optionen gewählt werden:
+\end_layout
+
+\begin_deeper
+\begin_layout Description
+0 Löscht nur die Nachricht am Index
+\end_layout
+
+\begin_layout Description
+1 Löscht alle gelesenen Nachrichten
+\end_layout
+
+\begin_layout Description
+2 Löscht sowohl alle gelesenen, als auch alle gesendeten
+\end_layout
+
+\begin_layout Description
+3 Es werden alle gelesenen, gesendeten und ungesendeten gelöscht
+\end_layout
+
+\begin_layout Description
+4 Es werden alle Nachrichten gelöscht
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+Wird nur ein Index angegeben, so wird implizit der Modus 0 gewählt.
+ Will man einen der anderen Modi wählen, muss man einen Index angeben, dieser
+ wird allerdings ignoriert, da ohnein alle Nachrichten mit entsprechender
+ Eigenschaft erfüllt werden.
+\end_layout
+
+\begin_layout Description
++CMTI Zeigt den Erhalt einer Nachricht an die Syntax ist 
+\emph on
++CMTI=<Speicher>,<Index>
+\emph default
+.
+ Der Speicher ist der selbe, wie unter 
+\emph on
+AT+CPMS
+\emph default
+ beschrieben.
+ Der Index steht für die Position unter die Nachricht gespeichert ist.
+\end_layout
+
+\begin_layout Section*
+Durchführung und Auswertung
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\footnotesize\ttfamily}"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+AT
+\end_layout
+
+\begin_layout Plain Layout
+
+OK
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+at+cpms?
+\end_layout
+
+\begin_layout Plain Layout
+
++CPMS: "SM",1,25,"SM",1,25,"SM",1,25
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+at+cpms=?
+\end_layout
+
+\begin_layout Plain Layout
+
++CPMS: (("SM","ME","BM","SR"),("SM","ME"),("SM","ME"))
+\end_layout
+
+\begin_layout Plain Layout
+
+OK 
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+at+cpms="SM"
+\end_layout
+
+\begin_layout Plain Layout
+
+OK
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Wir haben zunächst getestet, ob das Modul aktiv ist (
+\emph on
+AT
+\begin_inset Formula $\rightarrow$
+\end_inset
+
+OK
+\emph default
+).
+ Danach haben wir uns angeschaut, welcher Speicher ausgewählt war.
+ Dieser war schon auf dem geforderten SIM Speicher.
+ Man sieht auch, das von den maximalen 25 Nachrichten schon eine belegt
+ war.
+\end_layout
+
+\begin_layout Standard
+Als nächsten haben wur uns einmal angeschaut, welche Speicher wir zur Verfügung
+ haben (Erläuterung unter Dokumentation).
+\end_layout
+
+\begin_layout Standard
+Zuletzt haben wir, um der Aufgabe zu entsprechen, nochmal auf den SIM Speicher
+ gesetzt.
+ 
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Als nächstes haben wir uns von einem unserer Handys eine SMS geschrieben
+ (mehrere waren uns zu teuer).
+ Die Nummer unseres Moduls war uns bereits aus Aufgabe 2 bekannt.
+ Als Bestätigung unseres Versuches, haben wir die Nachricht
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\footnotesize\ttfamily}"
+inline false
+status open
+
+\begin_layout Plain Layout
+
++CMTI: "SM",2
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+bekommen.
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Als nächstes haben wir uns alle Nachrichten anzeigen lassen:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\footnotesize\ttfamily}"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+at+cmgl="REC UNREAD"
+\end_layout
+
+\begin_layout Plain Layout
+
++CMGL: 2,"REC UNREAD","+49151-------",,"11/04/13,12:37:33+08"
+\end_layout
+
+\begin_layout Plain Layout
+
+Test.
+\end_layout
+
+\begin_layout Plain Layout
+
+OK
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Wir sehen hier die SMS, die wir uns geschriebe haben (Nummer habe ich hier
+ auskommentiert).
+ Wie in der Doku beschrieben sehen wir den den Index, den Status, die Nummer
+ und als Zusatz den Zeitpunkt zu dem die Nachricht ankam.
+\end_layout
+
+\begin_layout Standard
+Die Daten 
+\emph on
+Test.
+
+\emph default
+ entsprechen der Daten, die wir in der SMS geschrieben haben.
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Als nächstes haben wir uns die SMS über den angezeigten Index direkt anzeigen
+ lassen.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\footnotesize\ttfamily}"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+at+cmgr=2
+\end_layout
+
+\begin_layout Plain Layout
+
++CMGR: "REC READ","+49151--------",,"11/04/13,12:37:33+08"
+\end_layout
+
+\begin_layout Plain Layout
+
+Test.
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+OK 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Hier sehen wir nochmal unsere Nachricht, wobei man sieht, dass der Status
+ von 
+\emph on
+
+\begin_inset Quotes eld
+\end_inset
+
+REC UNREAD
+\begin_inset Quotes erd
+\end_inset
+
+
+\emph default
+ auf 
+\emph on
+
+\begin_inset Quotes eld
+\end_inset
+
+REC READ
+\begin_inset Quotes erd
+\end_inset
+
+
+\emph default
+ gewechselt hat.
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Als wir uns nun nocheinmal die ungelesenen Nachrichten angezeigt haben,
+ kam das folgende dabei herraus.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\footnotesize\ttfamily}"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+at+cmgl="REC UNREAD"
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+OK
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Wie zu erwarten war, ist nun keine SMS mehr als ungelesen markiert.
+ Betrachten wir nun die gelesenen SMS finden wir unsere dort wieder.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+at+cmgl="REC READ"
+\end_layout
+
+\begin_layout Plain Layout
+
++CMGL: 1,"REC READ","+49152-----",,"11/04/12,13:19:41+08"
+\end_layout
+
+\begin_layout Plain Layout
+
+Aus hackepeter wird kacke spter!
+\end_layout
+
+\begin_layout Plain Layout
+
++CMGL: 2,"REC READ","+49151-----",,"11/04/13,12:37:33+08"
+\end_layout
+
+\begin_layout Plain Layout
+
+Test.
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+OK 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Hier sehen wir auch die eine Nachricht wieder, die eine verherige Gruppe
+ nicht gelöscht hatte.
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Nun sind wir so freundlich und löschen die SMS der alten Gruppe:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\footnotesize\ttfamily}"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+at+cmgd=1
+\end_layout
+
+\begin_layout Plain Layout
+
+OK 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Wir haben die Nachricht 
+\emph on
+OK
+\emph default
+ bekommen, aber prüfen vorsichtshalber nocheinmal nach.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+at+cmgl="REC READ"
+\end_layout
+
+\begin_layout Plain Layout
+
++CMGL: 2,"REC READ","+49151------",,"11/04/13,12:37:33+08"
+\end_layout
+
+\begin_layout Plain Layout
+
+Test.
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+OK 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Da wir hier nur noch unsere SMS sehen, muss das Löschen geklappt haben.
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Nun wollen wir uns vom Modul aus nocheinmal eine Nachricht schicken:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+at+cmgs="0151--------"
+\end_layout
+
+\begin_layout Plain Layout
+
+> Test zueruck.
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
++CMGS: 239
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+OK 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Wir schicken die Nachricht an uns, um das ganze Überprüfen zu können.
+ Wie in der Dokumentation beschrieben, bestätigt man nach der Telefonnummer
+ mit 
+\emph on
+Enter
+\emph default
+ und kann dann seinen Text eingeben.
+ Nachdem man die Eingabe mit 
+\emph on
+Strg+Z
+\emph default
+ geschlosen hat, erhält man die Laufnummer 239 und ein 
+\emph on
+OK
+\emph default
+.
+ 
+\end_layout
+
+\begin_layout Standard
+Wenige Sekunden später haben wir eine Nachricht empfang, die den gesendeten
+ Text enthielt.
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Als nächstes haben wir getestet, ob das Modul die Nachrichten auf bekommt,
+ wenn es ausgeschaltet ist.
+ Dazu haben wir es ausgeschaltet und wie in Protokoll 1 beschrieben wieder
+ aktiviert.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\footnotesize\ttfamily}"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+at+cmgl="REC UNREAD"
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
++CMGL: 1,"REC UNREAD","+4915154854379",,"11/04/13,12:43:31+08"
+\end_layout
+
+\begin_layout Plain Layout
+
+Test zum dritten.
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+OK
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+//neue nachricht empfangen - ein bisschen spät 
+\end_layout
+
+\begin_layout Plain Layout
+
++CMTI: "SM",1 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Nachdem wir uns die ungelesenen habe ausgeben lassen, bei deinen unsere
+ Nachricht auch dabei war, haben wir auch die Mitteilung bekommen, das eine
+ neue Nachricht angekommen ist.
+ Die Nachricht kommt, wie wir bei anderen Gruppen beobachten konnten, auch
+ ohne ein Abrufen der Nachrichten.
+ Wir waren in diesem Fall etwas zu schnell für das Modul.
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Als letztes löschen wir noch alle SMS, die wir geschrieben haben, um das
+ Modul für die nächste Gruppe wieder herzustellen.
+\end_layout
+
+\end_body
+\end_document

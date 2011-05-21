@@ -1,0 +1,688 @@
+#LyX 1.6.7 created this file. For more info see http://www.lyx.org/
+\lyxformat 345
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\language ngerman
+\inputencoding auto
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\paperfontsize default
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_amsmath 1
+\use_esint 1
+\cite_engine basic
+\use_bibtopic false
+\paperorientation portrait
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\defskip medskip
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\author "" 
+\end_header
+
+\begin_body
+
+\begin_layout Title
+
+\lang english
+Technische Informatik IV: Praktikum
+\end_layout
+
+\begin_layout Author
+Protokoll zu Aufgabe 2
+\end_layout
+
+\begin_layout Date
+von Alexander Steen, Max Wisniewski
+\end_layout
+
+\begin_layout Subsection*
+Vorbereitung
+\end_layout
+
+\begin_layout Subsection*
+Aufgaben
+\end_layout
+
+\begin_layout Enumerate
+Erstellen Sie eine Liste der verfügbaren Telefonbuch Kommandos und deren
+ Funktionen.
+\end_layout
+
+\begin_layout Enumerate
+Schauen Sie sich die Auslastung des Telefonbuches an.
+ Als Speicher sollte SM ausgewählt sein.
+\end_layout
+
+\begin_layout Enumerate
+Listen Sie alle Einträge auf.
+ Dort finden Sie auch die Rufnummer Ihres Moduls.
+\end_layout
+
+\begin_layout Enumerate
+Suchen Sie den Eintrag für eine Nummer aus dem Telefonbuch einmal anhand
+ des Namens und einmal anhand der Telefonnummer.
+\end_layout
+
+\begin_layout Enumerate
+Nehmen Sie einen Eintrag ins Telefonbuch vor (z.B.
+ Ihre Handynummer) und überprüfen Sie dies.
+\end_layout
+
+\begin_layout Enumerate
+Löschen Sie den Eintrag wieder uns überprüfen Sie das Ergebnis.
+\end_layout
+
+\begin_layout Subsection*
+Dokumentation
+\end_layout
+
+\begin_layout Description
+AT+CPBR Suche Telefonbuch durch, nach Speicherplatz
+\end_layout
+
+\begin_layout Description
+AT+CPBF Phonebook Find, find by Name TBD
+\end_layout
+
+\begin_layout Description
+AT+CPBP Phonebook Find by Number
+\end_layout
+
+\begin_layout Description
+AT+CPBW Schreibt einen Eintrag in das Telefonbuch
+\end_layout
+
+\begin_layout Description
+AT+CPBS Sucht einen Eintrag nach dem Namen.
+ TBD
+\end_layout
+
+\begin_layout Subsection*
+Durchführung und Auswertung
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+AT+CPBS=?
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
++CPBS: ("SM","FD","LD","MC","ON","ME","RC","MT","EN")
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+OK 
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+at+cpbs="SM"
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+OK 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Mit 
+\emph on
+AT+CPBS=? 
+\emph default
+listet man alle Möglichen Quellen des Telefonbuches auf.
+ Wir haben uns anschließend für den Sim - Speicher des Moduls entschieden.
+ Diesen haben wir mit 
+\emph on
+AT+SPBS=
+\begin_inset Quotes erd
+\end_inset
+
+SM
+\begin_inset Quotes erd
+\end_inset
+
+ 
+\emph default
+ausgewählt.
+\end_layout
+
+\begin_layout Standard
+Die Antwort 
+\emph on
+ok
+\emph default
+ sagt uns, dass die Source korrekt eingetellt wurde.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+at+cpbs?
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
++CPBS: "SM",9,200
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+OK
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+at+cpbr=?
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
++CPBR: (1-200),80,16
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+OK 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Da wir nun eine Source ausgewählt haben, können wir mit 
+\emph on
+AT+CPBS?
+\emph default
+ abfragen, wie unsere gesetzte Source ausschaut.
+ Die Antwort (
+\emph on
++CPBS: 
+\begin_inset Quotes eld
+\end_inset
+
+SM
+\begin_inset Quotes erd
+\end_inset
+
+,9,200
+\emph default
+) sagt uns, dass wir den Sim-Speicher gewählt haben, dass wir 9 Speicherplätze
+ belegt haben und dass wir insesammt 200 Plätze auf der Simkarte haben.
+ Das löst unsere 2.
+ Frage: Von 200 Plätzen sind 9 belegt.
+\end_layout
+
+\begin_layout Standard
+Mit dem Befehl 
+\emph on
+AT+CPBR=?
+\emph default
+ können wir uns anschauen, die Einträge des Telefonbuches aussehen.
+ Sie befindet sich auf Position 1-200, die Namen der Einträge sind maximal
+ 80 Zeichen lang und die Rufnummern sind 16 Zeichen lang.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+at+cpbr=1,200
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
++CPBR: 1,"017665367708",129,"HWP1"
+\end_layout
+
+\begin_layout Plain Layout
+
++CPBR: 2,"017665316700",129,"HWP2"
+\end_layout
+
+\begin_layout Plain Layout
+
++CPBR: 3,"017665338235",129,"HWP3"
+\end_layout
+
+\begin_layout Plain Layout
+
++CPBR: 4,"017665348409",129,"HWP4"
+\end_layout
+
+\begin_layout Plain Layout
+
++CPBR: 6,"017665390997",129,"HWP6"
+\end_layout
+
+\begin_layout Plain Layout
+
++CPBR: 7,"017668065207",129,"HWP7"
+\end_layout
+
+\begin_layout Plain Layout
+
++CPBR: 8,"017665374344",129,"HWP8"
+\end_layout
+
+\begin_layout Plain Layout
+
++CPBR: 10,"+4915118985237",145,"dasandere"
+\end_layout
+
+\begin_layout Plain Layout
+
++CPBR: 11,"017665376367",129,"dieda" 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Mit 
+\emph on
+AT+CPBR
+\emph default
+ lassen sich die Einträge dem Speicherplatz entsprechend ausgeben.
+ Wir geben mit 
+\emph on
+AT+CPBR=1,200
+\emph default
+ alle Einträge aus (da 1 kleinster und 200 größter Eintrag ist, wie aus
+ dem letzten Teil zu erkennen war).
+\end_layout
+
+\begin_layout Standard
+Wir sehen, dass außer den 8 Stationen (HWP 1-8) noch 2 Nummern von vorherigen
+ Gruppen gespeichert waren (10, 11).
+\end_layout
+
+\begin_layout Standard
+Diese Liste beantwortet Teil 3 der Aufgabe (unsere Station war die Nummer
+ 8, ist also unter HWP8 zu finden).
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+at+cpbf="HWP2"
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
++CPBF: 2,"017665316700",129,"HWP2"
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+OK
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+at+cpbp="017665316700"
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
++CPBP: 2,"017665316700",129,"HWP2"
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+OK 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Wie in der Dokumentation schon beschrieben, findet man mit 
+\emph on
+AT+CPBF
+\emph default
+ einen Eintrag nach dem Namen und mit 
+\emph on
+AT+CPBP
+\emph default
+ nach der Nummer.
+\end_layout
+
+\begin_layout Standard
+Wir suchen im obrigen Abschnit beide mal den 2.
+ Eintrag.
+ Das erste mal nach dem Namen 
+\emph on
+
+\begin_inset Quotes eld
+\end_inset
+
+HWP2
+\begin_inset Quotes erd
+\end_inset
+
+
+\emph default
+ und das zweite mal nach der Nummer 
+\emph on
+
+\begin_inset Quotes eld
+\end_inset
+
+017665316700
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Dies entspricht der Lösung zum 4.
+ Teil der Aufgabe.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+at+cpbw=9,"015154854379",129,"max"
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+OK
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+at+cpbr=1,100
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
++CPBR: 1,"017665367708",129,"HWP1"
+\end_layout
+
+\begin_layout Plain Layout
+
++CPBR: 2,"017665316700",129,"HWP2"
+\end_layout
+
+\begin_layout Plain Layout
+
++CPBR: 3,"017665338235",129,"HWP3"
+\end_layout
+
+\begin_layout Plain Layout
+
++CPBR: 4,"017665348409",129,"HWP4"
+\end_layout
+
+\begin_layout Plain Layout
+
++CPBR: 6,"017665390997",129,"HWP6"
+\end_layout
+
+\begin_layout Plain Layout
+
++CPBR: 7,"017668065207",129,"HWP7"
+\end_layout
+
+\begin_layout Plain Layout
+
++CPBR: 8,"017665374344",129,"HWP8"
+\end_layout
+
+\begin_layout Plain Layout
+
++CPBR: 9,"015154854379",129,"max"
+\end_layout
+
+\begin_layout Plain Layout
+
++CPBR: 10,"+4915118985237",145,"dasandere"
+\end_layout
+
+\begin_layout Plain Layout
+
++CPBR: 11,"017665376367",129,"dieda"
+\end_layout
+
+\begin_layout Plain Layout
+
+OK
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Mit dem Befehl 
+\emph on
+AT+CPBW=9,...
+
+\emph default
+ fügen wir einen neuen Eintrag hinzu.
+ WIr betrachten danach das Ergebniss wie im 2.
+ Teil und sehen, dass auf Speicherplatz 9 wirklich unser gerade vorgenommener
+ Eintrag steht.
+ Aufgabenteil fünf war ein voller Erfolg.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+at+cpbw=9
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+OK
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+at+cpbr=1,200
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
++CPBR: 1,"017665367708",129,"HWP1"
+\end_layout
+
+\begin_layout Plain Layout
+
++CPBR: 2,"017665316700",129,"HWP2"
+\end_layout
+
+\begin_layout Plain Layout
+
++CPBR: 3,"017665338235",129,"HWP3"
+\end_layout
+
+\begin_layout Plain Layout
+
++CPBR: 4,"017665348409",129,"HWP4"
+\end_layout
+
+\begin_layout Plain Layout
+
++CPBR: 6,"017665390997",129,"HWP6"
+\end_layout
+
+\begin_layout Plain Layout
+
++CPBR: 7,"017668065207",129,"HWP7"
+\end_layout
+
+\begin_layout Plain Layout
+
++CPBR: 8,"017665374344",129,"HWP8"
+\end_layout
+
+\begin_layout Plain Layout
+
++CPBR: 10,"+4915118985237",145,"dasandere"
+\end_layout
+
+\begin_layout Plain Layout
+
++CPBR: 11,"017665376367",129,"dieda"
+\end_layout
+
+\begin_layout Plain Layout
+
+OK 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Zu guter letzt löschen wir unsere Nummer noch aus dem Telefonbuch
+\end_layout
+
+\end_body
+\end_document

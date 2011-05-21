@@ -1,0 +1,1540 @@
+#LyX 1.6.7 created this file. For more info see http://www.lyx.org/
+\lyxformat 345
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\language english
+\inputencoding auto
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_amsmath 1
+\use_esint 1
+\cite_engine basic
+\use_bibtopic false
+\paperorientation portrait
+\leftmargin 3cm
+\topmargin 2cm
+\rightmargin 2cm
+\bottommargin 2cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\defskip medskip
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\author "" 
+\author "" 
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Technische Informatik IV: Praktikum
+\end_layout
+
+\begin_layout Author
+Protokoll zu Aufgabe A5
+\end_layout
+
+\begin_layout Date
+von Max Wisniewski, Alexander Steen
+\end_layout
+
+\begin_layout Subsection*
+Vorbereitung
+\end_layout
+
+\begin_layout Standard
+Als Quelle für die Aufgaben diente Abschnitt 11 (
+\emph on
+GSM Network Commands
+\emph default
+), Abschnitt 15 (
+\emph on
+PLMN Commands
+\emph default
+) und Abschnitt 17 (
+\emph on
+Short Message Commands
+\emph default
+) des 
+\emph on
+AT Interface Guides
+\emph default
+.
+\end_layout
+
+\begin_layout Subsection*
+Aufgaben
+\end_layout
+
+\begin_layout Enumerate
+Funktionen 
+\family typewriter
+AT+CCED, AT+WOPN, AT+COPN, AT+CNMI, AT+CSCB, AT+WLOC
+\family default
+ dokumentieren
+\end_layout
+
+\begin_layout Enumerate
+Werte für MCC, MNC, LAC und CI bestimmen
+\end_layout
+
+\begin_layout Enumerate
+Abkürzungen MCC, MNC, LAC, CI, BSIC, BCCH und RxLEV erläutern
+\end_layout
+
+\begin_layout Enumerate
+Anbieter des aktuell zuständigen Sendemasten herausfinden
+\end_layout
+
+\begin_layout Enumerate
+Alle deutschen Mobilfunkbetreiber auflisten
+\end_layout
+
+\begin_layout Enumerate
+GK-Koordinaten des Sendemasten herausfinden
+\end_layout
+
+\begin_layout Subsection*
+Dokumentation
+\end_layout
+
+\begin_layout Subsubsection*
+AT+CCED
+\end_layout
+
+\begin_layout Standard
+Mit diesem Kommando erfährt man Informationen über den Sendemasten, bei
+ dem man gerade angemeldet ist.
+ Außerdem kann dieses Kommando auch noch Informationen über bis zu 6 weitere,
+ benachbarte Sendemasten einholen.
+ Die Syntax lautet:
+\end_layout
+
+\begin_layout Standard
+AT+CCED=<Modus>[,<Anfrage>[,<CSQ-Abstand>]][,<Ausführlich>]
+\begin_inset Newline newline
+\end_inset
+
+Dabei bedeuten die Paramter folgendes:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="9" columns="3">
+<features>
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Modus
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Die Abfrage wird einmal ausgeführt
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Die Abfrage wird alle 5 Sekunden ausgeführt
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Stoppt die kontinuierliche Abfrage
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Anfrage
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Informationen über den Hauptmast
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Informationen über bis zu 6 Nachbarn
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Informationen über den Hauptmast und den Nachbarn
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+...
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\emph on
+und viele weitere Optionen
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+CSQ-Abstand
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1-5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Betrag, um den sich die 
+\emph on
+rssi
+\emph default
+ ändern muss, bevor dies signalisiert wird
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Ausführlich
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0-1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Ausführliche Abfrage aus (= 0) bzw.
+ an (= 1)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Bei einer Anfrage der Form AT+CCED=0,1 hat die Antwort, die Form
+\end_layout
+
+\begin_layout Standard
++CCED=[<MCC>],[<MNC>],[<LAC>][,<CI>],[<BSIC>],[<BCCH Freq>],[<RxLev>], ...
+\begin_inset Newline newline
+\end_inset
+
+weitere Parameter wurden ausgelassen.
+ Die Bedeutung der Werte kann in diesem Protokoll weiter unten nachgelesen
+ werden.
+\end_layout
+
+\begin_layout Subsubsection*
+AT+WOPN
+\end_layout
+
+\begin_layout Standard
+Dieses Kommando kann den Namen des Netzbetreibers (in kurzer oder langer
+ Form) ausgeben, die Liste der gespeicherten Namen löschen oder ändern,
+ wie die Namen der Netzbetreiber eingeholt werden.
+ Die erste Möglichkeit drückt man wie folgt aus:
+\end_layout
+
+\begin_layout Standard
+AT+WOPN=<Modus>,<Betreibernummer>[,<LAC>]
+\begin_inset Newline newline
+\end_inset
+
+wenn der Modus 0 (vollständiger Name) oder 1 (kurzer Name) ist, wobei sich
+ die Betreibernummer aus MCC und MNC zusammensetzt.
+ Die Liste der Namen löscht man im Modus 3 mit:
+\end_layout
+
+\begin_layout Standard
+AT+WOPN=3,0
+\begin_inset Newline newline
+\end_inset
+
+Im Modus 4 kann man das Einholen der Netzbetreiberliste nach einer bestimmten
+ Option aktualisieren, wird hier aber nicht genauer beleuchtet.
+\end_layout
+
+\begin_layout Subsubsection*
+AT+COPN
+\end_layout
+
+\begin_layout Standard
+Dieser Befehl gibt eine Liste aller gespeicherten Netzbetreiber aus.
+ Die Syntax ist
+\end_layout
+
+\begin_layout Standard
+AT+COPN
+\begin_inset Newline newline
+\end_inset
+
+Die Rückgabe ist eine Auflistung der Netzbetreiber der Form 
+\end_layout
+
+\begin_layout Standard
++COPN: <Betreibernummer>,<Name>
+\begin_inset Newline newline
+\end_inset
+
+wobei sich die Betreibernummer aus MCC und MNC zusammensetzt.
+\end_layout
+
+\begin_layout Subsubsection*
+AT+CNMI
+\end_layout
+
+\begin_layout Standard
+Mit diesem Befehl kann festgelegt werden, wie der Empfang von Netznachrichten
+ behandelt wird.
+ Die Syntax lautet
+\end_layout
+
+\begin_layout Standard
+AT+CNMI=<Modus>,<mt>,<bm>,<ds>,<bfr>
+\begin_inset Newline newline
+\end_inset
+
+Da dieser Befehl sehr umfangreich ist und die Parameterverwendung stark
+ varriert, verzichten wir darauf dieses Kommando ausführlich zu dokumentieren.
+\end_layout
+
+\begin_layout Subsubsection*
+AT+CSCB
+\end_layout
+
+\begin_layout Standard
+Mit diesem Befehl sagt man dem Modul, welche Cell Broadcasting Nachrichten
+ empfangen werden sollen.
+\end_layout
+
+\begin_layout Standard
+Die Syntax sieht dabei folgender Maßen aus:
+\end_layout
+
+\begin_layout Standard
+
+\emph on
+AT+CSCB=<Modus>[,<Meldungsids>[,<Codierung>]]
+\emph default
+.
+\begin_inset Newline newline
+\end_inset
+
+Der Modus ist entweder
+\end_layout
+
+\begin_layout Standard
+0 : aktiviert
+\end_layout
+
+\begin_layout Standard
+1 : deaktiviert.
+\begin_inset Newline newline
+\end_inset
+
+Die ID's sind die selben wie im Befehl 
+\emph on
+AT+CNMI
+\emph default
+ beschrieben.
+ Zuletzt bezieht sich die Codierung auf die verwendete Sprache.
+\end_layout
+
+\begin_layout Subsubsection*
+AT+WLOC
+\end_layout
+
+\begin_layout Standard
+Mit diesem Befehl, kann man wie mit 
+\emph on
+AT+CCED
+\emph default
+ von den Sendemasten die Standordinformationen abfragen.
+\end_layout
+
+\begin_layout Standard
+Die Syntax sieht dabei folgender Maßen aus:
+\end_layout
+
+\begin_layout Standard
+
+\emph on
+AT+WLOC=<Modus>
+\emph default
+.
+\begin_inset Newline newline
+\end_inset
+
+Wobei der Modus aus folgenden Optionen gewählt werden kann:
+\end_layout
+
+\begin_layout Standard
+0 : stoppt die automatischen Anfragen
+\end_layout
+
+\begin_layout Standard
+1 : sendet einmalig eine Anfrage
+\end_layout
+
+\begin_layout Standard
+2 : automatisches Senden von Anfragen (alle 5 sec)
+\end_layout
+
+\begin_layout Standard
+3 : stellt die Menge der Informationen ein
+\end_layout
+
+\begin_layout Subsection*
+Durchführung und Auswertung
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\footnotesize\ttfamily},frame=single"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+at+cced=0,1
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
++CCED: 262,07,4ef9,08f0,60,694,33,,,0,,,0
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+OK
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Dieser Aufruf gibt uns folgende Informationen für die gesuchten Werte:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="2" columns="4">
+<features>
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+MCC
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+MNC
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+LAC
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+CI
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+262
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+07
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0x4ef9
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0x08f0
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Die Werte, die AT+CCED zurückgibt, haben folgende Bedeutungen:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="7" columns="3">
+<features>
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+MCC
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Mobile Country Code
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Länderkennung (dreistellig)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+MNC
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Mobile Network Code
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Netzanbieterkennung (zweistellig)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+LAC
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Location Area Code
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Kennung der Netzstation (2 Byte)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+CI
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Cell ID
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Kennung der Funkzelle (2 Byte)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+BSIC
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Base Station Identity Code
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+BCCH Freq
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Broadcast Control Channel
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+RxLev
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+RSSI
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Signalstärke nach RSSI (6 Bit)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\footnotesize\ttfamily},frame=single"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+at+wopn=0,26207
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
++WOPN: 0,"o2 - de"
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+OK
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Unser Anbieter ist O2 Deutschland.
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\footnotesize\ttfamily},frame=single"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+at+copn
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
++COPN: 20201,"GR COSMOTE"
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
++COPN: 20205,"vodafone GR"
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
++COPN: 20209,"GR Q-TELECOM"
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
++COPN: 20210,"TIM GR"
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
++COPN: 20404,"vodafone NL"
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
++COPN: 20408,"NL KPN"
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
++COPN: 20412,"NL Telfort"
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
++COPN: 20416,"T-Mobile NL"
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+...
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Es sind 710 Netzbetreiber gespeichert.
+\end_layout
+
+\begin_layout Standard
+Die deutschen Betreiber sind (erkennbar am MCC 262):
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="6" columns="3">
+<features>
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+MCC
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+MNC
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Name
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+262
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+01
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+T-Mobile D
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+262
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+02
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Vodafone.de
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+262
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+03
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+E-Plus
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+262
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+07
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+o2 - de
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+262
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+08
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+o2 - de
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Durch den Befehl AT+CCED=0,1 haben wir die folgenden Werte für LAC und CI
+ herausbekommen (s.o.):
+\end_layout
+
+\begin_layout Standard
+LAC: 0x4ef9 entspricht dezimal 20217
+\end_layout
+
+\begin_layout Standard
+CI: 0x08f0 entspricht dezimal 2288.
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Damit können wir aus der Tabelle den Eintrag 
+\begin_inset Quotes eld
+\end_inset
+
+Fabackstr.
+ 34-36 (FU Berlin Institut für anorganische Chemie)
+\begin_inset Quotes erd
+\end_inset
+
+ finden.
+\end_layout
+
+\begin_layout Standard
+Die GK-Koordinaten betragen: 3791910 5822040 
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\footnotesize\ttfamily},frame=single"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+at+cnmi=1,0,2,0,1
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+OK
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+at+cscb=0,"221","0"
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+OK
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Wir empfangen nun Broadcast-Nachrichten des Netzes.
+ Nach einiger Zeit empfangen wir eine Nachricht und es wird folgendes ausgegeben
+:
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\footnotesize\ttfamily},frame=single"
+inline false
+status open
+
+\begin_layout Plain Layout
+
++CBM: 16,221,0,1,1
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+379191582209
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Die gewonnenen GK-Koordinaten 3791910 5822040 sind mit den obigen identisch.
+ 
+\end_layout
+
+\begin_layout Standard
+Dies entspricht den WGS84-Daten E13.29395331 N52.4537872
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\footnotesize\ttfamily},frame=single"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+at+wloc=1
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
++WLOC:
+\end_layout
+
+\begin_layout Plain Layout
+
+62f270,4ef9,08f0,9a40000c27a000000000000000000000,02a502b602bd02be02c503e
+\end_layout
+
+\begin_layout Plain Layout
+
+e03f003f203f703fc,00,081010208094ff
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+OK
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Durch den Link erhalten wir ebenfalls die Koordinaten N52.4537872 E13.29395331.
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Die Anfahrt ist dann wie folgt:
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename ti4-5anfahr.PNG
+	scale 35
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Die Informationen durch das O2-Portal decken sich mit unseren herausgefundenen
+ Daten:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename ti4-5mobilfunkstandorte.PNG
+	scale 50
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename ti4-5homezone.PNG
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

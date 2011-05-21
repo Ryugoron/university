@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/lex_alp5_ws1011/!svn/ver/185/VS/src/syncFramework/sequence
+END
+Connection.java
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/lex_alp5_ws1011/!svn/ver/188/VS/src/syncFramework/sequence/Connection.java
+END
+SequencerFactory.java
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/lex_alp5_ws1011/!svn/ver/188/VS/src/syncFramework/sequence/SequencerFactory.java
+END
+CentralSequencer.java
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/lex_alp5_ws1011/!svn/ver/188/VS/src/syncFramework/sequence/CentralSequencer.java
+END
+Sequencer.java
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/lex_alp5_ws1011/!svn/ver/188/VS/src/syncFramework/sequence/Sequencer.java
+END

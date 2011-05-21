@@ -1,0 +1,1107 @@
+#LyX 1.6.4 created this file. For more info see http://www.lyx.org/
+\lyxformat 345
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\language english
+\inputencoding auto
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_amsmath 1
+\use_esint 1
+\cite_engine basic
+\use_bibtopic false
+\paperorientation portrait
+\leftmargin 3cm
+\topmargin 2cm
+\rightmargin 2cm
+\bottommargin 2cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\defskip medskip
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\author "" 
+\author "" 
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Technische Informatik IV: Praktikum
+\end_layout
+
+\begin_layout Author
+Protokoll zu Aufgabe A3
+\end_layout
+
+\begin_layout Date
+von Max Wisniewski, Alexander Steen
+\end_layout
+
+\begin_layout Subsection*
+Vorbereitung
+\end_layout
+
+\begin_layout Standard
+Als Quelle für die Aufgaben diente Abschnitt 12 (
+\emph on
+Call Control Commands
+\emph default
+) und Abschnitt 20 (
+\emph on
+Supplementary Services Commands
+\emph default
+) des 
+\emph on
+AT Interface Guides
+\emph default
+.
+\end_layout
+
+\begin_layout Subsection*
+Aufgaben
+\end_layout
+
+\begin_layout Enumerate
+Funktionen 
+\family typewriter
+ATD
+\family default
+, 
+\family typewriter
+ATDL
+\family default
+, 
+\family typewriter
+ATA
+\family default
+, 
+\family typewriter
+ATS0
+\family default
+, 
+\family typewriter
+ATH
+\family default
+, 
+\family typewriter
+AT+CLIP
+\family default
+, 
+\family typewriter
+AT+CRC
+\family default
+ dokumentieren
+\end_layout
+
+\begin_layout Enumerate
+Funktionen ausprobieren.
+\end_layout
+
+\begin_layout Subsection*
+Dokumentation
+\end_layout
+
+\begin_layout Subsubsection*
+ATD
+\end_layout
+
+\begin_layout Standard
+Dieses Kommando startet einen Sprach- oder Datenaruf.
+ Die Syntax lautet
+\end_layout
+
+\begin_layout Standard
+
+\family typewriter
+ATD <Nr> [<CLIR>][<CUG>] [;]
+\family default
+
+\begin_inset Newline newline
+\end_inset
+
+wobei 
+\family typewriter
+<Nr>
+\family default
+ die Telefonnummer des designierten Empfängers, 
+\family typewriter
+<CLIR>
+\family default
+ eine Option zur Rufnummerunterdrückung und 
+\family typewriter
+<CUG>
+\family default
+ eine Option für Gruppenfunktionen ist.
+ Letzteres wird hier allerdings nicht genauer betrachtet.
+ Als Wert für 
+\family typewriter
+<CLIR>
+\family default
+ kann entweder
+\family typewriter
+ i
+\family default
+ (= eigene Nummer anzeigen) oder 
+\family typewriter
+I
+\family default
+ (= eigene Nummer verstecken) benutzt werden.
+ Das Semikolon am Ende der Eingabe signalisiert einen Sprachanruf, steht
+ kein Semikolon, so ist es ein Datenanruf.
+ Analog dazu kann mit einem Größer-Als-Zeichen ( 
+\begin_inset Quotes eld
+\end_inset
+
+
+\family typewriter
+>
+\family default
+ 
+\begin_inset Quotes eld
+\end_inset
+
+) nach 
+\family typewriter
+ATD
+\family default
+ alternativ auch direkt aus dem Telefonbuch ein Anruf gestartet werden,
+ als Schlüssel können entweder Eintragsindex oder der Name des Empfängers
+ genutzt werden, die Syntax lautet also:
+\end_layout
+
+\begin_layout Standard
+
+\family typewriter
+ATD [<Telefonbuchspeicher>] <Index oder Name> [<CLIR>] [<CUG>] [;]
+\family default
+
+\begin_inset Newline newline
+\end_inset
+
+Als Antwort auf dieses Kommando kann man, je nach Situation, folgende Antworten
+ erhalten:
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+OK
+\family default
+: Freizeichen
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+CONNECT <speed>
+\family default
+: Verbindung mit der Übertragungsrate <speed> in bps steht
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+NO CARRIER
+\family default
+: Kein Amt
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+BUSY
+\family default
+: Besetzt
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+NO ANSWER
+\family default
+: Keine Antwort
+\end_layout
+
+\begin_layout Subsubsection*
+ATDL
+\end_layout
+
+\begin_layout Standard
+
+\family typewriter
+ATDL
+\family default
+ bezeichnet die Wahlwiederholung: Die letzte Nummer wird noch einmal gewählt.
+ Es gibt keine Paramter, der Rückgabewert ist die Nummer, die erneut angerufen
+ wird.
+\end_layout
+
+\begin_layout Subsubsection*
+ATA
+\end_layout
+
+\begin_layout Standard
+Dieses Kommando nimmt einen eingehenden Anruf an.
+ Es gibt keine Parameter.
+\end_layout
+
+\begin_layout Subsubsection*
+ATS0
+\end_layout
+
+\begin_layout Standard
+Mit diesem Kommando kann man einstellen, ob die automatische Anrufannahme
+ aktiviert ist - und wenn ja, nach wie vielen Klingelzeichen der Anruf angenomme
+n wird.
+ Mit 
+\family typewriter
+ATS0=<value>
+\family default
+ kann man den Wert setzen.
+ Erlaubt sind Werte von 0 bis 255, wobei 0 die Deaktivierung der Funktion
+ meint.
+ Mit 
+\family typewriter
+ATS0?
+\family default
+ wird angezeigt, was die aktuelle Einstellung ist.
+\end_layout
+
+\begin_layout Subsubsection*
+ATH
+\end_layout
+
+\begin_layout Standard
+
+\family typewriter
+ATH 
+\family default
+beendet den aktuellen Anruf oder weißt einen eingehenden, noch nicht angenommene
+n Anruf ab.
+ Mit 
+\family typewriter
+ATH1
+\family default
+ kann man auch einen ausgehenden, noch nicht angenommenen Anruf beenden.
+\end_layout
+
+\begin_layout Subsubsection*
+AT+CLIP
+\end_layout
+
+\begin_layout Standard
+Mit diesem Kommando kann man die Anzeige der Rufnummer des Anrufers ein-
+ bzw.
+ ausschalten.
+ Durch den Aufruf von 
+\family typewriter
+AT+CLIP=1
+\family default
+ wird die Anzeige aktiviert, durch 
+\family typewriter
+AT+CLIP=0
+\family default
+ wird sie deaktiviert.
+ Ist die Option aktiviert, so wird bei einem Anruf nach jedem 
+\family typewriter
+RING 
+\family default
+eine Meldung der Form
+\end_layout
+
+\begin_layout Standard
+
+\family typewriter
++CLIP: <Nummer>,<Typ>
+\end_layout
+
+\begin_layout Standard
+ausgegeben (weitere Parameter möglich, hier weggelassen).
+\begin_inset Newline newline
+\end_inset
+
+Die aktuelle Einstellung kann man durch den Aufruf von 
+\family typewriter
+AT+CLIP?
+\family default
+ erfahren.
+ Die Rückgabe hat die Form 
+\family typewriter
++CLIP=<mode>,<mode'>
+\family default
+, wobei die erste Parameter die aktuelle Einstellung des Mobilgerätes und
+ der zweite Parameter die Verfügbarkeit der Option durch den Netzanbieter
+ darstellt.
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="2">
+<features>
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Modus
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Bedeutung
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+CLIP ausgeschaltet bzw.
+ nicht verfügbar
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+CLIP eingeschaltet bzw.
+ verfügbar
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Zustand unbekannt
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Der Modus 2 wird nur vom zweiten Parameter verwendet.
+\end_layout
+
+\begin_layout Subsubsection*
+AT+CRC
+\end_layout
+
+\begin_layout Standard
+Das Kommando 
+\family typewriter
+AT+CRC
+\family default
+ aktiviert bzw.
+ deaktiviert erweiterte Informationen bei Anrufen.
+ Mit 
+\family typewriter
+AT+CRC=?
+\family default
+ kann man sich die untetrstützen Modi anschauen, mit 
+\family typewriter
+AT+CRC?
+\family default
+ den aktuellen Modus erfahren.
+\begin_inset Newline newline
+\end_inset
+
+Der Modus 0 bedeutet, dass ausführliche Informationen deaktiviert sind,
+ der Modus 1 bedeutet, dass sie aktiviert sind.
+\begin_inset Newline newline
+\end_inset
+
+Ist sie aktiviert, wird statt des 
+\family typewriter
+RING
+\family default
+ eine spontane Meldung der Form
+\end_layout
+
+\begin_layout Standard
+
+\family typewriter
++CRING: <Typ>[,<PDP-Typ>[,<PDP-Adresse>]]
+\family default
+
+\begin_inset Newline newline
+\end_inset
+
+ausgegeben, wobei 
+\family typewriter
+<Typ>
+\family default
+ den Anruftyp darstellt:
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="2">
+<features>
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Typ
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Bedeutung
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+VOICE
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Sprachanruf
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+FAX
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Faxanruf
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+GPRS
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+GPRS-Netzwerk Anfrage
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+...
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Die Parameter 
+\family typewriter
+<PDP-Typ>
+\family default
+ und 
+\family typewriter
+<PDP-Adresse>
+\family default
+ sind nur verfügbar, falls es sich um einen Datenanruf handelt, der 
+\family typewriter
+<PDP-Typ>
+\family default
+ kann entweder 
+\family typewriter
+IP
+\family default
+ oder 
+\family typewriter
+PPP
+\family default
+ sein.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection*
+Durchführung und Auswertung
+\end_layout
+
+\begin_layout Standard
+Das Semikolon am Ende der Telefonnummer signalisiert einen Sprachanruf,
+ steht kein Semikolon, so ist es ein Datenanruf.
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\small\ttfamily},frame=single,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+AT+CLIP=1
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+OK
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Damit wurde die CLIP-Funktion aktiviert.
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Nun rufen wir das Modul von einem unserer Mobiltelefone an:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\small\ttfamily},frame=single,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+RING
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
++CLIP: "+491711533XXX",145
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+RING
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
++CLIP: "+491711533XXX",145
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Nach zwei mal Klingeln haben wir wieder aufgelegt.
+ Die Rufnummer wird mit übertragen und bei jedem RING angezeigt.
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\small\ttfamily},frame=single,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+AT+CLIP=0
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+OK
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Nun ist die CLIP-Funktion deaktiviert.
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\small\ttfamily},frame=single,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+RING
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+RING
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+ATH
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+OK
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Wieder haben wir das Modul angerufen.
+ Dieses mal wird die Nummer nicht ausgegeben, da die CLIP-Funktion deaktiviert
+ ist.
+ Der Anruf wird nach zwei mal Klingeln mit ATH aufgelegt.
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset listings
+lstparams "basicstyle={\small\ttfamily},frame=single,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+ATD01711533XXX;
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+ATH
+\end_layout
+
+\begin_layout Plain Layout
+
+OK 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Das Modul ruft die angegebene Rufnummer als Sprachanruf an (letzte Stellen
+ der Rufnummer unkenntlich gemacht).
+ Anschließend wird der Anruf wieder aufgelegt.
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\small\ttfamily},frame=single,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+ATDL
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+01711533XXX;
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+ATH
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+OK
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Wir nutzen die Wahlwiederholung (ATDL) um uns nochmal anzurufen.
+ Dabei wird die Rufnummer ausgegeben.
+ Nachdem es einen Moment klingelt, beenden wir den Anruf mit ATH.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Um nun einen Anruf vom Telefonbuch zu tätigen, tragen wir dort zunächst
+ eine Nummer ein.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\small\ttfamily},frame=single,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+AT+CPBW=9,"01711533XXX",129,"alex"
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+OK
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Unter Index 9 wird die gezeigte Handynummer als 
+\begin_inset Quotes eld
+\end_inset
+
+alex
+\begin_inset Quotes erd
+\end_inset
+
+ gespeichert.
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\small\ttfamily},frame=single,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+ATD>"alex";
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+ATH
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+OK
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Wir rufen den Eintrag 
+\begin_inset Quotes eld
+\end_inset
+
+alex
+\begin_inset Quotes erd
+\end_inset
+
+ aus dem Telefonbuch als Sprachanruf an.
+ Danach legen wir wieder auf.
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\small\ttfamily},frame=single,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+AT+CPBW=9
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+OK
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Die Nummer vom Eintrag 
+\begin_inset Quotes eld
+\end_inset
+
+alex
+\begin_inset Quotes erd
+\end_inset
+
+ an Stelle 9 wird gelöscht.
+\end_layout
+
+\end_body
+\end_document

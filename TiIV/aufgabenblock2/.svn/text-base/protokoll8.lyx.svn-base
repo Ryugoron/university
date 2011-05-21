@@ -1,0 +1,1111 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language ngerman
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 1
+\index Stichwortverzeichnis
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 3cm
+\topmargin 2cm
+\rightmargin 2cm
+\bottommargin 2cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+
+\lang english
+Technische Informatik IV: Praktikum
+\end_layout
+
+\begin_layout Author
+
+\lang english
+Protokoll zu Aufgabe A8
+\end_layout
+
+\begin_layout Date
+
+\lang english
+von Max Wisniewski, Alexander Steen
+\end_layout
+
+\begin_layout Subsection*
+
+\lang english
+Vorbereitug
+\end_layout
+
+\begin_layout Standard
+
+\lang english
+Zur Vorbereitung haben wir uns mit dem Kapitel 
+\emph on
+3.15 SMS Service
+\emph default
+ und dem Kapitel 
+\emph on
+3.17 Call Service
+\emph default
+ im 
+\emph on
+ADL_USER_GUIDE
+\emph default
+ beschäftigt.
+ Dort lies sich alles finden, was wir brauchten, zusammen genommen mit dem
+ Wissen der voran gegangenen Aufgaben.
+\end_layout
+
+\begin_layout Subsection*
+
+\lang english
+Aufgaben
+\end_layout
+
+\begin_layout Itemize
+Per Programm soll eine SMS empfangen werden, geben Sie Absender Uhrzeit
+ und Inhalt auf der Konsole aus
+\end_layout
+
+\begin_layout Itemize
+Erweitern Sie die Funktionalität in der Form, dass bei einer SMS mit dem
+ Inhalt 
+\emph on
+call
+\emph default
+ der Absender zurückgerufen wird
+\end_layout
+
+\begin_layout Itemize
+Diese SMS soll im Gegensatz zu den anderen Mitteilungen nicht gespeichert
+ werden.
+\end_layout
+
+\begin_layout Subsection*
+
+\lang english
+Dokumentation
+\end_layout
+
+\begin_layout Description
+
+\lang english
+adl_smsSubscribe Mit Hilfe dieses Kommandos kann man einen Eventlistener
+ auf das Empfangen neuer SMS setzten.
+ Die Syntax sieht dabei folgender Maßen aus:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\footnotesize\ttfamily}"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+s8	adl_smsSubscribe(adl_smsHdlr_f SmsHandler
+\end_layout
+
+\begin_layout Plain Layout
+
+		adl_smsCtrlHdlr_f SmsCtrlHandler
+\end_layout
+
+\begin_layout Plain Layout
+
+		u8 mode);
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Als erstes geben wir das 
+\series bold
+struct
+\series default
+ für unseren eigentlichen Handler an.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\footnotesize\ttfamily}"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+typedef	bool	(* adl_smsHdlr_f) (ascii* SmsTel
+\end_layout
+
+\begin_layout Plain Layout
+
+		ascii* SmsTimeLength
+\end_layout
+
+\begin_layout Plain Layout
+
+		ascii* SmsText);
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Dieser bekommt zunächst die Telefonnummer übergeben, danach (im Textmode,
+ den wir verwendet haben) den Timestamp, wann die Nachricht ankam.
+ Zuletzt wird der eigentliche Inhalt der SMS übergeben.
+\end_layout
+
+\begin_layout Standard
+Über den Rückgabewert, lässt ich festlegen, ob die Nachricht danach weiter
+ ans Modul gesendet werden soll.
+ Gibt man 
+\emph on
+true
+\emph default
+ zurück, so wird das Event für eine SMS weiter geworfen und die SMS in den
+ Speicher geladen.
+ Gibt man 
+\emph on
+false
+\emph default
+ zurück, speichert man weder die Nachricht, noch wird das 
+\emph on
++CMTI
+\emph default
+ Event geworfen.
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Der zweite Handler bezeichnet einen ControlHandler für das SMS schreiben.
+ Dieser reagiert auf Bestätigungsnachrichten oder Fehler die beim senden
+ von SMS geworfen werden.
+ Da wir uns in dieser Aufgabe nur für das Empfangen interessieren, gehen
+ wir auf diesen Handler nicht weiter ein.
+\end_layout
+
+\begin_layout Standard
+Damit wir hier keinen unnützen Handler eintragen, schreiben wir uns im Programm
+ eine leere Funktion, da das übergeben von 
+\emph on
+NULL
+\emph default
+ in diese Fall einen Fehler wirft.
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Als letzten kann man der smsSubscribe Funktion noch übergeben, ob diese
+ auf den Textmode 
+\emph on
+ADL_SMS_MODE_TEXT 
+\emph default
+oder auf den PDUmode (
+\emph on
+ADL_SMS_MODE_PDU 
+\emph default
+) reagieren soll.
+\end_layout
+
+\begin_layout Description
+
+\lang english
+adl_callSetup Mit Hilfe dieser Funktion kann man einen Anruf tätigen.
+\end_layout
+
+\begin_layout Standard
+
+\lang english
+\begin_inset listings
+lstparams "basicstyle={\footnotesize\ttfamily}"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+s8	adl_callSetup(ascii*	phoneNumber
+\end_layout
+
+\begin_layout Plain Layout
+
+		u8 mode);
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\lang english
+Man gibt zunächst die Rufnummer an, die man gerne Anrufen möchte.
+ Als nächstes gibt man noch den Modus mit, den man gerne benutzen will.
+ Dies ist einmal
+\emph on
+ ADL_CALL_MODE_VOICE
+\emph default
+ für normale Sprachübertragungen und 
+\emph on
+ADL_CALL_MODE_DATA 
+\emph default
+für Datenübertragungen.
+\end_layout
+
+\begin_layout Standard
+
+\lang english
+Diese Funktion nimmt im Gegensatz zur Erweiterten Funktion als Port einfach
+ 
+\emph on
+ADL_PORT_OPEN_AT_VIRTUAL_BASE
+\emph default
+.
+ 
+\end_layout
+
+\begin_layout Subsection*
+
+\lang english
+Durchführung
+\end_layout
+
+\begin_layout Standard
+
+\lang english
+Zu Begin haben wir uns einen SMS Handler angelegt.
+\end_layout
+
+\begin_layout Standard
+
+\lang english
+\begin_inset listings
+lstparams "basicstyle={\footnotesize\ttfamily},frame=single,numbers=left"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+void main_task(void) 	
+\end_layout
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\begin_layout Plain Layout
+
+	s8 ret = adl_smsSubscribe(smshandler, smscontrolhandler, ADL_SMS_MODE_TEXT);
+\end_layout
+
+\begin_layout Plain Layout
+
+	if (ret == ADL_RET_ERR_PARAM)
+\end_layout
+
+\begin_layout Plain Layout
+
+		{
+\end_layout
+
+\begin_layout Plain Layout
+
+		adl_atSendResponse(ADL_AT_RSP, "
+\backslash
+r
+\backslash
+nFehler beim registrieren: 
+\end_layout
+
+\begin_layout Plain Layout
+
+			parameter falsch
+\backslash
+r
+\backslash
+n");
+\end_layout
+
+\begin_layout Plain Layout
+
+		}
+\end_layout
+
+\begin_layout Plain Layout
+
+	if (ret >= 0)
+\end_layout
+
+\begin_layout Plain Layout
+
+		{
+\end_layout
+
+\begin_layout Plain Layout
+
+		adl_atSendResponse(ADL_AT_RSP, "
+\backslash
+r
+\backslash
+nregistrierung erfolgreich
+\backslash
+r
+\backslash
+n");
+\end_layout
+
+\begin_layout Plain Layout
+
+		}
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\lang english
+Wir tragen mit der oben beschriebenen Methode 
+\emph on
+adl_smsSubsribe
+\emph default
+ einen neuen SMS Handler ein und überprüfen dann den Rückgabewert der Funktion.
+ Haben wir die Konstante 
+\emph on
+ADL_RET_ERR_PARAM
+\emph default
+ zurück bekommen, so haben wir in die Methode einen falschen Paramter hereingest
+eckt.
+\end_layout
+
+\begin_layout Standard
+
+\lang english
+Ist der Rückgabewert größer oder gleich Null, so hat die Registierung funktionie
+rt.
+ Darüber geben wir zu Protokollzwecken noch auskunft.
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\lang english
+Da der 
+\emph on
+smsSubscribe 
+\emph default
+Befehl an der Stelle für den controlhandler keine 
+\emph on
+NULL
+\emph default
+ Funktion akzeptiert, müssen wir eine leere Funktion schreiben und hinein
+ stecken.
+\end_layout
+
+\begin_layout Standard
+
+\lang english
+\begin_inset listings
+lstparams "basicstyle={\footnotesize\ttfamily},frame=single,numbers=left"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+void smscontrolhandler(u8 event, u16 nb)
+\end_layout
+
+\begin_layout Plain Layout
+
+	{
+\end_layout
+
+\begin_layout Plain Layout
+
+	return;
+\end_layout
+
+\begin_layout Plain Layout
+
+	} 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\lang english
+Diese Funktion implementiert den nötigen Aufruf, tut aber sonst nichts.
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\lang english
+Als nächstes haben wir uns dem eigentlichen Handler zugewandt.
+ Als erstes haben wir uns darum gekümmert, dass wir bei einem Anruf die
+ später benötigten Informationen auslesen.
+\end_layout
+
+\begin_layout Standard
+
+\lang english
+\begin_inset listings
+lstparams "basicstyle={\footnotesize\ttfamily},frame=single,numbers=left"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+bool smshandler(ascii * smstel, ascii * smstime, ascii * smstext)
+\end_layout
+
+\begin_layout Plain Layout
+
+	{
+\end_layout
+
+\begin_layout Plain Layout
+
+	adl_atSendResponse(ADL_AT_RSP, "
+\backslash
+r
+\backslash
+nAbsender:
+\backslash
+r
+\backslash
+n");
+\end_layout
+
+\begin_layout Plain Layout
+
+	adl_atSendResponse(ADL_AT_RSP, smstel);
+\end_layout
+
+\begin_layout Plain Layout
+
+	adl_atSendResponse(ADL_AT_RSP, "
+\backslash
+r
+\backslash
+nUhrzeit:
+\backslash
+r
+\backslash
+n");
+\end_layout
+
+\begin_layout Plain Layout
+
+	adl_atSendResponse(ADL_AT_RSP, smstime);
+\end_layout
+
+\begin_layout Plain Layout
+
+	adl_atSendResponse(ADL_AT_RSP, "
+\backslash
+r
+\backslash
+nInhalt:
+\backslash
+r
+\backslash
+n");
+\end_layout
+
+\begin_layout Plain Layout
+
+	adl_atSendResponse(ADL_AT_RSP, smstext); 
+\end_layout
+
+\begin_layout Plain Layout
+
+	if (wm_strcmp("call", smstext) == 0)
+\end_layout
+
+\begin_layout Plain Layout
+
+		{
+\end_layout
+
+\begin_layout Plain Layout
+
+		return false;
+\end_layout
+
+\begin_layout Plain Layout
+
+		}
+\end_layout
+
+\begin_layout Plain Layout
+
+	else
+\end_layout
+
+\begin_layout Plain Layout
+
+		{
+\end_layout
+
+\begin_layout Plain Layout
+
+		return true;
+\end_layout
+
+\begin_layout Plain Layout
+
+		}
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\lang english
+Zu beachten schon an der ersten Version, wenn wir die Nachricht call bekommen,
+ geben wir 
+\emph on
+false
+\emph default
+ zurück.
+ Bei allen anderen Nachrichten 
+\emph on
+true
+\emph default
+.
+ Dies hat, wie sich später zeigt, den Erfolg, dass wir das ankommen der
+ Nachricht nicht mehr mitgeteilt bekommen.
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\lang english
+In der nächsten Version haben wir nun angefangen, wenn wir eine Nachricht
+ mit dem Inhalt 
+\emph on
+call
+\emph default
+ erhalten, den Absender zurück zu rufen.
+\end_layout
+
+\begin_layout Standard
+
+\lang english
+\begin_inset listings
+lstparams "basicstyle={\footnotesize\ttfamily},frame=single,numbers=left"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+bool smshandler(ascii * smstel, ascii * smstime, ascii * smstext)
+\end_layout
+
+\begin_layout Plain Layout
+
+	{
+\end_layout
+
+\begin_layout Plain Layout
+
+	adl_atSendResponse(ADL_AT_RSP, "
+\backslash
+r
+\backslash
+nAbsender:
+\backslash
+r
+\backslash
+n");
+\end_layout
+
+\begin_layout Plain Layout
+
+	adl_atSendResponse(ADL_AT_RSP, smstel);
+\end_layout
+
+\begin_layout Plain Layout
+
+	adl_atSendResponse(ADL_AT_RSP, "
+\backslash
+r
+\backslash
+nUhrzeit:
+\backslash
+r
+\backslash
+n");
+\end_layout
+
+\begin_layout Plain Layout
+
+	adl_atSendResponse(ADL_AT_RSP, smstime);
+\end_layout
+
+\begin_layout Plain Layout
+
+	adl_atSendResponse(ADL_AT_RSP, "
+\backslash
+r
+\backslash
+nInhalt:
+\backslash
+r
+\backslash
+n");
+\end_layout
+
+\begin_layout Plain Layout
+
+	adl_atSendResponse(ADL_AT_RSP, smstext); 
+\end_layout
+
+\begin_layout Plain Layout
+
+	if (wm_strcmp("call", smstext) == 0)
+\end_layout
+
+\begin_layout Plain Layout
+
+		{
+\end_layout
+
+\begin_layout Plain Layout
+
+		if (adl_callSetup(smstel, ADL_CALL_MODE_VOICE) != OK)
+\end_layout
+
+\begin_layout Plain Layout
+
+			{
+\end_layout
+
+\begin_layout Plain Layout
+
+			adl_atSendResponse(ADL_AT_RSP, "
+\backslash
+r
+\backslash
+nERROR beim anrufen
+\backslash
+r
+\backslash
+n");
+\end_layout
+
+\begin_layout Plain Layout
+
+			}
+\end_layout
+
+\begin_layout Plain Layout
+
+		else
+\end_layout
+
+\begin_layout Plain Layout
+
+			{
+\end_layout
+
+\begin_layout Plain Layout
+
+			adl_atSendResponse(ADL_AT_RSP,"
+\backslash
+r
+\backslash
+nNun sollte angerufen werden
+\backslash
+r
+\backslash
+n");
+\end_layout
+
+\begin_layout Plain Layout
+
+			}
+\end_layout
+
+\begin_layout Plain Layout
+
+		return false;
+\end_layout
+
+\begin_layout Plain Layout
+
+		}
+\end_layout
+
+\begin_layout Plain Layout
+
+	else
+\end_layout
+
+\begin_layout Plain Layout
+
+		{
+\end_layout
+
+\begin_layout Plain Layout
+
+		return true;
+\end_layout
+
+\begin_layout Plain Layout
+
+		}
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\lang english
+Haben wir die richige Nachricht erhalten, so benutzen wir 
+\emph on
+callSetup
+\emph default
+ um an die 
+\emph on
+smstel
+\emph default
+, die vorher ermittelte Nummer, einen Anrufen abzusetzen.
+ Bekommen wir 
+\emph on
+OK
+\emph default
+ zurück geben wir noch auf der Konsole aus, dass wir eben dieses tun.
+ Sollte der Anruf aus unbekannten Gründen nicht funktionieren, geben wir
+ einen entsprechenden Fehler zurück.
+\end_layout
+
+\begin_layout Subsection*
+
+\lang english
+Auswertung
+\end_layout
+
+\begin_layout Standard
+
+\lang english
+Betrachten wir erste einmal unser erstes Programm.
+ Nachdem die bekannten Startnachrichten durch waren, haben wir uns zwei
+ 
+\emph on
+SMS
+\emph default
+ schreiben lassen.
+ Eine mit dem Inhalt 
+\emph on
+Bla 
+\emph default
+und eine andere mit dem Inhalte 
+\emph on
+call
+\emph default
+.
+\end_layout
+
+\begin_layout Standard
+
+\lang english
+\begin_inset listings
+lstparams "basicstyle={\footnotesize\ttfamily},frame=single,numbers=left"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+Absender:
+\end_layout
+
+\begin_layout Plain Layout
+
++49176--------
+\end_layout
+
+\begin_layout Plain Layout
+
+Uhrzeit:
+\end_layout
+
+\begin_layout Plain Layout
+
+11/04/27,12:29:08+08
+\end_layout
+
+\begin_layout Plain Layout
+
+Inhalt:
+\end_layout
+
+\begin_layout Plain Layout
+
+Bla
+\end_layout
+
+\begin_layout Plain Layout
+
++CMTI: "SM",3
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\lang english
+In der ersten Nachricht sehen wir die Absenderaddresse (hier auskommentiert),
+ die Uhrzeit und den Inhalt.
+ Wie oben schon angekündigt, wird diese Nachricht mit einem 
+\emph on
++CMTI
+\emph default
+ quitiert, das uns anzeigt, dass die SMS normal empfangen wurde.
+\end_layout
+
+\begin_layout Standard
+
+\lang english
+\begin_inset listings
+lstparams "basicstyle={\footnotesize\ttfamily},frame=single,numbers=left"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+Absender:
+\end_layout
+
+\begin_layout Plain Layout
+
++49176-------
+\end_layout
+
+\begin_layout Plain Layout
+
+Uhrzeit:
+\end_layout
+
+\begin_layout Plain Layout
+
+11/04/27,12:29:48+08
+\end_layout
+
+\begin_layout Plain Layout
+
+Inhalt:
+\end_layout
+
+\begin_layout Plain Layout
+
+call
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\lang english
+Die zweite Nachricht, mit dem behandelten Inhalt
+\emph on
+ call
+\emph default
+, wird uns vom Modul keine solche Nachricht zurück gegeben.
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\lang english
+Mit dem erweiterten Programm erhalten wir die folgende Ausgabe
+\end_layout
+
+\begin_layout Standard
+
+\lang english
+\begin_inset listings
+lstparams "basicstyle={\footnotesize\ttfamily},frame=single,numbers=left"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+Absender:
+\end_layout
+
+\begin_layout Plain Layout
+
++4917696704595
+\end_layout
+
+\begin_layout Plain Layout
+
+Uhrzeit:
+\end_layout
+
+\begin_layout Plain Layout
+
+11/04/27,12:54:39+08
+\end_layout
+
+\begin_layout Plain Layout
+
+Inhalt:
+\end_layout
+
+\begin_layout Plain Layout
+
+call
+\end_layout
+
+\begin_layout Plain Layout
+
+Nun sollte angerufen werden
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\lang english
+Die Nachrichten legen nahe, dass nun der Absender angerufen werden sollte.
+ Die letze Nachricht sollte auch nur ausgegeben werden, wenn der Anruf klappt.
+ Allerdings haben wir auf dem Handy keinen Anruf erhalten.
+ Dies ist merkwürdig, da ein explizites Anrufen (an dieser Stelle nicht
+ gezeigt, aber am Anfang eingebaut) funktioniert.
+\end_layout
+
+\begin_layout Standard
+
+\lang english
+Wir sahen aber kein Fehler in unserem Code sondern tippten an dieser Stelle
+ auf ein Fehler im Modul.
+\end_layout
+
+\end_body
+\end_document
