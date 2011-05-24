@@ -275,6 +275,40 @@ Timer Dan Timer haben wir schon in Protokoll zu Aufgabe A6 beschrieben.
  Wir verweisen an dieser Stelle auf das alte Protokoll.
 \end_layout
 
+\begin_layout Description
+led_init Mit dieser Funktion sorgt man dafür, dass die LEDs ansprechbar
+ werden.
+ Weitere Vorraussetzung ist, dass man die LED Flag in der 
+\emph on
+config.h
+\emph default
+ gesetzt hat.
+\end_layout
+
+\begin_layout Description
+led_on Dies ist eine einfache Funktion, die das ganze Ansprechen der I/O
+ Ports für die LEDs abnimmt.
+ Auch die genaue Bezeichnung der LEDs ist unnötig, da diese in der led.h
+ einfach von Integer auf die Namen gemappt werden.
+ (Bezeichnungen, wie weiter unten Beschrieben immer LED0 : 0, LED1 : 1,
+ usw.)
+\end_layout
+
+\begin_layout Description
+led_off Analog zur 
+\series bold
+\emph on
+led_on
+\series default
+\emph default
+ Funktion, schaltet diese Funktion die LED wieder aus.
+ Parameter ist genau so ein Integer, wie bei 
+\series bold
+led_on
+\series default
+.
+\end_layout
+
 \begin_layout Subsection*
 Durchführung
 \end_layout
@@ -391,6 +425,10 @@ angerufen wurden.
 Der nächste Aufgabenteil sah vor, dass wir, wenn wir von einer fest eingespeiche
 rten Nummer angerufen werden, die LED2 anschalten und die LED3 20 Sekunden
  lang jede Sekunde einmal blinken lassen.
+\begin_inset Newpage pagebreak
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -455,6 +493,15 @@ void ledTimeoutTimer(u8 id, void * context)
 
 \begin_layout Plain Layout
 
+		adl_atSendResponse(ADL_AT_RSP,"3 : an
+\backslash
+r
+\backslash
+n");
+\end_layout
+
+\begin_layout Plain Layout
+
 		}
 \end_layout
 
@@ -481,6 +528,15 @@ void ledTimeoutTimer(u8 id, void * context)
 \begin_layout Plain Layout
 
 		led_off(3);
+\end_layout
+
+\begin_layout Plain Layout
+
+		adl_atSendResponse(ADL_AT_RSP,"3 : aus
+\backslash
+r
+\backslash
+n");
 \end_layout
 
 \begin_layout Plain Layout
@@ -543,6 +599,15 @@ n");
 \begin_layout Plain Layout
 
 		led_on(2);
+\end_layout
+
+\begin_layout Plain Layout
+
+		adl_atSendResponse(ADL_AR_RSP,"2 : an
+\backslash
+r
+\backslash
+n");
 \end_layout
 
 \begin_layout Plain Layout
@@ -707,6 +772,15 @@ void ledTimeoutTimer(u8 id, void * context)
 
 \begin_layout Plain Layout
 
+		adl_atSendResponse(ADL_AT_RSP,"3 : aus
+\backslash
+r
+\backslash
+n");
+\end_layout
+
+\begin_layout Plain Layout
+
 		led_off(3);
 \end_layout
 
@@ -757,6 +831,15 @@ s8 callHandler(u16 event, s32 callId)
 \begin_layout Plain Layout
 
 		led_off(2);
+\end_layout
+
+\begin_layout Plain Layout
+
+		adl_atSendResponse(ADL_AT_RSP,"2 : aus
+\backslash
+r
+\backslash
+n");
 \end_layout
 
 \begin_layout Plain Layout
@@ -1267,16 +1350,212 @@ Auswertung
 \begin_layout Standard
 Aufgrund der wenig textuellen Ausgabe, werden wir diesmal viel von unserem
  Versuch berichten.
+ Und anzeigen, was dabei zu sehen war.
+\begin_inset VSpace defskip
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
 \begin_inset listings
+lstparams "basicstyle={\footnotesize\ttfamily},frame=single,tabsize=4"
 inline false
 status open
 
 \begin_layout Plain Layout
 
-+491711533418
+RING
+\end_layout
+
+\begin_layout Plain Layout
+
++CLIP: "0151543-----",161
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In diesem Versuch haben wir von einer nicht gespeicherten Nummer angerufen.
+ Wie man sieht, bekommt man den RING und die Nummer wird angezeigt.
+ Als nächstes zeigen wir die Ausgabe, wenn wir von einer der eingespeicherten
+ Nummern aus anrufen.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\footnotesize\ttfamily},frame=single,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+RING
+\end_layout
+
+\begin_layout Plain Layout
+
+2 : an
+\end_layout
+
+\begin_layout Plain Layout
+
+3 : an
+\end_layout
+
+\begin_layout Plain Layout
+
+3 : aus
+\end_layout
+
+\begin_layout Plain Layout
+
+3 : an
+\end_layout
+
+\begin_layout Plain Layout
+
+...
+\end_layout
+
+\begin_layout Plain Layout
+
+3 :an
+\end_layout
+
+\begin_layout Plain Layout
+
+3 : aus
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+2 : aus
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Wir sehen hier an erster Stelle das 
+\emph on
+RING
+\emph default
+, aber die Information über die Nummer nicht mehr.
+ Gleich darauf springen unsere Debugnachrichten an, die uns im Sekundentakt
+ die LED3 ein und ausschalten (die LED selber ging auch an und aus), und
+ nach 20 Sekunden blieb sie aus.
+ Mit einer kurzen Verzögerung haben wir einen Anruf bekommen.
+ Die zweite LED geht zu Beginn an und ging, nachdem wir aufgelegt haben
+ aus.
+ Es bleibt zu erwähnen, dass wenn man den Anruf nicht nimmt, das die LED2
+ erst mit einigen Minuten Verzögerung ausgeht.
+ Wir haben nicht herraus bekommen warum, aber scheinbar bekommt das Modul
+ die Nachricht erst mit einiger Verzögerung.
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Als nächstes haben wir eine SMS an das Modul geschickt.
+ Wir haben die Nachricht darüber wieder abgefangen, aber in der zweiten
+ Abfrage der eingespeicherten Nummern, sieht man, dass sich der Eintrag
+ unter 
+\emph on
+ALARM
+\emph default
+ auf eine neue Nummer (die, die wir mitgeschickt haben) geändert hat.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\footnotesize\ttfamily},frame=single,numbers=left,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+at+cpbr=1,100
+\end_layout
+
+\begin_layout Plain Layout
+
++CPBR: 2,"017665316700",129,"HWP2"
+\end_layout
+
+\begin_layout Plain Layout
+
++CPBR: 3,"017665338235",129,"HWP3"
+\end_layout
+
+\begin_layout Plain Layout
+
++CPBR: 4,"017665348409",129,"HWP4"
+\end_layout
+
+\begin_layout Plain Layout
+
++CPBR: 5,"017683269836",129,"Wojtek"
+\end_layout
+
+\begin_layout Plain Layout
+
++CPBR: 6,"017665390997",129,"HWP6"
+\end_layout
+
+\begin_layout Plain Layout
+
++CPBR: 7,"017668065207",129,"HWP7"
+\end_layout
+
+\begin_layout Plain Layout
+
++CPBR: 8,"017665374344",129,"HWP8"
+\end_layout
+
+\begin_layout Plain Layout
+
++CPBR: 10,"+4915118985237",145,"dasandere"
+\end_layout
+
+\begin_layout Plain Layout
+
++CPBR: 11,"017665376367",129,"dieda"
+\end_layout
+
+\begin_layout Plain Layout
+
++CPBR: 42,"+49176-------",145,"Alarm"
+\end_layout
+
+\begin_layout Plain Layout
+
+OK 
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+//An dieser Stelle haben wir eine SMS geschrieben
+\end_layout
+
+\begin_layout Plain Layout
+
+//mit dem richtigen Passwort
 \end_layout
 
 \begin_layout Plain Layout
@@ -1335,71 +1614,7 @@ at+cpbr=1,100
 
 \begin_layout Plain Layout
 
-+CPBR: 42,"+4917696704595",145,"Alarm"
-\end_layout
-
-\begin_layout Plain Layout
-
-OK 
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\begin_layout Plain Layout
-
-+CMTI: "SM",9 at+cpbr=1,100
-\end_layout
-
-\begin_layout Plain Layout
-
-+CPBR: 2,"017665316700",129,"HWP2"
-\end_layout
-
-\begin_layout Plain Layout
-
-+CPBR: 3,"017665338235",129,"HWP3"
-\end_layout
-
-\begin_layout Plain Layout
-
-+CPBR: 4,"017665348409",129,"HWP4"
-\end_layout
-
-\begin_layout Plain Layout
-
-+CPBR: 5,"017683269836",129,"Wojtek"
-\end_layout
-
-\begin_layout Plain Layout
-
-+CPBR: 6,"017665390997",129,"HWP6"
-\end_layout
-
-\begin_layout Plain Layout
-
-+CPBR: 7,"017668065207",129,"HWP7"
-\end_layout
-
-\begin_layout Plain Layout
-
-+CPBR: 8,"017665374344",129,"HWP8"
-\end_layout
-
-\begin_layout Plain Layout
-
-+CPBR: 10,"+4915118985237",145,"dasandere"
-\end_layout
-
-\begin_layout Plain Layout
-
-+CPBR: 11,"017665376367",129,"dieda"
-\end_layout
-
-\begin_layout Plain Layout
-
-+CPBR: 42,"+4917696704595",145,"Alarm"
++CPBR: 42,"0151534------",145,"Alarm"
 \end_layout
 
 \begin_layout Plain Layout

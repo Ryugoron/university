@@ -43,6 +43,7 @@ class CentralSequencer implements Sequencer
 	private boolean running, shouldRun;
 	
 	private boolean statusLog;
+	private long round = 0;
 	
 	public CentralSequencer(){
 		this.syncProcesses = new ArrayList<Channel>();
@@ -72,9 +73,10 @@ class CentralSequencer implements Sequencer
 	 */
 	@Override
 	public void start(){
+		if(running) return;
 		this.shouldRun = true;
 		synchronized (newProcesses) {
-			if(!this.syncProcesses.isEmpty()){
+			if(!this.newProcesses.isEmpty() || !this.syncProcesses.isEmpty()){
 				this.running = true;
 				this.thread.start();
 			}
@@ -104,7 +106,7 @@ class CentralSequencer implements Sequencer
 	public void add(Channel channel){
 		synchronized (this.newProcesses) {
 			this.newProcesses.add(channel);
-			if(this.newProcesses.isEmpty() && this.shouldRun){
+			if(!this.running && this.shouldRun){
 				this.running = true;
 				this.thread.start();
 			}
@@ -176,6 +178,7 @@ class CentralSequencer implements Sequencer
 			}
 		}
 		
+		
 		/**
 		 * In dieser Methode wird kontrolliert ob alle Prozesse
 		 * die Bestätigung für das Ausführen ihrer 
@@ -187,9 +190,10 @@ class CentralSequencer implements Sequencer
 			boolean rightMessage;
 			for (Channel process : syncProcesses) {
 				do{
-					rightMessage = (process.recv().getData().equals(SyncMessage.PROCESS_ENDED));
+					byte[] tag = process.recv().getData();
+					rightMessage = (tag.equals(SyncMessage.PROCESS_ENDED));
 					if(rightMessage) remove(process);
-					else rightMessage = (process.recv().getData().equals(SyncMessage.PROCESS_WORKED));
+					else rightMessage = (tag.equals(SyncMessage.PROCESS_WORKED));
 				}while(!rightMessage);
 			}
 		}
@@ -217,7 +221,8 @@ class CentralSequencer implements Sequencer
 			this.workAck();
 			
 			while(running){
-				
+				if(statusLog) System.out.println("----- Runde : "+(++round)+" ------");
+				if(statusLog) System.out.println("--- Praticipants: "+syncProcesses.size());
 				//Normaler Ablauf eines Synchronen Algorithmuses
 				if(statusLog) System.out.println("-- send round");
 				this.allSend(); 
@@ -234,15 +239,15 @@ class CentralSequencer implements Sequencer
 				}
 				
 				//Löschen nicht gebrauchte Prozesse
-				synchronized(newProcesses){
+				synchronized(delProcesses){
 					syncProcesses.removeAll(delProcesses);
 					delProcesses.clear();
-					if(delProcesses.isEmpty()) running = false;
+					if(syncProcesses.isEmpty()) running = false;
 				}
 				
 				this.workAck();
 			}
-			
+			System.out.println("----- Server shutdown -------");
 		}
 	}
 }

@@ -44,6 +44,10 @@ public class UdpChannel implements Channel {
 			return recv();
 		}
 	}
+	
+	public Message nrecv(){
+		return this.recieved.poll();
+	}
 
 	@Override
 	public void close() {

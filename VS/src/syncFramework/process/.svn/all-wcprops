@@ -1,7 +1,7 @@
 K 25
 svn:wc:ra_dav:version-url
 V 62
-/svn/lex_alp5_ws1011/!svn/ver/185/VS/src/syncFramework/process
+/svn/lex_alp5_ws1011/!svn/ver/190/VS/src/syncFramework/process
 END
 ProcessConnectFactory.java
 K 25
@@ -19,13 +19,13 @@ CentralSyncProcess.java
 K 25
 svn:wc:ra_dav:version-url
 V 86
-/svn/lex_alp5_ws1011/!svn/ver/188/VS/src/syncFramework/process/CentralSyncProcess.java
+/svn/lex_alp5_ws1011/!svn/ver/190/VS/src/syncFramework/process/CentralSyncProcess.java
 END
 AbstractWork.java
 K 25
 svn:wc:ra_dav:version-url
 V 80
-/svn/lex_alp5_ws1011/!svn/ver/185/VS/src/syncFramework/process/AbstractWork.java
+/svn/lex_alp5_ws1011/!svn/ver/189/VS/src/syncFramework/process/AbstractWork.java
 END
 ProcessConnect.java
 K 25

@@ -1,0 +1,1225 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 3cm
+\topmargin 2cm
+\rightmargin 2cm
+\bottommargin 2cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Technische Informatik IV: Praktikum
+\end_layout
+
+\begin_layout Author
+Protokoll zu Aufgabe A6
+\end_layout
+
+\begin_layout Date
+von Max Wisniewski, Alexander Steen
+\end_layout
+
+\begin_layout Subsection*
+Vorbereitung
+\end_layout
+
+\begin_layout Standard
+Zur Vorbereitung diente der Punkt 
+\emph on
+Hardware
+\emph default
+ auf der Veranstaltungsseite, der 
+\emph on
+ADL User Guide
+\emph default
+ (Abschnitte 
+\emph on
+AT Commands
+\emph default
+ und 
+\emph on
+SMS Service
+\emph default
+), sowie das 
+\emph on
+AT Command Interface
+\emph default
+ (Abschnitt 10 
+\emph on
+Time Management Commands
+\emph default
+, Abschnitt 7 
+\emph on
+Embedded module Status Commands
+\emph default
+).
+\end_layout
+
+\begin_layout Subsection*
+Aufgaben
+\end_layout
+
+\begin_layout Enumerate
+Tastenbenachrichtigungen verarbeiten
+\end_layout
+
+\begin_layout Enumerate
+Benachrichtigungen über Tastendrücke mit Uhrzeit versehen
+\end_layout
+
+\begin_layout Enumerate
+Benachrichtigungen über Tastendrücke per SMS verschicken
+\end_layout
+
+\begin_layout Subsection*
+Dokumentation
+\end_layout
+
+\begin_layout Description
+AT+CMER Dieses Kommando ermöglicht es spontane Nachrichten über getätigte
+ Tastendrücke zu (de-)aktivieren.
+ Die Syntax ist:
+\begin_inset Newline newline
+\end_inset
+
+
+\family typewriter
+AT+CMER=[<mode>][,[<keyp>][ ,...]]
+\family default
+
+\begin_inset Newline newline
+\end_inset
+
+Dabei ist 
+\family typewriter
+mode
+\family default
+ ein Parameter, der die interne Nachrichtenverarbeitung beeinflusst, was
+ für unsere Zwecke allerdings nicht weiter von Wichtigkeit ist.
+ x entscheidet, ob spontane Nachrichten bei Tastendruck geschickt werden.
+ Ein Wert von 0 deaktiviert die Nachrichten, eine 1 aktiviert sie.
+ Es gibt noch weitere Parameter, auf die wir hier nicht eingehen.
+ Betätigt man bei eingeschalteter Benachrichtigung eine Taste, erhält man
+ eine spontane Nachricht der Form:
+\begin_inset Newline newline
+\end_inset
+
+
+\family typewriter
++CKEV: <Taster>,<Art>
+\family default
+
+\begin_inset Newline newline
+\end_inset
+
+Wobei 
+\family typewriter
+Taster
+\family default
+ die Nummer der Taste ist.
+ Der Parameter 
+\family typewriter
+Art
+\family default
+ beschreibt, ob die Taste gedrückt oder losgelassen wurde und hat dann den
+ Wert 1 bzw.
+ 0.
+\end_layout
+
+\begin_layout Description
+AT+CCLK Mit Hilfe dieses Kommandos kann die aktuelle Zeit herausgefunden
+ bzw.
+ gesetzt werden.
+ Die Zeit setzt man mit 
+\family typewriter
+AT+CCLK=<Datums-Zeit-Zeichenkette>
+\family default
+, die aktuelle Zeit findet man mit 
+\family typewriter
+AT+CCLK?
+\family default
+ heraus.
+ Auf letzteres erhält man als Antwort eine spontane Nachricht der Art
+\begin_inset Newline newline
+\end_inset
+
+
+\family typewriter
++CCLK: <Datums-Zeit-Zeichenkette>
+\end_layout
+
+\begin_layout Description
+adl_atCmdCreate Diese Funktion erlaubt es, ein AT Kommando programmatisch
+ an das Modul zu schicken und die Antwort durch eine Callback-Funktion bearbeite
+n zu lassen.
+ Die Syntax ist:
+\begin_inset Newline newline
+\end_inset
+
+
+\family typewriter
+s8 adl_atCmdCreate ( ascii * kommando, u16 rspflag, adl_atRspHandler_t handler,
+ … );
+\family default
+
+\begin_inset Newline newline
+\end_inset
+
+Dabei bezeichnet 
+\family typewriter
+kommando
+\family default
+ den AT-Kommando-String, der ausgeführt werden soll.
+ Mit 
+\family typewriter
+rspflag
+\family default
+ kann man genauert steuern, an welchen internen Port das kommando weitergeleitet
+ werden soll.
+ Ein Wert von 
+\family typewriter
+FALSE
+\family default
+ verhindert, dass Antworten an andere Applikationen weitergeleitet werden.
+ 
+\family typewriter
+handler
+\family default
+ bezeichnet die Callback-Funktion, die sich dann um die Verarbeitung der
+ Antworten kümmert.
+ Am Ende des Aufrufes werden nach alle Strings aufgelistet, auf die der
+ angegebene Handler lauscht.
+ Diese Liste muss mit 
+\family typewriter
+NULL
+\family default
+ beendet werden.
+ Die Callback-Funktion muss folgendem Prototyp entsprechen:
+\begin_inset Newline newline
+\end_inset
+
+
+\family typewriter
+bool(*) adl_atRspHandler_t (adl_atResponse_t *Params)
+\family default
+
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+Das struct adl_atResponse_t wird nicht genauer beschrieben, da dies die
+ Dokumentaton sprengen würde.
+ Man findet eine ausführliche Beschreibung auf Seite 65 des ADL User Guide.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Description
+adl_atUnSoSubscribe Registriert eine Handler-Callbackfunktion auf eine bestimme
+ spontane Nachricht.
+ Die Syntax ist:
+\begin_inset Newline newline
+\end_inset
+
+
+\family typewriter
+s16 adl_atUnSoSubscribe (ascii * UnSostr, adl_atUnSoHandler_t UnSohdl );
+\family default
+
+\begin_inset Newline newline
+\end_inset
+
+Dabei ist 
+\family typewriter
+UnSostr
+\family default
+ der Name der spontanen Nachricht und 
+\family typewriter
+UnSohdl
+\family default
+ die Callbackfunktion, die folgendem Prototyp entsprechen muss:
+\begin_inset Newline newline
+\end_inset
+
+
+\family typewriter
+bool (* adl_atUnSoHandler_t) (adl_atUnsolicited_t *)
+\family default
+
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+Das struct adl_atUnsolicited_t wird nicht genauer beschrieben, da dies die
+ Dokumentaton sprengen würde.
+ Man findet eine ausführliche Beschreibung auf Seite 49 des ADL User Guide.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Description
+wm_strGetParameterString Liefert eine Zeichenkette eines bestimmten Parameters
+ aus einer AT-Antwort.
+\begin_inset Newline newline
+\end_inset
+
+
+\family typewriter
+ascii * wm_strGetParameterString (ascii * dst, const ascii * src, u16 Position
+ );
+\family default
+
+\begin_inset Newline newline
+\end_inset
+
+Dabei ist 
+\family typewriter
+dst
+\family default
+ der Zielpuffer, in dem der Parameter gespeichert wird, 
+\family typewriter
+src
+\family default
+ die Quelle (AT-Antwort) und 
+\family typewriter
+Position
+\family default
+ die Angabe, welcher von evtl.
+ mehreren Parametern zurückgeliefert werden soll.
+\end_layout
+
+\begin_layout Subsection*
+Durchführung und Auswertung
+\end_layout
+
+\begin_layout Standard
+Es gibt zwei verschiedene Antworten die das Modul ausgibt:
+\end_layout
+
+\begin_layout Description
+Response sind direkte Antworten auf eine Interaktion mit dem Modul, z.B.
+ Ausführung eines AT-Kommandos.
+ Diese Nachrichten werden sofort ungepuffert ausgegeben.
+\end_layout
+
+\begin_layout Description
+Unsolicited
+\begin_inset Formula $\,$
+\end_inset
+
+Message sind Antworten, denen keine Aufforderung hervorgehen musste und
+ dementsprechend unvorhersehbar aufkommen können.
+ Diese Nachrichten werden ausgegeben, wenn spezielle Aktionen (Broadcast-Nachric
+ht, Tastendruck,...) ausgelöst worden sind bzw.
+ erkannt wurden.
+ Diese Nachrichten können gepuffert werden und können daher evtl.
+ mit Verzögerung angezeigt werden.
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\normalsize\ttfamily},frame=single,showstringspaces=false,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+AT+CMER=,1
+\end_layout
+
+\begin_layout Plain Layout
+
+OK
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Wir schalten die Benachrichtigungen für Tastenbetätigungen via Konsole an.
+\series bold
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Testlauf:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\normalsize\ttfamily},frame=single,showstringspaces=false,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
++CKEV: 0,1
+\end_layout
+
+\begin_layout Plain Layout
+
++CKEV: 0,0
+\end_layout
+
+\begin_layout Plain Layout
+
++CKEV: 1,1
+\end_layout
+
+\begin_layout Plain Layout
+
++CKEV: 1,0
+\end_layout
+
+\begin_layout Plain Layout
+
++CKEV: 2,1
+\end_layout
+
+\begin_layout Plain Layout
+
++CKEV: 2,0
+\end_layout
+
+\begin_layout Plain Layout
+
++CKEV: 3,1
+\end_layout
+
+\begin_layout Plain Layout
+
++CKEV: 3,0
+\end_layout
+
+\end_inset
+
+Hier haben wir jede Taste einmal ausprobiert.
+ Jeweils die erste Ziffer bezeichnet die Tastennummer.
+ Wir bekommen pro Taste zwei Meldungen, da wir sowohl für das Drücken als
+ auch für das Loslassen eine Benachrichtigung erhalten.
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\normalsize\ttfamily},frame=single,showstringspaces=false,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+AT+CCLK="10/04/27,13:04:31"
+\end_layout
+
+\begin_layout Plain Layout
+
+OK
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Wir stellen die Uhrzeit des Moduls auf die aktuelle Zeit.
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\normalsize\ttfamily},frame=single,showstringspaces=false,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+bool keyhandler(adl_atUnsolicited_t *paras) 	{
+\end_layout
+
+\begin_layout Plain Layout
+
+	adl_atSendResponse(ADL_AT_RSP, "
+\backslash
+r
+\backslash
+nEs wurde eine Taste gedrueckt
+\backslash
+r
+\backslash
+n");
+\end_layout
+
+\begin_layout Plain Layout
+
+	return false;
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Dieser Handler gibt einen String aus, wenn er aufgerufen wird.
+ Damit dies bei einem Tastendruck passiert, registrieren wir ihn im Folgenden.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\normalsize\ttfamily},frame=single,showstringspaces=false,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+void main_task(void) {
+\end_layout
+
+\begin_layout Plain Layout
+
+	// Tasten-Nachrichten einschalten.
+ Kein Handler benötigt.
+\end_layout
+
+\begin_layout Plain Layout
+
+	adl_atCmdCreate("AT+CMER=,1", FALSE, NULL, NULL);
+\end_layout
+
+\begin_layout Plain Layout
+
+	// Handler auf die spontane Nachricht des Tastendrucks registrieren.
+\end_layout
+
+\begin_layout Plain Layout
+
+	adl_atUnSoSubscribe("+CKEV: ", (adl_atUnSoHandler_t) keyhandler);
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Nun wird bei jedem Tastendruck der obige Handler ausgeführt.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\series bold
+Testlauf:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\normalsize\ttfamily},frame=single,showstringspaces=false,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
++GSM: Anmeldung im Netz abgeschlossen
+\end_layout
+
+\begin_layout Plain Layout
+
+Es wurde eine Taste gedrueckt
+\end_layout
+
+\begin_layout Plain Layout
+
+Es wurde eine Taste gedrueckt
+\end_layout
+
+\end_inset
+
+Hier haben wir eine Taste ausprobiert.
+ Wir bekommen zwei Meldungen, da der Handler sowohl für das Drücken als
+ auch für das Loslassen angesprochen wird.
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Nun erweitern wir die Funktionalität um eine Benachrichtigung auf Taster
+ 3 mit Uhrzeitangabe.
+ Dafür legen wir uns zunächst eine globale Flag an, die anzeigt, ob die
+ Taste gerade gedrückt bzw.
+ losgelassen wurde.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\normalsize\ttfamily},frame=single,showstringspaces=false,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+bool pressed = FALSE;
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+bool datehandler(adl_atResponse_t *paras) 	{
+\end_layout
+
+\begin_layout Plain Layout
+
+	// Ausgabepuffer für die komplette Ausgabe
+\end_layout
+
+\begin_layout Plain Layout
+
+	ascii puffer[50];
+\end_layout
+
+\begin_layout Plain Layout
+
+	// Puffer für den Datums-String
+\end_layout
+
+\begin_layout Plain Layout
+
+	ascii datepuffer[20];
+\end_layout
+
+\begin_layout Plain Layout
+
+	// Hole Datum aus Handler-Parameter
+\end_layout
+
+\begin_layout Plain Layout
+
+	wm_strGetParameterString(datepuffer, paras->StrData, 1);
+\end_layout
+
+\begin_layout Plain Layout
+
+	// Baue String zusammen
+\end_layout
+
+\begin_layout Plain Layout
+
+	wm_sprintf(puffer,
+\end_layout
+
+\begin_layout Plain Layout
+
+		((pressed) ? ("Kontakt geschlossen am %s 
+\backslash
+r
+\backslash
+n")
+\end_layout
+
+\begin_layout Plain Layout
+
+					: ("Kontakt geöffnet am %s 
+\backslash
+r
+\backslash
+n")), datepuffer);
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	adl_atSendResponse(ADL_AT_RSP, puffer);
+\end_layout
+
+\begin_layout Plain Layout
+
+	return FALSE;
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+bool keyhandler(adl_atUnsolicited_t *paras) {
+\end_layout
+
+\begin_layout Plain Layout
+
+	ascii param1[1];
+\end_layout
+
+\begin_layout Plain Layout
+
+	// Parameter auslesen (Taste gedrückt oder losgelassen?)
+\end_layout
+
+\begin_layout Plain Layout
+
+	wm_strGetParameterString(param1, paras->StrData, 2);
+\end_layout
+
+\begin_layout Plain Layout
+
+	// ...
+ global speichern
+\end_layout
+
+\begin_layout Plain Layout
+
+	pressed = wm_atoi(param1);
+\end_layout
+
+\begin_layout Plain Layout
+
+	// Zeit anfordern und datehandler für die Antwort bereitstellen
+\end_layout
+
+\begin_layout Plain Layout
+
+	adl_atCmdCreate("AT+CCLK?", FALSE,  datehandler, "+CCLK:", NULL);
+\end_layout
+
+\begin_layout Plain Layout
+
+	return FALSE;
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Wir schreiben nun also einen Handler (
+\family typewriter
+keyhandler
+\family default
+), der ausschließlich bei einem Druck von Taste 3 (siehe unten) ausgesprochen
+ wird.
+ Dieser findet nur heraus, ob die Taste gedrückt oder losgelassen wurde
+ und deligiert dann an den Handler für die Uhrzeit (
+\family typewriter
+datehandler
+\family default
+) weiter.
+ In datehandler wird dann der endgültige Ausgabestring zusammengebaut.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\normalsize\ttfamily},frame=single,showstringspaces=false,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+void main_task(void) {
+\end_layout
+
+\begin_layout Plain Layout
+
+	// Tasten-Nachrichten einschalten.
+ Kein Handler benötigt.
+\end_layout
+
+\begin_layout Plain Layout
+
+	adl_atCmdCreate("AT+CMER=,1", FALSE, NULL, NULL);
+\end_layout
+
+\begin_layout Plain Layout
+
+	// Keyhandler speziell auf Taste 3 reagieren lassen.
+\end_layout
+
+\begin_layout Plain Layout
+
+	adl_atUnSoSubscribe("+CKEV: 3", (adl_atUnSoHandler_t) keyhandler);
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Nun reagiert der Handler nur auf die Taste drei.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\series bold
+Testlauf:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\normalsize\ttfamily},frame=single,showstringspaces=false,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
++GSM: Anmeldung im Netz abgeschlossen
+\end_layout
+
+\begin_layout Plain Layout
+
+Kontakt geschlossen am 11/05/11,10:52:23
+\end_layout
+
+\begin_layout Plain Layout
+
+Kontakt geöffnet am 11/05/11,10:52:25
+\end_layout
+
+\begin_layout Plain Layout
+
+Kontakt geschlossen am 11/05/11,10:52:27
+\end_layout
+
+\begin_layout Plain Layout
+
+Kontakt geöffnet am 11/05/11,10:52:28 
+\end_layout
+
+\end_inset
+
+Hier haben wir die Funktionalität zwei Mal ausprobiert.
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Als letzten Schritt wird nun das Programm so erweitert, dass die Meldung
+ (nur die Kontakt-Geschlossen-Meldung) via SMS verschickt wird.
+ Dafür speichern wir nun zusätzlich die von 
+\family typewriter
+adl_smsSubscribe
+\family default
+ zurückgelieferte 
+\family typewriter
+smsHandle
+\family default
+ global, da diese von 
+\family typewriter
+adl_smsSend
+\family default
+ benötigt wird.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\normalsize\ttfamily},frame=single,showstringspaces=false,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+bool pressed = FALSE;
+\end_layout
+
+\begin_layout Plain Layout
+
+s8 smsHandle;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+An 
+\family typewriter
+keyhandler
+\family default
+ ändert sich nichts.
+ In datehandler wird nun kein String mehr ausgegeben, sondern eine SMS geschickt.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\normalsize\ttfamily},frame=single,showstringspaces=false,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+bool datehandler(adl_atResponse_t *paras) {
+\end_layout
+
+\begin_layout Plain Layout
+
+	// Ausgabepuffer für die komplette Ausgabe
+\end_layout
+
+\begin_layout Plain Layout
+
+	ascii puffer[50];
+\end_layout
+
+\begin_layout Plain Layout
+
+	// Puffer für den Datums-String
+\end_layout
+
+\begin_layout Plain Layout
+
+	ascii datepuffer[20];
+\end_layout
+
+\begin_layout Plain Layout
+
+	// Hole Datum aus Handler-Parameter
+\end_layout
+
+\begin_layout Plain Layout
+
+	wm_strGetParameterString(datepuffer, paras->StrData, 1);
+\end_layout
+
+\begin_layout Plain Layout
+
+	// Baue String zusammen
+\end_layout
+
+\begin_layout Plain Layout
+
+	wm_sprintf(puffer,
+\end_layout
+
+\begin_layout Plain Layout
+
+		((pressed) ? ("Kontakt geschlossen am %s 
+\backslash
+r
+\backslash
+n")
+\end_layout
+
+\begin_layout Plain Layout
+
+					: ("Kontakt geöffnet am %s 
+\backslash
+r
+\backslash
+n")), datepuffer);
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	// statt ausgeben, SMS senden - aber nur beim Schließen des Kontaktes
+\end_layout
+
+\begin_layout Plain Layout
+
+	if (pressed) {
+\end_layout
+
+\begin_layout Plain Layout
+
+		if (OK != adl_smsSend(smsHandle, "0171XXXXXXX",
+\end_layout
+
+\begin_layout Plain Layout
+
+								puffer, ADL_SMS_MODE_TEXT)) {
+\end_layout
+
+\begin_layout Plain Layout
+
+			// Falls nicht erfolgreich: Fehler ausgeben
+\end_layout
+
+\begin_layout Plain Layout
+
+			adl_atSendResponse(ADL_AT_RSP, "Fehler beim Senden.
+\backslash
+r
+\backslash
+n");
+\end_layout
+
+\begin_layout Plain Layout
+
+		} 
+\end_layout
+
+\begin_layout Plain Layout
+
+	} 
+\end_layout
+
+\begin_layout Plain Layout
+
+	return FALSE; 
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Damit das funktioniert, müssen wir noch zusätzlich SMS-Handler registrieren.
+ Diese müssen nichts tun, aber dennoch vorhanden sein, also definieren wir
+ sie entsprechend der Prototypen:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\normalsize\ttfamily},frame=single,showstringspaces=false,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+bool leersmshandler(ascii * tel, ascii * smstime, ascii * text) {
+\end_layout
+
+\begin_layout Plain Layout
+
+	return true;
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+void leersmsCtrlHandler(u8 event, u16 nb) {}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Nun können wir mit einer kleinen Erweiterung der anfänglichen Registrationen
+ die Funktionalität bereitstellen:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\normalsize\ttfamily},frame=single,showstringspaces=false,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+void main_task(void) {
+\end_layout
+
+\begin_layout Plain Layout
+
+	// SMS-Handler registrieren
+\end_layout
+
+\begin_layout Plain Layout
+
+	smsHandle = adl_smsSubscribe(leersmshandler, 
+\end_layout
+
+\begin_layout Plain Layout
+
+						leersmsCtrlHandler, ADL_SMS_MODE_TEXT);
+\end_layout
+
+\begin_layout Plain Layout
+
+	// Tasten-Nachrichten einschalten.
+ Kein Handler benötigt.
+\end_layout
+
+\begin_layout Plain Layout
+
+	adl_atCmdCreate("AT+CMER=,1", FALSE, NULL, NULL);
+\end_layout
+
+\begin_layout Plain Layout
+
+	// Keyhandler speziell auf Taste 3 reagieren lassen.
+\end_layout
+
+\begin_layout Plain Layout
+
+	adl_atUnSoSubscribe("+CKEV: 3", (adl_atUnSoHandler_t) keyhandler);
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Einen Testlauf können wir hier offensichtlich nicht bereitstellen - aber
+ wir versichern: Es funktioniert.
+ Ganz ehrlich.
+ Wirklich ;-)
+\end_layout
+
+\end_body
+\end_document

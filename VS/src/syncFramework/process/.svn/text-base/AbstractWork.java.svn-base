@@ -1,5 +1,6 @@
 package syncFramework.process;
 
+import syncFramework.SyncMessage;
 import vsFramework.Channel;
 import vsFramework.Message;
 
@@ -31,6 +32,7 @@ public abstract class AbstractWork implements Work{
 
 	@Override
 	public void recvPhase() {
-		this.received = this.last.recv();
+		Message tag = this.last.recv();
+		this.received = (tag != null) ? tag : new SyncMessage("".getBytes());
 	}
 }

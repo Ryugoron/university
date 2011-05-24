@@ -1,14 +1,14 @@
 10
 
 dir
-185
+194
 https://dev.spline.de/svn/lex_alp5_ws1011/VS/src/syncFramework/sequence
 https://dev.spline.de/svn/lex_alp5_ws1011
 
 
 
-2011-05-15T16:03:45.060342Z
-185
+2011-05-23T20:13:08.315661Z
+190
 mwisnie
 
 
@@ -28,19 +28,15 @@ d2a5208e-6341-497e-8c57-6bc20bc5e7f5
 
 Connection.java
 file
-188
-
-
-
-2011-05-19T07:31:04.000000Z
-c99c5c1cd4f991c05ac7218b552dcefe
-2011-05-19T07:43:35.615812Z
-188
-mwisnie
 
 
 
 
+2011-05-23T17:09:35.000000Z
+4c360c527e5e72dbaef19d322a4ec009
+2011-05-23T15:39:33.462401Z
+189
+lex
 
 
 
@@ -58,11 +54,15 @@ mwisnie
 
 
 
-2010
+
+
+
+
+2160
 
 SequencerFactory.java
 file
-188
+
 
 
 
@@ -96,14 +96,14 @@ mwisnie
 
 CentralSequencer.java
 file
-188
 
 
 
-2011-05-19T07:31:45.000000Z
-00e696bfb68916dc1bacf9f4d77f4b30
-2011-05-19T07:43:35.615812Z
-188
+
+2011-05-23T19:32:43.000000Z
+2a755de3007c4f3da714d19f8ade69fb
+2011-05-23T20:13:08.315661Z
+190
 mwisnie
 
 
@@ -126,14 +126,14 @@ mwisnie
 
 
 
-6391
+6666
 
 types
 dir
 
 Sequencer.java
 file
-188
+
 
 
 

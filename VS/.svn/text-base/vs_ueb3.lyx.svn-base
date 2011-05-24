@@ -1,0 +1,970 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 3cm
+\topmargin 2cm
+\rightmargin 2cm
+\bottommargin 2cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Verteilte Systeme: Übung 3
+\end_layout
+
+\begin_layout Author
+Max Wisniewski, Alexander Steen
+\end_layout
+
+\begin_layout Subsection*
+Aufgabe 1: nrecv
+\end_layout
+
+\begin_layout Standard
+Da wir die letzte Lösung mittels 
+\family typewriter
+BlockingQueue
+\family default
+ implementiert haben, lässt sich das 
+\family typewriter
+nrecv
+\family default
+ sehr einfach implementieren:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\footnotesize\ttfamily},frame=single,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+public Message nrecv(){ 	
+\end_layout
+
+\begin_layout Plain Layout
+
+	return this.recieved.poll();
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\family typewriter
+BlockingQueue#poll
+\family default
+ gibt nämlich null zurück, falls noch keine Nachricht vorhanden ist.
+\end_layout
+
+\begin_layout Subsection*
+Aufgabe 2: Framework
+\end_layout
+
+\begin_layout Standard
+Die zentralen Klassen, die es zu erklären gilt, sind in unserem Framework
+ zum einen 
+\emph on
+CentralSequencer
+\emph default
+ und 
+\emph on
+CentralSyncProcess
+\emph default
+.
+ Diese beiden Klassen sind hinter jeweils einem Interface, bzw.
+ einer abstrakten Klasse, versteckt.
+ Diese sind alle aber wiederrum Package-Private, weil von außen niemand
+ zu wissen hat, wie die Synchronisation genau abläuft.
+\end_layout
+
+\begin_layout Standard
+Die Wahl der jeweiligen Synchronisation findet über die Klassen 
+\emph on
+Connection
+\emph default
+ und 
+\emph on
+ProcessConnect
+\emph default
+ statt.
+ Diese beiden Klassen stellen einen Adapter dar, indem Verbindungen jeder
+ Art aufgebaut werden können, in Channels verpackt und zuletzt an unsere
+ beiden zentralen Klassne wieter geleitet werden können.
+\end_layout
+
+\begin_layout Standard
+Die beiden Connectionklassen bedienen sich dazu einer Factory, die bisher
+ nur die beiden zuerst genannten Klassen zur Verfügung stellt, aber innerhalb
+ des Frameworks schnell zu anderen Lösungen erweiterbar ist.
+\end_layout
+
+\begin_layout Standard
+(Denkbar sind viele zentrale Knoten um das ganze Ausfallsicher zu gestallten
+ oder ein Tokenring, der nur über die Syncprocesses läuft).
+\begin_inset VSpace defskip
+\end_inset
+
+Betrachten wir nun einmal die zentralen Klassen.
+\end_layout
+
+\begin_layout Standard
+Die Klasse 
+\emph on
+CentralSequencer
+\emph default
+ verwaltet intern 3 Listen von Channels.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\footnotesize\ttfamily},frame=single,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+private List<Channel> syncProcesses;
+\end_layout
+
+\begin_layout Plain Layout
+
+private List<Channel> newProcesses; 	
+\end_layout
+
+\begin_layout Plain Layout
+
+private List<Channel> delProcesses;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In syncProcesses, stehen alle Channel von Prozessen, die im Moment synchronisier
+t werden.
+ Die Listen 
+\emph on
+newProcesses
+\emph default
+ und 
+\emph on
+delProcesses
+\emph default
+, sind Zwischenspeicher, damit neue oder zu entfernende Channels nicht den
+ Betrieb stören.
+ (Da wärend einer ACK-Phase kein Channel wegfallen darf, da es in dieser
+ Implementierung zu einem Deadlock führen würde.)
+\begin_inset VSpace defskip
+\end_inset
+
+Das hinzufügen, löschen, starten, stoppen das internen Threads ist nicht
+ weiter spannend.
+ Starten tut der Thread nur, wenn Channels zu verwalten sind.
+ Beim löschen und hinzufügen, wie beschrieben, einfügen in die Extralisten,
+ über die synchronisiert wird.
+ Und stop setzt einfach eine Flag, damit nach der nächsten Runde der Prozess
+ hält.
+\begin_inset VSpace defskip
+\end_inset
+
+Die Hauptschleife des Threads sieht nun folgender Maßen aus:
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\footnotesize\ttfamily},frame=single"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+this.workAck();
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+while(running){
+\end_layout
+
+\begin_layout Plain Layout
+
+	//Normaler Ablauf eines Synchronen Algorithmuses 
+\end_layout
+
+\begin_layout Plain Layout
+
+	this.allSend();  // Alle syncProcesses haben gesendet
+\end_layout
+
+\begin_layout Plain Layout
+
+	this.sendAck();  // Sende allen ein ACK für das Senden
+\end_layout
+
+\begin_layout Plain Layout
+
+	this.allWork();  // Alle Prozesse haben gearbeitet
+\end_layout
+
+\begin_layout Plain Layout
+
+			
+\end_layout
+
+\begin_layout Plain Layout
+
+	//Hinzufügen neuer Prozesse
+\end_layout
+
+\begin_layout Plain Layout
+
+	synchronized(newProcesses){
+\end_layout
+
+\begin_layout Plain Layout
+
+		syncProcesses.addAll(newProcesses);
+\end_layout
+
+\begin_layout Plain Layout
+
+		newProcesses.clear(); 
+\end_layout
+
+\begin_layout Plain Layout
+
+	} 		
+\end_layout
+
+\begin_layout Plain Layout
+
+	//Löschen nicht gebrauchte Prozesse
+\end_layout
+
+\begin_layout Plain Layout
+
+	synchronized(delProcesses){
+\end_layout
+
+\begin_layout Plain Layout
+
+		syncProcesses.removeAll(delProcesses);
+\end_layout
+
+\begin_layout Plain Layout
+
+		delProcesses.clear();
+\end_layout
+
+\begin_layout Plain Layout
+
+		if(syncProcesses.isEmpty()) running = false;
+\end_layout
+
+\begin_layout Plain Layout
+
+	} 			
+\end_layout
+
+\begin_layout Plain Layout
+
+	this.workAck();  //Sendet allen Prozessen ein ACK für das Arbeiten.
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Bevor wir mit der Hauptschleife starten können, müssen wir allen Prozessen
+ ein 
+\emph on
+WorkACK
+\emph default
+ schicken, was auf der Gegenseite als Startschuss aufgenommen wird.
+\end_layout
+
+\begin_layout Standard
+Nun fangen wir als erstes an zu warten, dass alle Prozesse uns mitgeteilt
+ haben, dass diese fertig sind.
+ Sind alle Nachrichten eingetroffen, bestätigen wir dies allen.
+ Genauso läuft auch work ab.
+\end_layout
+
+\begin_layout Standard
+Da zwischen Recv und Work nichts mehr passieren kann, haben wir an dieser
+ Stelle den Schritt zusammen gefasst, so dass aus 
+\emph on
+sendWork
+\emph default
+, auch implizit ein receive Befehl vorraus geht.
+ Dies setzt natürlich vorraus, dass der Gegenpart das Protokoll kennt.
+\begin_inset VSpace defskip
+\end_inset
+
+Am Ende jeder Runde, werden alle neuen Channels zu den synchronisierten
+ hinzugefügt und alle fertigen gelöscht.
+\begin_inset VSpace defskip
+\end_inset
+
+
+\begin_inset listings
+lstparams "basicstyle={\footnotesize\ttfamily},frame=single,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+private void allWork(){
+\end_layout
+
+\begin_layout Plain Layout
+
+	boolean rightMessage;
+\end_layout
+
+\begin_layout Plain Layout
+
+	for (Channel process : syncProcesses) {
+\end_layout
+
+\begin_layout Plain Layout
+
+		do{
+\end_layout
+
+\begin_layout Plain Layout
+
+			byte[] tag = process.recv().getData();
+\end_layout
+
+\begin_layout Plain Layout
+
+			rightMessage = (tag.equals(SyncMessage.PROCESS_ENDED));
+\end_layout
+
+\begin_layout Plain Layout
+
+			if(rightMessage) remove(process);
+\end_layout
+
+\begin_layout Plain Layout
+
+			else rightMessage = (tag.equals(SyncMessage.PROCESS_WORKED));
+\end_layout
+
+\begin_layout Plain Layout
+
+		}while(!rightMessage);
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Dies ist einmal exemplarisch eine der Methoden aus der Hauptschleife.
+\end_layout
+
+\begin_layout Standard
+Wir iterieren über jeden der synchronisierten Channel und holen uns das
+ byte-Array aus der Nachricht (blockende Methode).
+\end_layout
+
+\begin_layout Standard
+Im 
+\emph on
+WorkAck 
+\emph default
+testen wir auch noch, ob der Prozess uns ein Signal gesendet hat, dass er
+ aufhören möchte.
+ Ansonsten erwarten wir ein 
+\emph on
+PROCESS_WORKED
+\emph default
+.
+ Als kleine Optimierung könnte man hier noch einen Fehler zurück schicken,
+ damit der Gegenpart weiß, dass die Nachricht falsch war.
+\end_layout
+
+\begin_layout Standard
+Hat man entweder das 
+\emph on
+Ende
+\emph default
+ oder das 
+\emph on
+Worked
+\emph default
+ erhalten, kann man mit dem nächsten fortfahren.
+\begin_inset VSpace defskip
+\end_inset
+
+Die Nachrichten, auf die wir uns hier beziehen, sind static Variablen in
+ einer Message Klasse.
+ Diese haben wir angelegt, um die Synchronisationsnachrichtenn nicht jedes
+ mal erneut schreiben zu müssen.
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Der Gegenpart dazu ist 
+\emph on
+SyncProcess
+\emph default
+.
+ Die Hauptschleife dieses Threads, macht nichts, außer die Nachrichten vom
+ Server zu bekommen, den angeforderten Befehl auszuführen und danach ein
+ Ack zu senden.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\footnotesize\ttfamily},frame=single,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+do{}while(!syncChannel.recv().getData().equals(SyncMessage.WORK_ACK)); 
+\end_layout
+
+\begin_layout Plain Layout
+
+		
+\end_layout
+
+\begin_layout Plain Layout
+
+do{
+\end_layout
+
+\begin_layout Plain Layout
+
+		callSend();
+\end_layout
+
+\begin_layout Plain Layout
+
+		callRecv();
+\end_layout
+
+\begin_layout Plain Layout
+
+		callWork();
+\end_layout
+
+\begin_layout Plain Layout
+
+	}			
+\end_layout
+
+\begin_layout Plain Layout
+
+}while(!work.isEnded());
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+work.sendPhase();
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In der while - Schleife werden immer sende, empfangs und Arbeitsphase ausgeführt.
+ Kommt man aus der Schleife herraus, senden wir noch ein letztes mal unsere
+ Nachricht.
+ Sonst kommt es leicht vor, dass der nächste Prozess in der Reihe verhungert.
+ 
+\begin_inset VSpace defskip
+\end_inset
+
+
+\begin_inset listings
+lstparams "basicstyle={\footnotesize\ttfamily},frame=single,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+public void callSend() {
+\end_layout
+
+\begin_layout Plain Layout
+
+	work.sendPhase();
+\end_layout
+
+\begin_layout Plain Layout
+
+	syncChannel.send(new SyncMessage(SyncMessage.PROCESS_SENDED));
+\end_layout
+
+\begin_layout Plain Layout
+
+	do{}while(!syncChannel.recv().getData().equals(SyncMessage.SEND_ACK));
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Die Methode ruft nun den eigentilchen Sendebefehl aus, sendet die Bestätigung,
+ wenn sie damit fertig ist und wartet zuletzt auf das ACK vom Server.
+\begin_inset VSpace defskip
+\end_inset
+
+Damit nun ein Algorithmus auf diesem Framework ausgeführt werden kann, muss
+ nur noch die Klasse 
+\emph on
+Work
+\emph default
+ geschrieben werden.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\footnotesize\ttfamily},frame=single,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+public interface Work {
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	public void sendPhase();
+\end_layout
+
+\begin_layout Plain Layout
+
+	public void recvPhase();
+\end_layout
+
+\begin_layout Plain Layout
+
+	public void workPhase();
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	public boolean isEnded();
+\end_layout
+
+\begin_layout Plain Layout
+
+} 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Hat man so eine Klasse, wird diese nur noch in ProcessConnect hineingeschoben
+ und sobald das Netzwerk gestartet wurde, läuft der Algorithmus.
+\end_layout
+
+\begin_layout Subsection*
+Aufgabe 3: Timeslice
+\end_layout
+
+\begin_layout Standard
+Legt man das Framework zugrunde ist das Schreiben der 
+\emph on
+TimeSliceWork
+\emph default
+ wirklich einfach.
+ Durch eine abstrakte Klasse, werden uns auch noch senden und empfangen
+ abgenommen.
+ WIr müssen also nur noch die Zustandsüberführungsfunktion 
+\emph on
+workPhase()
+\emph default
+ schreiben.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\footnotesize\ttfamily},frame=single,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+public void workPhase() {
+\end_layout
+
+\begin_layout Plain Layout
+
+	String m = new String(this.received.getData()); 	
+\end_layout
+
+\begin_layout Plain Layout
+
+	if(this.leaderID != -1){
+\end_layout
+
+\begin_layout Plain Layout
+
+		this.electionComplete = true;
+\end_layout
+
+\begin_layout Plain Layout
+
+	}else if(m.equals("")){
+\end_layout
+
+\begin_layout Plain Layout
+
+		if(!this.electionComplete && this.id == this.phase){
+\end_layout
+
+\begin_layout Plain Layout
+
+			System.out.println("GEWONNEN: "+this.id);
+\end_layout
+
+\begin_layout Plain Layout
+
+			this.message = new SyncMessage((this.id+"").getBytes());
+\end_layout
+
+\begin_layout Plain Layout
+
+			this.leaderID = this.id;
+\end_layout
+
+\begin_layout Plain Layout
+
+		}else{
+\end_layout
+
+\begin_layout Plain Layout
+
+			if(++round == anzProcess){
+\end_layout
+
+\begin_layout Plain Layout
+
+				round = 0;
+\end_layout
+
+\begin_layout Plain Layout
+
+				++this.phase;
+\end_layout
+
+\begin_layout Plain Layout
+
+			}
+\end_layout
+
+\begin_layout Plain Layout
+
+		}
+\end_layout
+
+\begin_layout Plain Layout
+
+	}else{
+\end_layout
+
+\begin_layout Plain Layout
+
+		this.leaderID = Integer.valueOf(m);
+\end_layout
+
+\begin_layout Plain Layout
+
+		this.message = new SyncMessage((leaderID+"").getBytes());
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\begin_layout Plain Layout
+
+} 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Zu Beginn der Working Phase holen wir uns das byte Array aus der Message.
+ Als erstes Überprüfen wir, ob wir eine leader ID gesetzt haben.
+ In dem Fall können wir uns einfach beenden.
+ Dieser Teil ist unter Umständen in der neusten Implementierung obsolet,
+ aber er schaden zur Zeit noch nicht.
+\end_layout
+
+\begin_layout Standard
+Im nächsten Teil, wenn wir keine Nachricht empfangen haben, schauen wir
+ zuerst nach, ob wir die ID der aktuellen Runde haben.
+ Haben wir sie, sind wir Leader und schicken diese Nachricht weiter, das
+ heißt setzen unsere Sendenachricht darauf.
+\end_layout
+
+\begin_layout Standard
+Haben wir die ID nicht, setzen wir die Runde um 1 Hoch und testen, ob wir
+ in die nächste Phase eintreten.
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Haben wir eine Nachricht bekommen, muss dies die ID des neuen Leaders sein.
+ Wir parsen die ID, speichern sie und schicken sie an den nächsten.
+\begin_inset VSpace medskip
+\end_inset
+
+In unserem Testcase erstellen wir Threads, mit der Anzahl, die uns vom User
+ gegeben wurde.
+ (War die EIngabe keine Zahl, lassen wir die NumberFormatExcpetion einfach
+ durch).
+\end_layout
+
+\begin_layout Standard
+Die IDs bestimmen wir einfach über einen Randomgenerator zusammen mit einem
+ Bitfeld, so dass wir keine ID 2mal benutzen.
+\begin_inset VSpace medskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Danach verbinden wir die erstellten Threads einfach über Bidirectionale
+ Pipes aus dem 
+\emph on
+vsFramework
+\emph default
+.
+ DIe Connecionclasses haben wir für unseren localen Fall sehr einfach Implementi
+ert.
+\end_layout
+
+\begin_layout Standard
+Connections bekommt einfach Channels und reicht diese weiter.
+ ProcessConnect bekommt diese Connectionklasse.
+ Kommt nun eine neue Workklasse, wird einfach eine Pipe erstellt und in
+ den Prozess und den Sequencer gegeben.
+ Das ist zu kaum etwas zu gebrauchen, aber für unseren Test völlig ausreichend.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\footnotesize\ttfamily},frame=single,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+----- Runde : 99 ------ 
+\end_layout
+
+\begin_layout Plain Layout
+
+--- Praticipants: 3 
+\end_layout
+
+\begin_layout Plain Layout
+
+-- send round 
+\end_layout
+
+\begin_layout Plain Layout
+
+....
+ received all ACKs 
+\end_layout
+
+\begin_layout Plain Layout
+
+-- receive & statechange round 
+\end_layout
+
+\begin_layout Plain Layout
+
+....
+ received all ACKs
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Die Statusnachrichten sind alle nach diesem Shema aufgebaut.
+\begin_inset VSpace medskip
+\end_inset
+
+Die Tests sind folgender Maßen zu Bedienen:
+\end_layout
+
+\begin_layout Standard
+Der erste Parameter gibt die Anzahl der Threads an.
+ Ist keiner Angageben werden 5 genommen.
+\end_layout
+
+\begin_layout Standard
+Der zweie Parameter fügt einen Versatz in den IDs der Prozesse hinzu.
+ Bei dem Aufruf
+\begin_inset Newline newline
+\end_inset
+
+
+\emph on
+TimeSlice n k
+\emph default
+ bekommen wir IDs aus dem Bereich
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $k\leq id\leq2n+k$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Dies war nötig, da mit einer sehr hohen Wahrscheinlichkeit jedesmal die
+ 0 unter den IDs war.
+\end_layout
+
+\begin_layout Standard
+Alle unsere Test liefen bisher gut und das Programm terminiert auch.
+\end_layout
+
+\end_body
+\end_document

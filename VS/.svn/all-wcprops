@@ -1,7 +1,7 @@
 K 25
 svn:wc:ra_dav:version-url
 V 36
-/svn/lex_alp5_ws1011/!svn/ver/185/VS
+/svn/lex_alp5_ws1011/!svn/ver/191/VS
 END
 .classpath
 K 25
@@ -14,6 +14,12 @@ K 25
 svn:wc:ra_dav:version-url
 V 58
 /svn/lex_alp5_ws1011/!svn/ver/142/VS/01-AlternatingBit.jar
+END
+vs_ueb3.lyx
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/lex_alp5_ws1011/!svn/ver/191/VS/vs_ueb3.lyx
 END
 VS2.pdf
 K 25
@@ -38,4 +44,10 @@ K 25
 svn:wc:ra_dav:version-url
 V 44
 /svn/lex_alp5_ws1011/!svn/ver/183/VS/VS2.lyx
+END
+vs_ueb3.pdf
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/lex_alp5_ws1011/!svn/ver/191/VS/vs_ueb3.pdf
 END

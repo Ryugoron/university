@@ -1,15 +1,15 @@
 10
 
 dir
-185
+194
 https://dev.spline.de/svn/lex_alp5_ws1011/TiIV/aufgabenblock2
 https://dev.spline.de/svn/lex_alp5_ws1011
 
 
 
-2011-05-09T14:01:56.573336Z
-180
-mwisnie
+2011-05-24T20:14:43.107085Z
+194
+lex
 
 
 
@@ -25,6 +25,108 @@ mwisnie
 
 
 d2a5208e-6341-497e-8c57-6bc20bc5e7f5
+
+protokoll11.pdf
+file
+
+
+
+
+2011-05-23T17:09:36.000000Z
+f2d3cf34a2e21fa4e65236f2b0ebeb25
+2011-05-18T14:33:27.976475Z
+187
+lex
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+143293
+
+protokoll10.lyx
+file
+
+
+
+
+2011-05-24T08:34:47.000000Z
+603e6012daa6339dc69796b5b4a65e7d
+2011-05-24T08:33:24.537749Z
+193
+mwisnie
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+28629
+
+protokoll11.lyx
+file
+
+
+
+
+2011-05-23T17:09:36.000000Z
+50fbcaa6ad092a5d4221516c9021b269
+2011-05-18T14:33:27.976475Z
+187
+lex
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+20669
 
 protokoll6.pdf
 file
@@ -162,6 +264,40 @@ has-props
 
 10773
 
+protokoll9.pdf
+file
+
+
+
+
+2011-05-24T08:38:42.000000Z
+56df6c313eb7ac63e3e2d328a83e5743
+2011-05-24T08:29:37.117672Z
+192
+lex
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+126185
+
 protokoll7.lyx
 file
 
@@ -229,4 +365,72 @@ mwisnie
 
 
 17093
+
+protokoll9.lyx
+file
+
+
+
+
+2011-05-24T20:21:56.000000Z
+dc3a80b1fd2957ace06ec4f46bd0e928
+2011-05-24T20:14:43.107085Z
+194
+lex
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+22952
+
+protokoll10.pdf
+file
+
+
+
+
+2011-05-24T08:36:06.000000Z
+4150fde0267ebcd1945fb9ad9f39bfcf
+2011-05-24T08:33:24.537749Z
+193
+mwisnie
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+138405
 

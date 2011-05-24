@@ -1,0 +1,1162 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language ngerman
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 0
+\index Stichwortverzeichnis
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 3cm
+\topmargin 2cm
+\rightmargin 2cm
+\bottommargin 2cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+
+\lang english
+Technische Informatik IV: Praktikum
+\end_layout
+
+\begin_layout Author
+Protokoll zu Aufgabe 11
+\end_layout
+
+\begin_layout Date
+von Alexander Steen, Max Wisniewski
+\end_layout
+
+\begin_layout Subsection*
+Vorbereitung
+\end_layout
+
+\begin_layout Standard
+Zur Vorbereitung haben wir uns mit dem Abschnitt 
+\emph on
+Flash
+\emph default
+ des 
+\emph on
+ADL User Guide
+\emph default
+, sowie dem Rahmenwerk 
+\emph on
+file.c
+\emph default
+ auseinandergesetzt.
+\end_layout
+
+\begin_layout Subsection*
+Aufgaben
+\end_layout
+
+\begin_layout Enumerate
+AT-Kommandos 
+\family typewriter
+AT+OWNER
+\family default
+, 
+\family typewriter
+AT+SIMFILE
+\family default
+, 
+\family typewriter
+AT+SIMCHANGE
+\family default
+ erstellen
+\end_layout
+
+\begin_layout Enumerate
+Überprüfung der gespeicherten Nummer (Vergleich mit der tatsächlichen Nummer)
+ implementieren
+\end_layout
+
+\begin_layout Enumerate
+SMS mit den relevanten Daten verschicken, falls der Test (2) fehlschlägt
+\end_layout
+
+\begin_layout Subsection*
+Dokumentation
+\end_layout
+
+\begin_layout Standard
+Einige Funktionen aus dem Rahmenwerk 
+\family typewriter
+file.c
+\family default
+:
+\end_layout
+
+\begin_layout Description
+file_exists Diese funktion überprüft, ob eine Datei bereits existiert und
+ gibt im Falle ihrer Existenz die Größe der Datei in Byte zurück, 0 sonst.
+ Als Parameter bekommt die Funktion den Namen der Datei.
+\end_layout
+
+\begin_layout Description
+file_erase Löscht den Inhalt einer Datei, falls diese existiert.
+ Als Parameter erhält die Funktion den Namen der Datei, die gelöscht werden
+ soll.
+\end_layout
+
+\begin_layout Description
+file_write Ein Aufruf von 
+\family typewriter
+file_write(ascii * name, ascii * data, u16 length)
+\family default
+ schreibt den Inhalt 
+\family typewriter
+data
+\family default
+ in die Datei mit dem Namen 
+\family typewriter
+name
+\family default
+.
+ Dabei muss 
+\family typewriter
+length
+\family default
+ auf die Länge des zu schreibenden Inhalts gesetzt werden.
+\end_layout
+
+\begin_layout Description
+file_read Gibt den einen 
+\family typewriter
+ascii
+\family default
+-Pointer auf den Inhalt der Datei zurück, falls sie existiert.
+ Sonst 
+\family typewriter
+NULL
+\family default
+.
+ Auf diese Weise gelesene Inhalte müssen mit 
+\family typewriter
+adl_memRelease
+\family default
+ explizit wieder freigegeben werden.
+\end_layout
+
+\begin_layout Subsection*
+Durchführung und Auswertung
+\end_layout
+
+\begin_layout Standard
+Zunächst legen den Handler des Kommandos 
+\family typewriter
+AT+OWNER
+\family default
+ 
+\family typewriter
+ownerHandler
+\family default
+ an.
+ Dieser soll beim Ausführen eine Datei 
+\begin_inset Quotes eld
+\end_inset
+
+owner.txt
+\begin_inset Quotes erd
+\end_inset
+
+ anlegen, die als Inhalt die als Parameter übergebene Telefonnummer enthält.
+ Existiert die Datei bereits, wird sie gelöscht und neu angelegt.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\small\ttfamily},frame=single,language=C,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+void ownerHandler(adl_atCmdPreParser_t *param) {
+\end_layout
+
+\begin_layout Plain Layout
+
+	if (param->Type == ADL_CMD_TYPE_PARA) {
+\end_layout
+
+\begin_layout Plain Layout
+
+		if (file_exist("owner.txt")) {
+\end_layout
+
+\begin_layout Plain Layout
+
+			// Existiert schon, also neu anlegen
+\end_layout
+
+\begin_layout Plain Layout
+
+			file_erase("owner.txt");
+\end_layout
+
+\begin_layout Plain Layout
+
+		}
+\end_layout
+
+\begin_layout Plain Layout
+
+		ascii owner[20];
+\end_layout
+
+\begin_layout Plain Layout
+
+		wm_strGetParameterString(owner, param->StrData, 1);
+\end_layout
+
+\begin_layout Plain Layout
+
+		file_write("owner.txt", owner, 20); // Inhalt schreiben
+\end_layout
+
+\begin_layout Plain Layout
+
+		// Kontrollausgaben
+\end_layout
+
+\begin_layout Plain Layout
+
+		adl_atSendResponse(ADL_AT_RSP, "
+\backslash
+r
+\backslash
+n owner.txt mit Nummer ");
+\end_layout
+
+\begin_layout Plain Layout
+
+		adl_atSendResponse(ADL_AT_RSP, owner);
+\end_layout
+
+\begin_layout Plain Layout
+
+		adl_atSendResponse(ADL_AT_RSP, " angelegt 
+\backslash
+r
+\backslash
+n");
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Auch für das designierte AT-Kommando 
+\family typewriter
+AT+SIMFILE
+\family default
+ legen wir einen Handler namens 
+\family typewriter
+simHandler
+\family default
+ an.
+\begin_inset Newline newline
+\end_inset
+
+Dieser versucht das Telefonbuch auf 
+\begin_inset Quotes eld
+\end_inset
+
+ON
+\begin_inset Quotes erd
+\end_inset
+
+ zu stellen.
+ Da das nicht immer glückt, überprüfen wir mit einer AT-Abfrage, was die
+ aktuelle Telefonbuchselektion ist.
+ Der Handler 
+\family typewriter
+phonebookSwitchHandler
+\family default
+ kümmert sich dann um die Antwort dieser Abfrage.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\small\ttfamily},frame=single,language=C,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+void simHandler(adl_atCmdPreParser_t *param) {
+\end_layout
+
+\begin_layout Plain Layout
+
+	if (param->Type == ADL_CMD_TYPE_ACT) {
+\end_layout
+
+\begin_layout Plain Layout
+
+		adl_atCmdSend("AT+CPBS=
+\backslash
+"ON
+\backslash
+"", NULL, NULL);
+\end_layout
+
+\begin_layout Plain Layout
+
+		adl_atCmdSend("AT+CPBS?", phonebookSwitchHandler,
+\end_layout
+
+\begin_layout Plain Layout
+
+										"+CPBS:", NULL);	
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Falls der Wechsel zu ON glückt, wird die SIM-Nummer angefordert (Eintrag
+ 1 im Telefonbuch ON) und der 
+\family typewriter
+writeSIMNumberHandler
+\family default
+ mit dem Schreiben der Nummer beauftragt, der die Antwort der Telefonbuch-Abfrag
+e enthält.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\small\ttfamily},frame=single,language=C,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+bool phonebookSwitchHandler(adl_atResponse_t * param) 	{
+\end_layout
+
+\begin_layout Plain Layout
+
+	ascii phonebook[5];
+\end_layout
+
+\begin_layout Plain Layout
+
+	wm_strGetParameterString(phonebook, param->StrData, 1);
+\end_layout
+
+\begin_layout Plain Layout
+
+	if (wm_strcmp("ON",phonebook) == 0) {
+\end_layout
+
+\begin_layout Plain Layout
+
+		// Wechsel zu ON glückte: Weitermachen
+\end_layout
+
+\begin_layout Plain Layout
+
+		if (file_exist("sim.txt")) {
+\end_layout
+
+\begin_layout Plain Layout
+
+			// Datei existiert schon: Neu anlegen
+\end_layout
+
+\begin_layout Plain Layout
+
+			file_erase("sim.txt");
+\end_layout
+
+\begin_layout Plain Layout
+
+		}
+\end_layout
+
+\begin_layout Plain Layout
+
+		// Nummer vom Telefonbuch anfordern (SIM-Nummer)
+\end_layout
+
+\begin_layout Plain Layout
+
+		adl_atCmdSend("AT+CPBR=1", writeSIMNumberHandler, "+CPBR:", NULL);
+\end_layout
+
+\begin_layout Plain Layout
+
+	} else {
+\end_layout
+
+\begin_layout Plain Layout
+
+		// Wechsel klappte nicht, Fehlermeldung ausgeben
+\end_layout
+
+\begin_layout Plain Layout
+
+		adl_atSendResponse(ADL_AT_RSP, 
+\end_layout
+
+\begin_layout Plain Layout
+
+		"
+\backslash
+r
+\backslash
+n +SIMFILE ERROR: Wechsel zum Telefonbuch ON nicht erfolgreich!
+\backslash
+r
+\backslash
+n");
+\end_layout
+
+\begin_layout Plain Layout
+
+		return false;
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In dem 
+\family typewriter
+writeSIMNumberHandler
+\family default
+ wird dann nur noch die Datei geschrieben, das Telefonbuch wieder zurück
+ auf SM gesetzt und eine Kontrollausgabe getätigt:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\small\ttfamily},frame=single,language=C,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+bool writeSIMNumberHandler(adl_atResponse_t * param) 	{
+\end_layout
+
+\begin_layout Plain Layout
+
+	ascii number[20];
+\end_layout
+
+\begin_layout Plain Layout
+
+	// Nummer aus Parameter holen und schreiben
+\end_layout
+
+\begin_layout Plain Layout
+
+	wm_strGetParameterString(number, param->StrData, 2);
+\end_layout
+
+\begin_layout Plain Layout
+
+	file_write("sim.txt", number, 20);
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\end_layout
+
+\begin_layout Plain Layout
+
+	// Telefonbuch zurück auf SM setzen
+\end_layout
+
+\begin_layout Plain Layout
+
+	adl_atCmdSend("AT+CPBS=
+\backslash
+"SM
+\backslash
+"", NULL, NULL);
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	// Kontroll-Ausgabe
+\end_layout
+
+\begin_layout Plain Layout
+
+	adl_atSendResponse(ADL_AT_RSP, "
+\backslash
+r
+\backslash
+n In sim.txt geschrieben: ");
+\end_layout
+
+\begin_layout Plain Layout
+
+	adl_atSendResponse(ADL_AT_RSP, number);
+\end_layout
+
+\begin_layout Plain Layout
+
+	adl_atSendResponse(ADL_AT_RSP, "
+\backslash
+r
+\backslash
+n");
+\end_layout
+
+\begin_layout Plain Layout
+
+	return false;
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Wiederum analog zu 
+\family typewriter
+ownerHandler
+\family default
+ legen wir für das neue Kommando 
+\family typewriter
+AT+SIMCHANGE
+\family default
+ einen Handler namens 
+\family typewriter
+simChangeHandler
+\family default
+ an.
+ Dieser enthält Parameter, nämlich die neue Nummer und kann mit 
+\family typewriter
+AT+SIMCHANGE=<NeueNummer>
+\family default
+ aufgerufen werden.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\small\ttfamily},frame=single,language=C,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+void simChangeHandler(adl_atCmdPreParser_t *param) {
+\end_layout
+
+\begin_layout Plain Layout
+
+	if (param->Type == ADL_CMD_TYPE_PARA) {
+\end_layout
+
+\begin_layout Plain Layout
+
+		if (file_exist("sim.txt")) {
+\end_layout
+
+\begin_layout Plain Layout
+
+		// Datei existiert schon, neu anlegen
+\end_layout
+
+\begin_layout Plain Layout
+
+			file_erase("sim.txt"); 
+\end_layout
+
+\begin_layout Plain Layout
+
+		} 
+\end_layout
+
+\begin_layout Plain Layout
+
+		ascii newsim[20]; 
+\end_layout
+
+\begin_layout Plain Layout
+
+		wm_strGetParameterString(newsim, param->StrData, 1);
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+		file_write("sim.txt", newsim, 20); // Inhalt schreiben
+\end_layout
+
+\begin_layout Plain Layout
+
+		// Kontrollausgaben
+\end_layout
+
+\begin_layout Plain Layout
+
+		adl_atSendResponse(ADL_AT_RSP, "
+\backslash
+r
+\backslash
+n sim.txt auf Nummer ");
+\end_layout
+
+\begin_layout Plain Layout
+
+		adl_atSendResponse(ADL_AT_RSP, newsim);
+\end_layout
+
+\begin_layout Plain Layout
+
+		adl_atSendResponse(ADL_AT_RSP, " verändert 
+\backslash
+r
+\backslash
+n");
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\begin_layout Plain Layout
+
+} 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Um die AT-Funktionen nun bereitzustellen, registrieren wir sie am Anfang
+ der 
+\family typewriter
+main
+\family default
+-Funktion mit ihren entsprechenden Eigenschaften.
+ Falls nun die Textdateien vorhanden sind, leiten wir die Überprüfung ein,
+ in dem wir das Telefonbuch auf ON wechseln (um die SIM-Nummer herauszufinden).
+ Da dies wie oben fehlschlagen kann, brauchen wir wiederum einen Handler,
+ der überprüft, ob der Wechsel erfolgreich war.
+ 
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+Das hätte man wahrscheinlich viel eleganter mit Funktionspointer lösen können,
+ da die beiden Wechsel-Funktionen eigentlich analog arbeiten.
+ Aber da wir ziemlich schlecht in C sind, haben wir uns für die ekelige,aber
+ funktionierende Version entschieden - Sorry ;-)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\small\ttfamily},frame=single,language=C,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+s8 smsHandle;
+\end_layout
+
+\begin_layout Plain Layout
+
+ascii momentOwner[20];
+\end_layout
+
+\begin_layout Plain Layout
+
+...
+\end_layout
+
+\begin_layout Plain Layout
+
+void main_task(void) {
+\end_layout
+
+\begin_layout Plain Layout
+
+	// Neue AT-Kommandos registrieren
+\end_layout
+
+\begin_layout Plain Layout
+
+	adl_atCmdSubscribe("AT+OWNER", ownerHandler, ADL_CMD_TYPE_PARA | 0x0011);
+\end_layout
+
+\begin_layout Plain Layout
+
+	adl_atCmdSubscribe("AT+SIMFILE", simHandler, ADL_CMD_TYPE_ACT);
+\end_layout
+
+\begin_layout Plain Layout
+
+	adl_atCmdSubscribe("AT+SIMCHANGE", simChangeHandler, ADL_CMD_TYPE_PARA
+ | 0x0011);
+\end_layout
+
+\begin_layout Plain Layout
+
+	// Existieren die Dateien? Wenn ja: Überprüfung starten
+\end_layout
+
+\begin_layout Plain Layout
+
+	if (file_exist("sim.txt") && file_exist("owner.txt")) {
+\end_layout
+
+\begin_layout Plain Layout
+
+		// SMS Handler anlegen, falls wir eine SMS schicken müssen
+\end_layout
+
+\begin_layout Plain Layout
+
+		smsHandle = adl_smsSubscribe(leersmshandler, leersmsCtrlHandler, ADL_SMS_MODE_
+TEXT);
+\end_layout
+
+\begin_layout Plain Layout
+
+		// Auf ON wechseln
+\end_layout
+
+\begin_layout Plain Layout
+
+		adl_atCmdSend("AT+CPBS=
+\backslash
+"ON
+\backslash
+"", NULL, NULL);
+\end_layout
+
+\begin_layout Plain Layout
+
+		adl_atCmdSend("AT+CPBS?", anotherPhonebookSwitchHandler,
+\end_layout
+
+\begin_layout Plain Layout
+
+										"+CPBS:", NULL);
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Wenn der Wechsel zum Telefonbuch ON nicht erfolgreich war, können wir die
+ Überprüfungsfunktionalität nicht anbieten, also tun wir nichts.
+ Sollte es aber erfolgreich gewesen sein, dann beauftragen wir 
+\family typewriter
+checkhandler
+\family default
+ die Gleichheit der Nummern zu überprüfen.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\small\ttfamily},frame=single,language=C,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+bool anotherPhonebookSwitchHandler(adl_atResponse_t * param) 	{
+\end_layout
+
+\begin_layout Plain Layout
+
+	ascii phonebook[5];
+\end_layout
+
+\begin_layout Plain Layout
+
+	wm_strGetParameterString(phonebook, param->StrData, 1);
+\end_layout
+
+\begin_layout Plain Layout
+
+	if (wm_strcmp("ON",phonebook) == 0) {
+\end_layout
+
+\begin_layout Plain Layout
+
+		// Wechsel zu ON glückte: Nummer vom Telefonbuch anfordern und überprüfen
+\end_layout
+
+\begin_layout Plain Layout
+
+		adl_atCmdSend("AT+CPBR=1", checkhandler, "+CPBR:", NULL);
+\end_layout
+
+\begin_layout Plain Layout
+
+	} else { // Wechsel klappte nicht, also Funktionalität ignorieren
+\end_layout
+
+\begin_layout Plain Layout
+
+		return false;
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Nun muss der 
+\family typewriter
+checkhandler
+\family default
+ die Gleichheit überprüfen und bei Ungleichheit eine SMS schicken.
+ Dafür überprüfen wir zunächst die Nummern und fordern im Falle der Gleichheit
+ durch 
+\family typewriter
+AT+CCED=0,1
+\family default
+ die Daten (MCC, MNC, ...) an.
+ Diese Daten verarbeitet dann eine weitere Callbackfunktion namens 
+\family typewriter
+posHandler
+\family default
+, die auch den SMS-Text zusammenbaut und die SMS endgültig schickt.
+ Die Variable 
+\family typewriter
+momentOwner
+\family default
+ ist global und erlaubt dem 
+\family typewriter
+posHandler
+\family default
+ auf die Nummer zuzugreifen.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\small\ttfamily},frame=single,language=C,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+bool checkhandler(adl_atResponse_t * param) {
+\end_layout
+
+\begin_layout Plain Layout
+
+	wm_strGetParameterString(momentOwner, param->StrData, 2);
+\end_layout
+
+\begin_layout Plain Layout
+
+	adl_atSendResponse(ADL_AT_RSP, momentOwner);
+\end_layout
+
+\begin_layout Plain Layout
+
+	// Aktuelle Nummer auslesen
+\end_layout
+
+\begin_layout Plain Layout
+
+	ascii * sim = file_read("sim.txt"); 
+\end_layout
+
+\begin_layout Plain Layout
+
+	if (wm_strcmp(sim, momentOwner) != 0) {
+\end_layout
+
+\begin_layout Plain Layout
+
+		// Nummern stimmen nicht überein: Diebe!
+\end_layout
+
+\begin_layout Plain Layout
+
+		adl_atCmdSend("AT+CCED=0,1", posHandler, "+CCED:", NULL);
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\begin_layout Plain Layout
+
+	return false;
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+bool posHandler(adl_atResponse_t * param) {
+\end_layout
+
+\begin_layout Plain Layout
+
+	ascii sendBuffer[40];
+\end_layout
+
+\begin_layout Plain Layout
+
+	ascii mccBuffer[3]; ascii mncBuffer[2];
+\end_layout
+
+\begin_layout Plain Layout
+
+	ascii lacBuffer[4]; ascii ciBuffer[4];
+\end_layout
+
+\begin_layout Plain Layout
+
+	// Parameter holen und speichern (Antwort von +CCED)
+\end_layout
+
+\begin_layout Plain Layout
+
+	wm_strGetParameterString(mccBuffer, param->StrData, 1);
+\end_layout
+
+\begin_layout Plain Layout
+
+	wm_strGetParameterString(mncBuffer, param->StrData, 2);
+\end_layout
+
+\begin_layout Plain Layout
+
+	wm_strGetParameterString(lacBuffer, param->StrData, 3);
+\end_layout
+
+\begin_layout Plain Layout
+
+	wm_strGetParameterString(ciBuffer, param->StrData, 4);
+\end_layout
+
+\begin_layout Plain Layout
+
+	// Owner-Nummer lesen
+\end_layout
+
+\begin_layout Plain Layout
+
+	ascii * realowner = file_read("owner.txt");
+\end_layout
+
+\begin_layout Plain Layout
+
+	// Nachricht zusammenbauen
+\end_layout
+
+\begin_layout Plain Layout
+
+	wm_sprintf(sendBuffer, "Handy weg.
+ Neue Nummer: %s, Koord: %s %s %s %s",
+\end_layout
+
+\begin_layout Plain Layout
+
+		momentOwner, mccBuffer, mncBuffer, lacBuffer, ciBuffer);
+\end_layout
+
+\begin_layout Plain Layout
+
+	// SMS schicken!
+\end_layout
+
+\begin_layout Plain Layout
+
+	adl_smsSend(smsHandle, realowner, sendBuffer, ADL_SMS_MODE_TEXT);
+\end_layout
+
+\begin_layout Plain Layout
+
+	// Kontrollausgabe
+\end_layout
+
+\begin_layout Plain Layout
+
+	adl_atSendResponse(ADL_AT_RSP, sendBuffer);
+\end_layout
+
+\begin_layout Plain Layout
+
+	return false;
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

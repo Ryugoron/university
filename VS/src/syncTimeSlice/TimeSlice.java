@@ -1,5 +1,9 @@
 package syncTimeSlice;
 
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Random;
+
 import syncFramework.process.ProcessConnect;
 import syncFramework.process.types.SimpleProcessConnect;
 import syncFramework.sequence.types.SimpleConnection;
@@ -7,31 +11,49 @@ import vsFramework.BidirectionalPipe;
 
 public class TimeSlice {
 	public static void main(String[] args) {
+		int n = 5,k = 0;
+		List<TimeSliceWork> arbeitArbeit = new LinkedList<TimeSliceWork>();
+		
+		if(args.length == 1){
+			n = Integer.valueOf(args[0]);
+		}
+		
+		if(args.length == 2){
+			k = Integer.valueOf(args[1]);
+		}
+		
+		
 		SimpleConnection sCon = new SimpleConnection();
 		ProcessConnect pCon = new SimpleProcessConnect(sCon);
 		
-		//Wir erzeugen 5 Prozesse
-		TimeSliceWork w1 = new TimeSliceWork(4);
-		TimeSliceWork w2 = new TimeSliceWork(6);
-		TimeSliceWork w3 = new TimeSliceWork(12);
-		TimeSliceWork w4 = new TimeSliceWork(15);
-		TimeSliceWork w5 = new TimeSliceWork(7);
+		sCon.beVerbose(true);
 		
-		//Ring erzeugen
-		BidirectionalPipe p = new BidirectionalPipe();
-		w1.setNext(p.gehtLeft()); w2.setLast(p.gehtRight());
-		p = new BidirectionalPipe();
-		w2.setNext(p.gehtLeft()); w3.setLast(p.gehtRight());
-		p = new BidirectionalPipe();
-		w3.setNext(p.gehtLeft()); w4.setLast(p.gehtRight());
-		p = new BidirectionalPipe();
-		w4.setNext(p.gehtLeft()); w5.setLast(p.gehtRight());
-		p = new BidirectionalPipe();
-		w5.setNext(p.gehtLeft()); w1.setLast(p.gehtRight());
+		boolean[] ids = new boolean[2*n];
+		Random gen = new Random();
+		for(int i=0; i< n; i++){
+			int id;
+			do{ id=gen.nextInt(2*n); }while(ids[id]);
+			
+			ids[id] = true;
+			
+			System.out.println("ID: "+id);
+			
+			TimeSliceWork w = new TimeSliceWork(id+k,n);
+			arbeitArbeit.add(w);
+			pCon.connect(w);
+		}
 		
-		pCon.connect(w1); pCon.connect(w2);
-		pCon.connect(w3); pCon.connect(w4);
-		pCon.connect(w5);
+		BidirectionalPipe p;
+		
+		for(int i=0; i<n-1; i++){
+			p = new BidirectionalPipe();
+			arbeitArbeit.get(i).setNext(p.gehtLeft());
+			arbeitArbeit.get(i+1).setLast(p.gehtRight());
+		}
+		
+		p = new BidirectionalPipe();
+		arbeitArbeit.get(n-1).setNext(p.gehtLeft());
+		arbeitArbeit.get(0).setLast(p.gehtRight());
 		
 		sCon.startNetwork();
 	}

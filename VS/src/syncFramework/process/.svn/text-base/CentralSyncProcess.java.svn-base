@@ -35,7 +35,7 @@ class CentralSyncProcess implements SyncProcess{
 	public void callSend() {
 		work.sendPhase();
 		syncChannel.send(new SyncMessage(SyncMessage.PROCESS_SENDED));
-		do{}while(syncChannel.recv().getData().equals(SyncMessage.SEND_ACK));
+		do{}while(!syncChannel.recv().getData().equals(SyncMessage.SEND_ACK));
 	}
 	
 	@Override
@@ -50,11 +50,12 @@ class CentralSyncProcess implements SyncProcess{
 		//Aufgrund des Aufbaus im Sequencer muss statt PROCESS_WORKED
 		//ein PROCESS_ENDED gesendet werden, damit der Sequencer
 		//diesen Process austrägt
+		
 		if(work.isEnded())
 			syncChannel.send(new SyncMessage(SyncMessage.PROCESS_ENDED));
 		else{
 		     syncChannel.send(new SyncMessage(SyncMessage.PROCESS_WORKED));
-		     do{}while(syncChannel.recv().getData().equals(SyncMessage.WORK_ACK));
+		     do{}while(!syncChannel.recv().getData().equals(SyncMessage.WORK_ACK));
 		}
 	}
 	
@@ -65,14 +66,18 @@ class CentralSyncProcess implements SyncProcess{
 			
 			//Wir könnten auch umsortieren und diese Schleife eliminieren,
 			//aber so wird in der Schleife klarer, was wir machen.
-			do{}while(syncChannel.recv().getData().equals(SyncMessage.WORK_ACK));
+			do{}while(!syncChannel.recv().getData().equals(SyncMessage.WORK_ACK));
+			
 			
 			do{
-				callSend();
-				callRecv();
-				callWork();
-				
+					callSend();
+					callRecv();
+					callWork();
 			}while(!work.isEnded());
+			
+					//Brauchen wir, damit alle letzten Nachrichten noch raus kommen.
+					// Aber die sync darf nicht mehr beachtet werden
+					work.sendPhase();
 		}
 	}
 

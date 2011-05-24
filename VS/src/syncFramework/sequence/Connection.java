@@ -49,6 +49,13 @@ public abstract class Connection {
 	}
 	
 	/**
+	 * Mit diesem Befehl, kann man Debug Nachrichten einschalten
+	 */
+	public void beVerbose(boolean flag){
+		this.sequencer.tellStatus(flag);
+	}
+	
+	/**
 	 * Mit diesem Befehl kann man eine Verbindung mit dem 
 	 * zentralen Taktgeber herstellen. Wie die Verbindung
 	 * aufgebaut wird und welche Channel gewählt werden,

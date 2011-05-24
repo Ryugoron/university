@@ -1,14 +1,14 @@
 10
 
 dir
-185
+194
 https://dev.spline.de/svn/lex_alp5_ws1011/VS/src/syncTimeSlice
 https://dev.spline.de/svn/lex_alp5_ws1011
 
 
 
-2011-05-15T16:03:45.060342Z
-185
+2011-05-23T20:13:08.315661Z
+190
 mwisnie
 
 
@@ -28,14 +28,14 @@ d2a5208e-6341-497e-8c57-6bc20bc5e7f5
 
 TimeSliceWork.java
 file
-188
 
 
 
-2011-05-19T07:42:03.000000Z
-dd46942a0ba2b8e3bf60304bcfb84dc6
-2011-05-19T07:43:35.615812Z
-188
+
+2011-05-23T19:56:00.000000Z
+da0c7aacee0850955aaf68480c69a8e5
+2011-05-23T20:13:08.315661Z
+190
 mwisnie
 
 
@@ -58,66 +58,18 @@ mwisnie
 
 
 
-1926
-
-SimpleProcessConnect.java
-file
-188
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-deleted
-
-SimpleConnection.java
-file
-188
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-deleted
+2002
 
 TimeSlice.java
 file
-188
 
 
 
-2011-05-19T07:42:07.000000Z
-e647df9f30b9cbb241efaedaf8afd04c
-2011-05-19T07:43:35.615812Z
-188
+
+2011-05-23T20:17:04.000000Z
+1c1337e92b030f091ffc1eb54e777604
+2011-05-23T20:13:08.315661Z
+190
 mwisnie
 
 
@@ -140,5 +92,5 @@ mwisnie
 
 
 
-1239
+1378
 
