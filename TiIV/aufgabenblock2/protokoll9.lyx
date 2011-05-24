@@ -69,7 +69,7 @@ Technische Informatik IV: Praktikum
 \end_layout
 
 \begin_layout Author
-Protokoll zu Aufgabe A6
+Protokoll zu Aufgabe A9
 \end_layout
 
 \begin_layout Date
@@ -153,10 +153,17 @@ mode
 \family default
  ein Parameter, der die interne Nachrichtenverarbeitung beeinflusst, was
  für unsere Zwecke allerdings nicht weiter von Wichtigkeit ist.
- x entscheidet, ob spontane Nachrichten bei Tastendruck geschickt werden.
+ 
+\family typewriter
+keyp
+\family default
+ entscheidet, ob spontane Nachrichten bei Tastendruck geschickt werden.
  Ein Wert von 0 deaktiviert die Nachrichten, eine 1 aktiviert sie.
  Es gibt noch weitere Parameter, auf die wir hier nicht eingehen.
- Betätigt man bei eingeschalteter Benachrichtigung eine Taste, erhält man
+\begin_inset Newline newline
+\end_inset
+
+Betätigt man bei eingeschalteter Benachrichtigung eine Taste, erhält man
  eine spontane Nachricht der Form:
 \begin_inset Newline newline
 \end_inset

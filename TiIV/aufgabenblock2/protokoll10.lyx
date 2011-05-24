@@ -84,7 +84,7 @@ Vorbereitung
 Zur Vorbereiung haben wir uns unter Hardware angesehen, welche Bezeichner
  die I/O Ports für die LEDs haben (obwohl dies durch das Framework von led.h
  komplett unnötig geworden ist).
- Wir haben wie empfohlen im Kapitel 20 im 
+ Wir haben uns wie empfohlen im Kapitel 20 im 
 \emph on
 ADL Commands Interface Guide
 \emph default
@@ -96,12 +96,12 @@ CLIR
 \emph on
 CLIP
 \emph default
- informiert, sowie im 
+, sowie im 
 \emph on
 ADL User Guide
 \emph default
  Kapitel 3.10 über den GPIO Service (obwohl dies wieder durch led.h überflüssig
- war)
+ war) informiert.
 \end_layout
 
 \begin_layout Subsection*
@@ -147,7 +147,7 @@ Alarm
 \begin_inset Quotes erd
 \end_inset
 
- genausobehandelt wird, wie die festeingespeichert Nummer.
+ genauso behandelt wird, wie die fest eingespeicherte Nummer.
 \begin_inset Newline newline
 \end_inset
 
@@ -271,14 +271,14 @@ Service Den Call Service haben wir schon in Protokoll zu Aufgabe A6 / A7
 \end_layout
 
 \begin_layout Description
-Timer Dan Timer haben wir schon in Protokoll zu Aufgabe A6 beschrieben.
+Timer Den Timer haben wir schon in Protokoll zu Aufgabe A6 beschrieben.
  Wir verweisen an dieser Stelle auf das alte Protokoll.
 \end_layout
 
 \begin_layout Description
 led_init Mit dieser Funktion sorgt man dafür, dass die LEDs ansprechbar
  werden.
- Weitere Vorraussetzung ist, dass man die LED Flag in der 
+ Weitere Voraussetzung ist, dass man die LED-Flag in der 
 \emph on
 config.h
 \emph default
@@ -385,7 +385,7 @@ s8 callHandler(u16 event, s32 callId)
 
 \begin_layout Plain Layout
 
-void main_task(void) 
+void main_task(void) {
 \end_layout
 
 \begin_layout Plain Layout
@@ -690,7 +690,7 @@ Wir rufen hier als erstes die led_init() auf, damit wir die LEDs ansprechen
  können.
  Als nächstes senden wir den Befehl ab, dass die CLIP Funktion auf 1 gesetzt
  werden soll, d.h.
- wir wollen wissen wer uns anruft.
+ wir wollen wissen, wer uns anruft.
  Da uns die Antwort nicht interessiert, geben wir keine Handler für die
  Antwort rein.
 \end_layout
@@ -706,14 +706,18 @@ Als nächstes richten wir den Handler für die allgemeine Nachricht von
 \end_layout
 
 \begin_layout Standard
-Der letzte Befehl ist der selbe wie eben und richtet unseren callHandler
+Der letzte Befehl ist derselbe wie eben und richtet unseren callHandler
  ein.
 \begin_inset VSpace defskip
 \end_inset
 
 In der clipHandler Funktion nehmen wir uns als erstes den 1.
- Parameter der Antwort und überprüfen, ob es der eingespeicherten Nummer(global
- telNum) entspricht.
+ Parameter der Antwort und überprüfen, ob es der eingespeicherten Nummer
+ (global 
+\emph on
+telNum
+\emph default
+) entspricht.
  Sind die beiden Nummern gleich schicken wir eine Debugmeldung ab, das wir
  angerufen wurden, schalten die LED2 ein und starten einen neuen zyklischen
  Timer, der jede Sekunde einmal unseren ledTimeouHandler aufruft.
@@ -914,10 +918,9 @@ Alarm
 \end_layout
 
 \begin_layout Standard
-Unser Ansatz ist etwas simpel gestalltet.
- Im groben sahen wir 2 Möglichkeiten der herrangehensweise.
- In der einen testen wir jedesmal bei einem Anruf, wie der momentane Eintrag
- unter 
+Unser Ansatz ist etwas simpel gestaltet.
+ Im Groben sahen wir zwei Möglichkeiten der Herangehensweise: In der einen
+ testen wir jedes Mal bei einem Anruf, wie der momentane Eintrag unter 
 \begin_inset Quotes eld
 \end_inset
 
@@ -1463,7 +1466,7 @@ RING
  aus.
  Es bleibt zu erwähnen, dass wenn man den Anruf nicht nimmt, das die LED2
  erst mit einigen Minuten Verzögerung ausgeht.
- Wir haben nicht herraus bekommen warum, aber scheinbar bekommt das Modul
+ Wir haben nicht heraus bekommen warum, aber scheinbar bekommt das Modul
  die Nachricht erst mit einiger Verzögerung.
 \begin_inset VSpace defskip
 \end_inset
