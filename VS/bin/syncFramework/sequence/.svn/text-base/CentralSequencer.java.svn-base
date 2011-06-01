@@ -178,6 +178,7 @@ class CentralSequencer implements Sequencer
 			}
 		}
 		
+		
 		/**
 		 * In dieser Methode wird kontrolliert ob alle Prozesse
 		 * die Bestätigung für das Ausführen ihrer 
@@ -221,6 +222,7 @@ class CentralSequencer implements Sequencer
 			
 			while(running){
 				if(statusLog) System.out.println("----- Runde : "+(++round)+" ------");
+				if(statusLog) System.out.println("--- Praticipants: "+syncProcesses.size());
 				//Normaler Ablauf eines Synchronen Algorithmuses
 				if(statusLog) System.out.println("-- send round");
 				this.allSend(); 
@@ -245,7 +247,7 @@ class CentralSequencer implements Sequencer
 				
 				this.workAck();
 			}
-			
+			System.out.println("----- Server shutdown -------");
 		}
 	}
 }

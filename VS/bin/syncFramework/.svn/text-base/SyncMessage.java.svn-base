@@ -10,6 +10,7 @@ public class SyncMessage implements Message{
 	public static final byte[] PROCESS_WORKED = "work".getBytes();
 	public static final byte[] WORK_ACK = "workAck".getBytes();
 	public static final byte[] PROCESS_ENDED = "finish".getBytes();
+	public static final byte[] ENDED_ACK = "finishAck".getBytes();
 	
 	private byte[] data;
 	private int length;

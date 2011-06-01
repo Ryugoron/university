@@ -16,7 +16,7 @@ import vsFramework.Channel;
  */
 public class TimeSliceWork extends AbstractWork{
 
-	private int id,phase,round,anzProcess;
+	public int id,phase,round,anzProcess;
 	
 	private int leaderID;
 	
@@ -41,6 +41,17 @@ public class TimeSliceWork extends AbstractWork{
 	public void setAnzThreads(int anz){
 		this.anzProcess = anz;
 	}
+	
+	
+	/**
+	 * Diese Methode ist nur für den Testcase gedacht.
+	 * 
+	 * @return Die ID des Leaders, nachdem der Algorithmus durch ist.
+	 */
+	public int getLeader(){
+		return this.leaderID;
+	}
+	
 
 	@Override
 	public void workPhase() {
@@ -54,7 +65,7 @@ public class TimeSliceWork extends AbstractWork{
 			//Mein Vorgänger hat nicht gewonnen oder teilt den Sieger mit.
 			if(!this.electionComplete && this.id == this.phase){
 				System.out.println("GEWONNEN: "+this.id);
-				this.message = new SyncMessage((id+"").getBytes());
+				this.message = new SyncMessage((this.id+"").getBytes());
 				this.leaderID = this.id;
 			}else{
 				//nächste Runde

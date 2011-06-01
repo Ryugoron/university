@@ -70,11 +70,14 @@ class CentralSyncProcess implements SyncProcess{
 			
 			
 			do{
-				callSend();
-				callRecv();
-				callWork();
-				
+					callSend();
+					callRecv();
+					callWork();
 			}while(!work.isEnded());
+			
+					//Brauchen wir, damit alle letzten Nachrichten noch raus kommen.
+					// Aber die sync darf nicht mehr beachtet werden
+					work.sendPhase();
 		}
 	}
 

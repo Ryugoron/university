@@ -1,15 +1,15 @@
 10
 
 dir
-189
+196
 https://dev.spline.de/svn/lex_alp5_ws1011/VS/src/syncFramework/sequence
 https://dev.spline.de/svn/lex_alp5_ws1011
 
 
 
-2011-05-23T15:39:33.462401Z
-189
-lex
+2011-05-23T20:13:08.315661Z
+190
+mwisnie
 
 
 
@@ -100,11 +100,11 @@ file
 
 
 
-2011-05-23T17:09:35.000000Z
-4f0af4741342c488184ec2bf1ffaf126
-2011-05-23T15:39:33.462401Z
-189
-lex
+2011-05-23T19:32:43.000000Z
+2a755de3007c4f3da714d19f8ade69fb
+2011-05-23T20:13:08.315661Z
+190
+mwisnie
 
 
 
@@ -126,7 +126,7 @@ lex
 
 
 
-6530
+6666
 
 types
 dir

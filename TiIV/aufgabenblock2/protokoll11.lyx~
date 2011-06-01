@@ -646,10 +646,6 @@ simChangeHandler
 \family default
  an.
  Dieser enthält Parameter, nämlich die neue Nummer und kann mit 
-\end_layout
-
-\begin_layout Standard
-
 \family typewriter
 AT+SIMCHANGE=<NeueNummer>
 \family default

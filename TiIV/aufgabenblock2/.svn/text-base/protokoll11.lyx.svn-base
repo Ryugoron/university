@@ -646,6 +646,10 @@ simChangeHandler
 \family default
  an.
  Dieser enthält Parameter, nämlich die neue Nummer und kann mit 
+\end_layout
+
+\begin_layout Standard
+
 \family typewriter
 AT+SIMCHANGE=<NeueNummer>
 \family default
@@ -821,7 +825,12 @@ void main_task(void) {
 \begin_layout Plain Layout
 
 	adl_atCmdSubscribe("AT+SIMCHANGE", simChangeHandler, ADL_CMD_TYPE_PARA
- | 0x0011);
+ 
+\end_layout
+
+\begin_layout Plain Layout
+
+						| 0x0011);
 \end_layout
 
 \begin_layout Plain Layout
@@ -836,13 +845,35 @@ void main_task(void) {
 
 \begin_layout Plain Layout
 
+		adl_atSendResponse(ADL_AT_RSP,"
+\backslash
+r
+\backslash
+nDateien existieren,
+\end_layout
+
+\begin_layout Plain Layout
+
+			Überprüfung findet statt
+\backslash
+r
+\backslash
+n");
+\end_layout
+
+\begin_layout Plain Layout
+
 		// SMS Handler anlegen, falls wir eine SMS schicken müssen
 \end_layout
 
 \begin_layout Plain Layout
 
-		smsHandle = adl_smsSubscribe(leersmshandler, leersmsCtrlHandler, ADL_SMS_MODE_
-TEXT);
+		smsHandle = adl_smsSubscribe(leersmshandler, 
+\end_layout
+
+\begin_layout Plain Layout
+
+				leersmsCtrlHandler, ADL_SMS_MODE_TEXT);
 \end_layout
 
 \begin_layout Plain Layout
@@ -871,6 +902,29 @@ TEXT);
 
 \begin_layout Plain Layout
 
+	}else{
+\end_layout
+
+\begin_layout Plain Layout
+
+		adl_atSendResponse(ADL_AT_RSP,"
+\backslash
+r
+\backslash
+nDateien existieren nicht,
+\end_layout
+
+\begin_layout Plain Layout
+
+			Überprüfung findet nicht statt
+\backslash
+r
+\backslash
+n");
+\end_layout
+
+\begin_layout Plain Layout
+
 	}
 \end_layout
 
@@ -892,6 +946,10 @@ Wenn der Wechsel zum Telefonbuch ON nicht erfolgreich war, können wir die
 checkhandler
 \family default
  die Gleichheit der Nummern zu überprüfen.
+\begin_inset Newpage pagebreak
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -1025,12 +1083,53 @@ bool checkhandler(adl_atResponse_t * param) {
 
 \begin_layout Plain Layout
 
+		adl_atSendResponse(ADL_AT_RSP,"
+\backslash
+r
+\backslash
+nÜberprüfung: 
+\end_layout
+
+\begin_layout Plain Layout
+
+			Nummer hat sich verändert!
+\backslash
+r
+\backslash
+n");
+\end_layout
+
+\begin_layout Plain Layout
+
 		// Nummern stimmen nicht überein: Diebe!
 \end_layout
 
 \begin_layout Plain Layout
 
 		adl_atCmdSend("AT+CCED=0,1", posHandler, "+CCED:", NULL);
+\end_layout
+
+\begin_layout Plain Layout
+
+	}else{
+\end_layout
+
+\begin_layout Plain Layout
+
+		adl_atSendResponse(ADL_AT_RSP,"
+\backslash
+r
+\backslash
+nÜberprüfung: 
+\end_layout
+
+\begin_layout Plain Layout
+
+			Nummer hat sich nicht verändert.
+\backslash
+r
+\backslash
+n");
 \end_layout
 
 \begin_layout Plain Layout
@@ -1059,7 +1158,7 @@ bool posHandler(adl_atResponse_t * param) {
 
 \begin_layout Plain Layout
 
-	ascii sendBuffer[40];
+	ascii sendBuffer[100];
 \end_layout
 
 \begin_layout Plain Layout
@@ -1156,6 +1255,266 @@ bool posHandler(adl_atResponse_t * param) {
 \end_inset
 
 
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Damit das SMS schicken funktioniert, haben wir in der main_task-Funktion
+ bereits zwei (leere) Handler für die SMS-Steuerung angemeldet.
+ Die machen zwar nichts, sind aber zwingend erforderlich, damit man SMS
+ schicken kann und sehen dann wie folgt aus:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\small\ttfamily},frame=single,language=C,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+bool leersmshandler(ascii * tel, ascii * smstime, ascii * text) {
+\end_layout
+
+\begin_layout Plain Layout
+
+	return true;
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+void leersmsCtrlHandler(u8 event, u16 nb) { 	}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Testlauf
+\series default
+:
+\begin_inset Newline newline
+\end_inset
+
+Als erstes starten wir das Modul in einem Rohzustand.
+\end_layout
+
+\begin_layout Standard
+Die beiden files sind nicht angelegt.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\footnotesize\ttfamily},frame=single,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
++GSM: Anmeldung im Netz abgeschlossen 
+\end_layout
+
+\begin_layout Plain Layout
+
+Dateien existieren nicht, Überprüfung findet nicht statt
+\end_layout
+
+\begin_layout Plain Layout
+
+AT+OWNER="+491711533418"
+\end_layout
+
+\begin_layout Plain Layout
+
+ owner.txt mit Nummer +491711533418 angelegt  
+\end_layout
+
+\begin_layout Plain Layout
+
+AT+SIMFILE  
+\end_layout
+
+\begin_layout Plain Layout
+
+ In sim.txt geschrieben: +4917665374344
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+Nun sollten beide files angelegt sein.
+ Wir müssten nach einem neustart (
+\emph on
+at+wopen=1
+\emph default
+) nun eine andere Nachricht erhalten.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\footnotesize\ttfamily},frame=single,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+at+wopen=0
+\end_layout
+
+\begin_layout Plain Layout
+
+OK
+\end_layout
+
+\begin_layout Plain Layout
+
++WIND: 1 
+\end_layout
+
+\begin_layout Plain Layout
+
+at+wopen=1 
+\end_layout
+
+\begin_layout Plain Layout
+
+OK
+\end_layout
+
+\begin_layout Plain Layout
+
+...
+\end_layout
+
+\begin_layout Plain Layout
+
++GSM: Anmeldung im Netz abgeschlossen 
+\end_layout
+
+\begin_layout Plain Layout
+
+Dateien existieren, Überprüfung findet statt
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
++4917665374344 
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+Überprüfung: Nummer hat sich nicht verändert.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Wir sehen, dass die Nummer überprüft wird und das sich nichts verändert
+ hat.
+ Dies sollte stimmen, da wir bisher die SIM-Nummer nicht geändet haben.
+\end_layout
+
+\begin_layout Standard
+Als nächstes simulieren wir ein wechseln der SIM-Karte:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\footnotesize\ttfamily},frame=single,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+AT+SIMCHANGE="0768243234"
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Nun sollte nach einem erneuten Start ein Fehler auftreten und an unsere
+ hinterlegte Nummer sollte eine SMS geschickt werden.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\footnotesize\ttfamily},frame=single,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+Datein existieren, Überprüfung findet statt
+\end_layout
+
+\begin_layout Plain Layout
+
+ +4917665------
+\end_layout
+
+\begin_layout Plain Layout
+
+Überprüfung: Nummer hat sich verändert!
+\end_layout
+
+\begin_layout Plain Layout
+
+Handy weg.
+ Neue Nummer:0768243234, Koord: 262 07 4ef908f0
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Wir sehen die Kontrollausgaben und bekommen wenig später eine SMS mit der
+ momentanen Position des Handys.
 \end_layout
 
 \end_body

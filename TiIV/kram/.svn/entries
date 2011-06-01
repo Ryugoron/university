@@ -1,7 +1,7 @@
 10
 
 dir
-194
+197
 https://dev.spline.de/svn/lex_alp5_ws1011/TiIV/kram
 https://dev.spline.de/svn/lex_alp5_ws1011
 
@@ -25,40 +25,6 @@ mwisnie
 
 
 d2a5208e-6341-497e-8c57-6bc20bc5e7f5
-
-aufgabe13.c
-file
-
-
-
-
-2011-04-14T12:24:00.000000Z
-ab635fe0eb066fc8bde11b4b67553997
-2011-04-14T12:24:33.715661Z
-145
-mwisnie
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-2706
 
 generated.c
 file
@@ -94,14 +60,14 @@ mwisnie
 
 444
 
-aufgabe14.c
+aufgabe13.c
 file
 
 
 
 
 2011-04-14T12:24:00.000000Z
-af3d029286665243d35f674e0c8130b3
+ab635fe0eb066fc8bde11b4b67553997
 2011-04-14T12:24:33.715661Z
 145
 mwisnie
@@ -126,16 +92,16 @@ mwisnie
 
 
 
-735
+2706
 
-aufgabe15.c
+aufgabe14.c
 file
 
 
 
 
 2011-04-14T12:24:00.000000Z
-6d9c2b306cbfd25c9d70e6db24732457
+af3d029286665243d35f674e0c8130b3
 2011-04-14T12:24:33.715661Z
 145
 mwisnie
@@ -196,14 +162,14 @@ mwisnie
 
 1448
 
-aufgabe07.c
+aufgabe15.c
 file
 
 
 
 
 2011-04-14T12:24:00.000000Z
-8960f9b642c4307c955dd5743f3c3f04
+6d9c2b306cbfd25c9d70e6db24732457
 2011-04-14T12:24:33.715661Z
 145
 mwisnie
@@ -228,7 +194,7 @@ mwisnie
 
 
 
-2767
+735
 
 aufgabe16.c
 file
@@ -264,14 +230,14 @@ mwisnie
 
 2799
 
-aufgabe17.c
+aufgabe07.c
 file
 
 
 
 
 2011-04-14T12:24:00.000000Z
-89c70cfbea5f7bb5d08201316a6b7a45
+8960f9b642c4307c955dd5743f3c3f04
 2011-04-14T12:24:33.715661Z
 145
 mwisnie
@@ -296,7 +262,7 @@ mwisnie
 
 
 
-5100
+2767
 
 aufgabe08.c
 file
@@ -332,14 +298,14 @@ mwisnie
 
 2071
 
-init.c
+aufgabe17.c
 file
 
 
 
 
 2011-04-14T12:24:00.000000Z
-03633f6bdcda6c9c56199e367c68f4f9
+89c70cfbea5f7bb5d08201316a6b7a45
 2011-04-14T12:24:33.715661Z
 145
 mwisnie
@@ -364,7 +330,41 @@ mwisnie
 
 
 
-12839
+5100
+
+aufgabe09.c
+file
+
+
+
+
+2011-04-14T12:24:00.000000Z
+8563feaa20c58f6f464170002104526d
+2011-04-14T12:24:33.715661Z
+145
+mwisnie
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2143
 
 aufgabe18.c
 file
@@ -400,14 +400,14 @@ mwisnie
 
 6767
 
-aufgabe09.c
+init.c
 file
 
 
 
 
 2011-04-14T12:24:00.000000Z
-8563feaa20c58f6f464170002104526d
+03633f6bdcda6c9c56199e367c68f4f9
 2011-04-14T12:24:33.715661Z
 145
 mwisnie
@@ -432,7 +432,7 @@ mwisnie
 
 
 
-2143
+12839
 
 aufgabe19.c
 file
