@@ -1,19 +1,18 @@
 package syncFramework.process.types;
 
-
 import syncFramework.process.ProcessConnect;
 import syncFramework.process.Work;
 import syncFramework.process.types.ProcessConnectFactory.ProcessConnectType;
-import syncFramework.sequence.types.SimpleConnection;
+import syncFramework.sequence.types.SimpleAsyncConnection;
 import vsFramework.BidirectionalPipe;
 import vsFramework.Channel;
 
-public class SimpleProcessConnect extends ProcessConnect{
+public class SimpleASyncProcessConnect  extends ProcessConnect{
 	
-	private SimpleConnection con;
+	private SimpleAsyncConnection con;
 	
-	public SimpleProcessConnect(SimpleConnection con){
-		super(ProcessConnectType.CENTRAL_SYNC);
+	public SimpleASyncProcessConnect(SimpleAsyncConnection con){
+		super(ProcessConnectType.ASYNC);
 		this.con = con;
 	}
 	

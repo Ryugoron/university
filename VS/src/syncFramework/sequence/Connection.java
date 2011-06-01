@@ -1,6 +1,7 @@
 package syncFramework.sequence;
 
-import syncFramework.sequence.SequencerFactory.SequencerFactoryType;
+import syncFramework.sequence.types.SequencerFactory;
+import syncFramework.sequence.types.SequencerFactory.SequencerFactoryType;
 import vsFramework.Channel;
 
 /**

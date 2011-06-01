@@ -1,6 +1,7 @@
 package syncFramework.process;
 
-import syncFramework.process.ProcessConnectFactory.ProcessConnectType;
+import syncFramework.process.types.ProcessConnectFactory;
+import syncFramework.process.types.ProcessConnectFactory.ProcessConnectType;
 import vsFramework.Channel;
 
 /**

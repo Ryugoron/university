@@ -4,9 +4,9 @@ import syncFramework.sequence.Connection;
 import syncFramework.sequence.types.SequencerFactory.SequencerFactoryType;
 import vsFramework.Channel;
 
-public class SimpleConnection extends Connection{
-	public SimpleConnection() {
-		super(SequencerFactoryType.CENTRAL_SEQUENCER);
+public class SimpleAsyncConnection extends Connection{
+	public SimpleAsyncConnection() {
+		super(SequencerFactoryType.ASYNC);
 	}
 
 	public void startNetwork(){
