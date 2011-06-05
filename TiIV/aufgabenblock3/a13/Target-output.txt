@@ -1,0 +1,29 @@
+at+cfun=1ý
+atatatat
+OK
+OK
+OK
+OK
+OK
+at+wopen=1
+OK
++INFO: Startgrund - Normaler Start
++GSM: Warte auf Anmeldung im Netz
++GSM: Anmeldung im Netz abgeschlossen
++GPRS: Warte auf Verbindung
++GPRS: Verbindungsfehler - siehe WIP_BOPT_ERROR
+at+cfun=1
+OK
++INFO: Startgrund - Normaler Start
++GSM: Warte auf Anmeldung im Netz
++GSM: Anmeldung im Netz abgeschlossen
++GPRS: Warte auf Verbindung
++GPRS: Verbindung wurde hergestellt
+Taste 2 wurde  auf 1 gesetzt
+SET:00000010
+Taste 2 wurde  auf 0 gesetzt
+SET:00000000
+Taste 2 wurde  auf 1 gesetzt
+SET:00000010
+Taste 2 wurde  auf 0 gesetzt
+SET:00000000

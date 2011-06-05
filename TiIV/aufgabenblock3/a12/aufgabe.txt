@@ -1,0 +1,125 @@
+/************************************************************************************************
+ * MAIN																							*
+ ************************************************************************************************
+ * Einstiegspunkte der Anwendung																*
+ ************************************************************************************************/
+#include "main.h"
+
+//____DEKLARATIONEN______________________________________________________________________________
+void main_task(void);
+void sub_task1(void);
+void echo_response(wip_event_t *event, void *ctx);
+//____VARIABLEN__________________________________________________________________________________
+wip_channel_t channel;
+ascii sendbuffer[256];
+bool channel_open;
+//____FUNKTIONEN_________________________________________________________________________________
+
+
+
+void echoHandler(adl_atCmdPreParser_t *param) {
+	if (param->Type == ADL_CMD_TYPE_PARA) {
+		wm_strGetParameterString(sendbuffer, param->StrData, 1);
+		// Socket erstellen
+		if(!channel_open){
+			channel =
+					wip_TCPClientCreateOpts (
+						"hwp.mi.fu-berlin.de",		// Host
+						50008,										// Port
+						echo_response,								// Handler
+					NULL,
+					WIP_COPT_PORT, 13338, WIP_COPT_END);
+		}else{
+			wip_write(channel, sendbuffer, 256);
+		}
+			adl_atSendResponse(ADL_AT_RSP, "\r\nOK\r\n");
+
+	}
+}
+
+void echo_response(wip_event_t *event, void *ctx){
+	s32 answer;
+	ascii buffer[256];
+
+	switch(event->kind){
+		case WIP_CEV_OPEN:
+			channel_open = true;
+			wip_write(channel, sendbuffer, 256);
+		case WIP_CEV_READ:
+			do	{
+				answer = wip_read (event->channel, buffer, sizeof (buffer) - 1);
+				buffer[answer] = '\0';				// Terminieren, falls es ein String ist
+				adl_atSendResponse(ADL_AT_RSP,buffer);
+				}
+			while (answer == sizeof (buffer) - 1);
+			break;
+		case WIP_CEV_WRITE:
+			break;
+		case WIP_CEV_PEER_CLOSE:
+		case WIP_CEV_ERROR:
+			wip_close(channel);
+			channel_open = false;
+			break;
+		default:
+			wip_close(channel);
+			channel_open = false;
+			ERROR("ERROR: Unkown TCP Event");
+			break;
+	}
+}
+
+void closeHandler(adl_atCmdPreParser_t *param) {
+	if (param->Type == ADL_CMD_TYPE_ACT){
+		wip_close(channel);
+		channel_open = false;
+	}
+}
+
+bool keyhandler(adl_atUnsolicited_t *paras)
+	{
+	ascii param1[1];
+	// parameter auslesen
+	wm_strGetParameterString(param1, paras->StrData, 1);
+	wm_sprintf(sendbuffer, "Taste %s",param1);
+	if(!channel_open){
+				channel =
+						wip_TCPClientCreateOpts (
+							"hwp.mi.fu-berlin.de",		// Host
+							50008,										// Port
+							echo_response,								// Handler
+						NULL,
+						WIP_COPT_PORT, 13337, WIP_COPT_END);
+			}else{
+				wip_write(channel, sendbuffer, 256);
+			}
+	return FALSE;
+	}
+
+
+/*
+ * Hauptask der Anwendung (volle ADL Funktionalität)
+ */
+//===============================================================================================
+void main_task(void)
+//===============================================================================================
+{
+	channel_open = false;
+	adl_atCmdSubscribe("AT+ECHO", echoHandler, ADL_CMD_TYPE_PARA | 0x0011);
+
+	adl_atCmdSubscribe("AT+CLOSESOCK", closeHandler, ADL_CMD_TYPE_ACT);
+
+	// keymeldungen aktivieren
+		adl_atCmdCreate("AT+CMER=,1", FALSE, (adl_atRspHandler_t) NULL, NULL);
+		// keyhandler anlegen
+		adl_atUnSoSubscribe("+CKEV:", (adl_atUnSoHandler_t) keyhandler);
+}
+
+/*
+ * Nebenläufiger Task der Anwendung (eingeschränkte ADL Funktionalität)
+ */
+//===============================================================================================
+void sub_task1(void)
+//===============================================================================================
+	{
+	// Anwendercode ...
+	}
