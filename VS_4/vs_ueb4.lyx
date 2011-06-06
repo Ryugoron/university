@@ -1,0 +1,444 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 3cm
+\topmargin 2cm
+\rightmargin 2cm
+\bottommargin 2cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Verteilte Systeme: Übung 4
+\end_layout
+
+\begin_layout Author
+Max Wisniewski, Alexander Steen
+\end_layout
+
+\begin_layout Date
+Tutor: Philipp Schmidt
+\end_layout
+
+\begin_layout Subsection*
+Aufstellen des Graphen
+\end_layout
+
+\begin_layout Standard
+Um zu garantieren, dass der Graph zusammenhängend ist, fügen wir initial
+ bei der Erschaffung einen großen Kreis in den Graphen: Dabei verbinden
+ wir Knoten 
+\begin_inset Formula $i$
+\end_inset
+
+ mit Knoten 
+\begin_inset Formula $j$
+\end_inset
+
+ wenn 
+\begin_inset Formula $i+1mod\, n=j$
+\end_inset
+
+, also ist jeder Knoten mit dem Knoten 
+\begin_inset Quotes eld
+\end_inset
+
+eins weiter (mod n)
+\begin_inset Quotes erd
+\end_inset
+
+ verbunden.
+ Weiterhin fügen wir eine Kante hinzu, falls die Zufallszahl 
+\begin_inset Formula $ran.nextDouble()$
+\end_inset
+
+ dies zulässt.
+ 
+\begin_inset listings
+lstparams "basicstyle={\small\ttfamily},frame=single,language=Java,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+List<GHSWork> network; // Liste von GHS-Knoten
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+for(int i=0; i<n; ++i){
+\end_layout
+
+\begin_layout Plain Layout
+
+	for(int j=0; j<n; ++j){
+\end_layout
+
+\begin_layout Plain Layout
+
+		if(i==j) continue; // Keine Selbstkanten
+\end_layout
+
+\begin_layout Plain Layout
+
+		if(ran.nextDouble()<p || (i+1 % n)==j){
+\end_layout
+
+\begin_layout Plain Layout
+
+			GHSWork a,b;
+\end_layout
+
+\begin_layout Plain Layout
+
+			a = network.get(i);
+\end_layout
+
+\begin_layout Plain Layout
+
+			b = network.get(j);
+\end_layout
+
+\begin_layout Plain Layout
+
+			int weight = ran.nextInt(5*n);
+\end_layout
+
+\begin_layout Plain Layout
+
+			BidirectionalPipe pipe = new BidirectionalPipe();
+\end_layout
+
+\begin_layout Plain Layout
+
+			a.addNeighbor(pipe.gehtLeft(), weight);
+\end_layout
+
+\begin_layout Plain Layout
+
+			b.addNeighbor(pipe.gehtRight(), weight);
+\end_layout
+
+\begin_layout Plain Layout
+
+		} 
+\end_layout
+
+\begin_layout Plain Layout
+
+	} 
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection*
+Der Algorithmus
+\end_layout
+
+\begin_layout Standard
+Unsere Implementierung ist ziemlich lang geworden, da wir uns ziemlich viele
+ Zustände merken müssen und bei verschiedenen Nachrichten verschieden reagieren
+ müssen.
+ Aus diesem Grund beschränken wir uns in dieser Abgabe auf die Grundideen
+ der Implementierung.
+ 
+\begin_inset Newline newline
+\end_inset
+
+Die Implementierung von GHSNode, in unserem Falle GHSWork, besitzt genau
+ wie die synchronen Algorithmen sende-, Empfangs- und Rechenphasen.
+ Der Unterschied aber ist, dass nun durch einen fehlenden Sequenzer
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+In unserem Falle haben wir genau genommen immer noch eine Sequencer-Klasse,
+ allerdings kann diese nur noch start und stop auf das Netzwerk ausüben
+ und erfüllt darum nicht mehr die Aufgabe eines Sequencers.
+\end_layout
+
+\end_inset
+
+ nicht auf ACKS gewartet werden muss und jeder Knoten ununterbrochen und
+ ohne Wartezeit nacheinander diese Phasen durchläuft.
+\begin_inset Newline newline
+\end_inset
+
+Um unsere Zustände zu verwalten, haben wir eine Reihe von Int-Konstanten
+ statisch der Klasse hinzugefügt, da diese nur als mnemoische Kennung dienen
+ sollen, ist der genaue Wert völlig irrelevant.
+ Nun besteht die Sende- wie auch die Rechenphase im Grunde genommen aus
+ einem großen switch-Block über den Zustand des Knotens.
+ Dort haben wir ein Konstrukt der Form:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\small\ttfamily},frame=single,language=Java,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+switch (this.state) {
+\end_layout
+
+\begin_layout Plain Layout
+
+case INIT:
+\end_layout
+
+\begin_layout Plain Layout
+
+case MWOESEARCH:
+\end_layout
+
+\begin_layout Plain Layout
+
+case MWOEREPORT:
+\end_layout
+
+\begin_layout Plain Layout
+
+case KMWOEREPORT:
+\end_layout
+
+\begin_layout Plain Layout
+
+case CONNECT:
+\end_layout
+
+\begin_layout Plain Layout
+
+case ABSORB:
+\end_layout
+
+\begin_layout Plain Layout
+
+case CHANGEROOT:
+\end_layout
+
+\begin_layout Plain Layout
+
+case READY:
+\end_layout
+
+\begin_layout Plain Layout
+
+case END:
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Dabei wollen wir zuerst die Intention der einzelnen Zustände kurz erklären:
+\end_layout
+
+\begin_layout Description
+init Der Zustand init ist dafür da, die aktuelle Komponenten-ID und die
+ aktuelle Stufe von der Wurzel in alle Knoten der Komponente zu transportieren.
+ Das machen wir, in dem wir die Nachricht an alle unsere Kinder des bisherigen
+ Teil-MSTs schicken.
+\end_layout
+
+\begin_layout Description
+mwoesearch Ist ein Knoten in diesem Zustand, so ist es aktuell das Ziel
+ die MWOE der eigenen Komponente zu finden.
+ Dies wird durch das Senden von Test-Nachrichten an adjazente Knoten (aufsteigen
+d nach ihrem Gewicht) realisiert.
+ Dabei muss man also auch evtl.
+ auf minimale Kanten von allen eigenen Unterbäumen warten.
+\end_layout
+
+\begin_layout Description
+mwoereport In diesem Zustand wird die Information über die minimale ausgehende
+ Kante eines Knotens an den Vaterknoten geschickt.
+ Dabei merkt sich jeder Knoten den Weg zum nächsten Knoten, der auf dem
+ Weg zu potenziellen MWOE liegt.
+\end_layout
+
+\begin_layout Description
+kmwoereport In diesem Zustand hat die Wurzel entschieden, welche Kante die
+ MWOE ist und schickt diese Information anhand der gespeicherten Rückweg-Kanten
+ zurück (also über die Kante, über die die MWOE gemeldet wurde).
+ Sind wir der Knoten, die die MWOE meldete, können wir in CONNECT übergehen
+ und den Wunsch äußern, uns verbinden zu wollen.
+\end_layout
+
+\begin_layout Description
+connect In dieser Phase haben wir entweder schon eine Connect-Anfrage der
+ Gegenseite erhalten oder schicken als erster Knoten diese Anfrage.
+ Dann warten wir evtl.
+ auf die Connect-Antwort der Gegenseite und beginnen dann je nach Stufe
+ in den Absorb-Zustand zu wechseln oder von der Gegenseite absorbiert zu
+ werden.
+ Implizit wird hier bei gleicher Stufe ein Merge ausgelöst.
+\end_layout
+
+\begin_layout Description
+absorb In diesem Zustand warten wir, bis die andere Komponente absorbiert
+ wurde und wir eine Ready-Nachricht bekommen.
+ Ist dies der Fall, leiten wir diese Nachricht an unseren Vaterknoten weiter.
+\end_layout
+
+\begin_layout Description
+changeroot Ist ein Knoten in diesem Zustand, so liegt er auf dem Weg zwischen
+ absorbierter/gemergter Wurzel.
+ So muss die Kante umgedreht werden, da wir nun eine neue Wurzel besitzen
+ (bauen also die neue Komponente als Teil unseres Teil-MST über die MWOE
+ weiter auf).
+\end_layout
+
+\begin_layout Description
+ready In diesem Zustand warten wir darauf, dass die Wurzel der Komponente
+ eine neue Runde startet.
+\end_layout
+
+\begin_layout Description
+end In diesem Zustand befindet sich die Wurzel, wenn keine MWOE mehr gefunden
+ werden konnte, sie also von allen Kindern keine MWOE mehr geliefert bekommt.
+ Hier werden alle Knoten die Ende-Nachricht bekommen und der Algorithmus
+ beendet sich.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In Abbildung 1 ist schematisch das Vorgehen gezeigt, wie wir im Status MWOESearc
+h die MWOE der eigenen Komponente suchen: Mit Testnachrichten werden alle
+ Knoten ihre adjazenten Knoten in aufsteigender Gewichtreihenfolge testen
+ und schließlich eine minimale Kante zu einem Knoten außerhalb der eigenen
+ Komponente gefunden haben (oder natürlich keine) und dies dem Vaterknoten
+ mitteilen.
+ Dieser wartet, dass alle seine Kinderknoten eine Antwort geliefert haben
+ und leitet dann das Minimum dieser Kanten wiederum an seinen Vaterknoten.
+ Dabei speichert er sich, von welcher Kante die vorgeschlagene MWOE kam.
+ Dies wird nun rekursiv solange gemacht, bis die Wurzel die Reportnachrichten
+ bekommt und eine Kante als MWOE auswählt.
+ Entlang der gespeicherten Rückreferenz wird dann die Nachricht, dass genau
+ diese Kante als MWOE ausgewählt wurde, zurückgeschickt, bis diese Nachricht
+ den Knoten erreicht, die diese MWOE fand (rechts in der Abbilding).
+ Dann schickt dieser Knoten über die MWOE eine connect-Anfrage.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement h
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename vs_uebKA.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Suche und Bericht eines MWOE (links),Anfrage von demselben nach außen (rechts)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
