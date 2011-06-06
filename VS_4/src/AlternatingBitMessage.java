@@ -19,7 +19,7 @@ public class AlternatingBitMessage implements Message {
 
 	/**
 	 * Creates an {@link AlternatingBitMessage} without any payload. Used to
-	 * represent <code>ACK</code>s sent by message receiver.
+	 * represent <code>ACK</code>s send by message receiver.
 	 * 
 	 * @param signalBit
 	 */

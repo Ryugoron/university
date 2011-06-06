@@ -16,9 +16,16 @@ public class GHS {
 	public static void main(String[] args) {
 		SimpleAsyncConnection net = new SimpleAsyncConnection();
 		SimpleASyncProcessConnect pC = new SimpleASyncProcessConnect(net);
-		
 		int n = 10;
 		float p = 1;
+		
+		if(args.length > 0){
+			n = Integer.parseInt(args[0]);
+		}
+		if(args.length > 1){
+			p = Float.parseFloat(args[1]);
+		}
+		
 		Random ran = new Random();
 		
 		List<GHSWork> network = new ArrayList<GHSWork>();
@@ -44,7 +51,10 @@ public class GHS {
 			}
 		}
 		
-		
+		//Wir starten die Dinger per Hand
+		for(GHSWork w : network){
+			w.start();
+		}
 		//Starten das Algorithmuses
 		net.startNetwork();
 	}

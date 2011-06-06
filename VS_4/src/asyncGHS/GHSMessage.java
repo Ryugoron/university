@@ -1,22 +1,27 @@
 package asyncGHS;
 
 enum GHSMessage {
-	INIT("000"),
-	REPORT("001"),
-	TEST("010"),
-	ACCEPT("011"),
-	REJECT("100"),
-	CHANGE_ROOT("101"),
-	CONNECT("110");
+	INIT("0000"),
+	REPORT("0001"),
+	TEST("0010"),
+	ACCEPT("0011"),
+	REJECT("0100"),
+	CHANGE_ROOT("0101"),
+	CONNECT("0110"),
+	READY("0111"),
+	ABSORB("1000"),
+	MERGE("1001"),
+	NOMWOE("1010"),
+	END("1011");
 	
 	
-	private byte[] message;
+	private String message;
 	
 	GHSMessage(String s){
-		this.message=s.getBytes();
+		this.message=s;
 	}
 	
-	byte[] get(){
+	String get(){
 		return this.message;
 	}
 }
