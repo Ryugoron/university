@@ -50,11 +50,12 @@ public class GHS {
 				}
 			}
 		}
-		
+		System.out.println("Starte Prozesse");
 		//Wir starten die Dinger per Hand
 		for(GHSWork w : network){
 			w.start();
 		}
+		System.out.println("Starte Algorithmus");
 		//Starten das Algorithmuses
 		net.startNetwork();
 	}

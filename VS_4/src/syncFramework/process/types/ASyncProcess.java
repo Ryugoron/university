@@ -53,13 +53,12 @@ class ASyncProcess implements SyncProcess{
 		public void run(){
 			
 			//Wir warten zunächst darauf, dass wir starten dürfen.
-			do{}while(!syncChannel.recv().getData().equals(SyncMessage.WORK_ACK));
-			
+			do{}while(syncChannel.recv().getData().equals(SyncMessage.WORK_ACK));
 			
 			do{
-					callSend();
-					callRecv();
-					callWork();
+				callWork();
+				callSend();
+				callRecv();
 					
 			//Sobald wir ein nrecv() haben, kann ich noch ein Stopp einbauen		
 			/*

@@ -32,6 +32,7 @@ public class GHSWork implements Work, GHSNode {
 	 * ID der Komponente
 	 */
 	private int kID;
+	private int myID;
 	/**
 	 * ID des Knotens
 	 */
@@ -49,7 +50,7 @@ public class GHSWork implements Work, GHSNode {
 	private Channel receivedFrom = null;
 	private boolean wasStarted = false;
 
-	private int lastVisited = -1;
+	private int lastVisited = 0;
 
 	protected Message send, received;
 
@@ -66,9 +67,12 @@ public class GHSWork implements Work, GHSNode {
 		this.weights = new ArrayList<Integer>();
 		this.deadneigh = new ArrayList<Integer>();
 		this.kID = kID; // Initial ist jeder Knoten eine Komponente
+		this.myID = kID;
 		this.parent = null;
 		this.wasConnectAsked = new HashMap<Channel, String[]>();
 		this.children = new ArrayList<Channel>();
+		this.send = null;
+		this.state = INIT;
 		// identifiziert
 	}
 
@@ -113,7 +117,9 @@ public class GHSWork implements Work, GHSNode {
 		// Hier schicken wir ein "TEST" an den kleinsten, noch nicht besuchten
 		// Nachbarn.
 		case MWOESEARCH:
-			this.neigh.get(this.lastVisited).send(this.send);
+			if (this.lastVisited < this.neigh.size()) {
+				this.neigh.get(this.lastVisited).send(this.send);
+			}
 			break;
 
 		// Wenn der Parent nicht null ist (d.h. wir sind nicht die Wurzel der
@@ -139,7 +145,8 @@ public class GHSWork implements Work, GHSNode {
 		// an den zu letzt benachrichtigten (das die mwoe sein muss) Knoten, das
 		// wir connecten möchten.
 		case CONNECT:
-			this.neigh.get(this.lastVisited).send(this.send);
+			if (this.lastVisited < this.neigh.size())
+				this.neigh.get(this.lastVisited).send(this.send);
 			break;
 
 		// Wir haben nur noch eine Absorb-Phase, weil wir Merge in CONNECT und
@@ -166,7 +173,9 @@ public class GHSWork implements Work, GHSNode {
 		// Nachricht READY an die neue Wurzel. Erhält die Wurzel die Nachricht,
 		// kann diese eine neue Runde mit INIT einleiten.
 		case READY:
-			this.parent.send(this.send);
+			if (parent != null){
+				this.parent.send(this.send);
+			}
 			break;
 
 		// Sollten wir con allen kindern NOMWOE erhalten haben, wissen wir,
@@ -224,15 +233,27 @@ public class GHSWork implements Work, GHSNode {
 	 */
 	@Override
 	public void workPhase() {
+
+		System.out.println("Prozess " + this.myID + ", Komponente : "
+				+ this.kID + ", Stufe : "+ this.stufe + ", Zustand : " + this.parsteState(this.state));
 		// Zunächst teilen wir die Nachricht an "\n" auf
 		// dieses Zeichen fügen wir zwischen jede Komponente einer Nachricht ein
 		// und sie kommt selbst in in der Nachricht vor.
-		String incomingMessage = new String(this.received.getData());
-		String[] parts = incomingMessage.split("\n");
+		String incomingMessage;
+		String[] parts;
+		if (this.received != null) {
+			incomingMessage = new String(this.received.getData());
+			parts = incomingMessage.split("\n");
+		} else {
+			// Wenn noch nichts da ist (nur initial Möglich)
+			incomingMessage = "";
+			parts = new String[1];
+			parts[0] = "INITIAL";
+		}
 
 		// Auf eine Testanfrage reagieren wir sofort, da sonst noch
 		// mehr Zustände nötig wären, als wir sie ohnehin schon haben
-		if (parts[0].equals(GHSMessage.TEST)) {
+		if (parts[0].equals(GHSMessage.TEST.get())) {
 			Message m;
 			if (parts[1].equals("" + this.kID)) {
 				m = new SyncMessage((GHSMessage.REJECT.get()).getBytes());
@@ -260,12 +281,16 @@ public class GHSWork implements Work, GHSNode {
 			if (parts[0].equals(GHSMessage.INIT.get())) {
 				this.kID = Integer.parseInt(parts[1]);
 				this.stufe = Integer.parseInt(parts[2]);
+				this.send = new SyncMessage("".getBytes());
 			} else if (parts[0].equals(GHSMessage.CONNECT.get())) {
 				this.send = null;
 				this.wasConnectAsked.put(this.receivedFrom,
 						Arrays.copyOfRange(parts, 1, 3));
 				// NOTHINGNESS
 				return;
+			} else if (parts[0].equals("INITIAL")) {
+				this.send = new SyncMessage("".getBytes());
+				// Ist nur für Wurzelknoten am Start einer RUnde wahr
 			}
 			break;
 
@@ -457,6 +482,22 @@ public class GHSWork implements Work, GHSNode {
 				this.state = END;
 				this.send = new SyncMessage(GHSMessage.END.get().getBytes());
 				this.finished = true;
+			} else if (parts[0].equals(GHSMessage.CHANGE_ROOT.get())) {
+				if (this.parent != null) {
+					Channel oldParent = this.parent;
+					this.children.add(oldParent);
+					this.parent = this.receivedFrom;
+					oldParent.send(new SyncMessage(GHSMessage.CHANGE_ROOT.get()
+							.getBytes()));
+					this.state = READY;
+					this.send = null;
+				} else {
+					// Ich bin die Wurzel
+					this.parent = this.receivedFrom;
+					this.state = READY;
+					this.send = new SyncMessage(GHSMessage.READY.get()
+							.getBytes());
+				}
 			}
 			break;
 
@@ -522,8 +563,19 @@ public class GHSWork implements Work, GHSNode {
 				this.send = null;
 				return;
 			} else if (parts[0].equals(GHSMessage.READY.get())) {
-				this.send = new SyncMessage(GHSMessage.READY.get().getBytes());
-				this.state = READY;
+				if(this.parent == null){
+					//Wenn ich Wurzel bin
+					this.stufe++; // Neue Runde
+					// kID ist immer noch die der Wurzel
+					this.state = INIT;
+					this.send = new SyncMessage("".getBytes());
+					this.children.add(this.receivedFrom);
+				}else{
+					//Noch nicht die Wurzel
+					this.send = new SyncMessage(GHSMessage.READY.get().getBytes());
+					this.state = READY;
+					this.children.add(this.receivedFrom);
+				}
 			}
 			break;
 
@@ -533,33 +585,21 @@ public class GHSWork implements Work, GHSNode {
 		// Verbindung (reine parent verbindung) über die mwoe zum neuen ROOT
 		// steht.
 		case CHANGEROOT:
-			if (parts[0].equals(GHSMessage.CHANGE_ROOT)) {
-				if (this.parent != null) {
-					Channel oldParent = this.parent;
-					this.children.add(oldParent);
-					this.parent = this.receivedFrom;
-					oldParent.send(new SyncMessage(GHSMessage.CHANGE_ROOT.get()
-							.getBytes()));
-					this.state = READY;
-					this.send = null;
-				} else {
-					// Ich bin die Wurzel
-					System.out.println("Habe mich verbunden: " + this.kID);
-					this.parent = this.receivedFrom;
-					this.state = READY;
-					this.send = new SyncMessage(GHSMessage.READY.get()
-							.getBytes());
-				}
-			} else if (parts[0].equals(GHSMessage.READY)) {
-				this.state = INIT;
-				this.send = null;
-				this.parent.send(new SyncMessage(GHSMessage.READY.get()
+			// Ich ja die Nachricht weiter, weil ich ja weiß, wies weiter geht
+			if (this.parent != null) {
+				// Jag die Nachricht weiter an die Wurzel und dreh den Weg um
+				Channel oldParent = this.parent;
+				this.children.add(oldParent);
+				this.parent = this.receivedFrom;
+				oldParent.send(new SyncMessage(GHSMessage.CHANGE_ROOT.get()
 						.getBytes()));
-			} else if (parts[0].equals(GHSMessage.CONNECT.get())) {
-				this.wasConnectAsked.put(this.receivedFrom,
-						Arrays.copyOfRange(parts, 1, 3));
+				this.state = READY;
 				this.send = null;
-				return;
+			} else {
+				// Ich bin die Wurzel, direkt dran, als ist die mwoe verbidnung
+				this.parent = this.MWOEFrom;
+				this.state = READY;
+				this.send = new SyncMessage(GHSMessage.READY.get().getBytes());
 			}
 			break;
 
@@ -571,7 +611,19 @@ public class GHSWork implements Work, GHSNode {
 						Arrays.copyOfRange(parts, 1, 3));
 				this.send = null;
 				return;
-			} else if (parts[0].equals(GHSMessage.INIT.get())) {
+			} else if (parts[0].equals(GHSMessage.READY.get())){
+				if(this.parent == null){
+					this.stufe++; // Neue Runde
+					// kID ist immer noch die der Wurzel
+					this.state = INIT;
+					this.send = new SyncMessage("".getBytes());
+				}else{
+					//Weiter an die Wurzel
+					this.send = new SyncMessage(GHSMessage.READY.get().getBytes());
+				}
+			}else if (parts[0].equals(GHSMessage.INIT.get())) {
+				this.kID = Integer.parseInt(parts[1]);
+				this.stufe = Integer.parseInt(parts[2]);
 				this.state = INIT;
 			}
 			break;
@@ -580,7 +632,6 @@ public class GHSWork implements Work, GHSNode {
 		// wird sie alle angeschlossenen Konten informieren und sich beenden.
 		case END:
 			this.finished = true;
-			System.out.println("Ende Algorithmus: " + this.kID);
 			this.send = new SyncMessage(GHSMessage.END.get().getBytes());
 			break;
 		default:
@@ -592,12 +643,14 @@ public class GHSWork implements Work, GHSNode {
 	public boolean isEnded() {
 		return this.finished;
 	}
-	
+
 	/**
 	 * Fügt wie in der Schnittstelle wie verlangt eine Kante mit Gewicht hinzu.
 	 * 
-	 * @param c Channel über den man den neuen Knoten erreicht.
-	 * @param weight Das Gewicht der neuen Kante.
+	 * @param c
+	 *            Channel über den man den neuen Knoten erreicht.
+	 * @param weight
+	 *            Das Gewicht der neuen Kante.
 	 */
 	@Override
 	public void addNeighbor(Channel c, int weight) throws IllegalStateException {
@@ -652,4 +705,30 @@ public class GHSWork implements Work, GHSNode {
 		this.wasStarted = true;
 	}
 
+	private String parsteState(int state) {
+		switch (state) {
+		case INIT:
+			return "INIT";
+		case MWOESEARCH:
+			return "MWOESAERCH";
+		case MWOEREPORT:
+			return "MWOEREPORT";
+		case KMWOEREPORT:
+			return "KMWOEREPORT";
+		case CONNECT:
+			return "CONNECT";
+		case ABSORB:
+			return "ABSORB";
+		case CHANGEROOT:
+			return "CHANGEROOT";
+		case READY:
+			return "READY";
+		case MWOESEARCHINIT:
+			return "MWOESEARCHINIT";
+		case END:
+			return "END";
+		default:
+			return "undefinded";
+		}
+	}
 }
