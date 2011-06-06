@@ -173,7 +173,7 @@ public class GHSWork implements Work, GHSNode {
 		// Nachricht READY an die neue Wurzel. Erhält die Wurzel die Nachricht,
 		// kann diese eine neue Runde mit INIT einleiten.
 		case READY:
-			if (parent != null){
+			if (parent != null) {
 				this.parent.send(this.send);
 			}
 			break;
@@ -235,7 +235,8 @@ public class GHSWork implements Work, GHSNode {
 	public void workPhase() {
 
 		System.out.println("Prozess " + this.myID + ", Komponente : "
-				+ this.kID + ", Stufe : "+ this.stufe + ", Zustand : " + this.parsteState(this.state));
+				+ this.kID + ", Stufe : " + this.stufe + ", Zustand : "
+				+ this.parsteState(this.state));
 		// Zunächst teilen wir die Nachricht an "\n" auf
 		// dieses Zeichen fügen wir zwischen jede Komponente einer Nachricht ein
 		// und sie kommt selbst in in der Nachricht vor.
@@ -304,6 +305,10 @@ public class GHSWork implements Work, GHSNode {
 				this.MWOElastvisited = true;
 			else
 				this.MWOElastvisited = false;
+			if(!MWOElastvisited && this.children.size() == 0 ){
+				this.state = MWOEREPORT;
+				this.send = new SyncMessage(GHSMessage.NOMWOE.get().getBytes());
+			}
 			this.MWOE = Integer.MAX_VALUE;
 			this.send = MWOElastvisited ? null : new SyncMessage(
 					(GHSMessage.TEST.get() + "\n" + this.kID).getBytes());
@@ -401,6 +406,17 @@ public class GHSWork implements Work, GHSNode {
 				this.wasConnectAsked.put(this.receivedFrom,
 						Arrays.copyOfRange(parts, 1, 3));
 				return;
+			} else if(this.childrenSentMWOE == this.children.size()
+					&& this.MWOElastvisited){
+				//Wenn wir nichts machen können haben wir gewartet
+				if (this.weights.get(this.lastVisited) < this.MWOE) {
+					this.MWOEFrom = this.receivedFrom;
+					this.MWOE = this.weights.get(this.lastVisited);
+				}
+				this.send = new SyncMessage(
+						(GHSMessage.REPORT.get() + "\n" + this.MWOE)
+								.getBytes());
+				this.state = MWOEREPORT;
 			}
 			break;
 
@@ -563,16 +579,20 @@ public class GHSWork implements Work, GHSNode {
 				this.send = null;
 				return;
 			} else if (parts[0].equals(GHSMessage.READY.get())) {
-				if(this.parent == null){
-					//Wenn ich Wurzel bin
+				// Wir haben die Nachricht bekommen, das heißt auch, wir lassen
+				// den Zähler vom kleinsten nicht verbundenen weiter rücken
+				this.lastVisited++;
+				if (this.parent == null) {
+					// Wenn ich Wurzel bin
 					this.stufe++; // Neue Runde
 					// kID ist immer noch die der Wurzel
 					this.state = INIT;
 					this.send = new SyncMessage("".getBytes());
 					this.children.add(this.receivedFrom);
-				}else{
-					//Noch nicht die Wurzel
-					this.send = new SyncMessage(GHSMessage.READY.get().getBytes());
+				} else {
+					// Noch nicht die Wurzel
+					this.send = new SyncMessage(GHSMessage.READY.get()
+							.getBytes());
 					this.state = READY;
 					this.children.add(this.receivedFrom);
 				}
@@ -611,17 +631,18 @@ public class GHSWork implements Work, GHSNode {
 						Arrays.copyOfRange(parts, 1, 3));
 				this.send = null;
 				return;
-			} else if (parts[0].equals(GHSMessage.READY.get())){
-				if(this.parent == null){
+			} else if (parts[0].equals(GHSMessage.READY.get())) {
+				if (this.parent == null) {
 					this.stufe++; // Neue Runde
 					// kID ist immer noch die der Wurzel
 					this.state = INIT;
 					this.send = new SyncMessage("".getBytes());
-				}else{
-					//Weiter an die Wurzel
-					this.send = new SyncMessage(GHSMessage.READY.get().getBytes());
+				} else {
+					// Weiter an die Wurzel
+					this.send = new SyncMessage(GHSMessage.READY.get()
+							.getBytes());
 				}
-			}else if (parts[0].equals(GHSMessage.INIT.get())) {
+			} else if (parts[0].equals(GHSMessage.INIT.get())) {
 				this.kID = Integer.parseInt(parts[1]);
 				this.stufe = Integer.parseInt(parts[2]);
 				this.state = INIT;
