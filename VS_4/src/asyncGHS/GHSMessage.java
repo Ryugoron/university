@@ -1,5 +1,13 @@
 package asyncGHS;
 
+/**
+ * 
+ * Einfacher enum, damit wir Kompakte Nachrichten schicken können,
+ * aber im Algorithmus noch sehen, was wir eigentlich meinen.
+ * 
+ * @author max,alex
+ *
+ */
 enum GHSMessage {
 	INIT("0000"),
 	REPORT("0001"),
