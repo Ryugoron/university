@@ -229,6 +229,146 @@ adl_atUnSoSubscribe registriert einen Handler auf ein Unsolicid Responses.
 Durchführung
 \end_layout
 
+\begin_layout Standard
+Um das GPRS zu benutzen musste die Flag in 
+\emph on
+config.h
+\emph default
+ auf 1 gesetzt werden.
+ Dies haben wir schon in Aufgabe 
+\emph on
+A12 
+\emph default
+eingeschaltet.
+\begin_inset VSpace defskip
+\end_inset
+
+Wenn wir das Modul einschalten, ist das erste was wir tun müssen ein Socet
+ zu erstellen und die Taster zu aktivieren:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset listings
+lstparams "basicstyle={\footnotesize\ttfamily},numbers=left,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+void main(void){
+\end_layout
+
+\begin_layout Plain Layout
+
+	led_init(); 
+\end_layout
+
+\begin_layout Plain Layout
+
+	u8 i; 
+\end_layout
+
+\begin_layout Plain Layout
+
+	for (i = 0; i < 8; ++i) {
+\end_layout
+
+\begin_layout Plain Layout
+
+		status[i] = 0;
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\begin_layout Plain Layout
+
+	channel = wip_TCPClientCreateOpts("hwp.mi.fu-berlin.de", // Host
+\end_layout
+
+\begin_layout Plain Layout
+
+				50008, // Port 
+\end_layout
+
+\begin_layout Plain Layout
+
+				echo_response, // Handler 
+\end_layout
+
+\begin_layout Plain Layout
+
+				NULL, WIP_COPT_PORT, 13338, WIP_COPT_END);
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	// keymeldungen aktivieren
+\end_layout
+
+\begin_layout Plain Layout
+
+	adl_atCmdCreate("AT+CMER=,1", FALSE, (adl_atRspHandler_t) NULL, NULL);
+\end_layout
+
+\begin_layout Plain Layout
+
+	// keyhandler anlegen 
+\end_layout
+
+\begin_layout Plain Layout
+
+	adl_atUnSoSubscribe("+CKEV:", (adl_atUnSoHandler_t) keyhandler); 
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+In der main werden die beiden nötigen Eventhandler angelegt und sowohl LED
+ als auch Taster aktiviert.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Subsection*
 Auswertung
 \end_layout
