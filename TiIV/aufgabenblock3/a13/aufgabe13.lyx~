@@ -423,6 +423,7 @@ status open
 
 \begin_layout Plain Layout
 \begin_inset listings
+lstparams "basicstyle={\footnotesize\ttfamily},numbers=left,tabsize=4"
 inline false
 status open
 
@@ -600,12 +601,14 @@ echo_response
 
 \begin_layout Standard
 \begin_inset Float algorithm
+placement H
 wide false
 sideways false
 status open
 
 \begin_layout Plain Layout
 \begin_inset listings
+lstparams "basicstyle={\footnotesize\ttfamily},numbers=left,tabsize=4"
 inline false
 status open
 
@@ -759,10 +762,6 @@ Der Handler echo_response achtet nur darauf, wenn etwas gesendet wurde.
 
 \end_inset
 
-
-\begin_inset Newline newline
-\end_inset
-
 Wir warten darauf, dass wir eine Nachricht über das Socket bekommen.
  Haben wir eine Nachricht im buffer, rufen wir die Funktion 
 \emph on
@@ -791,6 +790,7 @@ status open
 
 \begin_layout Plain Layout
 \begin_inset listings
+lstparams "basicstyle={\footnotesize\ttfamily},numbers=left,tabsize=4"
 inline false
 status open
 
@@ -996,10 +996,158 @@ Haben wir nicht getan.
 
 \begin_layout Standard
 Ehrlich!
+\begin_inset Newpage pagebreak
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection*
 Auswertung
+\end_layout
+
+\begin_layout Standard
+Wir haben als erstes einmal getestet ob unsere Taster den Status richtig
+ verändern:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
++GPRS: Verbindung wurde hergestellt
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+Taste 2 wurde  auf 1 gesetzt 
+\end_layout
+
+\begin_layout Plain Layout
+
+SET:00000010 
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+Taste 2 wurde  auf 0 gesetzt 
+\end_layout
+
+\begin_layout Plain Layout
+
+SET:00000000
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+Taste 1 wurde  auf 1 gesetzt
+\end_layout
+
+\begin_layout Plain Layout
+
+SET:00000100 
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+Taste 1 wurde  auf 0 gesetzt 
+\end_layout
+
+\begin_layout Plain Layout
+
+SET:00000000
+\end_layout
+
+\end_inset
+
+Wenn wir auf eine Taste gedrückt haben, ist die SET Nachricht korrekt verändert
+ worden.
+ HIer schlecht zu zeigen, aber im Browser war diese Veränderung auch sichtbar.
+ Nach dem Drücken von [F5] waren die Checkboxen (warum waren es überhaupt
+ Checkboxen, das macht gar keinen Sinn, da man Tasten nicht Remote setzen
+ kann) der gedrückten Tasten angehakt.
+\begin_inset VSpace defskip
+\end_inset
+
+Im nächsten Teil haben wir versucht die LEDs Remote zu setzen, dabei sahen
+ wir auf dem Modul die richtigen LEDs aufleuchten und auf der Console
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SET:01000100 // Empfangene Nachricht
+\end_layout
+
+\begin_layout Plain Layout
+
+neuer status:01000100 //Gesetzter Status
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+SET:11110000 //Empfangene Nachricht
+\end_layout
+
+\begin_layout Plain Layout
+
+neuer status:11110000 //Gesetzter Status
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+SET:10100101 //Empfangene Nachricht
+\end_layout
+
+\begin_layout Plain Layout
+
+neuer status:10100101 //Gesetzter Status
+\end_layout
+
+\end_inset
+
+Wir sehen, dass wir hier eine Nachricht empfangen vom Server und wenn wir
+ alles geparst haben, ist unser neuer Status, der den wir in der Nachricht
+ bekommen haben.
+\end_layout
+
+\begin_layout Standard
+Das stimmt auch mit unseren Beobachtungen der LEDs überein.
+\begin_inset VSpace defskip
+\end_inset
+
+Sonst gab es in dieser Aufgabe recht wenig zu beobachten.
 \end_layout
 
 \end_body

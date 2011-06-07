@@ -423,6 +423,7 @@ status open
 
 \begin_layout Plain Layout
 \begin_inset listings
+lstparams "basicstyle={\footnotesize\ttfamily},numbers=left,tabsize=4"
 inline false
 status open
 
@@ -600,31 +601,141 @@ echo_response
 
 \begin_layout Standard
 \begin_inset Float algorithm
+placement H
 wide false
 sideways false
 status open
 
 \begin_layout Plain Layout
 \begin_inset listings
+lstparams "basicstyle={\footnotesize\ttfamily},numbers=left,tabsize=4"
 inline false
 status open
 
 \begin_layout Plain Layout
 
-void echo_response(wip_event_t *event, void *ctx) 	{ 	s32 answer; 	ascii
- buffer[12];
+void echo_response(wip_event_t *event, void *ctx) 	{
 \end_layout
 
 \begin_layout Plain Layout
 
-	switch (event->kind) 		{ 		case WIP_CEV_OPEN: 			break; 		case WIP_CEV_READ:
- 			do 				{ 				answer = wip_read(event->channel, buffer, sizeof(buffer)
- - 1); 				buffer[answer] = '
+	s32 answer;
+\end_layout
+
+\begin_layout Plain Layout
+
+	ascii buffer[12];
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	switch (event->kind) 		{
+\end_layout
+
+\begin_layout Plain Layout
+
+		case WIP_CEV_OPEN:
+\end_layout
+
+\begin_layout Plain Layout
+
+			break;
+\end_layout
+
+\begin_layout Plain Layout
+
+		case WIP_CEV_READ:
+\end_layout
+
+\begin_layout Plain Layout
+
+			do 				{
+\end_layout
+
+\begin_layout Plain Layout
+
+				answer=wip_read(event->channel, buffer, sizeof(buffer) - 1);
+\end_layout
+
+\begin_layout Plain Layout
+
+				buffer[answer] = '
 \backslash
-0'; // Terminieren, falls es ein String ist 				adl_atSendResponse(ADL_AT_RSP,
- buffer); 				updateStatus(buffer); 				} 			while (answer == sizeof(buffer)
- - 1); 			break; 		case WIP_CEV_WRITE: 			break; 		default: 			wip_close(channel
-); 			ERROR("ERROR"); 			break; 		} 	}
+0';
+\end_layout
+
+\begin_layout Plain Layout
+
+			// Terminieren, falls es ein String ist
+\end_layout
+
+\begin_layout Plain Layout
+
+				adl_atSendResponse(ADL_AT_RSP, buffer);
+\end_layout
+
+\begin_layout Plain Layout
+
+				updateStatus(buffer);
+\end_layout
+
+\begin_layout Plain Layout
+
+				}
+\end_layout
+
+\begin_layout Plain Layout
+
+			while (answer == sizeof(buffer) - 1);
+\end_layout
+
+\begin_layout Plain Layout
+
+			break;
+\end_layout
+
+\begin_layout Plain Layout
+
+		case WIP_CEV_WRITE:
+\end_layout
+
+\begin_layout Plain Layout
+
+			break;
+\end_layout
+
+\begin_layout Plain Layout
+
+		default:
+\end_layout
+
+\begin_layout Plain Layout
+
+			wip_close(channel);
+\end_layout
+
+\begin_layout Plain Layout
+
+			ERROR("ERROR");
+\end_layout
+
+\begin_layout Plain Layout
+
+			break;
+\end_layout
+
+\begin_layout Plain Layout
+
+		}
+\end_layout
+
+\begin_layout Plain Layout
+
+}
 \end_layout
 
 \end_inset
@@ -637,7 +748,7 @@ void echo_response(wip_event_t *event, void *ctx) 	{ 	s32 answer; 	ascii
 
 \begin_layout Plain Layout
 Der Handler echo_response achtet nur darauf, wenn etwas gesendet wurde.
- Sollte der Server den
+ Sollte der Server den Channel beendet, wird das Socket geschlossen.
 \end_layout
 
 \end_inset
@@ -651,11 +762,344 @@ Der Handler echo_response achtet nur darauf, wenn etwas gesendet wurde.
 
 \end_inset
 
+Wir warten darauf, dass wir eine Nachricht über das Socket bekommen.
+ Haben wir eine Nachricht im buffer, rufen wir die Funktion 
+\emph on
+updateStatus
+\emph default
+ auf.
+ Der Handler macht an sich nicht mehr, außer auf ein schlileßen des Channels
+ zu achten oder sonstige Fehler auf der Leitung.
+ Betrachten wir nun 
+\emph on
+updateStatus
+\emph default
+ und innerhalb davon 
+\emph on
+useStatus
+\emph default
+.
+\end_layout
 
+\begin_layout Standard
+\begin_inset Float algorithm
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset listings
+lstparams "basicstyle={\footnotesize\ttfamily},numbers=left,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+void useStatus(){
+\end_layout
+
+\begin_layout Plain Layout
+
+	u8 i;
+\end_layout
+
+\begin_layout Plain Layout
+
+	for(i = 0; i<4; ++i){
+\end_layout
+
+\begin_layout Plain Layout
+
+		if(status[i] == 1) led_on(i);
+\end_layout
+
+\begin_layout Plain Layout
+
+		else led_off(i);
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+void updateStatus(ascii * stat) 	{
+\end_layout
+
+\begin_layout Plain Layout
+
+	if (wm_strncmp(stat, "SET:", 4) != 0) 		{
+\end_layout
+
+\begin_layout Plain Layout
+
+		return;
+\end_layout
+
+\begin_layout Plain Layout
+
+		}
+\end_layout
+
+\begin_layout Plain Layout
+
+	u8 i;
+\end_layout
+
+\begin_layout Plain Layout
+
+	adl_atSendResponse(ADL_AT_RSP,"
+\backslash
+r
+\backslash
+nneuer status:
+\backslash
+r
+\backslash
+n");
+\end_layout
+
+\begin_layout Plain Layout
+
+	for (i = 0; i < 8; ++i) 		{
+\end_layout
+
+\begin_layout Plain Layout
+
+		if (wm_strncmp(stat + 4 + i, "1", 1) == 0) 			{
+\end_layout
+
+\begin_layout Plain Layout
+
+			status[i] = 1;
+\end_layout
+
+\begin_layout Plain Layout
+
+			adl_atSendResponse(ADL_AT_RSP,"1");
+\end_layout
+
+\begin_layout Plain Layout
+
+			}
+\end_layout
+
+\begin_layout Plain Layout
+
+		else if (wm_strncmp(stat + 4 + i, "0", 1) == 0) 			{
+\end_layout
+
+\begin_layout Plain Layout
+
+			status[i] = 0;
+\end_layout
+
+\begin_layout Plain Layout
+
+			adl_atSendResponse(ADL_AT_RSP,"0");
+\end_layout
+
+\begin_layout Plain Layout
+
+			}
+\end_layout
+
+\begin_layout Plain Layout
+
+		}
+\end_layout
+
+\begin_layout Plain Layout
+
+	adl_atSendResponse(ADL_AT_RSP,"
+\backslash
+r
+\backslash
+n");
+\end_layout
+
+\begin_layout Plain Layout
+
+	useStatus();
+\end_layout
+
+\begin_layout Plain Layout
+
+} 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Die beiden Funktionen, die ein über TCP empfangens Packet den Status anpassen.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+In updateStatus parsen wir aus einem eingegebenen String Charweise den inhalt
+ und schreiben den Inhalt in 
+\emph on
+status
+\emph default
+ hinein.
+ Haben wir alle Änderungen eingetragen rufen wir 
+\emph on
+useStatus
+\emph default
+ auf, der dafür sorgt, dass alle LEDs (Tasten werden wir programmatisch
+ nicht drücken können, deswegen werden diese ignoriert), die im 
+\emph on
+status
+\emph default
+ gesetzt sind ein geschaltet werden und die anderen aus.
+\begin_inset VSpace defskip
+\end_inset
+
+Mit diesen einfachen Methoden können wir die geforderte Funktionalität umsetzen.
+ Zum letzten Punkt der Aufgabe:
+\end_layout
+
+\begin_layout Standard
+Haben wir nicht getan.
+\end_layout
+
+\begin_layout Standard
+...
+\end_layout
+
+\begin_layout Standard
+Ehrlich!
 \end_layout
 
 \begin_layout Subsection*
 Auswertung
+\end_layout
+
+\begin_layout Standard
+Wir haben als erstes einmal getestet ob unsere Taster den Status richtig
+ verändern:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
++GPRS: Verbindung wurde hergestellt
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+Taste 2 wurde  auf 1 gesetzt 
+\end_layout
+
+\begin_layout Plain Layout
+
+SET:00000010 
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+Taste 2 wurde  auf 0 gesetzt 
+\end_layout
+
+\begin_layout Plain Layout
+
+SET:00000000
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+Taste 1 wurde  auf 1 gesetzt
+\end_layout
+
+\begin_layout Plain Layout
+
+SET:00000100 
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+Taste 1 wurde  auf 0 gesetzt 
+\end_layout
+
+\begin_layout Plain Layout
+
+SET:00000000
+\end_layout
+
+\end_inset
+
+Wenn wir auf eine Taste gedrückt haben, ist die SET Nachricht korrekt verändert
+ worden.
+ HIer schlecht zu zeigen, aber im Browser war diese Veränderung auch sichtbar.
+ Nach dem Drücken von [F5] waren die Checkboxen (warum waren es überhaupt
+ Checkboxen, das macht gar keinen Sinn, da man Tasten nicht Remote setzen
+ kann) der gedrückten Tasten angehakt.
+\begin_inset VSpace defskip
+\end_inset
+
+Im nächsten Teil haben wir versucht die LEDs Remote zu setzen, dabei sahen
+ wir auf dem Modul die richtigen LEDs aufleuchten und auf der Console
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \end_body
