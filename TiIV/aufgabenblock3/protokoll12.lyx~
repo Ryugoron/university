@@ -25,10 +25,9 @@
 \bibtex_command default
 \index_command default
 \paperfontsize default
-\spacing single
 \use_hyperref false
 \papersize default
-\use_geometry true
+\use_geometry false
 \use_amsmath 1
 \use_esint 1
 \use_mhchem 1
@@ -43,10 +42,6 @@
 \shortcut idx
 \color #008000
 \end_index
-\leftmargin 3cm
-\topmargin 2cm
-\rightmargin 2cm
-\bottommargin 2cm
 \secnumdepth 3
 \tocdepth 3
 \paragraph_separation indent
