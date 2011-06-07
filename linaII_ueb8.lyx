@@ -1557,6 +1557,65 @@ Nun folgt aus
 
 \begin_layout Standard
 Die Matrix ist also selbstinvers.
+\begin_inset VSpace defskip
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Betrachten wir einmal die Eigenwerte von 
+\begin_inset Formula $AA=E_{n}$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+Sei 
+\begin_inset Formula $\lambda$
+\end_inset
+
+ EW von 
+\begin_inset Formula $A$
+\end_inset
+
+ mit 
+\begin_inset Formula $EV$
+\end_inset
+
+ v (
+\begin_inset Formula $\not=$
+\end_inset
+
+0)
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+AA\left(v\right)\stackrel{\lambda\text{ EW}}{=}A\left(\lambda v\right)=\lambda^{2}v
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Da wir wissen, dass 
+\begin_inset Formula $AA=E_{n}$
+\end_inset
+
+ kann 
+\begin_inset Formula $\lambda_{1}=1$
+\end_inset
+
+ oder 
+\begin_inset Formula $\lambda_{2}=-1$
+\end_inset
+
+.
 \end_layout
 
 \end_body
