@@ -744,10 +744,6 @@ Wir tragen die Jordanblöcke, die wir ermittelt haben, auf der Diagonalen
 Aufgabe 3
 \end_layout
 
-\begin_layout Section*
-Aufgabe 3
-\end_layout
-
 \begin_layout Standard
 Sei 
 \begin_inset Formula $n\in\mathbb{N},\, V\subseteq\mathbb{R}[t]$
@@ -1420,7 +1416,16 @@ Basis
 \vdots\\
 \vdots\\
 \frac{1}{n!}
-\end{array}\right)\right\} =\left\{ \left(\begin{array}{c}
+\end{array}\right)\right\} $
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+=\left\{ \left(\begin{array}{c}
 1\\
 0\\
 \vdots\\
@@ -1444,18 +1449,20 @@ Basis
 \vdots\\
 0\\
 \frac{1}{n!}
-\end{array}\right)\right\} $
+\end{array}\right)\right\} 
+\]
+
 \end_inset
 
 
 \end_layout
 
 \begin_layout Standard
-Einmal ausgerechnet ergibt das
+Einmal ausgerechnet ergibt sich, dass 
 \begin_inset Formula $\mathcal{A}'=\{1,t,\frac{1}{2}t^{2},\frac{1}{6}t^{3},...,\frac{1}{n!}t^{n}\}$
 \end_inset
 
-.
+ ist.
 \end_layout
 
 \begin_layout Description
