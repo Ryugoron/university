@@ -1474,70 +1474,12 @@ Sei
 \begin_inset VSpace defskip
 \end_inset
 
-Machen wir zunächst eine Fallunterscheidung um die 0 Matrix herrus zu bekommen.
-\end_layout
-
-\begin_layout Description
-Fall
-\begin_inset Formula $\;$
+Machen wir zunächst eine Fallunterscheidung um die 0 Matrix herrus zu bekommen:
+\begin_inset Newline newline
 \end_inset
 
-1
-\end_layout
-
-\begin_layout Standard
-Sei 
+Ist 
 \begin_inset Formula $A=0$
-\end_inset
-
-.
- Die Nullmatrix ist trivialerweise diagonalisierbar, da sie bereits Diagonalgest
-allt hat.
- Alle Eigenwerte sind dabei 
-\begin_inset Formula $0$
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Description
-Fall
-\begin_inset Formula $\;$
-\end_inset
-
-2
-\end_layout
-
-\begin_layout Standard
-Sei 
-\begin_inset Formula $A\not=0$
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Standard
-Wir wissen, dass in der Gleichung 
-\begin_inset Formula $B\cdot A=A$
-\end_inset
-
- 
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula $B$
-\end_inset
-
- das neutrale Element der Multiplikation sein muss und dieses ist (Folgerung
- aus den Gruppenaxiomen) immer eindeutig bestimmt.
-\begin_inset VSpace defskip
-\end_inset
-
-Nun können wir unsere Vorrraussetzung dahingehend Umformen:
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula $A=A^{3}=A\cdot A\cdot A\stackrel{\text{Assoziativität}}{=}\left(A\cdot A\right)\cdot A$
 \end_inset
 
 
