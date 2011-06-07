@@ -347,9 +347,9 @@ Bestimmen einer Basis von
 
 , mit 
 \begin_inset Formula $w_{2}=\left(\begin{array}{c}
-0\\
+-2\\
 \frac{1}{2}\\
-0
+-2
 \end{array}\right)$
 \end_inset
 
@@ -374,7 +374,13 @@ Nun ist eine günstige Basis von
 \begin_inset Formula $w_{2},u_{1}$
 \end_inset
 
- sind offensichtich linear unabhängig.
+ sind offensichtich linear unabhängig (1./3.
+ Komponente gleich, bei -1 aber 2.
+ bei -
+\begin_inset Formula $\frac{1}{2}$
+\end_inset
+
+).
  Beide bilden eine Basis von 
 \begin_inset Formula $U_{2}$
 \end_inset
@@ -383,23 +389,40 @@ Nun ist eine günstige Basis von
 \end_layout
 
 \begin_layout Standard
-\begin_inset Formula $u_{1}=\left(\begin{array}{c}
-2\\
--1\\
-2
-\end{array}\right)=2\left(\begin{array}{c}
+\begin_inset Formula $\left(\begin{array}{c}
 1\\
 0\\
 1
-\end{array}\right)+\frac{1}{2}\left(\begin{array}{c}
-0\\
-1\\
-0
+\end{array}\right)=-\frac{1}{2}\left(\begin{array}{c}
+2\\
+-1\\
+2
+\end{array}\right)-\left(\begin{array}{c}
+-2\\
+\frac{1}{2}\\
+-2
 \end{array}\right)$
 \end_inset
 
-, sich in der alten Basis darstellen lässt und durch Basisaustauschlemma
- ersetzt werden kann.
+, 
+\begin_inset Formula $\left(\begin{array}{c}
+0\\
+1\\
+0
+\end{array}\right)=-2\left(\begin{array}{c}
+-2\\
+\frac{1}{2}\\
+-2
+\end{array}\right)-2\left(\begin{array}{c}
+2\\
+-1\\
+2
+\end{array}\right)$
+\end_inset
+
+ die alte Basis (wir haben bisher nur erzeugendes Sytem gezeigt gehabt)
+ darstellbar ist.
+ 
 \begin_inset VSpace defskip
 \end_inset
 
@@ -409,9 +432,9 @@ Weiter gilt zu zeigen, dass
 
  liegt: 
 \begin_inset Formula $f\left(w_{2}\right)=\frac{1}{2}\left(\begin{array}{c}
-4\\
--3\\
-4
+0\\
+1\\
+0
 \end{array}\right)$
 \end_inset
 
