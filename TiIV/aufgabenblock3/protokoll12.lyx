@@ -81,9 +81,23 @@ Vorbereitung
 \end_layout
 
 \begin_layout Standard
-Zur Vorbereitung haben wir den Abschnitt Socket Layer des WIP Development
- Guide gelesen und die Datei tcp.c aus dem Rahmenwerk studiert.
- Um die GPRS-Funktionalitäten nutzen zu können, wurde in der config.h INIT_GPRS
+Zur Vorbereitung haben wir den Abschnitt Socket Layer des 
+\emph on
+WIP Development Guide
+\emph default
+ gelesen und die Datei 
+\emph on
+tcp.c
+\emph default
+ aus dem Rahmenwerk studiert.
+ Um die GPRS-Funktionalitäten nutzen zu können, wurde in der 
+\emph on
+config.h
+\emph default
+ 
+\family typewriter
+INIT_GPRS
+\family default
  aktiviert und dann ein clean build des Projekts gemacht.
 \end_layout
 
@@ -92,7 +106,11 @@ Aufgaben
 \end_layout
 
 \begin_layout Enumerate
-Befehl AT+ECHO erstellen
+Befehl 
+\family typewriter
+AT+ECHO
+\family default
+ erstellen
 \end_layout
 
 \begin_layout Enumerate
@@ -104,15 +122,75 @@ Dokumentation
 \end_layout
 
 \begin_layout Description
-wip_TCPClientCreateOpts
+wip_TCPClientCreateOpts Diese Funktion erstellt ein neues TCP-Socket, bindet
+ es direkt an den angegebenen lokalen Port und verbindet sich mit den angegebene
+n Host (+Port).
+ Die Syntax lautet:
+\begin_inset Newline newline
+\end_inset
+
+
+\family typewriter
+wip_TCPClientCreateOpts ( const ascii *serverAddr, u16 serverPort, wip_eventHand
+ler_f evHandler, void *userdata, ...
+ );
+\family default
+
+\begin_inset Newline newline
+\end_inset
+
+Dabei bedeuten die Parameter (in der Reihenfolge): Adresse (IP oder Hostname)
+ des Zielrechners; Port des Zielrechners; Eventhandler, der bei einem TCP-Event
+ auf diesem Socket aufgerufen werden soll; etwaige Userdata, die jedes Mal
+ beim Aufruf des Handlers mitgegeben werden soll.
+\begin_inset Newline newline
+\end_inset
+
+Anschließend kann man am Ende des Kommandos eine Reihe von Parameter-Konstanten
+ der Form 
+\family typewriter
+WIP_COPT_X
+\family default
+ angeben, wobei die Auflistung mit 
+\family typewriter
+WIP_COPT_END
+\family default
+ enden muss.
+ Üblich ist z.B.
+ der Parameter 
+\family typewriter
+WIP_COPT_PORT
+\family default
+ gefolgt von einer Ganzzahl, die angibt, an welchen lokalen Port das Socket
+ gebunden werden soll.
+ Die Funktion gibt einen Zeiger auf den erzeugten Socketkanal zurück.
 \end_layout
 
 \begin_layout Description
+wip_read Diese Funktion versucht aus dem übergebenen Socketkanal eine Zahl
+ von Bytes in einen ebenfalls übergebenen Puffer zu lesen.
+ Falls das erfolgreich war, gibt die Funktion die Anzahl der tatsächlich
+ gelesenen Bytes zurück.
+ Im Fehlerfall eine negative Zahl.
+ Die Syntax ist:
+\begin_inset Newline newline
+\end_inset
+
+
+\family typewriter
+wip_read ( wip_channel_t c, void *buffer, u32 buf_len );
+\end_layout
+
+\begin_layout Description
+wip_write Die Funktion funktioniert analog zu 
+\family typewriter
 wip_read
-\end_layout
-
-\begin_layout Description
-wip_write
+\family default
+.
+ Hier wird versucht eine bestimmte Anzahl von Bytes aus einem Puffer zu
+ schreiben.
+ Die Funktion gibt die Anzahl der tatsächlich geschriebenen Bytes zurück
+ - oder im Fehlerfall eine negative Zahl.
 \end_layout
 
 \begin_layout Subsection*
@@ -120,14 +198,33 @@ Durchführung und Auswertung
 \end_layout
 
 \begin_layout Standard
-Um den TCP-Kanal, den wir bei einem ECHO-Kommando öffnen werden, global
- ansprechen zu können, speichern wir diesen global in der Variable channel.
- Da wir nicht für jedes ECHO-Kommando einen neuen Socket erstellen wollen,
- merken wir uns außerdem über die globale boolesche Variable channel_open,
- ob bereits ein Socket erstellt wurde.
+Um den TCP-Kanal, den wir bei einem 
+\family typewriter
+ECHO
+\family default
+-Kommando öffnen werden, global ansprechen zu können, speichern wir diesen
+ global in der Variable 
+\family typewriter
+channel
+\family default
+.
+ Da wir nicht für jedes 
+\family typewriter
+ECHO
+\family default
+-Kommando einen neuen Socket erstellen wollen, merken wir uns außerdem über
+ die globale boolesche Variable 
+\family typewriter
+channel_open
+\family default
+, ob bereits ein Socket erstellt wurde.
  So können wir den bereits erzeugten Socket benutzen.
  Außerdem arbeiten wir mit einem globalen Sendepuffer, da wir eventuell
- nicht direkt im Kommando-Handler von ECHO senden können (genaueres später).
+ nicht direkt im Kommando-Handler von 
+\family typewriter
+ECHO
+\family default
+ senden können (genaueres später).
  Die Größe des Puffers haben wir eher willkürlich gewählt.
 \end_layout
 
@@ -165,8 +262,15 @@ bool channel_open;
 \end_layout
 
 \begin_layout Standard
-Wird die Applikation gestartet, so wird das Befehl AT+ECHO angelegt und
- mit dem Callback echoHandler vverknüpft.
+Wird die Applikation gestartet, so wird das Befehl 
+\family typewriter
+AT+ECHO
+\family default
+ angelegt und mit dem Callback 
+\family typewriter
+echoHandler
+\family default
+ vverknüpft.
  Das Kommando wird Parameter akzeptieren - nämlich genau eins: Den String,
  der vom Host zurückgeschickt werden soll.
 \end_layout
@@ -220,18 +324,34 @@ void main_task(void) {
 \end_layout
 
 \begin_layout Standard
-Der Handler für das ECHO-Kommando holt sich nun den Parameter (also den
- zu sendenden String).
- Ist schon ein TCP-Socket geöffnet, so können wir einfach den Befehl wip_write
+Der Handler für das 
+\family typewriter
+ECHO
+\family default
+-Kommando holt sich nun den Parameter (also den zu sendenden String).
+ Ist schon ein TCP-Socket geöffnet, so können wir einfach den Befehl 
+\family typewriter
+wip_write
+\family default
  nutzen, um den String in den Socket zu schreiben.
  Ist das nicht der Fall, so muss ein Socket geöffnet werden.
- Dies setzen wir mit dem Befehl wip_TCPClientCreateOpts (siehe Dokumentation
- oben) um, und setzen die Parameter entsprechend unseres Hostes und Ports.
- Dem Socket übergeben wir einen Eventhandler echo_response, der auf TCP-Events
- reagiert.
- Da wir nach dem Aufruf von wip_TCPClientCreateOpts noch nicht sicher sein
- können, dass der Kanal bereits geöffnet ist, speichern wir am Anfang der
- Funktion den String in den globalen Buffer.
+ Dies setzen wir mit dem Befehl 
+\family typewriter
+wip_TCPClientCreateOpts
+\family default
+ (siehe Dokumentation oben) um, und setzen die Parameter entsprechend unseres
+ Hostes und Ports.
+ Dem Socket übergeben wir einen Eventhandler 
+\family typewriter
+echo_response
+\family default
+, der auf TCP-Events reagiert.
+ Da wir nach dem Aufruf von 
+\family typewriter
+wip_TCPClientCreateOpts
+\family default
+ noch nicht sicher sein können, dass der Kanal bereits geöffnet ist, speichern
+ wir am Anfang der Funktion den String in den globalen Buffer.
  Nun kann von dem TCP-Eventhandler der Sendepuffer verschickt werden, sobald
  der Socket offen ist.
 \end_layout
@@ -359,8 +479,12 @@ n");
 
 \begin_layout Standard
 Bei dem TCP-Eventhandler haben wir uns an dem Beispielcode orientiert und
- den Handler als großen switch-Block entworfen, in dem wir unterscheiden,
- was für ein Event gerade passiert ist.
+ den Handler als großen 
+\family typewriter
+switch
+\family default
+-Block entworfen, in dem wir unterscheiden, was für ein Event gerade passiert
+ ist.
  Wurde der Kanal gerade geöffnet, so muss noch die im globalen Puffer wartende
  Nachricht verschickt werden.
  Bekommen wir eine Nachricht, so speichern wir diese Zeichen für Zeichen
@@ -554,8 +678,102 @@ void echo_response(wip_event_t *event, void *ctx){
 \end_layout
 
 \begin_layout Standard
-Damit ist die Grundfunktionalität hergestellt und AT+ECHO verschickt einen
- String, der wieder ausgegeben wird, sobald er wieder empfangen wird.
+Damit ist die Grundfunktionalität hergestellt und 
+\family typewriter
+AT+ECHO
+\family default
+ verschickt einen String, der wieder ausgegeben wird, sobald er wieder empfangen
+ wird.
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Testlauf:
+\series default
+
+\begin_inset listings
+lstparams "basicstyle={\small\ttfamily},frame=single,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+...
+\end_layout
+
+\begin_layout Plain Layout
+
++INFO: Startgrund - Normaler Start
+\end_layout
+
+\begin_layout Plain Layout
+
++GSM: Warte auf Anmeldung im Netz
+\end_layout
+
+\begin_layout Plain Layout
+
++GSM: Anmeldung im Netz abgeschlossen
+\end_layout
+
+\begin_layout Plain Layout
+
++GPRS: Warte auf Verbindung
+\end_layout
+
+\begin_layout Plain Layout
+
++GPRS: Verbindung wurde hergestellt
+\end_layout
+
+\begin_layout Plain Layout
+
+AT+ECHO="Hallo"
+\end_layout
+
+\begin_layout Plain Layout
+
+OK
+\end_layout
+
+\begin_layout Plain Layout
+
+Hallo
+\end_layout
+
+\begin_layout Plain Layout
+
+AT+ECHO="Test"
+\end_layout
+
+\begin_layout Plain Layout
+
+OK
+\end_layout
+
+\begin_layout Plain Layout
+
+Test
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace defskip
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -634,6 +852,13 @@ void main_task(void) {
 \end_layout
 
 \begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 Dieser Keyhandler liest einfach aus, welche Taste gedrückt wurde und schickt
  dann einen String der Form 
 \begin_inset Quotes eld
@@ -644,7 +869,11 @@ Taste <Nr>
 \end_inset
 
  via Socket.
- Das Vorgehen ist dabei analog zu echoHandler.
+ Das Vorgehen ist dabei analog zu 
+\family typewriter
+echoHandler
+\family default
+.
 \end_layout
 
 \begin_layout Standard
@@ -761,6 +990,106 @@ bool keyhandler(adl_atUnsolicited_t *paras) {
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Testlauf:
+\series default
+
+\begin_inset listings
+lstparams "basicstyle={\small\ttfamily},frame=single,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+...
+\end_layout
+
+\begin_layout Plain Layout
+
++INFO: Startgrund - Normaler Start
+\end_layout
+
+\begin_layout Plain Layout
+
++GSM: Warte auf Anmeldung im Netz
+\end_layout
+
+\begin_layout Plain Layout
+
++GSM: Anmeldung im Netz abgeschlossen
+\end_layout
+
+\begin_layout Plain Layout
+
++GPRS: Warte auf Verbindung
+\end_layout
+
+\begin_layout Plain Layout
+
++GPRS: Verbindung wurde hergestellt
+\end_layout
+
+\begin_layout Plain Layout
+
+AT+ECHO="Hallo"
+\end_layout
+
+\begin_layout Plain Layout
+
+OK
+\end_layout
+
+\begin_layout Plain Layout
+
+Hallo
+\end_layout
+
+\begin_layout Plain Layout
+
+Taste 2
+\end_layout
+
+\begin_layout Plain Layout
+
+Taste 2
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Hier haben wir die Taste 2 betätigt und erhalten zwei mal die Antwort (je
+ einmal für Drücken und Loslassen).
+\end_layout
+
+\begin_layout Standard
+Wenn wir über die Telnetkonsole auf Port 50018 Zeichen eingeben, werden
+ sie direkt im Developer Studio ausgegeben (Wenn wir vorher das Socket geöffnet
+ haben, durch 
+\family typewriter
+ECHO
+\family default
+ oder Tastendruck).
 \end_layout
 
 \end_body
