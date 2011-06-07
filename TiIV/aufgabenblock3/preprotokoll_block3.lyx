@@ -1,0 +1,208 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Technische Informatik IV: Praktikum
+\end_layout
+
+\begin_layout Author
+Vorbereitungsprotokoll zu Aufgabenblock 3
+\end_layout
+
+\begin_layout Date
+von Max Wisniewski, Alexander Steen
+\end_layout
+
+\begin_layout Subsection*
+Fragestellungen
+\end_layout
+
+\begin_layout Enumerate
+Erklären Sie die Abkürzung und die Nutzung von GPRS
+\end_layout
+
+\begin_layout Enumerate
+Beschreiben Sie die Begriffe TCP, Port und IP
+\end_layout
+
+\begin_layout Enumerate
+Erklären Sie kurz, was GPS bedeutet und wofür es benutzt wird
+\end_layout
+
+\begin_layout Enumerate
+Wie viel Satelliten sind mindestens für eine Positionsbestimmung nötig?
+\end_layout
+
+\begin_layout Enumerate
+Wie berechnet man die Entfernung zwischen zwei GPS Koordinaten?
+\end_layout
+
+\begin_layout Enumerate
+Eignet sich GPS für die Verwendung in Gebäuden? Begründen Sie Ihre Antwort
+\end_layout
+
+\begin_layout Subsection*
+Antworten
+\end_layout
+
+\begin_layout Standard
+zu 1.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Die Abkürzung GPRS bedeutet 
+\begin_inset Quotes eld
+\end_inset
+
+general packet radio service
+\begin_inset Quotes erd
+\end_inset
+
+, bezeichnet also einen paketorientierten Datenübertragungsdienst via Funk
+ (GSM oder UMTS).
+ Die meisten neuen Handys bieten diese Technik an, um damit im Internet
+ zu surfen, MMS oder sogar SMS zu verschicken.
+ Der Durchsatz und die Latenz ist abhängig von der Anzahl der Nutzer, die
+ zur selben Zeit GPRS benutzen.
+ Maximal kann man einen Durchsatz von 114 kbit/Sekunde erreichen.
+ GPRS unterstützt unter anderem TCP/IP.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+zu 2.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+TCP ist ein verbindsorientiertes Transportprotokoll auf dem Layer 4 des
+ ISO/OSI-Modells, welches verlässliche und verlustfreie Datenübertragungen
+ ermöglicht.
+ TCP ist eines der populärsten und meistverwendetsten Transportprotokolle
+ und Kernbestandteil des Internet Protocol Suite, die man zusammen mit dem
+ Internetprotokoll IP auch als TCP/IP-Stack bezeichnet.
+ Das Internetprotokoll IP bildet die Grundlage des Internetkommunikation
+ und beschreibt, wie Teilnehmer via Adressen (die IP-Adressen) identifiziert
+ werden können.
+ Dabei ist ein Port eine Abstraktion der Netzwerkschnittstelle, die es ermöglich
+t, mehrere Verbindung über einen Netzwerkadapter zu korrdinieren.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+zu 3.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+GPS bedeutet 
+\begin_inset Quotes eld
+\end_inset
+
+Global Positioning System
+\begin_inset Quotes erd
+\end_inset
+
+ und bezeichnet einen globales Satelliten-Navigationssystem.
+ GPS bietet Informationen zur aktuellen Zeit und Position an, die mit Hilfe
+ eines speziellen Gerätes, eines GPS-Empfängers, überall auf der Erde empfangen
+ werden können.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+zu 4.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Rein theoretisch reichen drei Satelliten um die aktuelle Position zu bestimmen.
+ Da man aber in der Praxis keine exakten Uhren besitzt und schon kleine
+ Abweichungen der Uhrzeit zu einem großen Fehler führen würden, müssen vier
+ Satelliten zur Lokalisierung benutzt werden.
+ So wird die Zeit der Satelliten aus dem Gleichungssystem der Berechnung
+ durch die weitere Bedingung direkt gelöst.
+\end_layout
+
+\end_body
+\end_document
