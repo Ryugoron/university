@@ -154,11 +154,74 @@ SET:<LED0><LED1><LED2><LED3><Taste0><Taste1><Taste2><Taste3>
 
 
 \series default
-z.B.:
+z.B.: 
+\series bold
+SET:00010111
+\series default
+; (0-Aus, 1-Ein)
+\end_layout
+
+\begin_layout Itemize
+Wird im HTML-Formular die Taste Senden gedrückt, werden die Eingaben aus
+ dem Formular in einer Zeichenkette(wie oben erläutert) an das Modul zuückgeschi
+ckt.
+\end_layout
+
+\begin_layout Itemize
+Werten Sie die empfangene Zeichenkette aus und setzten Sie den Zustand der
+ LEDs entsprechend um.
+\end_layout
+
+\begin_layout Itemize
+Bitte besuchen Sie nur ihre Seite, damit die anderen Gruppen nicht gestört
+ werden.
 \end_layout
 
 \begin_layout Subsection*
 Dokumentation
+\end_layout
+
+\begin_layout Description
+wip_read liest aus einem Socket eine Festgelegte Anzah von Bytes in einen
+ Buffer
+\begin_inset Newline newline
+\end_inset
+
+wip_read(Socket* s, ascii* buffer, u16 size).
+ [Socket steht hier stellvertretend für das struct eines Sockets)
+\end_layout
+
+\begin_layout Description
+wip_write schreibt eine Nachricht mit angegebener Anzahl von Bytes auf ein
+ Socket.
+ Diese wird dann raus geschickt.
+\begin_inset Newline newline
+\end_inset
+
+wip_write(Socket* s, ascii* buffer, u16 size).
+\end_layout
+
+\begin_layout Description
+wi_close Schließt ein TCPSocket wieder.
+\begin_inset Newline newline
+\end_inset
+
+wip_close(Socket* s);
+\end_layout
+
+\begin_layout Description
+wip_TCPClientCreateOpts erstellt ein neues TCP Clienten Socket.
+ Die optionale Variante ist von nöten, da das Socket sonst nicht automatisch
+ gebindet wird.
+\end_layout
+
+\begin_layout Description
+adl_atCmdCreate führt ein ATCommando aus, wie man es auf der Commandozeile
+ auch eintragen kann
+\end_layout
+
+\begin_layout Description
+adl_atUnSoSubscribe registriert einen Handler auf ein Unsolicid 
 \end_layout
 
 \begin_layout Subsection*
