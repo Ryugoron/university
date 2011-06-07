@@ -1,0 +1,476 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Lineare Algebra Übung 8
+\end_layout
+
+\begin_layout Author
+Max Wisniewski
+\end_layout
+
+\begin_layout Date
+Tutor : Elena
+\end_layout
+
+\begin_layout Section*
+Aufgabe 1
+\end_layout
+
+\begin_layout Standard
+Geben Sie 
+\begin_inset Formula $S\in Gl\left(n,\mathbb{R}\right)$
+\end_inset
+
+ an, sodass 
+\begin_inset Formula $S^{-1}AS$
+\end_inset
+
+ für folgende Matrix 
+\begin_inset Formula $A$
+\end_inset
+
+ Jordansche Normalform hat:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+A=\left(\begin{array}{ccc}
+-3 & 4 & 4\\
+1 & -3 & -2\\
+-4 & 4 & 5
+\end{array}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Description
+Bestimmung
+\begin_inset Formula $\;$
+\end_inset
+
+des
+\begin_inset Formula $\;$
+\end_inset
+
+charakteristischen
+\begin_inset Formula $\;$
+\end_inset
+
+Polynoms
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+p_{A}\left(\lambda\right)=\det\left(\begin{array}{ccc}
+-3-\lambda & 4 & 4\\
+1 & -3-\lambda & -2\\
+-4 & 4 & 5-\lambda
+\end{array}\right)=-t^{3}-t^{2}+t+1=-\left(t+1\right)^{2}\left(t-1\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Wir hab also die Eigenwerte 
+\begin_inset Formula $\lambda_{1}=-1$
+\end_inset
+
+, mit 
+\begin_inset Formula $r_{1}=\mu\left(\lambda_{1}\right)=2$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+und 
+\begin_inset Formula $\lambda_{2}=1$
+\end_inset
+
+, mit 
+\begin_inset Formula $r_{2}=\mu\left(\lambda_{2}\right)=1$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Description
+Haupträume
+\begin_inset Formula $\;$
+\end_inset
+
+bestimmen
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $H\left(A,\lambda_{1}\right)$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\ker\left(\left(A+E_{3}\right)\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\ker\left(\begin{array}{ccc}
+-2 & 4 & 4\\
+1 & -2 & -2\\
+-4 & 4 & 6
+\end{array}\right)\rightsquigarrow\left(\begin{array}{ccc|c}
+-2 & 4 & 4 & 0\\
+1 & -2 & -2 & 0\\
+-4 & 4 & 6 & 0
+\end{array}\right)\stackrel{\stackrel{2\cdot II+I}{III-2\cdot I}}{\rightsquigarrow}\left(\begin{array}{ccc|c}
+-2 & 4 & 4 & 0\\
+0 & 0 & 0 & 0\\
+0 & -4 & -2 & 0
+\end{array}\right)\rightsquigarrow\left(\begin{array}{ccc|c}
+-2 & 4 & 4 & 0\\
+0 & -4 & -2 & 0\\
+0 & 0 & 0 & 0
+\end{array}\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Wir sehen aus der letzten Spalte, dass wir 
+\begin_inset Formula $c$
+\end_inset
+
+ frei wählen können:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $II\;:\;-4b=2c\Leftrightarrow b=-\frac{1}{2}c$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $III\;:\;-2a-2c+4c=0\Leftrightarrow-2a=-2c\Leftrightarrow a=c$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\Rightarrow\ker\left(\left(A+E_{3}\right)\right)=\mathbb{R}\left(\begin{array}{c}
+2\\
+-1\\
+2
+\end{array}\right)$
+\end_inset
+
+, 
+\begin_inset Formula $\dim\left(\ker\left(A+E_{3}\right)\right)=1<r_{1}$
+\end_inset
+
+, d.h.
+ wir müssen weiter rechnen.
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\ker\left(\left(A+E_{3}\right)^{2}\right)=\ker\left(\begin{array}{ccc}
+-8 & 0 & 8\\
+4 & 0 & -4\\
+-12 & 0 & 12
+\end{array}\right)=\mathbb{R}\left(\begin{array}{c}
+1\\
+0\\
+1
+\end{array}\right)+\mathbb{R}\left(\begin{array}{c}
+0\\
+1\\
+0
+\end{array}\right)$
+\end_inset
+
+ (Rechnung analog zu der obrigen)
+\end_layout
+
+\begin_layout Standard
+da 
+\begin_inset Formula $\dim\left(\ker\left(\left(A+E_{3}\right)^{2}\right)\right)=r_{1}$
+\end_inset
+
+, ist der Hauptraum 
+\begin_inset Formula $\ker\left(\left(A+E_{3}\right)\right)$
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula $H\left(A,\lambda_{2}\right):$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\ker\left(A-E_{3}\right)=\ker\left(\begin{array}{ccc}
+-4 & 4 & 4\\
+1 & -4 & -2\\
+-4 & 4 & 4
+\end{array}\right)=\mathbb{R}\left(\begin{array}{c}
+2\\
+-1\\
+3
+\end{array}\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Description
+Basen
+\begin_inset Formula $\;$
+\end_inset
+
+berechen
+\end_layout
+
+\begin_layout Standard
+Für 
+\begin_inset Formula $\lambda_{2}$
+\end_inset
+
+ sind wir trivialerweise fertig.
+\begin_inset Newline newline
+\end_inset
+
+Für 
+\begin_inset Formula $\lambda_{1}$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $U_{2}=\ker\left(\left(A+E_{3}\right)^{2}\right),\; U_{1}=\ker\left(\left(A+E_{3}\right)^{1}\right),\; U_{0}=0$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Bestimmen einer Basis von 
+\begin_inset Formula $U_{1}$
+\end_inset
+
+, so dass 
+\begin_inset Formula $U_{2}=U_{1}\oplus w_{2}$
+\end_inset
+
+, mit 
+\begin_inset Formula $w_{2}=\left(\begin{array}{c}
+0\\
+\frac{1}{2}\\
+0
+\end{array}\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Nun ist eine günstige Basis von 
+\begin_inset Formula $U_{1}$
+\end_inset
+
+, der Vektor 
+\begin_inset Formula $u_{1}=\left(\begin{array}{c}
+2\\
+-1\\
+2
+\end{array}\right)$
+\end_inset
+
+ (den wir schon berechnet haben).
+ 
+\begin_inset Formula $w_{2},u_{1}$
+\end_inset
+
+ sind offensichtich linear unabhängig.
+ Beide bilden eine Basis von 
+\begin_inset Formula $U_{2}$
+\end_inset
+
+, da
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $u_{1}=\left(\begin{array}{c}
+2\\
+-1\\
+2
+\end{array}\right)=2\left(\begin{array}{c}
+1\\
+0\\
+1
+\end{array}\right)+\frac{1}{2}\left(\begin{array}{c}
+0\\
+1\\
+0
+\end{array}\right)$
+\end_inset
+
+, sich in der alten Basis darstellen lässt und durch Basisaustauschlemma
+ ersetzt werden kann.
+\begin_inset VSpace defskip
+\end_inset
+
+Weiter gilt zu zeigen, dass 
+\begin_inset Formula $f\left(w_{2}\right)\in U_{1}$
+\end_inset
+
+ liegt: 
+\begin_inset Formula $f\left(w_{2}\right)=\frac{1}{2}\left(\begin{array}{c}
+4\\
+-3\\
+4
+\end{array}\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Nun suchen wir noch eine Basis von 
+\begin_inset Formula $U_{0}$
+\end_inset
+
+, so dass 
+\begin_inset Formula $U_{1}=U_{0}\oplus w_{1}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Description
+Transformationsmatrix
+\end_layout
+
+\begin_layout Standard
+Setzen wir nun die Basen ein:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $S=\left(\begin{array}{ccc}
+2 & 0 & 2\\
+-1 & \frac{1}{2} & -1\\
+2 & 0 & 3
+\end{array}\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $J_{A}=S^{-1}AS=\left(\begin{array}{ccc}
+-1 & 1 & 0\\
+0 & -1 & 0\\
+0 & 0 & 1
+\end{array}\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section*
+Aufgabe 2
+\end_layout
+
+\begin_layout Section*
+Aufgabe 3
+\end_layout
+
+\begin_layout Section*
+Aufgabe 4
+\end_layout
+
+\end_body
+\end_document
