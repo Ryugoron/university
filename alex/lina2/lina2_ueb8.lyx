@@ -1,0 +1,1867 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Lineare Algebra II: Übung 8
+\end_layout
+
+\begin_layout Author
+Alexander Steen
+\end_layout
+
+\begin_layout Date
+Tutorin: Elena, Di 14-16
+\end_layout
+
+\begin_layout Section*
+Aufgabe 1
+\end_layout
+
+\begin_layout Standard
+Gesucht ist 
+\begin_inset Formula $S\in Gl(3,\mathbb{R})$
+\end_inset
+
+, sodass 
+\begin_inset Formula $S^{-1}AS$
+\end_inset
+
+ Jordansche Normalform hat, mit 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+A=\left(\begin{array}{ccc}
+-3 & 4 & 4\\
+1 & -3 & -2\\
+-4 & 4 & 5
+\end{array}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+(1) Stelle charakteristisches Polynom 
+\begin_inset Formula $p_{A}$
+\end_inset
+
+ von A auf:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $p_{A}(t)=\det\left(\begin{array}{ccc}
+-3-t & 4 & 4\\
+1 & -3-t & -2\\
+-4 & 4 & 5-t
+\end{array}\right)=...=-t^{3}-t^{2}+t+1=-\left(t+1\right)^{2}\left(t-1\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Also ist 
+\begin_inset Formula $\lambda_{1}=-1$
+\end_inset
+
+ mit Vielfachheit 
+\begin_inset Formula $r_{1}=2$
+\end_inset
+
+ und 
+\begin_inset Formula $\lambda_{2}=1$
+\end_inset
+
+ mit Vielfachheit 
+\begin_inset Formula $r_{2}=1$
+\end_inset
+
+ Eigenwert von A.
+\end_layout
+
+\begin_layout Subsubsection*
+(2) Berechnung der Haupträume 
+\begin_inset Formula $H(\lambda_{i})$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+zu 
+\begin_inset Formula $\lambda_{1}=-1$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\ker(A+E_{3})=\ker\left(\begin{array}{ccc}
+-2 & 4 & 4\\
+1 & -2 & -2\\
+-4 & 4 & 6
+\end{array}\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\begin_inset Formula $\left(\begin{array}{ccc}
+-2 & 4 & 4\\
+1 & -2 & -2\\
+-4 & 4 & 6
+\end{array}\right)\stackrel{II+\frac{1}{2}I,III-2I}{\rightsquigarrow}\left(\begin{array}{ccc}
+-2 & 4 & 4\\
+0 & 0 & 0\\
+0 & -4 & -2
+\end{array}\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\Rightarrow\ker\left(A+E_{3}\right)=\left\langle \left(\begin{array}{c}
+1\\
+-\frac{1}{2}\\
+1
+\end{array}\right)\right\rangle =\left\langle \left(\begin{array}{c}
+2\\
+-1\\
+2
+\end{array}\right)\right\rangle \Rightarrow\dim\ker\left(A+E_{3}\right)=1\neq r_{1}$
+\end_inset
+
+, also weiter
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\ker(\left(A+E_{3}\right)^{2})=\ker\left(\begin{array}{ccc}
+-8 & 0 & 8\\
+4 & 0 & -4\\
+-12 & 0 & 12
+\end{array}\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\begin_inset Formula $\left(\begin{array}{ccc}
+-8 & 0 & 8\\
+4 & 0 & -4\\
+-12 & 0 & 12
+\end{array}\right)\stackrel{II+\frac{1}{2}I,III-\frac{3}{2}I}{\rightsquigarrow}\left(\begin{array}{ccc}
+-8 & 0 & 8\\
+0 & 0 & 0\\
+0 & 0 & 0
+\end{array}\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\Rightarrow\ker\left(\left(A+E_{3}\right)^{2}\right)=\left\langle \left(\begin{array}{c}
+1\\
+0\\
+1
+\end{array}\right),\left(\begin{array}{c}
+0\\
+1\\
+0
+\end{array}\right)\right\rangle \Rightarrow\dim\ker\left(\left(A+E_{3}\right)^{2}\right)=2=r_{1}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\Rightarrow H(\lambda_{1})=\left\langle \left(\begin{array}{c}
+1\\
+0\\
+1
+\end{array}\right),\left(\begin{array}{c}
+0\\
+1\\
+0
+\end{array}\right)\right\rangle $
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\Rightarrow$
+\end_inset
+
+Größter Jordanblock zu 
+\begin_inset Formula $\lambda_{1}$
+\end_inset
+
+ ist 
+\begin_inset Formula $2\times2$
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\series bold
+zu 
+\begin_inset Formula $\lambda_{2}=1$
+\end_inset
+
+
+\series default
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\ker(A-E_{3})=\ker\left(\begin{array}{ccc}
+-4 & 4 & 4\\
+1 & -4 & -2\\
+-4 & 4 & 4
+\end{array}\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\begin_inset Formula $\left(\begin{array}{ccc}
+-4 & 4 & 4\\
+1 & -4 & -2\\
+-4 & 4 & 4
+\end{array}\right)\stackrel{II+\frac{1}{4}I,III-II}{\rightsquigarrow}\left(\begin{array}{ccc}
+-4 & 4 & 4\\
+0 & -3 & -1\\
+0 & 0 & 0
+\end{array}\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\Rightarrow\ker(A-E_{3})=\left\langle \left(\begin{array}{c}
+\frac{2}{3}\\
+-\frac{1}{3}\\
+1
+\end{array}\right)\right\rangle =\left\langle \left(\begin{array}{c}
+2\\
+-1\\
+3
+\end{array}\right)\right\rangle \Rightarrow\dim\ker\left(A-E_{3}\right)=1=r_{2}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\Rightarrow H(\lambda_{2})=\left\langle \left(\begin{array}{c}
+2\\
+-1\\
+3
+\end{array}\right)\right\rangle $
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\Rightarrow$
+\end_inset
+
+Größter Jordanblock zu 
+\begin_inset Formula $\lambda_{2}$
+\end_inset
+
+ ist 
+\begin_inset Formula $1\times1$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+(3) Berechnung der Basen der Haupträume:
+\end_layout
+
+\begin_layout Standard
+(Für jeden Hauptraum jeweils nach dem Verfahren aus 4.8)
+\begin_inset Newline newline
+\end_inset
+
+Sei 
+\begin_inset Formula $f=f_{A}$
+\end_inset
+
+ die zu A gehörende Funktion bzgl.
+ kanonischer Basis.
+\end_layout
+
+\begin_layout Paragraph*
+Zu 
+\begin_inset Formula $H(\lambda_{1}):$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Sei 
+\begin_inset Formula $U_{1}:=\ker(A+E_{3})=\left\langle \left(\begin{array}{c}
+2\\
+-1\\
+2
+\end{array}\right)\right\rangle ,\quad U_{2}:=\ker(\left(A+E_{3}\right)^{2})=\left\langle \left(\begin{array}{c}
+1\\
+0\\
+1
+\end{array}\right),\left(\begin{array}{c}
+0\\
+1\\
+0
+\end{array}\right)\right\rangle $
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+(1)
+\end_layout
+
+\begin_layout Standard
+Gesucht : 
+\begin_inset Formula $W_{2}$
+\end_inset
+
+ mit 
+\begin_inset Formula $U_{2}=U_{1}\oplus W_{2}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Wähle 
+\begin_inset Formula $W_{2}=\left\langle \left(\begin{array}{c}
+0\\
+\frac{1}{2}\\
+0
+\end{array}\right)\right\rangle $
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\Rightarrow\left\langle \left(\begin{array}{c}
+1\\
+0\\
+1
+\end{array}\right),\left(\begin{array}{c}
+0\\
+1\\
+0
+\end{array}\right)\right\rangle =\left\langle \left(\begin{array}{c}
+2\\
+-1\\
+2
+\end{array}\right)\right\rangle \oplus\left\langle \left(\begin{array}{c}
+0\\
+\frac{1}{2}\\
+0
+\end{array}\right)\right\rangle $
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+(2)
+\end_layout
+
+\begin_layout Standard
+Gesucht: 
+\begin_inset Formula $W_{1}$
+\end_inset
+
+ mit 
+\begin_inset Formula $U_{1}=U_{0}\oplus W_{1}$
+\end_inset
+
+, mit 
+\begin_inset Formula $f\left(\left(\begin{array}{c}
+0\\
+\frac{1}{2}\\
+0
+\end{array}\right)\right)\in W_{1}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $f\left(\begin{array}{c}
+0\\
+\frac{1}{2}\\
+0
+\end{array}\right)=\left(\begin{array}{c}
+2\\
+-\frac{3}{2}\\
+2
+\end{array}\right)$
+\end_inset
+
+.
+ Aber da 
+\begin_inset Formula $\left(\begin{array}{c}
+2\\
+-\frac{3}{2}\\
+2
+\end{array}\right)\notin U_{1}$
+\end_inset
+
+, wählen wir 
+\begin_inset Formula $W_{1}=\left\langle \left(\begin{array}{c}
+2\\
+-1\\
+2
+\end{array}\right)\right\rangle =U_{1}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Basis 
+\begin_inset Formula $\mathcal{A}_{1}$
+\end_inset
+
+ von 
+\begin_inset Formula $H(\lambda_{1})$
+\end_inset
+
+ mit 
+\begin_inset Formula $\mathcal{A}_{2}=\left\{ \left(\begin{array}{c}
+2\\
+-1\\
+2
+\end{array}\right),\left(\begin{array}{c}
+0\\
+\frac{1}{2}\\
+0
+\end{array}\right)\right\} $
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph*
+Zu 
+\begin_inset Formula $H(\lambda_{2})$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+Sei 
+\begin_inset Formula $U_{1}:=\ker(A-E_{3})=\left\langle \left(\begin{array}{c}
+2\\
+-1\\
+3
+\end{array}\right)\right\rangle $
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Suche 
+\begin_inset Formula $W_{1}$
+\end_inset
+
+ sodass 
+\begin_inset Formula $U_{1}=U_{0}\oplus W_{1}$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $U_{0}=\{0\}$
+\end_inset
+
+, also wähle 
+\begin_inset Formula $W_{1}=\left\langle \left(\begin{array}{c}
+2\\
+-1\\
+3
+\end{array}\right)\right\rangle $
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\Rightarrow U_{1}=\{0\}\oplus W_{1}$
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Basis 
+\begin_inset Formula $\mathcal{A}_{2}$
+\end_inset
+
+ von 
+\begin_inset Formula $H(\lambda_{2})$
+\end_inset
+
+ mit 
+\begin_inset Formula $\mathcal{A}_{2}=\left\{ \left(\begin{array}{c}
+2\\
+-1\\
+3
+\end{array}\right)\right\} $
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+(4) Baue Basis 
+\begin_inset Formula $\mathcal{A}$
+\end_inset
+
+ zusammen:
+\end_layout
+
+\begin_layout Standard
+Setze Basis 
+\begin_inset Formula $\mathcal{A}$
+\end_inset
+
+ aus Teilbasen der Haupträume zusammen, also 
+\begin_inset Formula $\mathcal{A}=\mathcal{A}_{1}\cup\mathcal{A}_{2}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Daraus ergibt sich die Transformationsmatrix 
+\begin_inset Formula $S$
+\end_inset
+
+ durch spaltenweises Eintragen der Basisvektoren:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $S=\left(\begin{array}{ccc}
+2 & 0 & 2\\
+-1 & \frac{1}{2} & -1\\
+2 & 0 & 3
+\end{array}\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $J_{A}=S^{-1}AS=\left(\begin{array}{ccc}
+-1 & 1 & 0\\
+0 & -1 & 0\\
+0 & 0 & 1
+\end{array}\right)=\left(\begin{array}{ccc}
+-1 & 0 & 0\\
+0 & -1 & 0\\
+0 & 0 & 1
+\end{array}\right)+\left(\begin{array}{ccc}
+0 & 1 & 0\\
+0 & 0 & 0\\
+0 & 0 & 0
+\end{array}\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section*
+Aufgabe 2
+\end_layout
+
+\begin_layout Standard
+Sei 
+\begin_inset Formula $A=\left(\begin{array}{cccc}
+2 & 2 & 0 & -3\\
+1 & 1 & 0 & -1\\
+-1 & 2 & -1 & -1\\
+1 & 2 & 0 & -2
+\end{array}\right)$
+\end_inset
+
+, gesucht ist die Jordansche Normalform von A.
+\end_layout
+
+\begin_layout Paragraph*
+(1) Stelle charakteristisches Polynom 
+\begin_inset Formula $p_{A}$
+\end_inset
+
+ von A auf:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $p_{A}(t)=\det\left(\begin{array}{cccc}
+2-t & 2 & 0 & -3\\
+1 & 1-t & 0 & -1\\
+-1 & 2 & -1-t & -1\\
+1 & 2 & 0 & -2-t
+\end{array}\right)=...=t^{4}-2t^{2}+1=\left(t-1\right)^{2}\left(t+1\right)^{2}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Also ist 
+\begin_inset Formula $\lambda_{1}=-1$
+\end_inset
+
+ mit Vielfachheit 
+\begin_inset Formula $r_{1}=2$
+\end_inset
+
+ und 
+\begin_inset Formula $\lambda_{2}=1$
+\end_inset
+
+ mit Vielfachheit 
+\begin_inset Formula $r_{2}=2$
+\end_inset
+
+ Eigenwert von A.
+\end_layout
+
+\begin_layout Paragraph*
+(2) Berechnung der Haupträume 
+\begin_inset Formula $H(\lambda_{i})$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+zu 
+\begin_inset Formula $\lambda_{1}=-1$
+\end_inset
+
+
+\series default
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\ker\left(A+E_{4}\right)=\ker\left(\begin{array}{cccc}
+3 & 2 & 0 & -3\\
+1 & 2 & 0 & -1\\
+-1 & 2 & 0 & -1\\
+1 & 2 & 0 & -1
+\end{array}\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\left(\begin{array}{cccc}
+3 & 2 & 0 & -3\\
+1 & 2 & 0 & -1\\
+-1 & 2 & 0 & -1\\
+1 & 2 & 0 & -1
+\end{array}\right)\stackrel{II-\frac{1}{3}I,III+\frac{1}{3}I,IV-\frac{1}{3}I}{\rightsquigarrow}\left(\begin{array}{cccc}
+3 & 2 & 0 & -3\\
+0 & \frac{4}{3} & 0 & 0\\
+0 & \frac{8}{3} & 0 & -2\\
+0 & \frac{4}{3} & 0 & 0
+\end{array}\right)\stackrel{III-2II,IV-II}{\rightsquigarrow}\left(\begin{array}{cccc}
+3 & 2 & 0 & -3\\
+0 & \frac{4}{3} & 0 & 0\\
+0 & 0 & 0 & -2\\
+0 & 0 & 0 & 0
+\end{array}\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\Rightarrow\ker\left(A+E_{4}\right)=\left\langle \left(\begin{array}{c}
+0\\
+0\\
+1\\
+0
+\end{array}\right)\right\rangle \Rightarrow\dim\ker\left(A+E_{4}\right)=1\neq r_{1}$
+\end_inset
+
+, also weiter
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\ker\left(\left(A+E_{4}\right)^{2}\right)=\ker\left(\begin{array}{cccc}
+8 & 4 & 0 & -8\\
+4 & 4 & 0 & -4\\
+-2 & 0 & 0 & 2\\
+4 & 4 & 0 & -4
+\end{array}\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\left(\begin{array}{cccc}
+8 & 4 & 0 & -8\\
+4 & 4 & 0 & -4\\
+-2 & 0 & 0 & 2\\
+4 & 4 & 0 & -4
+\end{array}\right)\stackrel{II-\frac{1}{2}I,III+\frac{1}{4}I,IV-\frac{1}{2}I}{\rightsquigarrow}\left(\begin{array}{cccc}
+8 & 4 & 0 & -8\\
+0 & 2 & 0 & 0\\
+0 & 1 & 0 & 0\\
+0 & 2 & 0 & 0
+\end{array}\right)\stackrel{III-\frac{1}{2}II,IV-II}{\rightsquigarrow}\left(\begin{array}{cccc}
+8 & 4 & 0 & -8\\
+0 & 2 & 0 & 0\\
+0 & 0 & 0 & 0\\
+0 & 0 & 0 & 0
+\end{array}\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\Rightarrow\ker\left(\left(A+E_{4}\right)^{2}\right)=\left\langle \left(\begin{array}{c}
+1\\
+0\\
+1\\
+0
+\end{array}\right),\left(\begin{array}{c}
+0\\
+0\\
+0\\
+1
+\end{array}\right)\right\rangle \Rightarrow\dim\ker\left(\left(A+E_{4}\right)^{2}\right)=2=r_{1}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\Rightarrow H(\lambda_{1})=\left\langle \left(\begin{array}{c}
+1\\
+0\\
+1\\
+0
+\end{array}\right),\left(\begin{array}{c}
+0\\
+0\\
+0\\
+1
+\end{array}\right)\right\rangle $
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\Rightarrow$
+\end_inset
+
+Größter Jordanblock zu 
+\begin_inset Formula $\lambda_{1}$
+\end_inset
+
+ ist 
+\begin_inset Formula $2\times2$
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\series bold
+zu 
+\begin_inset Formula $\lambda_{2}=1$
+\end_inset
+
+
+\series default
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\ker\left(A-E_{4}\right)=\ker\left(\begin{array}{cccc}
+1 & 2 & 0 & -3\\
+1 & 0 & 0 & -1\\
+-1 & 2 & -2 & -1\\
+1 & 2 & 0 & -3
+\end{array}\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\begin_inset Formula $\left(\begin{array}{cccc}
+1 & 2 & 0 & -3\\
+1 & 0 & 0 & -1\\
+-1 & 2 & -2 & -1\\
+1 & 2 & 0 & -3
+\end{array}\right)\stackrel{II-I,III+I,IV-I}{\rightsquigarrow}\left(\begin{array}{cccc}
+1 & 2 & 0 & -3\\
+0 & -2 & 0 & 2\\
+0 & 4 & -2 & -4\\
+0 & 0 & 0 & 0
+\end{array}\right)\stackrel{III+2II}{\rightsquigarrow}\left(\begin{array}{cccc}
+1 & 2 & 0 & -3\\
+0 & -2 & 0 & 2\\
+0 & 0 & -2 & 0\\
+0 & 0 & 0 & 0
+\end{array}\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\Rightarrow\ker\left(A-E_{4}\right)=\left\langle \left(\begin{array}{c}
+1\\
+1\\
+0\\
+1
+\end{array}\right)\right\rangle \Rightarrow\dim\ker\left(A-E_{4}\right)=1\neq r_{2}$
+\end_inset
+
+, also weiter
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\ker\left(\left(A-E_{4}\right)^{2}\right)=\ker\left(\begin{array}{cccc}
+0 & -4 & 0 & -4\\
+0 & 0 & 0 & 0\\
+2 & -8 & 4 & 6\\
+0 & -4 & 0 & 4
+\end{array}\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\begin_inset Formula $\left(\begin{array}{cccc}
+2 & -8 & 4 & 6\\
+0 & -4 & 0 & 4\\
+0 & -4 & 0 & 4\\
+0 & 0 & 0 & 0
+\end{array}\right)\stackrel{III-II}{\rightsquigarrow}\left(\begin{array}{cccc}
+2 & -8 & 4 & 6\\
+0 & -4 & 0 & 4\\
+0 & 0 & 0 & 0\\
+0 & 0 & 0 & 0
+\end{array}\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\Rightarrow\ker\left(\left(A-E_{4}\right)^{2}\right)=\left\langle \left(\begin{array}{c}
+1\\
+1\\
+0\\
+0
+\end{array}\right),\left(\begin{array}{c}
+1\\
+0\\
+0\\
+0
+\end{array}\right)\right\rangle \Rightarrow\dim\ker\left(\left(A-E_{4}\right)^{2}\right)=2=r_{2}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\Rightarrow H(\lambda_{2})=\left\langle \left(\begin{array}{c}
+1\\
+1\\
+0\\
+0
+\end{array}\right),\left(\begin{array}{c}
+1\\
+0\\
+0\\
+0
+\end{array}\right)\right\rangle $
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\Rightarrow$
+\end_inset
+
+Größter Jordanblock zu 
+\begin_inset Formula $\lambda_{2}$
+\end_inset
+
+ ist 
+\begin_inset Formula $2\times2$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph*
+(3) Eintragen in Matrix:
+\end_layout
+
+\begin_layout Standard
+Trage Eigenwerte von die Diagonale, sowohl bei 
+\begin_inset Formula $\lambda_{1}$
+\end_inset
+
+ als auch bei 
+\begin_inset Formula $\lambda_{2}$
+\end_inset
+
+ ist der Jordanblock 
+\begin_inset Formula $2\times2$
+\end_inset
+
+ groß,
+\end_layout
+
+\begin_layout Standard
+also kommt auf die Nebendiagonale der Hauptraumblöcke eine 1.
+\end_layout
+
+\begin_layout Standard
+Daraus ergibt sich:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $J_{A}=\left(\begin{array}{cccc}
+-1 & 1 & 0 & 0\\
+0 & -1 & 0 & 0\\
+0 & 0 & 1 & 1\\
+0 & 0 & 0 & 1
+\end{array}\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section*
+Aufgabe 3
+\end_layout
+
+\begin_layout Standard
+Sei 
+\begin_inset Formula $n\in\mathbb{N},\, V\subseteq\mathbb{R}[t]$
+\end_inset
+
+ der UVR der rellen Polynome vom Grad 
+\begin_inset Formula $\leq n$
+\end_inset
+
+.
+\begin_inset Newline newline
+\end_inset
+
+Sei 
+\begin_inset Formula $\varphi:\, V\to V$
+\end_inset
+
+ mit 
+\begin_inset Formula $\varphi(p)=p'$
+\end_inset
+
+, gesucht ist eine Basis 
+\begin_inset Formula $\mathcal{A}$
+\end_inset
+
+ von 
+\begin_inset Formula $V$
+\end_inset
+
+ bzgl.
+ der 
+\begin_inset Formula $L_{\varphi,\mathcal{A},\mathcal{A}}$
+\end_inset
+
+ Jordansche Normalform hat.
+\end_layout
+
+\begin_layout Standard
+Sei 
+\begin_inset Formula $\mathcal{A}^{*}=\{1,t,t^{2},...,t^{n}\}$
+\end_inset
+
+, dann ist 
+\begin_inset Formula $\mathcal{A}^{*}$
+\end_inset
+
+ eine Basis von 
+\begin_inset Formula $V$
+\end_inset
+
+, da 
+\begin_inset Formula $|\mathcal{A}^{*}|=n+1=\dim V$
+\end_inset
+
+ und 
+\begin_inset Formula $\mathcal{A}^{*}$
+\end_inset
+
+linear unabhängig.
+\end_layout
+
+\begin_layout Standard
+Dann ergibt sich 
+\begin_inset Formula $L_{\varphi,\mathcal{A}^{*},\mathcal{A}^{*}}$
+\end_inset
+
+ durch spaltenweises Eintragen der Bilder von 
+\begin_inset Formula $\mathcal{A}^{*}$
+\end_inset
+
+ bzgl.
+ 
+\begin_inset Formula $\varphi$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\varphi(1)=0$
+\end_inset
+
+, 
+\begin_inset Formula $\varphi(t)=1$
+\end_inset
+
+, 
+\begin_inset Formula $\varphi(t^{2})=2t$
+\end_inset
+
+, ..., 
+\begin_inset Formula $\varphi(t^{n})=nt^{n-1}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Also ist
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+L_{\varphi,\mathcal{A}^{*},\mathcal{A}^{*}}=\left(\begin{array}{ccccccc}
+0 & 1 & 0 & 0 & \cdots & 0 & 0\\
+0 & 0 & 2 & 0 & \cdots & 0 & 0\\
+0 & 0 & 0 & 3 &  & 0 & 0\\
+\vdots & \vdots & \vdots & \ddots & \ddots & \vdots & \vdots\\
+0 & 0 & 0 & 0 & 0 & \ddots & 0\\
+0 & 0 & 0 & 0 & \cdots & 0 & n\\
+0 & 0 & 0 & 0 & \cdots & 0 & 0
+\end{array}\right)
+\]
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Suche Basis 
+\begin_inset Formula $\mathcal{A}$
+\end_inset
+
+, sodass 
+\begin_inset Formula $L_{\varphi,\mathcal{A}^{*},\mathcal{A}^{*}}$
+\end_inset
+
+ Jordansche Normalforn hat:
+\end_layout
+
+\begin_layout Paragraph*
+(1) Stelle das charakteristische Polynom 
+\begin_inset Formula $p$
+\end_inset
+
+ von 
+\begin_inset Formula $L_{\varphi,\mathcal{A}^{*},\mathcal{A}*}$
+\end_inset
+
+ auf:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $p(t)=\det\left(\left(\begin{array}{ccccccc}
+-t & 1 & 0 & 0 & \cdots & 0 & 0\\
+0 & -t & 2 & 0 & \cdots & 0 & 0\\
+0 & 0 & -t & 3 &  & 0 & 0\\
+\vdots & \vdots & \vdots & \ddots & \ddots & \vdots & \vdots\\
+0 & 0 & 0 & 0 & -t & \ddots & 0\\
+0 & 0 & 0 & 0 & \cdots & -t & n\\
+0 & 0 & 0 & 0 & \cdots & 0 & -t
+\end{array}\right)\right)=(-t)^{n+1}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Also ist 
+\begin_inset Formula $\lambda=0$
+\end_inset
+
+ Eigenwert mit Vielfachheit 
+\begin_inset Formula $r=n+1$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Paragraph*
+(2) Berechnung des Hauptraumes 
+\begin_inset Formula $H(\lambda)$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\ker\left(L_{\varphi,\mathcal{A}^{*},\mathcal{A}^{*}}\right)=\left\langle \left(\begin{array}{c}
+1\\
+0\\
+\vdots\\
+\vdots\\
+0
+\end{array}\right)\right\rangle $
+\end_inset
+
+ 
+\begin_inset Formula $\Rightarrow\dim\ker\left(L_{\varphi,\mathcal{A}^{*},\mathcal{A}*}\right)=1\neq n+1$
+\end_inset
+
+, also weiter
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\ker\left(\left(L_{\varphi,\mathcal{A}^{*},\mathcal{A}^{*}}\right)^{2}\right)=\left\langle \left(\begin{array}{c}
+1\\
+0\\
+\vdots\\
+\vdots\\
+0
+\end{array}\right),\left(\begin{array}{c}
+0\\
+1\\
+\vdots\\
+\vdots\\
+0
+\end{array}\right)\right\rangle $
+\end_inset
+
+
+\begin_inset Formula $\Rightarrow\dim\ker\left(\left(L_{\varphi,\mathcal{A}^{*},\mathcal{A}*}\right)^{2}\right)=2\neq n+1$
+\end_inset
+
+, also weiter
+\end_layout
+
+\begin_layout Standard
+Wie wir aus der Vorlesung wissen, ist eine 
+\begin_inset Formula $q\times q$
+\end_inset
+
+-Matrix 
+\begin_inset Formula $Q$
+\end_inset
+
+ mit Einträgen ausschließlich auf der Nebendiagonalen nilpotent mit 
+\begin_inset Formula $Q^{q}=0,\, Q^{q-1}\neq0$
+\end_inset
+
+.
+ Also müssen wir 
+\begin_inset Formula $L_{\varphi,\mathcal{A}^{*},\mathcal{A}^{*}}$
+\end_inset
+
+
+\begin_inset Formula $n+1$
+\end_inset
+
+ mal potenzieren, um als Kern 
+\begin_inset Formula $V$
+\end_inset
+
+ zu bekommen.
+\end_layout
+
+\begin_layout Standard
+....
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\ker\left(\left(L_{\varphi,\mathcal{A}^{*},\mathcal{A}^{*}}\right)^{n}\right)=\left\langle \left(\begin{array}{c}
+1\\
+0\\
+\vdots\\
+\vdots\\
+0
+\end{array}\right),\left(\begin{array}{c}
+0\\
+1\\
+\vdots\\
+\vdots\\
+0
+\end{array}\right),...,\left(\begin{array}{c}
+0\\
+0\\
+\vdots\\
+1\\
+0
+\end{array}\right)\right\rangle $
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\ker\left(\left(L_{\varphi,\mathcal{A}^{*},\mathcal{A}^{*}}\right)^{n+1}\right)=\left\langle \left(\begin{array}{c}
+1\\
+0\\
+\vdots\\
+\vdots\\
+0
+\end{array}\right),\left(\begin{array}{c}
+0\\
+1\\
+\vdots\\
+\vdots\\
+0
+\end{array}\right),...,\left(\begin{array}{c}
+0\\
+0\\
+\vdots\\
+1\\
+0
+\end{array}\right),\left(\begin{array}{c}
+0\\
+0\\
+\vdots\\
+0\\
+1
+\end{array}\right)\right\rangle =V$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph*
+(3) Bestimme Basis von 
+\begin_inset Formula $H(\lambda)$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+Sei 
+\begin_inset Formula $U_{1}:=\ker\left(L_{\varphi,\mathcal{A}^{*},\mathcal{A}^{*}}\right)=\left\langle \left(\begin{array}{c}
+1\\
+0\\
+\vdots\\
+\vdots\\
+0
+\end{array}\right)\right\rangle ,\quad U_{2}:=\ker\left(\left(L_{\varphi,\mathcal{A}^{*},\mathcal{A}^{*}}\right)^{2}\right)=\left\langle \left(\begin{array}{c}
+1\\
+0\\
+\vdots\\
+\vdots\\
+0
+\end{array}\right),\left(\begin{array}{c}
+0\\
+1\\
+\vdots\\
+\vdots\\
+0
+\end{array}\right)\right\rangle $
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+...
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $U_{n}:=\ker\left(\left(L_{\varphi,\mathcal{A}^{*},\mathcal{A}^{*}}\right)^{n}\right)=\left\langle \left(\begin{array}{c}
+1\\
+0\\
+\vdots\\
+\vdots\\
+0
+\end{array}\right),\left(\begin{array}{c}
+0\\
+1\\
+\vdots\\
+\vdots\\
+0
+\end{array}\right),...,\left(\begin{array}{c}
+0\\
+0\\
+\vdots\\
+1\\
+0
+\end{array}\right)\right\rangle ,\quad U_{n+1}:=\ker\left(\left(L_{\varphi,\mathcal{A}^{*},\mathcal{A}^{*}}\right)^{n+1}\right)=\left\langle \left(\begin{array}{c}
+1\\
+0\\
+\vdots\\
+\vdots\\
+0
+\end{array}\right),\left(\begin{array}{c}
+0\\
+1\\
+\vdots\\
+\vdots\\
+0
+\end{array}\right),...,\left(\begin{array}{c}
+0\\
+0\\
+\vdots\\
+1\\
+0
+\end{array}\right),\left(\begin{array}{c}
+0\\
+0\\
+\vdots\\
+0\\
+1
+\end{array}\right)\right\rangle =V$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+(3.1) Gesucht : 
+\begin_inset Formula $W_{n+1}$
+\end_inset
+
+ mit 
+\begin_inset Formula $U_{n+1}=U_{n}\oplus W_{n+1}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Wähle 
+\begin_inset Formula $W_{n+1}=\left\langle \left(\begin{array}{c}
+0\\
+0\\
+\vdots\\
+\vdots\\
+\frac{1}{n!}
+\end{array}\right)\right\rangle $
+\end_inset
+
+, da 
+\begin_inset Formula $\left\langle \left(\begin{array}{c}
+1\\
+0\\
+\vdots\\
+\vdots\\
+0
+\end{array}\right),\left(\begin{array}{c}
+0\\
+1\\
+\vdots\\
+\vdots\\
+0
+\end{array}\right),...,\left(\begin{array}{c}
+0\\
+0\\
+\vdots\\
+1\\
+0
+\end{array}\right)\right\rangle \oplus\left\langle \left(\begin{array}{c}
+0\\
+0\\
+\vdots\\
+\vdots\\
+\frac{1}{n!}
+\end{array}\right)\right\rangle =V$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+(3.2) Gesucht: 
+\begin_inset Formula $W_{n}$
+\end_inset
+
+ mit 
+\begin_inset Formula $U_{n}=U_{n-1}\oplus W_{n}$
+\end_inset
+
+ und 
+\begin_inset Formula $\varphi\left(\begin{array}{c}
+0\\
+0\\
+\vdots\\
+\vdots\\
+\frac{1}{n!}
+\end{array}\right)\in W_{n}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\varphi\left(\begin{array}{c}
+0\\
+0\\
+\vdots\\
+\vdots\\
+\frac{1}{n!}
+\end{array}\right)=\left(\begin{array}{c}
+0\\
+0\\
+\vdots\\
+\frac{1}{(n-1)!}\\
+0
+\end{array}\right)$
+\end_inset
+
+.
+ Sei also 
+\begin_inset Formula $W_{n}=\left\langle \left(\begin{array}{c}
+0\\
+0\\
+\vdots\\
+\frac{1}{(n-1)!}\\
+0
+\end{array}\right)\right\rangle $
+\end_inset
+
+, dann ist 
+\begin_inset Formula $U_{n-1}\oplus W_{n}=U_{n}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Das gleiche nun wiederholen bis:
+\end_layout
+
+\begin_layout Standard
+(3.n+1) Gesucht: 
+\begin_inset Formula $W_{1}$
+\end_inset
+
+ mit 
+\begin_inset Formula $U_{1}=\{0\}\oplus W_{1}$
+\end_inset
+
+ und 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+
+\begin_inset Formula $\varphi^{n}\left(\begin{array}{c}
+0\\
+0\\
+\vdots\\
+\vdots\\
+\frac{1}{n!}
+\end{array}\right)\in W_{1}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\varphi^{n}\left(\begin{array}{c}
+0\\
+0\\
+\vdots\\
+\vdots\\
+\frac{1}{n!}
+\end{array}\right)=\left(\begin{array}{c}
+1\\
+0\\
+\vdots\\
+0\\
+0
+\end{array}\right)$
+\end_inset
+
+.
+ Sei also 
+\begin_inset Formula $W_{1}=\left\langle \left(\begin{array}{c}
+1\\
+0\\
+\vdots\\
+0\\
+0
+\end{array}\right)\right\rangle $
+\end_inset
+
+, dann ist 
+\begin_inset Formula $W_{1}=U_{1}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Paragraph*
+(4) Baue Basis 
+\begin_inset Formula $\mathcal{A}$
+\end_inset
+
+ zusammen:
+\end_layout
+
+\begin_layout Standard
+Basis 
+\begin_inset Formula $\mathcal{A}$
+\end_inset
+
+ ergibt sich durch durch die ergänzten Basen aus (3) und ihrer Bilder, also
+ ist
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\mathcal{A}=\left\{ \varphi^{n}\left(\begin{array}{c}
+0\\
+0\\
+\vdots\\
+\vdots\\
+\frac{1}{n!}
+\end{array}\right),\varphi^{n-1}\left(\begin{array}{c}
+0\\
+0\\
+\vdots\\
+\vdots\\
+\frac{1}{n!}
+\end{array}\right),...,\varphi\left(\begin{array}{c}
+0\\
+0\\
+\vdots\\
+\vdots\\
+\frac{1}{n!}
+\end{array}\right),\left(\begin{array}{c}
+0\\
+0\\
+\vdots\\
+\vdots\\
+\frac{1}{n!}
+\end{array}\right)\right\} =\left\{ \left(\begin{array}{c}
+1\\
+0\\
+\vdots\\
+\vdots\\
+0
+\end{array}\right),\left(\begin{array}{c}
+0\\
+1\\
+\vdots\\
+\vdots\\
+0
+\end{array}\right),...,\left(\begin{array}{c}
+0\\
+0\\
+\vdots\\
+\frac{1}{(n-1)!}\\
+0
+\end{array}\right),\left(\begin{array}{c}
+0\\
+\text{0}\\
+\vdots\\
+0\\
+\frac{1}{n!}
+\end{array}\right)\right\} $
+\end_inset
+
+, also
+\end_layout
+
+\begin_layout Standard
+ist Basis 
+\begin_inset Formula $\mathcal{A}=\{1,t,\frac{1}{2}t^{2},\frac{1}{6}t^{3},...,\frac{1}{n!}t^{n}\}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Aus (2) ergibt sich dann, dass Matrix von 
+\begin_inset Formula $\varphi$
+\end_inset
+
+ in Jordanscher Normalform gegeben ist durch
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $L_{\varphi,\mathcal{A},\mathcal{A}}=\left(\begin{array}{ccccccc}
+0 & 1 & 0 & 0 & \cdots & 0 & 0\\
+0 & 0 & 1 & 0 & \cdots & 0 & 0\\
+0 & 0 & 0 & 1 &  & 0 & 0\\
+\vdots & \vdots & \vdots & \ddots & \ddots & \vdots & \vdots\\
+0 & 0 & 0 & 0 & 0 & \ddots & 0\\
+0 & 0 & 0 & 0 & \cdots & 0 & 1\\
+0 & 0 & 0 & 0 & \cdots & 0 & 0
+\end{array}\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Section*
+Aufgabe 4
+\end_layout
+
+\begin_layout Standard
+Sei 
+\begin_inset Formula $A\in M(n,n,\mathbb{R})$
+\end_inset
+
+ mit 
+\begin_inset Formula $A^{3}=A$
+\end_inset
+
+.
+ Z.z.
+ 
+\begin_inset Formula $A$
+\end_inset
+
+ ist über 
+\begin_inset Formula $\mathbb{R}$
+\end_inset
+
+ diagonalisierbar.
+\end_layout
+
+\begin_layout Standard
+Sei 
+\begin_inset Formula $\lambda$
+\end_inset
+
+ Eigenwert von 
+\begin_inset Formula $A$
+\end_inset
+
+ zum Eigenvektor 
+\begin_inset Formula $v$
+\end_inset
+
+.
+ Dann muss gelten:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\lambda v\stackrel{EW}{=}Av\stackrel{A^{3}=A}{=}A^{3}v=A(A(A(v)))=A(A(\lambda v))=A(\lambda^{2}v)=\lambda^{3}v$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\stackrel{v\neq0}{\Rightarrow}\lambda=\lambda^{3}\Leftrightarrow0=\lambda^{3}-\lambda\Leftrightarrow\lambda(\lambda-1)(\lambda+1)=0$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\Leftrightarrow\lambda=0\lor\lambda=1\lor\lambda=-1$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Dann muss für das charakteristische Polynom 
+\begin_inset Formula $p_{A}$
+\end_inset
+
+ gelten:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $p_{A}(0)=p_{A}(1)=p_{A}(-1)=0$
+\end_inset
+
+.
+\end_layout
+
+\end_body
+\end_document
