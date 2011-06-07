@@ -503,6 +503,7 @@ public class GHSWork implements Work, GHSNode {
 					Channel oldParent = this.parent;
 					this.children.add(oldParent);
 					this.parent = this.receivedFrom;
+					this.children.remove(this.parent);
 					oldParent.send(new SyncMessage(GHSMessage.CHANGE_ROOT.get()
 							.getBytes()));
 					this.state = READY;
@@ -511,6 +512,7 @@ public class GHSWork implements Work, GHSNode {
 					// Ich bin die Wurzel
 					this.parent = this.receivedFrom;
 					this.state = READY;
+					this.children.remove(this.parent);
 					this.send = new SyncMessage(GHSMessage.READY.get()
 							.getBytes());
 				}
@@ -611,6 +613,7 @@ public class GHSWork implements Work, GHSNode {
 				Channel oldParent = this.parent;
 				this.children.add(oldParent);
 				this.parent = this.receivedFrom;
+				this.children.remove(this.parent);
 				oldParent.send(new SyncMessage(GHSMessage.CHANGE_ROOT.get()
 						.getBytes()));
 				this.state = READY;
@@ -618,6 +621,7 @@ public class GHSWork implements Work, GHSNode {
 			} else {
 				// Ich bin die Wurzel, direkt dran, als ist die mwoe verbidnung
 				this.parent = this.MWOEFrom;
+				this.children.remove(this.parent);
 				this.state = READY;
 				this.send = new SyncMessage(GHSMessage.READY.get().getBytes());
 			}
