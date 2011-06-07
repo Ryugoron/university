@@ -585,6 +585,10 @@ Darauf sendet die Wurzel ein END an alle Kinder (rekursiv) und darauf beenden
 \begin_inset VSpace bigskip
 \end_inset
 
+
+\end_layout
+
+\begin_layout Standard
 Wir haben in dieser Abgabe versucht die Idee des Algorithmuses zu erklären,
  wie wir ihn Implementiert haben.
  Der Code an sich ist in den einzelnen Cases und Methoden kommentiert, aber

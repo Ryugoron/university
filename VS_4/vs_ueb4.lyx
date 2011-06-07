@@ -400,6 +400,10 @@ end In diesem Zustand befindet sich die Wurzel, wenn keine MWOE mehr gefunden
 
 \end_layout
 
+\begin_layout Subsubsection*
+Suchen der MWOE:
+\end_layout
+
 \begin_layout Standard
 In Abbildung 1 ist schematisch das Vorgehen gezeigt, wie wir im Status MWOESearc
 h die MWOE der eigenen Komponente suchen: Mit Testnachrichten werden alle
@@ -462,10 +466,10 @@ An dieser Stelle hat unsere Implementierung noch ein paar Macken.
  Wir finden die MWOE zwar für Komponenten der größe 1, aber in der Implementieru
 ng dieses gezeigten Schemas hatten wir noch einige Probleme, die hauptsächlich
  in der Unübersichtlichkeit des Codes fußten.
-\begin_inset VSpace bigskip
-\end_inset
+\end_layout
 
-
+\begin_layout Subsubsection*
+Verschmelzen durch CONNECT-Anfrage:
 \end_layout
 
 \begin_layout Standard
@@ -499,7 +503,7 @@ status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename vs_uebKA2.png
+	filename vs_uebKA2andereversion.png
 	scale 60
 
 \end_inset
