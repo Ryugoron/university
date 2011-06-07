@@ -1590,7 +1590,7 @@ Daraus ergeben sich die Eigenräume:
 \end_layout
 
 \begin_layout Standard
-\begin_inset Formula $E\left(A,\lambda_{1}\right)=\left\{ v\;|\; f\left(v\right)=1\right\} $
+\begin_inset Formula $E\left(A,\lambda_{1}\right)=\left\{ v\;|\; f\left(v\right)=-v\right\} $
 \end_inset
 
 
@@ -1604,7 +1604,7 @@ Daraus ergeben sich die Eigenräume:
 \end_layout
 
 \begin_layout Standard
-\begin_inset Formula $E\left(A,\lambda_{-1}\right)=\left\{ v\;|\; f\left(v\right)=-1\right\} $
+\begin_inset Formula $E\left(A,\lambda_{-1}\right)=\left\{ v\;|\; f\left(v\right)=v\right\} $
 \end_inset
 
 
@@ -1619,6 +1619,43 @@ Wir kennen die Vielfachheiten nicht, aber da wir alle Eigenräume haben können
 \begin_inset Formula 
 \[
 \dim\left(V\right)=n=\dim\left(E\left(A,\lambda_{1}\right)\right)+\dim\left(E\left(A,\lambda_{0}\right)\right)+\dim\left(E\left(A,\lambda_{-1}\right)\right)
+\]
+
+\end_inset
+
+Aus der Dimensionsformel
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\dim\left(V\right)=\dim\left(\ker\left(A\right)\right)+\dim\left(Im\left(A\right)\right)
+\]
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+folgt nun
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\dim\left(E\left(A,\lambda_{1}\right)\right)+\dim\left(E\left(A,\lambda_{0}\right)\right)+\dim\left(E\left(A,\lambda_{-1}\right)\right)=\dim\left(\ker\left(A\right)\right)+\dim\left(Im\left(A\right)\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\Leftrightarrow\dim\left(E\left(A,\lambda_{1}\right)\right)+\dim\left(E\left(A,\lambda_{-1}\right)\right)=\dim\left(Im\left(A\right)\right)
 \]
 
 \end_inset
