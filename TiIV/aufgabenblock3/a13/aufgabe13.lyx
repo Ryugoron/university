@@ -25,9 +25,10 @@
 \bibtex_command default
 \index_command default
 \paperfontsize default
+\spacing single
 \use_hyperref false
 \papersize default
-\use_geometry false
+\use_geometry true
 \use_amsmath 1
 \use_esint 1
 \use_mhchem 1
@@ -42,6 +43,10 @@
 \shortcut idx
 \color #008000
 \end_index
+\leftmargin 3cm
+\topmargin 2cm
+\rightmargin 2cm
+\bottommargin 2cm
 \secnumdepth 3
 \tocdepth 3
 \paragraph_separation indent
@@ -249,6 +254,7 @@ Wenn wir das Modul einschalten, ist das erste was wir tun müssen ein Socet
 
 \begin_layout Standard
 \begin_inset Float algorithm
+placement H
 wide false
 sideways false
 status open
@@ -258,6 +264,35 @@ status open
 lstparams "basicstyle={\footnotesize\ttfamily},numbers=left,tabsize=4"
 inline false
 status open
+
+\begin_layout Plain Layout
+
+//Globale Variablen
+\end_layout
+
+\begin_layout Plain Layout
+
+wip_channel_t channel;
+\end_layout
+
+\begin_layout Plain Layout
+
+ascii sendbuffer[12];
+\end_layout
+
+\begin_layout Plain Layout
+
+u8 status[8];
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+//Main
+\end_layout
 
 \begin_layout Plain Layout
 
@@ -360,8 +395,152 @@ In der main werden die beiden nötigen Eventhandler angelegt und sowohl LED
 
 \end_layout
 
+\end_inset
+
+Nachdem wir nun alle Test, LEDs und Sockets angestellt haben, können wir
+ uns um das Senden der Nachrichten an den Server kümmern.
+ Im status (ganz oben) finden wir schon die Zahlen (0-Aus, 1-Ein), die wir
+ an den Server schicken werden.
+ Wir speichern dazu immer unseren jetzt Zustand zwischen und ändern nur
+ das, wass wir von den Tasten oder vom Server gesagt bekommen.
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Da wir nur senden sollen, wenn wir auf eine Taste gedrückt haben, ist die
+ Logik des Sendens im keyhandler.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset listings
+inline false
+status open
+
 \begin_layout Plain Layout
 
+bool keyhandler(adl_atUnsolicited_t *paras) 	{
+\end_layout
+
+\begin_layout Plain Layout
+
+	ascii tasteStr[2];
+\end_layout
+
+\begin_layout Plain Layout
+
+	ascii tasteFirst[2];
+\end_layout
+
+\begin_layout Plain Layout
+
+	ascii statusStr[2];
+\end_layout
+
+\begin_layout Plain Layout
+
+	// parameter auslesen
+\end_layout
+
+\begin_layout Plain Layout
+
+	wm_strGetParameterString(tasteStr, paras->StrData, 1);
+\end_layout
+
+\begin_layout Plain Layout
+
+	wm_strncpy(tasteFirst,tasteStr,1);
+\end_layout
+
+\begin_layout Plain Layout
+
+	wm_strGetParameterString(statusStr, paras->StrData, 2);
+\end_layout
+
+\begin_layout Plain Layout
+
+	adl_atSendResponse(ADL_AT_RSP, "
+\backslash
+r
+\backslash
+nTaste ");
+\end_layout
+
+\begin_layout Plain Layout
+
+	adl_atSendResponse(ADL_AT_RSP, tasteFirst);
+\end_layout
+
+\begin_layout Plain Layout
+
+	adl_atSendResponse(ADL_AT_RSP, " wurde  auf ");
+\end_layout
+
+\begin_layout Plain Layout
+
+	adl_atSendResponse(ADL_AT_RSP, statusStr);
+\end_layout
+
+\begin_layout Plain Layout
+
+	adl_atSendResponse(ADL_AT_RSP, " gesetzt
+\backslash
+r
+\backslash
+n");
+\end_layout
+
+\begin_layout Plain Layout
+
+	status[wm_atoi(tasteStr)+4] = wm_atoi(statusStr);
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	wm_sprintf(sendbuffer, "SET:%d%d%d%d%d%d%d%d", 
+\end_layout
+
+\begin_layout Plain Layout
+
+		status[0], status[1], status[2], status[3],
+\end_layout
+
+\begin_layout Plain Layout
+
+		status[4], status[5], status[6], status[7]);
+\end_layout
+
+\begin_layout Plain Layout
+
+	adl_atSendResponse(ADL_AT_RSP, sendbuffer);
+\end_layout
+
+\begin_layout Plain Layout
+
+	wip_write(channel, sendbuffer, 12);
+\end_layout
+
+\begin_layout Plain Layout
+
+	return FALSE;
+\end_layout
+
+\begin_layout Plain Layout
+
+} 
 \end_layout
 
 \end_inset
@@ -369,8 +548,462 @@ In der main werden die beiden nötigen Eventhandler angelegt und sowohl LED
 
 \end_layout
 
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Im Keyhandler wird nachgeguckt, welche Taste gedrückt wurde und der neue
+ Status an den Server geschickt.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+Der größte Teil, in dieser Funktion ist eine Statusausgabe auf der Konsole.
+ Wir holen uns wie gewohnt von der Aufgabe mit den Tastern 
+\emph on
+A8
+\emph default
+ wissen den ersten Teil der Antwort herraus und kopieren davon den ersten
+ Teil nochmal herraus.
+ Dies ist nötig, da in der Antwort nach der ersten Zahl im String immer
+ noch etwas stand, das nicht dort hin gehörte.
+ Deswegen holen wir uns noch den ersten Teil davon herraus.
+\end_layout
+
+\begin_layout Standard
+Im zweiten Teil steht nun der Status der Taste korrekt.
+\begin_inset Newline newline
+\end_inset
+
+Nun parsen wir die Taste und den Status und schreiben das ganze in den status
+ hinein.
+ Die Plus 4 im Index verschiebt die Taste (0..3) auf die Korrekte Position
+ (sie Protokollspezifikation in der Aufgabe).
+\begin_inset VSpace defskip
+\end_inset
+
+Als nächstes betrachten wir die TCPHandler 
+\emph on
+echo_response
+\emph default
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+void echo_response(wip_event_t *event, void *ctx) 	{
+\end_layout
+
+\begin_layout Plain Layout
+
+	s32 answer;
+\end_layout
+
+\begin_layout Plain Layout
+
+	ascii buffer[12];
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	switch (event->kind) 		{
+\end_layout
+
+\begin_layout Plain Layout
+
+		case WIP_CEV_OPEN:
+\end_layout
+
+\begin_layout Plain Layout
+
+			break;
+\end_layout
+
+\begin_layout Plain Layout
+
+		case WIP_CEV_READ:
+\end_layout
+
+\begin_layout Plain Layout
+
+			do 				{
+\end_layout
+
+\begin_layout Plain Layout
+
+				answer=wip_read(event->channel, buffer, sizeof(buffer) - 1);
+\end_layout
+
+\begin_layout Plain Layout
+
+				buffer[answer] = '
+\backslash
+0';
+\end_layout
+
+\begin_layout Plain Layout
+
+			// Terminieren, falls es ein String ist
+\end_layout
+
+\begin_layout Plain Layout
+
+				adl_atSendResponse(ADL_AT_RSP, buffer);
+\end_layout
+
+\begin_layout Plain Layout
+
+				updateStatus(buffer);
+\end_layout
+
+\begin_layout Plain Layout
+
+				}
+\end_layout
+
+\begin_layout Plain Layout
+
+			while (answer == sizeof(buffer) - 1);
+\end_layout
+
+\begin_layout Plain Layout
+
+			break;
+\end_layout
+
+\begin_layout Plain Layout
+
+		case WIP_CEV_WRITE:
+\end_layout
+
+\begin_layout Plain Layout
+
+			break;
+\end_layout
+
+\begin_layout Plain Layout
+
+		default:
+\end_layout
+
+\begin_layout Plain Layout
+
+			wip_close(channel);
+\end_layout
+
+\begin_layout Plain Layout
+
+			ERROR("ERROR");
+\end_layout
+
+\begin_layout Plain Layout
+
+			break;
+\end_layout
+
+\begin_layout Plain Layout
+
+		}
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Der Handler echo_response achtet nur darauf, wenn etwas gesendet wurde.
+ Sollte der Server den Channel beendet, wird das Socket geschlossen.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Wir warten darauf, dass wir eine Nachricht über das Socket bekommen.
+ Haben wir eine Nachricht im buffer, rufen wir die Funktion 
+\emph on
+updateStatus
+\emph default
+ auf.
+ Der Handler macht an sich nicht mehr, außer auf ein schlileßen des Channels
+ zu achten oder sonstige Fehler auf der Leitung.
+ Betrachten wir nun 
+\emph on
+updateStatus
+\emph default
+ und innerhalb davon 
+\emph on
+useStatus
+\emph default
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+void useStatus(){
+\end_layout
+
+\begin_layout Plain Layout
+
+	u8 i;
+\end_layout
+
+\begin_layout Plain Layout
+
+	for(i = 0; i<4; ++i){
+\end_layout
+
+\begin_layout Plain Layout
+
+		if(status[i] == 1) led_on(i);
+\end_layout
+
+\begin_layout Plain Layout
+
+		else led_off(i);
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+void updateStatus(ascii * stat) 	{
+\end_layout
+
+\begin_layout Plain Layout
+
+	if (wm_strncmp(stat, "SET:", 4) != 0) 		{
+\end_layout
+
+\begin_layout Plain Layout
+
+		return;
+\end_layout
+
+\begin_layout Plain Layout
+
+		}
+\end_layout
+
+\begin_layout Plain Layout
+
+	u8 i;
+\end_layout
+
+\begin_layout Plain Layout
+
+	adl_atSendResponse(ADL_AT_RSP,"
+\backslash
+r
+\backslash
+nneuer status:
+\backslash
+r
+\backslash
+n");
+\end_layout
+
+\begin_layout Plain Layout
+
+	for (i = 0; i < 8; ++i) 		{
+\end_layout
+
+\begin_layout Plain Layout
+
+		if (wm_strncmp(stat + 4 + i, "1", 1) == 0) 			{
+\end_layout
+
+\begin_layout Plain Layout
+
+			status[i] = 1;
+\end_layout
+
+\begin_layout Plain Layout
+
+			adl_atSendResponse(ADL_AT_RSP,"1");
+\end_layout
+
+\begin_layout Plain Layout
+
+			}
+\end_layout
+
+\begin_layout Plain Layout
+
+		else if (wm_strncmp(stat + 4 + i, "0", 1) == 0) 			{
+\end_layout
+
+\begin_layout Plain Layout
+
+			status[i] = 0;
+\end_layout
+
+\begin_layout Plain Layout
+
+			adl_atSendResponse(ADL_AT_RSP,"0");
+\end_layout
+
+\begin_layout Plain Layout
+
+			}
+\end_layout
+
+\begin_layout Plain Layout
+
+		}
+\end_layout
+
+\begin_layout Plain Layout
+
+	adl_atSendResponse(ADL_AT_RSP,"
+\backslash
+r
+\backslash
+n");
+\end_layout
+
+\begin_layout Plain Layout
+
+	useStatus();
+\end_layout
+
+\begin_layout Plain Layout
+
+} 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Die beiden Funktionen, die ein über TCP empfangens Packet den Status anpassen.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+In updateStatus parsen wir aus einem eingegebenen String Charweise den inhalt
+ und schreiben den Inhalt in 
+\emph on
+status
+\emph default
+ hinein.
+ Haben wir alle Änderungen eingetragen rufen wir 
+\emph on
+useStatus
+\emph default
+ auf, der dafür sorgt, dass alle LEDs (Tasten werden wir programmatisch
+ nicht drücken können, deswegen werden diese ignoriert), die im 
+\emph on
+status
+\emph default
+ gesetzt sind ein geschaltet werden und die anderen aus.
+\begin_inset VSpace defskip
+\end_inset
+
+Mit diesen einfachen Methoden können wir die geforderte Funktionalität umsetzen.
+ Zum letzten Punkt der Aufgabe:
+\end_layout
+
+\begin_layout Standard
+Haben wir nicht getan.
+\end_layout
+
+\begin_layout Standard
+...
+\end_layout
+
+\begin_layout Standard
+Ehrlich!
+\end_layout
+
 \begin_layout Subsection*
 Auswertung
+\end_layout
+
+\begin_layout Standard
+
 \end_layout
 
 \end_body

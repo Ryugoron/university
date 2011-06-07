@@ -25,9 +25,10 @@
 \bibtex_command default
 \index_command default
 \paperfontsize default
+\spacing single
 \use_hyperref false
 \papersize default
-\use_geometry false
+\use_geometry true
 \use_amsmath 1
 \use_esint 1
 \use_mhchem 1
@@ -42,6 +43,10 @@
 \shortcut idx
 \color #008000
 \end_index
+\leftmargin 3cm
+\topmargin 2cm
+\rightmargin 2cm
+\bottommargin 2cm
 \secnumdepth 3
 \tocdepth 3
 \paragraph_separation indent
@@ -181,12 +186,472 @@ Bitte besuchen Sie nur ihre Seite, damit die anderen Gruppen nicht gestört
 Dokumentation
 \end_layout
 
-\begin_layout Standard
+\begin_layout Description
+wip_read liest aus einem Socket eine Festgelegte Anzah von Bytes in einen
+ Buffer
+\begin_inset Newline newline
+\end_inset
 
+wip_read(Socket* s, ascii* buffer, u16 size).
+ [Socket steht hier stellvertretend für das struct eines Sockets)
+\end_layout
+
+\begin_layout Description
+wip_write schreibt eine Nachricht mit angegebener Anzahl von Bytes auf ein
+ Socket.
+ Diese wird dann raus geschickt.
+\begin_inset Newline newline
+\end_inset
+
+wip_write(Socket* s, ascii* buffer, u16 size).
+\end_layout
+
+\begin_layout Description
+wi_close Schließt ein TCPSocket wieder.
+\begin_inset Newline newline
+\end_inset
+
+wip_close(Socket* s);
+\end_layout
+
+\begin_layout Description
+wip_TCPClientCreateOpts erstellt ein neues TCP Clienten Socket.
+ Die optionale Variante ist von nöten, da das Socket sonst nicht automatisch
+ gebindet wird.
+\end_layout
+
+\begin_layout Description
+adl_atCmdCreate führt ein ATCommando aus, wie man es auf der Commandozeile
+ auch eintragen kann
+\end_layout
+
+\begin_layout Description
+adl_atUnSoSubscribe registriert einen Handler auf ein Unsolicid Responses.
+ Die meisten werden auf AT Commandos als Antwort geworfen.
 \end_layout
 
 \begin_layout Subsection*
 Durchführung
+\end_layout
+
+\begin_layout Standard
+Um das GPRS zu benutzen musste die Flag in 
+\emph on
+config.h
+\emph default
+ auf 1 gesetzt werden.
+ Dies haben wir schon in Aufgabe 
+\emph on
+A12 
+\emph default
+eingeschaltet.
+\begin_inset VSpace defskip
+\end_inset
+
+Wenn wir das Modul einschalten, ist das erste was wir tun müssen ein Socet
+ zu erstellen und die Taster zu aktivieren:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset listings
+lstparams "basicstyle={\footnotesize\ttfamily},numbers=left,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+//Globale Variablen
+\end_layout
+
+\begin_layout Plain Layout
+
+wip_channel_t channel;
+\end_layout
+
+\begin_layout Plain Layout
+
+ascii sendbuffer[12];
+\end_layout
+
+\begin_layout Plain Layout
+
+u8 status[8];
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+//Main
+\end_layout
+
+\begin_layout Plain Layout
+
+void main(void){
+\end_layout
+
+\begin_layout Plain Layout
+
+	led_init(); 
+\end_layout
+
+\begin_layout Plain Layout
+
+	u8 i; 
+\end_layout
+
+\begin_layout Plain Layout
+
+	for (i = 0; i < 8; ++i) {
+\end_layout
+
+\begin_layout Plain Layout
+
+		status[i] = 0;
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\begin_layout Plain Layout
+
+	channel = wip_TCPClientCreateOpts("hwp.mi.fu-berlin.de", // Host
+\end_layout
+
+\begin_layout Plain Layout
+
+				50008, // Port 
+\end_layout
+
+\begin_layout Plain Layout
+
+				echo_response, // Handler 
+\end_layout
+
+\begin_layout Plain Layout
+
+				NULL, WIP_COPT_PORT, 13338, WIP_COPT_END);
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	// keymeldungen aktivieren
+\end_layout
+
+\begin_layout Plain Layout
+
+	adl_atCmdCreate("AT+CMER=,1", FALSE, (adl_atRspHandler_t) NULL, NULL);
+\end_layout
+
+\begin_layout Plain Layout
+
+	// keyhandler anlegen 
+\end_layout
+
+\begin_layout Plain Layout
+
+	adl_atUnSoSubscribe("+CKEV:", (adl_atUnSoHandler_t) keyhandler); 
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+In der main werden die beiden nötigen Eventhandler angelegt und sowohl LED
+ als auch Taster aktiviert.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+Nachdem wir nun alle Test, LEDs und Sockets angestellt haben, können wir
+ uns um das Senden der Nachrichten an den Server kümmern.
+ Im status (ganz oben) finden wir schon die Zahlen (0-Aus, 1-Ein), die wir
+ an den Server schicken werden.
+ Wir speichern dazu immer unseren jetzt Zustand zwischen und ändern nur
+ das, wass wir von den Tasten oder vom Server gesagt bekommen.
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Da wir nur senden sollen, wenn wir auf eine Taste gedrückt haben, ist die
+ Logik des Sendens im keyhandler.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+bool keyhandler(adl_atUnsolicited_t *paras) 	{
+\end_layout
+
+\begin_layout Plain Layout
+
+	ascii tasteStr[2];
+\end_layout
+
+\begin_layout Plain Layout
+
+	ascii tasteFirst[2];
+\end_layout
+
+\begin_layout Plain Layout
+
+	ascii statusStr[2];
+\end_layout
+
+\begin_layout Plain Layout
+
+	// parameter auslesen
+\end_layout
+
+\begin_layout Plain Layout
+
+	wm_strGetParameterString(tasteStr, paras->StrData, 1);
+\end_layout
+
+\begin_layout Plain Layout
+
+	wm_strncpy(tasteFirst,tasteStr,1);
+\end_layout
+
+\begin_layout Plain Layout
+
+	wm_strGetParameterString(statusStr, paras->StrData, 2);
+\end_layout
+
+\begin_layout Plain Layout
+
+	adl_atSendResponse(ADL_AT_RSP, "
+\backslash
+r
+\backslash
+nTaste ");
+\end_layout
+
+\begin_layout Plain Layout
+
+	adl_atSendResponse(ADL_AT_RSP, tasteFirst);
+\end_layout
+
+\begin_layout Plain Layout
+
+	adl_atSendResponse(ADL_AT_RSP, " wurde  auf ");
+\end_layout
+
+\begin_layout Plain Layout
+
+	adl_atSendResponse(ADL_AT_RSP, statusStr);
+\end_layout
+
+\begin_layout Plain Layout
+
+	adl_atSendResponse(ADL_AT_RSP, " gesetzt
+\backslash
+r
+\backslash
+n");
+\end_layout
+
+\begin_layout Plain Layout
+
+	status[wm_atoi(tasteStr)+4] = wm_atoi(statusStr);
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	wm_sprintf(sendbuffer, "SET:%d%d%d%d%d%d%d%d", 
+\end_layout
+
+\begin_layout Plain Layout
+
+		status[0], status[1], status[2], status[3],
+\end_layout
+
+\begin_layout Plain Layout
+
+		status[4], status[5], status[6], status[7]);
+\end_layout
+
+\begin_layout Plain Layout
+
+	adl_atSendResponse(ADL_AT_RSP, sendbuffer);
+\end_layout
+
+\begin_layout Plain Layout
+
+	wip_write(channel, sendbuffer, 12);
+\end_layout
+
+\begin_layout Plain Layout
+
+	return FALSE;
+\end_layout
+
+\begin_layout Plain Layout
+
+} 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Im Keyhandler wird nachgeguckt, welche Taste gedrückt wurde und der neue
+ Status an den Server geschickt.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+Der größte Teil, in dieser Funktion ist eine Statusausgabe auf der Konsole.
+ Wir holen uns wie gewohnt von der Aufgabe mit den Tastern 
+\emph on
+A8
+\emph default
+ wissen den ersten Teil der Antwort herraus und kopieren davon den ersten
+ Teil nochmal herraus.
+ Dies ist nötig, da in der Antwort nach der ersten Zahl im String immer
+ noch etwas stand, das nicht dort hin gehörte.
+ Deswegen holen wir uns noch den ersten Teil davon herraus.
+\end_layout
+
+\begin_layout Standard
+Im zweiten Teil steht nun der Status der Taste korrekt.
+\begin_inset Newline newline
+\end_inset
+
+Nun parsen wir die Taste und den Status und schreiben das ganze in den status
+ hinein.
+ Die Plus 4 im Index verschiebt die Taste (0..3) auf die Korrekte Position
+ (sie Protokollspezifikation in der Aufgabe).
+\begin_inset VSpace defskip
+\end_inset
+
+Als nächstes betrachten wir die TCPHandler 
+\emph on
+echo_response
+\emph default
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+void echo_response(wip_event_t *event, void *ctx) 	{ 	s32 answer; 	ascii
+ buffer[12];
+\end_layout
+
+\begin_layout Plain Layout
+
+	switch (event->kind) 		{ 		case WIP_CEV_OPEN: 			break; 		case WIP_CEV_READ:
+ 			do 				{ 				answer = wip_read(event->channel, buffer, sizeof(buffer)
+ - 1); 				buffer[answer] = '
+\backslash
+0'; // Terminieren, falls es ein String ist 				adl_atSendResponse(ADL_AT_RSP,
+ buffer); 				updateStatus(buffer); 				} 			while (answer == sizeof(buffer)
+ - 1); 			break; 		case WIP_CEV_WRITE: 			break; 		default: 			wip_close(channel
+); 			ERROR("ERROR"); 			break; 		} 	}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Der Handler echo_response achtet nur darauf, wenn etwas gesendet wurde.
+ Sollte der Server den
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection*
