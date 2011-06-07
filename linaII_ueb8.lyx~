@@ -556,7 +556,7 @@ Haupträume
 1\\
 0\\
 1
-\end{array}\right)\right\rangle \Rightarrow\dim\left(\ker\left(A-E_{3}\right)\right)=1<r_{2}$
+\end{array}\right)\right\rangle \Rightarrow\dim\left(\ker\left(A-E_{3}\right)\right)=1<r_{1}$
 \end_inset
 
 , fortfahren
@@ -578,18 +578,15 @@ Haupträume
 0\\
 0\\
 0
-\end{array}\right)\right\rangle \Rightarrow\dim\ker\left(\left(A-E_{3}\right)^{2}\right)=2=r_{2}$
+\end{array}\right)\right\rangle \Rightarrow\dim\ker\left(\left(A-E_{3}\right)^{2}\right)=2=r_{1}$
 \end_inset
 
  fertig.
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula $\Rightarrow$
+\begin_inset Newline newline
 \end_inset
 
-Ein Jordanblock zu 
-\begin_inset Formula $\lambda_{2}$
+Wir haben einen Jordanblock zu 
+\begin_inset Formula $\lambda_{1}$
 \end_inset
 
  der Größe 
@@ -648,7 +645,7 @@ Ein Jordanblock zu
 \end_inset
 
 Wir haben ein Jordanblock zu 
-\begin_inset Formula $\lambda_{1}$
+\begin_inset Formula $\lambda_{2}$
 \end_inset
 
  der Größe 
@@ -656,46 +653,26 @@ Wir haben ein Jordanblock zu
 \end_inset
 
 
-\begin_inset Newline newline
+\end_layout
+
+\begin_layout Description
+Jordansche
+\begin_inset Formula $\;$
 \end_inset
 
-
-\begin_inset Newline newline
-\end_inset
-
-(3) Eintragen in Matrix:
+Normalform
 \end_layout
 
 \begin_layout Standard
-Trage Eigenwerte von die Diagonale, sowohl bei 
-\begin_inset Formula $\lambda_{1}$
-\end_inset
-
- als auch bei 
-\begin_inset Formula $\lambda_{2}$
-\end_inset
-
- ist der Jordanblock 
-\begin_inset Formula $2\times2$
-\end_inset
-
- groß,
-\end_layout
-
-\begin_layout Standard
-also kommt auf die Nebendiagonale der Hauptraumblöcke eine 1.
-\end_layout
-
-\begin_layout Standard
-Daraus ergibt sich:
+Wir tragen die Jordanblöcke, die wir ermittelt haben, auf
 \end_layout
 
 \begin_layout Standard
 \begin_inset Formula $J_{A}=\left(\begin{array}{cccc}
--1 & 1 & 0 & 0\\
-0 & -1 & 0 & 0\\
-0 & 0 & 1 & 1\\
-0 & 0 & 0 & 1
+1 & 1 & 0 & 0\\
+0 & 1 & 0 & 0\\
+0 & 0- & 1 & 1\\
+0 & 0 & 0 & -1
 \end{array}\right)$
 \end_inset
 
