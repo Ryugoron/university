@@ -104,6 +104,79 @@ LEDs
 Aufgaben
 \end_layout
 
+\begin_layout Itemize
+Die Zustandsänderung eines Tasters (Taster0...Taster3) soll an einen Webserver
+ übertragen werden.
+ Der Server ist 
+\series bold
+hwp.mi.fu-berlin.de.
+
+\series default
+ Genutzt werden die Ports 
+\series bold
+50001...50009
+\series default
+.
+ Die Zuordnung der Ports zu den Arbeitsplätzen ist
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+50008 : HWP8
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Für die Gruppen: ...
+ 
+\series bold
+HWP8
+\series default
+....
+ wird die Zustandsänderung auf den verlinkten HTML-Formularen sichtbar gemacht.
+ Zur Aktualisierung der Anzeige drücken sie [F5].
+ User und Passwort sind mit dem Praktikumszugang identisch.
+\end_layout
+
+\begin_layout Itemize
+Die vom Modul über die TCP-Verbinung zu verschickende Zeichenkette muss
+ folgendes Format haben:
+\begin_inset Newline newline
+\end_inset
+
+
+\series bold
+SET:<LED0><LED1><LED2><LED3><Taste0><Taste1><Taste2><Taste3>
+\begin_inset Newline newline
+\end_inset
+
+
+\series default
+z.B.: 
+\series bold
+SET:00010111
+\series default
+; (0-Aus, 1-Ein)
+\end_layout
+
+\begin_layout Itemize
+Wird im HTML-Formular die Taste Senden gedrückt, werden die Eingaben aus
+ dem Formular in einer Zeichenkette(wie oben erläutert) an das Modul zuückgeschi
+ckt.
+\end_layout
+
+\begin_layout Itemize
+Werten Sie die empfangene Zeichenkette aus und setzten Sie den Zustand der
+ LEDs entsprechend um.
+\end_layout
+
+\begin_layout Itemize
+Bitte besuchen Sie nur ihre Seite, damit die anderen Gruppen nicht gestört
+ werden.
+\end_layout
+
 \begin_layout Subsection*
 Dokumentation
 \end_layout

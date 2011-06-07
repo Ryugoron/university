@@ -141,20 +141,7 @@ HWP8
 \end_layout
 
 \begin_layout Itemize
-Die vom Modul über die TCP-Verbinung zu verschickende Zeichenkette muss
- folgendes Format haben:
-\begin_inset Newline newline
-\end_inset
-
-
-\series bold
-SET:<LED0><LED1><LED2><LED3><Taste0><Taste1><Taste2><Taste3>
-\begin_inset Newline newline
-\end_inset
-
-
-\series default
-z.B.:
+Die vom Modul über die TCP-Verbinung zu verschickende Zeichen
 \end_layout
 
 \begin_layout Subsection*
