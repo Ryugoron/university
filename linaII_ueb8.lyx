@@ -911,40 +911,31 @@ Damit ist der Eigenwert
 \end_layout
 
 \begin_layout Standard
-Wie wir aus der Vorlesung wissen, ist eine 
-\begin_inset Formula $q\times q$
+In der VL haben wir uns nun schon einmal mit diesem Problem beschäftigt.
+ Wir haben eine Matri, die nur auf der Diagonalen, üerhalb der Hauptdiagonalen
+ Einträge besitzt.
+ Wie in der VL gezeigt, können wir eine solche Matrix 
+\begin_inset Formula $C\in M\left(k,k,\mathbb{R}\right)$
 \end_inset
 
--Matrix 
-\begin_inset Formula $Q$
+ in 
+\begin_inset Formula $k+1$
 \end_inset
 
- mit Einträgen ausschließlich auf der Nebendiagonalen nilpotent mit 
-\begin_inset Formula $Q^{q}=0,\, Q^{q-1}\neq0$
+ Schritten zur Nulmatrix potenzieren: 
+\begin_inset Formula $C^{k+1}=0$
 \end_inset
 
 .
- Also müssen wir 
-\begin_inset Formula $L_{\varphi,\mathcal{A}^{*},\mathcal{A}^{*}}$
+ Dies können wir nun auf unser Problem anwenden
+\begin_inset VSpace defskip
 \end_inset
 
 
-\begin_inset Formula $n+1$
-\end_inset
-
- mal potenzieren, um als Kern 
-\begin_inset Formula $V$
-\end_inset
-
- zu bekommen.
 \end_layout
 
 \begin_layout Standard
-....
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula $\ker\left(\left(L_{\varphi,\mathcal{A}^{*},\mathcal{A}^{*}}\right)^{n}\right)=\left\langle \left(\begin{array}{c}
+\begin_inset Formula $\ker\left(B^{n}\right)=\left\langle \left(\begin{array}{c}
 1\\
 0\\
 \vdots\\
@@ -969,7 +960,140 @@ Wie wir aus der Vorlesung wissen, ist eine
 \end_layout
 
 \begin_layout Standard
-\begin_inset Formula $\ker\left(\left(L_{\varphi,\mathcal{A}^{*},\mathcal{A}^{*}}\right)^{n+1}\right)=\left\langle \left(\begin{array}{c}
+\begin_inset Formula $\ker\left(B^{n+1}\right)=\left\langle \left(\begin{array}{c}
+1\\
+0\\
+\vdots\\
+\vdots\\
+0
+\end{array}\right),\left(\begin{array}{c}
+0\\
+1\\
+\vdots\\
+\vdots\\
+0
+\end{array}\right),...,\left(\begin{array}{c}
+0\\
+0\\
+\vdots\\
+1\\
+0
+\end{array}\right),\left(\begin{array}{c}
+0\\
+0\\
+\vdots\\
+0\\
+1
+\end{array}\right)\right\rangle =V$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Description
+Bestimmung
+\begin_inset Formula $\;$
+\end_inset
+
+der
+\begin_inset Formula $\;$
+\end_inset
+
+Basis
+\end_layout
+
+\begin_layout Standard
+Sei 
+\begin_inset Formula $U_{0}:=0$
+\end_inset
+
+, 
+\begin_inset Formula $U_{1}:=\ker\left(B\right)=\left\langle \left(\begin{array}{c}
+1\\
+0\\
+\vdots\\
+\vdots\\
+0
+\end{array}\right)\right\rangle $
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\begin_inset Formula $U_{2}:=\ker\left(B^{2}\right)=\left\langle \left(\begin{array}{c}
+1\\
+0\\
+\vdots\\
+\vdots\\
+0
+\end{array}\right),\left(\begin{array}{c}
+0\\
+1\\
+\vdots\\
+\vdots\\
+0
+\end{array}\right)\right\rangle $
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+...
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $U_{n}:=\ker\left(B^{n}\right)=\left\langle \left(\begin{array}{c}
+1\\
+0\\
+\vdots\\
+\vdots\\
+0
+\end{array}\right),\left(\begin{array}{c}
+0\\
+1\\
+\vdots\\
+\vdots\\
+0
+\end{array}\right),...,\left(\begin{array}{c}
+0\\
+0\\
+\vdots\\
+1\\
+0
+\end{array}\right)\right\rangle ,$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\begin_inset Formula $U_{n+1}:=\ker\left(B^{n+1}\right)=\left\langle \left(\begin{array}{c}
 1\\
 0\\
 \vdots\\
@@ -1000,94 +1124,19 @@ Wie wir aus der Vorlesung wissen, ist eine
 \begin_inset Newline newline
 \end_inset
 
-(3) Bestimme Basis von 
-\begin_inset Formula $H(\lambda)$
-\end_inset
-
-:
-\end_layout
-
-\begin_layout Standard
-Sei 
-\begin_inset Formula $U_{1}:=\ker\left(L_{\varphi,\mathcal{A}^{*},\mathcal{A}^{*}}\right)=\left\langle \left(\begin{array}{c}
-1\\
-0\\
-\vdots\\
-\vdots\\
-0
-\end{array}\right)\right\rangle ,\quad U_{2}:=\ker\left(\left(L_{\varphi,\mathcal{A}^{*},\mathcal{A}^{*}}\right)^{2}\right)=\left\langle \left(\begin{array}{c}
-1\\
-0\\
-\vdots\\
-\vdots\\
-0
-\end{array}\right),\left(\begin{array}{c}
-0\\
-1\\
-\vdots\\
-\vdots\\
-0
-\end{array}\right)\right\rangle $
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-...
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula $U_{n}:=\ker\left(\left(L_{\varphi,\mathcal{A}^{*},\mathcal{A}^{*}}\right)^{n}\right)=\left\langle \left(\begin{array}{c}
-1\\
-0\\
-\vdots\\
-\vdots\\
-0
-\end{array}\right),\left(\begin{array}{c}
-0\\
-1\\
-\vdots\\
-\vdots\\
-0
-\end{array}\right),...,\left(\begin{array}{c}
-0\\
-0\\
-\vdots\\
-1\\
-0
-\end{array}\right)\right\rangle ,\quad U_{n+1}:=\ker\left(\left(L_{\varphi,\mathcal{A}^{*},\mathcal{A}^{*}}\right)^{n+1}\right)=\left\langle \left(\begin{array}{c}
-1\\
-0\\
-\vdots\\
-\vdots\\
-0
-\end{array}\right),\left(\begin{array}{c}
-0\\
-1\\
-\vdots\\
-\vdots\\
-0
-\end{array}\right),...,\left(\begin{array}{c}
-0\\
-0\\
-\vdots\\
-1\\
-0
-\end{array}\right),\left(\begin{array}{c}
-0\\
-0\\
-\vdots\\
-0\\
-1
-\end{array}\right)\right\rangle =V$
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-(3.1) Gesucht : 
+Wir suchen nun
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+ 
 \begin_inset Formula $W_{n+1}$
 \end_inset
 
@@ -1137,11 +1186,11 @@ Wähle
 \end{array}\right)\right\rangle =V$
 \end_inset
 
+ die Vorraussetzung erfüllt.
+\begin_inset Newline newline
+\end_inset
 
-\end_layout
-
-\begin_layout Standard
-(3.2) Gesucht: 
+Fahre fort mit 
 \begin_inset Formula $W_{n}$
 \end_inset
 
@@ -1179,7 +1228,7 @@ Wähle
 \end_inset
 
 .
- Sei also 
+ Wähles 
 \begin_inset Formula $W_{n}=\left\langle \left(\begin{array}{c}
 0\\
 0\\
@@ -1194,14 +1243,13 @@ Wähle
 \end_inset
 
 .
-\end_layout
+\begin_inset Newline newline
+\end_inset
 
-\begin_layout Standard
 Das gleiche nun wiederholen bis:
 \end_layout
 
 \begin_layout Standard
-(3.n+1) Gesucht: 
 \begin_inset Formula $W_{1}$
 \end_inset
 
@@ -1251,7 +1299,7 @@ Das gleiche nun wiederholen bis:
 \end_inset
 
 .
- Sei also 
+ Wähle 
 \begin_inset Formula $W_{1}=\left\langle \left(\begin{array}{c}
 1\\
 0\\
@@ -1266,27 +1314,31 @@ Das gleiche nun wiederholen bis:
 \end_inset
 
 .
-\begin_inset Newline newline
+\end_layout
+
+\begin_layout Description
+Basis
+\begin_inset Formula $\text{\;}$
 \end_inset
 
-(4) Baue Basis 
-\begin_inset Formula $\mathcal{A}$
-\end_inset
-
- zusammen:
+bestimmen
 \end_layout
 
 \begin_layout Standard
 Basis 
-\begin_inset Formula $\mathcal{A}$
+\begin_inset Formula $\mathcal{A}'$
 \end_inset
 
- ergibt sich durch durch die ergänzten Basen aus (3) und ihrer Bilder, also
- ist
+ ergibt sich nach der Konstruktion aus der VL aus den Basen der einzelnen
+ 
+\begin_inset Formula $U_{i}$
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
-\begin_inset Formula $\mathcal{A}=\left\{ \varphi^{n}\left(\begin{array}{c}
+\begin_inset Formula $\mathcal{A}'=\left\{ \varphi^{n}\left(\begin{array}{c}
 0\\
 0\\
 \vdots\\
@@ -1337,23 +1389,36 @@ Basis
 \end{array}\right)\right\} $
 \end_inset
 
-, also
+
 \end_layout
 
 \begin_layout Standard
-ist Basis 
-\begin_inset Formula $\mathcal{A}=\{1,t,\frac{1}{2}t^{2},\frac{1}{6}t^{3},...,\frac{1}{n!}t^{n}\}$
+Einmal ausgerechnet ergibt das
+\begin_inset Formula $\mathcal{A}'=\{1,t,\frac{1}{2}t^{2},\frac{1}{6}t^{3},...,\frac{1}{n!}t^{n}\}$
 \end_inset
 
 .
 \end_layout
 
-\begin_layout Standard
-Aus (2) ergibt sich dann, dass Matrix von 
-\begin_inset Formula $\varphi$
+\begin_layout Description
+Jordansche
+\begin_inset Formula $\;$
 \end_inset
 
- in Jordanscher Normalform gegeben ist durch
+Normalform
+\end_layout
+
+\begin_layout Standard
+Da wir die Eigenwerte und den Hauptraum bestimmt haben, wissen wir, dass
+ wir einen Jordanblock der Größe 
+\begin_inset Formula $\left(n+1\right)\times\left(n+1\right)$
+\end_inset
+
+ haben, auf dessen Hauptdiagonalen nur 0en stehen.
+\end_layout
+
+\begin_layout Standard
+Die Jordansche Normalform sieht also folgender Maßen aus:
 \end_layout
 
 \begin_layout Standard

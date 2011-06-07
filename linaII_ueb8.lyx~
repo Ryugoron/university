@@ -687,7 +687,774 @@ Aufgabe 3
 \end_layout
 
 \begin_layout Section*
+Aufgabe 3
+\end_layout
+
+\begin_layout Standard
+Sei 
+\begin_inset Formula $n\in\mathbb{N},\, V\subseteq\mathbb{R}[t]$
+\end_inset
+
+ der UVR der rellen Polynome vom Grad 
+\begin_inset Formula $\leq n$
+\end_inset
+
+.
+\begin_inset Newline newline
+\end_inset
+
+Sei 
+\begin_inset Formula $\varphi:\, V\to V$
+\end_inset
+
+ mit 
+\begin_inset Formula $\varphi(p)=p'$
+\end_inset
+
+.
+ Bestimmen Sie eine Basis von 
+\begin_inset Formula $V$
+\end_inset
+
+ bzgl.
+ der 
+\begin_inset Formula $\varphi$
+\end_inset
+
+ Jordansche Normalform hat.
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Sei 
+\begin_inset Formula $\mathcal{A}=\{1,t,t^{2},...,t^{n}\}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Da 
+\begin_inset Formula $|\mathcal{A}|=\dim V$
+\end_inset
+
+ und 
+\begin_inset Formula $\mathcal{A}$
+\end_inset
+
+ linear unabhängig, ist 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+
+\begin_inset Formula $\mathcal{A}$
+\end_inset
+
+ eine Basis von 
+\begin_inset Formula $V$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Dann ergibt sich 
+\begin_inset Formula $L_{\varphi,\mathcal{A}^{*},\mathcal{A}^{*}}$
+\end_inset
+
+ durch spaltenweises Eintragen der Bilder von 
+\begin_inset Formula $\mathcal{A}^{*}$
+\end_inset
+
+ bzgl.
+ 
+\begin_inset Formula $\varphi$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\varphi(1)=0$
+\end_inset
+
+, 
+\begin_inset Formula $\varphi(t)=1$
+\end_inset
+
+, 
+\begin_inset Formula $\varphi(t^{2})=2t$
+\end_inset
+
+, ..., 
+\begin_inset Formula $\varphi(t^{n})=nt^{n-1}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Also ist
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+B=L_{\varphi,\mathcal{A},\mathcal{A}}=\left(\begin{array}{cccccc}
+0 & 1 & 0 & \cdots & 0 & 0\\
+0 & 0 & 2 & \cdots & 0 & 0\\
+\vdots & \vdots & \vdots & \ddots & \vdots & \vdots\\
+0 & 0 & 0 & \cdots & 0 & n\\
+0 & 0 & 0 & \cdots & 0 & 0
+\end{array}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Description
+Charakteristisches
+\begin_inset Formula $\;$
+\end_inset
+
+Polynom
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+p_{B}(\lambda)=\det\left(\left(\begin{array}{cccccc}
+-\lambda & 1 & 0 & \cdots & 0 & 0\\
+0 & -\lambda & 2 & \cdots & 0 & 0\\
+\vdots & \vdots & \vdots & \ddots & \vdots & \vdots\\
+0 & 0 & 0 & \cdots & -\lambda & n\\
+0 & 0 & 0 & \cdots & 0 & -\lambda
+\end{array}\right)\right)=\left(-\lambda\right)^{n+1}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Damit ist der Eigenwert 
+\begin_inset Formula $\lambda_{1}=0$
+\end_inset
+
+ mit 
+\begin_inset Formula $r_{1}=\mu\left(\lambda_{1}\right)=n+1$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Description
+(2) Berechnung des Hauptraumes 
+\begin_inset Formula $H(A,\lambda_{1})$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\ker\left(B\right)=\left\langle \left(\begin{array}{c}
+1\\
+0\\
+\vdots\\
+\vdots\\
+0
+\end{array}\right)\right\rangle $
+\end_inset
+
+ 
+\begin_inset Formula $\Rightarrow\dim\left(\ker\left(B\right)\right)=1<r_{1}$
+\end_inset
+
+, fortfahren
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\ker\left(B^{2}\right)=\left\langle \left(\begin{array}{c}
+1\\
+0\\
+\vdots\\
+\vdots\\
+0
+\end{array}\right),\left(\begin{array}{c}
+0\\
+1\\
+\vdots\\
+\vdots\\
+0
+\end{array}\right)\right\rangle $
+\end_inset
+
+
+\begin_inset Formula $\Rightarrow\dim\left(\ker\left(B^{2}\right)\right)=2<r_{1}$
+\end_inset
+
+, forfahren
+\end_layout
+
+\begin_layout Standard
+In der VL haben wir uns nun schon einmal mit diesem Problem beschäftigt.
+ Wir haben eine Matri, die nur auf der Diagonalen, üerhalb der Hauptdiagonalen
+ Einträge besitzt.
+ Wie in der VL gezeigt, können wir eine solche Matrix 
+\begin_inset Formula $C\in M\left(k,k,\mathbb{R}\right)$
+\end_inset
+
+ in 
+\begin_inset Formula $k+1$
+\end_inset
+
+ Schritten zur Nulmatrix potenzieren: 
+\begin_inset Formula $C^{k+1}=0$
+\end_inset
+
+.
+ Dies können wir nun auf unser Problem anwenden
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\ker\left(B^{n}\right)=\left\langle \left(\begin{array}{c}
+1\\
+0\\
+\vdots\\
+\vdots\\
+0
+\end{array}\right),\left(\begin{array}{c}
+0\\
+1\\
+\vdots\\
+\vdots\\
+0
+\end{array}\right),...,\left(\begin{array}{c}
+0\\
+0\\
+\vdots\\
+1\\
+0
+\end{array}\right)\right\rangle $
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\ker\left(B^{n+1}\right)=\left\langle \left(\begin{array}{c}
+1\\
+0\\
+\vdots\\
+\vdots\\
+0
+\end{array}\right),\left(\begin{array}{c}
+0\\
+1\\
+\vdots\\
+\vdots\\
+0
+\end{array}\right),...,\left(\begin{array}{c}
+0\\
+0\\
+\vdots\\
+1\\
+0
+\end{array}\right),\left(\begin{array}{c}
+0\\
+0\\
+\vdots\\
+0\\
+1
+\end{array}\right)\right\rangle =V$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Description
+Bestimmung
+\begin_inset Formula $\;$
+\end_inset
+
+der
+\begin_inset Formula $\;$
+\end_inset
+
+Basis
+\end_layout
+
+\begin_layout Standard
+Sei 
+\begin_inset Formula $U_{0}:=0$
+\end_inset
+
+, 
+\begin_inset Formula $U_{1}:=\ker\left(B\right)=\left\langle \left(\begin{array}{c}
+1\\
+0\\
+\vdots\\
+\vdots\\
+0
+\end{array}\right)\right\rangle $
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\begin_inset Formula $U_{2}:=\ker\left(B^{2}\right)=\left\langle \left(\begin{array}{c}
+1\\
+0\\
+\vdots\\
+\vdots\\
+0
+\end{array}\right),\left(\begin{array}{c}
+0\\
+1\\
+\vdots\\
+\vdots\\
+0
+\end{array}\right)\right\rangle $
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+...
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $U_{n}:=\ker\left(B^{n}\right)=\left\langle \left(\begin{array}{c}
+1\\
+0\\
+\vdots\\
+\vdots\\
+0
+\end{array}\right),\left(\begin{array}{c}
+0\\
+1\\
+\vdots\\
+\vdots\\
+0
+\end{array}\right),...,\left(\begin{array}{c}
+0\\
+0\\
+\vdots\\
+1\\
+0
+\end{array}\right)\right\rangle ,$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\begin_inset Formula $U_{n+1}:=\ker\left(B^{n+1}\right)=\left\langle \left(\begin{array}{c}
+1\\
+0\\
+\vdots\\
+\vdots\\
+0
+\end{array}\right),\left(\begin{array}{c}
+0\\
+1\\
+\vdots\\
+\vdots\\
+0
+\end{array}\right),...,\left(\begin{array}{c}
+0\\
+0\\
+\vdots\\
+1\\
+0
+\end{array}\right),\left(\begin{array}{c}
+0\\
+0\\
+\vdots\\
+0\\
+1
+\end{array}\right)\right\rangle =V$
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Wir suchen nun
+\family default
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+ 
+\begin_inset Formula $W_{n+1}$
+\end_inset
+
+ mit 
+\begin_inset Formula $U_{n+1}=U_{n}\oplus W_{n+1}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Wähle 
+\begin_inset Formula $W_{n+1}=\left\langle \left(\begin{array}{c}
+0\\
+0\\
+\vdots\\
+\vdots\\
+\frac{1}{n!}
+\end{array}\right)\right\rangle $
+\end_inset
+
+, da 
+\begin_inset Formula $\left\langle \left(\begin{array}{c}
+1\\
+0\\
+\vdots\\
+\vdots\\
+0
+\end{array}\right),\left(\begin{array}{c}
+0\\
+1\\
+\vdots\\
+\vdots\\
+0
+\end{array}\right),...,\left(\begin{array}{c}
+0\\
+0\\
+\vdots\\
+1\\
+0
+\end{array}\right)\right\rangle \oplus\left\langle \left(\begin{array}{c}
+0\\
+0\\
+\vdots\\
+\vdots\\
+\frac{1}{n!}
+\end{array}\right)\right\rangle =V$
+\end_inset
+
+ die Vorraussetzung erfüllt.
+\begin_inset Newline newline
+\end_inset
+
+Fahre fort mit 
+\begin_inset Formula $W_{n}$
+\end_inset
+
+ mit 
+\begin_inset Formula $U_{n}=U_{n-1}\oplus W_{n}$
+\end_inset
+
+ und 
+\begin_inset Formula $\varphi\left(\begin{array}{c}
+0\\
+0\\
+\vdots\\
+\vdots\\
+\frac{1}{n!}
+\end{array}\right)\in W_{n}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\varphi\left(\begin{array}{c}
+0\\
+0\\
+\vdots\\
+\vdots\\
+\frac{1}{n!}
+\end{array}\right)=\left(\begin{array}{c}
+0\\
+0\\
+\vdots\\
+\frac{1}{(n-1)!}\\
+0
+\end{array}\right)$
+\end_inset
+
+.
+ Wähles 
+\begin_inset Formula $W_{n}=\left\langle \left(\begin{array}{c}
+0\\
+0\\
+\vdots\\
+\frac{1}{(n-1)!}\\
+0
+\end{array}\right)\right\rangle $
+\end_inset
+
+, dann ist 
+\begin_inset Formula $U_{n-1}\oplus W_{n}=U_{n}$
+\end_inset
+
+.
+\begin_inset Newline newline
+\end_inset
+
+Das gleiche nun wiederholen bis:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $W_{1}$
+\end_inset
+
+ mit 
+\begin_inset Formula $U_{1}=\{0\}\oplus W_{1}$
+\end_inset
+
+ und 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+
+\begin_inset Formula $\varphi^{n}\left(\begin{array}{c}
+0\\
+0\\
+\vdots\\
+\vdots\\
+\frac{1}{n!}
+\end{array}\right)\in W_{1}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\varphi^{n}\left(\begin{array}{c}
+0\\
+0\\
+\vdots\\
+\vdots\\
+\frac{1}{n!}
+\end{array}\right)=\left(\begin{array}{c}
+1\\
+0\\
+\vdots\\
+0\\
+0
+\end{array}\right)$
+\end_inset
+
+.
+ Wähle 
+\begin_inset Formula $W_{1}=\left\langle \left(\begin{array}{c}
+1\\
+0\\
+\vdots\\
+0\\
+0
+\end{array}\right)\right\rangle $
+\end_inset
+
+, dann ist 
+\begin_inset Formula $W_{1}=U_{1}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Description
+Basis
+\begin_inset Formula $\text{\;}$
+\end_inset
+
+bestimmen
+\end_layout
+
+\begin_layout Standard
+Basis 
+\begin_inset Formula $\mathcal{A}'$
+\end_inset
+
+ ergibt sich nach der Konstruktion aus der VL aus den Basen der einzelnen
+ 
+\begin_inset Formula $U_{i}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\mathcal{A}'=\left\{ \varphi^{n}\left(\begin{array}{c}
+0\\
+0\\
+\vdots\\
+\vdots\\
+\frac{1}{n!}
+\end{array}\right),\varphi^{n-1}\left(\begin{array}{c}
+0\\
+0\\
+\vdots\\
+\vdots\\
+\frac{1}{n!}
+\end{array}\right),...,\varphi\left(\begin{array}{c}
+0\\
+0\\
+\vdots\\
+\vdots\\
+\frac{1}{n!}
+\end{array}\right),\left(\begin{array}{c}
+0\\
+0\\
+\vdots\\
+\vdots\\
+\frac{1}{n!}
+\end{array}\right)\right\} =\left\{ \left(\begin{array}{c}
+1\\
+0\\
+\vdots\\
+\vdots\\
+0
+\end{array}\right),\left(\begin{array}{c}
+0\\
+1\\
+\vdots\\
+\vdots\\
+0
+\end{array}\right),...,\left(\begin{array}{c}
+0\\
+0\\
+\vdots\\
+\frac{1}{(n-1)!}\\
+0
+\end{array}\right),\left(\begin{array}{c}
+0\\
+\text{0}\\
+\vdots\\
+0\\
+\frac{1}{n!}
+\end{array}\right)\right\} $
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Einmal ausgerechnet ergibt das
+\begin_inset Formula $\mathcal{A}'=\{1,t,\frac{1}{2}t^{2},\frac{1}{6}t^{3},...,\frac{1}{n!}t^{n}\}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Description
+Jordansche
+\begin_inset Formula $\;$
+\end_inset
+
+Normalform
+\end_layout
+
+\begin_layout Standard
+Da wir die Eigenwerte und den Hauptraum bestimmt haben, wissen wir, dass
+ wir einen Jordanblock der Größe 
+\begin_inset Formula $\left(n+1\right)\times\left(n+1\right)$
+\end_inset
+
+ haben, auf dessen Hauptdiagonalen nur 0en stehen.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $L_{\varphi,\mathcal{A},\mathcal{A}}=\left(\begin{array}{ccccccc}
+0 & 1 & 0 & 0 & \cdots & 0 & 0\\
+0 & 0 & 1 & 0 & \cdots & 0 & 0\\
+0 & 0 & 0 & 1 &  & 0 & 0\\
+\vdots & \vdots & \vdots & \ddots & \ddots & \vdots & \vdots\\
+0 & 0 & 0 & 0 & 0 & \ddots & 0\\
+0 & 0 & 0 & 0 & \cdots & 0 & 1\\
+0 & 0 & 0 & 0 & \cdots & 0 & 0
+\end{array}\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Section*
 Aufgabe 4
+\end_layout
+
+\begin_layout Standard
+Sei 
+\begin_inset Formula $A\in M\left(n,n,\mathbb{R}\right)$
+\end_inset
+
+ mit 
+\begin_inset Formula $A^{3}=A$
+\end_inset
+
+.
+ Zeigen Sie, dass 
+\begin_inset Formula $A$
+\end_inset
+
+ über 
+\begin_inset Formula $\mathbb{R}$
+\end_inset
+
+ diagonalisierbar ist.
 \end_layout
 
 \end_body
