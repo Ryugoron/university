@@ -95,9 +95,6 @@ TCPCLientSockets
 LEDs
 \series default
  und Taster haben wir schon in vorherigen Aufgaben erledigt.
- Wir werden hier trotzdem nochmal die Befehle auflisten, die wir verwendet
- haben, aber im Gegensatz zur erstmaligen Beutzung nicht nochmal alles im
- Detail beschreiben.
 \end_layout
 
 \begin_layout Subsection*
