@@ -556,7 +556,7 @@ Haupträume
 1\\
 0\\
 1
-\end{array}\right)\right\rangle \Rightarrow\dim\left(\ker\left(A-E_{3}\right)\right)=1<r_{1}$
+\end{array}\right)\right\rangle \Rightarrow\dim\left(\ker\left(A-E_{3}\right)\right)=1<r_{2}$
 \end_inset
 
 , fortfahren
@@ -578,7 +578,7 @@ Haupträume
 0\\
 0\\
 0
-\end{array}\right)\right\rangle \Rightarrow\dim\ker\left(\left(A-E_{3}\right)^{2}\right)=2=r_{1}$
+\end{array}\right)\right\rangle \Rightarrow\dim\ker\left(\left(A-E_{3}\right)^{2}\right)=2=r_{2}$
 \end_inset
 
  fertig.
@@ -589,7 +589,7 @@ Haupträume
 \end_inset
 
 Ein Jordanblock zu 
-\begin_inset Formula $\lambda_{1}$
+\begin_inset Formula $\lambda_{2}$
 \end_inset
 
  der Größe 
@@ -648,7 +648,7 @@ Ein Jordanblock zu
 \end_inset
 
 Wir haben ein Jordanblock zu 
-\begin_inset Formula $\lambda_{2}$
+\begin_inset Formula $\lambda_{1}$
 \end_inset
 
  der Größe 
