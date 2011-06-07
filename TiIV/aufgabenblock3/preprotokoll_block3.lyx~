@@ -227,17 +227,6 @@ Bei Longitude gilt
 \end_inset
 
 m
-\begin_inset Newline newline
-\end_inset
-
-Mit dieser Umrechnung können wir nun
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula $dist=\sqrt{\left(Lat1-Lat2\right)^{2}+\left(Long1-Long2\right)^{2}}$
-\end_inset
-
-.
 \end_layout
 
 \begin_layout Description

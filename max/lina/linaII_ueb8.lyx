@@ -1524,107 +1524,9 @@ Sei
 \end_inset
 
  diagonalisierbar ist.
-\begin_inset VSpace defskip
-\end_inset
-
-Machen wir zunächst eine Fallunterscheidung um die 0 Matrix herrus zu bekommen.
-\end_layout
-
-\begin_layout Description
-Fall
-\begin_inset Formula $\;$
-\end_inset
-
-1
-\end_layout
-
-\begin_layout Standard
-Sei 
-\begin_inset Formula $A=0$
-\end_inset
-
-.
- Die Nullmatrix ist trivialerweise diagonalisierbar, da sie bereits Diagonalgest
-allt hat.
- Alle Eigenwerte sind dabei 
-\begin_inset Formula $0$
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Description
-Fall
-\begin_inset Formula $\;$
-\end_inset
-
-2
-\end_layout
-
-\begin_layout Standard
-Sei 
-\begin_inset Formula $A\not=0$
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Standard
-Wir wissen, dass in der Gleichung 
-\begin_inset Formula $B\cdot A=A$
-\end_inset
-
- 
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula $B$
-\end_inset
-
- das neutrale Element der Multiplikation sein muss und dieses ist (Folgerung
- aus den Gruppenaxiomen) immer eindeutig bestimmt.
-\begin_inset VSpace defskip
-\end_inset
-
-Nun können wir unsere Vorrraussetzung dahingehend Umformen:
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula $A=A^{3}=A\cdot A\cdot A\stackrel{\text{Assoziativität}}{=}\left(A\cdot A\right)\cdot A\Rightarrow A\cdot A=E_{n}$
-\end_inset
-
-
 \begin_inset Newline newline
 \end_inset
 
-Nun folgt aus 
-\begin_inset Formula $A\cdot A=E_{n}$
-\end_inset
-
-, dass 
-\begin_inset Formula $A=A^{-1}$
-\end_inset
-
- gilt.
-\end_layout
-
-\begin_layout Standard
-Die Matrix ist also selbstinvers.
-\begin_inset VSpace defskip
-\end_inset
-
-
-\begin_inset Newline newline
-\end_inset
-
-Betrachten wir einmal die Eigenwerte von 
-\begin_inset Formula $AA=E_{n}$
-\end_inset
-
-:
-\end_layout
-
-\begin_layout Standard
 Sei 
 \begin_inset Formula $\lambda$
 \end_inset
@@ -1633,21 +1535,22 @@ Sei
 \begin_inset Formula $A$
 \end_inset
 
- mit 
-\begin_inset Formula $EV$
+ und 
+\begin_inset Formula $v$
 \end_inset
 
- v (
-\begin_inset Formula $\not=$
+ EV zu diesem 
+\begin_inset Formula $\lambda$
 \end_inset
 
-0)
+.
+ (Muss existieren)
 \end_layout
 
 \begin_layout Standard
 \begin_inset Formula 
 \[
-AA\left(v\right)\stackrel{\lambda\text{ EW}}{=}A\left(\lambda v\right)=\lambda^{2}v
+\lambda v=A\left(v\right)A^{3}\left(v\right)=A^{2}\left(\lambda v\right)=\lambda A^{2}\left(v\right)=\lambda^{3}v
 \]
 
 \end_inset
@@ -1656,19 +1559,71 @@ AA\left(v\right)\stackrel{\lambda\text{ EW}}{=}A\left(\lambda v\right)=\lambda^{
 \end_layout
 
 \begin_layout Standard
-Da wir wissen, dass 
-\begin_inset Formula $AA=E_{n}$
+\begin_inset Formula 
+\[
+\Rightarrow\lambda=\lambda^{3}\Leftrightarrow\lambda\left(\lambda+1\right)\left(\lambda-1\right)=0.
+\]
+
 \end_inset
 
- kann 
+
+\begin_inset Newline newline
+\end_inset
+
+Nun kennen wir die 3 Möglichen Eigenwerte 
 \begin_inset Formula $\lambda_{1}=1$
 \end_inset
 
- oder 
-\begin_inset Formula $\lambda_{2}=-1$
+, 
+\begin_inset Formula $\lambda_{2}=0$
+\end_inset
+
+, 
+\begin_inset Formula $\lambda_{3}=-1$
 \end_inset
 
 .
+\end_layout
+
+\begin_layout Standard
+Daraus ergeben sich die Eigenräume:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $E\left(A,\lambda_{1}\right)=\left\{ v\;|\; f\left(v\right)=1\right\} $
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $E\left(A,\lambda_{0}\right)=\left\{ v\;|\; f\left(v\right)=0\right\} =\ker\left(A\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $E\left(A,\lambda_{-1}\right)=\left\{ v\;|\; f\left(v\right)=-1\right\} $
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Wir kennen die Vielfachheiten nicht, aber da wir alle Eigenräume haben können
+ wir bestimmen, dass
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\dim\left(V\right)=n=\dim\left(E\left(A,\lambda_{1}\right)\right)+\dim\left(E\left(A,\lambda_{0}\right)\right)+\dim\left(E\left(A,\lambda_{-1}\right)\right)
+\]
+
+\end_inset
+
+
 \end_layout
 
 \end_body
