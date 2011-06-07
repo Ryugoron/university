@@ -1422,7 +1422,7 @@ Die Jordansche Normalform sieht also folgender Maßen aus:
 \end_layout
 
 \begin_layout Standard
-\begin_inset Formula $L_{\varphi,\mathcal{A},\mathcal{A}}=\left(\begin{array}{ccccccc}
+\begin_inset Formula $L_{\varphi,\mathcal{A}',\mathcal{A}'}=\left(\begin{array}{ccccccc}
 0 & 1 & 0 & 0 & \cdots & 0 & 0\\
 0 & 0 & 1 & 0 & \cdots & 0 & 0\\
 0 & 0 & 0 & 1 &  & 0 & 0\\
@@ -1434,6 +1434,18 @@ Die Jordansche Normalform sieht also folgender Maßen aus:
 \end_inset
 
 .
+\begin_inset Newline newline
+\end_inset
+
+Wir haben nun die Jordansche Normalforn und die Basis 
+\begin_inset Formula $\mathcal{A}'$
+\end_inset
+
+ bezüglich der 
+\begin_inset Formula $\varphi$
+\end_inset
+
+ diese Normalform erreicht.
 \end_layout
 
 \begin_layout Section*

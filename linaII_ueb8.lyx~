@@ -1418,6 +1418,10 @@ Da wir die Eigenwerte und den Hauptraum bestimmt haben, wissen wir, dass
 \end_layout
 
 \begin_layout Standard
+Die Jordansche Normalform sieht also folgender Maßen aus:
+\end_layout
+
+\begin_layout Standard
 \begin_inset Formula $L_{\varphi,\mathcal{A},\mathcal{A}}=\left(\begin{array}{ccccccc}
 0 & 1 & 0 & 0 & \cdots & 0 & 0\\
 0 & 0 & 1 & 0 & \cdots & 0 & 0\\
