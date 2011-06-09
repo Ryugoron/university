@@ -54,7 +54,7 @@ public class GameConsole extends JFrame implements Console, ActionListener {
 			String input = consoleInput.getText();
 			consoleArea.append(" > " + input + newline);
 			String answer = inputHandler.onInput(input);
-			consoleInput.selectAll();
+			consoleInput.setText("");
 			consoleArea.append(answer + newline);
 			consoleArea.setCaretPosition(consoleArea.getDocument().getLength());
 		}
