@@ -4,7 +4,9 @@ import game.Console;
 import game.InputHandler;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.Insets;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -43,7 +45,7 @@ public class GameConsole extends JFrame implements Console, ActionListener {
 			}
 		});
 		this.consoleInput.requestFocus();
-
+		
 	}
 
 	@Override
@@ -65,6 +67,7 @@ public class GameConsole extends JFrame implements Console, ActionListener {
 
 	@Override
 	public void setVisible(boolean visible) {
+		centerize();
 		super.setVisible(visible);
 	}
 
@@ -78,6 +81,12 @@ public class GameConsole extends JFrame implements Console, ActionListener {
 	@Override
 	public void writeLine(String text) {
 		this.consoleArea.append(text + newline);
+	}
+	
+	public void centerize() {
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		this.setLocation((screenSize.width - this.getSize().width) / 2,
+				(screenSize.height - this.getSize().height) / 2);
 	}
 
 }

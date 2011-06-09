@@ -1,6 +1,8 @@
 package console;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -20,6 +22,7 @@ public class NameRequestDialog extends JDialog {
 	public NameRequestDialog(JFrame owner) {
 		super(owner, "Please enter your name", true);
 		addComponents();
+		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		this.setSize(200,200);
 	}
 
@@ -41,4 +44,17 @@ public class NameRequestDialog extends JDialog {
 	String getEnteredName() {
 		return enteredName;
 	}
+	
+	@Override
+	public void setVisible(boolean visible) {
+		centerize();
+		super.setVisible(visible);
+	}
+	
+	public void centerize() {
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		this.setLocation((screenSize.width - this.getSize().width) / 2,
+				(screenSize.height - this.getSize().height) / 2);
+	}
+
 }
