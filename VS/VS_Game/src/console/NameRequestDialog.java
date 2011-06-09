@@ -17,13 +17,13 @@ public class NameRequestDialog extends JDialog {
 	private String enteredName = "";
 	private JLabel label = new JLabel("Please enter your planetname");
 	private JTextField input = new JTextField(20);
-	private JButton closeButton = new JButton("save and close");
+	private JButton closeButton = new JButton("Create planet");
 
 	public NameRequestDialog(JFrame owner) {
 		super(owner, "Please enter your name", true);
 		addComponents();
 		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-		this.setSize(200,200);
+		this.setSize(200,100);
 	}
 
 	private void addComponents() {
