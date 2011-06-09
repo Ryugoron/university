@@ -9,10 +9,10 @@ import vsFramework.Channel;
 import console.GameConsole;
 
 public class Game {
-	protected Console con;
-	protected List<Channel> connectedPeers = new LinkedList<Channel>();
-	protected Channel listenChannel;
-	final String name;
+	private Console con;
+	private List<Channel> connectedPeers = new LinkedList<Channel>();
+	private Channel listenChannel;
+	final protected String name;
 
 	public Game() {
 		createGUI();
@@ -24,10 +24,22 @@ public class Game {
 
 	private void createGUI() {
 		con = new GameConsole();
-		con.setInputHandler(new GameMessageProcessor());
+		con.setInputHandler(new GameMessageProcessor(this));
 	}
 
 	private void createListenChannel() {
 //		listenChannel = UdpChannelFactory.newUdpChannel(4711);
+	}
+	
+	public void peers() {
+		this.con.writeLine("Peers ausgeführt");
+	}
+	
+	public void connect(String host, int port) {
+		this.con.writeLine("connect ausgeführt");
+	}
+	
+	protected Console getConsole() {
+		return this.con;
 	}
 }

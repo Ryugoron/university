@@ -5,6 +5,7 @@ import game.InputHandler;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -35,8 +36,10 @@ public class GameConsole extends JFrame implements Console, ActionListener {
 		// Layout stuff
 		this.setLayout(new BorderLayout());
 		this.consoleArea.setEditable(false);
+		this.consoleArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
 		this.consoleArea.setMargin(new Insets(1, 10, 5, 2));
 		this.consoleInput.addActionListener(this);
+		this.consoleInput.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
 		this.add(consoleInput, BorderLayout.SOUTH);
 		this.add(scrollPane, BorderLayout.CENTER);
 		addWindowListener(new WindowAdapter() {
@@ -53,9 +56,8 @@ public class GameConsole extends JFrame implements Console, ActionListener {
 		if (inputHandler != null) {
 			String input = consoleInput.getText();
 			consoleArea.append(" > " + input + newline);
-			String answer = inputHandler.onInput(input);
+			inputHandler.onInput(input);
 			consoleInput.setText("");
-			consoleArea.append(answer + newline);
 			consoleArea.setCaretPosition(consoleArea.getDocument().getLength());
 		}
 	}
