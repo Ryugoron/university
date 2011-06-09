@@ -25,9 +25,10 @@
 \bibtex_command default
 \index_command default
 \paperfontsize default
+\spacing single
 \use_hyperref false
 \papersize default
-\use_geometry false
+\use_geometry true
 \use_amsmath 1
 \use_esint 1
 \use_mhchem 1
@@ -42,6 +43,10 @@
 \shortcut idx
 \color #008000
 \end_index
+\leftmargin 3cm
+\topmargin 2cm
+\rightmargin 2cm
+\bottommargin 2cm
 \secnumdepth 3
 \tocdepth 3
 \paragraph_separation indent
@@ -739,10 +744,6 @@ Wir tragen die Jordanblöcke, die wir ermittelt haben, auf der Diagonalen
 Aufgabe 3
 \end_layout
 
-\begin_layout Section*
-Aufgabe 3
-\end_layout
-
 \begin_layout Standard
 Sei 
 \begin_inset Formula $n\in\mathbb{N},\, V\subseteq\mathbb{R}[t]$
@@ -1371,7 +1372,7 @@ Das gleiche nun wiederholen bis:
 
 \begin_layout Description
 Basis
-\begin_inset Formula $\text{\;}$
+\begin_inset Formula $\;$
 \end_inset
 
 bestimmen
@@ -1415,7 +1416,16 @@ Basis
 \vdots\\
 \vdots\\
 \frac{1}{n!}
-\end{array}\right)\right\} =\left\{ \left(\begin{array}{c}
+\end{array}\right)\right\} $
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+=\left\{ \left(\begin{array}{c}
 1\\
 0\\
 \vdots\\
@@ -1439,14 +1449,16 @@ Basis
 \vdots\\
 0\\
 \frac{1}{n!}
-\end{array}\right)\right\} $
+\end{array}\right)\right\} 
+\]
+
 \end_inset
 
 
 \end_layout
 
 \begin_layout Standard
-Einmal ausgerechnet ergibt das
+Einmal ausgerechnet ergibt das 
 \begin_inset Formula $\mathcal{A}'=\{1,t,\frac{1}{2}t^{2},\frac{1}{6}t^{3},...,\frac{1}{n!}t^{n}\}$
 \end_inset
 
@@ -1544,7 +1556,6 @@ Sei
 \end_inset
 
 .
- (Muss existieren)
 \end_layout
 
 \begin_layout Standard
@@ -1583,6 +1594,11 @@ Nun kennen wir die 3 Möglichen Eigenwerte
 \end_inset
 
 .
+ (Alle in 
+\begin_inset Formula $\mathbb{R}$
+\end_inset
+
+)
 \end_layout
 
 \begin_layout Standard
@@ -1590,21 +1606,21 @@ Daraus ergeben sich die Eigenräume:
 \end_layout
 
 \begin_layout Standard
-\begin_inset Formula $E\left(A,\lambda_{1}\right)=\left\{ v\;|\; f\left(v\right)=-v\right\} $
+\begin_inset Formula $E\left(A,\lambda_{1}\right)=\left\{ v\;|\; Av=-v\right\} $
 \end_inset
 
 
 \end_layout
 
 \begin_layout Standard
-\begin_inset Formula $E\left(A,\lambda_{0}\right)=\left\{ v\;|\; f\left(v\right)=0\right\} =\ker\left(A\right)$
+\begin_inset Formula $E\left(A,\lambda_{0}\right)=\left\{ v\;|\; Av=0\right\} =\ker\left(A\right)$
 \end_inset
 
 
 \end_layout
 
 \begin_layout Standard
-\begin_inset Formula $E\left(A,\lambda_{-1}\right)=\left\{ v\;|\; f\left(v\right)=v\right\} $
+\begin_inset Formula $E\left(A,\lambda_{-1}\right)=\left\{ v\;|\; Av=v\right\} $
 \end_inset
 
 
@@ -1623,15 +1639,149 @@ Wir kennen die Vielfachheiten nicht, aber da wir alle Eigenräume haben können
 
 \end_inset
 
-Aus der Dimensionsformal
+Aus der Dimensionsformel
 \end_layout
 
 \begin_layout Standard
 \begin_inset Formula 
 \[
-\dim\left(V\right)=\dim\left(\ker\left(A\right)\right)=\dim\left(Im\left(A\right)\right)
+\dim\left(V\right)=\dim\left(\ker\left(A\right)\right)+\dim\left(Im\left(A\right)\right)
 \]
 
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+folgt nun
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\dim\left(E\left(A,\lambda_{1}\right)\right)+\dim\left(E\left(A,\lambda_{0}\right)\right)+\dim\left(E\left(A,\lambda_{-1}\right)\right)=\dim\left(\ker\left(A\right)\right)+\dim\left(Im\left(A\right)\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\Leftrightarrow\dim\left(E\left(A,\lambda_{1}\right)\right)+\dim\left(E\left(A,\lambda_{-1}\right)\right)=\dim\left(Im\left(A\right)\right)=\dim\left(Im\left(A^{3}\right)\right)
+\]
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Nun müssen bestrachten, wie die Vektoren aussehen, die in 
+\begin_inset Formula $A$
+\end_inset
+
+ nicht auf 0 abgebildet werden.
+\end_layout
+
+\begin_layout Standard
+Sei 
+\begin_inset Formula $\mathcal{A}$
+\end_inset
+
+ die Basis von 
+\begin_inset Formula $Im\left(A\right)$
+\end_inset
+
+.
+\begin_inset Newline newline
+\end_inset
+
+Nun betrachten wir 
+\begin_inset Formula $w\in\mathcal{A}$
+\end_inset
+
+.
+ Gilt
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $Aw=w$
+\end_inset
+
+ gelten, liegt 
+\begin_inset Formula $w\in E\left(A,\lambda_{-1}\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $Aw=-w$
+\end_inset
+
+, liegt 
+\begin_inset Formula $w\in E\left(A,\lambda_{-1}\right)$
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Gilt keiner der beiden Fälle, würde gelten:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $Aw=\sum_{x_{i}\in\mathcal{A}}k_{i}x_{i}$
+\end_inset
+
+.
+ Nun würde
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $AAAw=\sum_{x_{j}\in\mathcal{A}}k_{j}\left(\sum_{x_{l}\in\mathcal{A}}k_{l}\left(\sum_{x_{i}\in\mathcal{A}}k_{i}x_{i}\right)\right)$
+\end_inset
+
+.
+\begin_inset Newline newline
+\end_inset
+
+Der Vektor kann nun nur noch auf den selber Wert abgebildet werden, wenn
+ einer der oberen beiden Fälle eingetreten ist.
+ Somit existiert dieser Fall faktisch gar nicht.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\Rightarrow E\left(A,\lambda_{1}\right)\cup E\left(A,\lambda_{-1}\right)=Im\left(A\right),\; E\left(A,\lambda_{1}\right)\cap E\left(A,\lambda_{-1}\right)=\left\{ 0\right\} 
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Damit sind auch die Dimensionen gleich.
+\begin_inset VSpace defskip
+\end_inset
+
+Wir haben also herrausgefunden, dass wir genau n Eigenvektoren finden.
+ Damit muss die Matrix 
+\begin_inset Formula $A$
+\end_inset
+
+ diagonalisierbar sein.
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Formula $\blacksquare$
 \end_inset
 
 
