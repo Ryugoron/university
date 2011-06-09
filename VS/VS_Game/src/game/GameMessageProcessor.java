@@ -25,10 +25,14 @@ class GameMessageProcessor implements InputHandler {
 			try {
 			command.execute(commandParts);
 			} catch (IllegalArgumentException e) {
+				if (!e.getMessage().equals("")) {
+					game.getConsole().writeLine(e.getMessage());
+				}
 				game.getConsole().writeLine(command.usage());
 			}
 			
 		} else {
+			game.getConsole().writeLine("Unknown Command");
 			game.getConsole().writeLine(this.listCommands());
 		}
 	}
@@ -38,7 +42,7 @@ class GameMessageProcessor implements InputHandler {
 	}
 
 	protected String listCommands() {
-		StringBuilder sb = new StringBuilder("---------Commands----------\n");
+		StringBuilder sb = new StringBuilder("-------- Commands ---------\n");
 		for (String command : this.commands.keySet()) {
 			sb.append(command);
 			sb.append("\n");

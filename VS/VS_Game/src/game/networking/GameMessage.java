@@ -1,30 +1,33 @@
 package game.networking;
 
-import vsFramework.AbstractMessage;
 import vsFramework.Message;
 
-public class GameMessage extends AbstractMessage implements Message {
+public enum GameMessage implements Message {
+	HELLO("HELLO"), OLLEH("OLLEH"), PEERS("PEERS"), SREEP("SREEP");
 
-	public GameMessage(GameMessageType message) {
-		this.data = message.toString().getBytes();
+	final String message;
+
+	GameMessage(String message) {
+		this.message = message;
 	}
 
-	public static GameMessageType fromMessage(Message message) throws IllegalArgumentException {
-		return GameMessageType.valueOf(new String(message.getData()));
+	@Override
+	public String toString() {
+		return this.message;
 	}
 
-	public enum GameMessageType {
-		HELLO("HELLO"), OLLEH("OLLEH"), PEERS("PEERS"), SREEP("SREEP");
+	@Override
+	public byte[] getData() {
+		return this.message.getBytes();
+	}
 
-		String message;
+	@Override
+	public int getLength() {
+		return this.message.length();
+	}
 
-		GameMessageType(String message) {
-			this.message = message;
-		}
-
-		@Override
-		public String toString() {
-			return this.message;
-		}
+	public static GameMessage fromMessage(Message message)
+			throws IllegalArgumentException {
+		return GameMessage.valueOf(new String(message.getData()));
 	}
 }

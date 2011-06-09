@@ -1,5 +1,8 @@
 package game.commands;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 import game.Game;
 
 public class ConnectCommand implements Command {
@@ -12,13 +15,15 @@ public class ConnectCommand implements Command {
 	
 	@Override
 	public void execute(String[] paras) throws IllegalArgumentException {
-		String host;
+		InetAddress host;
 		int port;
 		try {
-			host = paras[1];
+			host = InetAddress.getByName(paras[1]);
 			port = Integer.parseInt(paras[2]);
 			game.connect(host, port);
-		} catch (Exception e) {
+		} catch (UnknownHostException e) {
+			throw new IllegalArgumentException("Ungültiger Host");
+ 		} catch (Exception e) {
 			throw new IllegalArgumentException();
 		}
 	}
