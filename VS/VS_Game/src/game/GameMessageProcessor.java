@@ -7,8 +7,9 @@ class GameMessageProcessor implements InputHandler {
 	}
 
 	@Override
-	public void onInput(String input) {
+	public String onInput(String input) {
 		System.out.println(input);
+		return input;
 	}
 
 }

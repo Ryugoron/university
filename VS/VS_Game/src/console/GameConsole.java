@@ -1,19 +1,17 @@
 package console;
 
+import game.Console;
+import game.InputHandler;
+
 import java.awt.BorderLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-
-import game.Console;
-import game.InputHandler;
 
 public class GameConsole extends JFrame implements Console, ActionListener {
 	private static final long serialVersionUID = 2404403907190763384L;
@@ -22,7 +20,7 @@ public class GameConsole extends JFrame implements Console, ActionListener {
 	private JTextArea consoleArea = new JTextArea(5, 20);
 	private JTextField consoleInput = new JTextField();
 	private JScrollPane scrollPane = new JScrollPane(consoleArea);
-	private List<InputHandler> inputHandler = new LinkedList<InputHandler>();
+	private InputHandler inputHandler;
 
 	public GameConsole() {
 		super("Space BWL");
@@ -39,18 +37,16 @@ public class GameConsole extends JFrame implements Console, ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent evt) {
-		String text = consoleInput.getText();
-		consoleArea.append(text + newline);
+		String input = consoleInput.getText();
+		String answer = inputHandler.onInput(input);
 		consoleInput.selectAll();
+		consoleArea.append(answer + newline);
 		consoleArea.setCaretPosition(consoleArea.getDocument().getLength());
-		for (InputHandler handler : this.inputHandler) {
-			handler.onInput(text);
-		}
 	}
 
 	@Override
-	public void addInputHandler(InputHandler handler) {
-		this.inputHandler.add(handler);
+	public void setInputHandler(InputHandler handler) {
+		this.inputHandler = handler;
 	}
 	
 	@Override
