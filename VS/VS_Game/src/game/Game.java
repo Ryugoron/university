@@ -8,6 +8,7 @@ import game.commands.ConnectCommand;
 import game.commands.HelpCommand;
 import game.commands.PeersCommand;
 import game.networking.GameMessage;
+import game.networking.UDPMessage;
 import game.networking.UdpChannelFactory;
 
 import java.net.InetAddress;
@@ -17,11 +18,12 @@ import java.util.List;
 import java.util.Map;
 
 import vsFramework.Channel;
+import vsFramework.Message;
 import console.GameConsole;
 
 public class Game implements InputHandler {
 	protected Console con;
-	protected List<Channel> connectedPeers = new LinkedList<Channel>();
+	protected Map<Channel,String> connectedPeers = new HashMap<Channel,String>();
 	private List<Channel> pendingPeers = new LinkedList<Channel>();
 	private Channel listenChannel;
 	
@@ -34,7 +36,6 @@ public class Game implements InputHandler {
 	
 	public Game() {
 		createGUI();
-		createListenChannel();
 		initCommands();
 		name = con.waitForName();
 		con.setVisible(true);
@@ -53,10 +54,6 @@ public class Game implements InputHandler {
 		commands.put("cls", new ClsCommand(this));
 		commands.put("help", new HelpCommand(this));
 		commands.put("close", new CloseCommand(this));
-	}
-
-	private void createListenChannel() {
-		 listenChannel = UdpChannelFactory.newUdpChannel(4711);
 	}
 
 	@Override
@@ -94,8 +91,80 @@ public class Game implements InputHandler {
 	
 // ----------------- Handle new Connections ------------------------------
 	
+//Ich mach ersteinmal alles per Hand, aber Commandpattern wär auch an dieser Stelle gut	
 	
+protected class Communicaton extends Thread{
+	Message actMessage;
 	
+	public Communicaton(){
+		listenChannel = UdpChannelFactory.newUdpChannel(LOCALPORT);
+		this.start();
+	}
+	
+	public void run(){
+		while(true){
+			try {
+				UdpChannelFactory.waitOnPort(LOCALPORT);
+			} catch (InterruptedException e) {
+				continue;
+			}
+			if((actMessage = listenChannel.nrecv()) != null){
+				String[] m = actMessage.getData().toString().split(" ");
+				if(m.length != 2) continue;
+				if(m[0].equals(GameMessage.HELLO.toString())){
+					connectedPeers.put(listenChannel,m[1]);
+					listenChannel.send(new UDPMessage((GameMessage.OLLEH.toString()+" "+name).getBytes()));
+					listenChannel = UdpChannelFactory.newUdpChannel(LOCALPORT);
+				}
+				//Wenn nicht verwerfen
+				for(Channel c : connectedPeers.keySet()){
+					if((actMessage = c.nrecv()) != null){
+						onMessage(c,actMessage);
+					}
+				}
+			}
+		}
+	}
+	
+}
+
+// ----------------- Incomming Message Handl -----------------------------
+
+public void onMessage(Channel c, Message m){
+	String[] inc = m.getData().toString().split(" ");
+	if(inc.length == 0) return;
+	
+	if(inc[1].equals(GameMessage.HELLO)){
+		
+	}else if(inc[1].equals(GameMessage.OLLEH)){
+		
+	}else if(inc[1].equals(GameMessage.PEERS)){
+		
+	}else if(inc[1].equals(GameMessage.SREEP)){
+		
+	}
+}
+
+// ----------------- Jump Points for Incomming Message ------------------
+
+public void onHello(Channel c, String[] inc){
+	//Unnützer Versuch, denn wir müssten ja schon connected sein, aber in Ordnung
+	
+	connectedPeers.put(c, inc[2]);
+	c.send(new UDPMessage((GameMessage.OLLEH.toString()+" "+name).getBytes()));
+}
+
+public void onOlleh(Channel c, String[] inc){
+	connectedPeers.put(c, inc[2]);
+}
+
+public void onPeers(Channel c, String[] inc){
+	// TODO
+}
+
+public void onSreep(Channel c, String[] inc){
+	// TODO
+}
 
 // ----------------- Jump Points for Command Classes ----------------------
 	
