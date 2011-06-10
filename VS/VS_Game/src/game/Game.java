@@ -76,7 +76,8 @@ public class Game implements InputHandler {
 			
 		} else {
 			con.println("Unknown Command");
-			con.println(this.listCommands());
+			con.println(" >>\"help\"");
+//			con.println(this.listCommands());
 		}
 	}
 	
@@ -91,7 +92,9 @@ public class Game implements InputHandler {
 		return sb.toString();
 	}
 	
-// ----------------- Handle new Connections ------------------------------	
+// ----------------- Handle new Connections ------------------------------
+	
+	
 	
 
 // ----------------- Jump Points for Command Classes ----------------------

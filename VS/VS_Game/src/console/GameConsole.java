@@ -80,7 +80,9 @@ public class GameConsole extends JFrame implements Console, ActionListener {
 			inputHandler.onInput(input);
 			consoleInput.setText("");
 			
-//			fdSet.get(StdFd.StdOut.get()).setCaretPosition(fdSet.get(StdFd.StdOut.get()).getDocument().getLength());
+			for(JTextArea area : fdSet.values()){
+				area.setCaretPosition(area.getDocument().getLength());
+			}
 		}
 	}
 
