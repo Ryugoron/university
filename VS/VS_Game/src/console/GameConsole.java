@@ -51,11 +51,11 @@ public class GameConsole extends JFrame implements Console, ActionListener {
 		consoleArea.setEditable(false);
 		
 		planetsArea.setEditable(false);
-		planetsArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
+//		planetsArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 10));
 		planetsArea.setMargin(new Insets(2,10,5,4));
 		
 		consoleArea.setEditable(false);
-//		consoleArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
+		consoleArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
 		consoleArea.setMargin(new Insets(1, 10, 5, 2));
 		
 		this.consoleInput.addActionListener(this);

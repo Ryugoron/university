@@ -74,6 +74,7 @@ public class UdpChannelFactory {
 		m.connectEndpoint(remote_addr, remote_port, udpChannel);
 		return udpChannel;
 	}
+	
 
 	public static boolean closeChannel(UdpChannel channel) {
 		MessageDispatcher m = dispatcher.get(channel.getLocalPort());
@@ -91,6 +92,39 @@ public class UdpChannelFactory {
 			return true;
 		}
 		return false;
+	}
+	
+	/**
+	 * <p>Der aufrufende Prozess muss solange warten,
+	 * bis der MessageDispatcher des Portes eine Nachricht empfangen hat.
+	 * </p>
+	 * <p>
+	 * Spezielle Form von {@link UdpChannelFactory#waitForMessage()}
+	 * </p>
+	 * 
+	 * @param Port auf den gelauscht werden soll. (Eintreffen einer Nachricht)
+	 */
+	public static void waitOnPort(int Port) throws InterruptedException{
+		MessageDispatcher dis = dispatcher.get(Port);
+		synchronized (dis) {
+			dis.wait();
+		}
+	}
+	
+	/**
+	 * 
+	 * <p>
+	 * Wartet auf das Eintreffen einer Nachricht auf irgendeinem Channel.
+	 * Vorform eines Selects. Sollten wir Select brauchen wird es später noch
+	 * einmal implementiert.
+	 * </p>
+	 * 
+	 * @throws InterruptedException
+	 */
+	public static void waitForMessage() throws InterruptedException{
+		synchronized (UdpChannelFactory.class) {
+			UdpChannelFactory.class.wait();
+		}
 	}
 
 	protected static class MessageDispatcher extends Thread {
@@ -143,6 +177,8 @@ public class UdpChannelFactory {
 					// Put message into queue of channel
 					this.endpoints.get(from).recieved.add(new UDPMessage(
 							incoming.getData(), incoming.getLength()));
+					this.notifyAll();
+					UdpChannelFactory.class.notifyAll();
 				} catch (IOException e) {
 					if (endpoints.isEmpty() && unconnectedChannels.isEmpty()) {
 						// exit thread if all channels are closed
