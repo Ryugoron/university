@@ -1,9 +1,19 @@
 package game;
 
 import game.Console.StdFd;
+import game.commands.CloseCommand;
+import game.commands.Command;
+import game.commands.ConnectCommand;
+import game.commands.HelpCommand;
+import game.commands.PeersCommand;
+import game.networking.GameMessage;
+import game.networking.UdpChannelFactory;
 
+import java.net.InetAddress;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import vsFramework.Channel;
 import console.GameConsole;
@@ -11,14 +21,20 @@ import console.GameConsole;
 public class Game implements InputHandler {
 	protected Console con;
 	protected List<Channel> connectedPeers = new LinkedList<Channel>();
-	protected Channel listenChannel;
-	final String name;
+	private List<Channel> pendingPeers = new LinkedList<Channel>();
+//	private Channel listenChannel;
+	
+	final Map<String, Command> commands = new HashMap<String, Command>();
+	
+	final protected String name;
+	final private int LOCALPORT = 4711;
 
 	private int silly = 0;
 	
 	public Game() {
 		createGUI();
 		createListenChannel();
+		initCommands();
 		name = con.waitForName();
 		con.setVisible(true);
 		con.println("Welcome! You are located at planet \"" + name + "\"");
@@ -29,6 +45,13 @@ public class Game implements InputHandler {
 		con = new GameConsole();
 		con.setInputHandler(this);
 	}
+	
+	private void initCommands(){
+		commands.put("peers", new PeersCommand(this));
+		commands.put("connect", new ConnectCommand(this));
+		commands.put("help", new HelpCommand(this));
+		commands.put("close", new CloseCommand(this));
+	}
 
 	private void createListenChannel() {
 		// listenChannel = UdpChannelFactory.newUdpChannel(4711);
@@ -36,19 +59,26 @@ public class Game implements InputHandler {
 
 	@Override
 	public void onInput(String input) {
-		con.println("> " + input);
-		if (input.equals("bye")) {
-			System.exit(0);
-		} else if (input.equals("peers")) {
-			this.searchPlanets();
-		} else if (input.startsWith("connect")) {
-			this.connect(input);
+		
+		String[] commandParts = input.split(" ");
+		Command command = commands.get(commandParts[0]);
+		if (command != null) {
+			try {
+			command.execute(commandParts);
+			} catch (IllegalArgumentException e) {
+				if (!e.getMessage().equals("")) {
+					con.println(e.getMessage());
+				}
+				con.println(command.usage());
+			}
+			
 		} else {
-			con.println(input);
+			con.println("Unknown Command");
+			con.println(this.listCommands());
 		}
 	}
 
-	private void searchPlanets() {
+	public void peers() {
 		switch(this.silly){
 			case 0 :
 				con.println("No planets found.");
@@ -85,7 +115,42 @@ public class Game implements InputHandler {
 		}
 	}
 
-	private void connect(String who) {
-		con.println("Sry, but we didn't invent the stargate yet.\nPlease try again in thousend years.\n\nDrop Dead.");
+	public void connect(InetAddress host, int port) {
+		Channel chan = UdpChannelFactory.newUdpChannel(LOCALPORT, host, port);
+		pendingPeers.add(chan);
+		chan.send(GameMessage.HELLO);
+		
+		this.con.println("connect ausgeführt");
+	}
+	
+	public void close(){
+		this.con.println("Bye");
+		System.exit(0);
+	}
+	
+	protected Console getConsole() {
+		return this.con;
+	}
+	
+	protected String listCommands() {
+		StringBuilder sb = new StringBuilder("-------- Commands ---------\n");
+		for (String command : this.commands.keySet()) {
+			sb.append(command);
+			sb.append("\n");
+		}
+		sb.append("---------------------------");
+		return sb.toString();
+	}
+	
+	public void help(){
+		StringBuilder sb = new StringBuilder("\n\n-------- Commands ---------\n");
+		for (String command : this.commands.keySet()) {
+			sb.append(command);
+			sb.append(" - ");
+			sb.append(this.commands.get(command).description());
+			sb.append("\n");
+		}
+		sb.append("---------------------------");
+		this.con.println(sb.toString());
 	}
 }

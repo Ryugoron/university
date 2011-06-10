@@ -5,6 +5,7 @@ import game.InputHandler;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -46,10 +47,19 @@ public class GameConsole extends JFrame implements Console, ActionListener {
 		
 		// Layout stuff
 		this.setLayout(new BorderLayout());
+		
 		consoleArea.setEditable(false);
-		consoleArea.setMargin(new Insets(1, 10, 5, 2));
+		
+		planetsArea.setEditable(false);
+		planetsArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
 		planetsArea.setMargin(new Insets(2,10,5,4));
+		
+		consoleArea.setEditable(false);
+//		consoleArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
+		consoleArea.setMargin(new Insets(1, 10, 5, 2));
+		
 		this.consoleInput.addActionListener(this);
+		this.consoleInput.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
 		this.add(consoleInput, BorderLayout.SOUTH);
 		this.add(consoleScrollPane, BorderLayout.CENTER);
 		this.add(planetsScrollPane, BorderLayout.EAST);
@@ -66,8 +76,11 @@ public class GameConsole extends JFrame implements Console, ActionListener {
 	public void actionPerformed(ActionEvent evt) {
 		if (inputHandler != null) {
 			String input = consoleInput.getText();
+			
 			inputHandler.onInput(input);
 			consoleInput.setText("");
+			
+//			fdSet.get(StdFd.StdOut.get()).setCaretPosition(fdSet.get(StdFd.StdOut.get()).getDocument().getLength());
 		}
 	}
 
