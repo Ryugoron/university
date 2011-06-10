@@ -65,9 +65,9 @@ public class Game implements InputHandler {
 			try {
 			command.execute(commandParts);
 			} catch (IllegalArgumentException e) {
-				if (!e.getMessage().equals("")) {
-					con.println(e.getMessage());
-				}
+//				if (!e.getMessage().equals("")) {
+//					con.println(e.getMessage());
+//				}
 				con.println(command.usage());
 			}
 			
