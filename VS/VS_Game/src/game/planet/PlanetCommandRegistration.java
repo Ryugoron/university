@@ -1,4 +1,4 @@
-package game;
+package game.planet;
 
 import game.commands.CloseCommand;
 import game.commands.ClsCommand;
@@ -7,15 +7,18 @@ import game.commands.ConnectCommand;
 import game.commands.HelpCommand;
 import game.commands.PeersCommand;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PlanetRegistration implements InputHandler {
-	final Planet planet;
+import console.InputHandler;
+
+public class PlanetCommandRegistration implements InputHandler {
+	final private Planet planet;
 
 	final Map<String, Command<?>> commands = new HashMap<String, Command<?>>();
 
-	public PlanetRegistration(Planet planet) {
+	public PlanetCommandRegistration(Planet planet) {
 		this.planet = planet;
 		addCommandHandler();
 	}
@@ -54,7 +57,7 @@ public class PlanetRegistration implements InputHandler {
 		Command<?> command = commands.get(commandParts[0]);
 		if (command != null) {
 			try {
-			command.execute(commandParts);
+			command.execute(Arrays.copyOfRange(commandParts, 1, commandParts.length));
 			} catch (IllegalArgumentException e) {
 				if(e.getMessage() != null){
 					if (!e.getMessage().equals("")) {

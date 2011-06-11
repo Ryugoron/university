@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentHashMap;
 
+
 public class UdpChannelFactory {
 	protected static Map<Integer, MessageDispatcher> dispatcher = new ConcurrentHashMap<Integer, MessageDispatcher>();
 	
@@ -98,6 +99,15 @@ public class UdpChannelFactory {
 	 * <p>Der aufrufende Prozess muss solange warten,
 	 * bis der MessageDispatcher des Portes eine Nachricht empfangen hat.
 	 * </p>
+	 * 
+	 * <p>
+	 * Aufgrund nicht gelöster Probleme in Dingen Synchronisation wird
+	 * man nach einiger Zeit automatisch geweckt um selber einmal nachzusehen.
+	 * <br />
+	 * Dies ist nötig, da bei einem Aufruf von waitOnPort Nachrichten empfangen worden sein
+	 * können, aber man noch nicht synchronized war.
+	 * </p>
+	 * 
 	 * <p>
 	 * Spezielle Form von {@link UdpChannelFactory#waitForMessage()}
 	 * </p>
@@ -107,7 +117,7 @@ public class UdpChannelFactory {
 	public static void waitOnPort(int Port) throws InterruptedException{
 		MessageDispatcher dis = dispatcher.get(Port);
 		synchronized (dis) {
-			dis.wait();
+			dis.wait(10000);
 		}
 	}
 	
@@ -123,7 +133,7 @@ public class UdpChannelFactory {
 	 */
 	public static void waitForMessage() throws InterruptedException{
 		synchronized (UdpChannelFactory.class) {
-			UdpChannelFactory.class.wait();
+			UdpChannelFactory.class.wait(10000);
 		}
 	}
 

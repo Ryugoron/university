@@ -1,4 +1,5 @@
-package game;
+package console;
+
 
 public interface Console {
 	
@@ -28,7 +29,7 @@ public interface Console {
 		}
 	}
 	
-	void setInputHandler(InputHandler handler);
+	public void setInputHandler(InputHandler handler);
 	
 	/**
 	 * <p>Gibt einen Text auf der Standardconsole 
@@ -37,7 +38,7 @@ public interface Console {
 	 * 
 	 * @param text - Zeile an auszugebendem Text
 	 */
-	void println(String text);
+	public void println(String text);
 	
 	/**
 	 * 
@@ -49,15 +50,15 @@ public interface Console {
 	 * @param fd - Fildescriptor auf den geschrieben werden soll
 	 * @param text - Zeile an auszugebendem Text
 	 */
-	void println(int fd, String text) throws IllegalArgumentException;
+	public void println(int fd, String text) throws IllegalArgumentException;
 	
-	void println(StdFd fd, String text) throws IllegalArgumentException;
+	public void println(StdFd fd, String text) throws IllegalArgumentException;
 	
-	void clear();
+	public void clear();
 	
-	void clear(int fd) throws IllegalArgumentException;
+	public void clear(int fd) throws IllegalArgumentException;
 	
-	void clear(StdFd fd) throws IllegalArgumentException;
+	public void clear(StdFd fd) throws IllegalArgumentException;
 	/**
 	 * <p>Testet, ob ein bestimmter fd in der Implementierung vorhanden ist.</p>
 	 * <p>Dies ist vor allem Praktisch um zu testen, ob die Standard fd gesetzt sind.</p>
@@ -65,10 +66,10 @@ public interface Console {
 	 * @param fd ist der Filedescriptor der geprüft werden soll
 	 * @return true iff fd exists
 	 */
-	boolean testFd(int fd);
+	public boolean testFd(int fd);
 	
-	boolean testFd(StdFd fd);
+	public boolean testFd(StdFd fd);
 	
-	void setVisible(boolean visible);
-	String waitForName();
+	public void setVisible(boolean visible);
+	public String waitForName();
 }

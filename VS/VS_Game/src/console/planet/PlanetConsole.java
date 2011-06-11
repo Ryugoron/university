@@ -1,7 +1,5 @@
-package console;
+package console.planet;
 
-import game.Console;
-import game.InputHandler;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -20,7 +18,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-public class GameConsole extends JFrame implements Console, ActionListener {
+import console.Console;
+import console.InputHandler;
+import console.NameRequestDialog;
+
+public class PlanetConsole extends JFrame implements Console, ActionListener {
 	
 	private static final long serialVersionUID = 2404403907190763384L;
 	private final static String newline = "\n";
@@ -31,7 +33,7 @@ public class GameConsole extends JFrame implements Console, ActionListener {
 	
 	private Map<Integer,JTextArea> fdSet = new HashMap<Integer,JTextArea>();
 
-	public GameConsole() {
+	public PlanetConsole() {
 		super("Space BWL");
 		this.setSize(800, 600);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);

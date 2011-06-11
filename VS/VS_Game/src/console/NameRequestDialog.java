@@ -67,7 +67,7 @@ public class NameRequestDialog extends JDialog {
 		this.add(this.closeButton, BorderLayout.SOUTH);
 	}
 
-	String getEnteredName() {
+	public String getEnteredName() {
 		return enteredName;
 	}
 	
