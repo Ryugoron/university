@@ -64,7 +64,7 @@ public class Planet implements CloseHandler, ClsHandler, ConnectHandler,
 	// ----------------- Jump Points for Incomming Message ------------------
 
 	public void onHello(Channel c, String name) {
-		connectedPeers.put(c, name);
+		pendingPeers.add(c);
 		mreg.addPeer(c);
 		String[] myName = {this.name};
 		c.send(GameMessage.OLLEH.toMessage(myName));

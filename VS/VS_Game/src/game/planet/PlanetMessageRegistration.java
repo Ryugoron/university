@@ -45,22 +45,22 @@ public class PlanetMessageRegistration {
 		{
 			HelloCommandMessage h = new HelloCommandMessage();
 			h.register(planet);
-			messages.put("peers", h);
+			messages.put("HELLO", h);
 		}
 		{
 			OllehCommandMessage h = new OllehCommandMessage();
 			h.register(planet);
-			messages.put("connect", h);
+			messages.put("OLLEH", h);
 		}
 		{
 			PeersCommandMessage h = new PeersCommandMessage();
 			h.register(planet);
-			messages.put("cls", h);
+			messages.put("PEERS", h);
 		}
 		{
 			SreepCommandMessage h = new SreepCommandMessage();
 			h.register(planet);
-			messages.put("help", h);
+			messages.put("SREEP", h);
 		}
 	}
 
@@ -106,6 +106,7 @@ public class PlanetMessageRegistration {
 						// gesondert
 						try{
 						if ((actMessage = c.nrecv()) != null) {
+							System.out.println("Received Message");
 							String[] input = actMessage.getData().toString()
 									.split(" ");
 							if (messages.containsKey(input[0]))
@@ -131,6 +132,7 @@ public class PlanetMessageRegistration {
 				for (Channel c : connectedPeers) {
 					if ((actMessage = c.nrecv()) != null) {
 						try {
+							System.out.println("Message received");
 							String[] input = actMessage.getData().toString()
 									.split(" ");
 							if (messages.containsKey(input[0]))
