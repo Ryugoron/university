@@ -1,5 +1,7 @@
 package game.networking;
 
+import java.util.List;
+
 import vsFramework.Message;
 
 public enum GameMessage implements Message {
@@ -29,5 +31,35 @@ public enum GameMessage implements Message {
 	public static GameMessage fromMessage(Message message)
 			throws IllegalArgumentException {
 		return GameMessage.valueOf(new String(message.getData()));
+	}
+
+	public Message toMessage(){
+		return new UDPMessage(this.getData());
+	}
+	
+	public Message toMessage(String[] param)
+			throws IllegalArgumentException {
+
+		StringBuilder sb = new StringBuilder();
+		sb.append(this.toString());
+		for (int i = 0; i < param.length; ++i) {
+			sb.append(" ");
+			sb.append(param[i]);
+		}
+
+		return new UDPMessage(sb.toString().getBytes());
+	}
+
+	public Message toMessage(List<String> param)
+			throws IllegalArgumentException {
+
+		StringBuilder sb = new StringBuilder();
+		sb.append(this.toString());
+		for (String p : param) {
+			sb.append(" ");
+			sb.append(p);
+		}
+
+		return new UDPMessage(sb.toString().getBytes());
 	}
 }

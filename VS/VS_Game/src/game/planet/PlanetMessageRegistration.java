@@ -25,7 +25,7 @@ public class PlanetMessageRegistration {
 	private List<Channel> removedPeers = new ArrayList<Channel>();
 	private List<Channel> addedPeers = new ArrayList<Channel>();
 
-	final int LOCALPORT = 4711;
+	final int LOCALPORT;
 	final int LISTEN_NUM = 5;
 
 	private List<Channel> listenChannel = new ArrayList<Channel>();;
@@ -33,8 +33,9 @@ public class PlanetMessageRegistration {
 	
 	
 	
-	public PlanetMessageRegistration(Planet planet) {
+	public PlanetMessageRegistration(Planet planet, int port) {
 		this.planet = planet;
+		this.LOCALPORT = port;
 		this.fillListenChannel();
 		addMessageHandler();
 		new Communicaton();

@@ -12,16 +12,18 @@ public class ConnectCommand extends Command<ConnectHandler> {
 		InetAddress host;
 		int port;
 		try {
-			host = InetAddress.getByName(paras[1]);
-			port = Integer.parseInt(paras[2]);
+			host = InetAddress.getByName(paras[0]);
+			port = Integer.parseInt(paras[1]);
 
 			for(ConnectHandler h : reg){
 				h.onConnect(host, port);
 			}
 			
 		} catch (UnknownHostException e) {
+			System.out.println("Unkown Host");
 			throw new IllegalArgumentException("Ungültiger Host");
  		} catch (Exception e) {
+ 			System.out.println(e.getMessage());
 			throw new IllegalArgumentException();
 		}
 	}

@@ -187,8 +187,9 @@ public class UdpChannelFactory {
 					// Put message into queue of channel
 					this.endpoints.get(from).recieved.add(new UDPMessage(
 							incoming.getData(), incoming.getLength()));
-					this.notifyAll();
-					UdpChannelFactory.class.notifyAll();
+					synchronized(this){this.notifyAll();}
+					synchronized (UdpChannelFactory.class) {UdpChannelFactory.class.notifyAll();}
+						
 				} catch (IOException e) {
 					if (endpoints.isEmpty() && unconnectedChannels.isEmpty()) {
 						// exit thread if all channels are closed

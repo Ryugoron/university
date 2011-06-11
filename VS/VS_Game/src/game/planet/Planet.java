@@ -10,7 +10,6 @@ import game.messages.handler.OllehCommandHandler;
 import game.messages.handler.PeersCommandHandler;
 import game.messages.handler.SreepCommandHandler;
 import game.networking.GameMessage;
-import game.networking.UDPMessage;
 import game.networking.UdpChannelFactory;
 
 import java.net.InetAddress;
@@ -41,13 +40,14 @@ public class Planet implements CloseHandler, ClsHandler, ConnectHandler,
 
 	private int silly = 0;
 
-	public Planet() {
+	public Planet(int port) {
 		reg = new PlanetCommandRegistration(this);
-		mreg = new PlanetMessageRegistration(this);
+		mreg = new PlanetMessageRegistration(this, port);
 		createGUI();
 		name = con.waitForName();
 		con.setVisible(true);
 		con.println("Welcome! You are located at planet \"" + name + "\"");
+		con.println("Your current Port is: "+port);
 		con.println(StdFd.Planets, "Planetlist: \n\n>> No planets in reach.");
 	}
 
@@ -65,12 +65,18 @@ public class Planet implements CloseHandler, ClsHandler, ConnectHandler,
 
 	public void onHello(Channel c, String name) {
 		connectedPeers.put(c, name);
-		c.send(new UDPMessage((GameMessage.OLLEH.toString() + " " + this.name)
-				.getBytes()));
+		mreg.addPeer(c);
+		String[] myName = {this.name};
+		c.send(GameMessage.OLLEH.toMessage(myName));
 	}
 
 	public void onOlleh(Channel c, String name) {
+		if(!pendingPeers.contains(c)) return;
+		
 		connectedPeers.put(c, name);
+		pendingPeers.remove(c);
+		this.con.println("A new planet was discoverd right next to us.");
+		this.con.println(StdFd.Planets, name);
 	}
 
 	public void onPeers(Channel c, String[] inc) {
@@ -81,6 +87,8 @@ public class Planet implements CloseHandler, ClsHandler, ConnectHandler,
 		// TODO
 	}
 
+	
+	
 	// ----------------- Jump Points for Command Classes ----------------------
 
 	public void onPeers() {
@@ -123,9 +131,11 @@ public class Planet implements CloseHandler, ClsHandler, ConnectHandler,
 	public void onConnect(InetAddress host, int port) {
 		Channel chan = UdpChannelFactory.newUdpChannel(mreg.LOCALPORT, host, port);
 		pendingPeers.add(chan);
-		chan.send(GameMessage.HELLO);
+		mreg.addPeer(chan);
+		String[] name = {this.name};
+		chan.send(GameMessage.HELLO.toMessage(name));
 
-		this.con.println("connect ausgeführt");
+		this.con.println("connect executed");
 	}
 
 	public void onClose() {
