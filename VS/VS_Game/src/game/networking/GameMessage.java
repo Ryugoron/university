@@ -33,10 +33,6 @@ public enum GameMessage implements Message {
 		return GameMessage.valueOf(new String(message.getData()));
 	}
 
-	public Message toMessage(){
-		return new UDPMessage(this.getData());
-	}
-	
 	public Message toMessage(String[] param)
 			throws IllegalArgumentException {
 
@@ -46,7 +42,7 @@ public enum GameMessage implements Message {
 			sb.append(" ");
 			sb.append(param[i]);
 		}
-
+		sb.trimToSize();
 		return new UDPMessage(sb.toString().getBytes());
 	}
 
@@ -59,7 +55,7 @@ public enum GameMessage implements Message {
 			sb.append(" ");
 			sb.append(p);
 		}
-
+		sb.trimToSize();
 		return new UDPMessage(sb.toString().getBytes());
 	}
 }

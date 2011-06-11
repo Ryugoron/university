@@ -30,9 +30,6 @@ public class PlanetMessageRegistration {
 
 	private List<Channel> listenChannel = new ArrayList<Channel>();;
 
-	
-	
-	
 	public PlanetMessageRegistration(Planet planet, int port) {
 		this.planet = planet;
 		this.LOCALPORT = port;
@@ -101,13 +98,11 @@ public class PlanetMessageRegistration {
 					continue;
 				}
 				for (Channel c : listenChannel) {
-					if ((actMessage = c.nrecv()) != null) {
-						// Wir behandln den "neuen" Channel erst einmal
-						// gesondert
-						try{
+					// Wir behandln den "neuen" Channel erst einmal
+					// gesondert
+					try {
 						if ((actMessage = c.nrecv()) != null) {
-							System.out.println("Received Message");
-							String[] input = actMessage.getData().toString()
+							String[] input = new String (actMessage.getData())
 									.split(" ");
 							if (messages.containsKey(input[0]))
 								messages.get(input[0]).execute(
@@ -115,15 +110,13 @@ public class PlanetMessageRegistration {
 										Arrays.copyOfRange(input, 1,
 												input.length));
 						}
-						}catch(IllegalArgumentException e) {
-							if (e.getMessage() != null) {
-								if (!e.getMessage().equals("")) {
-									System.err.println(
-											e.getMessage());
-								}
+					} catch (IllegalArgumentException e) {
+						if (e.getMessage() != null) {
+							if (!e.getMessage().equals("")) {
+								System.err.println(e.getMessage());
 							}
-							System.err.println("Received Unknown Message");
 						}
+						System.err.println("Received Unknown Message");
 					}
 				}
 
@@ -132,8 +125,7 @@ public class PlanetMessageRegistration {
 				for (Channel c : connectedPeers) {
 					if ((actMessage = c.nrecv()) != null) {
 						try {
-							System.out.println("Message received");
-							String[] input = actMessage.getData().toString()
+							String[] input = new String(actMessage.getData())
 									.split(" ");
 							if (messages.containsKey(input[0]))
 								messages.get(input[0]).execute(
@@ -144,8 +136,7 @@ public class PlanetMessageRegistration {
 						} catch (IllegalArgumentException e) {
 							if (e.getMessage() != null) {
 								if (!e.getMessage().equals("")) {
-									System.err.println(
-											e.getMessage());
+									System.err.println(e.getMessage());
 								}
 							}
 							System.err.println("Received Unknown Message");

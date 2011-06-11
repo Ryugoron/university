@@ -59,6 +59,15 @@ public class Planet implements CloseHandler, ClsHandler, ConnectHandler,
 	Console getConsole() {
 		return this.con;
 	}
+	
+	private void updatePlanetList(){
+		//TODO Erweitern sobald Peers fertig ist
+		con.clear(StdFd.Planets);
+		con.println(StdFd.Planets, "Planetlist:\n\n");
+		for(String s : this.connectedPeers.values()){
+			con.println(StdFd.Planets," >> "+s);
+		}
+	}
 
 
 	// ----------------- Jump Points for Incomming Message ------------------
@@ -68,6 +77,8 @@ public class Planet implements CloseHandler, ClsHandler, ConnectHandler,
 		mreg.addPeer(c);
 		String[] myName = {this.name};
 		c.send(GameMessage.OLLEH.toMessage(myName));
+		this.con.println("A new planet was discoverd right next to us.");
+		this.updatePlanetList();
 	}
 
 	public void onOlleh(Channel c, String name) {
@@ -76,7 +87,7 @@ public class Planet implements CloseHandler, ClsHandler, ConnectHandler,
 		connectedPeers.put(c, name);
 		pendingPeers.remove(c);
 		this.con.println("A new planet was discoverd right next to us.");
-		this.con.println(StdFd.Planets, name);
+		this.updatePlanetList();
 	}
 
 	public void onPeers(Channel c, String[] inc) {
@@ -132,7 +143,8 @@ public class Planet implements CloseHandler, ClsHandler, ConnectHandler,
 		Channel chan = UdpChannelFactory.newUdpChannel(mreg.LOCALPORT, host, port);
 		pendingPeers.add(chan);
 		mreg.addPeer(chan);
-		String[] name = {this.name};
+		String[] name = new String[1];
+		name[0] = this.name;
 		chan.send(GameMessage.HELLO.toMessage(name));
 
 		this.con.println("connect executed");
