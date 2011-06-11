@@ -1,18 +1,14 @@
 package game.commands;
 
-import game.Game;
+import game.commands.handler.HelpHandler;
 
-public class HelpCommand implements Command{
+public class HelpCommand extends Command<HelpHandler>{
 
-	final Game game;
-	
-	public HelpCommand(Game game) {
-		this.game = game;
-	}
-	
 	@Override
 	public void execute(String[] paras) throws IllegalArgumentException {
-		this.game.help();
+		for(HelpHandler h : reg){
+			h.onHelp();
+		}
 	}
 
 	@Override

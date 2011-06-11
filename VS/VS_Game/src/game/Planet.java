@@ -1,12 +1,11 @@
 package game;
 
 import game.Console.StdFd;
-import game.commands.CloseCommand;
-import game.commands.ClsCommand;
-import game.commands.Command;
-import game.commands.ConnectCommand;
-import game.commands.HelpCommand;
-import game.commands.PeersCommand;
+import game.commands.handler.CloseHandler;
+import game.commands.handler.ClsHandler;
+import game.commands.handler.ConnectHandler;
+import game.commands.handler.HelpHandler;
+import game.commands.handler.PeersHandler;
 import game.networking.GameMessage;
 import game.networking.UDPMessage;
 import game.networking.UdpChannelFactory;
@@ -21,22 +20,22 @@ import vsFramework.Channel;
 import vsFramework.Message;
 import console.GameConsole;
 
-public class Game implements InputHandler {
+public class Planet implements CloseHandler, ClsHandler, ConnectHandler, HelpHandler, PeersHandler{
 	protected Console con;
 	protected Map<Channel,String> connectedPeers = new HashMap<Channel,String>();
 	private List<Channel> pendingPeers = new LinkedList<Channel>();
 	private Channel listenChannel;
 	
-	final Map<String, Command> commands = new HashMap<String, Command>();
-	
 	final protected String name;
 	final private int LOCALPORT = 4711;
-
+	
+	final private PlanetRegistration reg;
+	
 	private int silly = 0;
 	
-	public Game() {
+	public Planet() {
+		reg = new PlanetRegistration(this);
 		createGUI();
-		initCommands();
 		name = con.waitForName();
 		con.setVisible(true);
 		con.println("Welcome! You are located at planet \"" + name + "\"");
@@ -45,48 +44,11 @@ public class Game implements InputHandler {
 
 	private void createGUI() {
 		con = new GameConsole();
-		con.setInputHandler(this);
+		con.setInputHandler(reg);
 	}
 	
-	private void initCommands(){
-		commands.put("peers", new PeersCommand(this));
-		commands.put("connect", new ConnectCommand(this));
-		commands.put("cls", new ClsCommand(this));
-		commands.put("help", new HelpCommand(this));
-		commands.put("close", new CloseCommand(this));
-	}
-
-	@Override
-	public void onInput(String input) {
-		
-		String[] commandParts = input.split(" ");
-		Command command = commands.get(commandParts[0]);
-		if (command != null) {
-			try {
-			command.execute(commandParts);
-			} catch (IllegalArgumentException e) {
-//				if (!e.getMessage().equals("")) {
-//					con.println(e.getMessage());
-//				}
-				con.println(command.usage());
-			}
-			
-		} else {
-			con.println("Unknown Command");
-			con.println(" >>\"help\"");
-//			con.println(this.listCommands());
-		}
-	}
-	
-	
-	protected String listCommands() {
-		StringBuilder sb = new StringBuilder("-------- Commands ---------\n");
-		for (String command : this.commands.keySet()) {
-			sb.append(command);
-			sb.append("\n");
-		}
-		sb.append("---------------------------");
-		return sb.toString();
+	Console getConsole(){
+		return this.con;
 	}
 	
 // ----------------- Handle new Connections ------------------------------
@@ -168,7 +130,7 @@ public void onSreep(Channel c, String[] inc){
 
 // ----------------- Jump Points for Command Classes ----------------------
 	
-	public void peers() {
+	public void onPeers() {
 		switch(this.silly){
 			case 0 :
 				con.println("No planets found.");
@@ -205,7 +167,7 @@ public void onSreep(Channel c, String[] inc){
 		}
 	}
 
-	public void connect(InetAddress host, int port) {
+	public void onConnect(InetAddress host, int port) {
 		Channel chan = UdpChannelFactory.newUdpChannel(LOCALPORT, host, port);
 		pendingPeers.add(chan);
 		chan.send(GameMessage.HELLO);
@@ -213,27 +175,16 @@ public void onSreep(Channel c, String[] inc){
 		this.con.println("connect ausgeführt");
 	}
 	
-	public void close(){
+	public void onClose(){
 		this.con.println("Bye");
 		System.exit(0);
 	}
 	
-	public void help(){
-		StringBuilder sb = new StringBuilder("\n\n-------- Commands ---------\n");
-		for (String command : this.commands.keySet()) {
-			sb.append(command);
-			sb.append(" - ");
-			sb.append(this.commands.get(command).description());
-			sb.append("\n");
-			sb.append("   ->");
-			sb.append(this.commands.get(command).usage());
-			sb.append("\n");
-		}
-		sb.append("---------------------------");
-		this.con.println(sb.toString());
+	public void onHelp(){
+		this.con.println(this.reg.helpText());
 	}
 	
-	public void clearScreen(){
+	public void onCls(){
 		this.con.clear();
 	}
 }

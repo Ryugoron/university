@@ -1,18 +1,14 @@
 package game.commands;
 
-import game.Game;
+import game.commands.handler.PeersHandler;
 
-public class PeersCommand implements Command {
-	final Game game;
-	
-	
-	public PeersCommand(Game game) {
-		this.game = game;
-	}
+public class PeersCommand extends Command<PeersHandler> {
 
 	@Override
 	public void execute(String[] paras) {
-		game.peers();
+		for(PeersHandler h : reg){
+			h.onPeers();
+		}
 	}
 
 	@Override
@@ -24,5 +20,4 @@ public class PeersCommand implements Command {
 	public String description() {
 		return "Returns a List of any reachable Planet.";
 	}
-
 }

@@ -1,18 +1,14 @@
 package game.commands;
 
-import game.Game;
+import game.commands.handler.ClsHandler;
 
-public class ClsCommand implements Command {
+public class ClsCommand extends Command<ClsHandler> {
 
-	final Game game;
-	
-	public ClsCommand(Game game){
-		this.game = game;
-	}
-	
 	@Override
 	public void execute(String[] paras) throws IllegalArgumentException {
-		this.game.clearScreen();
+		for(ClsHandler h : reg){
+			h.onCls();
+		}
 	}
 
 	@Override

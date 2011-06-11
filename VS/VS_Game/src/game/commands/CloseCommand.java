@@ -1,18 +1,14 @@
 package game.commands;
 
-import game.Game;
+import game.commands.handler.CloseHandler;
 
-public class CloseCommand implements Command{
+public class CloseCommand extends Command<CloseHandler>{
 
-	final Game game;
-	
-	public CloseCommand(Game game) {
-		this.game = game;
-	}
-	
 	@Override
 	public void execute(String[] paras) throws IllegalArgumentException {
-		game.close();
+		for(CloseHandler h : reg){
+			h.onClose();
+		}
 		
 	}
 
@@ -26,6 +22,4 @@ public class CloseCommand implements Command{
 		return "Closes the window";
 	}
 	
-	
-
 }
