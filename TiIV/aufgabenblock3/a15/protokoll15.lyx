@@ -1,0 +1,1126 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 3cm
+\topmargin 2cm
+\rightmargin 2cm
+\bottommargin 2cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Technische Informatik IV: Praktikum 
+\end_layout
+
+\begin_layout Author
+Protokoll zu Aufgabe A15
+\end_layout
+
+\begin_layout Date
+Alexander Steen , Max Wisniewski
+\end_layout
+
+\begin_layout Subsection*
+Vorbereitung
+\end_layout
+
+\begin_layout Standard
+Zur Vorbereitung haben wir uns das Kapitel 
+\emph on
+FTP
+\emph default
+ im 
+\emph on
+WIP Development Guide 
+\emph default
+durchgelesen.
+ Dabei war schon festzustellen, dass der grobe Aufbau mit dem des E-Mail
+ Programmes aus Aufgabe A14 recht ähnlich.
+ Wenn man das Framework aus 
+\emph on
+ftp.c
+\emph default
+ benutzt unterschied es sich größtenteils in der Erstellung der Verbindung.
+\end_layout
+
+\begin_layout Subsection*
+Aufgaben
+\end_layout
+
+\begin_layout Itemize
+Verbinden Sie sich mit dem FTP - Server 
+\series bold
+wba-dev.de
+\series default
+ und laden Sie eine Datei 
+\series bold
+messgageoftheday.txt
+\series default
+ herunter.
+ Geben Sie den Inhalt auf der Konsole aus.
+\end_layout
+
+\begin_layout Itemize
+Laden Sie ihre eigene Nachricht auf den Server.
+ Damit Sie die anderen Gruppen nicht stören, legen Sie die Nachricht in
+ der Datei 
+\series bold
+mymassage.txt
+\series default
+ im Ordnermit dem Namen ihres Arbeitsplatzes (
+\series bold
+hwp8
+\series default
+) ab.
+\end_layout
+
+\begin_layout Itemize
+Folgende Einstellungen sind für den FTP-Server zu verwenden: [Aus Sicherheitsgrü
+nden werden LogIn Daten nicht mit rein geschrieben]
+\end_layout
+
+\begin_layout Itemize
+Kontrollieren Sie die Ergebnisse
+\end_layout
+
+\begin_layout Subsection*
+Dokumentation
+\end_layout
+
+\begin_layout Description
+wip_FTPCreateOpts Mit diesem Befehl wird eine neue Verbindung zu einem FTP-Serve
+r geöffnet.
+ Die Syntax dabei ist:
+\begin_inset Newline newline
+\end_inset
+
+
+\series bold
+wip_channel_t wip_FTPCreateOpts(ascii* server_name, wip_eventHandler_f evh,
+ void ctx*, ...)
+\series default
+.
+ Der Rückgabewert ist ein Channel, vom selben Typ, wie wir ihn schon in
+ Aufgabe 
+\emph on
+A14
+\emph default
+ beschrieben haben.
+ Als Eingabe gibt man dem Befehl erstens den Namen [Addresse] des Servers
+ zu dem man sich Verbinden möchte.
+ Danach kommt, wie gewohnt der Eventhandler, der auf alle Events (es sind
+ wieder die selben wie in Aufgabe 
+\emph on
+A14
+\emph default
+ beschrieben) reagiert.
+ Der ctx Handler verwaltet wieder die Userdaten, die in den Eventhandler
+ gegeben werden.
+\begin_inset VSpace medskip
+\end_inset
+
+Darüber hinaus, bekommt die optionale Variante des Befehls noch eine Liste
+ von Parametern, wie immer wird die Liste mit 
+\emph on
+null
+\emph default
+ beendet:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+WIP_COPT_TYPE ist ein ascii (einzelner Char), der anzeigt, welches Format
+ die Nachricht hat ('I' image, 'A' ascii, 'E' EBCDIC)
+\end_layout
+
+\begin_layout Itemize
+WIP_COPT_PASSIV ist ein boolean der festlegt, ob die Verbindung passiv,
+ oder aktiv sein soll.
+ In der aktiven Variante wir versucht eine synchronisation mit dem Server
+ aufzubauen.
+ Die passive Variante arbeitet nur, wenn sie den Befehl dazu bekommt.
+ Diese Option bietet sich bei dem begrenzten Volumen, das uns zur Verfügung
+ steht an.
+\end_layout
+
+\begin_layout Itemize
+WIP_COPT_USER ist ein ascii* (String) der den Username enthält.
+ Gibt man keinen Name an, geht man als 
+\begin_inset Quotes eld
+\end_inset
+
+anonymous
+\begin_inset Quotes erd
+\end_inset
+
+ an de Server heran
+\end_layout
+
+\begin_layout Itemize
+WIP_COPT_PASSWORD ist ein ascii* der das Passwort enthält.
+ Das standardpasswort ist eine E-Mail addresse von Wavecom.
+\end_layout
+
+\begin_layout Itemize
+WIP_COPT_ACCOUNT ist ein ascii* der den Account kennzeichnet über dessen
+ Zugang man an den Server herran tritt.
+ Ohne Angabe ist der String leer und man fragt den Standardzugang des Servers
+ an.
+\end_layout
+
+\begin_layout Itemize
+WIP_COPT_PEER_PORT ist ein unsigned Short (u16) der den Port des Servers
+ speichert.
+ Ohne Eingabe ist es 21 (der Standard FTP Port)
+\end_layout
+
+\begin_layout Itemize
+WIP_COPT_LIST_PLUGIN nimmt ein wip_eventHandler_f.
+ Dieser reagiert auf Events der Funktion LIST.
+ Diese haben wir nicht benutzt, wird hier also nicht näher beschrieben.
+\end_layout
+
+\begin_layout Itemize
+WIP_COPT_KEEPALIVE nimmt ein unsigned Integer n entgegen.
+ Die Option sorgt dafür, dass all 
+\begin_inset Formula $n/10$
+\end_inset
+
+ Sekunden eine Nachricht an den Server geschickt wird.
+ damit dieser und jeder Knoten auf dem Weg, die Verbindung nicht beendet.
+\end_layout
+
+\begin_layout Itemize
+WIP_COPT_FINALIZER nimmt einen speziellen EventHandler wip_finalizer_f,
+ der sich nach schließen des Channels um Aufraumarbeiten kümmern kann oder
+ z.B.
+ den Channel erneut starten kann.
+ (Bei Verbindungstimeouts oder anderen Fehlern)
+\end_layout
+
+\end_deeper
+\begin_layout Description
+wip_putFile versucht in eine Datei auf dem FTP-Server zu schreiben.
+ Die Syntax ist dabei 
+\series bold
+wip_channel_t wip_putFile(wip_channel_t ftp_cx, ascii *filename, wip_eventHandle
+r_f evh, void *ctx)
+\series default
+.
+ Der erste Parameter ist der Channel zum FTP-Server auf den man schreiben
+ möchte.
+ Als zweites gibt man den Namen (auch Pfad zu der Datei) an, in die man
+ schreiben möcht.
+ Die letzen beiden Parameter sind wiederum bekannt.
+\begin_inset Newline newline
+\end_inset
+
+Der Eventhandler kümmert sich diesmal darum, das die Operationen auf dem
+ neuen Channel (der Rückgabewert der Funktion) korrekt ausgeführt werden.
+ In unserem Fall also, das die Datei bei Erstellung geschrieben wird.
+\end_layout
+
+\begin_layout Description
+wip_getFile die Signatur und das Verhalten ist exakt gleich mit dem von
+ 
+\series bold
+wip_putFile
+\series default
+.
+ Allerdings ist die Intention dieses mal, dass man aus einer Datei lesen
+ kann.
+ (Bei einem Versehen bemerkten wir, das wir auch durch einen mit putFile
+ erstelltem Channel lesen und mit getFile schreiben konnten).
+\begin_inset Newline newline
+\end_inset
+
+Der Unterschied zu putFile ist bei unserer Benutzung nur gewesen, dass wir
+ auf die Antwort vom Server warten mussten und danach das Ergebniss (den
+ Inhalt der Datei) ausgeben konnten.
+\end_layout
+
+\begin_layout Subsection*
+Durchführung
+\end_layout
+
+\begin_layout Standard
+Die Aufgabe stellte einen vor keine großen Probleme, da der größte Teil
+ genau das selbe war, wie in Aufgabe 
+\emph on
+A14
+\emph default
+.
+\begin_inset VSpace defskip
+\end_inset
+
+Bereiten wir zunächst alles vor.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset listings
+lstparams "basicstyle={\footnotesize\ttfamily},numbers=left,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+//____VARIABLEN_________________________________________________________________
+_________________
+\end_layout
+
+\begin_layout Plain Layout
+
+wip_channel_t sessionchannel; // Sitzung 
+\end_layout
+
+\begin_layout Plain Layout
+
+ascii * nachricht = 	"Das ist ein toller Test, wir können via FTP schreiben.
+\end_layout
+
+\begin_layout Plain Layout
+
+		
+\backslash
+r
+\backslash
+nSchönen Tag noch
+\backslash
+r
+\backslash
+n"; 
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+void ftp_handler(wip_event_t *event, void *context)
+\end_layout
+
+\begin_layout Plain Layout
+
+	{
+\end_layout
+
+\begin_layout Plain Layout
+
+	if (event->kind == WIP_CEV_ERROR) /* Fehler  */
+\end_layout
+
+\begin_layout Plain Layout
+
+		{
+\end_layout
+
+\begin_layout Plain Layout
+
+		ERROR("Verbindung zum Mail-Server abgebroche, Neustart erforderlich
+\backslash
+r
+\backslash
+n");
+\end_layout
+
+\begin_layout Plain Layout
+
+		wip_close (sessionchannel);
+\end_layout
+
+\begin_layout Plain Layout
+
+		return;
+\end_layout
+
+\begin_layout Plain Layout
+
+		}
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+void main_task(void)
+\end_layout
+
+\begin_layout Plain Layout
+
+	{
+\end_layout
+
+\begin_layout Plain Layout
+
+	// keymeldungen aktivieren 	
+\end_layout
+
+\begin_layout Plain Layout
+
+	adl_atCmdCreate("AT+CMER=,1", FALSE, (adl_atRspHandler_t) NULL, NULL);
+\end_layout
+
+\begin_layout Plain Layout
+
+	// keyhandler anlegen
+\end_layout
+
+\begin_layout Plain Layout
+
+	adl_atUnSoSubscribe("+CKEV: 0,1", (adl_atUnSoHandler_t) gethandler);
+\end_layout
+
+\begin_layout Plain Layout
+
+	adl_atUnSoSubscribe("+CKEV: 1,1", (adl_atUnSoHandler_t) puthandler);
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	sessionchannel = wip_FTPCreateOpts( // startet die Sitzung
+\end_layout
+
+\begin_layout Plain Layout
+
+		"wba-dev.de", // URL des Server
+\end_layout
+
+\begin_layout Plain Layout
+
+		ftp_handler, NULL, WIP_COPT_USER, "praktikum", // Benutzer
+\end_layout
+
+\begin_layout Plain Layout
+
+		WIP_COPT_PASSWORD, "praktikum", // Passwort
+\end_layout
+
+\begin_layout Plain Layout
+
+		WIP_COPT_PASSIVE, FALSE, // passiver Modus
+\end_layout
+
+\begin_layout Plain Layout
+
+		WIP_COPT_TYPE, 'A', // Codierung
+\end_layout
+
+\begin_layout Plain Layout
+
+		WIP_COPT_END);
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Öffnen eines Kanals zum FTP-Server und aktivieren der Taster.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+Beim Start des Moduls aktivieren wir zunächst die Tastendrücke.
+ Danach legen wir 2 Handler an.
+ Der erste reagiert nur auf das Herunterdrücken der Taste 0 und der andere
+ nur auf das Herrunterdrücken der Taste 1.
+ Beide bekommen einen Handler, den wir gleich erläutern wollen.
+ Auf Taste 0 wird man eine Nachricht vom Server holen und auf Taste 1 eine
+ auf den Server legen.
+\end_layout
+
+\begin_layout Standard
+Danach legen wir noch unseren Kanal zum FTP-Server an.
+ Dieser wird global als 
+\emph on
+sessionchannel
+\emph default
+ gespeichert.
+ Damit wir nachher beim Tastendruck darauf zugreifen können.
+ Der Handler dieses Channels macht nichts, außer ihn bei einem Fehler auf
+ dem Kanal zu schließen und eine Fehlermeldung auszugeben (wahlweise hätte
+ man den Kanel erneut öffnen können)
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace defskip
+\end_inset
+
+Beschreiben wir zuerst das Lesen vom Server:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset listings
+lstparams "basicstyle={\footnotesize\ttfamily},numbers=left,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+void ftp_recv_handler(wip_event_t *event, void *context)
+\end_layout
+
+\begin_layout Plain Layout
+
+	{
+\end_layout
+
+\begin_layout Plain Layout
+
+	s32 length;
+\end_layout
+
+\begin_layout Plain Layout
+
+	ascii readbuffer[1024];
+\end_layout
+
+\begin_layout Plain Layout
+
+	switch (event->kind)
+\end_layout
+
+\begin_layout Plain Layout
+
+		{
+\end_layout
+
+\begin_layout Plain Layout
+
+		case WIP_CEV_OPEN:
+\end_layout
+
+\begin_layout Plain Layout
+
+			//Lesen
+\end_layout
+
+\begin_layout Plain Layout
+
+			break;
+\end_layout
+
+\begin_layout Plain Layout
+
+		case WIP_CEV_READ:
+\end_layout
+
+\begin_layout Plain Layout
+
+			length = wip_read(event->channel, readbuffer, 1024 - 1);
+\end_layout
+
+\begin_layout Plain Layout
+
+			readbuffer[length] = '
+\backslash
+0';
+\end_layout
+
+\begin_layout Plain Layout
+
+			adl_atSendResponse(ADL_AT_RSP, readbuffer);
+\end_layout
+
+\begin_layout Plain Layout
+
+			wip_close (event->channel); // schließt den Übertragung
+\end_layout
+
+\begin_layout Plain Layout
+
+			break;
+\end_layout
+
+\begin_layout Plain Layout
+
+		default: /* Fehler oder fertig */
+\end_layout
+
+\begin_layout Plain Layout
+
+			wip_close (event->channel); // schließt den Übertragung
+\end_layout
+
+\begin_layout Plain Layout
+
+			break;
+\end_layout
+
+\begin_layout Plain Layout
+
+		}
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+bool gethandler(adl_atUnsolicited_t *paras)
+\end_layout
+
+\begin_layout Plain Layout
+
+	{
+\end_layout
+
+\begin_layout Plain Layout
+
+	adl_atSendResponse(ADL_AT_RSP, "Taste 0 wurde gedrückt
+\backslash
+r
+\backslash
+n");
+\end_layout
+
+\begin_layout Plain Layout
+
+	wip_getFile(sessionchannel, "messageoftheday.txt", ftp_recv_handler, NULL);
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	return FALSE;
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Wir legen hier zunächst einen Eventhandler an und reagieren dann auf einen
+ Knopfdruck 0 um zu lesen.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+Wenn die Taste 0 gedrückt wurde, geben wir eine Debugnachricht aus und öffnen
+ dann einen neuen Kanal zum Lesen.
+ Diesen brauchen wir aber nicht zu speichern, da wir ihn ohnehin nicht wieder
+ verwenden wollen.
+ Damit die Nachricht nicht weiter durch das System geschickt wird, halten
+ wir das weiterleiten mit dem Rückgabewert 
+\emph on
+false
+\emph default
+ auf.
+\end_layout
+
+\begin_layout Standard
+Der Eventhandler des Lesekanals springt nun an, wenn der Channel eine Nachricht
+ bekommt.
+ (Bei get wurde die Datei automatisch vom Server angefragt.) Erreicht uns
+ nun die Antwort, geben wir diese auf der Konsole aus.
+ Danach schließen wir den Channel.
+ Absehen vom erstellen, schließen wir den Kanal dann in jedem anderen Fall.
+ Wir schreiben nicht also sollte dieser Fall nicht eintreten und sonst gibt
+ es nur noch Fehler die uns nicht interessieren.
+\begin_inset VSpace defskip
+\end_inset
+
+Zuletzt schauen wir uns das Schreiben auf den Server an:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset listings
+lstparams "basicstyle={\footnotesize\ttfamily},numbers=left,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+void ftp_send_handler(wip_event_t *event, void *context)
+\end_layout
+
+\begin_layout Plain Layout
+
+	{
+\end_layout
+
+\begin_layout Plain Layout
+
+	switch (event->kind)
+\end_layout
+
+\begin_layout Plain Layout
+
+		{
+\end_layout
+
+\begin_layout Plain Layout
+
+		case WIP_CEV_OPEN:
+\end_layout
+
+\begin_layout Plain Layout
+
+			wip_write(event->channel, nachricht, wm_strlen(nachricht));
+\end_layout
+
+\begin_layout Plain Layout
+
+			adl_atSendResponse(ADL_AT_RSP, "Daten hochgeladen
+\backslash
+r
+\backslash
+n");
+\end_layout
+
+\begin_layout Plain Layout
+
+			wip_close (event->channel);
+\end_layout
+
+\begin_layout Plain Layout
+
+			break;
+\end_layout
+
+\begin_layout Plain Layout
+
+		case WIP_CEV_WRITE:
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+			break;
+\end_layout
+
+\begin_layout Plain Layout
+
+		default: /* Fehler oder fertig */
+\end_layout
+
+\begin_layout Plain Layout
+
+			wip_close (event->channel);// schließt den Übertragung
+\end_layout
+
+\begin_layout Plain Layout
+
+			break;
+\end_layout
+
+\begin_layout Plain Layout
+
+		}
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+bool puthandler(adl_atUnsolicited_t *paras)
+\end_layout
+
+\begin_layout Plain Layout
+
+	{
+\end_layout
+
+\begin_layout Plain Layout
+
+	adl_atSendResponse(ADL_AT_RSP, "Taste 1 wurde gedrückt
+\backslash
+r
+\backslash
+n");
+\end_layout
+
+\begin_layout Plain Layout
+
+	wip_putFile(sessionchannel, "hwp8/mymessage.txt", ftp_send_handler, NULL);
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	return FALSE;
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Wir legen hier einen Eventhandler an und reagieren dann auf den Knopfdruck
+ 1 um zu schreiben
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+Wir geben hier, wie oben erst eine Debugnachricht aus, wenn die Taste gedrückt
+ wurde.
+ Danach wollen wir auf die Datei 
+\emph on
+mymessage.txt
+\emph default
+ im Ordner 
+\emph on
+hwp8
+\emph default
+ schreiben.
+\end_layout
+
+\begin_layout Standard
+Der Eventhandler tut seine arbeit diesmal beim Öffnen des Kanals, damit
+ wir den Kanal nicht speichern oder extra beschreiben müssen.
+\end_layout
+
+\begin_layout Standard
+Ist der Kanal also erzeugt, nehmen wir uns die oben beschriebene globale
+ Nachricht und schreiben sie in den Kanal.
+ Wir geben noch eine Debugnachricht aus und schließen danach den Channel.
+ Sonst (außer beim schreiben direkt) schließen wir den Channel wieder.
+\begin_inset VSpace defskip
+\end_inset
+
+Man sieht, dass das Programm wirklich nicht kompliziert war, da ein der
+ größte Teil der arbeit einfach schon abgenommen wird und man sich nicht
+ mit den konkreten Protokoll herum ärgern muss.
+\end_layout
+
+\begin_layout Subsection*
+Auswertung
+\end_layout
+
+\begin_layout Standard
+Nach einigen Minuten warten wenn das GPRS endlich angesprungen ist, kann
+ man beim Drücken der Taste 0 folgende Nachricht sehen:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\footnotesize\ttfamily},frame=single,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
++GPRS: Verbindung wurde hergestellt
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+Taste 0 wurde gedrückt 
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
++CKEV: 0,0
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+hallo heute ist ein schöner tag
+\end_layout
+
+\end_inset
+
+Wir erkennen hier unsere Debugmeldung, wenn die Taste gedrückt wurde und
+ der Channel erstellt wird.
+ Das 
+\emph on
++CKEV: 0,0
+\emph default
+ ist die Information, dass die Taste losgelassen wurde.
+ Diese Nachricht haben wir nicht abgefangen.
+\end_layout
+
+\begin_layout Standard
+Als Antwort auf unsere Anfrage an den Server bekommen wir nun die Nachricht
+ 
+\emph on
+hallo heute ist ein schöner tag
+\emph default
+.
+ Dies war auch die Nachricht, die zu dem Zeitpunkt, an dem wir gearbeitet
+ haben auf dem Server zu sehen war.
+ (Leider haben wir hierfür kein Beweisphoto gemacht.)
+\begin_inset VSpace defskip
+\end_inset
+
+Als nächstes haben wir die Taste 1 ausprobiert.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\footnotesize\ttfamily},frame=single,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+Taste 1 wurde gedrückt 
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
++CKEV: 1,0 
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+Daten hochgeladen
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Wir sehen wirder die Debugmeldungen und das loslassen der Taste.
+ Nun sehen wir in diesem Fall nur die Nachricht, dass die Datei geschieben
+ wurde.
+\begin_inset Newline newline
+\end_inset
+
+Eigentlich wollten wir sehen, dass in der Datei nun steht :
+\begin_inset listings
+lstparams "basicstyle={\footnotesize\ttfamily},frame=single,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+Das ist ein toller Test, wir können via FTP schreiben.
+\end_layout
+
+\begin_layout Plain Layout
+
+Schönen Tag noch
+\end_layout
+
+\end_inset
+
+Hierfür haben wir nun aber ein Beweisphoto geschossen.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Beweis_zuschnitt.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Beweisphoto von der hochgeladenen Datei
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
