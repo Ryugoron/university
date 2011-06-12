@@ -102,8 +102,9 @@ public class PlanetMessageRegistration {
 					// gesondert
 					try {
 						if ((actMessage = c.nrecv()) != null) {
-							String[] input = new String (Arrays.copyOfRange(actMessage.getData(),0,actMessage.getLength()))
-									.split(" ");
+							String[] input = new String(Arrays.copyOfRange(
+									actMessage.getData(), 0,
+									actMessage.getLength())).split(" ");
 							if (messages.containsKey(input[0]))
 								messages.get(input[0]).execute(
 										c,
@@ -123,25 +124,24 @@ public class PlanetMessageRegistration {
 				// TODO besseren syncMechanismus ausdenken, das kopieren ist
 				// dumm
 				for (Channel c : connectedPeers) {
-					if ((actMessage = c.nrecv()) != null) {
-						try {
-							String[] input = new String(Arrays.copyOfRange(actMessage.getData(),0,actMessage.getLength()))
-									.split(" ");
+					try {
+						if ((actMessage = c.nrecv()) != null) {
+							String[] input = new String(Arrays.copyOfRange(
+									actMessage.getData(), 0,
+									actMessage.getLength())).split(" ");
 							if (messages.containsKey(input[0]))
 								messages.get(input[0]).execute(
 										c,
 										Arrays.copyOfRange(input, 1,
 												input.length));
-
-						} catch (IllegalArgumentException e) {
-							if (e.getMessage() != null) {
-								if (!e.getMessage().equals("")) {
-									System.err.println(e.getMessage());
-								}
-							}
-							System.err.println("Received Unknown Message");
 						}
-
+					} catch (IllegalArgumentException e) {
+						if (e.getMessage() != null) {
+							if (!e.getMessage().equals("")) {
+								System.err.println(e.getMessage());
+							}
+						}
+						System.err.println("Received Unknown Message");
 					}
 				}
 				// Wenn wir uns nicht auf die Nachricht registriert haben,

@@ -1,5 +1,7 @@
 package game.networking;
 
+import java.util.Arrays;
+
 import vsFramework.Message;
 
 
@@ -9,13 +11,13 @@ public class UDPMessage implements Message{
 	private int length;
 	
 	public UDPMessage(byte[] payload) {
-		this.data = payload;
 		this.length = payload.length;
+		this.data = Arrays.copyOf(payload,this.length);
 	}
 	
 	public UDPMessage(byte[] payload, int length) {
-		this.data = payload;
 		this.length = length;
+		this.data = Arrays.copyOf(payload,this.length);
 	}
 	
 	@Override

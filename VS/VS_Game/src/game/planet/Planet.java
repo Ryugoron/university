@@ -43,8 +43,8 @@ public class Planet implements CloseHandler, ClsHandler, ConnectHandler,
 	private Map<String, String[]> peers = new HashMap<String, String[]>();
 
 	// ------------------ Contruct and help Funktions ----------------------
-	
-	public Planet(int port, String name){
+
+	public Planet(int port, String name) {
 		reg = new PlanetCommandRegistration(this);
 		mreg = new PlanetMessageRegistration(this, port);
 		createGUI();
@@ -55,7 +55,7 @@ public class Planet implements CloseHandler, ClsHandler, ConnectHandler,
 		con.println(StdFd.Planets, "Planetlist: \n\n>> No planets in reach.");
 		this.con.println(StdFd.Messages, "Messages: \n");
 	}
-	
+
 	public Planet(int port) {
 		reg = new PlanetCommandRegistration(this);
 		mreg = new PlanetMessageRegistration(this, port);
@@ -79,14 +79,14 @@ public class Planet implements CloseHandler, ClsHandler, ConnectHandler,
 	private void updatePlanetList() {
 		con.clear(StdFd.Planets);
 		con.println(StdFd.Planets, "Planetlist:\n\n");
-		if(this.peers.isEmpty()){
+		if (this.peers.isEmpty()) {
 			con.println(StdFd.Planets, " >> No planets in reach");
 		}
 		for (String s : this.peers.keySet()) {
 			con.println(StdFd.Planets, " >> " + s);
 		}
 	}
-	
+
 	@SuppressWarnings("unused")
 	private String[] invert(String[] in) {
 		String sp;
@@ -136,7 +136,7 @@ public class Planet implements CloseHandler, ClsHandler, ConnectHandler,
 		synchronized (this) {
 			if (!pendingPeers.contains(c))
 				return;
-			
+
 			connectedPeers.put(name, c);
 			String[] way = { name };
 			this.peers.put(name, way);
@@ -155,7 +155,7 @@ public class Planet implements CloseHandler, ClsHandler, ConnectHandler,
 				oMessage += " " + inc[i];
 			}
 			this.con.println(StdFd.Messages, oMessage);
-			
+
 			if (inc.length < 2)
 				throw new IllegalArgumentException("To small way.");
 			if (inc[inc.length - 1].equals(this.name)) {
@@ -180,8 +180,7 @@ public class Planet implements CloseHandler, ClsHandler, ConnectHandler,
 						break;
 					}
 				}
-				System.out.println("Naechster : "+next);
-				
+
 				if (!this.connectedPeers.containsKey(next))
 					throw new IllegalArgumentException("From " + this.name
 							+ " you can't reach " + next);
@@ -189,21 +188,23 @@ public class Planet implements CloseHandler, ClsHandler, ConnectHandler,
 						GameMessage.PEERS.toMessage(inc));
 			}
 
-		
 		}
 	}
 
 	public void onSreep(Channel c, String[] inc) {
 		synchronized (this) {
-			
+
 			String oMessage = "SREEP";
 			for (int i = 0; i < inc.length; ++i) {
 				oMessage += " " + inc[i];
 			}
 			this.con.println(StdFd.Messages, oMessage);
+			
 			if (inc.length < 4)
 				throw new IllegalArgumentException("To small way");
 			int pos = this.search(inc, "#");
+			if (pos == -1)
+				throw new IllegalArgumentException("Error in Message");
 			if (inc[pos - 1].equals(this.name)) {
 				// Wir haben das Ziel erreicht!
 				String[] newEdges = Arrays
@@ -229,13 +230,16 @@ public class Planet implements CloseHandler, ClsHandler, ConnectHandler,
 				}
 				this.updatePlanetList();
 			} else {
+				String next = "";
 				for (int i = 1; i < pos; ++i) {
 					if (inc[i].equals(this.name)) {
 						// wir haben uns gefunden
-						this.connectedPeers.get(inc[i + 1]).send(
-								GameMessage.SREEP.toMessage(inc));
+						next = inc[i+1];
+						break;
 					}
 				}
+				this.connectedPeers.get(next).send(
+						GameMessage.SREEP.toMessage(inc));
 			}
 		}
 	}
@@ -266,14 +270,14 @@ public class Planet implements CloseHandler, ClsHandler, ConnectHandler,
 
 	public void onConnect(InetAddress host, int port) {
 		synchronized (this) {
-			Channel chan = UdpChannelFactory.newUdpChannel(mreg.LOCALPORT, host,
-					port);
+			Channel chan = UdpChannelFactory.newUdpChannel(mreg.LOCALPORT,
+					host, port);
 			pendingPeers.add(chan);
 			mreg.addPeer(chan);
 			String[] name = new String[1];
 			name[0] = this.name;
 			chan.send(GameMessage.HELLO.toMessage(name));
-			
+
 			this.con.println("connect executed");
 		}
 	}

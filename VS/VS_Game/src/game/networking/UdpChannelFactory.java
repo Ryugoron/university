@@ -163,7 +163,6 @@ public class UdpChannelFactory {
 			byte[] buffer = new byte[2048]; // max udp size
 			DatagramPacket incoming = new DatagramPacket(buffer, buffer.length);
 			while (true) {
-
 				try {
 					this.socket.receive(incoming);
 
