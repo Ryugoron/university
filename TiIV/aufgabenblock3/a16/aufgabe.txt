@@ -1,0 +1,92 @@
+/************************************************************************************************
+ * MAIN																							*
+ ************************************************************************************************
+ * Einstiegspunkte der Anwendung																*
+ ************************************************************************************************/
+#include "main.h"
+
+//____DEKLARATIONEN______________________________________________________________________________
+void main_task(void);
+void sub_task1(void);
+
+//____VARIABLEN__________________________________________________________________________________
+wip_channel_t channel;
+u8 counter = 0;
+ascii buffer[64];
+//____FUNKTIONEN_________________________________________________________________________________
+void tcphandler(wip_event_t *event, void *ctx)
+	{
+	switch (event->kind)
+		{
+		case WIP_CEV_OPEN:
+			break;
+		case WIP_CEV_READ:
+			break;
+		case WIP_CEV_WRITE:
+			break;
+		case WIP_CEV_PEER_CLOSE:
+		case WIP_CEV_ERROR:
+			wip_close(channel);
+			channel = NULL;
+			break;
+		default:
+			wip_close(channel);
+			channel = NULL;
+			ERROR("ERROR: Unkown TCP Event");
+			break;
+		}
+	}
+
+void gpshandler(fsa03_gprmc * data)
+	{
+	counter = (counter + 1) % 10;
+	if (counter != 1)
+		return;
+	wm_sprintf(buffer, "%s%s,%s%s;", data->latitude, data->lat_dir, data->longitude,
+		data->long_dir);
+	adl_atSendResponse(ADL_AT_RSP, "Daten: \r\n");
+	adl_atSendResponse(ADL_AT_RSP, buffer);
+	adl_atSendResponse(ADL_AT_RSP, "\r\n");
+	adl_atSendResponse(ADL_AT_RSP, "Gesamtdaten: \r\n");
+	adl_atSendResponse(ADL_AT_RSP, data->message);
+	adl_atSendResponse(ADL_AT_RSP, "\r\n\r\n");
+	if (wm_strlen(buffer) < 23)
+		return;
+	if (channel)
+		{
+		adl_atSendResponse(ADL_AT_RSP, "Schicken Daten auf TCP: \r\n");
+		wip_write(channel, buffer, 23);
+		}
+	else
+		{
+		channel = wip_TCPClientCreateOpts("hwp.mi.fu-berlin.de", // Host
+			50008, // Port
+			tcphandler, // Handler
+			NULL, WIP_COPT_PORT, 13337, WIP_COPT_END);
+		}
+	}
+
+/*
+ * Hauptask der Anwendung (volle ADL Funktionalität)
+ */
+//===============================================================================================
+void main_task(void)
+//===============================================================================================
+	{
+	channel = wip_TCPClientCreateOpts("hwp.mi.fu-berlin.de", // Host
+		50008, // Port
+		tcphandler, // Handler
+		NULL, WIP_COPT_PORT, 13337, WIP_COPT_END);
+	fsa03_enable(TRUE);
+	fsa03_subscribe(gpshandler);
+	}
+
+/*
+ * Nebenläufiger Task der Anwendung (eingeschränkte ADL Funktionalität)
+ */
+//===============================================================================================
+void sub_task1(void)
+//===============================================================================================
+	{
+	// Anwendercode ...
+	}

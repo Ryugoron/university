@@ -1,0 +1,21 @@
+at+cfun=1ý
+atatatatat
+OK
+OK
+OK
+OK
+OK
+OK
++INFO: Startgrund - Normaler Start
++GSM: Warte auf Anmeldung im Netz
+at+wopen=1
+OK
++GSM: Anmeldung im Netz abgeschlossen
++GPRS: Warte auf Verbindung
++GPRS: Verbindung wurde hergestellt
+Taste 1 wurde gedrückt
++CKEV: 1,0
+Daten hochgeladen
+Taste 0 wurde gedrückt
++CKEV: 0,0
+hallo heute ist ein schöner tag

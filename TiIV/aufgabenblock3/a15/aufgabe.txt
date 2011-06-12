@@ -1,0 +1,118 @@
+/************************************************************************************************
+ * MAIN																							*
+ ************************************************************************************************
+ * Einstiegspunkte der Anwendung																*
+ ************************************************************************************************/
+#include "main.h"
+
+//____DEKLARATIONEN______________________________________________________________________________
+void main_task(void);
+void sub_task1(void);
+
+//____VARIABLEN__________________________________________________________________________________
+wip_channel_t sessionchannel; // Sitzung
+ascii * nachricht =
+	"Das ist ein toller Test, wir können via FTP schreiben.\r\nSchönen Tag noch\r\n";
+
+//____FUNKTIONEN_________________________________________________________________________________
+
+void ftp_send_handler(wip_event_t *event, void *context)
+	{
+	switch (event->kind)
+		{
+		case WIP_CEV_OPEN:
+			wip_write(event->channel, nachricht, wm_strlen(nachricht));
+			adl_atSendResponse(ADL_AT_RSP, "Daten hochgeladen\r\n");
+			wip_close (event->channel);
+			break;
+		case WIP_CEV_WRITE:
+
+			break;
+		default: /* Fehler oder fertig */
+			wip_close (event->channel); // schließt den Übertragung
+			break;
+		}
+
+	}
+
+void ftp_recv_handler(wip_event_t *event, void *context)
+	{
+	s32 length;
+	ascii readbuffer[1024];
+	switch (event->kind)
+		{
+		case WIP_CEV_OPEN:
+			//Lesen
+
+			break;
+		case WIP_CEV_READ:
+			length = wip_read(event->channel, readbuffer, 1024 - 1);
+			readbuffer[length] = '\0';
+			adl_atSendResponse(ADL_AT_RSP, readbuffer);
+			wip_close (event->channel); // schließt den Übertragung
+			break;
+		default: /* Fehler oder fertig */
+			wip_close (event->channel); // schließt den Übertragung
+			break;
+		}
+
+	}
+
+void ftp_handler(wip_event_t *event, void *context)
+	{
+	if (event->kind == WIP_CEV_ERROR) /* Fehler  */
+		{
+		ERROR("Verbindung zum Mail-Server abgebroche, Neustart erforderlich\r\n");
+		wip_close (sessionchannel);
+		return;
+		}
+	}
+
+bool gethandler(adl_atUnsolicited_t *paras)
+	{
+	adl_atSendResponse(ADL_AT_RSP, "Taste 0 wurde gedrückt\r\n");
+	wip_getFile(sessionchannel, "messageoftheday.txt", ftp_recv_handler, NULL);
+
+	return FALSE;
+	}
+
+bool puthandler(adl_atUnsolicited_t *paras)
+	{
+	adl_atSendResponse(ADL_AT_RSP, "Taste 1 wurde gedrückt\r\n");
+	wip_putFile(sessionchannel, "hwp8/mymessage.txt", ftp_send_handler, NULL);
+
+	return FALSE;
+	}
+
+/*
+ * Hauptask der Anwendung (volle ADL Funktionalität)
+ */
+//===============================================================================================
+void main_task(void)
+//===============================================================================================
+	{
+	// keymeldungen aktivieren
+	adl_atCmdCreate("AT+CMER=,1", FALSE, (adl_atRspHandler_t) NULL, NULL);
+	// keyhandler anlegen
+	adl_atUnSoSubscribe("+CKEV: 0,1", (adl_atUnSoHandler_t) gethandler);
+	adl_atUnSoSubscribe("+CKEV: 1,1", (adl_atUnSoHandler_t) puthandler);
+
+	sessionchannel = wip_FTPCreateOpts( // startet die Sitzung
+		"wba-dev.de", // URL des Server
+		ftp_handler, NULL, WIP_COPT_USER, "praktikum", // Benutzer
+		WIP_COPT_PASSWORD, "praktikum", // Passwort
+		WIP_COPT_PASSIVE, FALSE, // passiver Modus
+		WIP_COPT_TYPE, 'A', // Codierung
+		WIP_COPT_END);
+
+	}
+
+/*
+ * Nebenläufiger Task der Anwendung (eingeschränkte ADL Funktionalität)
+ */
+//===============================================================================================
+void sub_task1(void)
+//===============================================================================================
+	{
+	// Anwendercode ...
+	}

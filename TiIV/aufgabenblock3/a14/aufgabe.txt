@@ -1,0 +1,128 @@
+/************************************************************************************************
+ * MAIN																							*
+ ************************************************************************************************
+ * Einstiegspunkte der Anwendung																*
+ ************************************************************************************************/
+#include "main.h"
+
+//____DEKLARATIONEN______________________________________________________________________________
+void main_task(void);
+void sub_task1(void);
+
+//____VARIABLEN__________________________________________________________________________________
+wip_channel_t sessionchannel; // Sitzung
+u8 entriesRead = 0;
+ascii mailbodybuffer[512];
+ascii entries[5][64];
+
+//____FUNKTIONEN_________________________________________________________________________________
+
+void smtp_send_handler(wip_event_t *event, void *context)
+	{
+	adl_atSendResponse(ADL_AT_RSP, "datachannelhandler bekommt event\r\n");
+	switch (event->kind)
+		{
+		case WIP_CEV_OPEN:
+			adl_atSendResponse(ADL_AT_RSP, "datachannel geöffnet, senden!\r\n");
+			wm_sprintf(
+				mailbodybuffer,
+				"Hallo Welt!\r\n Die Einträge aus dem Telefonbuch sind:\r\n\r\n%s %s %s %s %s Tschüss!\r\n",
+				entries[0], entries[1], entries[2], entries[3], entries[4]);
+				adl_atSendResponse(ADL_AT_RSP, mailbodybuffer);
+			wip_write(event->channel, mailbodybuffer, wm_strlen(mailbodybuffer));
+			adl_atSendResponse(ADL_AT_RSP, "gesendet!\r\n");
+			break;
+		default: /* Fehler oder fertig */
+			adl_atSendResponse(ADL_AT_RSP, "fehler oder fertig\r\n");
+			wip_close (event->channel); // schließt den Übertragung
+			break;
+		}
+
+	}
+
+void smtp_handler(wip_event_t *event, void *context)
+	{
+	if (event->kind == WIP_CEV_ERROR) /* Fehler  */
+		{
+		ERROR("Verbindung zum Mail-Server abgebroche, Neustart erforderlich\r\n");
+		wip_close (sessionchannel);
+		return;
+		}
+	}
+
+bool phonebook_handler(adl_atResponse_t *paras)
+	{
+	adl_atSendResponse(ADL_AT_RSP, "Phonebookhandler aufgerufen\r\n");
+	ascii nameBuffer[16];
+	ascii telNrBuffer[16];
+	wm_strGetParameterString(telNrBuffer, paras->StrData, 2);
+	wm_strGetParameterString(nameBuffer, paras->StrData, 3);
+	wm_sprintf(entries[entriesRead], "Name: %s, Nummer: %s \r\n", nameBuffer, telNrBuffer);
+	++entriesRead;
+	if (entriesRead == 5)
+		{
+	adl_atSendResponse(ADL_AT_RSP, "datachannel erstellen\r\n");
+		wip_putFileOpts(sessionchannel, // Session Channel
+			NULL, // Filename
+			smtp_send_handler, // Handler für Versand
+			NULL, // Kontext
+
+			WIP_COPT_SMTP_SENDERNAME, "HWP8", // Sendernamen, beliebig
+			WIP_COPT_SMTP_SENDER, "017665374344@o2online.de", // Sender eMailadresse
+			WIP_COPT_SMTP_REC, "017665374344@o2online.de", // Empfänger eMailadresse
+			WIP_COPT_SMTP_SUBJ, "E-Mail-Test von HWP8", // Betreff
+			WIP_COPT_END);
+		entriesRead = 0;
+		}
+	return FALSE;
+	}
+
+bool keyhandler(adl_atUnsolicited_t *paras)
+	{
+	adl_atSendResponse(ADL_AT_RSP, "Taste 3 wurde gedrückt\r\n");
+	// Feuere abfrage an Telefon ab
+	if (entriesRead == 0)
+		{
+	adl_atSendResponse(ADL_AT_RSP, "entriesread ist null\r\n");
+		adl_atCmdCreate("AT+CPBR=1,5", FALSE, (adl_atRspHandler_t) phonebook_handler, "+CPBR: ", NULL);
+//		adl_atCmdCreate("AT+CPBR=2", FALSE, (adl_atRspHandler_t) phonebook_handler, "+CPBR: ", NULL);
+//		adl_atCmdCreate("AT+CPBR=3", FALSE, (adl_atRspHandler_t) phonebook_handler, "+CPBR: ", NULL);
+//		adl_atCmdCreate("AT+CPBR=4", FALSE, (adl_atRspHandler_t) phonebook_handler, "+CPBR: ", NULL);
+//		adl_atCmdCreate("AT+CPBR=5", FALSE, (adl_atRspHandler_t) phonebook_handler, "+CPBR: ", NULL);
+		}
+	return FALSE;
+	}
+
+/*
+ * Hauptask der Anwendung (volle ADL Funktionalität)
+ */
+//===============================================================================================
+void main_task(void)
+//===============================================================================================
+	{
+		// keymeldungen aktivieren
+		adl_atCmdCreate("AT+CMER=,1", FALSE, (adl_atRspHandler_t) NULL, NULL);
+		// keyhandler anlegen
+		adl_atUnSoSubscribe("+CKEV: 3,1", (adl_atUnSoHandler_t) keyhandler);
+
+
+		sessionchannel = // Verbindung einrichten
+			wip_SMTPClientCreateOpts("mail.o2online.de", // Host
+				smtp_handler, // Handler für Vorbereitung
+				NULL, // Kontext
+				WIP_COPT_PEER_PORT, 25, // Port
+				WIP_COPT_USER, "017665374344@o2online.de", // User
+				WIP_COPT_PASSWORD, "fu1234", // Passwort
+				WIP_COPT_SMTP_AUTH_TYPE, WIP_SMTP_AUTH_MIME64, WIP_COPT_END);
+
+	}
+
+/*
+ * Nebenläufiger Task der Anwendung (eingeschränkte ADL Funktionalität)
+ */
+//===============================================================================================
+void sub_task1(void)
+//===============================================================================================
+	{
+	// Anwendercode ...
+	}

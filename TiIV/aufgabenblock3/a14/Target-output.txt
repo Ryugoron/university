@@ -1,0 +1,37 @@
+at+cfun=1ý
+atatatatat
+OK
+OK
+OK
+OK
+OK
+OK
++INFO: Startgrund - Normaler Start
++GSM: Warte auf Anmeldung im Netz
+at+wopen=1
+OK
++GSM: Anmeldung im Netz abgeschlossen
++GPRS: Warte auf Verbindung
++GPRS: Verbindung wurde hergestellt
+Taste 3 wurde gedrückt
+entriesread ist null
+Phonebookhandler aufgerufen
+Phonebookhandler aufgerufen
+Phonebookhandler aufgerufen
+Phonebookhandler aufgerufen
+Phonebookhandler aufgerufen
+datachannel erstellen
++CKEV: 3,0
+datachannelhandler bekommt event
+datachannel geöffnet, senden!
+Hallo Welt!
+ Die Einträge aus dem Telefonbuch sind:
+Name: 129, Nummer: 200 
+ Name: 129, Nummer: 017665316700 
+ Name: 129, Nummer: 017665338235 
+ Name: 129, Nummer: 017665348409 
+ Name: 129, Nummer: 017683269836 
+ Tschüss!
+gesendet!
+datachannelhandler bekommt event
+fehler oder fertig
