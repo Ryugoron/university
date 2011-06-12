@@ -37,14 +37,24 @@ public class Planet implements CloseHandler, ClsHandler, ConnectHandler,
 	final private PlanetCommandRegistration reg;
 	final private PlanetMessageRegistration mreg;
 
-	// ------------------- Variables for the Programm it self
-	// -----------------------------
+	// ------------------- Variables for the Programm it self ---------------
+
 	private Map<String, String[]> peersToWork = new HashMap<String, String[]>();
 	private Map<String, String[]> peers = new HashMap<String, String[]>();
 
-	// ------------------ Contruct and help Funktions
-	// --------------------------------------
-
+	// ------------------ Contruct and help Funktions ----------------------
+	
+	public Planet(int port, String name){
+		reg = new PlanetCommandRegistration(this);
+		mreg = new PlanetMessageRegistration(this, port);
+		createGUI();
+		this.name = prepare(name);
+		con.setVisible(true);
+		con.println("Welcome! You are located at planet \"" + name + "\"");
+		con.println("Your current StarGate is: " + port);
+		con.println(StdFd.Planets, "Planetlist: \n\n>> No planets in reach.");
+	}
+	
 	public Planet(int port) {
 		reg = new PlanetCommandRegistration(this);
 		mreg = new PlanetMessageRegistration(this, port);
@@ -72,7 +82,14 @@ public class Planet implements CloseHandler, ClsHandler, ConnectHandler,
 			con.println(StdFd.Planets, " >> " + s);
 		}
 	}
+	
+	private String prepare(String in){
+		in = in.replaceAll("%", "%25");
+		in = in.replaceAll("\\s", "%20");
+		return in;
+	}
 
+	@SuppressWarnings("unused")
 	private String[] invert(String[] in) {
 		String sp;
 		for (int i = 0; i < (in.length / 2); ++i) {
@@ -224,10 +241,10 @@ public class Planet implements CloseHandler, ClsHandler, ConnectHandler,
 			this.peersToWork.clear();
 			this.peers.clear();
 
-			this.con.println("We started a misson\n    " +
-					"to explore strange new worlds,\n    " +
-					"to seek out new life and new civilizations,\n    " +
-					"to boldly go where no one has gone before!!!");
+			this.con.println("We started a misson\n    "
+					+ "to explore strange new worlds,\n    "
+					+ "to seek out new life and new civilizations,\n    "
+					+ "to boldly go where no one has gone before!!!");
 
 			String[] way = new String[2];
 			way[0] = this.name;

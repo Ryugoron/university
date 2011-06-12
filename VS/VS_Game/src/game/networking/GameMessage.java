@@ -39,6 +39,8 @@ public enum GameMessage implements Message {
 		StringBuilder sb = new StringBuilder();
 		sb.append(this.toString());
 		for (int i = 0; i < param.length; ++i) {
+//			param[i] = param[i].replaceAll("%", "%25");
+//			param[i] = param[i].replaceAll("\\s", "%20");
 			sb.append(" ");
 			sb.append(param[i]);
 		}
@@ -52,6 +54,8 @@ public enum GameMessage implements Message {
 		StringBuilder sb = new StringBuilder();
 		sb.append(this.toString());
 		for (String p : param) {
+//			p = p.replaceAll("%", "%25");
+//			p = p.replaceAll("\\s", "%20");
 			sb.append(" ");
 			sb.append(p);
 		}

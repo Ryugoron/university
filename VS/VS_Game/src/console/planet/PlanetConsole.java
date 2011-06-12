@@ -127,8 +127,8 @@ public class PlanetConsole extends JFrame implements Console, ActionListener {
 	}
 	
 	private String prepare(String text){
-		text.replaceAll("%20", " ");
-		text.replaceAll("%25", "%");
+		text = text.replaceAll("%20", " ");
+		text = text.replaceAll("%25", "%");
 		return text;
 	}
 
