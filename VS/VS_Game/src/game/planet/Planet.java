@@ -53,13 +53,14 @@ public class Planet implements CloseHandler, ClsHandler, ConnectHandler,
 		con.println("Welcome! You are located at planet \"" + name + "\"");
 		con.println("Your current StarGate is: " + port);
 		con.println(StdFd.Planets, "Planetlist: \n\n>> No planets in reach.");
+		this.con.println(StdFd.Messages, "Messages: \n");
 	}
 	
 	public Planet(int port) {
 		reg = new PlanetCommandRegistration(this);
 		mreg = new PlanetMessageRegistration(this, port);
 		createGUI();
-		name = con.waitForName();
+		name = GameMessage.prepareProtokoll(con.waitForName());
 		con.setVisible(true);
 		con.println("Welcome! You are located at planet \"" + name + "\"");
 		con.println("Your current StarGate is: " + port);
@@ -78,6 +79,9 @@ public class Planet implements CloseHandler, ClsHandler, ConnectHandler,
 	private void updatePlanetList() {
 		con.clear(StdFd.Planets);
 		con.println(StdFd.Planets, "Planetlist:\n\n");
+		if(this.peers.isEmpty()){
+			con.println(StdFd.Planets, " >> No planets in reach");
+		}
 		for (String s : this.peers.keySet()) {
 			con.println(StdFd.Planets, " >> " + s);
 		}
@@ -115,32 +119,43 @@ public class Planet implements CloseHandler, ClsHandler, ConnectHandler,
 	// ----------------- Jump Points for Incomming Message ------------------
 
 	public void onHello(Channel c, String name) {
-		this.connectedPeers.put(name, c);
-		mreg.addPeer(c);
-		String[] myName = { this.name };
-		c.send(GameMessage.OLLEH.toMessage(myName));
-		this.con.println("A new planet was discoverd right next to us.");
-		String[] way = { name };
-		this.peers.put(name, way);
-		this.con.println(StdFd.Messages, "HELLO " + name);
-		this.updatePlanetList();
+		synchronized (this) {
+			this.connectedPeers.put(name, c);
+			mreg.addPeer(c);
+			String[] myName = { this.name };
+			c.send(GameMessage.OLLEH.toMessage(myName));
+			this.con.println("A new planet was discoverd right next to us.");
+			String[] way = { name };
+			this.peers.put(name, way);
+			this.con.println(StdFd.Messages, "HELLO " + name);
+			this.updatePlanetList();
+		}
 	}
 
 	public void onOlleh(Channel c, String name) {
-		if (!pendingPeers.contains(c))
-			return;
-
-		connectedPeers.put(name, c);
-		String[] way = { name };
-		this.peers.put(name, way);
-		pendingPeers.remove(c);
-		this.con.println("A new planet was discovered right next to us.");
-		this.con.println(StdFd.Messages, "OLLEH " + name);
-		this.updatePlanetList();
+		synchronized (this) {
+			if (!pendingPeers.contains(c))
+				return;
+			
+			connectedPeers.put(name, c);
+			String[] way = { name };
+			this.peers.put(name, way);
+			pendingPeers.remove(c);
+			this.con.println("A new planet was discovered right next to us.");
+			this.con.println(StdFd.Messages, "OLLEH " + name);
+			this.updatePlanetList();
+		}
 	}
 
 	public void onPeers(Channel c, String[] inc) {
 		synchronized (this) {
+			// Output
+			String oMessage = "PEERS";
+			for (int i = 0; i < inc.length; ++i) {
+				oMessage += " " + inc[i];
+			}
+			this.con.println(StdFd.Messages, oMessage);
+			
 			if (inc.length < 2)
 				throw new IllegalArgumentException("To small way.");
 			if (inc[inc.length - 1].equals(this.name)) {
@@ -165,6 +180,8 @@ public class Planet implements CloseHandler, ClsHandler, ConnectHandler,
 						break;
 					}
 				}
+				System.out.println("Naechster : "+next);
+				
 				if (!this.connectedPeers.containsKey(next))
 					throw new IllegalArgumentException("From " + this.name
 							+ " you can't reach " + next);
@@ -172,17 +189,18 @@ public class Planet implements CloseHandler, ClsHandler, ConnectHandler,
 						GameMessage.PEERS.toMessage(inc));
 			}
 
-			// Output
-			String oMessage = "PEERS";
-			for (int i = 0; i < inc.length; ++i) {
-				oMessage += " " + inc[i];
-			}
-			this.con.println(StdFd.Messages, oMessage);
+		
 		}
 	}
 
 	public void onSreep(Channel c, String[] inc) {
 		synchronized (this) {
+			
+			String oMessage = "SREEP";
+			for (int i = 0; i < inc.length; ++i) {
+				oMessage += " " + inc[i];
+			}
+			this.con.println(StdFd.Messages, oMessage);
 			if (inc.length < 4)
 				throw new IllegalArgumentException("To small way");
 			int pos = this.search(inc, "#");
@@ -219,12 +237,6 @@ public class Planet implements CloseHandler, ClsHandler, ConnectHandler,
 					}
 				}
 			}
-
-			String oMessage = "SREEP";
-			for (int i = 0; i < inc.length; ++i) {
-				oMessage += " " + inc[i];
-			}
-			this.con.println(StdFd.Messages, oMessage);
 		}
 	}
 
@@ -253,15 +265,17 @@ public class Planet implements CloseHandler, ClsHandler, ConnectHandler,
 	}
 
 	public void onConnect(InetAddress host, int port) {
-		Channel chan = UdpChannelFactory.newUdpChannel(mreg.LOCALPORT, host,
-				port);
-		pendingPeers.add(chan);
-		mreg.addPeer(chan);
-		String[] name = new String[1];
-		name[0] = this.name;
-		chan.send(GameMessage.HELLO.toMessage(name));
-
-		this.con.println("connect executed");
+		synchronized (this) {
+			Channel chan = UdpChannelFactory.newUdpChannel(mreg.LOCALPORT, host,
+					port);
+			pendingPeers.add(chan);
+			mreg.addPeer(chan);
+			String[] name = new String[1];
+			name[0] = this.name;
+			chan.send(GameMessage.HELLO.toMessage(name));
+			
+			this.con.println("connect executed");
+		}
 	}
 
 	public void onClose() {
@@ -274,8 +288,11 @@ public class Planet implements CloseHandler, ClsHandler, ConnectHandler,
 	}
 
 	public void onCls() {
-		this.con.clear();
-		this.con.clear(StdFd.Messages);
-		this.updatePlanetList();
+		synchronized (this) {
+			this.con.clear();
+			this.con.clear(StdFd.Messages);
+			this.con.println(StdFd.Messages, "Messages: \n");
+			this.updatePlanetList();
+		}
 	}
 }

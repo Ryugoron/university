@@ -54,7 +54,7 @@ public enum GameMessage implements Message {
 			sb.append(" ");
 			sb.append(param[i]);
 		}
-		sb.trimToSize();
+		System.out.println(sb.toString());
 		return new UDPMessage(sb.toString().getBytes());
 	}
 
@@ -67,7 +67,6 @@ public enum GameMessage implements Message {
 			sb.append(" ");
 			sb.append(p);
 		}
-		sb.trimToSize();
 		return new UDPMessage(sb.toString().getBytes());
 	}
 }
