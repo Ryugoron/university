@@ -11,9 +11,13 @@ import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.JFrame;
@@ -37,6 +41,10 @@ public class PlanetConsole extends JFrame implements Console, ActionListener {
 	
 	private Map<Integer,JTextArea> fdSet = new HashMap<Integer,JTextArea>();
 
+	//------- Rückgängig mach Funktion ( ^^ ) -------------
+	private List<String> lastCommands = new ArrayList<String>();
+	private int actCommand = 0;
+	
 	public PlanetConsole() {
 		super("Space BWL");
 		this.setSize(800, 600);
@@ -77,6 +85,28 @@ public class PlanetConsole extends JFrame implements Console, ActionListener {
 		consoleArea.setMargin(new Insets(1, 10, 5, 2));
 		
 		this.consoleInput.addActionListener(this);
+		
+		this.consoleInput.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_UP && actCommand > 0){
+					--actCommand;
+					consoleInput.setText(lastCommands.get(actCommand));
+				}else if(e.getKeyCode() == KeyEvent.VK_DOWN && actCommand < lastCommands.size()-1){
+					++actCommand;
+					consoleInput.setText(lastCommands.get(actCommand));
+				}
+			}
+			@Override
+			public void keyReleased(KeyEvent e) {
+			}
+			@Override
+			public void keyPressed(KeyEvent e) {
+				this.keyTyped(e);
+			}
+		});
+		
 		this.consoleInput.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
 		this.add(consoleInput, BorderLayout.SOUTH);
 		this.add(consoleScrollPane, BorderLayout.CENTER);
@@ -94,6 +124,9 @@ public class PlanetConsole extends JFrame implements Console, ActionListener {
 	public void actionPerformed(ActionEvent evt) {
 		if (inputHandler != null) {
 			String input = consoleInput.getText();
+			
+			this.lastCommands.add(input);
+			actCommand = lastCommands.size();
 			
 			inputHandler.onInput(input);
 			consoleInput.setText("");
