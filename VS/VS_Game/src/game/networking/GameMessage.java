@@ -32,6 +32,18 @@ public enum GameMessage implements Message {
 			throws IllegalArgumentException {
 		return GameMessage.valueOf(new String(message.getData()));
 	}
+	
+	public static String prepareProtokoll(String in){
+		in = in.replaceAll("%", "%25");
+		in = in.replaceAll("\\s", "%20");
+		return in;
+	}
+	
+	public static String revertProtokoll(String in){
+		in = in.replaceAll("%20", " ");
+		in = in.replaceAll("%25", "%");
+		return in;
+	}
 
 	public Message toMessage(String[] param)
 			throws IllegalArgumentException {
@@ -39,8 +51,6 @@ public enum GameMessage implements Message {
 		StringBuilder sb = new StringBuilder();
 		sb.append(this.toString());
 		for (int i = 0; i < param.length; ++i) {
-//			param[i] = param[i].replaceAll("%", "%25");
-//			param[i] = param[i].replaceAll("\\s", "%20");
 			sb.append(" ");
 			sb.append(param[i]);
 		}
@@ -54,8 +64,6 @@ public enum GameMessage implements Message {
 		StringBuilder sb = new StringBuilder();
 		sb.append(this.toString());
 		for (String p : param) {
-//			p = p.replaceAll("%", "%25");
-//			p = p.replaceAll("\\s", "%20");
 			sb.append(" ");
 			sb.append(p);
 		}

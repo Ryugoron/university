@@ -48,7 +48,7 @@ public class Planet implements CloseHandler, ClsHandler, ConnectHandler,
 		reg = new PlanetCommandRegistration(this);
 		mreg = new PlanetMessageRegistration(this, port);
 		createGUI();
-		this.name = prepare(name);
+		this.name = GameMessage.prepareProtokoll(name);
 		con.setVisible(true);
 		con.println("Welcome! You are located at planet \"" + name + "\"");
 		con.println("Your current StarGate is: " + port);
@@ -83,12 +83,6 @@ public class Planet implements CloseHandler, ClsHandler, ConnectHandler,
 		}
 	}
 	
-	private String prepare(String in){
-		in = in.replaceAll("%", "%25");
-		in = in.replaceAll("\\s", "%20");
-		return in;
-	}
-
 	@SuppressWarnings("unused")
 	private String[] invert(String[] in) {
 		String sp;

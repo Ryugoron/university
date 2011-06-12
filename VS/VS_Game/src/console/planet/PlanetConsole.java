@@ -1,6 +1,8 @@
 package console.planet;
 
 
+import game.networking.GameMessage;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -126,16 +128,10 @@ public class PlanetConsole extends JFrame implements Console, ActionListener {
 				(screenSize.height - this.getSize().height) / 2);
 	}
 	
-	private String prepare(String text){
-		text = text.replaceAll("%20", " ");
-		text = text.replaceAll("%25", "%");
-		return text;
-	}
-
 	@Override
 	public void println(int fd, String text) throws IllegalArgumentException{
 		if(!fdSet.containsKey(fd)) throw new IllegalArgumentException();
-		fdSet.get(fd).append(this.prepare(text) + newline);
+		fdSet.get(fd).append(GameMessage.revertProtokoll(text) + newline);
 	}
 	
 	@Override
@@ -145,7 +141,7 @@ public class PlanetConsole extends JFrame implements Console, ActionListener {
 
 	@Override
 	public void println(String text) {
-		fdSet.get(StdFd.StdOut.get()).append(this.prepare(text) + newline);
+		fdSet.get(StdFd.StdOut.get()).append(GameMessage.revertProtokoll(text) + newline);
 	}
 
 	@Override
