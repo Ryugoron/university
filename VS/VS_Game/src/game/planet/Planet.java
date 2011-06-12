@@ -73,6 +73,34 @@ public class Planet implements CloseHandler, ClsHandler, ConnectHandler,
 		}
 	}
 
+	private String[] invert(String[] in) {
+		String sp;
+		for (int i = 0; i < (in.length / 2); ++i) {
+			sp = in[i];
+			in[i] = in[in.length - 1 - i];
+			in[in.length - 1 - i] = sp;
+		}
+		return in;
+	}
+
+	private String[] invertInTo(String[] in, String[] out) {
+		if (in.length > out.length)
+			return out;
+		for (int i = 0; i < in.length; ++i) {
+			out[i] = in[in.length - 1 - i];
+		}
+		return out;
+	}
+
+	private int search(String[] in, String s) {
+		int found = -1;
+		for (int i = 0; i < in.length; ++i) {
+			if (in[i].equals(s))
+				found = i;
+		}
+		return found;
+	}
+
 	// ----------------- Jump Points for Incomming Message ------------------
 
 	public void onHello(Channel c, String name) {
@@ -83,7 +111,7 @@ public class Planet implements CloseHandler, ClsHandler, ConnectHandler,
 		this.con.println("A new planet was discoverd right next to us.");
 		String[] way = { name };
 		this.peers.put(name, way);
-		this.con.println(StdFd.Messages, "HELLO "+name);
+		this.con.println(StdFd.Messages, "HELLO " + name);
 		this.updatePlanetList();
 	}
 
@@ -96,35 +124,25 @@ public class Planet implements CloseHandler, ClsHandler, ConnectHandler,
 		this.peers.put(name, way);
 		pendingPeers.remove(c);
 		this.con.println("A new planet was discovered right next to us.");
-		this.con.println(StdFd.Messages, "OLLEH "+name);
+		this.con.println(StdFd.Messages, "OLLEH " + name);
 		this.updatePlanetList();
 	}
 
 	public void onPeers(Channel c, String[] inc) {
 		synchronized (this) {
-			
-			//Output
-			String oMessage = "PEERS";
-			for(int i = 0; i<inc.length; ++i){
-				oMessage += " " + inc[i];
-			}
-			this.con.println(StdFd.Messages, oMessage);
-			
 			if (inc.length < 2)
 				throw new IllegalArgumentException("To small way.");
-			if (inc[inc.length-1].equals(this.name)) {
+			if (inc[inc.length - 1].equals(this.name)) {
 				// reverse IT
 				String[] sendBuffer = new String[inc.length
 						+ this.connectedPeers.size() + 1];
-				for (int i = 0; i < inc.length; ++i) {
-					sendBuffer[(inc.length-1) - i] = inc[i];
-				}
+
+				this.invertInTo(inc, sendBuffer);
 				sendBuffer[inc.length] = "#";
 				int i = inc.length;
 				for (String peer : this.connectedPeers.keySet()) {
 					sendBuffer[++i] = peer;
 				}
-				System.out.println(inc[inc.length - 2]);
 				this.connectedPeers.get(inc[inc.length - 2]).send(
 						GameMessage.SREEP.toMessage(sendBuffer));
 			} else {
@@ -132,44 +150,47 @@ public class Planet implements CloseHandler, ClsHandler, ConnectHandler,
 				String next = "";
 				for (int i = 1; i < inc.length - 1; ++i) {
 					if (inc[i].equals(this.name)) {
-						next = inc[i+1];
+						next = inc[i + 1];
 						break;
 					}
 				}
 				if (!this.connectedPeers.containsKey(next))
-					throw new IllegalArgumentException("From "+this.name+" you can't reach "+next);
+					throw new IllegalArgumentException("From " + this.name
+							+ " you can't reach " + next);
 				this.connectedPeers.get(next).send(
 						GameMessage.PEERS.toMessage(inc));
 			}
+
+			// Output
+			String oMessage = "PEERS";
+			for (int i = 0; i < inc.length; ++i) {
+				oMessage += " " + inc[i];
+			}
+			this.con.println(StdFd.Messages, oMessage);
 		}
 	}
 
 	public void onSreep(Channel c, String[] inc) {
 		synchronized (this) {
-			
-			String oMessage = "SREEP";
-			for(int i = 0; i<inc.length; ++i){
-				oMessage += " " + inc[i];
-			}
-			this.con.println(StdFd.Messages, oMessage);
-			
 			if (inc.length < 4)
 				throw new IllegalArgumentException("To small way");
-			int pos = Arrays.binarySearch(inc, 0, inc.length, "#");
+			int pos = this.search(inc, "#");
 			if (inc[pos - 1].equals(this.name)) {
 				// Wir haben das Ziel erreicht!
 				String[] newEdges = Arrays
 						.copyOfRange(inc, pos + 1, inc.length);
 				this.peersToWork.remove(inc[0]);
+
 				// Weg wiederum umdrehen
 				String[] way = new String[pos + 1];
 				for (int i = 0; i < pos; ++i) {
-					way[(pos-1) - i] = inc[i];
+					way[(pos - 1) - i] = inc[i];
 				}
-				//Neue Kanten hinzufügen und ansprechen
+				// Neue Kanten hinzufügen und ansprechen
 				for (int i = 0; i < newEdges.length; ++i) {
 					if (this.peersToWork.containsKey(newEdges[i])
-							|| this.peers.containsKey(newEdges[i]))
+							|| this.peers.containsKey(newEdges[i])
+							|| newEdges[i].equals(this.name))
 						continue;
 					way[pos] = newEdges[i];
 					this.peersToWork.put(newEdges[i], way);
@@ -182,11 +203,17 @@ public class Planet implements CloseHandler, ClsHandler, ConnectHandler,
 				for (int i = 1; i < pos; ++i) {
 					if (inc[i].equals(this.name)) {
 						// wir haben uns gefunden
-						this.connectedPeers.get(inc[i - 1]).send(
+						this.connectedPeers.get(inc[i + 1]).send(
 								GameMessage.SREEP.toMessage(inc));
 					}
 				}
 			}
+
+			String oMessage = "SREEP";
+			for (int i = 0; i < inc.length; ++i) {
+				oMessage += " " + inc[i];
+			}
+			this.con.println(StdFd.Messages, oMessage);
 		}
 	}
 
@@ -196,13 +223,18 @@ public class Planet implements CloseHandler, ClsHandler, ConnectHandler,
 		synchronized (this) {
 			this.peersToWork.clear();
 			this.peers.clear();
-			
+
+			this.con.println("We started a misson\n    " +
+					"to explore strange new worlds,\n    " +
+					"to seek out new life and new civilizations,\n    " +
+					"to boldly go where no one has gone before!!!");
+
 			String[] way = new String[2];
 			way[0] = this.name;
 			for (String cName : this.connectedPeers.keySet()) {
 				way[1] = cName;
 				this.peersToWork.put(cName, way);
-				System.out.println("Send Message : "+new String(GameMessage.PEERS.toMessage(way).getData()));
+				this.peers.put(cName, way);
 				this.connectedPeers.get(cName).send(
 						GameMessage.PEERS.toMessage(way));
 			}

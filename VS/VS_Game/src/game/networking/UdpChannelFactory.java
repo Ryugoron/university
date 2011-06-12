@@ -160,7 +160,7 @@ public class UdpChannelFactory {
 		@Override
 		public void run() {
 			super.run();
-			byte[] buffer = new byte[512]; // max udp size
+			byte[] buffer = new byte[2048]; // max udp size
 			DatagramPacket incoming = new DatagramPacket(buffer, buffer.length);
 			while (true) {
 
