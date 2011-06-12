@@ -1,0 +1,933 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 3cm
+\topmargin 2cm
+\rightmargin 2cm
+\bottommargin 2cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Technische Informatik IV: Praktikum
+\end_layout
+
+\begin_layout Author
+Protokoll zu Aufgabe A14
+\end_layout
+
+\begin_layout Date
+Max Wisniewski, Alexander Steen
+\end_layout
+
+\begin_layout Subsection*
+Vorbereitung
+\end_layout
+
+\begin_layout Standard
+Zur Vorbereitung haben wir den Abschnitt SMTP POP3 des 
+\emph on
+WIP Development Guide
+\emph default
+ gelesen und die Datei 
+\emph on
+smtc.c
+\emph default
+ aus dem Rahmenwerk studiert.
+ Um die GPRS-Funktionalitäten nutzen zu können, wurde in der 
+\emph on
+config.h
+\emph default
+ 
+\family typewriter
+INIT_GPRS
+\family default
+ aktiviert und dann ein clean build des Projekts gemacht.
+\end_layout
+
+\begin_layout Subsection*
+Aufgaben
+\end_layout
+
+\begin_layout Enumerate
+Versenden der ersten fünf Telefonbucheinträge via E-Mail bei Tastendruck
+ auf Taster 3
+\end_layout
+
+\begin_layout Subsection*
+Dokumentation
+\end_layout
+
+\begin_layout Description
+wip_SMTPClientCreateOpts Diese Funktion erstellt ein neue Verbindung zu
+ einem SMTP-Server.
+ Die Syntax lautet:
+\begin_inset Newline newline
+\end_inset
+
+
+\family typewriter
+wip_SMTPClientCreateOpts (ascii *serverAddr, wip_eventHandler_f evHandler,
+ void *userdata, ...
+ );
+\family default
+
+\begin_inset Newline newline
+\end_inset
+
+Dabei bedeuten die Parameter (in der Reihenfolge): Adresse (IP oder Hostname)
+ des Mailservers; Eventhandler, der bei einem Event auf diesem Kanal aufgerufen
+ werden soll; etwaige Userdata, die jedes Mal beim Aufruf des Handlers mitgegebe
+n werden soll.
+\begin_inset Newline newline
+\end_inset
+
+Anschließend kann man am Ende des Kommandos eine Reihe von Parameter-Konstanten
+ der Form 
+\family typewriter
+WIP_COPT_X
+\family default
+ angeben, wobei die Auflistung mit 
+\family typewriter
+WIP_COPT_END
+\family default
+ enden muss.
+ Üblich ist z.B.
+ der Parameter WIP_COPT_SMTP_AUTH_TYPE, WIP_SMTP_AUTH_MIME64, der angibt,
+ das die Verbindung durch ein Passwort gesichert ist.
+ Die Funktion gibt einen Zeiger auf den erzeugten Kanal zurück.
+\end_layout
+
+\begin_layout Description
+wip_putFileOpts Diese Funktion versucht aus dem übergebenen Kanal eine Datei
+ mit dem Namen file_name zu schreiben.
+ Dabei wird bei einem Event der Handler evh aufgerufen.
+ Die Syntax ist:
+\begin_inset Newline newline
+\end_inset
+
+
+\family typewriter
+wip_read ( wip_channel_t channel, ascii *file_name, wip_eventHandler_f evh,
+ void *ctx, ...);
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection*
+Durchführung und Auswertung
+\end_layout
+
+\begin_layout Description
+SMTP Das Simple Mail Transfer Protocol ist ein Klartext-Protokoll zum Versenden
+ von E-Mails und nutzt standardmäßig Port 25.
+\end_layout
+
+\begin_layout Description
+POP3 Das Post Office Protocol ist ein Protokol zum Abrufen von E-Mails vom
+ Mailserver.
+ Dabei werden die Nachrichten normalerweise vom Server heruntergeladen.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\small\ttfamily},frame=single,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+wip_channel_t sessionchannel; // Sitzung
+\end_layout
+
+\begin_layout Plain Layout
+
+u8 entriesRead = 0; // Gelesene Telefonbucheinträge
+\end_layout
+
+\begin_layout Plain Layout
+
+ascii mailbodybuffer[512]; // Puffer der Mail-Nachricht
+\end_layout
+
+\begin_layout Plain Layout
+
+ascii entries[5][64];  // Puffer für die Telefonbucheinträge
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Wir speichern zunächst den Kanal zum SMTP-Server, da dieser später von einem
+ der Callbacks genutzt werden wird.
+ 
+\family typewriter
+entriesRead
+\family default
+ zählt, wie viele Einträge bereits aus dem Telefonbuch ausgelesen wurden.
+ Erreicht dieser Wert fünf, so haben wir alle nötigen Einträge und können
+ die E-Mail schicken.
+ 
+\family typewriter
+mailbodybuffer
+\family default
+ und 
+\family typewriter
+entries
+\family default
+ sind Zeichenpuffer für die zu schickenden Informationen.
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\small\ttfamily},frame=single,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+void main_task(void) {
+\end_layout
+
+\begin_layout Plain Layout
+
+	// Keymeldungen aktivieren
+\end_layout
+
+\begin_layout Plain Layout
+
+	adl_atCmdCreate("AT+CMER=,1", FALSE, (adl_atRspHandler_t) NULL, NULL);
+\end_layout
+
+\begin_layout Plain Layout
+
+	// Keyhandler anlegen auf Key 3
+\end_layout
+
+\begin_layout Plain Layout
+
+	adl_atUnSoSubscribe("+CKEV: 3,1", keyhandler);
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	sessionchannel = // Verbindung einrichten
+\end_layout
+
+\begin_layout Plain Layout
+
+		wip_SMTPClientCreateOpts("mail.o2online.de", // Host
+\end_layout
+
+\begin_layout Plain Layout
+
+			smtp_handler, // Handler für Vorbereitung
+\end_layout
+
+\begin_layout Plain Layout
+
+			NULL, // Kontext
+\end_layout
+
+\begin_layout Plain Layout
+
+			WIP_COPT_PEER_PORT, 25, // Port
+\end_layout
+
+\begin_layout Plain Layout
+
+			WIP_COPT_USER, "017665374344@o2online.de", // User
+\end_layout
+
+\begin_layout Plain Layout
+
+			WIP_COPT_PASSWORD, "fu1234", // Passwort
+\end_layout
+
+\begin_layout Plain Layout
+
+			WIP_COPT_SMTP_AUTH_TYPE, WIP_SMTP_AUTH_MIME64, WIP_COPT_END);
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Wir aktivieren in der main-Funktion die Tastenmeldungen von Taste 3 und
+ registrieren die Funktion 
+\family typewriter
+keyhandler
+\family default
+ darauf.
+ Außerdem öffnen wir einen Kanal zum SMTP-Server mit den gegebenen Parametern
+ und dem Handler 
+\family typewriter
+smtp_handler
+\family default
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\small\ttfamily},frame=single,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+void smtp_handler(wip_event_t *event, void *context) {
+\end_layout
+
+\begin_layout Plain Layout
+
+	if (event->kind == WIP_CEV_ERROR) {
+\end_layout
+
+\begin_layout Plain Layout
+
+		// Verbindung zum SMTP-Server war nicht erfolgreich
+\end_layout
+
+\begin_layout Plain Layout
+
+		ERROR("Verbindung zum Mail-Server abgebroche, Neustart erforderlich
+\backslash
+r
+\backslash
+n");
+\end_layout
+
+\begin_layout Plain Layout
+
+		wip_close (sessionchannel);
+\end_layout
+
+\begin_layout Plain Layout
+
+		return;
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Dieser SMTP-Handler tut eigentlich nichts, da wir ja noch keine Mail verschicken
+ wollen.
+ Hier fangen wir nur Fehler (z.B.
+ Verbindungsfehler durch falsche Passwörter o.ä.) ab.
+ Ist dies der Fall geben wir eine entsprechende Fehlermeldung aus und schließen
+ den Kanal.
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\small\ttfamily},frame=single,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+bool keyhandler(adl_atUnsolicited_t *paras) {
+\end_layout
+
+\begin_layout Plain Layout
+
+	adl_atSendResponse(ADL_AT_RSP, "Taste 3 wurde gedrückt
+\backslash
+r
+\backslash
+n");
+\end_layout
+
+\begin_layout Plain Layout
+
+	// Feuere abfrage an Telefon ab
+\end_layout
+
+\begin_layout Plain Layout
+
+	if (entriesRead == 0) 		{
+\end_layout
+
+\begin_layout Plain Layout
+
+		adl_atCmdCreate("AT+CPBR=1,5", FALSE, phonebook_handler, "+CPBR: ", NULL);
+\end_layout
+
+\begin_layout Plain Layout
+
+	} 	
+\end_layout
+
+\begin_layout Plain Layout
+
+	return FALSE;
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Auch der 
+\family typewriter
+keyhandler
+\family default
+ ist nicht weiter kompliziert: Wird die Taste gedrückt, so feuern wir eine
+ Abfrage an das Telefonbuch ab, uns die ersten fünf Einträge zu liefern.
+ Darauf registrieren wir den 
+\family typewriter
+phonebook_handler
+\family default
+, der die weitere Verarbeitung übernimmt.
+ All dies wird nur ausgelöst, falls der 
+\family typewriter
+entriesRead
+\family default
+-Wert Null ist, da wir uns sonst noch mitten in einer Maildaten-Abrufprozedur
+ befinden.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\small\ttfamily},frame=single,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+bool phonebook_handler(adl_atResponse_t *paras) {
+\end_layout
+
+\begin_layout Plain Layout
+
+	ascii nameBuffer[16];
+\end_layout
+
+\begin_layout Plain Layout
+
+	ascii telNrBuffer[16];
+\end_layout
+
+\begin_layout Plain Layout
+
+	// Hole Infos aus dem Telefonbucheintrag
+\end_layout
+
+\begin_layout Plain Layout
+
+	wm_strGetParameterString(telNrBuffer, paras->StrData, 2); // Nummer
+\end_layout
+
+\begin_layout Plain Layout
+
+	wm_strGetParameterString(nameBuffer, paras->StrData, 4);  // Name
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	wm_sprintf(entries[entriesRead],
+\end_layout
+
+\begin_layout Plain Layout
+
+			"Name: %s, Nummer: %s 
+\backslash
+r
+\backslash
+n", nameBuffer, telNrBuffer);
+\end_layout
+
+\begin_layout Plain Layout
+
+	++entriesRead;
+\end_layout
+
+\begin_layout Plain Layout
+
+	if (entriesRead == 5) {
+\end_layout
+
+\begin_layout Plain Layout
+
+		// Alle Einträge gelesen, Mail schicken
+\end_layout
+
+\begin_layout Plain Layout
+
+		wip_putFileOpts(sessionchannel, // Session Channel
+\end_layout
+
+\begin_layout Plain Layout
+
+			NULL, // Filename
+\end_layout
+
+\begin_layout Plain Layout
+
+			smtp_send_handler, // Handler für Versand
+\end_layout
+
+\begin_layout Plain Layout
+
+			NULL, // Kontext
+\end_layout
+
+\begin_layout Plain Layout
+
+			WIP_COPT_SMTP_SENDERNAME, "HWP8", // Sendername HWP8
+\end_layout
+
+\begin_layout Plain Layout
+
+			WIP_COPT_SMTP_SENDER, "017665374344@o2online.de", // Sender eMailadresse
+\end_layout
+
+\begin_layout Plain Layout
+
+			WIP_COPT_SMTP_REC, "017665374344@o2online.de", // Empfänger eMailadresse
+\end_layout
+
+\begin_layout Plain Layout
+
+			WIP_COPT_SMTP_SUBJ, "E-Mail-Test von HWP8", // Betreff
+\end_layout
+
+\begin_layout Plain Layout
+
+			WIP_COPT_END);
+\end_layout
+
+\begin_layout Plain Layout
+
+		entriesRead = 0;
+\end_layout
+
+\begin_layout Plain Layout
+
+	} 
+\end_layout
+
+\begin_layout Plain Layout
+
+	return FALSE;
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Dieser Handler wird für jede der fünf Antworten der Telefonbuch-Abfrage
+ angesprungen.
+ Dabei lesen wir zunächst die Eintragsdaten für den Namen und die Nummer
+ aus und speichern sie in lokale Puffer.
+ Dann bauen wir uns einen kleinen String der Form 
+\begin_inset Quotes eld
+\end_inset
+
+
+\emph on
+Name: <Name>, Nummer: <Nummer>
+\emph default
+
+\begin_inset Quotes erd
+\end_inset
+
+ zusammen und speichern diesen in dem 
+\family typewriter
+entries
+\family default
+-Feld.
+ Hierbei benutzen wir einfach die Anzahl der bereits gelesenen Datensätze
+ als Index, den wir nach dem Schreiben inkrementieren.
+ Hat der Zähler nun fünf erreicht, haben wir gerade den letzten Eintrag
+ ausgelesen und veranlassen, dass eine Mail geschickt wird.
+ Hier tragen wir den Absender, den Empfanger, den Betreff und den Callback-Handl
+er 
+\family typewriter
+smtp_send_handler
+\family default
+ an.
+ Dieser baut für uns dann den Mailkörper zusammen.
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\small\ttfamily},frame=single,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+void smtp_send_handler(wip_event_t *event, void *context) 	{
+\end_layout
+
+\begin_layout Plain Layout
+
+	switch (event->kind) {
+\end_layout
+
+\begin_layout Plain Layout
+
+		case WIP_CEV_OPEN:
+\end_layout
+
+\begin_layout Plain Layout
+
+			// Wenn Kanal offen: Mail in den Kanal schreiben
+\end_layout
+
+\begin_layout Plain Layout
+
+			wm_sprintf(mailbodybuffer,
+\end_layout
+
+\begin_layout Plain Layout
+
+				"Hallo Welt!
+\backslash
+r
+\backslash
+n Die Einträge aus dem Telefonbuch sind:
+\end_layout
+
+\begin_layout Plain Layout
+
+				
+\backslash
+r
+\backslash
+n
+\backslash
+r
+\backslash
+n%s %s %s %s %s Tschüss!
+\backslash
+r
+\backslash
+n", 
+\end_layout
+
+\begin_layout Plain Layout
+
+				entries[0], entries[1], entries[2], entries[3], entries[4]);
+\end_layout
+
+\begin_layout Plain Layout
+
+			adl_atSendResponse(ADL_AT_RSP, mailbodybuffer);
+\end_layout
+
+\begin_layout Plain Layout
+
+			wip_write(event->channel, mailbodybuffer, wm_strlen(mailbodybuffer));
+\end_layout
+
+\begin_layout Plain Layout
+
+			adl_atSendResponse(ADL_AT_RSP, "Mail gesendet!
+\backslash
+r
+\backslash
+n");
+\end_layout
+
+\begin_layout Plain Layout
+
+			break;
+\end_layout
+
+\begin_layout Plain Layout
+
+		default: /* Fehler oder fertig */
+\end_layout
+
+\begin_layout Plain Layout
+
+			wip_close (event->channel); // schließt die Übertragung
+\end_layout
+
+\begin_layout Plain Layout
+
+			break;
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Ist der Sendekanal offen, so können wir unsere Mail schreiben.
+ Dazu bauen wir uns einen kleinen E-Mail-Text zusammen und schicken den
+ Text via 
+\family typewriter
+wip_write
+\family default
+ auf den Kanal.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Testlauf:
+\series default
+
+\begin_inset listings
+lstparams "basicstyle={\small\ttfamily},frame=single,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
++GSM: Anmeldung im Netz abgeschlossen
+\end_layout
+
+\begin_layout Plain Layout
+
++GPRS: Warte auf Verbindung
+\end_layout
+
+\begin_layout Plain Layout
+
++GPRS: Verbindung wurde hergestellt
+\end_layout
+
+\begin_layout Plain Layout
+
+Taste 3 wurde gedrückt
+\end_layout
+
+\begin_layout Plain Layout
+
+Hallo Welt!
+\end_layout
+
+\begin_layout Plain Layout
+
+Die Einträge aus dem Telefonbuch sind:
+\end_layout
+
+\begin_layout Plain Layout
+
+Name: Test, Nummer: 200
+\end_layout
+
+\begin_layout Plain Layout
+
+Name: 129, Nummer: 017665316700
+\end_layout
+
+\begin_layout Plain Layout
+
+Name: 129, Nummer: 017665338235
+\end_layout
+
+\begin_layout Plain Layout
+
+Name: 129, Nummer: 017665348409
+\end_layout
+
+\begin_layout Plain Layout
+
+Name: 129, Nummer: 017683269836
+\end_layout
+
+\begin_layout Plain Layout
+
+Tschüss!
+\end_layout
+
+\begin_layout Plain Layout
+
+Mail gesendet!
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Leider haben wir bei diesem Testlauf aus Versehen nicht den Namen, sondern
+ den Nummertyp ausgelesen.
+ Da es aber so lange dauerte, bis wir die GPRS-Verbindung hatten und das
+ Programm an sich ja funktioniert, wollten wir keinen neuen Testlauf starten.
+\end_layout
+
+\begin_layout Standard
+Wir haben lediglich in dem phonebook_handler den Index von wm_strGetParameterStr
+ing für den Namen um Eins erhöhen müssen, damit der Name korrekt benutzt
+ wird.
+ 
+\end_layout
+
+\begin_layout Standard
+Hier haben wir auch einen kleinen Screenshot von der Mail im O2-Postfach:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename cutted.png
+	scale 45
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
