@@ -4,6 +4,7 @@ package console.planet;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -14,6 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -43,9 +45,21 @@ public class PlanetConsole extends JFrame implements Console, ActionListener {
 		fdSet.put(StdFd.StdOut.get(),consoleArea);
 		JScrollPane consoleScrollPane = new JScrollPane(consoleArea);
 		
-		JTextArea planetsArea = new JTextArea(3, 20);
+		//Right Bar
+		JPanel bar = new JPanel();
+		bar.setLayout(new GridLayout(2,1));
+		
+		
+		JTextArea planetsArea = new JTextArea(3, 15);
 		fdSet.put(StdFd.Planets.get(), planetsArea);
 		JScrollPane planetsScrollPane = new JScrollPane(planetsArea);
+		
+		JTextArea messageArea = new JTextArea(3,5);
+		fdSet.put(StdFd.Messages.get(), messageArea);
+		JScrollPane messageScrollPane = new JScrollPane(messageArea);
+		
+		bar.add(planetsScrollPane);
+		bar.add(messageScrollPane);
 		
 		// Layout stuff
 		this.setLayout(new BorderLayout());
@@ -64,7 +78,7 @@ public class PlanetConsole extends JFrame implements Console, ActionListener {
 		this.consoleInput.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
 		this.add(consoleInput, BorderLayout.SOUTH);
 		this.add(consoleScrollPane, BorderLayout.CENTER);
-		this.add(planetsScrollPane, BorderLayout.EAST);
+		this.add(bar, BorderLayout.EAST);
 		addWindowListener(new WindowAdapter() {
 			public void windowOpened(WindowEvent e) {
 				consoleInput.requestFocus();

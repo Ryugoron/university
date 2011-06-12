@@ -17,7 +17,8 @@ public interface Console {
 	public enum StdFd{
 		StdOut(1),
 		Planets(2),
-		Market(3);
+		Messages(3),
+		Market(4);
 		
 		private int i;
 		private StdFd(int i){

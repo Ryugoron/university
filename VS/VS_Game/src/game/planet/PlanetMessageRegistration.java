@@ -102,7 +102,7 @@ public class PlanetMessageRegistration {
 					// gesondert
 					try {
 						if ((actMessage = c.nrecv()) != null) {
-							String[] input = new String (actMessage.getData())
+							String[] input = new String (Arrays.copyOfRange(actMessage.getData(),0,actMessage.getLength()))
 									.split(" ");
 							if (messages.containsKey(input[0]))
 								messages.get(input[0]).execute(
@@ -125,7 +125,7 @@ public class PlanetMessageRegistration {
 				for (Channel c : connectedPeers) {
 					if ((actMessage = c.nrecv()) != null) {
 						try {
-							String[] input = new String(actMessage.getData())
+							String[] input = new String(Arrays.copyOfRange(actMessage.getData(),0,actMessage.getLength()))
 									.split(" ");
 							if (messages.containsKey(input[0]))
 								messages.get(input[0]).execute(

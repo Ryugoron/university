@@ -117,7 +117,7 @@ public class UdpChannelFactory {
 	public static void waitOnPort(int Port) throws InterruptedException{
 		MessageDispatcher dis = dispatcher.get(Port);
 		synchronized (dis) {
-			dis.wait(10000);
+			dis.wait(3000);
 		}
 	}
 	
@@ -133,7 +133,7 @@ public class UdpChannelFactory {
 	 */
 	public static void waitForMessage() throws InterruptedException{
 		synchronized (UdpChannelFactory.class) {
-			UdpChannelFactory.class.wait(10000);
+			UdpChannelFactory.class.wait(3000);
 		}
 	}
 

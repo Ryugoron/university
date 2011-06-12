@@ -36,37 +36,26 @@ public enum GameMessage implements Message {
 	public Message toMessage(String[] param)
 			throws IllegalArgumentException {
 
-//		StringBuilder sb = new StringBuilder();
-//		sb.append(this.toString());
-//		for (int i = 0; i < param.length; ++i) {
-//			sb.append(" ");
-//			sb.append(param[i]);
-//		}
-//		sb.trimToSize();
-		String m = this.message;
-		for(int i=0; i<param.length; ++i){
-			m += " " + param[i];
+		StringBuilder sb = new StringBuilder();
+		sb.append(this.toString());
+		for (int i = 0; i < param.length; ++i) {
+			sb.append(" ");
+			sb.append(param[i]);
 		}
-		System.out.println(m);
-		return new UDPMessage(m.getBytes());
+		sb.trimToSize();
+		return new UDPMessage(sb.toString().getBytes());
 	}
 
 	public Message toMessage(List<String> param)
 			throws IllegalArgumentException {
 
-//		StringBuilder sb = new StringBuilder();
-//		sb.append(this.toString());
-//		for (String p : param) {
-//			sb.append(" ");
-//			sb.append(p);
-//		}
-//		sb.trimToSize();
-//		return new UDPMessage(sb.toString().getBytes());
-		
-		String m = this.message;
-		for(String s : param){
-			m += " " + s;
+		StringBuilder sb = new StringBuilder();
+		sb.append(this.toString());
+		for (String p : param) {
+			sb.append(" ");
+			sb.append(p);
 		}
-		return new UDPMessage(m.getBytes());
+		sb.trimToSize();
+		return new UDPMessage(sb.toString().getBytes());
 	}
 }
