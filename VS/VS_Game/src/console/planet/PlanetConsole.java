@@ -111,11 +111,17 @@ public class PlanetConsole extends JFrame implements Console, ActionListener {
 		this.setLocation((screenSize.width - this.getSize().width) / 2,
 				(screenSize.height - this.getSize().height) / 2);
 	}
+	
+	private String prepare(String text){
+		text.replaceAll("%20", " ");
+		text.replaceAll("%25", "%");
+		return text;
+	}
 
 	@Override
 	public void println(int fd, String text) throws IllegalArgumentException{
 		if(!fdSet.containsKey(fd)) throw new IllegalArgumentException();
-		fdSet.get(fd).append(text + newline);
+		fdSet.get(fd).append(this.prepare(text) + newline);
 	}
 	
 	@Override
@@ -125,7 +131,7 @@ public class PlanetConsole extends JFrame implements Console, ActionListener {
 
 	@Override
 	public void println(String text) {
-		fdSet.get(StdFd.StdOut.get()).append(text + newline);
+		fdSet.get(StdFd.StdOut.get()).append(this.prepare(text) + newline);
 	}
 
 	@Override
