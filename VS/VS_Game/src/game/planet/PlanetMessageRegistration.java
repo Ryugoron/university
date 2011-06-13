@@ -31,7 +31,7 @@ public class PlanetMessageRegistration {
 	final int LOCALPORT;
 	final int LISTEN_NUM = 5;
 
-	private List<Channel> listenChannel = new ArrayList<Channel>();;
+	private List<Channel> listenChannel = new ArrayList<Channel>();
 
 	public PlanetMessageRegistration(Planet planet, int port) {
 		this.planet = planet;
@@ -45,37 +45,37 @@ public class PlanetMessageRegistration {
 		{
 			HelloCommandMessage h = new HelloCommandMessage();
 			h.register(planet);
-			messages.put(h.message(), h);
+			messages.put(h.message().toString(), h);
 		}
 		{
 			OllehCommandMessage h = new OllehCommandMessage();
 			h.register(planet);
-			messages.put(h.message(), h);
+			messages.put(h.message().toString(), h);
 		}
 		{
 			PeersCommandMessage h = new PeersCommandMessage();
 			h.register(planet);
-			messages.put(h.message(), h);
+			messages.put(h.message().toString(), h);
 		}
 		{
 			SreepCommandMessage h = new SreepCommandMessage();
 			h.register(planet);
-			messages.put(h.message(), h);
+			messages.put(h.message().toString(), h);
 		}
 		{
 			DockCommandMessage h = new DockCommandMessage();
 			h.register(planet);
-			messages.put(h.message(), h);
+			messages.put(h.message().toString(), h);
 		}
 		{
 			GlobalCommandMessage h = new GlobalCommandMessage();
 			h.register(planet);
-			messages.put(h.message(), h);
+			messages.put(h.message().toString(), h);
 		}
 		{
 			LocalCommandMessage h = new LocalCommandMessage();
 			h.register(planet);
-			messages.put(h.message(), h);
+			messages.put(h.message().toString(), h);
 		}
 	}
 

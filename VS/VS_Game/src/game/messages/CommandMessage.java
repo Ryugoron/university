@@ -1,6 +1,7 @@
 package game.messages;
 
 import game.messages.handler.Handler;
+import game.networking.GameMessage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,5 +18,5 @@ protected List<V> reg = new ArrayList<V>();
 		reg.add(handler);
 	}
 	
-	public abstract String message();
+	public abstract GameMessage message();
 }

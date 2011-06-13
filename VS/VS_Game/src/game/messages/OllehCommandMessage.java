@@ -2,6 +2,7 @@ package game.messages;
 
 import vsFramework.Channel;
 import game.messages.handler.OllehCommandHandler;
+import game.networking.GameMessage;
 
 public class OllehCommandMessage extends CommandMessage<OllehCommandHandler> {
 
@@ -16,8 +17,8 @@ public class OllehCommandMessage extends CommandMessage<OllehCommandHandler> {
 	}
 
 	@Override
-	public String message() {
-		return "OLLEH";
+	public GameMessage message() {
+		return GameMessage.OLLEH;
 	}
 
 }

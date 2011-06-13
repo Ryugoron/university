@@ -2,6 +2,7 @@ package game.messages;
 
 import vsFramework.Channel;
 import game.messages.handler.SreepCommandHandler;
+import game.networking.GameMessage;
 
 public class SreepCommandMessage extends CommandMessage<SreepCommandHandler> {
 
@@ -13,8 +14,8 @@ public class SreepCommandMessage extends CommandMessage<SreepCommandHandler> {
 	}
 
 	@Override
-	public String message() {
-		return "SREEP";
+	public GameMessage message() {
+		return GameMessage.SREEP;
 	}
 
 }

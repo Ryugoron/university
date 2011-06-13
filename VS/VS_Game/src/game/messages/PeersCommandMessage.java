@@ -2,6 +2,7 @@ package game.messages;
 
 import vsFramework.Channel;
 import game.messages.handler.PeersCommandHandler;
+import game.networking.GameMessage;
 
 public class PeersCommandMessage extends CommandMessage<PeersCommandHandler> {
 
@@ -14,8 +15,8 @@ public class PeersCommandMessage extends CommandMessage<PeersCommandHandler> {
 	}
 
 	@Override
-	public String message() {
-		return "PEERS";
+	public GameMessage message() {
+		return GameMessage.PEERS;
 	}
 
 }

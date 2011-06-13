@@ -1,6 +1,7 @@
 package game.messages;
 
 import game.messages.handler.KcodCommandHandler;
+import game.networking.GameMessage;
 import vsFramework.Channel;
 
 public class KcodCommandMessage extends CommandMessage<KcodCommandHandler> {
@@ -16,8 +17,8 @@ public class KcodCommandMessage extends CommandMessage<KcodCommandHandler> {
 	}
 
 	@Override
-	public String message() {
-		return "KCOD";
+	public GameMessage message() {
+		return GameMessage.KCOD;
 	}
 
 }

@@ -41,17 +41,17 @@ public class ShipMessageRegistration {
 		{
 			KcodCommandMessage h = new KcodCommandMessage();
 			h.register(ship);
-			messages.put(h.message(), h);
+			messages.put(h.message().toString(), h);
 		}
 		{
 			LocalCommandMessage h = new LocalCommandMessage();
 			h.register(ship);
-			messages.put(h.message(), h);
+			messages.put(h.message().toString(), h);
 		}
 		{
 			GlobalCommandMessage h = new GlobalCommandMessage();
 			h.register(ship);
-			messages.put(h.message(), h);
+			messages.put(h.message().toString(), h);
 		}
 	}
 

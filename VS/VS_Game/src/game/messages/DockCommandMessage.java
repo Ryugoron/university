@@ -2,6 +2,7 @@ package game.messages;
 
 import vsFramework.Channel;
 import game.messages.handler.DockCommandHandler;
+import game.networking.GameMessage;
 
 public class DockCommandMessage extends CommandMessage<DockCommandHandler>{
 
@@ -17,8 +18,8 @@ public class DockCommandMessage extends CommandMessage<DockCommandHandler>{
 	}
 
 	@Override
-	public String message() {
-		return "DOCK";
+	public GameMessage message() {
+		return GameMessage.DOCK;
 	}
 
 }

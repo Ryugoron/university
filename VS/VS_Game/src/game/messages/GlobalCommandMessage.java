@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import vsFramework.Channel;
 import game.messages.handler.GlobalCommandHandler;
+import game.networking.GameMessage;
 
 public class GlobalCommandMessage extends CommandMessage<GlobalCommandHandler>{
 
@@ -19,8 +20,8 @@ public class GlobalCommandMessage extends CommandMessage<GlobalCommandHandler>{
 	}
 
 	@Override
-	public String message() {
-		return "GLOBAL";
+	public GameMessage message() {
+		return GameMessage.GLOBAL;
 	}
 
 }

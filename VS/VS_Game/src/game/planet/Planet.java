@@ -141,7 +141,7 @@ public class Planet implements CloseHandler, ClsHandler, ConnectHandler,
 			this.con.println("A new planet was discoverd right next to us.");
 			String[] way = { name };
 			this.peers.put(name, way);
-			this.con.println(StdFd.Messages, "HELLO " + name);
+			this.con.println(StdFd.Messages, GameMessage.HELLO.toString() + name);
 			this.updatePlanetList();
 		}
 	}

@@ -2,6 +2,7 @@ package game.messages;
 
 import vsFramework.Channel;
 import game.messages.handler.HelloCommandHandler;
+import game.networking.GameMessage;
 
 public class HelloCommandMessage extends CommandMessage<HelloCommandHandler> {
 
@@ -15,8 +16,8 @@ public class HelloCommandMessage extends CommandMessage<HelloCommandHandler> {
 	}
 
 	@Override
-	public String message() {
-		return "HELLO";
+	public GameMessage message() {
+		return GameMessage.HELLO;
 	}
 
 }

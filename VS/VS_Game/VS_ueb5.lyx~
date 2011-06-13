@@ -1,0 +1,2476 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 3cm
+\topmargin 2cm
+\rightmargin 2cm
+\bottommargin 2cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Verteilte Systeme Übung 5
+\end_layout
+
+\begin_layout Author
+Alexander Steen , Max Wisniewski
+\end_layout
+
+\begin_layout Date
+Tutor : Philipp Schmidt
+\end_layout
+
+\begin_layout Subsection*
+Aufgabe
+\end_layout
+
+\begin_layout Standard
+Die Aufgabe bestand darin ein kleines Framework für eine verteilte Wirtschaftssi
+mulation zu schreiben.
+ Das Programm soll über eine Console laufen und in dieser ersten Aufgabe
+ dazu ersteinmal die Befehle
+\end_layout
+
+\begin_layout Standard
+
+\emph on
+connect
+\emph default
+ : Verbindet einen Knoten (Planet) mit einem anderen
+\end_layout
+
+\begin_layout Standard
+
+\emph on
+peers
+\emph default
+ : Gibt eine Liste von allen Knoten (Planeten) an, die unter einander Verbunden
+ sind
+\begin_inset Newline newline
+\end_inset
+
+implementieren.
+\end_layout
+
+\begin_layout Standard
+Damit die Programme unter einander Funktionieren, wurden die ersten Nachrichten
+ die wir benötigen durch ein Protokoll festgelegt.
+ Wir unterstützen hierbei Stringnachrichten, wobei die Bestandteile durch
+ Whitespaces getrennt werden.
+ Implementiert werden, sollten die Befehle:
+\end_layout
+
+\begin_layout Standard
+
+\emph on
+HELLO
+\emph default
+ : Teilt seinen Namen einem anderen Knoten mit (baut eine Verbindung auf)
+\end_layout
+
+\begin_layout Standard
+
+\emph on
+OLLEH
+\emph default
+ : Antwort auf ein Hello, gibt den Namen des anderen Planeten zurück
+\end_layout
+
+\begin_layout Standard
+
+\emph on
+PEERS
+\emph default
+ : Gibt einen kompletten Weg an, an den die Nachricht geschickt werden soll.
+\end_layout
+
+\begin_layout Standard
+
+\emph on
+SREEP
+\emph default
+ : Antwort auf PEERS.
+ Dreht den Weg von PEERS um und gibt nach einem 
+\emph on
+#
+\emph default
+ eine Liste mit von dem Endknoten erreichbaren Knoten zurück.
+\end_layout
+
+\begin_layout Subsection*
+Implementierung
+\end_layout
+
+\begin_layout Subsubsection*
+Console
+\end_layout
+
+\begin_layout Standard
+Für eine bessere Darstellung haben wir uns eine eigene Consolenklasse geschriebe
+n (schönere Aufarbeitung in der GUI).
+ Für möglicherweise verschiedene Darstellungen von Klassen (Planeten und
+ Raumschiffe waren ersteinmal angedacht) haben wir ein Interface bereitgestellt:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\footnotesize\ttfamily},frame=single,numbers=left,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+public interface Console {
+\end_layout
+
+\begin_layout Plain Layout
+
+	public enum StdFd{
+\end_layout
+
+\begin_layout Plain Layout
+
+		...
+\end_layout
+
+\begin_layout Plain Layout
+
+	} 
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	public void setInputHandler(InputHandler handler);
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	public void println(String text);
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	public void println(int fd, String text) throws IllegalArgumentException;
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	public void println(StdFd fd, String text) throws IllegalArgumentException;
+ 
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	public void clear();
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	public void clear(int fd) throws IllegalArgumentException; 
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	public void clear(StdFd fd) throws IllegalArgumentException;
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	public boolean testFd(int fd); 
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	public boolean testFd(StdFd fd); 
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	public void setVisible(boolean visible);
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	public String waitForName();
+\end_layout
+
+\begin_layout Plain Layout
+
+} 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Wir haben ersteinmal einen 
+\series bold
+enum
+\series default
+ erschaffen um die verschiedenen Textbereiche leichter dereferenzieren zu
+ können.
+ (Wir habe zum einen StdOut, Planets[Liste von Planet], Messages[anzeige
+ welche Nachrichten uns erreich haben], Market[nicht implementiert, aber
+ für die Wirtschaft angedacht]).
+ 
+\end_layout
+
+\begin_layout Standard
+Die Console bekommt einen InputHander, der auf alle Eingaben der Console
+ reagieren kann.
+ InputHandler ist ein Interface, mit der einzigen Methode 
+\emph on
+onInput
+\emph default
+, die wir später bei der Implementierung der Knoten noch einmal betrachten
+ werden.
+\end_layout
+
+\begin_layout Standard
+Es ist zu beachten, dass wir die meisten Methoden dreifach überladen haben
+ um den Umgang mit den Filedescriptoren zu erleichtern (Kein fd bedeutet
+ immer die Standardconsole, sonst kann man den enum angeben oder direkt
+ den int des fd).
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Die eigentliche Implementierung der Console lassen wir an dieser Stelle
+ einmal weg.
+ Es werden nur verschiedene Textareas erzeugt und ein Textfield.
+ Dann setzen wir einen Listener auf das Textfield, so dass wir bei einem
+ Druck auf Enter den InputHandler aufrufen können.
+\end_layout
+
+\begin_layout Standard
+Zur besseren Benutzung haben wir noch ein Speicher für die letzen 20 Befehle
+ eingerichtet, so dass man mit 
+\emph on
+UP
+\emph default
+ und 
+\emph on
+DOWN
+\emph default
+ durchblättern kann.
+\end_layout
+
+\begin_layout Subsubsection*
+Command Interfaces
+\end_layout
+
+\begin_layout Standard
+Um möglichst generisch zu bleiben für die Erweiterungen in den folgenden
+ Erweiterungen haben wir uns eines einfachen Commandpatterns für die einzugebend
+en Befehle bedient.
+ Dabei ist es wiederum in ein Handlerinterface und ein Commandinterface
+ getrennt:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\footnotesize\ttfamily},frame=single,numbers=left,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+public interface Handler {
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+public abstract class Command<V extends Handler> {
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	protected List<V> reg = new ArrayList<V>();
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	public abstract void execute(String[] paras) throws IllegalArgumentException;
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	public void register(V handler){
+\end_layout
+
+\begin_layout Plain Layout
+
+		reg.add(handler);
+\end_layout
+
+\begin_layout Plain Layout
+
+	} 
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	public abstract String usage();
+\end_layout
+
+\begin_layout Plain Layout
+
+	public abstract String description();
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	public abstract String command();
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Das Handlerinterface ist in dieser Abstraktionsebene ersteinmal ein Markerinterf
+ace ohne Methoden (wir schauen uns gleich Beispielhaft eine Implementierung
+ an).
+ Die abstrakte Klasse 
+\emph on
+Command
+\emph default
+ kümmert sich nun schon einmal um die Registrierung der Handler.
+ Dabei können nur Untertypen des gerade erwähnten Handlers registeriert
+ werden.
+ Die Generizität erlaubt es uns später in Unterklassen nur die Handler zu
+ registrieren, die wirklich zu diesem Befehl gehören.
+\end_layout
+
+\begin_layout Standard
+Wir haben uns dafür entschieden für einen speziellen Befehl mehrere Handler
+ zuzulassen, obwohl wir dies bisher noch nicht gebracht haben.
+ Es könnte später notwendig sein an mehreren Stellen auf ein solches Ereigniss
+ zu reagieren.
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Die restlichen Methoden beziehen sich auf die Ausführung und Benutzung.
+ Der Inputhandler der Console wird seine Eingabe parsen und dann das 
+\emph on
+execute
+\emph default
+ des betreffenden Befehls aufrufen.
+ Wirft diese Methode eine Exception werden wir 
+\emph on
+usage
+\emph default
+ benutzen um nochmal die genaue Benutzung auf der Console auszugeben.
+\end_layout
+
+\begin_layout Standard
+Der Befehl 
+\emph on
+description
+\emph default
+ gibt nocheinmal eine kurze Beschreibung an, was der Befehl macht.
+ Diese Funktion brauchen wir vor allem in der Hilfefunktion.
+\begin_inset Newline newline
+\end_inset
+
+Zuletzt haben wir noch die Methode 
+\emph on
+command
+\emph default
+, die uns den String zurückgibt, der das Commando auslöst.
+ So haben wir die Befehlssequence an einer zentralen Stelle und müssen bei
+ Änderungen nicht alle Klassen durchsuchen.
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Schauen wir uns nun examplarisch das 
+\emph on
+ConnectCommand
+\emph default
+ an.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\footnotesize\ttfamily},frame=single,numbers=left,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+public interface ConnectHandler extends Handler{
+\end_layout
+
+\begin_layout Plain Layout
+
+	void onConnect(InetAddress host, int port);
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+public class ConnectCommand extends Command<ConnectHandler> {
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	@Override 	public void execute(String[] paras) throws IllegalArgumentException
+ {
+\end_layout
+
+\begin_layout Plain Layout
+
+		InetAddress host;
+\end_layout
+
+\begin_layout Plain Layout
+
+		int port;
+\end_layout
+
+\begin_layout Plain Layout
+
+		try {
+\end_layout
+
+\begin_layout Plain Layout
+
+			host = InetAddress.getByName(paras[0]);
+\end_layout
+
+\begin_layout Plain Layout
+
+			port = Integer.parseInt(paras[1]);
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+			for(ConnectHandler h : reg){
+\end_layout
+
+\begin_layout Plain Layout
+
+				h.onConnect(host, port);
+\end_layout
+
+\begin_layout Plain Layout
+
+			}
+\end_layout
+
+\begin_layout Plain Layout
+
+		
+\end_layout
+
+\begin_layout Plain Layout
+
+		} catch (UnknownHostException e) {
+\end_layout
+
+\begin_layout Plain Layout
+
+			System.out.println("Unkown Host");
+\end_layout
+
+\begin_layout Plain Layout
+
+			throw new IllegalArgumentException("Ungültiger Host");
+\end_layout
+
+\begin_layout Plain Layout
+
+ 		} catch (Exception e) {
+\end_layout
+
+\begin_layout Plain Layout
+
+ 			System.out.println(e.getMessage());
+\end_layout
+
+\begin_layout Plain Layout
+
+			throw new IllegalArgumentException();
+\end_layout
+
+\begin_layout Plain Layout
+
+		}
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\begin_layout Plain Layout
+
+	@Override 	public String usage() {
+\end_layout
+
+\begin_layout Plain Layout
+
+		return "connect <host: IP or DNS> <port: Int>";
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\begin_layout Plain Layout
+
+	@Override 	public String description() {
+\end_layout
+
+\begin_layout Plain Layout
+
+		return "Connect to another planet.
+ Loses the old connection.";
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\begin_layout Plain Layout
+
+	@Override 	public String command() {
+\end_layout
+
+\begin_layout Plain Layout
+
+		return "connect";
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+Wir der Befehl ausgeführt, versuchen wir als erstes die ersten beiden Eingaben
+ in eine Addresse und einen Port zu übersetzen, schlägt dieser Versuch fehl,
+ werden wir eine Exception werden, was zu einer Erklärung des Commandos
+ auf der Console führen wird.
+\end_layout
+
+\begin_layout Standard
+Da wir die Klase von 
+\emph on
+Command<ConnectHandler>
+\emph default
+ erben lassen, wissen wir, dass in unserer Liste nur 
+\emph on
+ConnectHandler
+\emph default
+ sein können.
+ Wir können also ohne zu casten auf die Methode 
+\emph on
+onConnect
+\emph default
+ zugreifen.
+\end_layout
+
+\begin_layout Standard
+Unten sieht man nocheinmal die Beschreibung und Benutzung des Befehls.
+\begin_inset VSpace bigskip
+\end_inset
+
+So sehen die Commandos alle aus, so dass sich der Handler nun wirklich nur
+ noch darum kümmern muss, auf welche er überhauptreagieren will und wie
+ er sei bearbeitet.
+\end_layout
+
+\begin_layout Standard
+Bisher von uns Implementierte Commandos sind 
+\emph on
+close,cls, connect, dock, global, help, local, peer
+\emph default
+.
+ Die Befehle sind überwiegen selbsterklärend oder vorgegeben.
+ Die Befehle 
+\emph on
+doc, global
+\emph default
+ und 
+\emph on
+local
+\emph default
+ sind Befehle einer schon animplementierten 
+\emph on
+Ship
+\emph default
+ Klasse.
+ 
+\emph on
+Dock
+\emph default
+ verbindet ein Shiff mit einem Planeten (anderer Befehl und andere Nachricht,
+ damit Planeten den Unterschied zwischen Schiffen und Planeten feststellen
+ können.
+ Würde sich auf durch einen weiteren Zusatz in 
+\emph on
+CONNECT
+\emph default
+ lösen lassen.
+ Das ist aber leicht zu ändern, sobald wir uns auf ein Protokoll geeinigt
+ habe).
+ 
+\end_layout
+
+\begin_layout Standard
+
+\emph on
+Local
+\emph default
+ und 
+\emph on
+Global
+\emph default
+ sind schon gut funktionierende Chatfunktionen zwischen den Schiffen.
+ 
+\emph on
+Local
+\emph default
+ verbreitet dabei eine Nachricht nur auf dem aktuellen Planeten und 
+\emph on
+Global
+\emph default
+ schickt es an alle bekannten Planeten weiter.
+\end_layout
+
+\begin_layout Subsubsection*
+Message Interfaces
+\end_layout
+
+\begin_layout Standard
+Prinzipiell ist der Aufbau der 
+\emph on
+MessageCommands
+\emph default
+ der 
+\emph on
+Commands 
+\emph default
+sehr ähnlich.
+ Wir betrachten hier deshalb nur die Interfaces.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\footnotesize\ttfamily},frame=single,numbers=left,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+public interface Handler {
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+public abstract class CommandMessage<V extends Handler> {
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+protected List<V> reg = new ArrayList<V>();
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	public abstract void execute(Channel c, String[] paras) throws IllegalArgumentE
+xception;
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	public void register(V handler){
+\end_layout
+
+\begin_layout Plain Layout
+
+		reg.add(handler);
+\end_layout
+
+\begin_layout Plain Layout
+
+	} 
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	public abstract GameMessage message(); }
+\end_layout
+
+\end_inset
+
+Insgesammt gesehen, macht die Klasse etwas weniger, weil es keine Benutzung
+ oder Beschreibung für die Nachrichten gibt.
+ Wenn etwas falsch war, dann auf der anderen Seite eines Kanels.
+ Man könnte sich höchstens Fehlernachrichten ausdenken.
+\end_layout
+
+\begin_layout Standard
+Im Gegensatz zu einem einfachen String für die Schlüsselwörter einer Nachricht,
+ geben wir hier eine 
+\emph on
+GameMessage
+\emph default
+ zurück.
+ Dies stellt einen 
+\emph on
+enum
+\emph default
+ dar, der alle Nachrichten des Protokolls kapselt.
+\end_layout
+
+\begin_layout Standard
+In dieser Klasse gibt es über die reine Message implementierung noch 3 praktisch
+e Methoden.
+ Eine kann aus einer 
+\emph on
+Message
+\emph default
+ ermitteln um welche GameMessage es sich handelt.
+ Die anderen beiden können zur GameMessage einen Liste von Parametern hinzufügen.
+ Dies ist pratkisch um später die endgültigen Nachrichten zusammen zu setzen.
+\begin_inset VSpace defskip
+\end_inset
+
+Wir unterstützen die Nachrichten: 
+\emph on
+DOCK, KCOD, GLOBAL, LOCAL, HELLO, OLLEH, PEERS, SREEP.
+
+\emph default
+ Die ersten 4 Nachrichten wurden im vorigen Abschnitt schon erklärt.
+ Die letzten 4 sind vom Protokoll her vorgegeben gewesen.
+\end_layout
+
+\begin_layout Subsubsection*
+Inputhandler
+\end_layout
+
+\begin_layout Standard
+Da die Klassen an sich schon riesig genug geworden sind, haben wir uns dafür
+ entschieden die 3 Klassen 
+\emph on
+Planet, PlanetCommandRegistration, PlanetMessageRegistration
+\emph default
+.
+ Alle 3 sind sehr eng miteinander Verbunden und kennen sich gegenseitig.
+ Vom Prinzip her würden sie alle in eine Klasse passen, aber so ist es etwas
+ übersichtlicher.
+\end_layout
+
+\begin_layout Standard
+Betrachten wir nun zuerst 
+\emph on
+PlanetCommandRegistration
+\emph default
+, die Klasse die den InputHandler implementiert.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\footnotesize\ttfamily},frame=single,numbers=left,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+public class PlanetCommandRegistration implements InputHandler {
+\end_layout
+
+\begin_layout Plain Layout
+
+	final private Planet planet;
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	final Map<String, Command<?>> commands = new HashMap<String, Command<?>>();
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	public PlanetCommandRegistration(Planet planet) {
+\end_layout
+
+\begin_layout Plain Layout
+
+		this.planet = planet; 		addCommandHandler();
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	private void addCommandHandler() {
+\end_layout
+
+\begin_layout Plain Layout
+
+		{
+\end_layout
+
+\begin_layout Plain Layout
+
+			PeersCommand h = new PeersCommand();
+\end_layout
+
+\begin_layout Plain Layout
+
+			h.register(planet);
+\end_layout
+
+\begin_layout Plain Layout
+
+			commands.put(h.command(), h);
+\end_layout
+
+\begin_layout Plain Layout
+
+		}
+\end_layout
+
+\begin_layout Plain Layout
+
+		...
+ //And many more
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	@Override 	public void onInput(String input) {
+\end_layout
+
+\begin_layout Plain Layout
+
+		String[] commandParts = input.split(" ");
+\end_layout
+
+\begin_layout Plain Layout
+
+		Command<?> command = commands.get(commandParts[0]);
+\end_layout
+
+\begin_layout Plain Layout
+
+		if (command != null) {
+\end_layout
+
+\begin_layout Plain Layout
+
+			try {
+\end_layout
+
+\begin_layout Plain Layout
+
+			command.execute(Arrays.copyOfRange(commandParts, 1, commandParts.length));
+\end_layout
+
+\begin_layout Plain Layout
+
+			} catch (IllegalArgumentException e) {
+\end_layout
+
+\begin_layout Plain Layout
+
+				if(e.getMessage() != null){
+\end_layout
+
+\begin_layout Plain Layout
+
+					if (!e.getMessage().equals("")) {
+\end_layout
+
+\begin_layout Plain Layout
+
+						this.planet.getConsole().println(e.getMessage());
+\end_layout
+
+\begin_layout Plain Layout
+
+					}
+\end_layout
+
+\begin_layout Plain Layout
+
+				}
+\end_layout
+
+\begin_layout Plain Layout
+
+				this.planet.getConsole().println(command.usage());
+\end_layout
+
+\begin_layout Plain Layout
+
+			}
+\end_layout
+
+\begin_layout Plain Layout
+
+		
+\end_layout
+
+\begin_layout Plain Layout
+
+		} else {
+\end_layout
+
+\begin_layout Plain Layout
+
+			this.planet.getConsole().println("Unknown Command");
+\end_layout
+
+\begin_layout Plain Layout
+
+			this.planet.getConsole().println(" >>
+\backslash
+"help
+\backslash
+"");
+\end_layout
+
+\begin_layout Plain Layout
+
+		}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	String helpText(){
+\end_layout
+
+\begin_layout Plain Layout
+
+		StringBuilder sb = new StringBuilder("
+\backslash
+n
+\backslash
+n-------- Commands ---------
+\backslash
+n");
+\end_layout
+
+\begin_layout Plain Layout
+
+		for (String command : this.commands.keySet()) {
+\end_layout
+
+\begin_layout Plain Layout
+
+			sb.append(command);
+\end_layout
+
+\begin_layout Plain Layout
+
+			sb.append(" - ");
+\end_layout
+
+\begin_layout Plain Layout
+
+			sb.append(this.commands.get(command).description());
+\end_layout
+
+\begin_layout Plain Layout
+
+			sb.append("
+\backslash
+n");
+\end_layout
+
+\begin_layout Plain Layout
+
+			sb.append("   ->");
+\end_layout
+
+\begin_layout Plain Layout
+
+			sb.append(this.commands.get(command).usage());
+\end_layout
+
+\begin_layout Plain Layout
+
+			sb.append("
+\backslash
+n");
+\end_layout
+
+\begin_layout Plain Layout
+
+		}
+\end_layout
+
+\begin_layout Plain Layout
+
+		sb.append("---------------------------");
+\end_layout
+
+\begin_layout Plain Layout
+
+		return sb.toString();
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\begin_layout Plain Layout
+
+} 
+\end_layout
+
+\end_inset
+
+Diese Klasse kümmert sich am Anfang darum, dass alle Befehle angelegt werden
+ (in 
+\emph on
+addCommandHandler
+\emph default
+) und trägt auch gleich die Klasse 
+\emph on
+Planet
+\emph default
+ als Handler für die Befehle ein.
+\end_layout
+
+\begin_layout Standard
+Am Schluss sehen wir noch, wie der Hilfetext zusammengestellt wird.
+ Dies muss hier geschehen, da diese Klasse die Befehle kennt.
+\begin_inset VSpace defskip
+\end_inset
+
+Die Hauptarbeit befindet sich natürlich in 
+\emph on
+onInput
+\emph default
+.
+ Wir teilen hier als erstes die Eingabe anhand der Leerzeichen auf.
+ Nun können wir schauen, ob der erste Teil als Befehl eingetragen ist.
+ Ist die der Fall, kopieren wir den Rest als Parameter und rufen die 
+\emph on
+execute
+\emph default
+ Funktion auf.
+ Sollte der Befehl nicht existieren, geben wir den Hinweis aus, es einmal
+ mit 
+\series bold
+help
+\series default
+ zu probieren.
+ Sollte bloß die Ausführung scheitern geben wir die Benutzung des Befehls
+ aus.
+\end_layout
+
+\begin_layout Subsubsection*
+MessageHandler
+\end_layout
+
+\begin_layout Standard
+Die Klasse 
+\emph on
+PlanetMessageRegistration
+\emph default
+ ähnelt im großen und ganzen dem InputHander.
+ Bloß anstatt auf einen expliziten Aufruf zu warten werden wir hier auf
+ alle unsere Channel lauschen, ob wir eine Nachricht bekommen.
+\end_layout
+
+\begin_layout Standard
+Zusätzlich zu den Eingetragenen, werden wir immer eine handvoll nichtverbundene
+ offen halten um neue Verbindungen zu akzeptieren.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\footnotesize\ttfamily},frame=single,numbers=left,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+public class PlanetMessageRegistration {
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	final private Planet planet;
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	final Map<String, CommandMessage<?>> messages = new HashMap<String, CommandMess
+age<?>>();
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	private List<Channel> connectedPeers = new ArrayList<Channel>();
+\end_layout
+
+\begin_layout Plain Layout
+
+	private List<Channel> removedPeers = new ArrayList<Channel>();
+\end_layout
+
+\begin_layout Plain Layout
+
+	private List<Channel> addedPeers = new ArrayList<Channel>();
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	final int LOCALPORT;
+\end_layout
+
+\begin_layout Plain Layout
+
+	final int LISTEN_NUM = 5;
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	private List<Channel> listenChannel = new ArrayList<Channel>();
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	public PlanetMessageRegistration(Planet planet, int port) {
+\end_layout
+
+\begin_layout Plain Layout
+
+		this.planet = planet;
+\end_layout
+
+\begin_layout Plain Layout
+
+		this.LOCALPORT = port;
+\end_layout
+
+\begin_layout Plain Layout
+
+		this.fillListenChannel();
+\end_layout
+
+\begin_layout Plain Layout
+
+		addMessageHandler();
+\end_layout
+
+\begin_layout Plain Layout
+
+		new Communicaton();
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\end_layout
+
+\begin_layout Plain Layout
+
+	...
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\end_layout
+
+\begin_layout Plain Layout
+
+	// ----------------- Handle Connections ------------------------------
+\end_layout
+
+\begin_layout Plain Layout
+
+	protected class Communicaton extends Thread {
+\end_layout
+
+\begin_layout Plain Layout
+
+		Message actMessage;
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+		public Communicaton() {
+\end_layout
+
+\begin_layout Plain Layout
+
+			this.start();
+\end_layout
+
+\begin_layout Plain Layout
+
+		}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+		public void run() {
+\end_layout
+
+\begin_layout Plain Layout
+
+			while (true) {
+\end_layout
+
+\begin_layout Plain Layout
+
+				try {
+\end_layout
+
+\begin_layout Plain Layout
+
+					UdpChannelFactory.waitOnPort(LOCALPORT);
+\end_layout
+
+\begin_layout Plain Layout
+
+				} catch (InterruptedException e) {
+\end_layout
+
+\begin_layout Plain Layout
+
+					continue;
+\end_layout
+
+\begin_layout Plain Layout
+
+				}
+\end_layout
+
+\begin_layout Plain Layout
+
+				for (Channel c : listenChannel) {
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+					try {
+\end_layout
+
+\begin_layout Plain Layout
+
+						if ((actMessage = c.nrecv()) != null) {
+\end_layout
+
+\begin_layout Plain Layout
+
+							String[] input = new String(Arrays.copyOfRange(
+\end_layout
+
+\begin_layout Plain Layout
+
+									actMessage.getData(), 0,
+\end_layout
+
+\begin_layout Plain Layout
+
+									actMessage.getLength())).split(" ");
+\end_layout
+
+\begin_layout Plain Layout
+
+							if (messages.containsKey(input[0]))
+\end_layout
+
+\begin_layout Plain Layout
+
+								messages.get(input[0]).execute( 										c, 										Arrays.copyOfRange(i
+nput, 1,
+\end_layout
+
+\begin_layout Plain Layout
+
+												input.length));
+\end_layout
+
+\begin_layout Plain Layout
+
+						}
+\end_layout
+
+\begin_layout Plain Layout
+
+					} catch (IllegalArgumentException e) {
+\end_layout
+
+\begin_layout Plain Layout
+
+						if (e.getMessage() != null) {
+\end_layout
+
+\begin_layout Plain Layout
+
+							if (!e.getMessage().equals("")) {
+\end_layout
+
+\begin_layout Plain Layout
+
+								System.err.println(e.getMessage());
+\end_layout
+
+\begin_layout Plain Layout
+
+							}
+\end_layout
+
+\begin_layout Plain Layout
+
+						}
+\end_layout
+
+\begin_layout Plain Layout
+
+						System.err.println("Received Unknown Message");
+\end_layout
+
+\begin_layout Plain Layout
+
+					}
+\end_layout
+
+\begin_layout Plain Layout
+
+				}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+				for (Channel c : connectedPeers) {
+\end_layout
+
+\begin_layout Plain Layout
+
+					...
+ // Selbe wir oben
+\end_layout
+
+\begin_layout Plain Layout
+
+				}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+				synchronized (addedPeers) {
+\end_layout
+
+\begin_layout Plain Layout
+
+					connectedPeers.addAll(addedPeers);
+\end_layout
+
+\begin_layout Plain Layout
+
+					listenChannel.removeAll(addedPeers);
+\end_layout
+
+\begin_layout Plain Layout
+
+					fillListenChannel();
+\end_layout
+
+\begin_layout Plain Layout
+
+					addedPeers.clear();
+\end_layout
+
+\begin_layout Plain Layout
+
+				}
+\end_layout
+
+\begin_layout Plain Layout
+
+				synchronized (removedPeers) {
+\end_layout
+
+\begin_layout Plain Layout
+
+					connectedPeers.removeAll(removedPeers);
+\end_layout
+
+\begin_layout Plain Layout
+
+					removedPeers.clear();
+\end_layout
+
+\begin_layout Plain Layout
+
+				}
+\end_layout
+
+\begin_layout Plain Layout
+
+			}
+\end_layout
+
+\begin_layout Plain Layout
+
+		}
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\begin_layout Plain Layout
+
+} 
+\end_layout
+
+\end_inset
+
+Wenn am Anfang jedes Durchganges legen wir uns schlafen und warten darauf,
+ dass wir eine Nachricht auf unserem Port bekommen.
+ Diese Methode ist leider noch nicht sehr ausgereift, so dass ich einen
+ Standardtimeout dadrin habe.
+ Wir werden war aufgeweckt, wenn wir schlafen und eine Nachricht ankommt.
+ Leider kann es passieren, dass wir eine Nachrich bekommen uns dann schlafen
+ legen und nicht geweckt werden.
+ Dieses Problem werden wir hoffenltich zum nächsten mal noch lösen können.
+\begin_inset VSpace defskip
+\end_inset
+
+Bekommen wir nun eine Nachricht, schauen wir zuerst nach, ob der erste Teil
+ dieser Nachricht in userer Liste von Nachricht vorkommt.
+ Wenn er das nicht tat, geben wir eine kurze Rückmeldung aus.
+ Kommt die Nachricht, hingegen vor, rufen wir deren 
+\emph on
+execute
+\emph default
+ Funktion mit den restlichen Parametern auf.
+ Dies machen wir 2mal.
+ Einmal für die nichtverbundenen Kanäle und einmal für die verbundenen.
+\end_layout
+
+\begin_layout Standard
+Am Ende jedes Durchgangs schauen wir uns an, ob der Planet uns neue Kanäle
+ hinzugefügt hat.
+ (addChannel und removeChannel wurde in dieser Darstellung erst einmal rausgenom
+men).
+\end_layout
+
+\begin_layout Subsubsection*
+Planet
+\end_layout
+
+\begin_layout Standard
+Im Planeten ist nun die Hauptarbeit zu erledigen.
+ Der Planet implementiert die verschiedenen Handler um Commands und Nachrichten
+ zu verarbeiten.
+ Wir werden hier nun eine Auswahl dieser Methoden vorstellen.
+ Zunächst haben wir eine aufstellung von internen Variablen:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\footnotesize\ttfamily},frame=single,numbers=left,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+protected Console con;
+\end_layout
+
+\begin_layout Plain Layout
+
+final protected String name;
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+private Map<String, Channel> connectedPeers = new HashMap<String, Channel>();
+\end_layout
+
+\begin_layout Plain Layout
+
+private List<Channel> pendingPeers = new LinkedList<Channel>();
+\end_layout
+
+\begin_layout Plain Layout
+
+private Map<String, Channel> dockedShips = new HashMap<String, Channel>();
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+final private PlanetCommandRegistration reg;
+\end_layout
+
+\begin_layout Plain Layout
+
+final private PlanetMessageRegistration mreg;
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+private Map<String, String[]> peersToWork = new HashMap<String, String[]>();
+\end_layout
+
+\begin_layout Plain Layout
+
+private Map<String, String[]> peers = new HashMap<String, String[]>();
+\end_layout
+
+\end_inset
+
+Ersteinmal speichern wir die Console, die beiden Registerklassen von ebend
+ und unseren eigenen Name.
+ Dann brauchen wir noch, für die unmittelbare Umgebung die 
+\emph on
+connectedPeers
+\emph default
+ von direkt verbundenen Planeten, 
+\emph on
+pendingPeers
+\emph default
+ sind alle angefragten Planeten von denen wir noch auf ein 
+\emph on
+OLLEH
+\emph default
+ warten und 
+\emph on
+dockedShips
+\emph default
+ schon für die Erweiterung auf Schiffe.
+\end_layout
+
+\begin_layout Standard
+Explizit für das Routing im Netz brauchen wir noch 
+\emph on
+peersToWork
+\emph default
+ in der alle Knoten stehen, die wir angefragt haben, aber von denen wir
+ noch keine Nachricht bekommen haben und 
+\emph on
+peers.
+
+\emph default
+ In peers stehen alle Knoten die wir kennen mit dem Weg zu ihnen, wie er
+ mit Protokoll steht.
+\begin_inset VSpace defskip
+\end_inset
+
+Betrachten wir zuerst ein 
+\emph on
+HELLO
+\emph default
+ als einfache Nachricht:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\footnotesize\ttfamily},frame=single,numbers=left,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+public void onHello(Channel c, String name) {
+\end_layout
+
+\begin_layout Plain Layout
+
+	synchronized (this) {
+\end_layout
+
+\begin_layout Plain Layout
+
+		this.connectedPeers.put(name, c);
+\end_layout
+
+\begin_layout Plain Layout
+
+		mreg.addPeer(c);
+\end_layout
+
+\begin_layout Plain Layout
+
+		String[] myName = { this.name };
+\end_layout
+
+\begin_layout Plain Layout
+
+		c.send(GameMessage.OLLEH.toMessage(myName));
+\end_layout
+
+\begin_layout Plain Layout
+
+		this.con.println("A new planet was discoverd right next to us.");
+\end_layout
+
+\begin_layout Plain Layout
+
+		String[] way = { name };
+\end_layout
+
+\begin_layout Plain Layout
+
+		this.peers.put(name, way);
+\end_layout
+
+\begin_layout Plain Layout
+
+		this.con.println(StdFd.Messages, GameMessage.HELLO.toString()+ " " + name);
+\end_layout
+
+\begin_layout Plain Layout
+
+		this.updatePlanetList();
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Wir synchronisieren ersteinmal auf uns, weil prinzipiell ein Befehl und
+ eine Nachricht gleichzeit auf die Listen zugreifen könnte.
+\end_layout
+
+\begin_layout Standard
+Dann packen wir denjenigen, der uns die Nachricht geschickt hat in unsere
+ private Liste und geben den Kanel noch unserer 
+\emph on
+MessageRegistration
+\emph default
+ mit, damit die auf den Channel lauscht.
+\end_layout
+
+\begin_layout Standard
+Danach setzen wir eine neue 
+\emph on
+OLLEH
+\emph default
+ Nachricht zusammen, die wir zurücksenden mit unserem Name drin.
+ Nun machen wir noch ein paar Ausgaben auf den Consolen und legen den neuen
+ Knoten in den 
+\emph on
+peers
+\emph default
+ und 
+\emph on
+connectedPeers
+\emph default
+ an.
+\begin_inset VSpace defskip
+\end_inset
+
+Die Reaktion auf 
+\emph on
+OLLEH
+\emph default
+ sieht ähnlich simpel aus und ist im Code nachzulesen.
+\begin_inset VSpace defskip
+\end_inset
+
+Betrachten wir nun einmal die den etwas schwierigeren Umgang mit der Nachricht
+ 
+\emph on
+SREEP
+\emph default
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\footnotesize\ttfamily},frame=single,numbers=left,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+public void onSreep(Channel c, String[] inc) {
+\end_layout
+
+\begin_layout Plain Layout
+
+	synchronized (this) {
+\end_layout
+
+\begin_layout Plain Layout
+
+		String oMessage = "SREEP";
+\end_layout
+
+\begin_layout Plain Layout
+
+		for (int i = 0; i < inc.length; ++i) {
+\end_layout
+
+\begin_layout Plain Layout
+
+			oMessage += " " + inc[i];
+\end_layout
+
+\begin_layout Plain Layout
+
+		}
+\end_layout
+
+\begin_layout Plain Layout
+
+		this.con.println(StdFd.Messages, oMessage);
+\end_layout
+
+\begin_layout Plain Layout
+
+		if (inc.length < 4)
+\end_layout
+
+\begin_layout Plain Layout
+
+			throw new IllegalArgumentException("To small way");
+\end_layout
+
+\begin_layout Plain Layout
+
+		int pos = this.search(inc, "#");
+\end_layout
+
+\begin_layout Plain Layout
+
+		if (pos == -1)
+\end_layout
+
+\begin_layout Plain Layout
+
+			throw new IllegalArgumentException("Error in Message");
+\end_layout
+
+\begin_layout Plain Layout
+
+		if (inc[pos - 1].equals(this.name)) {
+\end_layout
+
+\begin_layout Plain Layout
+
+			// Wir haben das Ziel erreicht!
+\end_layout
+
+\begin_layout Plain Layout
+
+			String[] newEdges = Arrays
+\end_layout
+
+\begin_layout Plain Layout
+
+					.copyOfRange(inc, pos + 1, inc.length);
+\end_layout
+
+\begin_layout Plain Layout
+
+			this.peersToWork.remove(inc[0]);
+\end_layout
+
+\begin_layout Plain Layout
+
+				// Weg wiederum umdrehen
+\end_layout
+
+\begin_layout Plain Layout
+
+			String[] way = new String[pos + 1];
+\end_layout
+
+\begin_layout Plain Layout
+
+			for (int i = 0; i < pos; ++i) {
+\end_layout
+
+\begin_layout Plain Layout
+
+				way[(pos - 1) - i] = inc[i];
+\end_layout
+
+\begin_layout Plain Layout
+
+			}
+\end_layout
+
+\begin_layout Plain Layout
+
+			// Neue Kanten hinzufügen und ansprechen
+\end_layout
+
+\begin_layout Plain Layout
+
+			for (int i = 0; i < newEdges.length; ++i) {
+\end_layout
+
+\begin_layout Plain Layout
+
+				if (this.peersToWork.containsKey(newEdges[i])
+\end_layout
+
+\begin_layout Plain Layout
+
+						|| this.peers.containsKey(newEdges[i])
+\end_layout
+
+\begin_layout Plain Layout
+
+						|| newEdges[i].equals(this.name))
+\end_layout
+
+\begin_layout Plain Layout
+
+					continue;
+\end_layout
+
+\begin_layout Plain Layout
+
+				way[pos] = newEdges[i];
+\end_layout
+
+\begin_layout Plain Layout
+
+				this.peersToWork.put(newEdges[i], way);
+\end_layout
+
+\begin_layout Plain Layout
+
+				this.peers.put(newEdges[i], way);
+\end_layout
+
+\begin_layout Plain Layout
+
+				this.connectedPeers.get(way[1]).send(
+\end_layout
+
+\begin_layout Plain Layout
+
+						GameMessage.PEERS.toMessage(way));
+\end_layout
+
+\begin_layout Plain Layout
+
+			}
+\end_layout
+
+\begin_layout Plain Layout
+
+			this.updatePlanetList();
+\end_layout
+
+\begin_layout Plain Layout
+
+		} else {
+\end_layout
+
+\begin_layout Plain Layout
+
+			String next = "";
+\end_layout
+
+\begin_layout Plain Layout
+
+			for (int i = 1; i < pos; ++i) {
+\end_layout
+
+\begin_layout Plain Layout
+
+				if (inc[i].equals(this.name)) {
+\end_layout
+
+\begin_layout Plain Layout
+
+					// wir haben uns gefunden
+\end_layout
+
+\begin_layout Plain Layout
+
+					next = inc[i + 1];
+\end_layout
+
+\begin_layout Plain Layout
+
+					break;
+\end_layout
+
+\begin_layout Plain Layout
+
+				}
+\end_layout
+
+\begin_layout Plain Layout
+
+			}
+\end_layout
+
+\begin_layout Plain Layout
+
+			this.connectedPeers.get(next).send(
+\end_layout
+
+\begin_layout Plain Layout
+
+					GameMessage.SREEP.toMessage(inc));
+\end_layout
+
+\begin_layout Plain Layout
+
+		}
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\emph on
+SREEP
+\emph default
+ ist die Antwort auf die Nachricht 
+\emph on
+PEERS
+\emph default
+.
+ Letzte muss nur nachschauen, ob man selber der letzte Knoten in der Reihe
+ ist (siehe Protokoll).
+ Ist man es nicht schickt man die Nachricht weiter an den Knoten, den in
+ der Reihe direkt nacheinem kommt.
+ Ist man der letzte, dreht man die Reihe um, schreibt alle seine 
+\emph on
+connectedPeers
+\emph default
+ in die Nachricht (nach einem 
+\emph on
+#
+\emph default
+) und schickt es zurück an den Absender.
+\begin_inset VSpace defskip
+\end_inset
+
+Die 
+\emph on
+SREEP
+\emph default
+ Nachricht ist insofern schwieriger.
+ als dass hier das exlipzite Routing statt findet.
+ Als erstes müssen wir die Nachricht wieder nur weitersenden, wenn wir nicht
+ der letzte Knoten in der Reihe sind.
+\end_layout
+
+\begin_layout Standard
+Sind wir es allerdings doch, so betrachten wir jetzt alle Knoten hinter
+ dem #
+\emph on
+, 
+\emph default
+die uns von der Quelle ja als verbundene Knoten mitgegeben wurden.
+ Nun betrachten wir, ob diese Knoten in einer unserer Listen steht (schon
+ verbunden, wird schon untersucht oder wir sind es zufällig selber).
+ Ist uns der neue Knoten wirklich noch nicht bekannt, setzen wir eine neue
+ Nachricht zusammmen.
+ Wir drehen wieder den Weg um und stecken den neuen Knoten als Endpunkt
+ rein.
+\end_layout
+
+\begin_layout Standard
+Diesen Weg können wir jetzt zusammen mit diesem Knoten in 
+\emph on
+peers
+\emph default
+ speichern (und in 
+\emph on
+peersToWork
+\emph default
+) und an diesen Knoten eine 
+\emph on
+PEERS
+\emph default
+ Nachricht senden um deren Nachbarn herraus zu finden.
+\end_layout
+
+\begin_layout Standard
+Nun können wir den Knoten, von dem wir die Nachbern bekommen hatten aus
+ unserer 
+\emph on
+peersToWork
+\emph default
+ Liste entfernen.
+ Alles in allem geschieht nicht viel aufregendes.
+\end_layout
+
+\begin_layout Subsubsection*
+Weitergehende Implementierungen
+\end_layout
+
+\begin_layout Standard
+Damit wir die Planeten schoneinmal sinnvoll testen konnten, haben wir uns
+ schoneinmal eine Klasse 
+\emph on
+Ship
+\emph default
+ geschrieben.
+ Diese können an einen Planeten andocken und Chatnachrichten über diesen
+ schicken.
+\end_layout
+
+\begin_layout Standard
+Der lokale Chat wird nur auf dem eigenen Planeten verbreitet.
+ Dazu sendet der Planet, der die Nachricht bekommt die Nachricht an alle
+ Schiffe, die an den Planeten angedockt sind.
+\end_layout
+
+\begin_layout Standard
+Beim globalen Chat wird die Nachricht nicht nur an die Schiffe, sondern
+ auch noch an alle verbundenen Planeten weiter gesendet.
+\begin_inset VSpace defskip
+\end_inset
+
+Dies ist nur eine kleine Anregung gewesen und baut uns prinzipiell ein PTP-Chat
+ auf, mit Serverknoten und Clients.
+\end_layout
+
+\begin_layout Subsection*
+Verbesserungen
+\end_layout
+
+\begin_layout Standard
+Was noch eine Verbesserung wäre, damit man das 
+\emph on
+peers
+\emph default
+ nicht ständig selber aufrufen muss, wäre eine automatische Ausführung,
+ wenn ein neuer Planet eine Verbindung eingeht.
+\end_layout
+
+\begin_layout Standard
+Um den Kommunikationsaufwand zu verringern, könnte man auch die vorbeigehenden
+ 
+\emph on
+PEERS 
+\emph default
+und 
+\emph on
+SREEP
+\emph default
+ Nachrichten scannen und neue Planeten hinzufügen, ohne explizit alle zu
+ fragen müssen.
+\begin_inset Newline newline
+\end_inset
+
+Um bei erneuten 
+\emph on
+peers
+\emph default
+ Aufruf schneller alle zu finden, könnte man die schon bekannte Knoten direktanf
+ragen.
+ Dadurch verringert sich der Kommunikationsaufwand zwar nicht, aber man
+ schickt gleich zu beginn die meisten Nachricht schon raus und muss nicht
+ immer erst auf die Antworten warten.
+\begin_inset VSpace defskip
+\end_inset
+
+Ein weiteres unser Anliegen ist es noch, den Ansatz des Selects (der schon
+ angedacht ist auf den UDPChannels) zu verbessern.
+\end_layout
+
+\begin_layout Standard
+Wie schon in 
+\emph on
+MessageRegistration
+\emph default
+ erwähnt, tut die Funktion noch nicht ganz was sie soll, weil es dazu kommen
+ kann, dass das eintreffen von Nachrichten verpasst wurde.
+\begin_inset VSpace defskip
+\end_inset
+
+Wünschenswert wäre auch noch ein anderer Mechanismus für 
+\emph on
+MessageRegistration
+\emph default
+, da bis auf das hinzufügen der Handler und der Ansprechpartner ja doch
+ gleich aussieht.
+ (Ebenso 
+\emph on
+CommandRegistration
+\emph default
+) Man könnte dies über eine abstrakte Klasse ersteinmal lösen, aber das
+ Problem bleibt immer noch, dass man 
+\emph on
+Planet
+\emph default
+ und 
+\emph on
+Ship
+\emph default
+ über die implementierten Klassen parsen müsste.
+\end_layout
+
+\begin_layout Standard
+Dies würde mit Reflektions leicht gehen, aber der Klarheit wegen, möchte
+ ich Reflektions ersteinmal vermeiden.
+\end_layout
+
+\begin_layout Subsection*
+Probleme
+\end_layout
+
+\begin_layout Standard
+Ein Problem, das uns lange Zeit beschäftigt hat, war ein Problem unserer
+ UPDChannel.
+\end_layout
+
+\begin_layout Standard
+Wir haben in unseren Channelobjekte die eingegebenen Bytearrays nicht kopiert.
+ Dies viel bei einfacher Benutzung nie auf und auch die meisten unserer
+ Test hier im Programm funktionierte.
+ Bei großen Datenmengen und hohem Nachrichtenaufwand, kam es allerdings
+ doch häufiger dazu, dass manche unserer Nachrichten sich verschluckt haben.
+\begin_inset VSpace defskip
+\end_inset
+
+Es vielen einfach ein paar Byte am Ende einer Nachricht weg.
+ Dies führte dazu, dass Routing nicht mehr möglich war, da die betreffenden
+ Namen nicht mehr zu lesen waren.
+\begin_inset VSpace defskip
+\end_inset
+
+Diesen Fehler zu finden hat uns einiges an Mühe gekostet, da beim testen
+ der Fehler, durch verzögerungen beim betrachten, in fast allen Fällen verschwan
+d.
+\end_layout
+
+\begin_layout Standard
+Nach einigen Stunden wurde dann aber langsam offensichtlich woran es lag.
+\begin_inset VSpace bigskip
+\end_inset
+
+In dieser Version haben wir den Fehler nun allerdings beheben können.
+\end_layout
+
+\end_body
+\end_document

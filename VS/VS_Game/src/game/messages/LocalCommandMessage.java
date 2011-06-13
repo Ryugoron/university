@@ -2,6 +2,7 @@ package game.messages;
 
 import vsFramework.Channel;
 import game.messages.handler.LocalCommandHandler;
+import game.networking.GameMessage;
 
 public class LocalCommandMessage extends CommandMessage<LocalCommandHandler>{
 
@@ -17,8 +18,8 @@ public class LocalCommandMessage extends CommandMessage<LocalCommandHandler>{
 	}
 
 	@Override
-	public String message() {
-		return "LOCAL";
+	public GameMessage message() {
+		return GameMessage.LOCAL;
 	}
 
 }
