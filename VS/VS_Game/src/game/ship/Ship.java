@@ -74,7 +74,7 @@ public class Ship implements DockHandler, LocalHandler, GlobalHandler,
 				buffer[0] = this.name;
 				buffer[1] = msg;
 				pChannel.send(GameMessage.GLOBAL.toMessage(buffer));
-				this.con.println("GLOBAL["+this.name+"]: "+msg);
+//				this.con.println("GLOBAL["+this.name+"]: "+msg);
 			}
 		}
 	}
@@ -88,7 +88,7 @@ public class Ship implements DockHandler, LocalHandler, GlobalHandler,
 				buffer[0] = this.name;
 				buffer[1] = msg;
 				pChannel.send(GameMessage.LOCAL.toMessage(buffer));
-				this.con.println("LOCAL["+this.name+"]: "+msg);
+//				this.con.println("LOCAL["+this.name+"]: "+msg);
 			}
 		}
 	}
@@ -100,9 +100,9 @@ public class Ship implements DockHandler, LocalHandler, GlobalHandler,
 					host, port);
 			pChannel = chan;
 			mreg.addPeer(chan);
-			String[] name = new String[1];
-			name[0] = this.name;
-			chan.send(GameMessage.DOCK.toMessage(name));
+			String[] myName = new String[1];
+			myName[0] = this.name;
+			chan.send(GameMessage.DOCK.toMessage(myName));
 
 			this.con.println("Asked for docking place");
 		}
@@ -114,12 +114,16 @@ public class Ship implements DockHandler, LocalHandler, GlobalHandler,
 	
 	@Override
 	public void onGlobal(Channel c, String from, String msg, String[] way) {
-		this.con.println("GLOBAL["+from+"]: "+msg);
+		synchronized (this) {
+			this.con.println("GLOBAL["+from+"]: "+msg);
+		}
 	}
 
 	@Override
 	public void onLocal(Channel c, String from, String msg) {
-		this.con.println("LOCAL["+from+"]: "+msg);
+		synchronized (this) {
+			this.con.println("LOCAL["+from+"]: "+msg);
+		}
 	}
 
 	@Override
@@ -139,13 +143,17 @@ public class Ship implements DockHandler, LocalHandler, GlobalHandler,
 
 	@Override
 	public void onCls() {
-		this.con.clear();
+		synchronized (this) {
+			this.con.clear();
+		}
 		
 	}
 
 	@Override
 	public void onHelp() {
-		this.con.println(this.reg.helpText());
+		synchronized (this) {
+			this.con.println(this.reg.helpText());
+		}
 		
 	}
 }

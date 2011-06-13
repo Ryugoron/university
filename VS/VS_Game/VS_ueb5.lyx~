@@ -752,6 +752,10 @@ Unten sieht man nocheinmal die Beschreibung und Benutzung des Befehls.
 \begin_inset VSpace bigskip
 \end_inset
 
+
+\end_layout
+
+\begin_layout Standard
 So sehen die Commandos alle aus, so dass sich der Handler nun wirklich nur
  noch darum kümmern muss, auf welche er überhauptreagieren will und wie
  er sei bearbeitet.
@@ -813,6 +817,10 @@ Local
 Global
 \emph default
  schickt es an alle bekannten Planeten weiter.
+\begin_inset Newpage pagebreak
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsubsection*
@@ -939,6 +947,10 @@ Message
 \begin_inset VSpace defskip
 \end_inset
 
+
+\end_layout
+
+\begin_layout Standard
 Wir unterstützen die Nachrichten: 
 \emph on
 DOCK, KCOD, GLOBAL, LOCAL, HELLO, OLLEH, PEERS, SREEP.
@@ -1282,6 +1294,10 @@ Am Schluss sehen wir noch, wie der Hilfetext zusammengestellt wird.
 \begin_inset VSpace defskip
 \end_inset
 
+
+\end_layout
+
+\begin_layout Standard
 Die Hauptarbeit befindet sich natürlich in 
 \emph on
 onInput
@@ -1729,6 +1745,10 @@ Wenn am Anfang jedes Durchganges legen wir uns schlafen und warten darauf,
 \begin_inset VSpace defskip
 \end_inset
 
+
+\end_layout
+
+\begin_layout Standard
 Bekommen wir nun eine Nachricht, schauen wir zuerst nach, ob der erste Teil
  dieser Nachricht in userer Liste von Nachricht vorkommt.
  Wenn er das nicht tat, geben wir eine kurze Rückmeldung aus.
@@ -1862,6 +1882,10 @@ peers.
 \begin_inset VSpace defskip
 \end_inset
 
+
+\end_layout
+
+\begin_layout Standard
 Betrachten wir zuerst ein 
 \emph on
 HELLO
@@ -1978,14 +2002,22 @@ connectedPeers
 \begin_inset VSpace defskip
 \end_inset
 
+
+\end_layout
+
+\begin_layout Standard
 Die Reaktion auf 
 \emph on
 OLLEH
 \emph default
  sieht ähnlich simpel aus und ist im Code nachzulesen.
-\begin_inset VSpace defskip
+\begin_inset Newpage pagebreak
 \end_inset
 
+
+\end_layout
+
+\begin_layout Standard
 Betrachten wir nun einmal die den etwas schwierigeren Umgang mit der Nachricht
  
 \emph on
@@ -2272,6 +2304,10 @@ connectedPeers
 \begin_inset VSpace defskip
 \end_inset
 
+
+\end_layout
+
+\begin_layout Standard
 Die 
 \emph on
 SREEP
@@ -2350,6 +2386,10 @@ Beim globalen Chat wird die Nachricht nicht nur an die Schiffe, sondern
 \begin_inset VSpace defskip
 \end_inset
 
+
+\end_layout
+
+\begin_layout Standard
 Dies ist nur eine kleine Anregung gewesen und baut uns prinzipiell ein PTP-Chat
  auf, mit Serverknoten und Clients.
 \end_layout
@@ -2394,6 +2434,10 @@ ragen.
 \begin_inset VSpace defskip
 \end_inset
 
+
+\end_layout
+
+\begin_layout Standard
 Ein weiteres unser Anliegen ist es noch, den Ansatz des Selects (der schon
  angedacht ist auf den UDPChannels) zu verbessern.
 \end_layout
@@ -2408,6 +2452,10 @@ MessageRegistration
 \begin_inset VSpace defskip
 \end_inset
 
+
+\end_layout
+
+\begin_layout Standard
 Wünschenswert wäre auch noch ein anderer Mechanismus für 
 \emph on
 MessageRegistration
@@ -2453,12 +2501,20 @@ Wir haben in unseren Channelobjekte die eingegebenen Bytearrays nicht kopiert.
 \begin_inset VSpace defskip
 \end_inset
 
+
+\end_layout
+
+\begin_layout Standard
 Es vielen einfach ein paar Byte am Ende einer Nachricht weg.
  Dies führte dazu, dass Routing nicht mehr möglich war, da die betreffenden
  Namen nicht mehr zu lesen waren.
 \begin_inset VSpace defskip
 \end_inset
 
+
+\end_layout
+
+\begin_layout Standard
 Diesen Fehler zu finden hat uns einiges an Mühe gekostet, da beim testen
  der Fehler, durch verzögerungen beim betrachten, in fast allen Fällen verschwan
 d.
@@ -2469,7 +2525,13 @@ Nach einigen Stunden wurde dann aber langsam offensichtlich woran es lag.
 \begin_inset VSpace bigskip
 \end_inset
 
-In dieser Version haben wir den Fehler nun allerdings beheben können.
+
+\end_layout
+
+\begin_layout Standard
+Diesen Fehler haben wir beseitigen können.
+ Allerdings kommt es beim chatten noch zu einem Fehler, der wohl auf eine
+ Überschneidung bei der Anmeldung der Schiffe zurückzuführen ist.
 \end_layout
 
 \end_body

@@ -134,12 +134,13 @@ public class Planet implements CloseHandler, ClsHandler, ConnectHandler,
 
 	public void onHello(Channel c, String name) {
 		synchronized (this) {
+			if(this.name.equals(name)) return; //Noch was sinnvolles überlegen
 			this.connectedPeers.put(name, c);
 			mreg.addPeer(c);
 			String[] myName = { this.name };
 			c.send(GameMessage.OLLEH.toMessage(myName));
 			this.con.println("A new planet was discoverd right next to us.");
-			String[] way = { name };
+			String[] way = { this.name,name };
 			this.peers.put(name, way);
 			this.con.println(StdFd.Messages, GameMessage.HELLO.toString()+ " " + name);
 			this.updatePlanetList();
@@ -152,7 +153,7 @@ public class Planet implements CloseHandler, ClsHandler, ConnectHandler,
 				return;
 
 			connectedPeers.put(name, c);
-			String[] way = { name };
+			String[] way = { this.name, name };
 			this.peers.put(name, way);
 			pendingPeers.remove(c);
 			this.con.println("A new planet was discovered right next to us.");
@@ -259,76 +260,91 @@ public class Planet implements CloseHandler, ClsHandler, ConnectHandler,
 	}
 
 	@Override
-	public void onDock(Channel c, String name) {
-		
-		String oMessage = GameMessage.DOCK+ " "+name;
-		this.con.println(StdFd.Messages, oMessage);
-		
-		this.dockedShips.put(name, c);
-		String[] myName = { this.name };
-		c.send(GameMessage.KCOD.toMessage(myName));
-		this.updatePlanetList();
+	public void onDock(Channel c, String oName) {
+		synchronized (this) {
+			this.dockedShips.put(oName, c);
+			mreg.addPeer(c);
+			String[] myName = { this.name };
+			c.send(GameMessage.KCOD.toMessage(myName));
+			
+			this.con.println("A new ship has entered the hangar.");
+			this.con.println(StdFd.Messages, GameMessage.DOCK.toString()+ " " + name);
+			this.updatePlanetList();
+		}
 
 	}
 
 	@Override
 	public void onLocal(Channel c, String from, String msg) {
-		String oMessage = GameMessage.LOCAL+" "+from+" "+msg;
-		this.con.println(StdFd.Messages, oMessage);
-		
-		// Leicht, wir schicken die Nachricht an alle Shiffe, von der wir die
-		// Nachricht nicht bekommen haben
-		for(Channel send : this.dockedShips.values()){
-			if(c.equals(send)) continue;
-			String[] sendBuffer = {from};
-			send.send(GameMessage.LOCAL.toMessage(sendBuffer));
+		synchronized (this) {
+			String oMessage = GameMessage.LOCAL+" "+from+" "+msg;
+			this.con.println(StdFd.Messages, oMessage);
+			
+			// Leicht, wir schicken die Nachricht an alle Shiffe, von der wir die
+			// Nachricht nicht bekommen haben
+			for(Channel send : this.dockedShips.values()){
+				String[] sendBuffer = {from,msg};
+				send.send(GameMessage.LOCAL.toMessage(sendBuffer));
+			}
 		}
 
 	}
 
 	@Override
 	public void onGlobal(Channel c, String from, String msg, String[] way) {
-		String oMessage = GameMessage.GLOBAL+" "+from+" "+msg;
-		for (int i = 0; i < way.length; ++i) {
-			oMessage += " " + way[i];
-		}
-		this.con.println(StdFd.Messages, oMessage);
-		if(this.dockedShips.containsKey(from)){
-			//Wir müssen die Nachricht verteilen
-			for(String next : this.peers.keySet()){
-				String[] sendBuffer = new String[2+this.peers.get(next).length];
-				sendBuffer[0] = from;
-				sendBuffer[1] = msg;
-				for(int i=0; i<this.peers.get(next).length; ++i){
-					sendBuffer[i+2] = this.peers.get(next)[i];
-				}
-				this.connectedPeers.get(sendBuffer[3]).send(GameMessage.GLOBAL.toMessage(sendBuffer));
+		synchronized (this) {
+			String oMessage = GameMessage.GLOBAL+" "+from+" "+msg;
+			for (int i = 0; i < way.length; ++i) {
+				oMessage += " " + way[i];
 			}
-		}else{
-			if(way[way.length-1].equals(this.name)){
-				//Wir sind die letzten auf dem Weg -> Ausgeben
+			this.con.println(StdFd.Messages, oMessage);
+			
+			if(this.dockedShips.containsKey(from)){
+				//Wir müssen die Nachricht verteilen
+				for(String next : this.peers.keySet()){
+					String[] sendBuffer = new String[2+this.peers.get(next).length];
+					sendBuffer[0] = from;
+					sendBuffer[1] = msg;
+					for(int i=0; i<this.peers.get(next).length; ++i){
+						sendBuffer[i+2] = this.peers.get(next)[i];
+					}
+					this.connectedPeers.get(sendBuffer[3]).send(GameMessage.GLOBAL.toMessage(sendBuffer));
+				}
+				//Und an unsere Schiffe schicken
 				for(Channel send : this.dockedShips.values()){
+//				if(send.equals(c)) continue;
 					String[] sendBuffer = {from,msg};
 					send.send(GameMessage.GLOBAL.toMessage(sendBuffer));
 				}
 			}else{
-				//Wir müssen die Nachricht weiter senden
-				String next = "";
-				for (int i = 1; i < way.length; ++i) {
-					if (way[i].equals(this.name)) {
-						// wir haben uns gefunden
-						next = way[i + 1];
-						break;
+				if(way.length < 2) return; //Falscher Weg
+				if(way[way.length-1].equals(this.name)){
+					//Wir sind die letzten auf dem Weg -> Ausgeben
+					for(String send : this.dockedShips.keySet()){
+						System.out.println("Send :" +msg+" form: "+this.name+" to:"+send);
+//					if(this.dockedShips.get(send).equals(c)) continue;
+						String[] sendBuffer = {from,msg};
+						this.dockedShips.get(send).send(GameMessage.GLOBAL.toMessage(sendBuffer));
 					}
+				}else{
+					//Wir müssen die Nachricht weiter senden
+					String next = "";
+					for (int i = 1; i < way.length; ++i) {
+						if (way[i].equals(this.name)) {
+							// wir haben uns gefunden
+							next = way[i + 1];
+							break;
+						}
+					}
+					String[] sendBuffer = new String[way.length+2];
+					sendBuffer[0] = from;
+					sendBuffer[1] = msg;
+					for(int i = 0; i<way.length; ++i){
+						sendBuffer[i+2] = way[i];
+					}
+					this.connectedPeers.get(next).send(
+							GameMessage.GLOBAL.toMessage(sendBuffer));
 				}
-				String[] sendBuffer = new String[way.length+2];
-				sendBuffer[0] = from;
-				sendBuffer[1] = msg;
-				for(int i = 0; i<way.length; ++i){
-					sendBuffer[i+2] = way[i];
-				}
-				this.connectedPeers.get(next).send(
-						GameMessage.GLOBAL.toMessage(sendBuffer));
 			}
 		}
 
