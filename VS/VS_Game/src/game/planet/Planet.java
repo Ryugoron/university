@@ -141,7 +141,7 @@ public class Planet implements CloseHandler, ClsHandler, ConnectHandler,
 			this.con.println("A new planet was discoverd right next to us.");
 			String[] way = { name };
 			this.peers.put(name, way);
-			this.con.println(StdFd.Messages, GameMessage.HELLO.toString() + name);
+			this.con.println(StdFd.Messages, GameMessage.HELLO.toString()+ " " + name);
 			this.updatePlanetList();
 		}
 	}
@@ -156,7 +156,7 @@ public class Planet implements CloseHandler, ClsHandler, ConnectHandler,
 			this.peers.put(name, way);
 			pendingPeers.remove(c);
 			this.con.println("A new planet was discovered right next to us.");
-			this.con.println(StdFd.Messages, "OLLEH " + name);
+			this.con.println(StdFd.Messages, GameMessage.OLLEH.toString() + " " + name);
 			this.updatePlanetList();
 		}
 	}
@@ -164,7 +164,7 @@ public class Planet implements CloseHandler, ClsHandler, ConnectHandler,
 	public void onPeers(Channel c, String[] inc) {
 		synchronized (this) {
 			// Output
-			String oMessage = "PEERS";
+			String oMessage = GameMessage.PEERS.toString();
 			for (int i = 0; i < inc.length; ++i) {
 				oMessage += " " + inc[i];
 			}
@@ -208,7 +208,7 @@ public class Planet implements CloseHandler, ClsHandler, ConnectHandler,
 	public void onSreep(Channel c, String[] inc) {
 		synchronized (this) {
 
-			String oMessage = "SREEP";
+			String oMessage = GameMessage.SREEP.toString();
 			for (int i = 0; i < inc.length; ++i) {
 				oMessage += " " + inc[i];
 			}
@@ -261,7 +261,7 @@ public class Planet implements CloseHandler, ClsHandler, ConnectHandler,
 	@Override
 	public void onDock(Channel c, String name) {
 		
-		String oMessage = "DOCK "+name;
+		String oMessage = GameMessage.DOCK+ " "+name;
 		this.con.println(StdFd.Messages, oMessage);
 		
 		this.dockedShips.put(name, c);
@@ -273,7 +273,7 @@ public class Planet implements CloseHandler, ClsHandler, ConnectHandler,
 
 	@Override
 	public void onLocal(Channel c, String from, String msg) {
-		String oMessage = "LOCAL "+from+" "+msg;
+		String oMessage = GameMessage.LOCAL+" "+from+" "+msg;
 		this.con.println(StdFd.Messages, oMessage);
 		
 		// Leicht, wir schicken die Nachricht an alle Shiffe, von der wir die
@@ -288,7 +288,7 @@ public class Planet implements CloseHandler, ClsHandler, ConnectHandler,
 
 	@Override
 	public void onGlobal(Channel c, String from, String msg, String[] way) {
-		String oMessage = "GLOBAL "+from+" "+msg;
+		String oMessage = GameMessage.GLOBAL+" "+from+" "+msg;
 		for (int i = 0; i < way.length; ++i) {
 			oMessage += " " + way[i];
 		}
@@ -328,7 +328,7 @@ public class Planet implements CloseHandler, ClsHandler, ConnectHandler,
 					sendBuffer[i+2] = way[i];
 				}
 				this.connectedPeers.get(next).send(
-						GameMessage.SREEP.toMessage(way));
+						GameMessage.GLOBAL.toMessage(sendBuffer));
 			}
 		}
 

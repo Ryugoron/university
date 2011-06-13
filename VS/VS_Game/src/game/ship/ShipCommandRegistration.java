@@ -58,7 +58,7 @@ public class ShipCommandRegistration implements InputHandler{
 
 	@Override
 	public void onInput(String input) {
-		String[] commandParts = input.split(" ");
+		String[] commandParts = input.split("\\s+");
 		Command<?> command = commands.get(commandParts[0]);
 		if (command != null) {
 			try {

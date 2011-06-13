@@ -26,6 +26,7 @@ public class Space {
 				new Planet(4713, "Vulcan");
 				new Ship(4714, "Enterprise");
 				new Ship(4715, "Voyager");
+				new Ship(4716, "Monmotma");
 //				new Planet(4713, "Praxis");
 //				new Planet(4714, "Beta - Z");
 //				new Planet(4715, "Romulus");
