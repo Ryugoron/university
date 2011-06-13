@@ -302,7 +302,7 @@ public class Planet implements CloseHandler, ClsHandler, ConnectHandler,
 				for(int i=0; i<this.peers.get(next).length; ++i){
 					sendBuffer[i+2] = this.peers.get(next)[i];
 				}
-				this.connectedPeers.get(next).send(GameMessage.GLOBAL.toMessage(sendBuffer));
+				this.connectedPeers.get(sendBuffer[3]).send(GameMessage.GLOBAL.toMessage(sendBuffer));
 			}
 		}else{
 			if(way[way.length-1].equals(this.name)){

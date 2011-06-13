@@ -22,9 +22,10 @@ public class Space {
 				}
 			} else {
 				new Planet(4711, "Erde");
-				new Planet(4712, "Vulcan");
-				new Ship(4713, "Enterprise");
-				new Ship(4714, "Voyager");
+				new Planet(4712, "Beta - Z");
+				new Planet(4713, "Vulcan");
+				new Ship(4714, "Enterprise");
+				new Ship(4715, "Voyager");
 //				new Planet(4713, "Praxis");
 //				new Planet(4714, "Beta - Z");
 //				new Planet(4715, "Romulus");
