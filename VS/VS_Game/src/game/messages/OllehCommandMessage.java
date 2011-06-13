@@ -15,4 +15,9 @@ public class OllehCommandMessage extends CommandMessage<OllehCommandHandler> {
 		
 	}
 
+	@Override
+	public String message() {
+		return "OLLEH";
+	}
+
 }

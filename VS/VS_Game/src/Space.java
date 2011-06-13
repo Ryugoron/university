@@ -1,26 +1,33 @@
 import game.planet.Planet;
+import game.ship.Ship;
 
-public class SpaceBWL {
+public class Space {
 	public static void main(String[] args) {
 		try {
 			if (args.length == 3) {
 				if (args[0].equals("planet")) {
 					new Planet(Integer.parseInt(args[1]), args[2]);
-				} else {
+				} else if(args[0].equals("ship")) {
+					new Ship(Integer.parseInt(args[1]), args[2]);
+				}else {
 					System.out.println(help());
 				}
 			} else if (args.length == 2) {
 				if (args[0].equals("planet")) {
 					new Planet(Integer.parseInt(args[1]));
+				}else if(args[0].equals("ship")) {
+					new Ship(Integer.parseInt(args[1]));
 				} else {
 					System.out.println(help());
 				}
 			} else {
 				new Planet(4711, "Erde");
 				new Planet(4712, "Vulcan");
-				new Planet(4713, "Praxis");
-				new Planet(4714, "Beta - Z");
-				new Planet(4715, "Romulus");
+				new Ship(4713, "Enterprise");
+				new Ship(4714, "Voyager");
+//				new Planet(4713, "Praxis");
+//				new Planet(4714, "Beta - Z");
+//				new Planet(4715, "Romulus");
 			}
 		} catch (Exception e) {
 			System.out.println(help());

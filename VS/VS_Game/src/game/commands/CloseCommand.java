@@ -21,5 +21,10 @@ public class CloseCommand extends Command<CloseHandler>{
 	public String description() {
 		return "Closes the window";
 	}
+
+	@Override
+	public String command() {
+		return "close";
+	}
 	
 }

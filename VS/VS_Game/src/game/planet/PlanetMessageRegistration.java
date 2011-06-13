@@ -7,7 +7,10 @@ import java.util.List;
 import java.util.Map;
 
 import game.messages.CommandMessage;
+import game.messages.DockCommandMessage;
+import game.messages.GlobalCommandMessage;
 import game.messages.HelloCommandMessage;
+import game.messages.LocalCommandMessage;
 import game.messages.OllehCommandMessage;
 import game.messages.PeersCommandMessage;
 import game.messages.SreepCommandMessage;
@@ -42,22 +45,37 @@ public class PlanetMessageRegistration {
 		{
 			HelloCommandMessage h = new HelloCommandMessage();
 			h.register(planet);
-			messages.put("HELLO", h);
+			messages.put(h.message(), h);
 		}
 		{
 			OllehCommandMessage h = new OllehCommandMessage();
 			h.register(planet);
-			messages.put("OLLEH", h);
+			messages.put(h.message(), h);
 		}
 		{
 			PeersCommandMessage h = new PeersCommandMessage();
 			h.register(planet);
-			messages.put("PEERS", h);
+			messages.put(h.message(), h);
 		}
 		{
 			SreepCommandMessage h = new SreepCommandMessage();
 			h.register(planet);
-			messages.put("SREEP", h);
+			messages.put(h.message(), h);
+		}
+		{
+			DockCommandMessage h = new DockCommandMessage();
+			h.register(planet);
+			messages.put(h.message(), h);
+		}
+		{
+			GlobalCommandMessage h = new GlobalCommandMessage();
+			h.register(planet);
+			messages.put(h.message(), h);
+		}
+		{
+			LocalCommandMessage h = new LocalCommandMessage();
+			h.register(planet);
+			messages.put(h.message(), h);
 		}
 	}
 

@@ -21,4 +21,9 @@ public class ClsCommand extends Command<ClsHandler> {
 		return "Clears the standard console";
 	}
 
+	@Override
+	public String command() {
+		return "cls";
+	}
+
 }

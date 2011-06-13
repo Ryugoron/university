@@ -42,6 +42,7 @@ public class PlanetConsole extends JFrame implements Console, ActionListener {
 	private Map<Integer,JTextArea> fdSet = new HashMap<Integer,JTextArea>();
 
 	//------- Rückgängig mach Funktion ( ^^ ) -------------
+	private final int MAX_COMMANDS = 20;
 	private List<String> lastCommands = new ArrayList<String>();
 	private int actCommand = 0;
 	
@@ -96,6 +97,8 @@ public class PlanetConsole extends JFrame implements Console, ActionListener {
 				}else if(e.getKeyCode() == KeyEvent.VK_DOWN && actCommand < lastCommands.size()-1){
 					++actCommand;
 					consoleInput.setText(lastCommands.get(actCommand));
+				}else if(e.getKeyCode() == KeyEvent.VK_DOWN && actCommand == lastCommands.size()-1){
+					consoleInput.setText("");
 				}
 			}
 			@Override
@@ -126,6 +129,7 @@ public class PlanetConsole extends JFrame implements Console, ActionListener {
 			String input = consoleInput.getText();
 			
 			this.lastCommands.add(input);
+			if(lastCommands.size()>MAX_COMMANDS) lastCommands.remove(0);
 			actCommand = lastCommands.size();
 			
 			inputHandler.onInput(input);

@@ -5,7 +5,10 @@ import game.commands.handler.ClsHandler;
 import game.commands.handler.ConnectHandler;
 import game.commands.handler.HelpHandler;
 import game.commands.handler.PeersHandler;
+import game.messages.handler.DockCommandHandler;
+import game.messages.handler.GlobalCommandHandler;
 import game.messages.handler.HelloCommandHandler;
+import game.messages.handler.LocalCommandHandler;
 import game.messages.handler.OllehCommandHandler;
 import game.messages.handler.PeersCommandHandler;
 import game.messages.handler.SreepCommandHandler;
@@ -26,11 +29,14 @@ import console.planet.PlanetConsole;
 
 public class Planet implements CloseHandler, ClsHandler, ConnectHandler,
 		HelpHandler, PeersHandler, HelloCommandHandler, OllehCommandHandler,
-		PeersCommandHandler, SreepCommandHandler {
+		DockCommandHandler, PeersCommandHandler, SreepCommandHandler,
+		GlobalCommandHandler, LocalCommandHandler {
 
 	protected Console con;
 	private Map<String, Channel> connectedPeers = new HashMap<String, Channel>();
 	private List<Channel> pendingPeers = new LinkedList<Channel>();
+
+	private Map<String, Channel> dockedShips = new HashMap<String, Channel>();
 
 	final protected String name;
 
@@ -52,7 +58,7 @@ public class Planet implements CloseHandler, ClsHandler, ConnectHandler,
 		con.setVisible(true);
 		con.println("Welcome! You are located at planet \"" + name + "\"");
 		con.println("Your current StarGate is: " + port);
-		con.println(StdFd.Planets, "Planetlist: \n\n>> No planets in reach.");
+		this.updatePlanetList();
 		this.con.println(StdFd.Messages, "Messages: \n");
 	}
 
@@ -64,7 +70,8 @@ public class Planet implements CloseHandler, ClsHandler, ConnectHandler,
 		con.setVisible(true);
 		con.println("Welcome! You are located at planet \"" + name + "\"");
 		con.println("Your current StarGate is: " + port);
-		con.println(StdFd.Planets, "Planetlist: \n\n>> No planets in reach.");
+		this.updatePlanetList();
+		this.con.println(StdFd.Messages, "Messages: \n");
 	}
 
 	private void createGUI() {
@@ -83,6 +90,13 @@ public class Planet implements CloseHandler, ClsHandler, ConnectHandler,
 			con.println(StdFd.Planets, " >> No planets in reach");
 		}
 		for (String s : this.peers.keySet()) {
+			con.println(StdFd.Planets, " >> " + s);
+		}
+		con.println(StdFd.Planets, "\n\nShiplist:\n\n");
+		if (this.dockedShips.isEmpty()) {
+			con.println(StdFd.Planets, " >> No ships in orbit");
+		}
+		for (String s : this.dockedShips.keySet()) {
 			con.println(StdFd.Planets, " >> " + s);
 		}
 	}
@@ -199,7 +213,7 @@ public class Planet implements CloseHandler, ClsHandler, ConnectHandler,
 				oMessage += " " + inc[i];
 			}
 			this.con.println(StdFd.Messages, oMessage);
-			
+
 			if (inc.length < 4)
 				throw new IllegalArgumentException("To small way");
 			int pos = this.search(inc, "#");
@@ -234,7 +248,7 @@ public class Planet implements CloseHandler, ClsHandler, ConnectHandler,
 				for (int i = 1; i < pos; ++i) {
 					if (inc[i].equals(this.name)) {
 						// wir haben uns gefunden
-						next = inc[i+1];
+						next = inc[i + 1];
 						break;
 					}
 				}
@@ -242,6 +256,82 @@ public class Planet implements CloseHandler, ClsHandler, ConnectHandler,
 						GameMessage.SREEP.toMessage(inc));
 			}
 		}
+	}
+
+	@Override
+	public void onDock(Channel c, String name) {
+		
+		String oMessage = "DOCK "+name;
+		this.con.println(StdFd.Messages, oMessage);
+		
+		this.dockedShips.put(name, c);
+		String[] myName = { this.name };
+		c.send(GameMessage.KCOD.toMessage(myName));
+		this.updatePlanetList();
+
+	}
+
+	@Override
+	public void onLocal(Channel c, String from, String msg) {
+		String oMessage = "LOCAL "+from+" "+msg;
+		this.con.println(StdFd.Messages, oMessage);
+		
+		// Leicht, wir schicken die Nachricht an alle Shiffe, von der wir die
+		// Nachricht nicht bekommen haben
+		for(Channel send : this.dockedShips.values()){
+			if(c.equals(send)) continue;
+			String[] sendBuffer = {from};
+			send.send(GameMessage.LOCAL.toMessage(sendBuffer));
+		}
+
+	}
+
+	@Override
+	public void onGlobal(Channel c, String from, String msg, String[] way) {
+		String oMessage = "GLOBAL "+from+" "+msg;
+		for (int i = 0; i < way.length; ++i) {
+			oMessage += " " + way[i];
+		}
+		this.con.println(StdFd.Messages, oMessage);
+		if(this.dockedShips.containsKey(from)){
+			//Wir müssen die Nachricht verteilen
+			for(String next : this.peers.keySet()){
+				String[] sendBuffer = new String[2+this.peers.get(next).length];
+				sendBuffer[0] = from;
+				sendBuffer[1] = msg;
+				for(int i=0; i<this.peers.get(next).length; ++i){
+					sendBuffer[i+2] = this.peers.get(next)[i];
+				}
+				this.connectedPeers.get(next).send(GameMessage.GLOBAL.toMessage(sendBuffer));
+			}
+		}else{
+			if(way[way.length-1].equals(this.name)){
+				//Wir sind die letzten auf dem Weg -> Ausgeben
+				for(Channel send : this.dockedShips.values()){
+					String[] sendBuffer = {from,msg};
+					send.send(GameMessage.GLOBAL.toMessage(sendBuffer));
+				}
+			}else{
+				//Wir müssen die Nachricht weiter senden
+				String next = "";
+				for (int i = 1; i < way.length; ++i) {
+					if (way[i].equals(this.name)) {
+						// wir haben uns gefunden
+						next = way[i + 1];
+						break;
+					}
+				}
+				String[] sendBuffer = new String[way.length+2];
+				sendBuffer[0] = from;
+				sendBuffer[1] = msg;
+				for(int i = 0; i<way.length; ++i){
+					sendBuffer[i+2] = way[i];
+				}
+				this.connectedPeers.get(next).send(
+						GameMessage.SREEP.toMessage(way));
+			}
+		}
+
 	}
 
 	// ----------------- Jump Points for Command Classes ----------------------

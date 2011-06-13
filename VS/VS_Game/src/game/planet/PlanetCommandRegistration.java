@@ -27,27 +27,27 @@ public class PlanetCommandRegistration implements InputHandler {
 		{
 			PeersCommand h = new PeersCommand();
 			h.register(planet);
-			commands.put("peers", h);
+			commands.put(h.command(), h);
 		}
 		{
 			ConnectCommand h = new ConnectCommand();
 			h.register(planet);
-			commands.put("connect", h);
+			commands.put(h.command(), h);
 		}
 		{
 			ClsCommand h = new ClsCommand();
 			h.register(planet);
-			commands.put("cls", h);
+			commands.put(h.command(), h);
 		}
 		{
 			HelpCommand h = new HelpCommand();
 			h.register(planet);
-			commands.put("help", h);
+			commands.put(h.command(), h);
 		}
 		{
 			CloseCommand h = new CloseCommand();
 			h.register(planet);
-			commands.put("close", h);
+			commands.put(h.command(), h);
 		}
 	}
 

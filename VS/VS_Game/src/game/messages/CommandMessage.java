@@ -16,4 +16,6 @@ protected List<V> reg = new ArrayList<V>();
 	public void register(V handler){
 		reg.add(handler);
 	}
+	
+	public abstract String message();
 }

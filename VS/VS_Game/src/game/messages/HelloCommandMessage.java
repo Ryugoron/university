@@ -14,4 +14,9 @@ public class HelloCommandMessage extends CommandMessage<HelloCommandHandler> {
 		}
 	}
 
+	@Override
+	public String message() {
+		return "HELLO";
+	}
+
 }

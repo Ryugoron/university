@@ -13,4 +13,9 @@ public class PeersCommandMessage extends CommandMessage<PeersCommandHandler> {
 		
 	}
 
+	@Override
+	public String message() {
+		return "PEERS";
+	}
+
 }

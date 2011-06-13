@@ -5,7 +5,8 @@ import java.util.List;
 import vsFramework.Message;
 
 public enum GameMessage implements Message {
-	HELLO("HELLO"), OLLEH("OLLEH"), PEERS("PEERS"), SREEP("SREEP");
+	HELLO("HELLO"), OLLEH("OLLEH"), PEERS("PEERS"), SREEP("SREEP"),
+	DOCK("DOCK"), KCOD("KCOD"), LOCAL("LOCAL"), GLOBAL("GLOBAL");
 
 	final String message;
 

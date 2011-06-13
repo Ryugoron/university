@@ -18,6 +18,13 @@ public class PeersCommand extends Command<PeersHandler> {
 	
 	@Override
 	public String description() {
-		return "Returns a List of any reachable Planet.";
+		return "Returns a list of any reachable planet.";
 	}
+
+	@Override
+	public String command() {
+		return "peers";
+	}
+	
+	
 }

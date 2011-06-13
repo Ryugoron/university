@@ -21,7 +21,7 @@ public class ConnectCommand extends Command<ConnectHandler> {
 			
 		} catch (UnknownHostException e) {
 			System.out.println("Unkown Host");
-			throw new IllegalArgumentException("UngÃ¼ltiger Host");
+			throw new IllegalArgumentException("Ungültiger Host");
  		} catch (Exception e) {
  			System.out.println(e.getMessage());
 			throw new IllegalArgumentException();
@@ -37,6 +37,11 @@ public class ConnectCommand extends Command<ConnectHandler> {
 	@Override
 	public String description() {
 		return "Connect to another planet. Loses the old connection.";
+	}
+
+	@Override
+	public String command() {
+		return "connect";
 	}
 
 

@@ -12,4 +12,9 @@ public class SreepCommandMessage extends CommandMessage<SreepCommandHandler> {
 		}
 	}
 
+	@Override
+	public String message() {
+		return "SREEP";
+	}
+
 }

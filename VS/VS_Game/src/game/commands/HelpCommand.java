@@ -18,7 +18,12 @@ public class HelpCommand extends Command<HelpHandler>{
 	
 	@Override
 	public String description() {
-		return "Shows a List off Operations with description.";
+		return "Shows a list of operations with description.";
+	}
+
+	@Override
+	public String command() {
+		return "help";
 	}
 
 }

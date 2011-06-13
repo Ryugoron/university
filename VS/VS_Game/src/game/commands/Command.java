@@ -17,4 +17,6 @@ public abstract class Command<V extends Handler> {
 	
 	public abstract String usage();
 	public abstract String description();
+	
+	public abstract String command();
 }
