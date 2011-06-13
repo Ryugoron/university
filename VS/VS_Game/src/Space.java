@@ -21,15 +21,15 @@ public class Space {
 					System.out.println(help());
 				}
 			} else {
+				System.out.println(help());
 				new Planet(4711, "Erde");
 				new Planet(4712, "Beta - Z");
 				new Planet(4713, "Vulcan");
-				new Ship(4714, "Enterprise");
-				new Ship(4715, "Voyager");
-				new Ship(4716, "Monmotma");
-//				new Planet(4713, "Praxis");
-//				new Planet(4714, "Beta - Z");
-//				new Planet(4715, "Romulus");
+				new Planet(4714, "Praxis");
+				new Planet(4715, "Romulus");
+				new Ship(4716, "Enterprise");
+				new Ship(4717, "Voyager");
+				new Ship(4718, "Monmotma");
 			}
 		} catch (Exception e) {
 			System.out.println(help());
@@ -37,11 +37,10 @@ public class Space {
 	}
 
 	private static String help() {
-		return  "Usage : SpaceBWL [Type , Port [,Name]]\n" +
-				"        Type : planet [work in Progress]\n" +
+		return  "Usage : space [Type , Port [,Name]]\n" +
+				"        Type : planet, ship\n" +
 				"        Port : a free Port\n" +
 				"        Name : name for the typ of Object\n\n" +
-				"If no input is given an Example will be given.\n\n" +
 				"The name is optional, but the Game will ask for a\n" +
 				"        name on start.";
 	}
