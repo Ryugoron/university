@@ -2,6 +2,7 @@ package game.planet;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -107,6 +108,32 @@ public class PlanetMessageRegistration {
 		public Communicaton() {
 			this.start();
 		}
+		
+		private void scanForMessage(Collection<Channel> in){
+			for (Channel c : in) {
+				// Wir behandln den "neuen" Channel erst einmal
+				// gesondert
+				try {
+					if ((actMessage = c.nrecv()) != null) {
+						String[] input = new String(Arrays.copyOfRange(
+								actMessage.getData(), 0,
+								actMessage.getLength())).split(" ");
+						if (messages.containsKey(input[0]))
+							messages.get(input[0]).execute(
+									c,
+									Arrays.copyOfRange(input, 1,
+											input.length));
+					}
+				} catch (IllegalArgumentException e) {
+					if (e.getMessage() != null) {
+						if (!e.getMessage().equals("")) {
+							System.err.println(e.getMessage());
+						}
+					}
+					System.err.println("Received Unknown Message");
+				}
+			}
+		}
 
 		public void run() {
 			while (true) {
@@ -115,53 +142,10 @@ public class PlanetMessageRegistration {
 				} catch (InterruptedException e) {
 					continue;
 				}
-				for (Channel c : listenChannel) {
-					// Wir behandln den "neuen" Channel erst einmal
-					// gesondert
-					try {
-						if ((actMessage = c.nrecv()) != null) {
-							String[] input = new String(Arrays.copyOfRange(
-									actMessage.getData(), 0,
-									actMessage.getLength())).split(" ");
-							if (messages.containsKey(input[0]))
-								messages.get(input[0]).execute(
-										c,
-										Arrays.copyOfRange(input, 1,
-												input.length));
-						}
-					} catch (IllegalArgumentException e) {
-						if (e.getMessage() != null) {
-							if (!e.getMessage().equals("")) {
-								System.err.println(e.getMessage());
-							}
-						}
-						System.err.println("Received Unknown Message");
-					}
-				}
-
-				// TODO besseren syncMechanismus ausdenken, das kopieren ist
-				// dumm
-				for (Channel c : connectedPeers) {
-					try {
-						if ((actMessage = c.nrecv()) != null) {
-							String[] input = new String(Arrays.copyOfRange(
-									actMessage.getData(), 0,
-									actMessage.getLength())).split(" ");
-							if (messages.containsKey(input[0]))
-								messages.get(input[0]).execute(
-										c,
-										Arrays.copyOfRange(input, 1,
-												input.length));
-						}
-					} catch (IllegalArgumentException e) {
-						if (e.getMessage() != null) {
-							if (!e.getMessage().equals("")) {
-								System.err.println(e.getMessage());
-							}
-						}
-						System.err.println("Received Unknown Message");
-					}
-				}
+				
+				this.scanForMessage(listenChannel);
+				this.scanForMessage(connectedPeers);
+				
 				// Wenn wir uns nicht auf die Nachricht registriert haben,
 				// verwerfen wir sie
 

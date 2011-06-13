@@ -130,6 +130,14 @@ public class Planet implements CloseHandler, ClsHandler, ConnectHandler,
 		return found;
 	}
 
+	private void distributeMessage(GameMessage m, String from, String msg){
+		for(String send : this.dockedShips.keySet()){
+			if(send.equals(from)) continue;
+				String[] sendBuffer = {from,msg};
+				this.dockedShips.get(send).send(GameMessage.GLOBAL.toMessage(sendBuffer));
+			}
+	}
+	
 	// ----------------- Jump Points for Incomming Message ------------------
 
 	public void onHello(Channel c, String name) {
@@ -279,13 +287,7 @@ public class Planet implements CloseHandler, ClsHandler, ConnectHandler,
 		synchronized (this) {
 			String oMessage = GameMessage.LOCAL+" "+from+" "+msg;
 			this.con.println(StdFd.Messages, oMessage);
-			
-			// Leicht, wir schicken die Nachricht an alle Shiffe, von der wir die
-			// Nachricht nicht bekommen haben
-			for(Channel send : this.dockedShips.values()){
-				String[] sendBuffer = {from,msg};
-				send.send(GameMessage.LOCAL.toMessage(sendBuffer));
-			}
+			this.distributeMessage(GameMessage.LOCAL, from, msg);
 		}
 
 	}
@@ -311,21 +313,12 @@ public class Planet implements CloseHandler, ClsHandler, ConnectHandler,
 					this.connectedPeers.get(sendBuffer[3]).send(GameMessage.GLOBAL.toMessage(sendBuffer));
 				}
 				//Und an unsere Schiffe schicken
-				for(Channel send : this.dockedShips.values()){
-//				if(send.equals(c)) continue;
-					String[] sendBuffer = {from,msg};
-					send.send(GameMessage.GLOBAL.toMessage(sendBuffer));
-				}
+				this.distributeMessage(GameMessage.GLOBAL, from, msg);
 			}else{
 				if(way.length < 2) return; //Falscher Weg
 				if(way[way.length-1].equals(this.name)){
 					//Wir sind die letzten auf dem Weg -> Ausgeben
-					for(String send : this.dockedShips.keySet()){
-						System.out.println("Send :" +msg+" form: "+this.name+" to:"+send);
-//					if(this.dockedShips.get(send).equals(c)) continue;
-						String[] sendBuffer = {from,msg};
-						this.dockedShips.get(send).send(GameMessage.GLOBAL.toMessage(sendBuffer));
-					}
+					this.distributeMessage(GameMessage.GLOBAL, from, msg);
 				}else{
 					//Wir müssen die Nachricht weiter senden
 					String next = "";

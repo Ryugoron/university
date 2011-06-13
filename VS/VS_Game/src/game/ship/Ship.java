@@ -74,7 +74,7 @@ public class Ship implements DockHandler, LocalHandler, GlobalHandler,
 				buffer[0] = this.name;
 				buffer[1] = msg;
 				pChannel.send(GameMessage.GLOBAL.toMessage(buffer));
-//				this.con.println("GLOBAL["+this.name+"]: "+msg);
+				this.con.println("GLOBAL["+this.name+"]: "+msg);
 			}
 		}
 	}
@@ -88,7 +88,7 @@ public class Ship implements DockHandler, LocalHandler, GlobalHandler,
 				buffer[0] = this.name;
 				buffer[1] = msg;
 				pChannel.send(GameMessage.LOCAL.toMessage(buffer));
-//				this.con.println("LOCAL["+this.name+"]: "+msg);
+				this.con.println("LOCAL["+this.name+"]: "+msg);
 			}
 		}
 	}

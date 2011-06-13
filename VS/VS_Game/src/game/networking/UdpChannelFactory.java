@@ -117,7 +117,7 @@ public class UdpChannelFactory {
 	public static void waitOnPort(int Port) throws InterruptedException{
 		MessageDispatcher dis = dispatcher.get(Port);
 		synchronized (dis) {
-			dis.wait(3000);
+			dis.wait(1000);
 		}
 	}
 	
@@ -133,7 +133,7 @@ public class UdpChannelFactory {
 	 */
 	public static void waitForMessage() throws InterruptedException{
 		synchronized (UdpChannelFactory.class) {
-			UdpChannelFactory.class.wait(3000);
+			UdpChannelFactory.class.wait(1000);
 		}
 	}
 
@@ -178,6 +178,7 @@ public class UdpChannelFactory {
 							&& !this.unconnectedChannels.isEmpty()) {
 						// whos waiting?
 						UdpChannel toChannel = this.unconnectedChannels.poll();
+						this.unconnectedChannels.remove(toChannel);
 						// connect it
 						toChannel.connect(from.getAddress(), from.getPort());
 						this.endpoints.put(from, toChannel);
