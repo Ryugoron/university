@@ -5,6 +5,7 @@ import java.net.InetAddress;
 import vsFramework.Channel;
 
 import console.Console;
+import console.Console.StdFd;
 import console.ship.ShipConsole;
 
 import game.commands.handler.CloseHandler;
@@ -115,6 +116,7 @@ public class Ship implements DockHandler, LocalHandler, GlobalHandler,
 	@Override
 	public void onGlobal(Channel c, String from, String msg, String[] way) {
 		synchronized (this) {
+			this.con.println(StdFd.Messages, GameMessage.GLOBAL.toString() + " "+ msg);
 			this.con.println("GLOBAL["+from+"]: "+msg);
 		}
 	}
@@ -122,6 +124,7 @@ public class Ship implements DockHandler, LocalHandler, GlobalHandler,
 	@Override
 	public void onLocal(Channel c, String from, String msg) {
 		synchronized (this) {
+			this.con.println(StdFd.Messages, GameMessage.LOCAL.toString() + " "+ msg);
 			this.con.println("LOCAL["+from+"]: "+msg);
 		}
 	}
@@ -129,6 +132,7 @@ public class Ship implements DockHandler, LocalHandler, GlobalHandler,
 	@Override
 	public void onKcod(Channel c, String name) {
 		synchronized (this) {
+			this.con.println(StdFd.Messages, GameMessage.KCOD.toString() + " "+ name);
 			if(pChannel.equals(c)){
 				this.pName = name;
 				this.con.println(">> Docking permitted by planet: "+this.pName);

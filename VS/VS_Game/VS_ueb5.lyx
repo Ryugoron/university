@@ -2530,19 +2530,15 @@ Nach einigen Stunden wurde dann aber langsam offensichtlich woran es lag.
 
 \begin_layout Standard
 Diesen Fehler haben wir beseitigen können.
- Allerdings kommt es beim chatten noch zu einem Fehler, der wohl auf eine
- Überschneidung bei der Anmeldung der Schiffe zurückzuführen ist.
- Wenn sich 2 Schiffe auf einmal Planeten anmelden, bekommt immer nur das
- erste Schiff Chatnachrichten.
- Dieser Fehler verschwindet, wenn man zwischen den Anmeldeversuchen etwas
- Zeit lässt.
-\end_layout
-
-\begin_layout Standard
-Bis gestern war es uns nicht möglich den Fehler zu finden.
- Wir haben aber unsere Wissens nach über sämtliche Listen, in denen ein
- Schiff sich Eintragen kann synchronisiert und das Schiff wird in der Menuführun
-g des Planeten korrekt angezeigt.
+ Beim Chatten zeigte sich dann der nächste Fehler, nachdem man Stunden suchen
+ konnte.
+ Wir haben scheinbar vergessen in unserer UDPDispatcherimplementierung die
+ offenen Channel beim belegen aus der Liste zu nehmen.
+ Es kam also öfters zu dem Fall, dass ein Channel mehrfach vergeben wurde.
+ Dies ist natürlich dumm, da dann ein Knoten keine Nachrichten mehr bekommt
+ oder wie in anderen Fällen zu beobachten war, eine Endlosschleife an Nachrichte
+n entstand, weil ein Channel ohne es zusehen an sich selber Nachrichten
+ schicken konnte.
 \end_layout
 
 \end_body

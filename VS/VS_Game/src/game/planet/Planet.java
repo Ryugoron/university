@@ -134,7 +134,7 @@ public class Planet implements CloseHandler, ClsHandler, ConnectHandler,
 		for(String send : this.dockedShips.keySet()){
 			if(send.equals(from)) continue;
 				String[] sendBuffer = {from,msg};
-				this.dockedShips.get(send).send(GameMessage.GLOBAL.toMessage(sendBuffer));
+				this.dockedShips.get(send).send(m.toMessage(sendBuffer));
 			}
 	}
 	

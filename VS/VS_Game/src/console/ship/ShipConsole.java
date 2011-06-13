@@ -62,6 +62,10 @@ public class ShipConsole extends JFrame implements Console, ActionListener {
 		consoleArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
 		consoleArea.setMargin(new Insets(1, 10, 5, 2));
 		
+		JTextArea messageArea = new JTextArea(3,20);
+		fdSet.put(StdFd.Messages.get(), messageArea);
+		JScrollPane messageScrollPane = new JScrollPane(messageArea);
+		
 		this.consoleInput.addActionListener(this);
 		
 		this.consoleInput.addKeyListener(new KeyListener() {
@@ -90,6 +94,7 @@ public class ShipConsole extends JFrame implements Console, ActionListener {
 		this.consoleInput.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
 		this.add(consoleInput, BorderLayout.SOUTH);
 		this.add(consoleScrollPane, BorderLayout.CENTER);
+		this.add(messageScrollPane, BorderLayout.EAST);
 		addWindowListener(new WindowAdapter() {
 			public void windowOpened(WindowEvent e) {
 				consoleInput.requestFocus();
