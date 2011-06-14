@@ -461,14 +461,24 @@ Um den Mittelpunkt zu finden, formen wir die Funtion
 \begin_layout Standard
 \begin_inset Formula $f\left(x\right)=\left(x_{1}^{2}+x_{2}^{2}+2x_{1}x_{3}\right)+2x_{1}+0=\left(\begin{array}{ccc}
 x_{1} & x_{2} & x_{3}\end{array}\right)\left(\begin{array}{c}
-x_{1}\\
+x_{1}+x_{3}\\
 x_{2}\\
-2x_{1}
-\end{array}\right)+2x_{1}=\left(\begin{array}{ccc}
+x_{1}
+\end{array}\right)+2x_{1}$
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula 
+\[
+=\left(\begin{array}{ccc}
 x_{1} & x_{2} & x_{3}\end{array}\right)\left(\begin{array}{ccc}
-1 & 0 & 0\\
+1 & 0 & 1\\
 0 & 1 & 0\\
-2 & 0 & 0
+1 & 0 & 0
 \end{array}\right)\left(\begin{array}{c}
 x_{1}\\
 x_{2}\\
@@ -478,7 +488,9 @@ x_{3}
 x_{1}\\
 x_{2}\\
 x_{3}
-\end{array}\right)+0=x^{t}Mx+b^{t}x+c$
+\end{array}\right)+0=x^{t}Mx+b^{t}x+c
+\]
+
 \end_inset
 
 
@@ -503,7 +515,7 @@ Folgerung 5.23
 \begin_layout Standard
 \begin_inset Formula 
 \[
-b\in Im\left(M\right)\Rightarrow F\text{ hat Mittelpunkt}
+Ma+b=0\Rightarrow P'=P+\sum a_{i}v_{i}
 \]
 
 \end_inset
@@ -515,13 +527,13 @@ b\in Im\left(M\right)\Rightarrow F\text{ hat Mittelpunkt}
 \begin_inset Formula 
 \[
 \left(\begin{array}{ccc|c}
-1 & 0 & 0 & 2\\
+1 & 0 & 1 & -2\\
 0 & 1 & 0 & 0\\
-2 & 0 & 0 & 0
+1 & 0 & 0 & 0
 \end{array}\right)\rightsquigarrow\left(\begin{array}{ccc|c}
-1 & 0 & 0 & 2\\
+1 & 0 & 1 & -2\\
 0 & 1 & 0 & 0\\
-0 & 0 & 0 & -4
+0 & 0 & -1 & 2
 \end{array}\right)
 \]
 
@@ -531,15 +543,58 @@ b\in Im\left(M\right)\Rightarrow F\text{ hat Mittelpunkt}
 \end_layout
 
 \begin_layout Standard
-Es existiert keine Lösung 
-\begin_inset Formula $\Rightarrow$
+\begin_inset Formula $\Rightarrow a_{3}=-2$
+\end_inset
+
+, 
+\begin_inset Formula $a_{2}=0$
+\end_inset
+
+, 
+\begin_inset Formula $a_{1}-\left(-2\right)=-2\Rightarrow a_{1}=0$
 \end_inset
 
 
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula $a=\left(\begin{array}{c}
+0\\
+0\\
+-2
+\end{array}\right)$
+\end_inset
+
+ 
+\begin_inset Formula $\stackrel{\text{Satz 5.24}}{\Rightarrow}P'=P+\sum a_{i}v_{i}=0+\left(a_{1}e_{1}+a_{2}e_{2}+a_{3}e_{3}\right)=\left(\begin{array}{c}
+0\\
+0\\
+-2
+\end{array}\right)$
+\end_inset
+
+
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Damit hat 
 \begin_inset Formula $F$
 \end_inset
 
- hat keinen Mittelpunkt.
+ einen Mittelpunkt bei 
+\begin_inset Formula $\left(\begin{array}{c}
+0\\
+0\\
+-2
+\end{array}\right)$
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Subsection*
@@ -581,7 +636,11 @@ Finden Sie alle Geraden
 \end_inset
 
 .
- (Hinweis: Betrachten Sie 
+ 
+\end_layout
+
+\begin_layout Standard
+(Hinweis: Betrachten Sie 
 \begin_inset Formula $L=\left\{ \left(v_{1},v_{2},v_{3}\right)^{t}+\lambda\left(w_{1},w_{2},w_{3}\right)^{t}\;|\;\lambda\in\mathbb{R}\right\} $
 \end_inset
 
@@ -594,6 +653,22 @@ Finden Sie alle Geraden
 \end_inset
 
  annehmen dürfen.)
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Zeigen wir zunächt, dass 
+\begin_inset Formula $w_{3}=1$
+\end_inset
+
+ und 
+\begin_inset Formula $v_{3}=0$
+\end_inset
+
+ gelten muss.
 \end_layout
 
 \end_body
