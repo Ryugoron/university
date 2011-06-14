@@ -1,4 +1,4 @@
 package game.commands.handler;
 
-public interface Handler {
+public interface CommandHandler {
 }

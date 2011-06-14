@@ -3,9 +3,9 @@ package game.commands;
 import java.util.ArrayList;
 import java.util.List;
 
-import game.commands.handler.Handler;
+import game.commands.handler.CommandHandler;
 
-public abstract class Command<V extends Handler> {
+public abstract class Command<V extends CommandHandler> {
 	
 	protected List<V> reg = new ArrayList<V>();
 	

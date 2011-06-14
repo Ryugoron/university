@@ -1,5 +1,8 @@
 package game.planet;
 
+import game.CommandRegistration;
+import game.Game;
+import game.MessageRegistration;
 import game.commands.handler.CloseHandler;
 import game.commands.handler.ClsHandler;
 import game.commands.handler.ConnectHandler;
@@ -27,7 +30,7 @@ import console.Console;
 import console.Console.StdFd;
 import console.planet.PlanetConsole;
 
-public class Planet implements CloseHandler, ClsHandler, ConnectHandler,
+public class Planet implements Game,CloseHandler, ClsHandler, ConnectHandler,
 		HelpHandler, PeersHandler, HelloCommandHandler, OllehCommandHandler,
 		DockCommandHandler, PeersCommandHandler, SreepCommandHandler,
 		GlobalCommandHandler, LocalCommandHandler {
@@ -40,8 +43,8 @@ public class Planet implements CloseHandler, ClsHandler, ConnectHandler,
 
 	final protected String name;
 
-	final private PlanetCommandRegistration reg;
-	final private PlanetMessageRegistration mreg;
+	final private CommandRegistration reg;
+	final private MessageRegistration mreg;
 
 	// ------------------- Variables for the Programm it self ---------------
 
@@ -51,8 +54,8 @@ public class Planet implements CloseHandler, ClsHandler, ConnectHandler,
 	// ------------------ Contruct and help Funktions ----------------------
 
 	public Planet(int port, String name) {
-		reg = new PlanetCommandRegistration(this);
-		mreg = new PlanetMessageRegistration(this, port);
+		reg = new CommandRegistration(this);
+		mreg = new MessageRegistration(this, port);
 		createGUI();
 		this.name = GameMessage.prepareProtokoll(name);
 		con.setVisible(true);
@@ -63,8 +66,8 @@ public class Planet implements CloseHandler, ClsHandler, ConnectHandler,
 	}
 
 	public Planet(int port) {
-		reg = new PlanetCommandRegistration(this);
-		mreg = new PlanetMessageRegistration(this, port);
+		reg = new CommandRegistration(this);
+		mreg = new MessageRegistration(this, port);
 		createGUI();
 		name = GameMessage.prepareProtokoll(con.waitForName());
 		con.setVisible(true);
@@ -78,8 +81,9 @@ public class Planet implements CloseHandler, ClsHandler, ConnectHandler,
 		con = new PlanetConsole();
 		con.setInputHandler(reg);
 	}
-
-	Console getConsole() {
+	
+	@Override
+	public Console getConsole() {
 		return this.con;
 	}
 

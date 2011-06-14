@@ -8,6 +8,9 @@ import console.Console;
 import console.Console.StdFd;
 import console.ship.ShipConsole;
 
+import game.CommandRegistration;
+import game.Game;
+import game.MessageRegistration;
 import game.commands.handler.CloseHandler;
 import game.commands.handler.ClsHandler;
 import game.commands.handler.DockHandler;
@@ -20,7 +23,7 @@ import game.messages.handler.LocalCommandHandler;
 import game.networking.GameMessage;
 import game.networking.UdpChannelFactory;
 
-public class Ship implements DockHandler, LocalHandler, GlobalHandler,
+public class Ship implements Game, DockHandler, LocalHandler, GlobalHandler,
 		KcodCommandHandler, LocalCommandHandler, HelpHandler, ClsHandler,
 		GlobalCommandHandler, CloseHandler {
 	
@@ -32,14 +35,14 @@ public class Ship implements DockHandler, LocalHandler, GlobalHandler,
 	private String pName;
 	private Channel pChannel;
 	
-	final private ShipCommandRegistration reg;
-	final private ShipMessageRegistration mreg;
+	final private CommandRegistration reg;
+	final private MessageRegistration mreg;
 
 	
 	
 	public Ship(int port, String name) {
-		reg = new ShipCommandRegistration(this);
-		mreg = new ShipMessageRegistration(this, port);
+		reg = new CommandRegistration(this);
+		mreg = new MessageRegistration(this, port);
 		createGUI();
 		this.name = GameMessage.prepareProtokoll(name);
 		con.setVisible(true);
@@ -47,8 +50,8 @@ public class Ship implements DockHandler, LocalHandler, GlobalHandler,
 	}
 
 	public Ship(int port) {
-		reg = new ShipCommandRegistration(this);
-		mreg = new ShipMessageRegistration(this, port);
+		reg = new CommandRegistration(this);
+		mreg = new MessageRegistration(this, port);
 		createGUI();
 		name = GameMessage.prepareProtokoll(con.waitForName());
 		con.setVisible(true);

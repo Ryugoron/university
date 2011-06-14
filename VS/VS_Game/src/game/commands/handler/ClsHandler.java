@@ -1,5 +1,5 @@
 package game.commands.handler;
 
-public interface ClsHandler extends Handler{
+public interface ClsHandler extends CommandHandler{
 	void onCls();
 }

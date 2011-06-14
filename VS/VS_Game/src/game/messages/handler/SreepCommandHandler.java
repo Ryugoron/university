@@ -2,6 +2,6 @@ package game.messages.handler;
 
 import vsFramework.Channel;
 
-public interface SreepCommandHandler extends Handler {
+public interface SreepCommandHandler extends MessageHandler {
 	public void onSreep(Channel c, String[] args);
 }

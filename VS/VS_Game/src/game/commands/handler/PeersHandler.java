@@ -1,5 +1,5 @@
 package game.commands.handler;
 
-public interface PeersHandler extends Handler{
+public interface PeersHandler extends CommandHandler{
 	void onPeers();
 }

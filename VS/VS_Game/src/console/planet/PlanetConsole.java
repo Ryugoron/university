@@ -56,6 +56,7 @@ public class PlanetConsole extends JFrame implements Console, ActionListener {
 		fdSet.put(StdFd.StdOut.get(),consoleArea);
 		JScrollPane consoleScrollPane = new JScrollPane(consoleArea);
 		
+		
 		//Right Bar
 		JPanel bar = new JPanel();
 		bar.setLayout(new GridLayout(2,1));
@@ -122,6 +123,7 @@ public class PlanetConsole extends JFrame implements Console, ActionListener {
 		this.consoleInput.requestFocus();
 		
 	}
+	
 
 	@Override
 	public void actionPerformed(ActionEvent evt) {

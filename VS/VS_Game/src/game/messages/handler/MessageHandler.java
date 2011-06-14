@@ -1,5 +1,5 @@
 package game.messages.handler;
 
-public interface Handler {
+public interface MessageHandler {
 
 }

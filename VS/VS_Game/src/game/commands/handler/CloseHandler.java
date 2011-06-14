@@ -1,5 +1,5 @@
 package game.commands.handler;
 
-public interface CloseHandler extends Handler{
+public interface CloseHandler extends CommandHandler{
 	void onClose();
 }

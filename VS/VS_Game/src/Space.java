@@ -21,7 +21,6 @@ public class Space {
 					System.out.println(help());
 				}
 			} else {
-				System.out.println(help());
 				new Planet(4711, "Erde");
 				new Planet(4712, "Beta - Z");
 				new Planet(4713, "Vulcan");
