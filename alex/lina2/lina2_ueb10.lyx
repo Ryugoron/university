@@ -652,52 +652,6 @@ Sei
 \end_inset
 
 , 
-\begin_inset Formula $A$
-\end_inset
-
- symmetrisch, 
-\begin_inset Formula $B$
-\end_inset
-
- schiefsymmetrisch.
-\end_layout
-
-\begin_layout Standard
-Sei 
-\begin_inset Formula $\alpha(x,y)=\tilde{x}^{t}M\tilde{y}$
-\end_inset
-
- Bilinearform zu 
-\begin_inset Formula $M$
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Standard
-Dann ist 
-\begin_inset Formula $\alpha(x,y)=\tilde{x}^{t}M\tilde{y}=\tilde{x}^{t}\left(A+B\right)\tilde{y}=\tilde{x}^{t}\left(A'+B'\right)\tilde{y}\quad\forall x,y$
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula $\Leftrightarrow\tilde{x}^{t}A\tilde{y}+\tilde{x}^{t}B\tilde{y}=\tilde{x}^{t}A'\tilde{y}+\tilde{x}^{t}B'\tilde{y}\Leftrightarrow\tilde{x}^{t}A\tilde{y}+\tilde{x}^{t}B\tilde{y}-\tilde{x}^{t}A'\tilde{y}+\tilde{x}^{t}B'\tilde{y}=0\quad\forall x,y$
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Formula $\Leftrightarrow\tilde{y}^{t}A\tilde{x}-\tilde{y}^{t}B\tilde{x}-\tilde{y}^{t}A'\tilde{x}-\tilde{y}^{t}B'\tilde{x}=0\quad\forall x,y$
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-Durch Koeffizientenvergleich und da 
 \begin_inset Formula $A,A'$
 \end_inset
 
@@ -705,21 +659,56 @@ Durch Koeffizientenvergleich und da
 \begin_inset Formula $B,B'$
 \end_inset
 
- schiefsymmetrisch erhalten wir 
+ schiefsymmetrisch.
 \end_layout
 
 \begin_layout Standard
-\begin_inset Formula $A=A'\land B=B'$
+Sei dann 
+\begin_inset Formula $A'=A+C$
+\end_inset
+
+ und 
+\begin_inset Formula $B'=B-C$
+\end_inset
+
+ für ein 
+\begin_inset Formula $C\in M(n,n,\mathbb{R})$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $M=A+B=A'+B'=(A+C)+(B-C)$
 \end_inset
 
 
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-falsch
 \end_layout
 
+\begin_layout Standard
+\begin_inset Formula $A+C$
+\end_inset
+
+ symmetrisch : 
+\begin_inset Formula $a_{ij}+c_{ij}=a_{ji}+c_{ji}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $B+C$
+\end_inset
+
+ schiefsymmetrisch: 
+\begin_inset Formula $b_{ij}-c_{ij}=-b_{ji}+c_{ji}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\Rightarrow c_{ij}=0$
 \end_inset
 
 
