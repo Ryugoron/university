@@ -21,7 +21,7 @@ newPlanet(Name) ->
 
 connect(Planet) -> cmd!{connect,Planet}.
 
-connect(Planet1,Planet2) cmd!{connect Planet1, Planet2}.
+connect(Planet1,Planet2)-> cmd!{connect, Planet1, Planet2}.
 
 peers() -> cmd!peers.
 
@@ -35,7 +35,7 @@ travel(Ship,Planet) -> cmd!{travel,Ship,Planet}.
 
 %% With the unknown Method we block a name, but we risk this for
 %% an easier implementation
-start() -> register(cmd,spawn(Fun() -> cmd_loop(unknown,unknown,dict:new(),dict:new()) end)).
+start() -> register(cmd,spawn(fun() -> cmd_loop(unknown,unknown,dict:new(),dict:new()) end)).
 
 cmd_loop(LastPlanet,LastShip,Planets,Ships) ->
 	receive
@@ -55,7 +55,7 @@ cmd_loop(LastPlanet,LastShip,Planets,Ships) ->
 			planet:peers(dict:fetch(Planet)),
 			cmd_loop(Planet,LastShip,Planets,Ships);
 		{dock,Ship,Planet} -> 
-			ship:dock(dict:fetch(Ship,Ships),dict:fetch(Planet,Planets));
+			ship:dock(dict:fetch(Ship,Ships),dict:fetch(Planet,Planets)),
 			cmd_loop(Planet,Ship,Planets,Ships);
 		{travel,Planet} -> 
 			if LastShip /= unkown -> planet:travel(LastShip, dict:fetch(Planet,Planets))end,

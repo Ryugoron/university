@@ -5,7 +5,7 @@ dock(Ship,Planet) -> Ship!{cmd_travel,Planet}.
 
 travel(Ship,Planet) -> Ship!{cmd_travel,Planet}.
 
-start() -> spawn(Fun() -> ship_loop(unknown) end).
+start() -> spawn(fun() -> ship_loop(unknown) end).
 
 ship_loop(SeedPlanet) ->
 	receive
