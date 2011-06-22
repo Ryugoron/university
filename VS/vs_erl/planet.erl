@@ -1,5 +1,5 @@
 -module(planet).
--export([start/0, connect/2, peers/1]).
+-export([start/1, connect/2, peers/1]).
 
 %%
 %%Sends a message to a planet, that it should connect to another planet
@@ -20,46 +20,69 @@ peers(From)-> From!cmd_peers.
 %%
 %% Starts a new planet, that can be reached through messages
 %%
-start() -> 
-	spawn((fun() -> planet_loop([],dict:new(),[]) end)).
+start(Name) -> 
+	spawn((fun(ID) -> planet_loop(ID,[],dict:new(),[]) end),[Name]).
 
-planet_loop(Connected,Peers,Ships) ->
+planet_loop(MyName,Connected,Peers,Ships) ->
 	receive
-		{cmd_hello, PID} ->
-			IsElem = lists:member(PID,Connected),
+		{cmd_hello, PID, Name} ->
+			IsElem = lists:member({PID,Name},Connected),
 			if not IsElem -> 
-				PID!{hello,self()},
-				planet_loop([PID|Connected],Peers,Ships) 
+				PID!{hello,self(), MyName},
+				planet_loop(MyName,[{PID,Name}|Connected],Peers,Ships) 
 			end;
 		cmd_peers ->
-			lists:foreach(fun(PID) -> PID!{peers,[self(),PID]} end,Connected),
-			planet_loop(Connected,dict:new(),Ships);
+			StartDict = lists:foldr(fun({PID,Name},Dict) -> dict:append(PID,{Name,[self(),PID]},Dict) end,
+				dict:new(),Connected),
+			lists:foreach(fun({PID,_}) -> PID!{peers,[self(),PID]} end,Connected),
+			planet_loop(MyName,Connected,StartDict,Ships);
 
-		{hello,PID} -> 
-			PID!{olleh,self()},
-			IsElem = lists:meber(PID, Connected),
+		{hello,PID,Name} -> 
+			PID!{olleh,self(),MyName},
+			IsElem = lists:meber({PID,Name}, Connected),
 			if 
-			not IsElem -> planet_loop([PID|Connected],Peers,Ships);
-			true -> planet_loop(Connected,Peers,Ships)
+			not IsElem -> 
+				io:format("The planet ~w discovered a new planet ~w.~n",[MyName,Name]),
+				planet_loop(MyName,[{PID,Name}|Connected],Peers,Ships);
+			true -> planet_loop(MyName,Connected,Peers,Ships)
 			end;
-		{olleh,PID} ->
-			IsElem = lists:member(PID, Connected), 
-			if not IsElem -> planet:loop([PID|Connected],Peers,Ships)
+		{olleh,PID,Name} ->
+			IsElem = lists:member({PID,Name}, Connected), 
+			if 
+			not IsElem -> 
+				io:format("The planet ~w discoverd a new planet ~w.~n",[MyName,Name]),
+				planet_loop(MyName,[{PID,Name}|Connected],Peers,Ships);
+			true -> planet_loop(MyName,Connected,Peers,Ships)
 			end;
 		
-		{peers,Way} -> help_peers(Way,Connected), planet_loop(Connected, Peers, Ships);
+		{peers,Way} -> help_peers(Way,Connected), planet_loop(MyName,Connected, Peers, Ships);
 		{sreep,Way,New} -> 
-			NewPeers = dict:merge(fun(_, Value1, Value2) ->
+			%%Wir ermitteln die neuen Knoten, packen Sie in die Liste unserer Knoten rein
+			NewPeers = dict:merge(fun(_, {Name1,Value1}, {Name2,Value2}) ->
 				if 
-				length(Value1)>length(Value2) -> Value2;
-				true -> Value1
-				end end,Peers, help_sreep(Way,New)), 
-			planet_loop(Connected, NewPeers, Ships);
+				length(Value1)>length(Value2) -> {Name2,Value2};
+				true -> {Name1,Value1}
+				end end,Peers, help_sreep(Way,New)),
+			%%Ermitteln diejenigen die echt neu sind.
+			PeersToSend = lists:foldr(fun(Key,AccPeers) -> dict:erase(Key,AccPeers) end,
+				NewPeers,dict:fetch_keys(NewPeers)),
+			%%Und schicken diesen eine peers Nachricht
+			dict:map(fun(_,{Name,[A,B|Rest]}) -> 
+				io:format("Planet ~w erreicht: ~w~n",[MyName,Name]),
+				A!{peers,[A,B|Rest]}
+				end,PeersToSend),
+			planet_loop(MyName,Connected, NewPeers, Ships);
 
-		{dock,PID} -> 
-			PID!{kcod,self()},
-			planet_loop(Connected, Peers, [PID|Ships]);
-		{undock,PID} -> planet_loop(Connected, Peers, lists:delete(PID,Ships))
+		{dock,PID,Name} -> 
+			PID!{kcod,self(),MyName},
+			io:format("On planet ~w the ship ~w entered the Orbit.~n",[MyName,Name]),
+			planet_loop(MyName,Connected, Peers, [{PID,Name}|Ships]);
+		{undock,PID} -> 
+			io:format("On planet ~w the ship ~w left the Orbit",[MyName,lists:keyfind(PID,1,Ships)]),
+			planet_loop(MyName,Connected, Peers, lists:keydelete(PID,1,Ships));
+
+		_ -> io:format("~w~n~w~n",["Unbeannt Nachricht erhalten","Droppe Sie."]),
+			planet_loop(MyName,Connected,Peers,Ships)
 	end.
 
 %% --------------------- Helpfunctions -------------------------------
@@ -95,7 +118,8 @@ help_sreep(Way, New) ->
 	if
 	%% Wir haben nach peers gefragt:
 	LastNode == self() ->
-		lists:foldr(fun(PID, Dict) -> dict:append(PID,lists:reverse([PID|Way]),Dict) end,dict:new(),New);
+		lists:foldr(fun({PID,Name}, Dict) -> dict:append(PID,{Name,lists:reverse([PID|Way]),Dict}) end,
+				dict:new(),New);
 
 	%% Wir müssen die Nachricht weiterleiten
 	IsElem ->

@@ -12,11 +12,11 @@
 %%
 
 newShip(Name) -> 
-	PID = ship:start(),
+	PID = ship:start(Name),
 	cmd!{newS,Name,PID}.
 
 newPlanet(Name) -> 
-	PID = planet:start(),
+	PID = planet:start(Name),
 	cmd!{newP,Name,PID}.	
 
 connect(Planet) -> cmd!{connect,Planet}.
@@ -35,7 +35,7 @@ travel(Ship,Planet) -> cmd!{travel,Ship,Planet}.
 
 %% With the unknown Method we block a name, but we risk this for
 %% an easier implementation
-start() -> register(cmd,spawn(fun() -> cmd_loop(unknown,unknown,dict:new(),dict:new()) end)).
+start() -> register(msg,spawn(fun() -> cmd_loop(unknown,unknown,dict:new(),dict:new()) end)).
 
 cmd_loop(LastPlanet,LastShip,Planets,Ships) ->
 	receive
@@ -62,5 +62,8 @@ cmd_loop(LastPlanet,LastShip,Planets,Ships) ->
 			cmd_loop(Planet,LastShip,Planets,Ships);
 		{travel,Ship,Planet} -> 
 			planet:travel(dict:fetch(Ship,Ships),dict:fetch(Planet,Planets)),
-			cmd_loop(Planet,Ship,Planets,Ships)
+			cmd_loop(Planet,Ship,Planets,Ships);
+
+		_ -> io:format("~w~n~w~n”",["Unbekannte Nachrich erhalten.","Droppe diese."]),
+			cmd_loop(LastPlanet,LastShip,Planets,Ships)
 	end.
