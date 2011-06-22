@@ -620,6 +620,10 @@ Skizzieren Sie
 
 .
  (Wann anders Aufgehendes Strumpfband)
+\begin_inset Newpage pagebreak
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsubsection*
@@ -660,15 +664,553 @@ Finden Sie alle Geraden
 \end_layout
 
 \begin_layout Standard
-Zeigen wir zunächt, dass 
+Zeigen wir zunächtst, dass 
 \begin_inset Formula $w_{3}=1$
 \end_inset
 
- und 
+ gelten muss:
+\begin_inset Newline newline
+\end_inset
+
+
+\series bold
+1.
+ Schritt 
+\series default
+
+\begin_inset Formula $w_{3}\not=0$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+Annahme 
+\begin_inset Formula $w_{3}=0$
+\end_inset
+
+, dann würde gelten 
+\begin_inset Formula $F=\left\{ \left(x,y,v_{3}\right)\in\mathbb{R}^{3}\;|\; x^{2}+y^{2}-v_{3}^{2}-1=0\right\} $
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\Rightarrow$
+\end_inset
+
+L müsste in 
+\begin_inset Formula $x^{2}+y^{2}=1+v_{3}^{2}$
+\end_inset
+
+ liegen.
+ Da es sich hier eindeutig um einen Kreis mit Radius 
+\begin_inset Formula $r=\sqrt{1+v_{3}^{2}}$
+\end_inset
+
+ handelt, kann es keine Gerade im 
+\begin_inset Formula $\mathbb{R}^{3}$
+\end_inset
+
+ geben, die einen Kreis beschreibt (im euklidischen Raum).
+\begin_inset Newline newline
+\end_inset
+
+
+\series bold
+2.
+ Schritt 
+\begin_inset Formula $w_{3}=1$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Nun da wir wissen, dass 
+\begin_inset Formula $w_{3}\not=0$
+\end_inset
+
+ ist.
+ können wir uns ein neues 
+\begin_inset Formula $\lambda$
+\end_inset
+
+ definieren:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $L=\left\{ \left(v_{1},v_{2},v_{3}\right)^{t}+\lambda\left(w_{1},w_{2},w_{3}\right)^{t}\;|\;\lambda\in\mathbb{R}\right\} \stackrel{w_{3}\not=0}{=}\left\{ \left(v_{1},v_{2},v_{3}\right)^{t}+w_{3}\lambda\left(\frac{w_{1}}{w_{3}},\frac{w_{2}}{w_{3}},1\right)^{t}\;|\;\lambda\in\mathbb{R}\right\} $
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $=\left\{ \left(v_{1},v_{2},v_{3}\right)^{t}+\lambda'\left(w_{1}',w_{2}',1\right)^{t}\;|\;\lambda'=w_{3}\lambda\in\mathbb{R}\right\} $
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Wir finden also eine äquivalente Gerade mit 
+\begin_inset Formula $w_{3}'=1$
+\end_inset
+
+.
+\begin_inset Newline newline
+\end_inset
+
+
+\series bold
+3.
+ Schritt 
 \begin_inset Formula $v_{3}=0$
 \end_inset
 
- gelten muss.
+
+\end_layout
+
+\begin_layout Standard
+Bei 
+\begin_inset Formula $\left(v_{1},v_{2},v_{3}\right)^{t}$
+\end_inset
+
+ handelt es sich um einen Stützpunkt.
+ Wir zeigen nun, dass man einen Stützpunkt 
+\begin_inset Formula $\left(v_{1}',v_{2}',v_{3}'\right)^{t}$
+\end_inset
+
+ finden kann, mit 
+\begin_inset Formula $v_{3}'=0$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Sei 
+\begin_inset Formula $\left(v_{1}',v_{2}',v_{3}'\right)=\left(v_{1},v_{2},v_{3}\right)^{t}+\lambda\left(w_{1},w_{2},1\right)^{t}$
+\end_inset
+
+ und 
+\begin_inset Formula $\lambda=-v_{3}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\Rightarrow\left(v_{1}',v_{2}',v_{3}'\right)=\left(v_{1},v_{2},v_{3}\right)^{t}-v_{3}\left(w_{1},w_{2},1\right)^{t}=\left(v_{1}-v_{3}w_{1},v_{2}-v_{3}w_{2},0\right)^{t}$
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Wir haben also einen Punkt gefunden, mit 
+\begin_inset Formula $v_{3}'=0$
+\end_inset
+
+.
+ Nun können wir diesen als neuen Stützpunkt nehmen und erhalten die selbe
+ Gerade.
+ Da wir diesen Schritt nur in der Schulmathematik hatten, nehme ich hier
+ nochmal den Beweis vor.
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $L=\left\{ \left(v_{1},v_{2},v_{3}\right)^{t}+\lambda\left(w_{1},w_{2},1\right)^{t}\;|\;\lambda\in\mathbb{R}\right\} =\left\{ \left(v'_{1},v'_{2},0\right)^{t}+\lambda'\left(w_{1},w_{2},1\right)^{t}\;|\;\lambda'\in\mathbb{R}\right\} $
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula $\subseteq$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Sei 
+\begin_inset Formula $\left(x_{1},x_{2},x_{3}\right)^{t}\in\left\{ \left(v_{1},v_{2},v_{3}\right)^{t}+\lambda\left(w_{1},w_{2},1\right)^{t}\;|\;\lambda\in\mathbb{R}\right\} $
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\exists a\in\mathbb{R}\;:\;\left(x_{1},x_{2},x_{3}\right)^{t}=\left(v_{1},v_{2},v_{3}\right)^{t}+a\left(w_{1},w_{2},1\right)^{t}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\Rightarrow\left(x_{1},x_{2},x_{3}\right)^{t}=\left(v_{1}-v_{3}w_{1},v_{2}-v_{3}w_{2},0\right)^{t}+\left(v_{3}w_{1},v_{3}w_{2},v_{3}\right)^{t}+a\left(w_{1},w_{2},1\right)^{t}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $=\left(v_{1}-v_{3}w_{1},v_{2}-v_{3}w_{2},0\right)^{t}+\left(a+v_{3}\right)\left(w_{1},w_{2},1\right)^{t}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\Rightarrow\exists b(=a+v_{3})\in\mathbb{R}\;:\;\left(v_{1}-v_{3}w_{1},v_{2}-v_{3}w_{2},0\right)^{t}+b\left(w_{1},w_{2},1\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\Rightarrow\left(x_{1},x_{2},x_{3}\right)^{t}\in\left\{ \left(v'_{1},v'_{2},0\right)^{t}+\lambda'\left(w_{1},w_{2},1\right)^{t}\;|\;\lambda'\in\mathbb{R}\right\} $
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula $\supseteq$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Sei 
+\begin_inset Formula $\left(x_{1}',x_{2}',0\right)^{t}\in\left\{ \left(v'_{1},v'_{2},0\right)^{t}+\lambda'\left(w_{1},w_{2},1\right)^{t}\;|\;\lambda'\in\mathbb{R}\right\} .$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\exists b\in\mathbb{R\;}:\;\left(x_{1}',x_{2}',0\right)^{t}=\left(v'_{1},v'_{2},0\right)^{t}+b\left(w_{1},w_{2},1\right)^{t}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\stackrel{\text{Nach Konstruktion}}{\Rightarrow}\exists b\in\mathbb{R\;}:\;\left(x_{1}',x_{2}',0\right)^{t}=\left(v_{1}-v_{3}w_{1},v_{2}-v_{3}w_{2},0\right)^{t}+b\left(w_{1},w_{2},1\right)^{t}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $=\left(v_{1},v_{2},0\right)^{t}+\left(-v_{3}w_{1},-v_{3}w_{2},v_{3}-v_{3}\right)^{t}+b\left(w_{1},w_{2},1\right)^{t}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $=\left(v_{1},v_{2},v_{3}\right)^{t}+\left(b-v_{3}\right)\left(w_{1},w_{2},1\right)^{t}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\Rightarrow\exists a\left(=b-v_{3}\right)\in\mathbb{R}\;:\;\left(x_{1}',x_{2}',0\right)^{t}=\left(v_{1},v_{2},v_{3}\right)^{t}+a\left(w_{1},w_{2},1\right)^{t}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\Rightarrow\left(x_{1}',x_{2}',0\right)^{t}\in\left\{ \left(v'_{1},v'_{2},0\right)^{t}+\lambda'\left(w_{1},w_{2},1\right)^{t}\;|\;\lambda'\in\mathbb{R}\right\} $
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Wir haben damit gezeigt, dass wir die Bedinungen benutzen können.
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Formula $\blacksquare$
+\end_inset
+
+
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Description
+4.
+\begin_inset Formula $\;$
+\end_inset
+
+Schritt
+\end_layout
+
+\begin_layout Standard
+Wir suchen nun alle Gerade in der Quadrik.
+ Dazu suchen wir uns ersteinmal alle Geraden die Durch einen Stützpunkt
+ in der Quadrik gehen.
+\end_layout
+
+\begin_layout Standard
+Sei 
+\begin_inset Formula $\left(x_{1},x_{2},0\right)^{t}\in F\Leftrightarrow x_{1}^{2}+x_{2}^{2}=1$
+\end_inset
+
+.
+ Gesucht ist 
+\begin_inset Formula $\left(v_{1},v_{2},1\right)^{t}\in\mathbb{R}^{3}$
+\end_inset
+
+ mit 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $L'_{x_{1},x_{2}}=\left\{ \left(x_{1},x_{2},0\right)^{t}+\lambda\left(v_{1},v_{2},1\right)^{t}\;|\;\lambda\in\mathbb{R}\right\} \subset F$
+\end_inset
+
+.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula $L'_{x_{1},x_{2}}\subset F\Leftrightarrow\forall\lambda\in\mathbb{R}\;:\;\left(x_{1}+\lambda v_{1}\right)^{2}+\left(x_{2}+\lambda v_{2}\right)^{2}-\lambda^{2}-1=0$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\Leftrightarrow\forall\lambda\in\mathbb{R}\;:\; x_{1}^{2}+2\lambda x_{1}v_{1}+\lambda^{2}v_{1}^{2}+x_{2}^{2}+2\lambda x_{2}v_{2}\lambda^{2}v_{2}^{2}-\lambda^{2}-1=0$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\stackrel{\left(x_{1},x_{2},0\right)^{t}\in F}{\Leftrightarrow}\forall\in\mathbb{R}\;:\;\lambda^{2}\left(v_{1}^{2}+v_{2}^{2}-1\right)+2\lambda\left(x_{1}v_{1}+x_{2}v_{2}\right)=0$
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Da 
+\begin_inset Formula $v_{1},v_{2},x_{1},x_{2}$
+\end_inset
+
+ für eine Gerade konstant ist, betrachten wir im Prinzip nur das Polynom:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $a\lambda^{2}+2b\lambda=0$
+\end_inset
+
+.
+ Wie wir aus Analysis wissen, ist ein Polynom genau dann das 0 Poylnom,
+ wenn alle Koeffizienten 0 sein.
+ Also 
+\begin_inset Formula $a=0$
+\end_inset
+
+ und 
+\begin_inset Formula $b=0$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\stackrel{\text{Koeffizienten Vergleich}}{\Leftrightarrow}\begin{cases}
+I: & v_{1}^{2}+v_{2}^{2}=1\\
+II: & x_{1}v_{1}+x_{2}v_{2}=0
+\end{cases}$
+\end_inset
+
+.
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Betrachten wir nun ein paar Spezialfälle:
+\begin_inset Newline newline
+\end_inset
+
+
+\series bold
+Fall 4.1
+\series default
+ 
+\begin_inset Formula $x_{1}=0$
+\end_inset
+
+ (aus 
+\begin_inset Formula $x_{1}^{2}+x_{2}^{2}=1$
+\end_inset
+
+ folgt 
+\begin_inset Formula $x_{2}=\pm1$
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\begin{cases}
+I: & v_{1}^{2}+v_{2}^{2}=1\\
+II: & x_{2}v_{2}=0
+\end{cases}\stackrel{x_{2}=\pm1}{\Rightarrow}II:\; v_{2}=0\Rightarrow v_{1}=\pm1)$
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\series bold
+Fall 4.2 
+\begin_inset Formula $x_{2}=0$
+\end_inset
+
+ 
+\series default
+(aus 
+\begin_inset Formula $x_{1}^{2}+x_{2}^{2}=1$
+\end_inset
+
+ folgt 
+\begin_inset Formula $x_{1}=\pm1$
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\begin{cases}
+I: & v_{1}^{2}+v_{2}^{2}=1\\
+II: & x_{1}v_{1}=0
+\end{cases}\stackrel{x_{1}=\pm1}{\Rightarrow}II:\; v_{1}=0\Rightarrow v_{2}=\pm1)$
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\series bold
+Fall 4.3
+\series default
+ 
+\begin_inset Formula $x_{1}\not=0$
+\end_inset
+
+ und 
+\begin_inset Formula $x_{2}\not=0$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\Rightarrow II\;:\; x_{1}v_{1}+x_{2}v_{2}=0\Rightarrow v_{1}=-\frac{x_{2}v_{2}}{x_{1}}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\Rightarrow I\;:\;\left(\frac{x_{2}v_{2}}{x_{1}}\right)^{2}+v_{2}^{2}=1\Leftrightarrow x_{2}^{2}v_{2}^{2}+x_{1}^{2}v_{2}^{2}=x_{1}^{2}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\Leftrightarrow v_{2}^{2}\left(x_{2}^{2}+x_{1}^{2}\right)=x_{1}^{2}\stackrel{x_{2}^{2}>0,\, x_{1}^{2}>0}{\Leftrightarrow}v_{2}^{2}=\frac{x_{1}^{2}}{x_{2}^{2}+x_{1}^{2}}\stackrel{x_{1}^{2}+x_{2}^{2}=1}{\Leftrightarrow}v_{2}^{2}=x_{1}^{2}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\Rightarrow v_{2}=\pm x_{1}$
+\end_inset
+
+
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\Rightarrow II\;:\; v_{1}=\frac{-x_{2}\pm x_{1}}{x_{1}}=\mp x_{2}$
+\end_inset
+
+
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Wir haben also für einen Punkt 2 Geraden:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $L'_{a,b}=\left\{ \left\{ \left(a,b,0\right)+\lambda\left(b,-a,1\right)\;|\;\lambda\in\mathbb{R}\right\} ,\left\{ \left(a,b,0\right)+\lambda\left(-b,a,1\right)\;|\;\lambda\in\mathbb{R}\right\} \right\} $
+\end_inset
+
+.
+\begin_inset Newline newline
+\end_inset
+
+Wir können nun also alle Geraden in 
+\begin_inset Formula $F$
+\end_inset
+
+ durch die Vereinigung der geraden der Stützpunkte ausdrücken:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\mathbb{L}=\bigcup_{\overset{a,b\in\mathbb{R}}{a^{2}+b^{2}=1}}L'_{a,b}.
+\]
+
+\end_inset
+
+
 \end_layout
 
 \end_body
