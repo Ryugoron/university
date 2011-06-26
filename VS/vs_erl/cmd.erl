@@ -1,5 +1,6 @@
 -module(cmd).
 -export([start/0,newShip/1,newPlanet/1,connect/1,connect/2,peers/0,peers/1,dock/2,travel/1,travel/2]).
+-import(planet, [start/1]).
 
 %%
 %% This Module helps using the the planets and ships in this Galaxy.
@@ -13,25 +14,25 @@
 
 newShip(Name) -> 
 	PID = ship:start(Name),
-	cmd!{newS,Name,PID}.
+	msg!{newS,Name,PID}.
 
 newPlanet(Name) -> 
 	PID = planet:start(Name),
-	cmd!{newP,Name,PID}.	
+	msg!{newP,Name,PID}.	
 
-connect(Planet) -> cmd!{connect,Planet}.
+connect(Planet) -> msg!{connect,Planet}.
 
-connect(Planet1,Planet2)-> cmd!{connect, Planet1, Planet2}.
+connect(Planet1,Planet2)-> msg!{connect, Planet1, Planet2}.
 
-peers() -> cmd!peers.
+peers() -> msg!peers.
 
-peers(Planet) -> cmd!{peers,Planet}.
+peers(Planet) -> msg!{peers,Planet}.
 
-dock(Ship,Planet) -> cmd!{dock,Ship,Planet}.
+dock(Ship,Planet) -> msg!{dock,Ship,Planet}.
 
-travel(Planet) -> cmd!{travel,Planet}.
+travel(Planet) -> msg!{travel,Planet}.
 
-travel(Ship,Planet) -> cmd!{travel,Ship,Planet}.
+travel(Ship,Planet) -> msg!{travel,Ship,Planet}.
 
 %% With the unknown Method we block a name, but we risk this for
 %% an easier implementation
@@ -63,6 +64,8 @@ cmd_loop(LastPlanet,LastShip,Planets,Ships) ->
 		{travel,Ship,Planet} -> 
 			planet:travel(dict:fetch(Ship,Ships),dict:fetch(Planet,Planets)),
 			cmd_loop(Planet,Ship,Planets,Ships);
+
+		test -> io:format("Hello~n");
 
 		_ -> io:format("~w~n~w~n”",["Unbekannte Nachrich erhalten.","Droppe diese."]),
 			cmd_loop(LastPlanet,LastShip,Planets,Ships)

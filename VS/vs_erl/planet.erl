@@ -1,5 +1,5 @@
 -module(planet).
--export([start/1, connect/2, peers/1]).
+-export([start/1, connect/2, peers/1, planet_loop/4]).
 
 %%
 %%Sends a message to a planet, that it should connect to another planet
@@ -20,8 +20,7 @@ peers(From)-> From!cmd_peers.
 %%
 %% Starts a new planet, that can be reached through messages
 %%
-start(Name) -> 
-	spawn((fun(ID) -> planet_loop(ID,[],dict:new(),[]) end),[Name]).
+start(Name) -> spawn((fun() -> planet_loop(Name,[],dict:new(),[]) end)).
 
 planet_loop(MyName,Connected,Peers,Ships) ->
 	receive
@@ -43,6 +42,7 @@ planet_loop(MyName,Connected,Peers,Ships) ->
 			if 
 			not IsElem -> 
 				io:format("The planet ~w discovered a new planet ~w.~n",[MyName,Name]),
+				msg!{newP,Name,PID},
 				planet_loop(MyName,[{PID,Name}|Connected],Peers,Ships);
 			true -> planet_loop(MyName,Connected,Peers,Ships)
 			end;
@@ -51,6 +51,7 @@ planet_loop(MyName,Connected,Peers,Ships) ->
 			if 
 			not IsElem -> 
 				io:format("The planet ~w discoverd a new planet ~w.~n",[MyName,Name]),
+				msg!{newP,Name,PID},
 				planet_loop(MyName,[{PID,Name}|Connected],Peers,Ships);
 			true -> planet_loop(MyName,Connected,Peers,Ships)
 			end;

@@ -1,11 +1,11 @@
 -module(ship).
--export([start/1,dock/2,travel/2]).
+-export([start/1,dock/2,travel/2, ship_loop/2]).
 
 dock(Ship,Planet) -> Ship!{cmd_travel,Planet}.
 
 travel(Ship,Planet) -> Ship!{cmd_travel,Planet}.
 
-start(Name) -> spawn(fun(ID) -> ship_loop(ID,unknown) end,[Name]).
+start(Name) -> spawn(fun() -> ship_loop(Name,unknown) end).
 
 ship_loop(MyName, SeedPlanet) ->
 	receive
