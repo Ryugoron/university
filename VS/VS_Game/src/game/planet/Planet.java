@@ -6,14 +6,20 @@ import game.MessageRegistration;
 import game.commands.handler.CloseHandler;
 import game.commands.handler.ClsHandler;
 import game.commands.handler.ConnectHandler;
+import game.commands.handler.GoodsHandler;
 import game.commands.handler.HelpHandler;
 import game.commands.handler.PeersHandler;
+import game.help.Market;
+import game.help.Timer;
+import game.help.TimerHandler;
 import game.messages.handler.DockCommandHandler;
 import game.messages.handler.GlobalCommandHandler;
+import game.messages.handler.GoodsCommandHandler;
 import game.messages.handler.HelloCommandHandler;
 import game.messages.handler.LocalCommandHandler;
 import game.messages.handler.OllehCommandHandler;
 import game.messages.handler.PeersCommandHandler;
+import game.messages.handler.SdoogCommandHandler;
 import game.messages.handler.SreepCommandHandler;
 import game.networking.GameMessage;
 import game.networking.UdpChannelFactory;
@@ -26,14 +32,16 @@ import java.util.List;
 import java.util.Map;
 
 import vsFramework.Channel;
+import vsFramework.Message;
 import console.Console;
 import console.Console.StdFd;
 import console.planet.PlanetConsole;
 
-public class Planet implements Game,CloseHandler, ClsHandler, ConnectHandler,
+public class Planet implements Game, CloseHandler, ClsHandler, ConnectHandler,
 		HelpHandler, PeersHandler, HelloCommandHandler, OllehCommandHandler,
 		DockCommandHandler, PeersCommandHandler, SreepCommandHandler,
-		GlobalCommandHandler, LocalCommandHandler {
+		GoodsCommandHandler, SdoogCommandHandler, TimerHandler,
+		GlobalCommandHandler, LocalCommandHandler, GoodsHandler {
 
 	protected Console con;
 	private Map<String, Channel> connectedPeers = new HashMap<String, Channel>();
@@ -42,6 +50,9 @@ public class Planet implements Game,CloseHandler, ClsHandler, ConnectHandler,
 	private Map<String, Channel> dockedShips = new HashMap<String, Channel>();
 
 	final protected String name;
+	final protected Market market;
+	protected Map<String, Integer> rechableGoods = new HashMap<String, Integer>();
+	protected boolean askedGoods = false;
 
 	final private CommandRegistration reg;
 	final private MessageRegistration mreg;
@@ -56,6 +67,7 @@ public class Planet implements Game,CloseHandler, ClsHandler, ConnectHandler,
 	public Planet(int port, String name) {
 		reg = new CommandRegistration(this);
 		mreg = new MessageRegistration(this, port);
+		market = new Market(0);
 		createGUI();
 		this.name = GameMessage.prepareProtokoll(name);
 		con.setVisible(true);
@@ -63,11 +75,13 @@ public class Planet implements Game,CloseHandler, ClsHandler, ConnectHandler,
 		con.println("Your current StarGate is: " + port);
 		this.updatePlanetList();
 		this.con.println(StdFd.Messages, "Messages: \n");
+		new Timer(10000, this);
 	}
 
 	public Planet(int port) {
 		reg = new CommandRegistration(this);
 		mreg = new MessageRegistration(this, port);
+		market = new Market(0);
 		createGUI();
 		name = GameMessage.prepareProtokoll(con.waitForName());
 		con.setVisible(true);
@@ -75,13 +89,14 @@ public class Planet implements Game,CloseHandler, ClsHandler, ConnectHandler,
 		con.println("Your current StarGate is: " + port);
 		this.updatePlanetList();
 		this.con.println(StdFd.Messages, "Messages: \n");
+		new Timer(10000, this);
 	}
 
 	private void createGUI() {
 		con = new PlanetConsole();
 		con.setInputHandler(reg);
 	}
-	
+
 	@Override
 	public Console getConsole() {
 		return this.con;
@@ -134,27 +149,64 @@ public class Planet implements Game,CloseHandler, ClsHandler, ConnectHandler,
 		return found;
 	}
 
-	private void distributeMessage(GameMessage m, String from, String msg){
-		for(String send : this.dockedShips.keySet()){
-			if(send.equals(from)) continue;
-				String[] sendBuffer = {from,msg};
-				this.dockedShips.get(send).send(m.toMessage(sendBuffer));
-			}
+	private void distributeMessage(GameMessage m, String from, String msg) {
+		for (String send : this.dockedShips.keySet()) {
+			if (send.equals(from))
+				continue;
+			String[] sendBuffer = { from, msg };
+			this.dockedShips.get(send).send(m.toMessage(sendBuffer));
+		}
 	}
-	
+
+	private void updateReachableGoods(String[] goods) {
+		for (int i = 1; i < goods.length; ++i) {
+			String[] help = goods[i].split(".");
+			String name = help[0];
+			int ttl = Integer.parseInt(help[1]);
+			if (!this.rechableGoods.containsKey(name)
+					&& !this.market.isGood(name)) {
+				this.rechableGoods.put(name, ttl);
+			} else if (!this.rechableGoods.containsKey(name)
+					&& this.market.isGood(name)) {
+				if (this.market.ttl(name) < ttl) {
+					this.rechableGoods.put(name, ttl);
+				}
+			} else {
+				if (this.rechableGoods.get(name) < ttl) {
+					this.rechableGoods.put(name, ttl);
+				}
+			}
+		}
+	}
+
+	private List<String> sendGoods() {
+		// Baue den String auf
+		List<String> goods = new LinkedList<String>();
+		goods.add(this.name);
+		for (String name : this.rechableGoods.keySet()) {
+			goods.add(name + "." + this.rechableGoods.get(name));
+		}
+		for (String name : this.market.allGoods()) {
+			goods.add(name + "." + this.market.ttl(name));
+		}
+		return goods;
+	}
+
 	// ----------------- Jump Points for Incomming Message ------------------
 
 	public void onHello(Channel c, String name) {
 		synchronized (this) {
-			if(this.name.equals(name)) return; //Noch was sinnvolles überlegen
+			if (this.name.equals(name))
+				return; // Noch was sinnvolles überlegen
 			this.connectedPeers.put(name, c);
 			mreg.addPeer(c);
 			String[] myName = { this.name };
 			c.send(GameMessage.OLLEH.toMessage(myName));
 			this.con.println("A new planet was discoverd right next to us.");
-			String[] way = { this.name,name };
+			String[] way = { this.name, name };
 			this.peers.put(name, way);
-			this.con.println(StdFd.Messages, GameMessage.HELLO.toString()+ " " + name);
+			this.con.println(StdFd.Messages, GameMessage.HELLO.toString() + " "
+					+ name);
 			this.updatePlanetList();
 		}
 	}
@@ -169,7 +221,8 @@ public class Planet implements Game,CloseHandler, ClsHandler, ConnectHandler,
 			this.peers.put(name, way);
 			pendingPeers.remove(c);
 			this.con.println("A new planet was discovered right next to us.");
-			this.con.println(StdFd.Messages, GameMessage.OLLEH.toString() + " " + name);
+			this.con.println(StdFd.Messages, GameMessage.OLLEH.toString() + " "
+					+ name);
 			this.updatePlanetList();
 		}
 	}
@@ -278,9 +331,10 @@ public class Planet implements Game,CloseHandler, ClsHandler, ConnectHandler,
 			mreg.addPeer(c);
 			String[] myName = { this.name };
 			c.send(GameMessage.KCOD.toMessage(myName));
-			
+
 			this.con.println("A new ship has entered the hangar.");
-			this.con.println(StdFd.Messages, GameMessage.DOCK.toString()+ " " + name);
+			this.con.println(StdFd.Messages, GameMessage.DOCK.toString() + " "
+					+ name);
 			this.updatePlanetList();
 		}
 
@@ -289,7 +343,7 @@ public class Planet implements Game,CloseHandler, ClsHandler, ConnectHandler,
 	@Override
 	public void onLocal(Channel c, String from, String msg) {
 		synchronized (this) {
-			String oMessage = GameMessage.LOCAL+" "+from+" "+msg;
+			String oMessage = GameMessage.LOCAL + " " + from + " " + msg;
 			this.con.println(StdFd.Messages, oMessage);
 			this.distributeMessage(GameMessage.LOCAL, from, msg);
 		}
@@ -299,32 +353,34 @@ public class Planet implements Game,CloseHandler, ClsHandler, ConnectHandler,
 	@Override
 	public void onGlobal(Channel c, String from, String msg, String[] way) {
 		synchronized (this) {
-			String oMessage = GameMessage.GLOBAL+" "+from+" "+msg;
+			String oMessage = GameMessage.GLOBAL + " " + from + " " + msg;
 			for (int i = 0; i < way.length; ++i) {
 				oMessage += " " + way[i];
 			}
 			this.con.println(StdFd.Messages, oMessage);
-			
-			if(this.dockedShips.containsKey(from)){
-				//Wir müssen die Nachricht verteilen
-				for(String next : this.peers.keySet()){
-					String[] sendBuffer = new String[2+this.peers.get(next).length];
+
+			if (this.dockedShips.containsKey(from)) {
+				// Wir müssen die Nachricht verteilen
+				for (String next : this.peers.keySet()) {
+					String[] sendBuffer = new String[2 + this.peers.get(next).length];
 					sendBuffer[0] = from;
 					sendBuffer[1] = msg;
-					for(int i=0; i<this.peers.get(next).length; ++i){
-						sendBuffer[i+2] = this.peers.get(next)[i];
+					for (int i = 0; i < this.peers.get(next).length; ++i) {
+						sendBuffer[i + 2] = this.peers.get(next)[i];
 					}
-					this.connectedPeers.get(sendBuffer[3]).send(GameMessage.GLOBAL.toMessage(sendBuffer));
+					this.connectedPeers.get(sendBuffer[3]).send(
+							GameMessage.GLOBAL.toMessage(sendBuffer));
 				}
-				//Und an unsere Schiffe schicken
+				// Und an unsere Schiffe schicken
 				this.distributeMessage(GameMessage.GLOBAL, from, msg);
-			}else{
-				if(way.length < 2) return; //Falscher Weg
-				if(way[way.length-1].equals(this.name)){
-					//Wir sind die letzten auf dem Weg -> Ausgeben
+			} else {
+				if (way.length < 2)
+					return; // Falscher Weg
+				if (way[way.length - 1].equals(this.name)) {
+					// Wir sind die letzten auf dem Weg -> Ausgeben
 					this.distributeMessage(GameMessage.GLOBAL, from, msg);
-				}else{
-					//Wir müssen die Nachricht weiter senden
+				} else {
+					// Wir müssen die Nachricht weiter senden
 					String next = "";
 					for (int i = 1; i < way.length; ++i) {
 						if (way[i].equals(this.name)) {
@@ -333,11 +389,11 @@ public class Planet implements Game,CloseHandler, ClsHandler, ConnectHandler,
 							break;
 						}
 					}
-					String[] sendBuffer = new String[way.length+2];
+					String[] sendBuffer = new String[way.length + 2];
 					sendBuffer[0] = from;
 					sendBuffer[1] = msg;
-					for(int i = 0; i<way.length; ++i){
-						sendBuffer[i+2] = way[i];
+					for (int i = 0; i < way.length; ++i) {
+						sendBuffer[i + 2] = way[i];
 					}
 					this.connectedPeers.get(next).send(
 							GameMessage.GLOBAL.toMessage(sendBuffer));
@@ -400,6 +456,42 @@ public class Planet implements Game,CloseHandler, ClsHandler, ConnectHandler,
 			this.con.clear(StdFd.Messages);
 			this.con.println(StdFd.Messages, "Messages: \n");
 			this.updatePlanetList();
+		}
+	}
+
+	@Override
+	public void onSdoog(Channel c, String[] goods) {
+		this.updateReachableGoods(goods);
+		if (this.askedGoods) {
+			this.askedGoods = false;
+			this.con.println("Erreichbare Güter: ");
+			for (String name : this.rechableGoods.keySet()) {
+				this.con.println("  >> " + name);
+			}
+		}
+	}
+
+	@Override
+	public void onGoods(Channel c, String[] goods) {
+		this.updateReachableGoods(goods);
+		c.send(GameMessage.SDOOG.toMessage(this.sendGoods()));
+	}
+
+	@Override
+	public void onTick() {
+		Message m = GameMessage.GOODS.toMessage(this.sendGoods());
+		for (Channel c : this.connectedPeers.values()) {
+			c.send(m);
+		}
+
+	}
+
+	@Override
+	public void goodsCommand() {
+		this.askedGoods = true;
+		Message m = GameMessage.GOODS.toMessage(this.sendGoods());
+		for (Channel c : this.connectedPeers.values()) {
+			c.send(m);
 		}
 	}
 }

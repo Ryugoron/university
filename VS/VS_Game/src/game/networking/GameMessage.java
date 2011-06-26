@@ -6,7 +6,8 @@ import vsFramework.Message;
 
 public enum GameMessage implements Message {
 	HELLO("HELLO"), OLLEH("OLLEH"), PEERS("PEERS"), SREEP("SREEP"),
-	DOCK("DOCK"), KCOD("KCOD"), LOCAL("LOCAL"), GLOBAL("GLOBAL");
+	DOCK("DOCK"), KCOD("KCOD"), LOCAL("LOCAL"), GLOBAL("GLOBAL"),
+	GOODS("GOODS"), SDOOG("SDOOG");
 
 	final String message;
 
