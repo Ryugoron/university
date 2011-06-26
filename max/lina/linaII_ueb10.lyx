@@ -1,0 +1,1294 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass scrartcl
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 3cm
+\topmargin 2cm
+\rightmargin 2cm
+\bottommargin 2cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Lineare Algebra II Übung Nr.
+ 10
+\end_layout
+
+\begin_layout Author
+Max Wisniewski
+\end_layout
+
+\begin_layout Date
+Tutor : Elena
+\end_layout
+
+\begin_layout Subsection*
+Aufgabe 1
+\end_layout
+
+\begin_layout Standard
+Sei 
+\begin_inset Formula $A=0+\mathbb{R}^{3}$
+\end_inset
+
+ ein affiner Raum und
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+F=\left\{ -x_{1}^{2}+6x_{1}x_{2}+2x_{1}x_{3}+2x_{2}^{2}-2x_{2}x_{3}-3x_{1}+10x_{2}+5x_{2}-5=0\right\} 
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+eine Quadrik.
+ Finden Sie eine Translation, s.d.
+ der lineare Term oder die Konstante eliminiert wird.
+ Besitzt 
+\begin_inset Formula $F$
+\end_inset
+
+ einen Mittelpunkt?
+\end_layout
+
+\begin_layout Standard
+Bilden wir zunächst die quadratische Form:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $f\left(x\right)=x^{t}\left(\begin{array}{ccc}
+-1 & 3 & 1\\
+3 & 2 & -1\\
+1 & -1 & 0
+\end{array}\right)x+\left(\begin{array}{c}
+-3\\
+10\\
+5
+\end{array}\right)^{t}x-5$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Wir haben die Aufgabe dahingehend interpretiert, dass wir nur eine der beiden
+ Umformung machen müssen, wenn diese Möglich ist.
+ Die Aufgabenstellung ist in dieser Richtung nicht sehr Eindeutig.
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Eine Quadrik hat einen Mittelpunkt 
+\begin_inset Formula $\Leftrightarrow b\in Im\left(M\right)$
+\end_inset
+
+.
+ Da wir schon nachgerechnet haben, dass dieser existiert, berechnen wir
+ 
+\begin_inset Formula $a$
+\end_inset
+
+ Translationsvektor mit 
+\begin_inset Formula $2Ma+b=0\Rightarrow b\in Im\left(M\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\left(\begin{array}{ccc|c}
+-2 & 6 & 2 & 3\\
+6 & 4 & -2 & -10\\
+2 & -2 & 0 & -5
+\end{array}\right)\stackrel{\stackrel{II+3I}{III+I}}{\rightsquigarrow}\left(\begin{array}{ccc|c}
+-2 & 6 & 2 & 3\\
+0 & 22 & 4 & -1\\
+0 & 4 & 2 & -2
+\end{array}\right)\stackrel{11III-2II}{\rightsquigarrow}\left(\begin{array}{ccc|c}
+-2 & 6 & 2 & 3\\
+0 & 22 & 4 & -1\\
+0 & 0 & 14 & -20
+\end{array}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\Rightarrow x_{3}=-\frac{10}{7}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\Rightarrow22x_{2}-4\cdot\frac{10}{7}=-1\Leftrightarrow x_{2}=\frac{3}{14}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\Rightarrow-2x_{1}+6\cdot\frac{3}{14}-2\cdot\frac{10}{7}=3\Leftrightarrow x_{1}=-\frac{16}{7}$
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Der Translationsvektor, so dass der linear Term 
+\begin_inset Formula $0$
+\end_inset
+
+ wird ist 
+\begin_inset Formula $\frac{1}{14}\left(\begin{array}{c}
+-20\\
+3\\
+-32
+\end{array}\right)$
+\end_inset
+
+.
+ Da wir die Gleichung lösen konnten, besitzt die Gleichung auch einen Mittelpunk
+t, bei 
+\begin_inset Formula $P'=P+\sum v_{i}x_{i}=\frac{1}{14}\left(\begin{array}{c}
+-20\\
+3\\
+-32
+\end{array}\right)$
+\end_inset
+
+.
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection*
+Aufgabe 2
+\end_layout
+
+\begin_layout Standard
+Sei 
+\begin_inset Formula $A$
+\end_inset
+
+ ein affiner Raum und 
+\begin_inset Formula $f\left(x\right)=x^{t}Mx+b^{t}x+c$
+\end_inset
+
+ quadratisch, 
+\begin_inset Formula $M\in M\left(n,n,\mathbb{R}\right)$
+\end_inset
+
+ symmetrisch.
+ Sei 
+\begin_inset Formula $F=\left\{ x\in A\;|\; f\left(x\right)=0\right\} $
+\end_inset
+
+.
+ Zeigen Sie: Ist 
+\begin_inset Formula $M$
+\end_inset
+
+ positiv definit, so hat 
+\begin_inset Formula $F$
+\end_inset
+
+ genau einen Mittelpunkt.
+ Bleibt das richtig, falls 
+\begin_inset Formula $M$
+\end_inset
+
+ negativ definit ist.
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Wir definieren wie in der VL :
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\alpha\;:\:\mathbb{R}^{n}\rightarrow\mathbb{R},\;\alpha\left(x\right)=Mx
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\beta\;:\;\mathbb{R}^{n}\rightarrow\mathbb{R},\;\beta\left(x\right)=b^{t}x
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Nun bilden wir unsere Megen 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $V_{o}=\ker\left(\alpha\right)=\left\{ 0\right\} $
+\end_inset
+
+, weil 
+\begin_inset Formula $M$
+\end_inset
+
+ positiv definit ist.
+ (Sonst würde sich ein Vektor finden lassen mit 
+\begin_inset Formula $v\in Ker\left(\alpha\right)\Rightarrow v^{t}Mv=v^{t}0=0$
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $V_{+}$
+\end_inset
+
+, 
+\begin_inset Formula $V_{-}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Wie in Beweis 5.29, ist 
+\begin_inset Formula $M|_{V_{+}}$
+\end_inset
+
+ positiv definit und 
+\begin_inset Formula $M|_{V_{-}}$
+\end_inset
+
+negativ definit.
+\end_layout
+
+\begin_layout Standard
+Damit ist 
+\begin_inset Formula $V_{-}=\left\{ 0\right\} $
+\end_inset
+
+, da 
+\begin_inset Formula $M$
+\end_inset
+
+ positiv definit ist.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\mathbb{R}^{n}=V_{0}\oplus V_{+}\oplus V_{-}=V_{+}$
+\end_inset
+
+ 
+\begin_inset Formula $\Rightarrow rg\left(M\right)=n$
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Nach Satz 5.28 hat 
+\begin_inset Formula $f$
+\end_inset
+
+ nach Translation die Form
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $f\left(x\right)=x_{1}^{2}+...+x_{p}^{2}-x_{p+1}^{2}-...-x_{n}^{2}+c$
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Da alle Eigenwerte positiv sein müssen (sonst wär es nicht positiv definit)
+ und der Rang 
+\begin_inset Formula $n$
+\end_inset
+
+ ist gilt
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $f\left(x\right)=x_{1}^{2}+...+x_{n}^{2}+c$
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula $\Rightarrow f\left(x\right)=x^{t}Mx+c$
+\end_inset
+
+, mit 
+\begin_inset Formula $M=E_{n}$
+\end_inset
+
+
+\begin_inset VSpace defskip
+\end_inset
+
+Nun wissen wir ersteinmal, dass 
+\begin_inset Formula $Mx=\mathbb{R}^{n}$
+\end_inset
+
+ den gesammten reellen Raum aufspannet.
+ Deshalb muss 
+\begin_inset Formula $b\in Im\left(M\right)$
+\end_inset
+
+ liegen.
+ Nun bestimmen wir den Wert noch um die Eindeutigkeit zu zeigen:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+2Ma+b=0\stackrel{b=0}{\Leftrightarrow}2Ma=0\Leftrightarrow2Ea=0\Rightarrow a=0
+\]
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Da 
+\begin_inset Formula $a$
+\end_inset
+
+ nur 0 sein kann, ist der Mittelpunkt eindeutig.
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Schauen wir uns nun 
+\begin_inset Formula $M$
+\end_inset
+
+ negativ definit an, ändert sich die Argumentation in wenigen Punkten:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $V_{0}=\left\{ 0\right\} $
+\end_inset
+
+, 
+\begin_inset Formula $v_{+}=\left\{ 0\right\} $
+\end_inset
+
+ und 
+\begin_inset Formula $V_{-}=\mathbb{R}^{n}$
+\end_inset
+
+ spannt den gesammten Raum auf, weil diesmal 
+\begin_inset Formula $M$
+\end_inset
+
+ negativ definit ist.
+ Der Rang ist wiederum voll und die Funktion ist daraus folglich (da alle
+ EW negativ sind):
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $f\left(x\right)=-x_{1}^{2}-...-x_{n}^{2}+c$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\Rightarrow M=-E_{n}$
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Betrachten wir das ganze nun, haben wir wiederum, dass 
+\begin_inset Formula $Im\left(M\right)=\mathbb{R}^{n}$
+\end_inset
+
+ liegt 
+\begin_inset Formula $b\in\mathbb{R}^{n}$
+\end_inset
+
+ und wenn wir den Mittelpunkt suchen:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+2Ma+b=0\Leftrightarrow-2E_{n}a=0\Rightarrow a=0
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Also gilt der Satz auch für ngativ definite Matrizen.
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection*
+Aufgabe 3
+\end_layout
+
+\begin_layout Standard
+Eine Matrix 
+\begin_inset Formula $B\in M\left(n,n,\mathbb{R}\right)$
+\end_inset
+
+ heißt 
+\emph on
+schiefsymmetrisch
+\emph default
+, falls 
+\begin_inset Formula $B=-B^{t}$
+\end_inset
+
+ gilt.
+ Sei 
+\begin_inset Formula $M\in M\left(n,n,\mathbb{R}\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsubsection*
+a)
+\end_layout
+
+\begin_layout Standard
+Zeigen Sie, dass es eine Zerlegung 
+\begin_inset Formula $M=A+B$
+\end_inset
+
+ gibt, sodass 
+\begin_inset Formula $A$
+\end_inset
+
+ symmetrisch und 
+\begin_inset Formula $B$
+\end_inset
+
+ schiefsymmetrisch ist.
+\end_layout
+
+\begin_layout Description
+Beweis Wir konstruieren uns eine symmetrische Matrix aus 
+\begin_inset Formula $M$
+\end_inset
+
+, wie in der VL vorgeführt.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula $A=\frac{1}{2}\left(M+M^{t}\right)$
+\end_inset
+
+.
+ Diese Matrix ist symetrisch, da gilt 
+\begin_inset Formula $a_{ij}=\frac{1}{2}\left(m_{ij}+m_{ji}\right)=\frac{1}{2}\left(m_{ji}+m_{ij}\right)=a_{ji}$
+\end_inset
+
+.
+\begin_inset Newline newline
+\end_inset
+
+Nun konstruieren wir unser 
+\begin_inset Formula $B$
+\end_inset
+
+ aus der ersten Bedingung.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+M=A+B\Leftrightarrow B=M-A
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Es bleibt zu zeigen, dass dieses 
+\begin_inset Formula $B$
+\end_inset
+
+ schiefsymmetrisch ist.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+B\stackrel{\text{Def }A}{=}M-\frac{1}{2}\left(M+M^{t}\right)=\frac{1}{2}\left(2M-M-M^{t}\right)=\frac{1}{2}\left(M-M^{t}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Nun nehmen wir die Bedingung:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+-B^{t}=-\left(\frac{1}{2}\left(M-M^{t}\right)\right)^{t}=-\frac{1}{2}\left(M-M^{t}\right)^{t}=-\frac{1}{2}\left(M^{t}-M\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+=\frac{1}{2}\left(-M^{t}+M\right)=\frac{1}{2}\left(M+M^{t}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+b)
+\end_layout
+
+\begin_layout Standard
+Zeigen Sie, dass die Lösung eindeutig ist.
+\end_layout
+
+\begin_layout Description
+Beweis Beschreibe 
+\begin_inset Formula $C\in M\left(n,n,\mathbb{R}\right)$
+\end_inset
+
+ die Änderung von 
+\begin_inset Formula $A,B$
+\end_inset
+
+ in der Form:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $A'=A+C$
+\end_inset
+
+ und 
+\begin_inset Formula $B'=B-C$
+\end_inset
+
+.
+ Diese Änderung muss gelten, weil
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+M=A+B=A'+B'
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+weiter erfüllt sein muss.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+A'+B'=A+C+B-C=A+B=M
+\]
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Nun muss gelten 
+\begin_inset Formula $A'=A+C$
+\end_inset
+
+ ist symmetrisch und 
+\begin_inset Formula $B'=B-C$
+\end_inset
+
+ ist schiefsymmetrisch.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $A+C$
+\end_inset
+
+ symmetrisch 
+\begin_inset Formula $\Leftrightarrow\forall i,j\;:\; a_{ij}+c_{ij}=a_{ji}+c_{ji}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $B-C$
+\end_inset
+
+ schiefsymmetrisch 
+\begin_inset Formula $\Leftrightarrow\forall i,j\;:\; b_{ij}-c_{ij}=-b_{ji}+c_{ji}$
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Nun muss beides gelten
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\forall i,j\;:\; a_{ij}+c_{ij}=a_{ji}+c_{ji}\;\land\; b_{ij}-c_{ij}=-b_{ji}+c_{ji}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\stackrel{A\; symmetrisch\land B\; schiefsymmetrisch}{\Leftrightarrow}\forall i,j\;:\; a_{ij}+c_{ij}=a_{ij}+c_{ji}\;\land\; b_{ij}-c_{ij}=b_{ij}+c_{ji}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\Leftrightarrow\forall i,j\;:\; c_{ij}=c_{ji}\;\land\;-c_{ij}=c_{ji}$
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Diese Aussage kann nur erfüllt werden, wenn 
+\begin_inset Formula $\forall i,j\;:\; c_{ij}=c_{ji}=0$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\Rightarrow C=0$
+\end_inset
+
+.
+\begin_inset Newline newline
+\end_inset
+
+Da es keine Änderung der Matrix gibt, die alle Vorraussetzungen erfüllt,
+ ist die Zerlegung eindeutig.
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Formula $\blacksquare$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+c)
+\end_layout
+
+\begin_layout Standard
+Finden Sie eine Zerlegung für 
+\begin_inset Formula $M=\left(\begin{array}{cc}
+1 & 2\\
+3 & 4
+\end{array}\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Nach Konstruktion:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+A=\frac{1}{2}\left(M+M^{t}\right)=\frac{1}{2}\left(\begin{array}{cc}
+2 & 5\\
+5 & 8
+\end{array}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+B=\frac{1}{2}\left(M-M^{t}\right)=\frac{1}{2}\left(\begin{array}{cc}
+0 & -1\\
+1 & 0
+\end{array}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Wie in a) gezeigt, sind diese Matrizen nach dieser Konstruktion symmetrisch
+ bzw.
+ schiefsymmetrisch.
+\end_layout
+
+\begin_layout Subsection*
+Aufgabe 4
+\end_layout
+
+\begin_layout Standard
+Sei 
+\begin_inset Formula $V$
+\end_inset
+
+ ein endlichdimensionaler 
+\begin_inset Formula $\mathbb{R}$
+\end_inset
+
+-Vektorraum.
+ Eine Bilinearform 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\alpha\;:\; V\times V\rightarrow\mathbb{R}$
+\end_inset
+
+ heisst schiefsymmetrisch, falls 
+\begin_inset Formula $\alpha\left(x,y\right)=-\alpha\left(y,x\right)$
+\end_inset
+
+ 
+\begin_inset Formula $\forall x,y\in V$
+\end_inset
+
+ gilt.
+ Zeigen Sie:
+\end_layout
+
+\begin_layout Subsubsection*
+a)
+\end_layout
+
+\begin_layout Standard
+Bezüglich jeder Basis von 
+\begin_inset Formula $V$
+\end_inset
+
+ wird 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ durch eine schiefsymmetrische Matrix repräsentiert.
+\end_layout
+
+\begin_layout Standard
+Sei 
+\begin_inset Formula $\left\{ v_{1},...,v_{n}\right\} $
+\end_inset
+
+ Basis von 
+\begin_inset Formula $V$
+\end_inset
+
+ mit 
+\begin_inset Formula $\dim\left(V\right)=n$
+\end_inset
+
+.
+\begin_inset Newline newline
+\end_inset
+
+Die Bilinearform einer Funktion bestimmt man durch:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+M=\left(\begin{array}{ccccc}
+\alpha\left(v_{1},v_{1}\right) & \alpha\left(v_{1},v_{2}\right) &  &  & ...\\
+\alpha\left(v_{2},v_{1}\right) & \alpha\left(v_{2},v_{2}\right)\\
+ &  & ...\\
+ &  &  & \alpha\left(v_{n-1},v_{n-1}\right) & \alpha\left(v_{n-1},v_{n}\right)\\
+... &  &  & \alpha\left(v_{n},v_{n-1}\right) & \alpha\left(v_{n},v_{n}\right)
+\end{array}\right)
+\]
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula $"\Rightarrow"$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Die Funktion 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ ist schiefsymmetrisch.
+\end_layout
+
+\begin_layout Standard
+Die Matrix 
+\begin_inset Formula $M$
+\end_inset
+
+ ist schiefsymmetrisch 
+\begin_inset Formula $\Leftrightarrow M=-M^{t}\Leftrightarrow\forall1\leq i,j\leq n\;:\; m_{ij}=-m_{ji}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\forall i,j\;:\; m_{ij}=\alpha\left(v_{i},v_{j}\right)\stackrel{\alpha\text{schiefsymmetrisch}}{=}-\alpha\left(v_{j},v_{i}\right)=-m_{ji}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\Rightarrow$
+\end_inset
+
+ 
+\begin_inset Formula $M$
+\end_inset
+
+ ist schiefsymmetrische
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula $"\Leftarrow"$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Die Matrix 
+\begin_inset Formula $M$
+\end_inset
+
+ ist schiefsymmetrisch.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\alpha\left(x,y\right)=x^{t}My=\left(x^{t}My\right)^{t}=y^{t}M^{t}x\stackrel{M\text{ schiefsymmetrisch}}{=}y^{t}\left(-M\right)y=-\left(y^{t}Mx\right)=-\alpha\left(y,x\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Formula $\blacksquare$
+\end_inset
+
+
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+b)
+\end_layout
+
+\begin_layout Standard
+Ist 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ nicht ausgeartet, so ist 
+\begin_inset Formula $\dim\left(V\right)$
+\end_inset
+
+ eine gerade Zahl.
+\end_layout
+
+\begin_layout Standard
+Def.: nicht ausgeartete Bilinearform (nach Aufgabe 2.3)
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\forall x\in V\setminus\left\{ 0\right\} \exists y\in V\;:\;\alpha\left(x,y\right)\not=0$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\forall y\in V\setminus\left\{ 0\right\} \exists x\in V\;:\;\alpha\left(y,x\right)\not=0$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Description
+Beweis
+\end_layout
+
+\begin_layout Standard
+Da wir jedes Ergebniss über die Basisvektorn von 
+\begin_inset Formula $V$
+\end_inset
+
+ definieren können, betrachten wir im folgenden nur noch die Basisvektoren
+ von 
+\begin_inset Formula $V$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Sei 
+\begin_inset Formula $\mathcal{A}=\left\{ v_{1},v_{2},...,v_{n}\right\} $
+\end_inset
+
+ Basis von 
+\begin_inset Formula $V$
+\end_inset
+
+.
+\begin_inset Newline newline
+\end_inset
+
+WIr führen (im Prinzip) eine Induktion über 
+\begin_inset Formula $n$
+\end_inset
+
+, indem wir das Problem auf 2 Basisvektoren reduzieren.
+\end_layout
+
+\begin_layout Description
+Fall
+\begin_inset Formula $\;$
+\end_inset
+
+0 
+\begin_inset Formula $\left|\mathcal{A}\right|=0$
+\end_inset
+
+.
+ Für den Vektorraum, der nur die 0 enthält, ist die ausgeglichenheit trivialerwe
+ise gegeben und die Dimension ist gerade.
+\end_layout
+
+\begin_layout Description
+Fall
+\begin_inset Formula $\;$
+\end_inset
+
+1 
+\begin_inset Formula $\left|A\right|=1$
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Da wir nur ein 
+\begin_inset Formula $x\in\mathcal{A}$
+\end_inset
+
+ zur Verfügung haben muss gelten:
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula $\alpha\left(x,x\right)=0$
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula $\alpha\left(x,x\right)=-\alpha\left(x,x\right)\Leftrightarrow\alpha\left(x,x\right)+\alpha\left(x,x\right)=0\Leftrightarrow2\alpha\left(x,x\right)=0\Leftrightarrow\alpha\left(x,x\right)=0$
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Wir finden für 
+\begin_inset Formula $x$
+\end_inset
+
+ also keinen Vektor, so dass 
+\begin_inset Formula $\alpha\left(x,y\right)\not=0$
+\end_inset
+
+ gilt.
+ (Alg.
+ kann man nur 
+\begin_inset Formula $\lambda x$
+\end_inset
+
+ nehmen, und der Faktor fällt in der Gleichung einfach herraus)
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula $\Rightarrow$
+\end_inset
+
+Die Dimension der Funktion kann nicht 
+\begin_inset Formula $1$
+\end_inset
+
+ sein.
+\end_layout
+
+\begin_layout Description
+Fall
+\begin_inset Formula $\;$
+\end_inset
+
+2 
+\begin_inset Formula $\left|\mathcal{A}\right|\geq2$
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Wir wählen uns ein 
+\begin_inset Formula $x\in\mathcal{A}$
+\end_inset
+
+.
+ Da 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ eine nicht ausgeartete Bilinearform ist, existiert ein 
+\begin_inset Formula $y\in\mathcal{A}$
+\end_inset
+
+, so dass 
+\begin_inset Formula $\alpha\left(x,y\right)\neq0$
+\end_inset
+
+
+\begin_inset Formula $\stackrel{\alpha\text{ schiefsymmetrisch}}{\Rightarrow}-\alpha\left(y,x\right)\neq0\Leftrightarrow\alpha\left(y,x\right)\neq0$
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Damit haben wir 2 Vektoren gefunden, die unsere nicht-ausgeartetheit garantieren.
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Nun bilden wir eine neue Funktion 
+\begin_inset Formula $\alpha'=\alpha|_{\mathcal{A}'}$
+\end_inset
+
+, mit 
+\begin_inset Formula $\mathcal{A}'=\mathcal{A}\setminus\left\{ x,y\right\} $
+\end_inset
+
+.
+\begin_inset Newline newline
+\end_inset
+
+Diese neue Funktion 
+\begin_inset Formula $\alpha'$
+\end_inset
+
+ ist nicht-ausgeartet.
+\begin_inset VSpace defskip
+\end_inset
+
+Da wir nun die Basis um in 2er Schritten verkleinern können, werden wir
+ irgendwann beim Anker 
+\begin_inset Formula $\left|\mathcal{A}\right|=1$
+\end_inset
+
+ oder 
+\begin_inset Formula $\left|\mathcal{A}\right|=0$
+\end_inset
+
+ landen.
+\end_layout
+
+\begin_layout Standard
+War 
+\begin_inset Formula $\dim\left(V\right)$
+\end_inset
+
+ ungerade, landen wir bei 
+\begin_inset Formula $\left|\mathcal{A}\right|=1$
+\end_inset
+
+.
+ In diesem Fall sehen wir, dass die Funktion ausgeartet sein musste.
+ Dieser Fall ist also nicht möglich.
+\end_layout
+
+\begin_layout Standard
+War 
+\begin_inset Formula $\dim\left(V\right)$
+\end_inset
+
+ gerade, so geht das ganze auf.
+\begin_inset Newline newline
+\end_inset
+
+Damit haben wir gezeigt, dass eine nicht-ausgeartete, schiefsymmetrische
+ Matrix auf einem Vektorraum mit gerader Dimension definiert sein muss.
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Formula $\blacksquare$
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

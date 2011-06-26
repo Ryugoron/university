@@ -1212,17 +1212,10 @@ Also wähle
 \begin_inset Formula $\lambda=-x_{3}\Rightarrow L'=\left\{ (x_{1},x_{2},0)^{t}+\lambda(v_{1},v_{2},1)^{t}\,|\,\lambda\in\mathbb{R}\right\} =L$
 \end_inset
 
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Newpage pagebreak
+ 
+\begin_inset Newline newline
 \end_inset
 
-
-\end_layout
-
-\begin_layout Standard
 (2) 
 \end_layout
 
