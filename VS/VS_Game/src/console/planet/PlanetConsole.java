@@ -171,6 +171,7 @@ public class PlanetConsole extends JFrame implements Console, ActionListener {
 	public void println(int fd, String text) throws IllegalArgumentException{
 		if(!fdSet.containsKey(fd)) throw new IllegalArgumentException();
 		fdSet.get(fd).append(GameMessage.revertProtokoll(text) + newline);
+		fdSet.get(fd).setCaretPosition(fdSet.get(fd).getText().length());
 	}
 	
 	@Override
@@ -181,6 +182,7 @@ public class PlanetConsole extends JFrame implements Console, ActionListener {
 	@Override
 	public void println(String text) {
 		fdSet.get(StdFd.StdOut.get()).append(GameMessage.revertProtokoll(text) + newline);
+		fdSet.get(StdFd.StdOut.get()).setCaretPosition(fdSet.get(StdFd.StdOut.get()).getText().length());
 	}
 
 	@Override

@@ -66,7 +66,7 @@
 
 \begin_layout Title
 Verteilte Systeme Übung Nr.
- 6
+ 6/7
 \end_layout
 
 \begin_layout Author
@@ -117,6 +117,42 @@ costs
 \series default
 , der einem von einem angegebenen Planeten ausgibt, wie viel einer bestimmten
  Ware vorrätig ist und zu welchem Preis diese vorhanden ist.
+\begin_inset Newline newline
+\end_inset
+
+In Aufgabe 7 sollten wir nun endlich Handeln können.
+ Dazu muss das Schiff von einem Planeten zum anderen reisen können.
+ Dazu brauchen wir das 
+\series bold
+travel
+\series default
+ command, dies kann mit mittels dock, kcod und undock den Planeten wechseln.
+\end_layout
+
+\begin_layout Standard
+Danach brauchen wir noch 
+\series bold
+sell, buy, (yub, lles)
+\series default
+ um den eigentlichen kauf zu realisieren.
+\begin_inset Newline newline
+\end_inset
+
+Zur besseren Bedienung haben wir noch 
+\series bold
+status 
+\series default
+[gibt Geld, Position und Waren aus], 
+\series bold
+drop
+\series default
+ [schmeißt eine Ware weg] und 
+\series bold
+path
+\series default
+ [gibt den Weg zu einem Planeten auf].
+ Diese Befehle an sich sind nicht schwer zu implementieren und werden hier
+ deswegen nicht näher erklärt.
 \end_layout
 
 \begin_layout Subsection*
@@ -271,6 +307,16 @@ public class Market {
 
 \begin_layout Plain Layout
 
+		if(this.capa.get(name)==0) return this.value.get(name) *
+\end_layout
+
+\begin_layout Plain Layout
+
+				this.need.get(name) * 2;
+\end_layout
+
+\begin_layout Plain Layout
+
 		return this.value.get(name) 				
 \end_layout
 
@@ -357,12 +403,7 @@ public class Market {
 
 \begin_layout Plain Layout
 
-		int price = this.value.get(name) 				
-\end_layout
-
-\begin_layout Plain Layout
-
-			* (this.need.get(name) / this.capa.get(name));
+		int price = this.price(name);
 \end_layout
 
 \begin_layout Plain Layout
@@ -406,7 +447,7 @@ public class Market {
 
 \begin_layout Plain Layout
 
-		int price = this.value.get(name) 				* (this.capa.get(name) / this.need.get(name));
+		int price = this.price(name);
 \end_layout
 
 \begin_layout Plain Layout
@@ -790,7 +831,7 @@ PEERS
 placement H
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset listings
@@ -801,36 +842,6 @@ status open
 \begin_layout Plain Layout
 
 public void onTsoc(String[] way, String good, int price, int amount) {
-\end_layout
-
-\begin_layout Plain Layout
-
-	String oMessage = GameMessage.SDOOG.toString();
-\end_layout
-
-\begin_layout Plain Layout
-
-	for (int i = 0; i < way.length; ++i) {
-\end_layout
-
-\begin_layout Plain Layout
-
-		oMessage += " " + way[i];
-\end_layout
-
-\begin_layout Plain Layout
-
-	}
-\end_layout
-
-\begin_layout Plain Layout
-
-	oMessage += " # " + good + " # " + price + " " + amount;
-\end_layout
-
-\begin_layout Plain Layout
-
-	this.con.println(StdFd.Messages, oMessage);
 \end_layout
 
 \begin_layout Plain Layout
@@ -905,36 +916,6 @@ public void onTsoc(String[] way, String good, int price, int amount) {
 \begin_layout Plain Layout
 
 public void onCost(String[] way, String good) {
-\end_layout
-
-\begin_layout Plain Layout
-
-	String oMessage = GameMessage.COST.toString();
-\end_layout
-
-\begin_layout Plain Layout
-
-	for (int i = 0; i < way.length; ++i) {
-\end_layout
-
-\begin_layout Plain Layout
-
-		oMessage += " " + way[i];
-\end_layout
-
-\begin_layout Plain Layout
-
-	}
-\end_layout
-
-\begin_layout Plain Layout
-
-	oMessage += " # " + good;
-\end_layout
-
-\begin_layout Plain Layout
-
-	this.con.println(StdFd.Messages, oMessage);
 \end_layout
 
 \begin_layout Plain Layout
@@ -1076,10 +1057,6 @@ goods leitet die Anfrage durch den Graphen
 
 \end_inset
 
-
-\end_layout
-
-\begin_layout Plain Layout
 
 \end_layout
 
@@ -1425,6 +1402,678 @@ Cost macht genausoviel arbeit.
 
 \end_layout
 
+\begin_layout Subsubsection*
+Travel
+\end_layout
+
+\begin_layout Standard
+Um reisen zu können, brauchen wir zunächst ein Ziel.
+ Da wir, nach dem ersten andocken, nicht mit IP und Port arbeiten wollen,
+ holen wir uns verdeckt mit der Frage 
+\series bold
+WHEREIS
+\series default
+ vom Planeten beides zum angefragten Planetennamen.
+ Wenn wir die antwort 
+\series bold
+THEREIS
+\series default
+ bekommen, verlassen wir den Planeten und fliegen zu diesem neuen hin.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset listings
+lstparams "basicstyle={\footnotesize\ttfamily},numbers=left,tabsize=3"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SHIP:
+\end_layout
+
+\begin_layout Plain Layout
+
+public synchronized void onThereis(String addr, int port) {
+\end_layout
+
+\begin_layout Plain Layout
+
+	InetAddress a;
+\end_layout
+
+\begin_layout Plain Layout
+
+	if (addr.equals("127.0.0.1")) {
+\end_layout
+
+\begin_layout Plain Layout
+
+		a = ((UdpChannel) pChannel).getRemoteAddress();
+\end_layout
+
+\begin_layout Plain Layout
+
+	} else {
+\end_layout
+
+\begin_layout Plain Layout
+
+		try {
+\end_layout
+
+\begin_layout Plain Layout
+
+			a = InetAddress.getByName(addr);
+\end_layout
+
+\begin_layout Plain Layout
+
+		} catch (UnknownHostException e) {
+\end_layout
+
+\begin_layout Plain Layout
+
+			this.con.println("Lost connection to the planet.");
+\end_layout
+
+\begin_layout Plain Layout
+
+			return;
+\end_layout
+
+\begin_layout Plain Layout
+
+		}
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\begin_layout Plain Layout
+
+	this.gold -= Math.abs(port - ((UdpChannel) pChannel).getRemotePort());
+\end_layout
+
+\begin_layout Plain Layout
+
+	this.mreg.removePeer(pChannel, pName);
+\end_layout
+
+\begin_layout Plain Layout
+
+	pChannel.close();
+\end_layout
+
+\begin_layout Plain Layout
+
+	this.pChannel = null;
+\end_layout
+
+\begin_layout Plain Layout
+
+	this.pName = null;
+\end_layout
+
+\begin_layout Plain Layout
+
+	this.peers.clear();
+\end_layout
+
+\begin_layout Plain Layout
+
+	this.onDock(a, port);
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+public void onTravel(String name) {
+\end_layout
+
+\begin_layout Plain Layout
+
+	String[] remotename = 
+\end_layout
+
+\begin_layout Plain Layout
+
+		{ this.name, GameMessage.prepareProtokoll(name) };
+\end_layout
+
+\begin_layout Plain Layout
+
+	this.pChannel.send(GameMessage.WHEREIS.toMessage(remotename));
+\end_layout
+
+\begin_layout Plain Layout
+
+} 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Der Ablauf beim Wechsel von Planeten, Seite des Schiffes
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Rufen wir auf der Console 
+\series bold
+travel
+\series default
+ auf, übermitteln wir dem Planeten unseren Namen und den Namen des Planeten,
+ zu dem wir reisen möchten.
+ Bekommen wir die Antwort vom Planeten 
+\series bold
+THEREIS
+\series default
+, dann schließen wir den Channel zum Planeten, ziehen die Flugkosten ab
+ und bauen eine neue Verbindung mit dem neuen Planeten auf.
+ (Dieser Teil ist schon implementiert, wird hier also verwendet).
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset listings
+lstparams "basicstyle={\footnotesize\ttfamily},numbers=left,tabsize=3"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+public synchronized void onWhereis(Channel c, String ship, String name)
+ {
+\end_layout
+
+\begin_layout Plain Layout
+
+	this.con.println(StdFd.Messages, GameMessage.WHEREIS + " " + name);
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	Channel that = this.connectedPeers.get(name);
+\end_layout
+
+\begin_layout Plain Layout
+
+	if (that == null)
+\end_layout
+
+\begin_layout Plain Layout
+
+		return;
+\end_layout
+
+\begin_layout Plain Layout
+
+	UdpChannel thatU = (UdpChannel) that;
+\end_layout
+
+\begin_layout Plain Layout
+
+	InetAddress inet = thatU.getRemoteAddress();
+\end_layout
+
+\begin_layout Plain Layout
+
+	int port = thatU.getRemotePort();
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	String[] msg = new String[2];
+\end_layout
+
+\begin_layout Plain Layout
+
+	msg[0] = inet.getHostAddress();
+\end_layout
+
+\begin_layout Plain Layout
+
+	msg[1] = port + "";
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	this.dockedShips.remove(ship);
+\end_layout
+
+\begin_layout Plain Layout
+
+	this.mreg.removePeer(c, ship);
+\end_layout
+
+\begin_layout Plain Layout
+
+	c.close();
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	this.updatePlanetList();
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	c.send(GameMessage.THEREISPlaneten.toMessage(msg));
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+public synchronized void onUndock(Channel c, String name) {
+\end_layout
+
+\begin_layout Plain Layout
+
+	this.con.println(StdFd.Messages,GameMessage.UNDOCK +" "+name);
+\end_layout
+
+\begin_layout Plain Layout
+
+	this.dockedShips.remove(name);
+\end_layout
+
+\begin_layout Plain Layout
+
+	c.close();
+\end_layout
+
+\begin_layout Plain Layout
+
+	this.updatePlanetList();
+\end_layout
+
+\begin_layout Plain Layout
+
+} 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Der Ablauf beim Wechsel von Planeten, Seite des Planeten
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Da wir in unserer Channelabstraktion nicht wissen können, was Addresse und
+ Port der Verbindung sind, müssen wir an dieser Stelle in die Channel rein
+ sehen und unseren UdpChannel zu rate ziehen.
+ Wir suchen uns also die Addresse und den Port zu dem gefragten Planeten
+ herraus und schließen die Verbindung.
+ Dies machen wir, da auf der anderen Seite das Schiff nicht warten wird,
+ bis wir fertig sind.
+ Dieses fliegt einfach weg.
+\end_layout
+
+\begin_layout Subsubsection*
+Buy
+\end_layout
+
+\begin_layout Standard
+Da wir mit unserem 
+\series bold
+Market
+\series default
+ schon den logischen Teil des Handelns übernommen haben, müssen wir nun
+ nur noch dem Austausch der Waren annehmen.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset listings
+lstparams "basicstyle={\footnotesize\ttfamily},numbers=left,tabsize=3"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+public synchronized void onBuy(String name, int amount) {
+\end_layout
+
+\begin_layout Plain Layout
+
+	name = GameMessage.prepareProtokoll(name);
+\end_layout
+
+\begin_layout Plain Layout
+
+	if (this.gold <= 0) {
+\end_layout
+
+\begin_layout Plain Layout
+
+		this.con.println(...);
+\end_layout
+
+\begin_layout Plain Layout
+
+		return;
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\begin_layout Plain Layout
+
+	String[] buy = { name, "" + amount };
+\end_layout
+
+\begin_layout Plain Layout
+
+	this.pChannel.send(GameMessage.BUY.toMessage(buy));
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+public void onYub(Channel c, String name, int amount, int cost) {
+\end_layout
+
+\begin_layout Plain Layout
+
+	this.gold -= cost;
+\end_layout
+
+\begin_layout Plain Layout
+
+	if (this.backpack.containsKey(name)) {
+\end_layout
+
+\begin_layout Plain Layout
+
+		this.backpack.put(name, amount + this.backpack.get(name));
+\end_layout
+
+\begin_layout Plain Layout
+
+	} else {
+\end_layout
+
+\begin_layout Plain Layout
+
+		this.backpack.put(name, amount);
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\begin_layout Plain Layout
+
+	this.con.println(...);
+\end_layout
+
+\begin_layout Plain Layout
+
+} 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Das Schiff fragt an, dass es Waren haben möchte
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+Wenn wir den Befehl zum kaufen bekommen, gucken wir zunächst nach ob wir
+ noch Gold besitzen.
+ (Dies ist ein denkbar schlechter Mechanismus zum Missbrauchsschutz, entspricht
+ in seiner Umsetzung aber in etwa unserem Druckservice am Fachbereich)
+\end_layout
+
+\begin_layout Standard
+Ist diese Vorraussetzung erfüllt senden wir dem Planeten diese Bitte.
+\end_layout
+
+\begin_layout Standard
+Bekommen wir die Antwort von Planeten, packen wir die Anzahl in unseren
+ Frachtraum und ziehen den Preis von unserem Gold ab.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+public synchronized void onBuy(Channel c, String name, int amount) {	
+\end_layout
+
+\begin_layout Plain Layout
+
+	if (this.market.amount(name) >= amount) {
+\end_layout
+
+\begin_layout Plain Layout
+
+		int cost = this.market.buy(name, amount);
+\end_layout
+
+\begin_layout Plain Layout
+
+		String[] bill = new String[3];
+\end_layout
+
+\begin_layout Plain Layout
+
+		bill[0] = name;
+\end_layout
+
+\begin_layout Plain Layout
+
+		bill[1] = "" + amount;
+\end_layout
+
+\begin_layout Plain Layout
+
+		bill[2] = "" + cost;
+\end_layout
+
+\begin_layout Plain Layout
+
+		Message m = GameMessage.YUB.toMessage(bill);
+\end_layout
+
+\begin_layout Plain Layout
+
+		c.send(m);
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\begin_layout Plain Layout
+
+} 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Der Planet bearbeitet den Kaufwunsch
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Der Planet kann nun den Marktplatz benutzten.
+ Zunächst guckt er nach, ob er überhaupt so viel zu verkaufen hat.
+ Wenn dies der Fall ist, berechnet er die Kosten und schickt diese an das
+ Schiff zurück.
+\end_layout
+
+\begin_layout Standard
+Der eigentliche Warenaustausch findet in dieser Simulation nicht statt.
+ Wenn die Nachricht eintrifft, gelten die Waren als geliefert.
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+Sell
+\end_layout
+
+\begin_layout Standard
+Sell sieht äquivalent zu Buy aus.
+ Wir müssen nur prüfen, dass wir so viele Waren besitzen, wie wir verkaufen
+ wollen und am Schluss ziehen wir diese Menge ab und rechnen den Gewinn
+ auf unseren Goldvorrat.
+\end_layout
+
+\begin_layout Standard
+Da es hier nichts neues zu sehen gibt, lassen wir den Teil aus.
+ Im Quellcode ist dieser Teil auch zu bewundern.
+\end_layout
+
 \begin_layout Subsection*
 Bemerkung
 \end_layout
@@ -1443,6 +2092,35 @@ g von GOODS Nachrichten zu verhindern.
 ionsaufwand führen.
  Wir finden für einen stabilen Markt an Waren unsere Lösung an sich praktischer
  als eine solche Lösung.
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Unsere Lösung für den Markt ist zu der Version, die wir abgeben noch nicht
+ sonderlich gut durchdacht.
+ Wenn man die Waren einfach nur komplett aufkauft und wieder erkauft, dann
+ kann man in null-komma-nichts wahnsinnige Massen an Gold erwirtschaften.
+\end_layout
+
+\begin_layout Standard
+Hier müssen wir noch etwas an der Preisformel herumbasteln.
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Das ermitteln der Preise auf den einzelnen Planeten ist etwas schwerfällig,
+ weil man noch nicht weiß, auf welchem Planeten die Waren überhaupt angeboten
+ werden.
+\end_layout
+
+\begin_layout Standard
+Aber wir dachten uns, wer Gewinn machen will, muss schon dafür arbeiten.
 \end_layout
 
 \end_body

@@ -47,6 +47,7 @@ public class Market {
 	}
 
 	public int price(String name) {
+		if(this.capa.get(name) == 0) return this.value.get(name) * this.need.get(name) * 2;
 		return this.value.get(name)
 				* (this.need.get(name) / this.capa.get(name));
 	}
@@ -65,8 +66,7 @@ public class Market {
 
 	public int buy(String name, int amount) {
 		if(this.capa.get(name) <= 0) return 0;
-		int price = this.value.get(name)
-				* (this.need.get(name) / this.capa.get(name));
+		int price = this.price(name);
 		int realAmount = this.capa.get(name) < amount ? this.capa.get(name) : amount;
 		this.capa.put(name, this.capa.get(name)-realAmount);
 		
@@ -75,8 +75,7 @@ public class Market {
 	
 	public int sell(String name, int amount) {
 		if(this.need.get(name) <= 0) return 0;
-		int price = this.value.get(name)
-				* (this.capa.get(name) / this.need.get(name));
+		int price = this.price(name);
 		this.capa.put(name, this.capa.get(name) + amount);
 		
 		return price*amount + 1;

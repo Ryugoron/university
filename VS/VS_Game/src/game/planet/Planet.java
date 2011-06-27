@@ -486,31 +486,31 @@ public class Planet implements Game, CloseHandler, ClsHandler, ConnectHandler,
 	}
 
 	@Override
-	public void onSdoog(Channel c, String[] goods) {
-		String oMessage = GameMessage.SDOOG.toString();
-		for (int i = 0; i < goods.length; ++i) {
-			oMessage += " " + goods[i];
-		}
-		this.con.println(StdFd.Messages, oMessage);
+	public synchronized void onSdoog(Channel c, String[] goods) {
+//		String oMessage = GameMessage.SDOOG.toString();
+//		for (int i = 0; i < goods.length; ++i) {
+//			oMessage += " " + goods[i];
+//		}
+//		this.con.println(StdFd.Messages, oMessage);
 
 		this.updateReachableGoods(goods);
 		this.updatePlanetList();
 	}
 
 	@Override
-	public void onGoods(Channel c, String[] goods) {
-		String oMessage = GameMessage.GOODS.toString();
-		for (int i = 0; i < goods.length; ++i) {
-			oMessage += " " + goods[i];
-		}
-		this.con.println(StdFd.Messages, oMessage);
+	public synchronized void onGoods(Channel c, String[] goods) {
+//		String oMessage = GameMessage.GOODS.toString();
+//		for (int i = 0; i < goods.length; ++i) {
+//			oMessage += " " + goods[i];
+//		}
+//		this.con.println(StdFd.Messages, oMessage);
 
 		this.updateReachableGoods(goods);
 		c.send(GameMessage.SDOOG.toMessage(this.sendGoods()));
 	}
 
 	@Override
-	public void onTick() {
+	public synchronized void onTick() {
 		// TTL aller Prozesse herunter zählen. Wenn diese nicht erneuert wird
 		// wird diese nach TTL Runden aus dem System ausscheiden.
 		for (String good : this.rechableGoods.keySet()) {
@@ -531,7 +531,7 @@ public class Planet implements Game, CloseHandler, ClsHandler, ConnectHandler,
 	}
 
 	@Override
-	public void goodsCommand() {
+	public synchronized void goodsCommand() {
 		this.askedGoods = true;
 		Message m = GameMessage.GOODS.toMessage(this.sendGoods());
 		for (Channel c : this.connectedPeers.values()) {
@@ -540,7 +540,7 @@ public class Planet implements Game, CloseHandler, ClsHandler, ConnectHandler,
 	}
 
 	@Override
-	public void onNewGood(String name, int ttl, int need, int amount, int price) {
+	public synchronized void onNewGood(String name, int ttl, int need, int amount, int price) {
 		this.market.newGood(GameMessage.prepareProtokoll(name), price, need,
 				ttl);
 		this.market.setGoodAmount(GameMessage.prepareProtokoll(name), amount);
@@ -549,8 +549,8 @@ public class Planet implements Game, CloseHandler, ClsHandler, ConnectHandler,
 	}
 
 	@Override
-	public void onTsoc(String[] way, String good, int price, int amount) {
-		String oMessage = GameMessage.SDOOG.toString();
+	public synchronized void onTsoc(String[] way, String good, int price, int amount) {
+		String oMessage = GameMessage.TSOC.toString();
 		for (int i = 0; i < way.length; ++i) {
 			oMessage += " " + way[i];
 		}
@@ -558,8 +558,8 @@ public class Planet implements Game, CloseHandler, ClsHandler, ConnectHandler,
 		this.con.println(StdFd.Messages, oMessage);
 
 		if (way[way.length - 2].equals(this.name)) {
-			way = this.invertInTo(way, new String[way.length + 5]);
-			
+			way = Arrays.copyOf(way, way.length + 5);
+
 			way[way.length - 5] = "#";
 			way[way.length - 4] = good;
 			way[way.length - 3] = "#";
@@ -568,7 +568,7 @@ public class Planet implements Game, CloseHandler, ClsHandler, ConnectHandler,
 
 			Message m = GameMessage.TSOC.toMessage(way);
 
-			this.dockedShips.get(way[way.length - 1]).send(m);
+			this.dockedShips.get(way[way.length - 6]).send(m);
 		} else {
 			int pos = this.search(way, this.name);
 			if (pos >= 0) {
@@ -580,14 +580,14 @@ public class Planet implements Game, CloseHandler, ClsHandler, ConnectHandler,
 				way[way.length - 2] = price + "";
 				way[way.length - 1] = amount + "";
 
-				Message m = GameMessage.COST.toMessage(way);
+				Message m = GameMessage.TSOC.toMessage(way);
 				this.connectedPeers.get(way[pos + 1]).send(m);
 			}
 		}
 	}
 
 	@Override
-	public void onCost(String[] way, String good) {
+	public synchronized void onCost(String[] way, String good) {
 		String oMessage = GameMessage.COST.toString();
 		for (int i = 0; i < way.length; ++i) {
 			oMessage += " " + way[i];
@@ -595,14 +595,12 @@ public class Planet implements Game, CloseHandler, ClsHandler, ConnectHandler,
 		oMessage += " # " + good;
 
 		this.con.println(StdFd.Messages, oMessage);
-
 		if (way[way.length - 1].equals(this.name)) {
 			// Wir sind die angefragten
 
 			if (this.market.isGood(good)) {
 				int price = this.market.price(good);
 				int amount = this.market.amount(good);
-
 				String[] msg = new String[way.length + 5];
 				msg = this.invertInTo(way, msg);
 
@@ -611,7 +609,6 @@ public class Planet implements Game, CloseHandler, ClsHandler, ConnectHandler,
 				msg[way.length + 2] = "#";
 				msg[way.length + 3] = price + "";
 				msg[way.length + 4] = amount + "";
-
 				Message m = GameMessage.TSOC.toMessage(msg);
 				if (this.dockedShips.containsKey(msg[1])) {
 					this.dockedShips.get(msg[1]).send(m);
@@ -623,8 +620,8 @@ public class Planet implements Game, CloseHandler, ClsHandler, ConnectHandler,
 			int pos = this.search(way, this.name);
 			if (pos >= 0) {
 				way = Arrays.copyOf(way, way.length + 2);
-				way[way.length-2] = "#";
-				way[way.length-1] = good;
+				way[way.length - 2] = "#";
+				way[way.length - 1] = good;
 
 				Message m = GameMessage.COST.toMessage(way);
 				this.connectedPeers.get(way[pos + 1]).send(m);
@@ -633,7 +630,7 @@ public class Planet implements Game, CloseHandler, ClsHandler, ConnectHandler,
 	}
 
 	@Override
-	public void onWhereis(Channel c, String ship, String name) {
+	public synchronized void onWhereis(Channel c, String ship, String name) {
 		this.con.println(StdFd.Messages, GameMessage.WHEREIS + " " + name);
 
 		Channel that = this.connectedPeers.get(name);
@@ -657,32 +654,37 @@ public class Planet implements Game, CloseHandler, ClsHandler, ConnectHandler,
 	}
 
 	@Override
-	public void onUndock(Channel c, String name) {
+	public synchronized void onUndock(Channel c, String name) {
+		this.con.println(StdFd.Messages,GameMessage.UNDOCK +" "+name);
 		this.dockedShips.remove(name);
+		c.close();
 		this.updatePlanetList();
 	}
 
 	@Override
-	public void onSell(Channel c, String name, int amount) {
-		if(this.market.amount(name)>=amount){
+	public synchronized void onSell(Channel c, String name, int amount) {
+		this.con.println(StdFd.Messages, GameMessage.SELL+" "+name+" "+amount);
+		if (amount>0) {
 			int win = this.market.sell(name, amount);
 			String[] bill = new String[3];
 			bill[0] = name;
-			bill[1] = ""+amount;
-			bill[2] = ""+win;
+			bill[1] = "" + amount;
+			bill[2] = "" + win;
 			Message m = GameMessage.LLES.toMessage(bill);
 			c.send(m);
 		}
 	}
 
 	@Override
-	public void onBuy(Channel c, String name, int amount) {
-		if(this.market.amount(name)>=amount){
+	public synchronized void onBuy(Channel c, String name, int amount) {
+		this.con.println(StdFd.Messages, GameMessage.BUY+" "+name+" "+amount);
+		
+		if (this.market.amount(name) >= amount) {
 			int cost = this.market.buy(name, amount);
 			String[] bill = new String[3];
 			bill[0] = name;
-			bill[1] = ""+amount;
-			bill[2] = ""+cost;
+			bill[1] = "" + amount;
+			bill[2] = "" + cost;
 			Message m = GameMessage.YUB.toMessage(bill);
 			c.send(m);
 		}

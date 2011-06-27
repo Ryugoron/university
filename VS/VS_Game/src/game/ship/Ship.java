@@ -25,6 +25,7 @@ import game.commands.handler.GlobalHandler;
 import game.commands.handler.GoodsHandler;
 import game.commands.handler.HelpHandler;
 import game.commands.handler.LocalHandler;
+import game.commands.handler.PathHandler;
 import game.commands.handler.PeersHandler;
 import game.commands.handler.SellHandler;
 import game.commands.handler.StatusHandler;
@@ -47,7 +48,7 @@ public class Ship implements Game, DockHandler, LocalHandler, GlobalHandler,
 		GlobalCommandHandler, CloseHandler, GoodsHandler, SdoogCommandHandler,
 		CostHandler, TsocCommandHandler, PeersHandler, SreepCommandHandler,
 		ThereisCommandHandler, TravelHandler, BuyHandler, SellHandler,
-		YubCommandHandler, LlesCommandHandler, StatusHandler, DropHandler {
+		YubCommandHandler, LlesCommandHandler, StatusHandler, DropHandler, PathHandler {
 
 	protected Console con;
 
@@ -258,6 +259,12 @@ public class Ship implements Game, DockHandler, LocalHandler, GlobalHandler,
 
 	@Override
 	public void onTsoc(String[] way, String good, int price, int amount) {
+		String oMessage = GameMessage.TSOC.toString();
+		for (int i = 0; i < way.length; ++i) {
+			oMessage += " " + way[i];
+		}
+		oMessage += " # " + good + " # " + price + " " + amount;
+		this.con.println(StdFd.Messages, oMessage);
 		// Nicht machen, einfach weg hauen
 		this.con.println("PriceInfo >> " + good + " [price: " + price
 				+ "; amount: " + amount + "] on planet " + way[0]);
@@ -318,7 +325,7 @@ public class Ship implements Game, DockHandler, LocalHandler, GlobalHandler,
 	}
 
 	@Override
-	public void onPeers() {
+	public synchronized void onPeers() {
 		synchronized (this) {
 			this.peersToWork.clear();
 			this.peers.clear();
@@ -339,7 +346,7 @@ public class Ship implements Game, DockHandler, LocalHandler, GlobalHandler,
 	}
 
 	@Override
-	public void onThereis(String addr, int port) {
+	public synchronized void onThereis(String addr, int port) {
 		this.con.println(StdFd.Messages, GameMessage.THEREIS + " " + addr + " "
 				+ port);
 		InetAddress a;
@@ -353,7 +360,7 @@ public class Ship implements Game, DockHandler, LocalHandler, GlobalHandler,
 				return;
 			}
 		}
-		this.gold -= Math.abs(port - ((UdpChannel)pChannel).getRemotePort());
+		this.gold -= Math.abs(port - ((UdpChannel) pChannel).getRemotePort());
 		this.mreg.removePeer(pChannel, pName);
 		pChannel.close();
 		this.pChannel = null;
@@ -370,64 +377,90 @@ public class Ship implements Game, DockHandler, LocalHandler, GlobalHandler,
 	}
 
 	@Override
-	public void onDrop(String name) {
+	public synchronized void onDrop(String name) {
 		if (this.backpack.containsKey(name)) {
-			this.con.println("Removed "+this.backpack.get(name)+"x >> "+name+" <<");
+			this.con.println("Removed " + this.backpack.get(name) + "x >> "
+					+ name + " <<");
 			this.backpack.remove(name);
 		}
 	}
 
 	@Override
-	public void onStatus() {
+	public synchronized void onStatus() {
 		this.con.println("--------- Status ------------");
-		this.con.println("GOLD : "+this.gold);
-		for(String good : this.backpack.keySet()){
-			this.con.println(good+" : "+this.backpack.get(good));
+		this.con.println("Stationed : " + this.pName);
+		this.con.println("GOLD : " + this.gold);
+		if (!this.backpack.isEmpty()) {
+			this.con.println("--------- Goods -------------");
+			for (String good : this.backpack.keySet()) {
+				this.con.println(good + " : " + this.backpack.get(good));
+			}
 		}
 	}
 
 	@Override
-	public void onLles(Channel c, String name, int amount, int win) {
-		this.con.println(StdFd.Messages, GameMessage.LLES + " "+name+" "+" "+amount+" "+win);
-		
+	public synchronized void onLles(Channel c, String name, int amount, int win) {
+		this.con.println(StdFd.Messages, GameMessage.LLES + " " + name + " "
+				+ " " + amount + " " + win);
+
 		this.gold += win;
-		if(this.backpack.containsKey(name)){
+		this.backpack.put(name, this.backpack.get(name) - amount);
+
+		this.con.println(">> Sold " + amount + "x <" + name
+				+ "> for a total price of " + win + " gold.");
+	}
+
+	@Override
+	public synchronized void onYub(Channel c, String name, int amount, int cost) {
+		this.con.println(StdFd.Messages, GameMessage.YUB + " " + name + " "
+				+ amount + " " + cost);
+
+		this.gold -= cost;
+		if (this.backpack.containsKey(name)) {
 			this.backpack.put(name, amount + this.backpack.get(name));
 		} else {
 			this.backpack.put(name, amount);
 		}
-		
-		this.con.println(">> Sold "+amount+"x <"+name+"> for a total price of "+win+" gold.");
+
+		this.con.println(">> Bought " + amount + "x <" + name
+				+ "> for a total price of " + cost + " gold.");
 	}
 
 	@Override
-	public void onYub(Channel c, String name, int amount, int cost) {
-		this.con.println(StdFd.Messages, GameMessage.YUB + " "+name+" "+amount+" "+cost);
-		
-		this.gold -= cost;
-		this.backpack.put(name, amount - this.backpack.get(name));
-		
-		this.con.println(">> Bought "+amount+"x <"+name+"> for a total price of "+cost+" gold.");
-	}
-
-	@Override
-	public void onSell(String name, int amount) {
-		if(this.backpack.get(name)< amount){
+	public synchronized void onSell(String name, int amount) {
+		name = GameMessage.prepareProtokoll(name);
+		if (this.backpack.get(name) < amount) {
 			this.con.println("You don't have that much to sell.");
 			return;
 		}
-		String[] sell = {name, ""+amount};
+		String[] sell = { name, "" + amount };
 		this.pChannel.send(GameMessage.SELL.toMessage(sell));
 	}
 
 	@Override
-	public void onBuy(String name, int amount) {
-		if(this.gold<=0){
+	public synchronized void onBuy(String name, int amount) {
+		name = GameMessage.prepareProtokoll(name);
+		if (this.gold <= 0) {
 			this.con.println("You're living on credit. Can't afford to buy anything.");
 			return;
 		}
-		String[] buy = {name, ""+amount};
-		
+		String[] buy = { name, "" + amount };
+
 		this.pChannel.send(GameMessage.BUY.toMessage(buy));
+	}
+
+	@Override
+	public void onPath(String name) {
+		name = GameMessage.prepareProtokoll(name);
+		if(this.peers.containsKey(name)){
+			String[] way = this.peers.get(name);
+			this.con.println("Route to <"+name+">");
+			for(int i=1; i<way.length; ++i){
+				this.con.println(" >> "+i+". "+way[i]);
+			}
+		}else{
+			this.con.println(" >> There is no planet on our Archives named "+name);
+		}
+		
 	}
 }

@@ -13,6 +13,7 @@ import game.commands.GoodsCommand;
 import game.commands.HelpCommand;
 import game.commands.LocalCommand;
 import game.commands.NewGoodsCommand;
+import game.commands.PathCommand;
 import game.commands.PeersCommand;
 import game.commands.SellCommand;
 import game.commands.StatusCommand;
@@ -29,6 +30,7 @@ import game.commands.handler.GoodsHandler;
 import game.commands.handler.HelpHandler;
 import game.commands.handler.LocalHandler;
 import game.commands.handler.NewGoodHandler;
+import game.commands.handler.PathHandler;
 import game.commands.handler.PeersHandler;
 import game.commands.handler.SellHandler;
 import game.commands.handler.StatusHandler;
@@ -114,6 +116,10 @@ public class CommandRegistration implements InputHandler {
 		if(node instanceof DropHandler){
 			DropCommand h = new DropCommand();
 			h.register((DropHandler)node);
+			commands.put(h.command(), h);}
+		if(node instanceof PathHandler){
+			PathCommand h = new PathCommand();
+			h.register((PathHandler)node);
 			commands.put(h.command(), h);}
 	}
 
