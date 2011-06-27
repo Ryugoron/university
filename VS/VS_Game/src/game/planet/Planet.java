@@ -13,6 +13,7 @@ import game.commands.handler.PeersHandler;
 import game.help.Market;
 import game.help.Timer;
 import game.help.TimerHandler;
+import game.messages.handler.BuyCommandHandler;
 import game.messages.handler.CostCommandHandler;
 import game.messages.handler.DockCommandHandler;
 import game.messages.handler.GlobalCommandHandler;
@@ -22,6 +23,7 @@ import game.messages.handler.LocalCommandHandler;
 import game.messages.handler.OllehCommandHandler;
 import game.messages.handler.PeersCommandHandler;
 import game.messages.handler.SdoogCommandHandler;
+import game.messages.handler.SellCommandHandler;
 import game.messages.handler.SreepCommandHandler;
 import game.messages.handler.TsocCommandHandler;
 import game.messages.handler.UndockCommandHandler;
@@ -49,7 +51,7 @@ public class Planet implements Game, CloseHandler, ClsHandler, ConnectHandler,
 		GoodsCommandHandler, SdoogCommandHandler, TimerHandler, NewGoodHandler,
 		GlobalCommandHandler, LocalCommandHandler, GoodsHandler,
 		CostCommandHandler, TsocCommandHandler, UndockCommandHandler,
-		WhereisCommandHandler {
+		WhereisCommandHandler, BuyCommandHandler, SellCommandHandler {
 
 	protected Console con;
 	private Map<String, Channel> connectedPeers = new HashMap<String, Channel>();
@@ -658,5 +660,31 @@ public class Planet implements Game, CloseHandler, ClsHandler, ConnectHandler,
 	public void onUndock(Channel c, String name) {
 		this.dockedShips.remove(name);
 		this.updatePlanetList();
+	}
+
+	@Override
+	public void onSell(Channel c, String name, int amount) {
+		if(this.market.amount(name)>=amount){
+			int win = this.market.sell(name, amount);
+			String[] bill = new String[3];
+			bill[0] = name;
+			bill[1] = ""+amount;
+			bill[2] = ""+win;
+			Message m = GameMessage.LLES.toMessage(bill);
+			c.send(m);
+		}
+	}
+
+	@Override
+	public void onBuy(Channel c, String name, int amount) {
+		if(this.market.amount(name)>=amount){
+			int cost = this.market.buy(name, amount);
+			String[] bill = new String[3];
+			bill[0] = name;
+			bill[1] = ""+amount;
+			bill[2] = ""+cost;
+			Message m = GameMessage.YUB.toMessage(bill);
+			c.send(m);
+		}
 	}
 }

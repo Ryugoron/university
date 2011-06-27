@@ -15,23 +15,29 @@ import console.ship.ShipConsole;
 import game.CommandRegistration;
 import game.Game;
 import game.MessageRegistration;
+import game.commands.handler.BuyHandler;
 import game.commands.handler.CloseHandler;
 import game.commands.handler.ClsHandler;
 import game.commands.handler.CostHandler;
 import game.commands.handler.DockHandler;
+import game.commands.handler.DropHandler;
 import game.commands.handler.GlobalHandler;
 import game.commands.handler.GoodsHandler;
 import game.commands.handler.HelpHandler;
 import game.commands.handler.LocalHandler;
 import game.commands.handler.PeersHandler;
+import game.commands.handler.SellHandler;
+import game.commands.handler.StatusHandler;
 import game.commands.handler.TravelHandler;
 import game.messages.handler.GlobalCommandHandler;
 import game.messages.handler.KcodCommandHandler;
+import game.messages.handler.LlesCommandHandler;
 import game.messages.handler.LocalCommandHandler;
 import game.messages.handler.SdoogCommandHandler;
 import game.messages.handler.SreepCommandHandler;
 import game.messages.handler.ThereisCommandHandler;
 import game.messages.handler.TsocCommandHandler;
+import game.messages.handler.YubCommandHandler;
 import game.networking.GameMessage;
 import game.networking.UdpChannel;
 import game.networking.UdpChannelFactory;
@@ -39,8 +45,9 @@ import game.networking.UdpChannelFactory;
 public class Ship implements Game, DockHandler, LocalHandler, GlobalHandler,
 		KcodCommandHandler, LocalCommandHandler, HelpHandler, ClsHandler,
 		GlobalCommandHandler, CloseHandler, GoodsHandler, SdoogCommandHandler,
-		CostHandler, TsocCommandHandler, PeersHandler, SreepCommandHandler, 
-		ThereisCommandHandler, TravelHandler {
+		CostHandler, TsocCommandHandler, PeersHandler, SreepCommandHandler,
+		ThereisCommandHandler, TravelHandler, BuyHandler, SellHandler,
+		YubCommandHandler, LlesCommandHandler, StatusHandler, DropHandler {
 
 	protected Console con;
 
@@ -50,9 +57,12 @@ public class Ship implements Game, DockHandler, LocalHandler, GlobalHandler,
 	private String pName;
 	private Channel pChannel;
 
+	private int gold = 5000; // Startkapital
+	private Map<String, Integer> backpack = new HashMap<String, Integer>();
+
 	private Map<String, String[]> peersToWork = new HashMap<String, String[]>();
 	private Map<String, String[]> peers = new HashMap<String, String[]>();
-	
+
 	final private CommandRegistration reg;
 	final private MessageRegistration mreg;
 
@@ -84,7 +94,7 @@ public class Ship implements Game, DockHandler, LocalHandler, GlobalHandler,
 	public Console getConsole() {
 		return this.con;
 	}
-	
+
 	private int search(String[] in, String s) {
 		int found = -1;
 		for (int i = 0; i < in.length; ++i) {
@@ -93,7 +103,7 @@ public class Ship implements Game, DockHandler, LocalHandler, GlobalHandler,
 		}
 		return found;
 	}
-	
+
 	private String[] copyInTo(String[] in, String[] out) {
 		if (in.length > out.length)
 			return out;
@@ -113,7 +123,7 @@ public class Ship implements Game, DockHandler, LocalHandler, GlobalHandler,
 			con.println(StdFd.Planets, " >> " + s);
 		}
 	}
-	
+
 	// -------------- Command Jump Points ---------------------
 	@Override
 	public void onGlobal(String msg) {
@@ -249,18 +259,18 @@ public class Ship implements Game, DockHandler, LocalHandler, GlobalHandler,
 	@Override
 	public void onTsoc(String[] way, String good, int price, int amount) {
 		// Nicht machen, einfach weg hauen
-		this.con.println("PriceInfo >> "+ good + " [price: "
-				+ price + "; amount: " + amount+ "] on planet "+way[0]);
+		this.con.println("PriceInfo >> " + good + " [price: " + price
+				+ "; amount: " + amount + "] on planet " + way[0]);
 	}
 
 	@Override
 	public void costCommand(String name, String good) {
-		if(this.peers.containsKey(name)){
-			String[] way = new String[this.peers.get(name).length+2];
+		if (this.peers.containsKey(name)) {
+			String[] way = new String[this.peers.get(name).length + 2];
 			way = this.copyInTo(this.peers.get(name), way);
 			way[this.peers.get(name).length] = "#";
-			way[this.peers.get(name).length+1] = good;
-			
+			way[this.peers.get(name).length + 1] = good;
+
 			this.pChannel.send(GameMessage.COST.toMessage(way));
 		}
 	}
@@ -300,8 +310,7 @@ public class Ship implements Game, DockHandler, LocalHandler, GlobalHandler,
 					way[pos] = newEdges[i];
 					this.peersToWork.put(newEdges[i], way);
 					this.peers.put(newEdges[i], way);
-					this.pChannel.send(
-							GameMessage.PEERS.toMessage(way));
+					this.pChannel.send(GameMessage.PEERS.toMessage(way));
 				}
 				this.updatePlanetList();
 			}
@@ -324,19 +333,19 @@ public class Ship implements Game, DockHandler, LocalHandler, GlobalHandler,
 			way[1] = this.pName;
 			this.peersToWork.put(this.pName, way);
 			this.peers.put(this.pName, way);
-			this.pChannel.send(
-					GameMessage.PEERS.toMessage(way));
+			this.pChannel.send(GameMessage.PEERS.toMessage(way));
 		}
 
 	}
 
 	@Override
 	public void onThereis(String addr, int port) {
-		this.con.println(StdFd.Messages, GameMessage.THEREIS + " "+ addr+ " " + port);
+		this.con.println(StdFd.Messages, GameMessage.THEREIS + " " + addr + " "
+				+ port);
 		InetAddress a;
-		if(addr.equals("127.0.0.1")){
+		if (addr.equals("127.0.0.1")) {
 			a = ((UdpChannel) pChannel).getRemoteAddress();
-		}else{
+		} else {
 			try {
 				a = InetAddress.getByName(addr);
 			} catch (UnknownHostException e) {
@@ -344,18 +353,81 @@ public class Ship implements Game, DockHandler, LocalHandler, GlobalHandler,
 				return;
 			}
 		}
+		this.gold -= Math.abs(port - ((UdpChannel)pChannel).getRemotePort());
 		this.mreg.removePeer(pChannel, pName);
 		pChannel.close();
 		this.pChannel = null;
 		this.pName = null;
 		this.peers.clear();
-		
+
 		this.onDock(a, port);
 	}
 
 	@Override
 	public void onTravel(String name) {
-		String[] remotename = {this.name , GameMessage.prepareProtokoll(name)};
+		String[] remotename = { this.name, GameMessage.prepareProtokoll(name) };
 		this.pChannel.send(GameMessage.WHEREIS.toMessage(remotename));
+	}
+
+	@Override
+	public void onDrop(String name) {
+		if (this.backpack.containsKey(name)) {
+			this.con.println("Removed "+this.backpack.get(name)+"x >> "+name+" <<");
+			this.backpack.remove(name);
+		}
+	}
+
+	@Override
+	public void onStatus() {
+		this.con.println("--------- Status ------------");
+		this.con.println("GOLD : "+this.gold);
+		for(String good : this.backpack.keySet()){
+			this.con.println(good+" : "+this.backpack.get(good));
+		}
+	}
+
+	@Override
+	public void onLles(Channel c, String name, int amount, int win) {
+		this.con.println(StdFd.Messages, GameMessage.LLES + " "+name+" "+" "+amount+" "+win);
+		
+		this.gold += win;
+		if(this.backpack.containsKey(name)){
+			this.backpack.put(name, amount + this.backpack.get(name));
+		} else {
+			this.backpack.put(name, amount);
+		}
+		
+		this.con.println(">> Sold "+amount+"x <"+name+"> for a total price of "+win+" gold.");
+	}
+
+	@Override
+	public void onYub(Channel c, String name, int amount, int cost) {
+		this.con.println(StdFd.Messages, GameMessage.YUB + " "+name+" "+amount+" "+cost);
+		
+		this.gold -= cost;
+		this.backpack.put(name, amount - this.backpack.get(name));
+		
+		this.con.println(">> Bought "+amount+"x <"+name+"> for a total price of "+cost+" gold.");
+	}
+
+	@Override
+	public void onSell(String name, int amount) {
+		if(this.backpack.get(name)< amount){
+			this.con.println("You don't have that much to sell.");
+			return;
+		}
+		String[] sell = {name, ""+amount};
+		this.pChannel.send(GameMessage.SELL.toMessage(sell));
+	}
+
+	@Override
+	public void onBuy(String name, int amount) {
+		if(this.gold<=0){
+			this.con.println("You're living on credit. Can't afford to buy anything.");
+			return;
+		}
+		String[] buy = {name, ""+amount};
+		
+		this.pChannel.send(GameMessage.BUY.toMessage(buy));
 	}
 }

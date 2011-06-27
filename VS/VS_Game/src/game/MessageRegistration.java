@@ -1,5 +1,6 @@
 package game;
 
+import game.messages.BuyCommandMessage;
 import game.messages.CommandMessage;
 import game.messages.CostCommandMessage;
 import game.messages.DockCommandMessage;
@@ -7,30 +8,37 @@ import game.messages.GlobalCommandMessage;
 import game.messages.GoodsCommandMessage;
 import game.messages.HelloCommandMessage;
 import game.messages.KcodCommandMessage;
+import game.messages.LlesCommandMessage;
 import game.messages.LocalCommandMessage;
 import game.messages.OllehCommandMessage;
 import game.messages.PeersCommandMessage;
 import game.messages.SdoogCommandMessage;
+import game.messages.SellCommandMessage;
 import game.messages.SreepCommandMessage;
 import game.messages.ThereisCommandMessage;
 import game.messages.TsocCommandMessage;
 import game.messages.UndockCommandMessage;
 import game.messages.WhereisCommandMessage;
+import game.messages.YubCommandMessage;
+import game.messages.handler.BuyCommandHandler;
 import game.messages.handler.CostCommandHandler;
 import game.messages.handler.DockCommandHandler;
 import game.messages.handler.GlobalCommandHandler;
 import game.messages.handler.GoodsCommandHandler;
 import game.messages.handler.HelloCommandHandler;
 import game.messages.handler.KcodCommandHandler;
+import game.messages.handler.LlesCommandHandler;
 import game.messages.handler.LocalCommandHandler;
 import game.messages.handler.OllehCommandHandler;
 import game.messages.handler.PeersCommandHandler;
 import game.messages.handler.SdoogCommandHandler;
+import game.messages.handler.SellCommandHandler;
 import game.messages.handler.SreepCommandHandler;
 import game.messages.handler.ThereisCommandHandler;
 import game.messages.handler.TsocCommandHandler;
 import game.messages.handler.UndockCommandHandler;
 import game.messages.handler.WhereisCommandHandler;
+import game.messages.handler.YubCommandHandler;
 import game.networking.UdpChannelFactory;
 
 import java.util.ArrayList;
@@ -125,6 +133,22 @@ private void addMessageHandler() {
 	if(this.node instanceof WhereisCommandHandler){
 		WhereisCommandMessage h = new WhereisCommandMessage();
 		h.register((WhereisCommandHandler)node);
+		messages.put(h.message().toString(), h);}
+	if(this.node instanceof BuyCommandHandler){
+		BuyCommandMessage h = new BuyCommandMessage();
+		h.register((BuyCommandHandler)node);
+		messages.put(h.message().toString(), h);}
+	if(this.node instanceof YubCommandHandler){
+		YubCommandMessage h = new YubCommandMessage();
+		h.register((YubCommandHandler)node);
+		messages.put(h.message().toString(), h);}
+	if(this.node instanceof SellCommandHandler){
+		SellCommandMessage h = new SellCommandMessage();
+		h.register((SellCommandHandler)node);
+		messages.put(h.message().toString(), h);}
+	if(this.node instanceof LlesCommandHandler){
+		LlesCommandMessage h = new LlesCommandMessage();
+		h.register((LlesCommandHandler)node);
 		messages.put(h.message().toString(), h);}
 }
 

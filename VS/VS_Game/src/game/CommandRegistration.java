@@ -1,29 +1,37 @@
 package game;
 
+import game.commands.BuyCommand;
 import game.commands.CloseCommand;
 import game.commands.ClsCommand;
 import game.commands.Command;
 import game.commands.ConnectCommand;
 import game.commands.CostCommand;
 import game.commands.DockCommand;
+import game.commands.DropCommand;
 import game.commands.GlobalCommand;
 import game.commands.GoodsCommand;
 import game.commands.HelpCommand;
 import game.commands.LocalCommand;
 import game.commands.NewGoodsCommand;
 import game.commands.PeersCommand;
+import game.commands.SellCommand;
+import game.commands.StatusCommand;
 import game.commands.TravelCommand;
+import game.commands.handler.BuyHandler;
 import game.commands.handler.CloseHandler;
 import game.commands.handler.ClsHandler;
 import game.commands.handler.ConnectHandler;
 import game.commands.handler.CostHandler;
 import game.commands.handler.DockHandler;
+import game.commands.handler.DropHandler;
 import game.commands.handler.GlobalHandler;
 import game.commands.handler.GoodsHandler;
 import game.commands.handler.HelpHandler;
 import game.commands.handler.LocalHandler;
 import game.commands.handler.NewGoodHandler;
 import game.commands.handler.PeersHandler;
+import game.commands.handler.SellHandler;
+import game.commands.handler.StatusHandler;
 import game.commands.handler.TravelHandler;
 
 import java.util.Arrays;
@@ -90,6 +98,22 @@ public class CommandRegistration implements InputHandler {
 		if(node instanceof TravelHandler){
 			TravelCommand h = new TravelCommand();
 			h.register((TravelHandler)node);
+			commands.put(h.command(), h);}
+		if(node instanceof BuyHandler){
+			BuyCommand h = new BuyCommand();
+			h.register((BuyHandler)node);
+			commands.put(h.command(), h);}
+		if(node instanceof SellHandler){
+			SellCommand h = new SellCommand();
+			h.register((SellHandler)node);
+			commands.put(h.command(), h);}
+		if(node instanceof StatusHandler){
+			StatusCommand h = new StatusCommand();
+			h.register((StatusHandler)node);
+			commands.put(h.command(), h);}
+		if(node instanceof DropHandler){
+			DropCommand h = new DropCommand();
+			h.register((DropHandler)node);
 			commands.put(h.command(), h);}
 	}
 
