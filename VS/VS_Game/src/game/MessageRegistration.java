@@ -1,22 +1,36 @@
 package game;
 
 import game.messages.CommandMessage;
+import game.messages.CostCommandMessage;
 import game.messages.DockCommandMessage;
 import game.messages.GlobalCommandMessage;
+import game.messages.GoodsCommandMessage;
 import game.messages.HelloCommandMessage;
 import game.messages.KcodCommandMessage;
 import game.messages.LocalCommandMessage;
 import game.messages.OllehCommandMessage;
 import game.messages.PeersCommandMessage;
+import game.messages.SdoogCommandMessage;
 import game.messages.SreepCommandMessage;
+import game.messages.ThereisCommandMessage;
+import game.messages.TsocCommandMessage;
+import game.messages.UndockCommandMessage;
+import game.messages.WhereisCommandMessage;
+import game.messages.handler.CostCommandHandler;
 import game.messages.handler.DockCommandHandler;
 import game.messages.handler.GlobalCommandHandler;
+import game.messages.handler.GoodsCommandHandler;
 import game.messages.handler.HelloCommandHandler;
 import game.messages.handler.KcodCommandHandler;
 import game.messages.handler.LocalCommandHandler;
 import game.messages.handler.OllehCommandHandler;
 import game.messages.handler.PeersCommandHandler;
+import game.messages.handler.SdoogCommandHandler;
 import game.messages.handler.SreepCommandHandler;
+import game.messages.handler.ThereisCommandHandler;
+import game.messages.handler.TsocCommandHandler;
+import game.messages.handler.UndockCommandHandler;
+import game.messages.handler.WhereisCommandHandler;
 import game.networking.UdpChannelFactory;
 
 import java.util.ArrayList;
@@ -83,6 +97,34 @@ private void addMessageHandler() {
 	if(this.node instanceof KcodCommandHandler){
 		KcodCommandMessage h = new KcodCommandMessage();
 		h.register((KcodCommandHandler)node);
+		messages.put(h.message().toString(), h);}
+	if(this.node instanceof GoodsCommandHandler){
+		GoodsCommandMessage h = new GoodsCommandMessage();
+		h.register((GoodsCommandHandler)node);
+		messages.put(h.message().toString(), h);}
+	if(this.node instanceof SdoogCommandHandler){
+		SdoogCommandMessage h = new SdoogCommandMessage();
+		h.register((SdoogCommandHandler)node);
+		messages.put(h.message().toString(), h);}
+	if(this.node instanceof CostCommandHandler){
+		CostCommandMessage h = new CostCommandMessage();
+		h.register((CostCommandHandler)node);
+		messages.put(h.message().toString(), h);}
+	if(this.node instanceof TsocCommandHandler){
+		TsocCommandMessage h = new TsocCommandMessage();
+		h.register((TsocCommandHandler)node);
+		messages.put(h.message().toString(), h);}
+	if(this.node instanceof UndockCommandHandler){
+		UndockCommandMessage h = new UndockCommandMessage();
+		h.register((UndockCommandHandler)node);
+		messages.put(h.message().toString(), h);}
+	if(this.node instanceof ThereisCommandHandler){
+		ThereisCommandMessage h = new ThereisCommandMessage();
+		h.register((ThereisCommandHandler)node);
+		messages.put(h.message().toString(), h);}
+	if(this.node instanceof WhereisCommandHandler){
+		WhereisCommandMessage h = new WhereisCommandMessage();
+		h.register((WhereisCommandHandler)node);
 		messages.put(h.message().toString(), h);}
 }
 

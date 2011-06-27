@@ -48,7 +48,7 @@ public class PlanetConsole extends JFrame implements Console, ActionListener {
 	
 	public PlanetConsole() {
 		super("Space BWL");
-		this.setSize(800, 600);
+		this.setSize(800, 500);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
 		//Initstuff

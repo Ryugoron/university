@@ -1,5 +1,7 @@
 package game.help;
 
+import game.networking.GameMessage;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -15,14 +17,14 @@ public class Market {
 	
 	//Erzeugt der einfachkeit halber schoneinmal ein paar Waren
 	public Market(int i){
-		this.newGood("Deuterium", 10, 100, 20);
-		this.setGoodAmount("Deuterium", 10);
+		this.newGood(GameMessage.prepareProtokoll("Deuterium"), 10, 100, 20);
+		this.setGoodAmount(GameMessage.prepareProtokoll("Deuterium"), 10);
 		
-		this.newGood("Goldgepresstes Latinum", 10, 100, 20);
-		this.setGoodAmount("Goldgepresstes Latinum", 10);
+		this.newGood(GameMessage.prepareProtokoll("Goldgepresstes Latinum"), 10, 100, 20);
+		this.setGoodAmount(GameMessage.prepareProtokoll("Goldgepresstes Latinum"), 10);
 		
-		this.newGood("Deine Mudda", 300, 10, 100);
-		this.setGoodAmount("Deine Mudda", 5);
+		this.newGood(GameMessage.prepareProtokoll("Deine Mudda"), 300, 10, 100);
+		this.setGoodAmount(GameMessage.prepareProtokoll("Deine Mudda"), 5);
 		
 	}
 	

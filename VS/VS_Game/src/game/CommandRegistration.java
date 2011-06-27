@@ -4,19 +4,27 @@ import game.commands.CloseCommand;
 import game.commands.ClsCommand;
 import game.commands.Command;
 import game.commands.ConnectCommand;
+import game.commands.CostCommand;
 import game.commands.DockCommand;
 import game.commands.GlobalCommand;
+import game.commands.GoodsCommand;
 import game.commands.HelpCommand;
 import game.commands.LocalCommand;
+import game.commands.NewGoodsCommand;
 import game.commands.PeersCommand;
+import game.commands.TravelCommand;
 import game.commands.handler.CloseHandler;
 import game.commands.handler.ClsHandler;
 import game.commands.handler.ConnectHandler;
+import game.commands.handler.CostHandler;
 import game.commands.handler.DockHandler;
 import game.commands.handler.GlobalHandler;
+import game.commands.handler.GoodsHandler;
 import game.commands.handler.HelpHandler;
 import game.commands.handler.LocalHandler;
+import game.commands.handler.NewGoodHandler;
 import game.commands.handler.PeersHandler;
+import game.commands.handler.TravelHandler;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -66,6 +74,22 @@ public class CommandRegistration implements InputHandler {
 		if(node instanceof LocalHandler){
 			LocalCommand h = new LocalCommand();
 			h.register((LocalHandler)node);
+			commands.put(h.command(), h);}
+		if(node instanceof GoodsHandler){
+			GoodsCommand h = new GoodsCommand();
+			h.register((GoodsHandler)node);
+			commands.put(h.command(), h);}
+		if(node instanceof NewGoodHandler){
+			NewGoodsCommand h = new NewGoodsCommand();
+			h.register((NewGoodHandler)node);
+			commands.put(h.command(), h);}
+		if(node instanceof CostHandler){
+			CostCommand h = new CostCommand();
+			h.register((CostHandler)node);
+			commands.put(h.command(), h);}
+		if(node instanceof TravelHandler){
+			TravelCommand h = new TravelCommand();
+			h.register((TravelHandler)node);
 			commands.put(h.command(), h);}
 	}
 
