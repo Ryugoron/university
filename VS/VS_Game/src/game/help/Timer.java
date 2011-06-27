@@ -2,7 +2,7 @@ package game.help;
 
 public class Timer {
 	public Timer(int intervall, TimerHandler h) {
-
+		(new TimerThread(intervall,h)).start();
 	}
 
 	class TimerThread extends Thread {
@@ -12,7 +12,6 @@ public class Timer {
 		public TimerThread(int intervall, TimerHandler h) {
 			this.intervall = intervall;
 			this.h = h;
-			this.start();
 		}
 
 		public void run() {

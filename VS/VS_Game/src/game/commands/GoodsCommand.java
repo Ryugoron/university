@@ -6,8 +6,9 @@ public class GoodsCommand extends Command<GoodsHandler>{
 
 	@Override
 	public void execute(String[] paras) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		
+		for(GoodsHandler h : this.reg){
+			h.goodsCommand();
+		}
 	}
 
 	@Override

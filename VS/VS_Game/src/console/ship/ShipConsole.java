@@ -1,10 +1,12 @@
 package console.ship;
 
+
 import game.networking.GameMessage;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -19,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -44,8 +47,8 @@ public class ShipConsole extends JFrame implements Console, ActionListener {
 	private int actCommand = 0;
 	
 	public ShipConsole() {
-		super("Space Ship");
-		this.setSize(800, 600);
+		super("Space BWL");
+		this.setSize(800, 500);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
 		//Initstuff
@@ -53,18 +56,35 @@ public class ShipConsole extends JFrame implements Console, ActionListener {
 		fdSet.put(StdFd.StdOut.get(),consoleArea);
 		JScrollPane consoleScrollPane = new JScrollPane(consoleArea);
 		
+		
+		//Right Bar
+		JPanel bar = new JPanel();
+		bar.setLayout(new GridLayout(2,1));
+		
+		
+		JTextArea planetsArea = new JTextArea(3, 15);
+		fdSet.put(StdFd.Planets.get(), planetsArea);
+		JScrollPane planetsScrollPane = new JScrollPane(planetsArea);
+		
+		JTextArea messageArea = new JTextArea(3,5);
+		fdSet.put(StdFd.Messages.get(), messageArea);
+		JScrollPane messageScrollPane = new JScrollPane(messageArea);
+		
+		bar.add(planetsScrollPane);
+		bar.add(messageScrollPane);
+		
 		// Layout stuff
 		this.setLayout(new BorderLayout());
 		
 		consoleArea.setEditable(false);
 		
+		planetsArea.setEditable(false);
+//		planetsArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 10));
+		planetsArea.setMargin(new Insets(2,10,5,4));
+		
 		consoleArea.setEditable(false);
 		consoleArea.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
 		consoleArea.setMargin(new Insets(1, 10, 5, 2));
-		
-		JTextArea messageArea = new JTextArea(3,20);
-		fdSet.put(StdFd.Messages.get(), messageArea);
-		JScrollPane messageScrollPane = new JScrollPane(messageArea);
 		
 		this.consoleInput.addActionListener(this);
 		
@@ -94,7 +114,7 @@ public class ShipConsole extends JFrame implements Console, ActionListener {
 		this.consoleInput.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
 		this.add(consoleInput, BorderLayout.SOUTH);
 		this.add(consoleScrollPane, BorderLayout.CENTER);
-		this.add(messageScrollPane, BorderLayout.EAST);
+		this.add(bar, BorderLayout.EAST);
 		addWindowListener(new WindowAdapter() {
 			public void windowOpened(WindowEvent e) {
 				consoleInput.requestFocus();
@@ -103,6 +123,7 @@ public class ShipConsole extends JFrame implements Console, ActionListener {
 		this.consoleInput.requestFocus();
 		
 	}
+	
 
 	@Override
 	public void actionPerformed(ActionEvent evt) {
