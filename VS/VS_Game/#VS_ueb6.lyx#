@@ -1,0 +1,1119 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 3cm
+\topmargin 2cm
+\rightmargin 2cm
+\bottommargin 2cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Verteilte Systeme Übung Nr.
+ 6
+\end_layout
+
+\begin_layout Author
+Alexander Steen , Max Wisniewski
+\end_layout
+
+\begin_layout Date
+Tutor : Philipp Schmidt
+\end_layout
+
+\begin_layout Subsection*
+Vorbereitung
+\end_layout
+
+\begin_layout Standard
+Da wir in den letzen 2 Wochen viel zu tun hatten, haben wir unsere letzte
+ Version nicht nocheinmal abgeändert, sondern haben diese einfach weiter
+ verwendet.
+ Da wir Schiffe und andocken schon implementiert hatten, haben wir das Protokoll
+ in diesen Punkten nicht nocheinmal angepasst.
+\end_layout
+
+\begin_layout Standard
+Dadurch haben wir aber keine allgemeine Kompatibilität zum vorgeschlagenen
+ Protokoll mehr, aber innerhalb unserer Implementierung funkioniert alles
+ wie gefordert.
+\end_layout
+
+\begin_layout Subsection*
+Aufgabe
+\end_layout
+
+\begin_layout Standard
+In der Aufgabe 6 sollte man das Spiel vom letzten mal um zwei Befehle erweitern.
+ Dies ist zum einen der Befehl 
+\series bold
+goods
+\series default
+.
+ Wird dieser aufgrerufen, sollen alle verfügbaren Waren im bekannten Universum
+ zurückgeliefert werden.
+\end_layout
+
+\begin_layout Standard
+Der zweite Befehl ist 
+\series bold
+costs
+\series default
+, der einem von einem angegebenen Planeten ausgibt, wie viel einer bestimmten
+ Ware vorrätig ist und zu welchem Preis diese vorhanden ist.
+\end_layout
+
+\begin_layout Subsection*
+Implementierung
+\end_layout
+
+\begin_layout Standard
+Beim letzten mal haben wir unser Framework für das Programm vorgestellt.
+ Wir haben es so angepasst, dass wir unsere Klassen 
+\series bold
+Planet
+\series default
+ und 
+\series bold
+Ship
+\series default
+ nur noch eine Message- oder Commandinterface implementieren lassen müssen
+ und schon werden die betreffenden Nachricht empfangen und entsprechend
+ geparsed.
+\end_layout
+
+\begin_layout Standard
+Wir müssen uns diesmal also nur noch um die konkrete Umsetzung kümmern.
+ Betrachten wir ersteinmal unsere Waren
+\end_layout
+
+\begin_layout Subsubsection*
+Market
+\end_layout
+
+\begin_layout Standard
+Durch den Market müssen wir uns später beim Kauf und Verkauf von Waren nicht
+ mehr um die genaue Umsetzung von Preisen kümmern.
+ Wir speichern hier auch alle Waren, die wir persönlich im Markt anbieten.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset listings
+lstparams "basicstyle={\footnotesize\ttfamily},numbers=left,tabsize=3"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+public class Market {
+\end_layout
+
+\begin_layout Plain Layout
+
+	private Map<String, Integer> value = new HashMap<String, Integer>();
+\end_layout
+
+\begin_layout Plain Layout
+
+	private Map<String, Integer> need = new HashMap<String, Integer>();
+\end_layout
+
+\begin_layout Plain Layout
+
+	private Map<String, Integer> capa = new HashMap<String, Integer>();
+\end_layout
+
+\begin_layout Plain Layout
+
+	private Map<String, Integer> ttl = new HashMap<String, Integer>();
+\end_layout
+
+\begin_layout Plain Layout
+
+ 
+\end_layout
+
+\begin_layout Plain Layout
+
+	public void newGood(String name, int value, int need, int ttl) {
+\end_layout
+
+\begin_layout Plain Layout
+
+		this.value.put(name, value);
+\end_layout
+
+\begin_layout Plain Layout
+
+		this.need.put(name, need);
+\end_layout
+
+\begin_layout Plain Layout
+
+		this.ttl.put(name, ttl);
+\end_layout
+
+\begin_layout Plain Layout
+
+		this.capa.put(name, 0);
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	public void delGood(String name) {
+\end_layout
+
+\begin_layout Plain Layout
+
+		this.value.remove(name);
+\end_layout
+
+\begin_layout Plain Layout
+
+		this.need.remove(name);
+\end_layout
+
+\begin_layout Plain Layout
+
+		this.ttl.remove(name);
+\end_layout
+
+\begin_layout Plain Layout
+
+		this.capa.remove(name);
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	public int price(String name) {
+\end_layout
+
+\begin_layout Plain Layout
+
+		return this.value.get(name) 				
+\end_layout
+
+\begin_layout Plain Layout
+
+			* (this.need.get(name) / this.capa.get(name));
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	public int amount(String name){
+\end_layout
+
+\begin_layout Plain Layout
+
+		return this.capa.get(name);
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	public int ttl(String name){
+\end_layout
+
+\begin_layout Plain Layout
+
+		return this.ttl.get(name);
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	public Set<String> allGoods() {
+\end_layout
+
+\begin_layout Plain Layout
+
+		return this.value.keySet();
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	public int buy(String name, int amount) {
+\end_layout
+
+\begin_layout Plain Layout
+
+		if(this.capa.get(name) <= 0) return 0;
+\end_layout
+
+\begin_layout Plain Layout
+
+		int price = this.value.get(name) 				
+\end_layout
+
+\begin_layout Plain Layout
+
+			* (this.need.get(name) / this.capa.get(name));
+\end_layout
+
+\begin_layout Plain Layout
+
+		int realAmount = this.capa.get(name) < amount ? this.capa.get(name) : amount;
+\end_layout
+
+\begin_layout Plain Layout
+
+		this.capa.put(name, this.capa.get(name)-realAmount);
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\end_layout
+
+\begin_layout Plain Layout
+
+		return price*realAmount + 1;
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	public int sell(String name, int amount) {
+\end_layout
+
+\begin_layout Plain Layout
+
+		if(this.need.get(name) <= 0) return 0;
+\end_layout
+
+\begin_layout Plain Layout
+
+		int price = this.value.get(name) 				* (this.capa.get(name) / this.need.get(name));
+\end_layout
+
+\begin_layout Plain Layout
+
+		this.capa.put(name, this.capa.get(name) + amount);
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\end_layout
+
+\begin_layout Plain Layout
+
+		return price*amount + 1;
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\begin_layout Plain Layout
+
+} 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Die Implementierung des Market
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Wir können hier im Market einfach neue Waren erschaffen.
+ Dazu brauchen wir einen Bedarf an Waren, einen Standardpreis, eine TimeToLife
+ und einen Namen.
+ In einer weiteren Methode können wir schon einmal eine Startmenge anlegen.
+ Die Berechnung für den eigentlichen Preis ist reichlich willkürlich, aber
+ erfüllte unsere Forderungen an einen Preis für Angebot und Nachrfrage.
+\end_layout
+
+\begin_layout Subsubsection*
+Goods
+\end_layout
+
+\begin_layout Standard
+Um goods zu Implementieren müssen wir 2 Seiten betrachten.
+ Einmal die Planeten, die diese Nachrichten weiterleiten und immer aktuell
+ halten müssen, und zum anderen die Schiffe, die diese Informationen benötigen
+ um anständig Handl treiben zu können.
+\end_layout
+
+\begin_layout Standard
+Betrachten wir das ganze ersteinmal von der Planetenseite aus:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+placement H
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset listings
+lstparams "basicstyle={\footnotesize\ttfamily},numbers=left,tabsize=3"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+public void onTick() {
+\end_layout
+
+\begin_layout Plain Layout
+
+	for (String good : this.rechableGoods.keySet()) {
+\end_layout
+
+\begin_layout Plain Layout
+
+		int ttl = this.rechableGoods.get(good) - 1;
+\end_layout
+
+\begin_layout Plain Layout
+
+		if ((this.market.isGood(good) && ttl < this.market.ttl(good))) {
+\end_layout
+
+\begin_layout Plain Layout
+
+			this.rechableGoods.put(good, this.market.ttl(good));
+\end_layout
+
+\begin_layout Plain Layout
+
+		} else {
+\end_layout
+
+\begin_layout Plain Layout
+
+			this.rechableGoods.put(good, this.rechableGoods.get(good));
+\end_layout
+
+\begin_layout Plain Layout
+
+			if (ttl == 0)
+\end_layout
+
+\begin_layout Plain Layout
+
+				this.rechableGoods.remove(good);
+\end_layout
+
+\begin_layout Plain Layout
+
+		}
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\begin_layout Plain Layout
+
+	Message m = GameMessage.GOODS.toMessage(this.sendGoods());
+\end_layout
+
+\begin_layout Plain Layout
+
+	for (Channel c : this.connectedPeers.values()) {
+\end_layout
+
+\begin_layout Plain Layout
+
+		c.send(m);
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+public void onSdoog(Channel c, String[] goods) {
+\end_layout
+
+\begin_layout Plain Layout
+
+	String oMessage = GameMessage.SDOOG.toString();
+\end_layout
+
+\begin_layout Plain Layout
+
+	for (int i = 0; i < goods.length; ++i) {
+\end_layout
+
+\begin_layout Plain Layout
+
+		oMessage += " " + goods[i];
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\begin_layout Plain Layout
+
+	this.con.println(StdFd.Messages, oMessage);
+\end_layout
+
+\begin_layout Plain Layout
+
+	this.updateReachableGoods(goods);
+\end_layout
+
+\begin_layout Plain Layout
+
+	this.updatePlanetList();
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+public void onGoods(Channel c, String[] goods) {
+\end_layout
+
+\begin_layout Plain Layout
+
+	String oMessage = GameMessage.GOODS.toString();
+\end_layout
+
+\begin_layout Plain Layout
+
+	for (int i = 0; i < goods.length; ++i) {
+\end_layout
+
+\begin_layout Plain Layout
+
+		oMessage += " " + goods[i];
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\begin_layout Plain Layout
+
+	this.con.println(StdFd.Messages, oMessage);
+\end_layout
+
+\begin_layout Plain Layout
+
+	this.updateReachableGoods(goods);
+\end_layout
+
+\begin_layout Plain Layout
+
+	c.send(GameMessage.SDOOG.toMessage(this.sendGoods()));
+\end_layout
+
+\begin_layout Plain Layout
+
+} 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+goods from Planet
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Wir haben uns als aller erstes um die Waren einigermaßen auf dem neusten
+ Stand zu halten einen Timer geschrieben, der den Planeten nach 
+\emph on
+intervall
+\emph default
+ Zeiteinheiten (bei uns 10s) benachrichtigt, dass er seine Nachbarn nach
+ 
+\series bold
+GOODS
+\series default
+ fragt.
+ Am Anfang jeder Runde zählen wir die 
+\series bold
+ttl
+\series default
+ einer Ware herunter, außer wenn die ttl unter die in unserem Markt fällt
+ oder die ttl 0 ist, dann entfernen wir die Ware.
+\end_layout
+
+\begin_layout Standard
+Zu beachten in der Implementierung ist.
+ Dass wir nicht den gesammten Graphen fluten.
+ Dies führt dazu, dass 
+\series bold
+GOODS
+\series default
+ erst nach einiger Zeit die Änderung von Waren an den gesammten Graphen
+ übermittelt hat.
+\end_layout
+
+\begin_layout Standard
+Dies führt bei uns zu 2 Beobachtungen.
+ Erstens braucht es 
+\begin_inset Formula $diam\left(\text{Graph}\right)$
+\end_inset
+
+ Runden, bis eine neue Ware den gesammten Graphen erreicht hat (unter der
+ Vorraussetzung, dass die ttl groß genug ist um den gesammten Graphen zu
+ erreichen) [diam steht für den Durchmesser des Graphen, also den längsten
+ der Kürzesten Wege eines Graphen von einem Knoten zum anderen].
+ Zweitens brauchen wir nach dem auslöschen einer Ware 
+\begin_inset Formula $diam\left(\text{Graph}\right)+ttl$
+\end_inset
+
+ Runden, damit der letzte dieses verschwinden bemerkt.
+ Dies gilt natürlich nur, wenn auf dem Weg die Ware nicht mehr vorhanden
+ ist.
+\begin_inset VSpace defskip
+\end_inset
+
+Wir haben uns dafür entschieden, weil die Benutzung sehr viel leichter ist,
+ als jedes mal den gesammten Graphen zu fluten.
+ Es verursacht pro Runde eine sehr viel kleinere Menge an Nachrichten die
+ ausgetauscht wird.
+\end_layout
+
+\begin_layout Standard
+Dies alles ist nur Sinnvoll, durch die Überlegung, das die Waren, die angeboten
+ werden, sich nicht allzuschnell ändern werden.
+ Was sich schnell Ändern kann sind die Preise.
+ Da die Waren an sich für lange Zeit bestehen werden, wird auch unser gesammter
+ Zustand im Graphen die größte Teil konsitent sein.
+ Die Schwerfälligkeit bei Veränderungen zahlt sich aber spätestens bei der
+ Reaktion in bestehenden Systemen aus.
+ Gerade wenn Schiffe sehr viel Reisen und anfragen.
+\end_layout
+
+\begin_layout Subsubsection*
+Costs
+\end_layout
+
+\begin_layout Standard
+Da sich die Preise von Waren recht schnell Ändern können, benötigen wir
+ einen anderen Ansatz als bei 
+\series bold
+GOODS
+\series default
+.
+ Die Preise im Cache zu halten lohnt sich also nicht, wie bei den bisherigen
+ Möglichkeiten.
+\end_layout
+
+\begin_layout Standard
+Um den Preis zu erfragen, verwenden wir das Softwarerouting, das uns das
+ 
+\series bold
+PEERS
+\series default
+ ermöglicht:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+placement H
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset listings
+lstparams "basicstyle={\ttfamily},numbers=left,tabsize=3"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+public void onTsoc(String[] way, String good, int price, int amount) {
+\end_layout
+
+\begin_layout Plain Layout
+
+	String oMessage = GameMessage.SDOOG.toString();
+\end_layout
+
+\begin_layout Plain Layout
+
+	for (int i = 0; i < way.length; ++i) {
+\end_layout
+
+\begin_layout Plain Layout
+
+		oMessage += " " + way[i];
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\begin_layout Plain Layout
+
+	oMessage += " # " + good + " # " + price + " " + amount;
+\end_layout
+
+\begin_layout Plain Layout
+
+	this.con.println(StdFd.Messages, oMessage);
+\end_layout
+
+\begin_layout Plain Layout
+
+	if (way[way.length - 2].equals(this.name)) {
+\end_layout
+
+\begin_layout Plain Layout
+
+		//Konstruiere Message way ...
+\end_layout
+
+\begin_layout Plain Layout
+
+		Message m = GameMessage.TSOC.toMessage(way);
+\end_layout
+
+\begin_layout Plain Layout
+
+		this.dockedShips.get(way[way.length - 1]).send(m);
+\end_layout
+
+\begin_layout Plain Layout
+
+	} else {
+\end_layout
+
+\begin_layout Plain Layout
+
+		int pos = this.search(way, this.name);
+\end_layout
+
+\begin_layout Plain Layout
+
+		if (pos >= 0) {
+\end_layout
+
+\begin_layout Plain Layout
+
+			//Konstrukt Message way ...
+\end_layout
+
+\begin_layout Plain Layout
+
+			Message m = GameMessage.COST.toMessage(way);
+\end_layout
+
+\begin_layout Plain Layout
+
+			this.connectedPeers.get(way[pos + 1]).send(m);
+\end_layout
+
+\begin_layout Plain Layout
+
+		}
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+public void onCost(String[] way, String good) {
+\end_layout
+
+\begin_layout Plain Layout
+
+	String oMessage = GameMessage.COST.toString();
+\end_layout
+
+\begin_layout Plain Layout
+
+	for (int i = 0; i < way.length; ++i) {
+\end_layout
+
+\begin_layout Plain Layout
+
+		oMessage += " " + way[i];
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\begin_layout Plain Layout
+
+	oMessage += " # " + good;
+\end_layout
+
+\begin_layout Plain Layout
+
+	this.con.println(StdFd.Messages, oMessage);
+\end_layout
+
+\begin_layout Plain Layout
+
+	if (way[way.length - 1].equals(this.name)) {
+\end_layout
+
+\begin_layout Plain Layout
+
+		// Wir sind die angefragten
+\end_layout
+
+\begin_layout Plain Layout
+
+		if (this.market.isGood(good)) {
+\end_layout
+
+\begin_layout Plain Layout
+
+			int price = this.market.price(good);
+\end_layout
+
+\begin_layout Plain Layout
+
+			int amount = this.market.amount(good);
+\end_layout
+
+\begin_layout Plain Layout
+
+			String[] msg = new String[way.length + 5];
+\end_layout
+
+\begin_layout Plain Layout
+
+			//Konstrukt Message way
+\end_layout
+
+\begin_layout Plain Layout
+
+			Message m = GameMessage.TSOC.toMessage(msg);
+\end_layout
+
+\begin_layout Plain Layout
+
+			if (this.dockedShips.containsKey(msg[1])) {
+\end_layout
+
+\begin_layout Plain Layout
+
+				this.dockedShips.get(msg[1]).send(m);
+\end_layout
+
+\begin_layout Plain Layout
+
+			} else {
+\end_layout
+
+\begin_layout Plain Layout
+
+				this.connectedPeers.get(msg[1]).send(m);
+\end_layout
+
+\begin_layout Plain Layout
+
+			}
+\end_layout
+
+\begin_layout Plain Layout
+
+		}
+\end_layout
+
+\begin_layout Plain Layout
+
+	} else {
+\end_layout
+
+\begin_layout Plain Layout
+
+		int pos = this.search(way, this.name);
+\end_layout
+
+\begin_layout Plain Layout
+
+		if (pos >= 0) {
+\end_layout
+
+\begin_layout Plain Layout
+
+			way = this.invertInTo(new String[way.length + 2], way);
+\end_layout
+
+\begin_layout Plain Layout
+
+			way[way.length] = "#";
+\end_layout
+
+\begin_layout Plain Layout
+
+			way[way.length + 1] = good;
+\end_layout
+
+\begin_layout Plain Layout
+
+			Message m = GameMessage.COST.toMessage(way);
+\end_layout
+
+\begin_layout Plain Layout
+
+			this.connectedPeers.get(way[pos + 1]).send(m);
+\end_layout
+
+\begin_layout Plain Layout
+
+		}
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+goods leitet die Anfrage durch den Graphen
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Wenn wir eine Nachricht 
+\series bold
+COST
+\series default
+ bekommen, schauen wir nach, ob wir der eientliche Empfänger dieser Nachricht.
+ Sind wir es, packen wir hinten an die Nachricht den Preis und die Menge
+ ran und schicken sie den Weg zurück.
+\end_layout
+
+\begin_layout Standard
+Sind wir in der Mitte des Weges verhalten sich 
+\series bold
+COST 
+\series default
+und 
+\series bold
+TSOC
+\series default
+ gleich.
+ Sie schicken es einfach an den nächsten in der Liste weiter
+\end_layout
+
+\begin_layout Subsection*
+Bemerkung
+\end_layout
+
+\end_body
+\end_document

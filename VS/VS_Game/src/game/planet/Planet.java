@@ -48,7 +48,8 @@ public class Planet implements Game, CloseHandler, ClsHandler, ConnectHandler,
 		DockCommandHandler, PeersCommandHandler, SreepCommandHandler,
 		GoodsCommandHandler, SdoogCommandHandler, TimerHandler, NewGoodHandler,
 		GlobalCommandHandler, LocalCommandHandler, GoodsHandler,
-		CostCommandHandler, TsocCommandHandler, UndockCommandHandler, WhereisCommandHandler {
+		CostCommandHandler, TsocCommandHandler, UndockCommandHandler,
+		WhereisCommandHandler {
 
 	protected Console con;
 	private Map<String, Channel> connectedPeers = new HashMap<String, Channel>();
@@ -508,6 +509,18 @@ public class Planet implements Game, CloseHandler, ClsHandler, ConnectHandler,
 
 	@Override
 	public void onTick() {
+		// TTL aller Prozesse herunter zählen. Wenn diese nicht erneuert wird
+		// wird diese nach TTL Runden aus dem System ausscheiden.
+		for (String good : this.rechableGoods.keySet()) {
+			int ttl = this.rechableGoods.get(good) - 1;
+			if ((this.market.isGood(good) && ttl < this.market.ttl(good))) {
+				this.rechableGoods.put(good, this.market.ttl(good));
+			} else {
+				this.rechableGoods.put(good, this.rechableGoods.get(good));
+				if (ttl == 0)
+					this.rechableGoods.remove(good);
+			}
+		}
 		Message m = GameMessage.GOODS.toMessage(this.sendGoods());
 		for (Channel c : this.connectedPeers.values()) {
 			c.send(m);
@@ -539,17 +552,17 @@ public class Planet implements Game, CloseHandler, ClsHandler, ConnectHandler,
 		for (int i = 0; i < way.length; ++i) {
 			oMessage += " " + way[i];
 		}
-		oMessage += " # "+good+" # "+price+" "+amount;
+		oMessage += " # " + good + " # " + price + " " + amount;
 		this.con.println(StdFd.Messages, oMessage);
-		
+
 		if (way[way.length - 2].equals(this.name)) {
 			way = this.invertInTo(way, new String[way.length + 5]);
-
-			way[way.length] = "#";
-			way[way.length + 1] = good;
-			way[way.length + 2] = "#";
-			way[way.length + 3] = price + "";
-			way[way.length + 1] = amount + "";
+			
+			way[way.length - 5] = "#";
+			way[way.length - 4] = good;
+			way[way.length - 3] = "#";
+			way[way.length - 2] = price + "";
+			way[way.length - 1] = amount + "";
 
 			Message m = GameMessage.TSOC.toMessage(way);
 
@@ -557,13 +570,13 @@ public class Planet implements Game, CloseHandler, ClsHandler, ConnectHandler,
 		} else {
 			int pos = this.search(way, this.name);
 			if (pos >= 0) {
-				way = this.invertInTo(way, new String[way.length + 5]);
+				way = Arrays.copyOf(way, way.length + 5);
 
-				way[way.length] = "#";
-				way[way.length + 1] = good;
-				way[way.length + 2] = "#";
-				way[way.length + 3] = price + "";
-				way[way.length + 1] = amount + "";
+				way[way.length - 5] = "#";
+				way[way.length - 4] = good;
+				way[way.length - 3] = "#";
+				way[way.length - 2] = price + "";
+				way[way.length - 1] = amount + "";
 
 				Message m = GameMessage.COST.toMessage(way);
 				this.connectedPeers.get(way[pos + 1]).send(m);
@@ -577,39 +590,39 @@ public class Planet implements Game, CloseHandler, ClsHandler, ConnectHandler,
 		for (int i = 0; i < way.length; ++i) {
 			oMessage += " " + way[i];
 		}
-		oMessage += " # "+good;
-		
+		oMessage += " # " + good;
+
 		this.con.println(StdFd.Messages, oMessage);
-		
+
 		if (way[way.length - 1].equals(this.name)) {
 			// Wir sind die angefragten
 
 			if (this.market.isGood(good)) {
 				int price = this.market.price(good);
 				int amount = this.market.amount(good);
-				
+
 				String[] msg = new String[way.length + 5];
 				msg = this.invertInTo(way, msg);
-				
+
 				msg[way.length] = "#";
 				msg[way.length + 1] = good;
 				msg[way.length + 2] = "#";
 				msg[way.length + 3] = price + "";
 				msg[way.length + 4] = amount + "";
-				
+
 				Message m = GameMessage.TSOC.toMessage(msg);
-				if(this.dockedShips.containsKey(msg[1])){
+				if (this.dockedShips.containsKey(msg[1])) {
 					this.dockedShips.get(msg[1]).send(m);
-				}else{
+				} else {
 					this.connectedPeers.get(msg[1]).send(m);
 				}
 			}
 		} else {
 			int pos = this.search(way, this.name);
 			if (pos >= 0) {
-				way = this.invertInTo(new String[way.length + 2], way);
-				way[way.length] = "#";
-				way[way.length + 1] = good;
+				way = Arrays.copyOf(way, way.length + 2);
+				way[way.length-2] = "#";
+				way[way.length-1] = good;
 
 				Message m = GameMessage.COST.toMessage(way);
 				this.connectedPeers.get(way[pos + 1]).send(m);
@@ -619,24 +632,25 @@ public class Planet implements Game, CloseHandler, ClsHandler, ConnectHandler,
 
 	@Override
 	public void onWhereis(Channel c, String ship, String name) {
-		this.con.println(StdFd.Messages, GameMessage.WHEREIS+" "+name);
-		
+		this.con.println(StdFd.Messages, GameMessage.WHEREIS + " " + name);
+
 		Channel that = this.connectedPeers.get(name);
-		if(that == null) return;
+		if (that == null)
+			return;
 		UdpChannel thatU = (UdpChannel) that;
 		InetAddress inet = thatU.getRemoteAddress();
 		int port = thatU.getRemotePort();
-		
+
 		String[] msg = new String[2];
 		msg[0] = inet.getHostAddress();
-		msg[1] = port+"";
-		
+		msg[1] = port + "";
+
 		this.dockedShips.remove(ship);
 		this.mreg.removePeer(c, ship);
 		c.close();
-		
+
 		this.updatePlanetList();
-		
+
 		c.send(GameMessage.THEREIS.toMessage(msg));
 	}
 
