@@ -107,10 +107,6 @@ Also ist
 \end_layout
 
 \begin_layout Standard
-Löse Lineares Gleichungssystem:
-\end_layout
-
-\begin_layout Standard
 setze also 
 \begin_inset Formula $M:=\left(\begin{array}{ccc}
 1 & 0 & 2\\
@@ -144,6 +140,10 @@ setze also
 \end_inset
 
 ?
+\end_layout
+
+\begin_layout Standard
+Löse Lineares Gleichungssystem:
 \end_layout
 
 \begin_layout Standard

@@ -1,0 +1,1911 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass scrartcl
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 3cm
+\topmargin 2cm
+\rightmargin 2cm
+\bottommargin 2cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Lineare Algebra Übung II
+\end_layout
+
+\begin_layout Date
+Max Wisniewski
+\end_layout
+
+\begin_layout Author
+Tutor : Elena
+\end_layout
+
+\begin_layout Subsection*
+Aufgabe 1
+\end_layout
+
+\begin_layout Standard
+Bestimmen Sie die Normalform folgender Quadrik:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+F=\left\{ \left(x,y,z\right)\in\mathbb{R}\;|\; x^{2}+4xz-3y^{2}+6yz+z^{2}+x+2y-z+5=0\right\} 
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Besitzt 
+\begin_inset Formula $F$
+\end_inset
+
+ einen Mittelpunkt?
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Als erstes bestimmen wir die Funktion 
+\begin_inset Formula $f\;:\;\mathbb{R}^{3}\rightarrow\mathbb{R}$
+\end_inset
+
+, aus einer symmetrischen Matrix, einem linear Teil und einer Konstante.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+f\left(x\right)=\overset{\sim}{x}^{t}\left(\begin{array}{ccc}
+1 & 0 & 2\\
+0 & -3 & 3\\
+2 & 3 & 1
+\end{array}\right)\overset{\sim}{x}+\left(\begin{array}{c}
+1\\
+2\\
+-1
+\end{array}\right)^{t}\overset{\sim}{x}+5
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Mit 
+\begin_inset Formula $M=\left(\begin{array}{ccc}
+1 & 0 & 2\\
+0 & -3 & 3\\
+2 & 3 & 1
+\end{array}\right)$
+\end_inset
+
+ und 
+\begin_inset Formula $b=\left(\begin{array}{c}
+1\\
+2\\
+-1
+\end{array}\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Nun gehen wir das Verfahren aus der Vorlesung durch:
+\end_layout
+
+\begin_layout Subsubsection*
+(1) Symmetrisiere 
+\begin_inset Formula $M$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Wir haben 
+\begin_inset Formula $M$
+\end_inset
+
+ schon symmetrisch gewählt.
+\end_layout
+
+\begin_layout Subsubsection*
+(2) Ist 
+\begin_inset Formula $b\in Im\left(M\right)$
+\end_inset
+
+?
+\end_layout
+
+\begin_layout Standard
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+\begin_inset Formula 
+\[
+\left(\begin{array}{ccc|c}
+1 & 0 & 2 & 1\\
+0 & -3 & 3 & 2\\
+2 & 3 & 1 & -1
+\end{array}\right)\stackrel{III-2I}{\rightsquigarrow}\left(\begin{array}{ccc|c}
+1 & 0 & 2 & 1\\
+0 & -3 & 3 & 2\\
+0 & 3 & -3 & -3
+\end{array}\right)\stackrel{III+II}{\rightsquigarrow}\left(\begin{array}{ccc|c}
+1 & 0 & 2 & 1\\
+0 & -3 & 3 & 2\\
+0 & 0 & 0 & -1
+\end{array}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Die dritte Zeile kann nicht erfüllt werden 
+\begin_inset Formula $\Rightarrow b\not\in Im\left(M\right)$
+\end_inset
+
+.
+\begin_inset Newline newline
+\end_inset
+
+Nun können wir die Konstante Eleminieren und erhalten die Form:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $f\left(x,y,z\right)=x^{2}+4xz-3y^{2}+6yz+z^{2}+x+2y-z$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+(3) Auf Normalform bringen
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+x^{2}+4xz-3y^{2}+6yz+z^{2}+x+2y-z
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+=\left(x^{2}+2x\left(2z\right)+4z^{2}\right)-4z^{2}-3y^{2}+6yz+z^{2}+x+2y-z
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+=\left(x+2z\right)^{2}-3z^{2}-3y^{2}+6yz+x+2y-z
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Setzte 
+\begin_inset Formula $x_{1}=x+2z$
+\end_inset
+
+, 
+\begin_inset Formula $y_{1}=y$
+\end_inset
+
+, 
+\begin_inset Formula $z_{1}=z$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\Rightarrow x_{1}^{2}-3z_{1}^{2}-3y_{1}^{2}+6y_{1}z_{1}+x_{1}+2y_{1}-3z_{1}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+=x_{1}^{2}-3\left(z_{1}^{2}+2z_{1}y_{1}+y_{1}^{2}\right)+x_{1}+2y_{1}-3z_{1}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Setze 
+\begin_inset Formula $x_{2}=x_{1}$
+\end_inset
+
+, 
+\begin_inset Formula $y_{2}=y_{1}$
+\end_inset
+
+, 
+\begin_inset Formula $z_{2}=z_{1}+y_{1}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\Rightarrow x_{2}^{2}-3z_{2}^{2}+x_{2}+5y_{2}-3z_{2}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Setze 
+\begin_inset Formula $x_{3}=x_{2}$
+\end_inset
+
+, 
+\begin_inset Formula $-y_{3}=x_{2}+5y_{2}-3z_{2}$
+\end_inset
+
+, 
+\begin_inset Formula $z_{3}=z_{2}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\Rightarrow x_{3}^{2}-3z_{3}^{2}-y_{3}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Nun normieren wir noch : 
+\begin_inset Formula $x_{4}=x_{3}$
+\end_inset
+
+, 
+\begin_inset Formula $y_{4}=y_{3}$
+\end_inset
+
+, 
+\begin_inset Formula $z_{4}=\frac{z_{3}}{\sqrt{3}}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+(4) Normalform
+\end_layout
+
+\begin_layout Standard
+Aus der letzen Umforung erhalten wir die Normalform der Quadrik, mit
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+F=\left\{ \left(x,y,z\right)\in\mathbb{R}\;|\; x^{2}-z^{2}-y=0\right\} 
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Die Komponenten könnte man nun durch Umordnung auf die richige Form bringen,
+ aber dies erscheint uns ersteinmal nicht so wichtig.
+\end_layout
+
+\begin_layout Subsection*
+Aufgabe 2
+\end_layout
+
+\begin_layout Standard
+Für 
+\begin_inset Formula $s\in\mathbb{R}$
+\end_inset
+
+ sei 
+\begin_inset Formula $F_{s}\subset\mathbb{R}^{3}$
+\end_inset
+
+ gegeben durch
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+x_{1}^{2}+\left(2s^{2}+1\right)\left(x_{2}^{2}+x_{3}^{2}\right)-2x_{1}x_{2}+2x_{1}x_{3}-2x_{2}x_{3}-\left(2s^{2}-3s+1\right)=0
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Bestimmen Sie die Normalform.
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Wir stellen zunächst die Funktion
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+f\;:\;\mathbb{R}^{3}\rightarrow\mathbb{R}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+x\mapsto\overset{\sim}{x}^{t}M\overset{\sim}{x}+b^{t}\overset{\sim}{x}+c
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Mit 
+\begin_inset Formula $M=\left(\begin{array}{ccc}
+1 & -1 & 1\\
+-1 & 2s^{2}+1 & -1\\
+1 & -1 & 2s^{2}+1
+\end{array}\right),\; b=\left(\begin{array}{c}
+0\\
+0\\
+0
+\end{array}\right),\; c=-\left(2s^{2}-3s+1\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+(1) Mache aus 
+\begin_inset Formula $M$
+\end_inset
+
+ eine symmetrische Matrix
+\end_layout
+
+\begin_layout Standard
+Nach Konstruktion ist unser 
+\begin_inset Formula $M$
+\end_inset
+
+ schon symmetrisch.
+\end_layout
+
+\begin_layout Subsubsection*
+(2) Ist 
+\begin_inset Formula $b\in Im\left(M\right)$
+\end_inset
+
+?
+\end_layout
+
+\begin_layout Standard
+Da 
+\begin_inset Formula $b=0$
+\end_inset
+
+ und 
+\begin_inset Formula $0\in Im\left(M\right)$
+\end_inset
+
+ liegen muss, ist 
+\begin_inset Formula $b$
+\end_inset
+
+ automatisch im Bild.
+ Da der linear Term auch schon 0 ist, brauchen wir keine Translation mehr
+ darauf.
+\end_layout
+
+\begin_layout Subsubsection*
+(3) Auf Normalform bringen
+\end_layout
+
+\begin_layout Standard
+Wir betrachten die Konstante erst wieder am Schluss.
+ Da wir in der Umformung keine Translation ausführen, wird sich die Konstante
+ auch nicht mehr ändern.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+x_{1}^{2}+\left(2s^{2}+1\right)\left(y_{1}^{2}+z_{1}^{2}\right)-2x_{1}y_{1}+2x_{1}z_{1}-2y_{1}z_{1}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\left(x_{1}-\left(y_{1}-z_{1}\right)\right)^{2}-\left(y_{1}-z_{1}\right)^{2}+\left(2s^{2}+1\right)\left(y_{1}^{2}+z_{1}^{2}\right)-2y_{1}z_{1}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Setze 
+\begin_inset Formula $x_{2}=x_{1}-y_{1}-z_{1}$
+\end_inset
+
+, 
+\begin_inset Formula $y_{2}=y_{1}$
+\end_inset
+
+, 
+\begin_inset Formula $z_{2}=z_{1}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\Rightarrow x_{2}^{2}-\left(y_{2}-z_{2}\right)^{2}+\left(2s^{2}+1\right)\left(y_{2}^{2}+z_{2}^{2}\right)-2y_{2}z_{2}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+=x_{2}^{2}-y_{2}^{2}-z_{2}^{2}+\left(2s^{2}+1\right)\left(y_{2}^{2}+z_{2}^{2}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+=x_{2}^{2}+\left(2s^{2}\right)y_{2}^{2}+\left(2s^{2}\right)z_{2}^{2}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Wir habe nun schon eine Diagonalisierte Form erreicht.
+ Nun setzen wir wieder die Konstante dazu und wollen die Endgültige Form
+ erreichen.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+x_{2}^{2}+\left(2s^{2}\right)y_{2}^{2}+\left(2s^{2}\right)z_{2}^{2}-\left(2s^{2}-3s+1\right)=0
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\Leftrightarrow x_{2}^{2}+\left(2s^{2}\right)y_{2}^{2}+\left(2s^{2}\right)z_{2}^{2}=2s^{2}-3s+1
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Sollte die Konstante 0 sein, (
+\begin_inset Formula $\Rightarrow2s^{2}\not=0$
+\end_inset
+
+), können wir durch ersetzen
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $x_{3}=x_{2}$
+\end_inset
+
+, 
+\begin_inset Formula $y_{3}=\frac{y_{2}}{\sqrt{2}s}$
+\end_inset
+
+, 
+\begin_inset Formula $z_{3}=\frac{z_{2}}{\sqrt{2}s}$
+\end_inset
+
+ und die Form
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+F=\left\{ \left(x,y,z\right)\in\mathbb{R}^{3}\;|\; x^{2}+y^{2}+z^{2}=0\right\} 
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Sollte die Konstante ungleich 0 sein formen wir ersteinmal weiter um:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\Rightarrow\frac{x_{2}^{2}}{2s^{2}-3s+1}+\frac{2s^{2}y_{2}^{2}}{2s^{2}-3s+1}+\frac{2s^{2}z_{2}^{2}}{2s^{2}-3s+1}=1
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Nun müssen wir unterscheiden, ob 
+\begin_inset Formula $2s^{2}-3s+1$
+\end_inset
+
+ größer oder kleiner 0 ist.
+ Diese Werte sind für 
+\begin_inset Formula $s$
+\end_inset
+
+ berechenbar, aber da es hier nicht gefordert wurde unterscheiden wir es
+ einfach so:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $2s^{2}-3s+1>0\Rightarrow x_{3}=\left(\sqrt{2s^{2}-3s+1}x_{2}\right)$
+\end_inset
+
+, 
+\begin_inset Formula $y_{3}=\left(\sqrt{\frac{2s^{2}-3s+1}{2s^{2}}}y_{2}\right)$
+\end_inset
+
+, 
+\begin_inset Formula $z_{3}=\left(\sqrt{\frac{2s^{2}-3s+1}{2s^{2}}}z_{2}\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\Rightarrow F=\left\{ \left(x,y,z\right)\in\mathbb{R}^{3}\;|\; x^{2}+y^{2}+z^{2}=1\right\} 
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $2s^{2}-3s+1<0\Rightarrow x_{3}=-\left(\sqrt{-\left(2s^{2}-3s+1\right)}x_{2}\right)$
+\end_inset
+
+, 
+\begin_inset Formula $y_{3}=-\left(\sqrt{-\frac{2s^{2}-3s+1}{2s^{2}}}y_{2}\right)$
+\end_inset
+
+, 
+\begin_inset Formula $z_{3}=-\left(\sqrt{-\frac{2s^{2}-3s+1}{2s^{2}}}z_{2}\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\Rightarrow F=\left\{ \left(x,y,z\right)\in\mathbb{R}^{3}\;|\;-x^{2}-y^{2}-z^{2}=1\right\} 
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+(4) Ergebnis
+\end_layout
+
+\begin_layout Standard
+Wir haben 3 Mögliche Normalformen gefunde:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\left(2s^{2}-3s+1\right)=0\;:\; F=\left\{ \left(x,y,z\right)\in\mathbb{R}^{3}\;|\; x^{2}+y^{2}+z^{2}=0\right\} $
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\left(2s^{2}-3s+1\right)>0\;:\; F=\left\{ \left(x,y,z\right)\in\mathbb{R}^{3}\;|\; x^{2}+y^{2}+z^{2}=1\right\} $
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\left(2s^{2}-3s+1\right)<0\;:\; F=\left\{ \left(x,y,z\right)\in\mathbb{R}^{3}\;|\;-x^{2}-y^{2}-z^{2}=1\right\} $
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection*
+Aufgabe 3
+\end_layout
+
+\begin_layout Standard
+Sei 
+\begin_inset Formula $V=0+\mathbb{R}^{3}$
+\end_inset
+
+, 
+\begin_inset Formula $f\;:\; V\rightarrow\mathbb{R}$
+\end_inset
+
+ quadratisch und 
+\begin_inset Formula $F=\left\{ \left(x,y,z\right)\in\mathbb{R}^{3}\;|\; f\left(x,y,z\right)=0\right\} $
+\end_inset
+
+.
+ Geben Sie alle möglichen Normalformen von 
+\begin_inset Formula $F$
+\end_inset
+
+ an und skizzieren Sie diese.
+\end_layout
+
+\begin_layout Standard
+Wir brauchen uns hier nur die Verschiedenen Kombinationen von Vorzeichen
+ zu Betrachten und, ob 0 oder 1 die Konstante ist.
+ Dies für die 3 Fälle, dass 
+\begin_inset Formula $rg\left(f\right)=3,2,1$
+\end_inset
+
+ ist:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="12" columns="3">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0pt">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Normalform
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Beschreibung
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\qquad\qquad\qquad$
+\end_inset
+
+Skizze
+\begin_inset Formula $\qquad\qquad\qquad$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $rg\left(f\right)=3$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $x^{2}+y^{2}+z^{2}=1$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Kreis (Elipsoid)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset VSpace 20col%
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $x^{2}+y^{2}-z^{2}=1$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+einschaliges Hyperbolid
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset VSpace 20col%
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $x^{2}-y^{2}-z^{2}=1$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+zweischaliges Hyperbolid
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset VSpace 20col%
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $-x^{2}-y^{2}-z^{2}=1$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\emptyset$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $x^{2}+y^{2}+z^{2}=0$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Punkt(egal welche Vorzeichen)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $x^{2}+y^{2}-z^{2}=0$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Doppelkegel
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset VSpace 20col%
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $rg\left(f\right)=2$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $x^{2}+y^{2}-z=0$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+elliptisches Parabolid(Topf)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset VSpace 20col%
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $x^{2}-y^{2}-z=0$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+hyperbolisches Parabolid(Sattel)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset VSpace 20col%
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $x^{2}+y^{2}=-1$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+leere Menge
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="10" columns="3">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Normalform
+\begin_inset Formula $\;\;\;\;$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\qquad$
+\end_inset
+
+
+\begin_inset Formula $\qquad$
+\end_inset
+
+Beschreibung
+\begin_inset Formula $\qquad\;$
+\end_inset
+
+
+\begin_inset Formula $\qquad$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\qquad\qquad\qquad$
+\end_inset
+
+Skizze
+\begin_inset Formula $\qquad\qquad\qquad$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $x^{2}+y^{2}=1$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Zylinder(eliptisch)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset VSpace 20col%
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $x^{2}-y^{2}=1$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+hyperbolischer Zylinder
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset VSpace 20col%
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $x^{2}+y^{2}=0$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Gerade(hier z-Achse)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset VSpace 20col%
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $x^{2}-y^{2}=0$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Ebenenkreuz
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset VSpace 20col%
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $rg\left(f\right)=1$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $x^{2}-y=0$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+parabolischer Zylinder
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $x^{2}=1$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Ebenen (parallel)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset VSpace 20col%
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $-x^{2}=1$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Leere Menge
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $x^{2}=0$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Ebene (einfach)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset VSpace 20col%
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection*
+Aufgabe 4
+\end_layout
+
+\begin_layout Standard
+Fasse Sie die komplexen Zahlen 
+\begin_inset Formula $\mathbb{C}$
+\end_inset
+
+ wie gewohnt als 2-dimensionalen 
+\begin_inset Formula $\mathbb{R}$
+\end_inset
+
+-Vektorraum mit Basis 
+\begin_inset Formula $\left\{ 1,i\right\} $
+\end_inset
+
+ auf.
+\end_layout
+
+\begin_layout Paragraph*
+a)
+\end_layout
+
+\begin_layout Standard
+Bestimmen Sie Basen von 
+\begin_inset Formula $\mathbb{C}\otimes_{\mathbb{R}}\mathbb{C}$
+\end_inset
+
+ und 
+\begin_inset Formula $\mathbb{C}\otimes_{\mathbb{R}}\mathbb{R}$
+\end_inset
+
+.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula $\mathbb{C}\otimes_{\mathbb{R}}\mathbb{C}$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+Wie in der VL gezeigt, können wir eine Basis des Raumes bestimmen, indem
+ wir das Tensorprodukt der Basen nehmen:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\text{Basis von }\mathbb{C}\otimes_{\mathbb{R}}\mathbb{C}:=\left\{ \left(1\otimes1\right),\left(1\otimes i\right),\left(i\otimes1\right),\left(i\otimes i\right)\right\} 
+\]
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula $\mathbb{C}\otimes_{\mathbb{R}}\mathbb{R}$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\text{Basis von }\mathbb{C}\otimes_{\mathbb{R}}\mathbb{R}:=\left\{ \left(1\otimes1\right),\left(i\otimes1\right)\right\} 
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph*
+b)
+\end_layout
+
+\begin_layout Standard
+Bestimmen Sie die Basis von 
+\begin_inset Formula $\mathbb{C}\otimes_{\mathbb{C}}\mathbb{C}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Da wir diesmal die Basis bezüglich des Körpers 
+\begin_inset Formula $\mathbb{C}$
+\end_inset
+
+ arbeiten, können wir die einfachste Basis wählen:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\text{Basis von }\mathbb{C}\otimes_{\mathbb{C}}\mathbb{C}:=\left\{ \left(1\otimes1\right)\right\} 
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Paragraph*
+c)
+\end_layout
+
+\begin_layout Standard
+Zeigen Sie: Ist 
+\begin_inset Formula $V$
+\end_inset
+
+ ein 
+\begin_inset Formula $K$
+\end_inset
+
+-Vektorraum, so gilt 
+\begin_inset Formula $V\otimes_{K}K\simeq V$
+\end_inset
+
+ und 
+\begin_inset Formula $K\otimes_{K}V\simeq V$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Description
+Beweis Um diesen Satz zu zeigen, wählen wir Basen für 
+\begin_inset Formula $V$
+\end_inset
+
+ und fassen 
+\begin_inset Formula $K$
+\end_inset
+
+ als 1-dimensionalen K-Vektorraum auf.
+ Für 
+\begin_inset Formula $V$
+\end_inset
+
+ wählen wir ersteinmal die kanonischen Basen.
+\end_layout
+
+\begin_layout Standard
+Nun stellen wir eine lineare Funktion 
+\begin_inset Formula $f\;:\; V\otimes_{K}K\rightarrow V$
+\end_inset
+
+ auf.
+ Mit
+\end_layout
+
+\begin_layout Standard
+Für alle 
+\begin_inset Formula $e_{i}$
+\end_inset
+
+ aus der Basis von 
+\begin_inset Formula $V$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $f\left(e_{i}\otimes1\right)=e_{i}$
+\end_inset
+
+.
+\begin_inset Newline newline
+\end_inset
+
+Betrachten wir nun einmal die Dimensionen der beiden Bereiche, sehen wir,
+ dass 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\dim\left(V\otimes_{k}K\right)=\dim\left(V\right)\cdot\dim\left(K\right)=\dim\left(V\right)$
+\end_inset
+
+.
+\begin_inset Newline newline
+\end_inset
+
+Weiterhin wissen wir, dass keine der Basisvektoren auf die 
+\begin_inset Formula $0$
+\end_inset
+
+ abgebildet wird, da 
+\begin_inset Formula $e_{i}$
+\end_inset
+
+ nicht die 0 ist.
+ Somit kann nur die 0 auf 0 abgebildet werden.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\Rightarrow Ker\left(f\right)=\left\{ 0\right\} \mbox{\Rightarrow}f$
+\end_inset
+
+ ist injektiv.
+\begin_inset Newline newline
+\end_inset
+
+Aus unserer ersten Überlegung folgt aus 
+\begin_inset Formula $Ker\left(f\right)=0$
+\end_inset
+
+ und der Dimensionsformel, dass
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\dim\left(Im\left(f\right)\right)=\dim\left(V\right)\Rightarrow f$
+\end_inset
+
+ ist surjektiv.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula $f$
+\end_inset
+
+ ist eine bijektive Abbildung zwischen 
+\begin_inset Formula $V\otimes_{k}K$
+\end_inset
+
+ und 
+\begin_inset Formula $V$
+\end_inset
+
+, somit sind die beiden Isomorph zu einander.
+\begin_inset VSpace medskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Stellen wir 
+\begin_inset Formula $g\;:\; K\otimes_{k}V\rightarrow V$
+\end_inset
+
+, mit 
+\begin_inset Formula $\forall e_{i}\in$
+\end_inset
+
+Basis 
+\begin_inset Formula $:\; f\left(1\otimes e_{i}\right)=e_{i}$
+\end_inset
+
+ auf, folgen die Überelgungen analog zu 
+\begin_inset Formula $f$
+\end_inset
+
+.
+\begin_inset VSpace medskip
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Wir haben also sowohl 
+\begin_inset Formula $K\otimes_{K}V\simeq V$
+\end_inset
+
+ als auch 
+\begin_inset Formula $V\otimes_{k}K\simeq V$
+\end_inset
+
+ gezeigt.
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Formula $\blacksquare$
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
