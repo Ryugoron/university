@@ -1,0 +1,91 @@
+/************************************************************************************************
+ * MAIN																							*
+ ************************************************************************************************
+ * Einstiegspunkte der Anwendung																*
+ ************************************************************************************************/
+#include "main.h"
+
+//____DEKLARATIONEN______________________________________________________________________________
+void main_task(void);
+void sub_task1(void);
+
+ascii *sendbuffer;
+
+//____VARIABLEN__________________________________________________________________________________
+//____FUNKTIONEN_________________________________________________________________________________
+void transceiver_handler(u8 * data, u8 size)
+	{
+	adl_atSendResponse(ADL_AT_RSP, "\r\nEvent!\r\n");
+	ascii buffer[size + 1];
+	int i;
+	for (i = 0; i < size; ++i)
+		{
+		buffer[i] = data[i];
+		}
+	buffer[size] = '\0';
+	adl_atSendResponse(ADL_AT_RSP, buffer);
+	if (wm_atoi(&buffer[6]))
+		{
+		// Taste gelb gedrückt
+		led_on(0);
+		}
+	if (wm_atoi(&buffer[7]))
+		{
+		// Taste schwarz
+		led_on(1);
+		}
+	// buffer[6] taste gelb gedrückt
+	// buffer[7] taste schwarz gedrückt
+
+	//	ascii sendbuffer[9];
+	//	wm_sprintf(sendbuffer, "LED:%s%s%s;",)
+
+	}
+
+bool keyhandler(adl_atUnsolicited_t * paras)
+	{
+	ascii tastenbuffer[1];
+	ascii tastenstatus[1];
+
+	wm_strGetParameterString(tastenbuffer, paras->StrData, 1);
+	wm_strGetParameterString(tastenstatus, paras->StrData, 2);
+	adl_atSendResponse(ADL_AT_RSP, "\r\n taste:");
+	adl_atSendResponse(ADL_AT_RSP, tastenbuffer);
+	adl_atSendResponse(ADL_AT_RSP, "\r\n gedruckt:");
+	adl_atSendResponse(ADL_AT_RSP, tastenstatus);
+	adl_atSendResponse(ADL_AT_RSP, "\r\n");
+	if (wm_atoi(tastenbuffer) > 2) {return FALSE;}
+
+	sendbuffer[atoi(tastenbuffer)+4] = tastenstatus[0];
+	adl_atSendResponse(ADL_AT_RSP, sendbuffer);
+//	cc1100_transmit(18,sendbuffer,wm_strlen(sendbuffer));
+	return FALSE;
+	}
+
+
+/*
+ * Hauptask der Anwendung (volle ADL Funktionalität)
+ */
+//===============================================================================================
+void main_task(void)
+//===============================================================================================
+	{
+	sendbuffer = "LED:000;";
+
+	// Tasten - Nachrichten einschalten . Kein Handler benötigt .
+	adl_atCmdCreate("AT+CMER=,1", FALSE, NULL, NULL);
+	// Keyhandler speziell auf Taste 3 reagieren lassen .
+	adl_atUnSoSubscribe("+CKEV:", keyhandler);
+	irq_0_enable(TRUE);
+	cc1100_subscribe(transceiver_handler);
+	}
+
+/*
+ * Nebenläufiger Task der Anwendung (eingeschränkte ADL Funktionalität)
+ */
+//===============================================================================================
+void sub_task1(void)
+//===============================================================================================
+	{
+	// Anwendercode ...
+	}

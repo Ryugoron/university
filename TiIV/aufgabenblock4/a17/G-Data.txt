@@ -1,0 +1,14 @@
+Null Punkte:
+x : 40 (pm 50)
+y : -18 (pm 20)
+
+
+Kippen: (runter)
+
+x : 
+	Kabelseitig -> positiv
+	abgekehrt -> negatv
+y :
+	antenne -> negativ
+	abgekehrt -> positiv
+ 

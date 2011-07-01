@@ -1,0 +1,100 @@
+/************************************************************************************************
+ * MAIN																							*
+ ************************************************************************************************
+ * Einstiegspunkte der Anwendung																*
+ ************************************************************************************************/
+#include "main.h"
+
+//____DEKLARATIONEN______________________________________________________________________________
+void main_task(void);
+void sub_task1(void);
+
+s16 x_Ruhe = 40;
+s16 y_Ruhe = -18;
+
+s16 x_Hyst = 50;
+s16 y_Hyst = 20;
+
+//____VARIABLEN__________________________________________________________________________________
+adl_tmr_t *timer_n;
+smb380_data *data_buffer;
+//____FUNKTIONEN_________________________________________________________________________________
+void accHandler(smb380_data *data)
+	{
+		led_on(0);
+		led_on(1);
+		led_on(2);
+		led_on(3);
+	}
+
+void timer_handler_n(u8 event, void *context)
+	{
+	smb380_acceleration(data_buffer);
+	ascii output_buffer[128];
+	wm_sprintf(output_buffer, "x:%i\r\ny:%i\r\nz:%i\r\n\r\n", data_buffer->x_axis,
+		data_buffer->y_axis, data_buffer->z_axis);
+	adl_atSendResponse(ADL_AT_RSP, output_buffer);
+
+	if (x_Ruhe + x_Hyst <= data_buffer->x_axis)
+		{
+		led_on(1);
+		led_off(2);
+		}
+	else if (x_Ruhe - x_Hyst >= data_buffer->x_axis)
+		{
+		led_on(2);
+		led_off(1);
+		}
+	else
+		{
+		led_off(1);
+		led_off(2);
+		}
+
+	if (y_Ruhe + y_Hyst <= data_buffer->y_axis)
+		{
+		led_on(0);
+		led_off(3);
+		}
+	else if (y_Ruhe - y_Hyst >= data_buffer->y_axis)
+		{
+		led_on(3);
+		led_off(0);
+		}
+	else
+		{
+		led_off(0);
+		led_off(3);
+		}
+
+	}
+
+/*
+ * Hauptask der Anwendung (volle ADL Funktionalität)
+ */
+//===============================================================================================
+void main_task(void)
+//===============================================================================================
+	{
+	ascii buffer[6];
+	data_buffer = (smb380_data*) buffer;
+	irq_1_enable(TRUE);
+	SMB380_SET (SMB380_C2, SMB380_C2_RANGE, 0x04);
+	smb380_subscribe(accHandler);
+
+	timer_n = adl_tmrSubscribe( // meldet Timer an
+		TRUE, // zyklisch
+		10, ADL_TMR_TYPE_100MS, // 10 * 100ms = 1s
+		timer_handler_n);
+
+	}
+
+/*
+ * Nebenläufiger Task der Anwendung (eingeschränkte ADL Funktionalität)
+ */
+//===============================================================================================
+void sub_task1(void)
+//===============================================================================================
+	{
+	// Anwendercode ...
+	}
