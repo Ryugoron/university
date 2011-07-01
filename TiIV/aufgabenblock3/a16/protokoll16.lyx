@@ -1,0 +1,769 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 3cm
+\topmargin 2cm
+\rightmargin 2cm
+\bottommargin 2cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Technische Informatik IV: Praktikum 
+\end_layout
+
+\begin_layout Author
+Protokoll zu Aufgabe A16
+\end_layout
+
+\begin_layout Date
+Alexander Steen , Max Wisniewski
+\end_layout
+
+\begin_layout Subsection*
+Vorbereitung
+\end_layout
+
+\begin_layout Standard
+xxxxx
+\end_layout
+
+\begin_layout Subsection*
+Aufgaben
+\end_layout
+
+\begin_layout Enumerate
+Programm schreiben, dass die aktuelle Position (via GPS ermittelt) alle
+ 10 Sekunden an einen Server schickt
+\end_layout
+
+\begin_layout Enumerate
+Erweitern, sodass man via telnet und Eingaben von w,s,a,d (den Tasten) den
+ Modulbetreiber 
+\begin_inset Quotes eld
+\end_inset
+
+steuern
+\begin_inset Quotes erd
+\end_inset
+
+ kann.
+\end_layout
+
+\begin_layout Subsection*
+Dokumentation
+\end_layout
+
+\begin_layout Description
+GPS GPS wurde bereits im Vorprotokoll zu Aufgabenblock 3 beschrieben.
+ Für diese Aufgabe ist die genaue Antwort des GPS-Moduls wichtig.
+ Eine GPS-Antwort sieht folgendermaßen aus:
+\begin_inset Newline newline
+\end_inset
+
+$GPRMC,191410,A,4735.5634,N,00739.3538,E,0.0,0.0,181102,0.4,E,A*19
+\begin_inset Newline newline
+\end_inset
+
+Dabei bedeuten die Teile der Antwort:
+\begin_inset Newline newline
+\end_inset
+
+$GPRMC - Einleitung der Antwort
+\begin_inset Newline newline
+\end_inset
+
+191410 - Uhrzeit (hier: 19:14:10)
+\begin_inset Newline newline
+\end_inset
+
+A - Status / Gültigkeit der Antwort, dabei ist A gültig und V ungültig
+\begin_inset Newline newline
+\end_inset
+
+4735.5634 - Breitengrad
+\begin_inset Newline newline
+\end_inset
+
+N - Richtung, hier Nord
+\begin_inset Newline newline
+\end_inset
+
+00739.3538 - Längengrad
+\begin_inset Newline newline
+\end_inset
+
+E - Richtung, hier Ost
+\begin_inset Newline newline
+\end_inset
+
+und einige weitere Angaben, die wir hier nicht betrachten.
+\end_layout
+
+\begin_layout Description
+fsa03_subscribe Registriert eine GPS-Handler-Funktion bei dem GPS-Modul,
+ dabei muss folgender Prototyp eingehalten werden:
+\begin_inset Newline newline
+\end_inset
+
+void gpshandler(fsa03_gprmc * data)
+\begin_inset Newline newline
+\end_inset
+
+In dem struct data stehen dann bereits alle vorverarbeiteten Information
+ der GPS-Antwort.
+\end_layout
+
+\begin_layout Subsection*
+Durchführung
+\end_layout
+
+\begin_layout Standard
+Zu Beginn legen wir uns globale Variablen an: Die Variable channel speichert
+ den zu Beginn des Programmes geöffneten TCP-Kanal zum bekannten Server.
+ Dieser Kanal wird dann von dem GPS-Handler genutzt.
+ Die Zählvariable counter zählt die Aufrufe des GPS-Handlers.
+ Dies ist wichtig, da der GPS-Handler zwar jede Sekunde automatisch aufgerufen
+ wird, jedoch nur alle zehn Sekunden Daten schicken soll.
+ In buffer speichern wir uns die Nachricht, die an den Server geschrieben
+ werden soll.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\small\ttfamily},frame=single,language=C,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+wip_channel_t channel;
+\end_layout
+
+\begin_layout Plain Layout
+
+u8 counter = 0;
+\end_layout
+
+\begin_layout Plain Layout
+
+ascii buffer[64];
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace medskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Die Callback-Funktion gpshandler wird nach Registration (siehe main_task)
+ automatisch jede Sekunde anfgerufen und prüft, ob bereits 10 Sekunden vergangen
+ sind (Anzahl der Aufrufe restlos durch zehn teilbar).
+ Falls dies der Fall ist, wird eine Nachricht mit der aktuellen Position
+ an den Server geschickt.
+ Vorher wird allerdings geprüft, ob die aktuelle GPS-Information schon vollständ
+ig (gültig) ist.
+ Dies können wir realisieren, in dem wir auf den Nachrichtenteil der GPS-Antwort
+ überprüfen, in dem ein 'V' steht, falls die Antwort nicht gültig ist.
+\end_layout
+
+\begin_layout Standard
+Da die GPS-Antwort nicht kompatibel mit der Schnittstelle des Server ist
+ (die GPS-Antwort hat jeweils eine Nachkommastelle mehr bei den Positionsangaben
+), schneiden wir einfach die letzte Nachkommastelle der Antwort ab.
+ Die Genauigkeit wird davon nur maginal beeinflusst.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\small\ttfamily},frame=single,language=C,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+void gpshandler(fsa03_gprmc * data) 	{
+\end_layout
+
+\begin_layout Plain Layout
+
+	counter = (counter + 1) % 10;
+\end_layout
+
+\begin_layout Plain Layout
+
+	if (counter != 1) 		return;
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	// Erzwinge Schnittstellen-Kompatibilität: 
+\end_layout
+
+\begin_layout Plain Layout
+
+	// (Jeweils eine Nachkommastelle löschen)
+\end_layout
+
+\begin_layout Plain Layout
+
+	ascii latitude[10]; 
+\end_layout
+
+\begin_layout Plain Layout
+
+	wm_strncpy(latitude, data->latitude, 9);
+\end_layout
+
+\begin_layout Plain Layout
+
+	latitude[9] = '
+\backslash
+0';
+\end_layout
+
+\begin_layout Plain Layout
+
+	ascii longitude[11];
+\end_layout
+
+\begin_layout Plain Layout
+
+	wm_strncpy(latitude, data->latitude, 10); 
+\end_layout
+
+\begin_layout Plain Layout
+
+	latitude[10] = '
+\backslash
+0';
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	// Baue  Ausgabe (für die Nachricht an den Server) zusammen:
+\end_layout
+
+\begin_layout Plain Layout
+
+	wm_sprintf(buffer, "%s%s,%s%s;", latitude, data->lat_dir, longitude, data->long
+_dir);
+\end_layout
+
+\begin_layout Plain Layout
+
+	// Kontrollausgabe:
+\end_layout
+
+\begin_layout Plain Layout
+
+	adl_atSendResponse(ADL_AT_RSP, "Daten: 
+\backslash
+r
+\backslash
+n");
+\end_layout
+
+\begin_layout Plain Layout
+
+	adl_atSendResponse(ADL_AT_RSP, buffer);
+\end_layout
+
+\begin_layout Plain Layout
+
+	adl_atSendResponse(ADL_AT_RSP, "
+\backslash
+r
+\backslash
+n");
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\end_layout
+
+\begin_layout Plain Layout
+
+	// Nur schicken, falls Daten komplett,
+\end_layout
+
+\begin_layout Plain Layout
+
+	// also "status"-Wert nicht void
+\end_layout
+
+\begin_layout Plain Layout
+
+	if (wm_strcmp(data->status, "V") == 0) 
+\end_layout
+
+\begin_layout Plain Layout
+
+		return;
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\end_layout
+
+\begin_layout Plain Layout
+
+	// Existiert der channel noch?
+\end_layout
+
+\begin_layout Plain Layout
+
+	// Falls nein, neu erstellen und in nächster Runde schicken
+\end_layout
+
+\begin_layout Plain Layout
+
+	if (channel) {
+\end_layout
+
+\begin_layout Plain Layout
+
+		adl_atSendResponse(ADL_AT_RSP, "Schicken Daten auf TCP: 
+\backslash
+r
+\backslash
+n");
+\end_layout
+
+\begin_layout Plain Layout
+
+		wip_write(channel, buffer, 25);
+\end_layout
+
+\begin_layout Plain Layout
+
+	} else {
+\end_layout
+
+\begin_layout Plain Layout
+
+		channel = wip_TCPClientCreateOpts("hwp.mi.fu-berlin.de",
+\end_layout
+
+\begin_layout Plain Layout
+
+				50008,
+\end_layout
+
+\begin_layout Plain Layout
+
+				tcphandler,
+\end_layout
+
+\begin_layout Plain Layout
+
+				NULL, WIP_COPT_PORT, 13337, WIP_COPT_END);
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace medskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In der main-Funktion wird der TCP-Channel geöffnet und GPS aktiviert.
+ Nachdem dies geschehen ist, registrieren wir unseren gpshandler.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\small\ttfamily},frame=single,language=C,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+void main_task(void) {
+\end_layout
+
+\begin_layout Plain Layout
+
+	// Erstelle TCP-Stream zum Server
+\end_layout
+
+\begin_layout Plain Layout
+
+	channel = wip_TCPClientCreateOpts("hwp.mi.fu-berlin.de",
+\end_layout
+
+\begin_layout Plain Layout
+
+				50008,
+\end_layout
+
+\begin_layout Plain Layout
+
+				tcphandler,
+\end_layout
+
+\begin_layout Plain Layout
+
+				NULL, WIP_COPT_PORT, 13337, WIP_COPT_END);
+\end_layout
+
+\begin_layout Plain Layout
+
+	// GPS aktivieren und Handler registrieren
+\end_layout
+
+\begin_layout Plain Layout
+
+	fsa03_enable(TRUE);
+\end_layout
+
+\begin_layout Plain Layout
+
+	fsa03_subscribe(gpshandler);
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace medskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Um die Steuerung durch die Telnet-Konsole zu realisieren, reagieren wir
+ einfach bei jeder eingehenden Nachricht, wie es in der Aufgabenstellung
+ verlangt ist.
+ Wir lesen zunächst ein Zeichen aus, überprüfen ob es entweder w,s,a oder
+ d ist und schalten dann die jeweiligen LEDs an bzw.
+ aus.
+ Wird keine gültige Eingabe gelesen (ein anderes Zeichen), so schalten wir
+ alle LEDs aus.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\small\ttfamily},frame=single,language=C,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+void tcphandler(wip_event_t *event, void *ctx) {
+\end_layout
+
+\begin_layout Plain Layout
+
+	ascii read_buffer[2];
+\end_layout
+
+\begin_layout Plain Layout
+
+	switch (event->kind) {
+\end_layout
+
+\begin_layout Plain Layout
+
+		case WIP_CEV_OPEN:
+\end_layout
+
+\begin_layout Plain Layout
+
+			break;
+\end_layout
+
+\begin_layout Plain Layout
+
+		case WIP_CEV_READ:
+\end_layout
+
+\begin_layout Plain Layout
+
+			// Nachricht bekommen: Analysieren
+\end_layout
+
+\begin_layout Plain Layout
+
+			wip_read(event->channel, read_buffer, 2);
+\end_layout
+
+\begin_layout Plain Layout
+
+			// Falls es s,w,a oder d entspricht, entsprechende
+\end_layout
+
+\begin_layout Plain Layout
+
+			// Lampen anschalten, sonst alles aus.
+\end_layout
+
+\begin_layout Plain Layout
+
+			if (wm_strcmp(read_buffer, "s") == 0) 				{
+\end_layout
+
+\begin_layout Plain Layout
+
+				led_on(0); led_off(1); led_off(2);led_off(3);
+\end_layout
+
+\begin_layout Plain Layout
+
+			} else if (wm_strcmp(read_buffer, "a") == 0) {
+\end_layout
+
+\begin_layout Plain Layout
+
+				led_on(1); led_off(2); led_off(3); led_off(0);
+\end_layout
+
+\begin_layout Plain Layout
+
+			} else if (wm_strcmp(read_buffer, "d") == 0) {
+\end_layout
+
+\begin_layout Plain Layout
+
+				led_on(2); led_off(3); led_off(0); led_off(1);
+\end_layout
+
+\begin_layout Plain Layout
+
+			} else if (wm_strcmp(read_buffer, "w") == 0) {
+\end_layout
+
+\begin_layout Plain Layout
+
+				led_on(3); led_off(0); led_off(1);  led_off(2);
+\end_layout
+
+\begin_layout Plain Layout
+
+			} else {
+\end_layout
+
+\begin_layout Plain Layout
+
+				led_off(3); led_off(0); led_off(1); led_off(2);			
+\end_layout
+
+\begin_layout Plain Layout
+
+			} 		
+\end_layout
+
+\begin_layout Plain Layout
+
+			break;
+\end_layout
+
+\begin_layout Plain Layout
+
+		case WIP_CEV_WRITE:
+\end_layout
+
+\begin_layout Plain Layout
+
+			break;
+\end_layout
+
+\begin_layout Plain Layout
+
+		case WIP_CEV_PEER_CLOSE:
+\end_layout
+
+\begin_layout Plain Layout
+
+			// Falls von der Gegenseite geschlossen wird,
+\end_layout
+
+\begin_layout Plain Layout
+
+			// neu öffnen.
+\end_layout
+
+\begin_layout Plain Layout
+
+			channel = wip_TCPClientCreateOpts("hwp.mi.fu-berlin.de",
+\end_layout
+
+\begin_layout Plain Layout
+
+				50008,
+\end_layout
+
+\begin_layout Plain Layout
+
+				tcphandler,
+\end_layout
+
+\begin_layout Plain Layout
+
+				NULL, WIP_COPT_PORT, 13337, WIP_COPT_END);
+\end_layout
+
+\begin_layout Plain Layout
+
+			break;
+\end_layout
+
+\begin_layout Plain Layout
+
+		case WIP_CEV_ERROR:
+\end_layout
+
+\begin_layout Plain Layout
+
+			wip_close(channel);
+\end_layout
+
+\begin_layout Plain Layout
+
+			channel = NULL;
+\end_layout
+
+\begin_layout Plain Layout
+
+			break;
+\end_layout
+
+\begin_layout Plain Layout
+
+		default:
+\end_layout
+
+\begin_layout Plain Layout
+
+			wip_close(channel);
+\end_layout
+
+\begin_layout Plain Layout
+
+			channel = NULL;
+\end_layout
+
+\begin_layout Plain Layout
+
+			ERROR("ERROR: Unkown TCP Event");
+\end_layout
+
+\begin_layout Plain Layout
+
+			break;
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
