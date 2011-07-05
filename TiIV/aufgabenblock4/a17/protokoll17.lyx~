@@ -1,0 +1,899 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 3cm
+\topmargin 2cm
+\rightmargin 2cm
+\bottommargin 2cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Technische Informatik IV: Praktikum 
+\end_layout
+
+\begin_layout Author
+Protokoll zu Aufgabe A17
+\end_layout
+
+\begin_layout Date
+Alexander Steen , Max Wisniewski
+\end_layout
+
+\begin_layout Subsection*
+Vorbereitung
+\end_layout
+
+\begin_layout Standard
+Als Vorbereitung haben wir uns mit der Doku von SMB380, sowie den Rahmenwerkdate
+ien 
+\emph on
+smb380.c
+\emph default
+ bzw.
+ 
+\emph on
+smb380.h
+\emph default
+ beschäftigt.
+\end_layout
+
+\begin_layout Subsection*
+Aufgaben
+\end_layout
+
+\begin_layout Enumerate
+Messbereich des Sensors auf 
+\emph on
+
+\begin_inset Formula $\pm$
+\end_inset
+
+ 2g
+\emph default
+ stellen
+\end_layout
+
+\begin_layout Enumerate
+Im Sekundentakt die Beschleunigung aller drei Achsen ausgeben
+\end_layout
+
+\begin_layout Enumerate
+LEDs je nach Neigung (de-)aktivieren
+\end_layout
+
+\begin_layout Enumerate
+Bei einer Grenzüberschreitung alle LEDs aktivieren
+\end_layout
+
+\begin_layout Subsection*
+Dokumentation
+\end_layout
+
+\begin_layout Description
+irq_1_enable
+\end_layout
+
+\begin_layout Description
+smb380_acceleration
+\end_layout
+
+\begin_layout Description
+SMB380_SET
+\end_layout
+
+\begin_layout Description
+smb380_subscribe
+\end_layout
+
+\begin_layout Subsection*
+Durchführung
+\end_layout
+
+\begin_layout Standard
+Damit der Beschleunigungssensor des Moduls aktiviert ist, haben wir in der
+ config.h die Flag 
+\family typewriter
+INIT_SMB380
+\family default
+ auf 1 gesetzt und ein Clean-Build ausgeführt.
+\end_layout
+
+\begin_layout Standard
+Zuerst haben wir eine globale Variable für einen Timer angelegt.
+ Dieser wird im Laufe des Programms sekundenweise die Beschleunigungsdaten
+ ausgeben.
+ Außerdem haben erstellen wir uns einen Zeiger auf ein 
+\family typewriter
+smb_380_data
+\family default
+-Struct namens data_buffer, in dem dann die Beschleunigungswerte gespeichert
+ werden.
+ Das anlegen des Structs geschiet in der 
+\family typewriter
+main
+\family default
+-Funktion.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\small\ttfamily},frame=single,language=C,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+adl_tmr_t *timer_n;
+\end_layout
+
+\begin_layout Plain Layout
+
+smb380_data *data_buffer;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace medskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Der Timer-Handler ist ziemlich simpel: Wir lesen mit der Funktion 
+\family typewriter
+smb_380_acceleration
+\family default
+ die Beschleunigungswerte nach 
+\family typewriter
+data_buffer
+\family default
+ (siehe Dokumentation oben) und bauen damit einen Ausgabestring zusammen.
+ Dieser wird dann auf der Konsole ausgegeben.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\small\ttfamily},frame=single,language=C,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+void timer_handler_n(u8 event, void *context) {
+\end_layout
+
+\begin_layout Plain Layout
+
+	// Auslesen der Daten und schreiben nach data_buffer
+\end_layout
+
+\begin_layout Plain Layout
+
+	smb380_acceleration(data_buffer);
+\end_layout
+
+\begin_layout Plain Layout
+
+	// Ausgabe zusammenbauen:
+\end_layout
+
+\begin_layout Plain Layout
+
+	ascii output_buffer[128];
+\end_layout
+
+\begin_layout Plain Layout
+
+	wm_sprintf(output_buffer, "x:%i
+\backslash
+r
+\backslash
+ny:%i
+\backslash
+r
+\backslash
+nz:%i
+\backslash
+r
+\backslash
+n
+\backslash
+r
+\backslash
+n",
+\end_layout
+
+\begin_layout Plain Layout
+
+		data_buffer->x_axis, data_buffer->y_axis, data_buffer->z_axis);
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\end_layout
+
+\begin_layout Plain Layout
+
+	adl_atSendResponse(ADL_AT_RSP, output_buffer);
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace medskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In der 
+\family typewriter
+main
+\family default
+-Funktion erstellen wir uns zunächst einen ascii-Buffer der Größe sechs
+ und casten diesen auf den 
+\family typewriter
+smb380_data
+\family default
+-Typ.
+ So haben wir Speicherplatz auf dem Stack erzeugt und können die Messdaten
+ speichern.
+ Die sechs Byte ergeben sich aus drei zwei-Byte-Einträgen (integer) im Struct.
+\end_layout
+
+\begin_layout Standard
+Nun setzen wir den Messbereich via 
+\family typewriter
+SMB_380_SET
+\family default
+ auf 4g-Interval (
+\begin_inset Formula $\pm$
+\end_inset
+
+ 2g) und melden unseren timer wie gewohnt an.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\small\ttfamily},frame=single,language=C,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+void main_task(void) {
+\end_layout
+
+\begin_layout Plain Layout
+
+	// Hier erstellen wir uns Speicher auf dem Stack - 
+\end_layout
+
+\begin_layout Plain Layout
+
+	// und zwar 6 Byte, genau wie viel der Struct braucht.
+\end_layout
+
+\begin_layout Plain Layout
+
+	ascii buffer[6];
+\end_layout
+
+\begin_layout Plain Layout
+
+	data_buffer = (smb380_data*) buffer;
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	// Messbereich auf 4g-Interval (+/-2g) schalten.
+\end_layout
+
+\begin_layout Plain Layout
+
+	SMB380_SET (SMB380_C2, SMB380_C2_RANGE, 0x04);
+\end_layout
+
+\begin_layout Plain Layout
+
+	// Timer anmelden
+\end_layout
+
+\begin_layout Plain Layout
+
+	timer_n = adl_tmrSubscribe(
+\end_layout
+
+\begin_layout Plain Layout
+
+		TRUE,
+\end_layout
+
+\begin_layout Plain Layout
+
+		10, ADL_TMR_TYPE_100MS,
+\end_layout
+
+\begin_layout Plain Layout
+
+		timer_handler_n);
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace medskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Testlauf
+\series default
+:
+\end_layout
+
+\begin_layout Standard
+Wie wir sehen, werden periodisch die Beschleunigungswerte der drei Achsen
+ ausgegeben.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\small\ttfamily},frame=single,language=C,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
++GSM: Anmeldung im Netz abgeschlossen
+\end_layout
+
+\begin_layout Plain Layout
+
+x:0
+\end_layout
+
+\begin_layout Plain Layout
+
+y:-19
+\end_layout
+
+\begin_layout Plain Layout
+
+z:252
+\end_layout
+
+\begin_layout Plain Layout
+
+x:38
+\end_layout
+
+\begin_layout Plain Layout
+
+y:-19
+\end_layout
+
+\begin_layout Plain Layout
+
+z:251
+\end_layout
+
+\begin_layout Plain Layout
+
+...
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace medskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace medskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace medskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Nun erweitern wir die Funktionalität so, dass wir je nach Neigung bestimmte
+ LEDs ein- bzw.
+ ausschalten.
+\end_layout
+
+\begin_layout Standard
+Durch Testen konnten wir beobachten, dass die Beschleunigungsdaten relativ
+ stark schwanken - selbst, wenn wir das Modul gar nicht bewegen.
+ Also haben wir uns eine Art Hysterese bestimmt, bei denen wir von einer
+ Neigung ausgehen (durch Testen).
+ Für uns ergeben sich folgende Daten:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\small\ttfamily},frame=single,language=C,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+s16 x_Ruhe = 40; s16 y_Ruhe = -18;
+\end_layout
+
+\begin_layout Plain Layout
+
+s16 x_Hyst = 50; s16 y_Hyst = 20;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace medskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Dann passen wir unseren Timer einfach an, dass er nach dem Ausgeben der
+ Daten zusätzlich die passenden LEDs an- bzw.
+ ausschaltet.
+ Dabei schauen wir einfach, ob die aktuelle Lage die bestimmte Ruhelage
+ plus Hysterese über- bzw.
+ unterschreitet.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\small\ttfamily},frame=single,language=C,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+void timer_handler_n(u8 event, void *context) 	{
+\end_layout
+
+\begin_layout Plain Layout
+
+	// Auslesen der Daten und schreiben nach data_buffer
+\end_layout
+
+\begin_layout Plain Layout
+
+	smb380_acceleration(data_buffer);
+\end_layout
+
+\begin_layout Plain Layout
+
+	// Ausgabe zusammenbauen:
+\end_layout
+
+\begin_layout Plain Layout
+
+	ascii output_buffer[128];
+\end_layout
+
+\begin_layout Plain Layout
+
+	wm_sprintf(output_buffer, "x:%i
+\backslash
+r
+\backslash
+ny:%i
+\backslash
+r
+\backslash
+nz:%i
+\backslash
+r
+\backslash
+n
+\backslash
+r
+\backslash
+n",
+\end_layout
+
+\begin_layout Plain Layout
+
+		data_buffer->x_axis, data_buffer->y_axis, data_buffer->z_axis);
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\end_layout
+
+\begin_layout Plain Layout
+
+	adl_atSendResponse(ADL_AT_RSP, output_buffer);
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\end_layout
+
+\begin_layout Plain Layout
+
+	// x-Neigung bestimmen
+\end_layout
+
+\begin_layout Plain Layout
+
+	if (x_Ruhe + x_Hyst <= data_buffer->x_axis) {
+\end_layout
+
+\begin_layout Plain Layout
+
+		led_on(1); led_off(2);
+\end_layout
+
+\begin_layout Plain Layout
+
+	} else if (x_Ruhe - x_Hyst >= data_buffer->x_axis) {
+\end_layout
+
+\begin_layout Plain Layout
+
+		led_on(2); led_off(1);
+\end_layout
+
+\begin_layout Plain Layout
+
+	} else {
+\end_layout
+
+\begin_layout Plain Layout
+
+		led_off(1); led_off(2);
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\begin_layout Plain Layout
+
+	// y-Neigung bestimmen
+\end_layout
+
+\begin_layout Plain Layout
+
+	if (y_Ruhe + y_Hyst <= data_buffer->y_axis) 		{
+\end_layout
+
+\begin_layout Plain Layout
+
+		led_on(0); led_off(3);
+\end_layout
+
+\begin_layout Plain Layout
+
+	} else if (y_Ruhe - y_Hyst >= data_buffer->y_axis) {
+\end_layout
+
+\begin_layout Plain Layout
+
+		led_on(3); led_off(0);
+\end_layout
+
+\begin_layout Plain Layout
+
+	} else {
+\end_layout
+
+\begin_layout Plain Layout
+
+		led_off(0); led_off(3);
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace medskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Um bei einer Überschreitung der Grenzwerte alle LEDs anzuschalten, legen
+ wir uns einen weiteren Handler an, der in diesem Fall einfach ausgeführt
+ wird:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\small\ttfamily},frame=single,language=C,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+void accHandler(smb380_data *data) {
+\end_layout
+
+\begin_layout Plain Layout
+
+	led_on(0); led_on(1);
+\end_layout
+
+\begin_layout Plain Layout
+
+	led_on(2); led_on(3);
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace medskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Nun passen wir unsere 
+\family typewriter
+main
+\family default
+-Funktion an: Jetzt schalten wir zusätzlich den Interrupt bei Grenzüberschreitun
+g an und registrieren den 
+\family typewriter
+accHandler
+\family default
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\small\ttfamily},frame=single,language=C,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+void main_task(void) {
+\end_layout
+
+\begin_layout Plain Layout
+
+	// Hier erstellen wir uns Speicher auf dem Stack - 
+\end_layout
+
+\begin_layout Plain Layout
+
+	// und zwar 6 Byte, genau wie viel der Struct braucht.
+\end_layout
+
+\begin_layout Plain Layout
+
+	ascii buffer[6];
+\end_layout
+
+\begin_layout Plain Layout
+
+	data_buffer = (smb380_data*) buffer;
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	// Messbereich auf 4g-Interval (+/-2g) schalten.
+\end_layout
+
+\begin_layout Plain Layout
+
+	SMB380_SET (SMB380_C2, SMB380_C2_RANGE, 0x04);
+\end_layout
+
+\begin_layout Plain Layout
+
+	// Timer anmelden
+\end_layout
+
+\begin_layout Plain Layout
+
+	timer_n = adl_tmrSubscribe(
+\end_layout
+
+\begin_layout Plain Layout
+
+		TRUE,
+\end_layout
+
+\begin_layout Plain Layout
+
+		10, ADL_TMR_TYPE_100MS,
+\end_layout
+
+\begin_layout Plain Layout
+
+		timer_handler_n);
+\end_layout
+
+\begin_layout Plain Layout
+
+	
+\end_layout
+
+\begin_layout Plain Layout
+
+	// Interrupt anschalten und Handler registrieren
+\end_layout
+
+\begin_layout Plain Layout
+
+	irq_1_enable(TRUE);
+\end_layout
+
+\begin_layout Plain Layout
+
+	smb380_subscribe(accHandler);
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace medskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Testlauf
+\series default
+:
+\end_layout
+
+\begin_layout Standard
+Beim Neigen hat das Modul (mit gewisser Ungenauigkeit) die LEDs geschaltet
+ und bei etwas rütteln alle LEDs eingeschaltet.
+ Es scheint also alles zu funktionieren.
+\end_layout
+
+\end_body
+\end_document
