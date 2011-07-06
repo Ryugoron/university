@@ -81,7 +81,16 @@ Vorbereitung
 \end_layout
 
 \begin_layout Standard
-xxxxx
+Als Vorbereitung haben wir uns mit dem NMEA Datenformat und der Datei 
+\emph on
+fsa03.h
+\emph default
+ bzw.
+ 
+\emph on
+fsa03.c
+\emph default
+ vertraut gemacht.
 \end_layout
 
 \begin_layout Subsection*
@@ -117,7 +126,11 @@ GPS GPS wurde bereits im Vorprotokoll zu Aufgabenblock 3 beschrieben.
 \begin_inset Newline newline
 \end_inset
 
+
+\family typewriter
 $GPRMC,191410,A,4735.5634,N,00739.3538,E,0.0,0.0,181102,0.4,E,A*19
+\family default
+
 \begin_inset Newline newline
 \end_inset
 
@@ -125,19 +138,43 @@ Dabei bedeuten die Teile der Antwort:
 \begin_inset Newline newline
 \end_inset
 
-$GPRMC - Einleitung der Antwort
+
+\family typewriter
+$GPRMC
+\family default
+ - Einleitung der Antwort
 \begin_inset Newline newline
 \end_inset
 
-191410 - Uhrzeit (hier: 19:14:10)
+
+\family typewriter
+191410
+\family default
+ - Uhrzeit (hier: 19:14:10)
 \begin_inset Newline newline
 \end_inset
 
-A - Status / Gültigkeit der Antwort, dabei ist A gültig und V ungültig
+
+\family typewriter
+A
+\family default
+ - Status / Gültigkeit der Antwort, dabei ist 
+\family typewriter
+A
+\family default
+ gültig und 
+\family typewriter
+V
+\family default
+ ungültig
 \begin_inset Newline newline
 \end_inset
 
-4735.5634 - Breitengrad
+
+\family typewriter
+4735.5634
+\family default
+ - Breitengrad
 \begin_inset Newline newline
 \end_inset
 
@@ -145,11 +182,19 @@ N - Richtung, hier Nord
 \begin_inset Newline newline
 \end_inset
 
-00739.3538 - Längengrad
+
+\family typewriter
+00739.3538
+\family default
+ - Längengrad
 \begin_inset Newline newline
 \end_inset
 
-E - Richtung, hier Ost
+
+\family typewriter
+E
+\family default
+ - Richtung, hier Ost
 \begin_inset Newline newline
 \end_inset
 
@@ -162,12 +207,19 @@ fsa03_subscribe Registriert eine GPS-Handler-Funktion bei dem GPS-Modul,
 \begin_inset Newline newline
 \end_inset
 
+
+\family typewriter
 void gpshandler(fsa03_gprmc * data)
+\family default
+
 \begin_inset Newline newline
 \end_inset
 
-In dem struct data stehen dann bereits alle vorverarbeiteten Information
- der GPS-Antwort.
+In dem struct 
+\family typewriter
+data
+\family default
+ stehen dann bereits alle vorverarbeiteten Information der GPS-Antwort.
 \end_layout
 
 \begin_layout Subsection*
@@ -175,14 +227,25 @@ Durchführung
 \end_layout
 
 \begin_layout Standard
-Zu Beginn legen wir uns globale Variablen an: Die Variable channel speichert
- den zu Beginn des Programmes geöffneten TCP-Kanal zum bekannten Server.
+Zu Beginn legen wir uns globale Variablen an: Die Variable 
+\family typewriter
+channel
+\family default
+ speichert den zu Beginn des Programmes geöffneten TCP-Kanal zum bekannten
+ Server.
  Dieser Kanal wird dann von dem GPS-Handler genutzt.
- Die Zählvariable counter zählt die Aufrufe des GPS-Handlers.
+ Die Zählvariable 
+\family typewriter
+counter
+\family default
+ zählt die Aufrufe des GPS-Handlers.
  Dies ist wichtig, da der GPS-Handler zwar jede Sekunde automatisch aufgerufen
  wird, jedoch nur alle zehn Sekunden Daten schicken soll.
- In buffer speichern wir uns die Nachricht, die an den Server geschrieben
- werden soll.
+ In 
+\family typewriter
+buffer
+\family default
+ speichern wir uns die Nachricht, die an den Server geschrieben werden soll.
 \end_layout
 
 \begin_layout Standard
@@ -219,9 +282,13 @@ ascii buffer[64];
 \end_layout
 
 \begin_layout Standard
-Die Callback-Funktion gpshandler wird nach Registration (siehe main_task)
- automatisch jede Sekunde anfgerufen und prüft, ob bereits 10 Sekunden vergangen
- sind (Anzahl der Aufrufe restlos durch zehn teilbar).
+Die Callback-Funktion 
+\family typewriter
+gpshandler
+\family default
+ wird nach Registration (siehe main_task) automatisch jede Sekunde anfgerufen
+ und prüft, ob bereits 10 Sekunden vergangen sind (Anzahl der Aufrufe restlos
+ durch zehn teilbar).
  Falls dies der Fall ist, wird eine Nachricht mit der aktuellen Position
  an den Server geschickt.
  Vorher wird allerdings geprüft, ob die aktuelle GPS-Information schon vollständ
@@ -522,7 +589,7 @@ void main_task(void) {
 \end_layout
 
 \begin_layout Standard
-\begin_inset VSpace medskip
+\begin_inset Newpage pagebreak
 \end_inset
 
 
@@ -766,7 +833,18 @@ void tcphandler(wip_event_t *event, void *ctx) {
 \end_layout
 
 \begin_layout Standard
-Testlauf:
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Testlauf
+\series default
+:
 \end_layout
 
 \begin_layout Standard
