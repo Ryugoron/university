@@ -1,0 +1,106 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm]{geometry} 
+\usepackage{babel}
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc} 
+\usepackage{ae} 
+\usepackage{amssymb} 
+\usepackage{amsmath} 
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{paralist}
+\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[C]{Höhere Algorithmik}
+\fancyhead[L]{Übung Nr. 1}
+\fancyhead[R]{WS 2011/12}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\setlength{\parindent}{0pt} 
+\setlength{\headheight}{15pt}
+
+\author{Tutor: Tilmann}
+\date{}
+\title{Max Wisniewski , Alexander Steen}
+
+\begin{document}
+
+\lstset{language=Java, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2}
+
+\maketitle
+\thispagestyle{fancy}
+
+\section*{Aufgabe 1}
+
+Die Funktionen der Aufgabe sollen derart geordnet werden, so dass $ g_i \in \Omega (g_{i+1}) $ gilt. Geben Sie auch an, wenn sogar $ g_i = \Theta (g_{i+1}) $ ist. 
+
+\vspace{12px}
+
+Die Folge erfüllt die Eigenschaft und enthält die Elemente, die geordent werden müssen:\\
+
+\centering $(g_i)_{1 \leq i \leq 10} = ( n^{\frac{1}{\log{n}}} , \ln{n} , \log^2{n}  , (\sqrt{2})^{\log{n}}  ,  n^2 ,  4^{log{n}} , (\lceil \log{n} \rceil)! ,   n^{log{(log{(n)})}} ,  2^n  , 2^{(2^n)})$
+
+\begin{description}
+\item{\textbf{Beweis}} 
+\begin{enumerate}
+
+\item
+$  2^n  \in \Omega (2^{(2^n)})$ : \\
+$\underset{n\rightarrow\infty}{lim} \frac{2^n}{2^{(2^n)}} = \underset{n\rightarrow\infty}{lim} \frac{2^n \cdot 1}{2^n \cdot 2^{(2^n) - n}} = $
+$ \underset{n\rightarrow\infty}{lim} \frac{1}{2^{(2^n) - n}}$\\
+Da $2^n$ stärker wächst als $n$, gilt:\\
+$ \underset{n\rightarrow\infty}{lim} \frac{1}{2^{(2^n) - n}} = 0$\\
+Damit gilt nach konvergenz Kriterium $2^n \in \Omega (2^{(2^n)})\Rightarrow g_9 \in \Omega (g_{10})$
+
+\item
+$ n^{log{(\log{(n)})}} \in \Omega (2^n)$: \\
+Kein Plan
+
+\item
+$(\lceil \log{n} \rceil)! \in \Omega (n^{log{(\log{(n)})}})$: \\
+Später
+
+\item
+$4^{\log{(n)}} \in \Omega ((\lceil \log{n} \rceil)!)$: \\
+Wie gehabt
+
+\item
+$n^2 \in \Theta (4^{\log{(n)}})$: \\
+Wir zeigen an dieser Stelle, das gilt: $n^2 = 4^{\log{(n)}}$. Damit gilt die Beziehung für $\Theta$ sofort.\\
+$4^{\log n} = (2^2)^{\log n} =  2^{2\cdot \log n} = 2^{\log n^2} = n^2$\\
+$\Rightarrow g_5 \in \Theta (g_6)$
+
+\item
+$(\sqrt{2})^{\log{n}} \in \Theta (n^2)$:\\
+Ersteinmal gilt : $(\sqrt{2})^{\log{n}} = (2^{\frac{1}{2}})^{\log n} = 2^{\frac{1}{2} \cdot \log n} = 2^{\log \sqrt{n}} = \sqrt{2}$\\
+Nun wenden wir wieder das Konvergenzkreterium an: \\
+$\underset{n\rightarrow\infty}{\lim} \frac{\sqrt{2}}{n^2} = \underset{n\rightarrow\infty}{\lim} \frac{1}{n^{1.5}} = 0$\\
+$\Rightarrow (\sqrt{2})^{\log{n}} \in \Theta (n^2) \Rightarrow g_4 \in \Omega (g_5)$
+
+\item
+$\log^2 n \in \Omega (\sqrt{2})$: \\
+tbd
+
+\item
+$\ln n \in \Omega (\log^2 n)$: \\
+tbd
+
+\item
+$n^{\frac{1}{\log n}} \in \Omega (\ln n)$: \\
+Zunächst gilt: $n^{\frac{1}{\log n}} = 2^{\frac{\log n}{\log n}} = 2$.\\
+Daraus folgt offensichtlich:\\
+$\underset{n\rightarrow\infty}{\lim} \frac{2}{\ln n} = 0 \Rightarrow g_1 \in \Omega (g_2)$
+
+\end{enumerate}
+\end{description}
+
+
+
+\end{document}
