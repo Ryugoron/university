@@ -1,0 +1,1638 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language ngerman
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 1
+\index Stichwortverzeichnis
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 3cm
+\topmargin 2cm
+\rightmargin 2cm
+\bottommargin 2cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Technische Informatik IV: Praktikum
+\end_layout
+
+\begin_layout Author
+Protokoll zu Aufgabe A10
+\end_layout
+
+\begin_layout Date
+von Alexander Steen, Max Wisniewski
+\end_layout
+
+\begin_layout Subsection*
+Vorbereitung
+\end_layout
+
+\begin_layout Standard
+Zur Vorbereiung haben wir uns unter Hardware angesehen, welche Bezeichner
+ die I/O Ports für die LEDs haben (obwohl dies durch das Framework von led.h
+ komplett unnötig geworden ist).
+ Wir haben uns wie empfohlen im Kapitel 20 im 
+\emph on
+ADL Commands Interface Guide
+\emph default
+ über die Befehle 
+\emph on
+CLIR
+\emph default
+ und 
+\emph on
+CLIP
+\emph default
+, sowie im 
+\emph on
+ADL User Guide
+\emph default
+ Kapitel 3.10 über den GPIO Service (obwohl dies wieder durch led.h überflüssig
+ war) informiert.
+\end_layout
+
+\begin_layout Subsection*
+Aufgaben
+\end_layout
+
+\begin_layout Itemize
+Entwickeln Sie eine Anwendung mit folgenden Eigenschaften
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Alle Anrufer werden abgewiesen.
+ Jeder Anruf wird mit 
+\series bold
+ath
+\series default
+ beendet.
+\end_layout
+
+\begin_layout Itemize
+Nur wenn der Anruf von einer fest eingespeicherten Rufnummer erfolgt, wird
+ die LED2 eingeschaltet und die LED3 soll für die Dauer von 20 Sekunden
+ im Sekundentakt blinken.
+\end_layout
+
+\begin_layout Itemize
+Nach Ablauf der 20 Sekunden soll ein
+\series bold
+ Voice Call
+\series default
+ an die fest eingespeicherte Nummer erfolgen.
+ Die LED2 wird mit dem Ende des Anrufs ausgeschaltet.
+\end_layout
+
+\begin_layout Itemize
+Erweitern Sie die Funktionalität in der Form, dass ein im Telefonbuch vorhandene
+r Eintrag 
+\begin_inset Quotes eld
+\end_inset
+
+Alarm
+\begin_inset Quotes erd
+\end_inset
+
+ genauso behandelt wird, wie die fest eingespeicherte Nummer.
+\begin_inset Newline newline
+\end_inset
+
+In einem zweiten Schritt erlauben Sie einer SMS, die ein Passwort und eine
+ Nummer erhält, den Eintrag unter 
+\begin_inset Quotes eld
+\end_inset
+
+Alarm
+\begin_inset Quotes erd
+\end_inset
+
+ auf die neue Nummer zu ändern.
+ Das Passwort muss mit einem fest abgespeicherten Passwort übereinstimmen.
+\end_layout
+
+\end_deeper
+\begin_layout Subsection*
+Dokumentation
+\end_layout
+
+\begin_layout Description
+AT+CLIP Mit diesem Befehl sorgt man dafür, dass die Rufnummer des Anrufers
+ angezeigt wird (und gegebenenfalls mit einem Telefonbucheintrag assoziiert
+ wird).
+ Diesen Befehl haben wir bereits im Protokoll zu Aufgabe A3 beschrieben.
+ Für eine genauere Erläuterung kann man an dieser Stelle nachlesen.
+\end_layout
+
+\begin_layout Description
+AT+CLIR Mit diesem Befehl, kann man dafür sorgen, ob die eigene Rufnummer
+ unterdrückt wird.
+ Mit dem Befehl 
+\emph on
+AT+CLIR=<n>
+\emph default
+ kann man den Modus einstellen, nachdem man operieren möchte.
+ Dabei kann n die Werte 0 (default Wert, benutzt einen Indikator der vorm
+ CLIR Service, der momentan vom Netz bereitgestellt wird, verwendet), 1
+ (schaltet CLIR ein, die Rufnummer wird unterdrückt) oder 2 (CLIR wird unterdrüc
+kt, die Rufnummer wird mitgeschickt) annehmen.
+\begin_inset Newline newline
+\end_inset
+
+Den Wertebereich, kann man mit 
+\emph on
+AT+CLIR=?
+\emph default
+ abfragen und erhält die Antwort 
+\emph on
++CLIR=(0-2).
+\begin_inset Newline newline
+\end_inset
+
+
+\emph default
+Um die aktuelle Einstellung abzulesen, kann man 
+\emph on
+AT+CLIR?
+\emph default
+ verwenden.
+ Als Antwort erhält man 
+\emph on
++CLIR: <n>,<m>
+\emph default
+ wobei n eigenen Modus beschreibt (sie aktion von CLIR) und m den Modus
+ anzeigt, den das Netz bereitstellet.
+\begin_inset Newline newline
+\end_inset
+
+m kann dabei die Werte 0 (CLIR wird nicht unterstützt), 1 (CLIR wird nicht
+ permanent unterstützt [Mode 2 disabled]), 2 (Netzwerk unbekannt), 3 ( Modus
+ 0 ist eingeschränkt) und 4 (Modus 0 ist uneingeschränkt erlaubt)
+\end_layout
+
+\begin_layout Description
+GPIO
+\begin_inset Formula $\;$
+\end_inset
+
+Service Der GPIO Service ist, wie die meisten der Funktionen über verschiedene
+ Methoden und Callbackmethoden anzusprechen.
+ Wir müssten in diesem Fall die Methode 
+\emph on
+adl_ioWrite
+\emph default
+ verwenden und gegebenenfalls 
+\emph on
+adl_ioSubscribe
+\emph default
+, aber der Umgagng mit den Feinheiten, die durch eine Vielzahl von structs
+ und handlern gegeben ist, wird uns durch die Klasse 
+\emph on
+led.h
+\emph default
+ abgenommen.
+ Dort sind schon Implementierungen zum Ansprechen der LEDs gegeben.
+ Man kann dort die LEDs einfach über den Befehl 
+\emph on
+led_on(u8 led)
+\emph default
+ und 
+\emph on
+led_off(u8 led)
+\emph default
+ ansprechen.
+ Dabei muss man nicht einmal die Bezeichener für die LEDs (GPIO19-GPIO22)
+ angeben, sondern nur noch eine Nummer, wie sie in der Beschreibung gegeben
+ wurde.
+ (LED2 = 2, LED3 = 3)
+\end_layout
+
+\begin_layout Description
+Call
+\begin_inset Formula $\;$
+\end_inset
+
+Service Den Call Service haben wir schon in Protokoll zu Aufgabe A6 / A7
+ beschrieben.
+ Wir verweisen an dieser Stelle auf das alte Protokoll.
+\end_layout
+
+\begin_layout Description
+Timer Den Timer haben wir schon in Protokoll zu Aufgabe A6 beschrieben.
+ Wir verweisen an dieser Stelle auf das alte Protokoll.
+\end_layout
+
+\begin_layout Description
+led_init Mit dieser Funktion sorgt man dafür, dass die LEDs ansprechbar
+ werden.
+ Weitere Voraussetzung ist, dass man die LED-Flag in der 
+\emph on
+config.h
+\emph default
+ gesetzt hat.
+\end_layout
+
+\begin_layout Description
+led_on Dies ist eine einfache Funktion, die das ganze Ansprechen der I/O
+ Ports für die LEDs abnimmt.
+ Auch die genaue Bezeichnung der LEDs ist unnötig, da diese in der led.h
+ einfach von Integer auf die Namen gemappt werden.
+ (Bezeichnungen, wie weiter unten Beschrieben immer LED0 : 0, LED1 : 1,
+ usw.)
+\end_layout
+
+\begin_layout Description
+led_off Analog zur 
+\series bold
+\emph on
+led_on
+\series default
+\emph default
+ Funktion, schaltet diese Funktion die LED wieder aus.
+ Parameter ist genau so ein Integer, wie bei 
+\series bold
+led_on
+\series default
+.
+\end_layout
+
+\begin_layout Subsection*
+Durchführung
+\end_layout
+
+\begin_layout Standard
+Als erstes haben wir, um die LEDs über den eingebundenen Headerfile ansprechen
+ zu können, in der config.h den Wert von LED auf 1 gesetzt, damit die I/O-Ports
+ für das Modul beim Start aktiviert werden.
+\begin_inset VSpace defskip
+\end_inset
+
+Der erste Part der Aufgabe, war recht leicht umzusetzen.
+ Wir haben ersteinmal einen 
+\emph on
+CallHandler 
+\emph default
+eingerichtet, der ganz simpel den Anruf beendet.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\footnotesize\ttfamily},frame=single,numbers=left,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+s8 callHandler(u16 event, s32 callId)
+\end_layout
+
+\begin_layout Plain Layout
+
+	{
+\end_layout
+
+\begin_layout Plain Layout
+
+	if (event == ADL_CALL_EVENT_RING_VOICE)
+\end_layout
+
+\begin_layout Plain Layout
+
+		{
+\end_layout
+
+\begin_layout Plain Layout
+
+		adl_callHangup();
+\end_layout
+
+\begin_layout Plain Layout
+
+		}
+\end_layout
+
+\begin_layout Plain Layout
+
+	...
+\end_layout
+
+\begin_layout Plain Layout
+
+	return OK;
+\end_layout
+
+\begin_layout Plain Layout
+
+	} 
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+void main_task(void) {
+\end_layout
+
+\begin_layout Plain Layout
+
+	...
+\end_layout
+
+\begin_layout Plain Layout
+
+	adl_callSubscribe((adl_callHdlr_f) callHandler);
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Wir richten den callHandler ein und fragen in diesem ab, ob wir von einem
+ 
+\series bold
+Voice Call
+\emph on
+ 
+\series default
+\emph default
+angerufen wurden.
+ Ist dies der Fall, legen wir, wie in der Aufgabe verlangt einfach auf.
+\begin_inset VSpace defskip
+\end_inset
+
+Der nächste Aufgabenteil sah vor, dass wir, wenn wir von einer fest eingespeiche
+rten Nummer angerufen werden, die LED2 anschalten und die LED3 20 Sekunden
+ lang jede Sekunde einmal blinken lassen.
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\footnotesize\ttfamily},frame=single,numbers=left,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+adl_tmr_t * ledTimeoutHandle;
+\end_layout
+
+\begin_layout Plain Layout
+
+u8 timeout = 0;
+\end_layout
+
+\begin_layout Plain Layout
+
+bool ledOn = FALSE;
+\end_layout
+
+\begin_layout Plain Layout
+
+ascii * telNum = "+49152--------";
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+void ledTimeoutTimer(u8 id, void * context)
+\end_layout
+
+\begin_layout Plain Layout
+
+	{
+\end_layout
+
+\begin_layout Plain Layout
+
+	if (timeout-- > 0)
+\end_layout
+
+\begin_layout Plain Layout
+
+		{
+\end_layout
+
+\begin_layout Plain Layout
+
+		ledOn ? led_off(3) : led_on(3);
+\end_layout
+
+\begin_layout Plain Layout
+
+		ledOn = !ledOn;
+\end_layout
+
+\begin_layout Plain Layout
+
+		adl_atSendResponse(ADL_AT_RSP,"3 : an
+\backslash
+r
+\backslash
+n");
+\end_layout
+
+\begin_layout Plain Layout
+
+		}
+\end_layout
+
+\begin_layout Plain Layout
+
+	else
+\end_layout
+
+\begin_layout Plain Layout
+
+		{
+\end_layout
+
+\begin_layout Plain Layout
+
+		adl_tmrUnSubscribe(ledTimeoutHandle, ledTimeoutTimer, ADL_TMR_TYPE_100MS);
+\end_layout
+
+\begin_layout Plain Layout
+
+		ledOn = FALSE;
+\end_layout
+
+\begin_layout Plain Layout
+
+		led_off(3);
+\end_layout
+
+\begin_layout Plain Layout
+
+		adl_atSendResponse(ADL_AT_RSP,"3 : aus
+\backslash
+r
+\backslash
+n");
+\end_layout
+
+\begin_layout Plain Layout
+
+		}
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+bool clipHandler(adl_atUnsolicited_t * data)
+\end_layout
+
+\begin_layout Plain Layout
+
+	{
+\end_layout
+
+\begin_layout Plain Layout
+
+	ascii nummerpuffer[20];
+\end_layout
+
+\begin_layout Plain Layout
+
+	wm_strGetParameterString(nummerpuffer, data->StrData, 0);
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	if (wm_strcmp(nummerpuffer, telNum) == 0)
+\end_layout
+
+\begin_layout Plain Layout
+
+		{
+\end_layout
+
+\begin_layout Plain Layout
+
+		adl_atSendResponse(ADL_AT_RSP, "max hat angerufen!
+\backslash
+r
+\backslash
+n");
+\end_layout
+
+\begin_layout Plain Layout
+
+		led_on(2);
+\end_layout
+
+\begin_layout Plain Layout
+
+		adl_atSendResponse(ADL_AR_RSP,"2 : an
+\backslash
+r
+\backslash
+n");
+\end_layout
+
+\begin_layout Plain Layout
+
+		// neuen timer mit timeout 20 starten
+\end_layout
+
+\begin_layout Plain Layout
+
+		timeout = 20;
+\end_layout
+
+\begin_layout Plain Layout
+
+		ledTimeoutHandle = adl_tmrSubscribe(TRUE, 10, ADL_TMR_TYPE_100MS, ledTimeoutTi
+mer);
+\end_layout
+
+\begin_layout Plain Layout
+
+		}
+\end_layout
+
+\begin_layout Plain Layout
+
+	return FALSE;
+\end_layout
+
+\begin_layout Plain Layout
+
+	} 
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+void main_task(void)
+\end_layout
+
+\begin_layout Plain Layout
+
+	{
+\end_layout
+
+\begin_layout Plain Layout
+
+	led_init();
+\end_layout
+
+\begin_layout Plain Layout
+
+	adl_atCmdSend("AT+CLIP=1", NULL, NULL);
+\end_layout
+
+\begin_layout Plain Layout
+
+	adl_atUnSoSubscribe("+CLIP:", clipHandler);
+\end_layout
+
+\begin_layout Plain Layout
+
+	adl_callSubscribe((adl_callHdlr_f) callHandler);
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Wir rufen hier als erstes die led_init() auf, damit wir die LEDs ansprechen
+ können.
+ Als nächstes senden wir den Befehl ab, dass die CLIP Funktion auf 1 gesetzt
+ werden soll, d.h.
+ wir wollen wissen, wer uns anruft.
+ Da uns die Antwort nicht interessiert, geben wir keine Handler für die
+ Antwort rein.
+\end_layout
+
+\begin_layout Standard
+Als nächstes richten wir den Handler für die allgemeine Nachricht von 
+\emph on
++CLIP
+\emph default
+ ein.
+ Diese Nachricht wird bei jedem Anruf einmal abgefeuert und enthält die
+ Nummer vom Anrufenden.
+\end_layout
+
+\begin_layout Standard
+Der letzte Befehl ist derselbe wie eben und richtet unseren callHandler
+ ein.
+\begin_inset VSpace defskip
+\end_inset
+
+In der clipHandler Funktion nehmen wir uns als erstes den 1.
+ Parameter der Antwort und überprüfen, ob es der eingespeicherten Nummer
+ (global 
+\emph on
+telNum
+\emph default
+) entspricht.
+ Sind die beiden Nummern gleich schicken wir eine Debugmeldung ab, das wir
+ angerufen wurden, schalten die LED2 ein und starten einen neuen zyklischen
+ Timer, der jede Sekunde einmal unseren ledTimeouHandler aufruft.
+\begin_inset VSpace defskip
+\end_inset
+
+Der ledTimeoutHandler dekrementiert nun den globalen Zähler timeout und
+ vergleicht, ob dieser größer als 0 ist.
+ Solange er größer ist, schaltet er (mittels einer globalen Variable ledOn)
+ den LED3 in jedem Schritt an, bzw.
+ aus.
+\end_layout
+
+\begin_layout Standard
+Ist der timeout auf 0 gefallen, schalten wir die LED3 aus.
+ An dieser Stelle schließt sich die nächste Aufgabe an.
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\begin_inset listings
+lstparams "basicstyle={\footnotesize\ttfamily},frame=single,numbers=left,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+void ledTimeoutTimer(u8 id, void * context)
+\end_layout
+
+\begin_layout Plain Layout
+
+	{
+\end_layout
+
+\begin_layout Plain Layout
+
+	if (timeout-- > 0){...}
+\end_layout
+
+\begin_layout Plain Layout
+
+	else
+\end_layout
+
+\begin_layout Plain Layout
+
+		{
+\end_layout
+
+\begin_layout Plain Layout
+
+		adl_tmrUnSubscribe(ledTimeoutHandle, ledTimeoutTimer, ADL_TMR_TYPE_100MS);
+\end_layout
+
+\begin_layout Plain Layout
+
+		ledOn = FALSE;
+\end_layout
+
+\begin_layout Plain Layout
+
+		adl_atSendResponse(ADL_AT_RSP,"3 : aus
+\backslash
+r
+\backslash
+n");
+\end_layout
+
+\begin_layout Plain Layout
+
+		led_off(3);
+\end_layout
+
+\begin_layout Plain Layout
+
+		adl_callSetup(telNum, ADL_CALL_MODE_VOICE);
+\end_layout
+
+\begin_layout Plain Layout
+
+		}
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+s8 callHandler(u16 event, s32 callId)
+\end_layout
+
+\begin_layout Plain Layout
+
+	{
+\end_layout
+
+\begin_layout Plain Layout
+
+	if (event == ADL_CALL_EVENT_RING_VOICE){...}
+\end_layout
+
+\begin_layout Plain Layout
+
+	else if (event == ADL_CALL_EVENT_NO_CARRIER)
+\end_layout
+
+\begin_layout Plain Layout
+
+	{
+\end_layout
+
+\begin_layout Plain Layout
+
+		led_off(2);
+\end_layout
+
+\begin_layout Plain Layout
+
+		adl_atSendResponse(ADL_AT_RSP,"2 : aus
+\backslash
+r
+\backslash
+n");
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\begin_layout Plain Layout
+
+	return OK;
+\end_layout
+
+\begin_layout Plain Layout
+
+	} 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Um zu erreichen, dass wir nach den 20 Sekunden anrufen, müssen wir nur 2
+ unserer schon geschriebenen Fukntionen leicht modifizieren.
+\end_layout
+
+\begin_layout Standard
+Als erstes schreiben wir in den 
+\emph on
+callHandler
+\emph default
+, dass wir bei einer Nachricht 
+\emph on
+ADL_CALL_EVENT_NO_CARRIER
+\emph default
+, die wir standardmäßig erhalten, wenn unser Gesprächspartner auflegt, die
+ LED2 ausschalten.
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Der Anruf ist auch kein Thema.
+ Wir haben eben schon die Stelle gesehen, an der wir die LED3 ausschalten.
+ An dieser Stelle setzten wir nur noch einen Anruf an die eingespeicherte
+ Nummer ab.
+\begin_inset VSpace defskip
+\end_inset
+
+Damit haben wir schon die Funktionalität eines Rückrufes nach 20 Sekunden
+ erledigt.
+\begin_inset VSpace defskip
+\end_inset
+
+Im nächsten Part mussten wir das ganze noch so erweitern, dass wir auch
+ eine Telefonnummer aktzeptieren, die in unserem Telefonbuch unter 
+\begin_inset Quotes eld
+\end_inset
+
+Alarm
+\begin_inset Quotes erd
+\end_inset
+
+ steht.
+\end_layout
+
+\begin_layout Standard
+Unser Ansatz ist etwas simpel gestaltet.
+ Im Groben sahen wir zwei Möglichkeiten der Herangehensweise: In der einen
+ testen wir jedes Mal bei einem Anruf, wie der momentane Eintrag unter 
+\begin_inset Quotes eld
+\end_inset
+
+Alarm
+\begin_inset Quotes erd
+\end_inset
+
+ aussieht.
+ Dies führte in der Überlegung zu einigen Koordinationsproblemen, mit dem
+ Timer.
+ Da man die LEDs nur an (oder an/aus) schalten soll, wenn der Anruf von
+ der richtgen Nummer kommt.
+ Allerdings würde sich durch die Abfrage auf das Telefonbuch der ganze vorgang
+ verzögern.
+\begin_inset VSpace defskip
+\end_inset
+
+Der zweite Ansatz, den wir gewählt haben, sah vor, die Rufnummer beim Start
+ des Programms einmal auszulesen, in einer Variable zu speichern.
+ Jedesmal, wenn die Nummer sich ändert, wird diese Variable aktualisiert.
+ Dies kann der Fall sein, wenn jemand den Eintrag von außen ändern, dazu
+ brauchten wir einen Handler für 
+\emph on
++CPBW 
+\emph default
+auf den aktuellen Platz unserer Nummer.
+ Und der einfachere Fall, wenn wir über die SMS die Nummer ändern.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\footnotesize\ttfamily},frame=single,numbers=left,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+ascii alarmNum[20];
+\end_layout
+
+\begin_layout Plain Layout
+
+bool isAlarm = FALSE;
+\end_layout
+
+\begin_layout Plain Layout
+
+ascii * passwort = "geheim";
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+bool smsHandler(ascii * tel, ascii * time, ascii * text)
+\end_layout
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\begin_layout Plain Layout
+
+	ascii commandBuffer[50];
+\end_layout
+
+\begin_layout Plain Layout
+
+	if (wm_strlen(text) < 6) return true;
+\end_layout
+
+\begin_layout Plain Layout
+
+	if (wm_strncmp(passwort, text, 6) == 0){
+\end_layout
+
+\begin_layout Plain Layout
+
+		// passwort korrekt
+\end_layout
+
+\begin_layout Plain Layout
+
+		wm_strncpy(alarmNum, text+7, 20);
+\end_layout
+
+\begin_layout Plain Layout
+
+		wm_sprintf(commandBuffer, "AT+CPBW=42,
+\backslash
+"%s
+\backslash
+",145, 
+\backslash
+"Alarm
+\backslash
+"",alarmNum);
+\end_layout
+
+\begin_layout Plain Layout
+
+		adl_atCmdSend(commandBuffer, NULL, NULL);
+\end_layout
+
+\begin_layout Plain Layout
+
+		return false;
+\end_layout
+
+\begin_layout Plain Layout
+
+	} else {
+\end_layout
+
+\begin_layout Plain Layout
+
+		// normale sms oder pw inkorrekt, weiterleiten
+\end_layout
+
+\begin_layout Plain Layout
+
+		return true;
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+void smsCtrlHandler(u8 event, u16 mb) {return;} 
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+bool alarmHandler(adl_atResponse_t * params)
+\end_layout
+
+\begin_layout Plain Layout
+
+	{
+\end_layout
+
+\begin_layout Plain Layout
+
+	wm_strGetParameterString(alarmNum, params->StrData, 2);
+\end_layout
+
+\begin_layout Plain Layout
+
+	adl_atSendResponse(ADL_AT_RSP, alarmNum);
+\end_layout
+
+\begin_layout Plain Layout
+
+	return false;
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+void ledTimeoutTimer(u8 id, void * context)
+\end_layout
+
+\begin_layout Plain Layout
+
+	{
+\end_layout
+
+\begin_layout Plain Layout
+
+	if (timeout-- > 0){...}
+\end_layout
+
+\begin_layout Plain Layout
+
+	else
+\end_layout
+
+\begin_layout Plain Layout
+
+		{
+\end_layout
+
+\begin_layout Plain Layout
+
+		...
+\end_layout
+
+\begin_layout Plain Layout
+
+		adl_callSetup(isAlarm ? alarmNum : telNum, ADL_CALL_MODE_VOICE);
+\end_layout
+
+\begin_layout Plain Layout
+
+		}
+\end_layout
+
+\begin_layout Plain Layout
+
+	} 
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+bool clipHandler(adl_atUnsolicited_t * data)
+\end_layout
+
+\begin_layout Plain Layout
+
+	{
+\end_layout
+
+\begin_layout Plain Layout
+
+	ascii nummerpuffer[20];
+\end_layout
+
+\begin_layout Plain Layout
+
+	wm_strGetParameterString(nummerpuffer, data->StrData, 0);
+\end_layout
+
+\begin_layout Plain Layout
+
+	isAlarm = wm_strcmp(nummerpuffer, alarmNum) == 0;
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	if (wm_strcmp(nummerpuffer, telNum) == 0 ||  isAlarm)
+\end_layout
+
+\begin_layout Plain Layout
+
+		{...}
+\end_layout
+
+\begin_layout Plain Layout
+
+	return FALSE;
+\end_layout
+
+\begin_layout Plain Layout
+
+	} 
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+void main_task(void)
+\end_layout
+
+\begin_layout Plain Layout
+
+	{
+\end_layout
+
+\begin_layout Plain Layout
+
+	adl_atCmdSend("AT+CPBF=
+\backslash
+"Alarm
+\backslash
+"", alarmHandler, "+CPBF:",NULL);
+\end_layout
+
+\begin_layout Plain Layout
+
+	adl_smsSubscribe(smsHandler, smsCtrlHandler, ADL_SMS_MODE_TEXT);
+\end_layout
+
+\begin_layout Plain Layout
+
+	...
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Wir haben 3 neue globale Variablen angelegt.
+ In der ersten speichern wir die Nummer, die unter 
+\begin_inset Quotes eld
+\end_inset
+
+Alarm
+\begin_inset Quotes erd
+\end_inset
+
+ steht.
+ In der zweiten speichern wir uns, ob wir von 
+\begin_inset Quotes eld
+\end_inset
+
+Alarm
+\begin_inset Quotes erd
+\end_inset
+
+ oder der fest gespeicherten Nummer angerufen wurden und in der letzten
+ steht das Passwort, das man zum ändern der 
+\begin_inset Quotes eld
+\end_inset
+
+Alarm
+\begin_inset Quotes erd
+\end_inset
+
+ Nummer braucht.
+\begin_inset VSpace defskip
+\end_inset
+
+Der reine Umbau auf die alternative Nummer ist nicht schwierig.
+ Wir fragen zu Beginn in der main ab, wie die Nummer lautet.
+ Im 
+\emph on
+alarmHandler
+\emph default
+ reagieren wir einfach auf die Antwort und speichern die Nummer in der globalen
+ Variable.
+\end_layout
+
+\begin_layout Standard
+Nun gucken wir bei der 
+\emph on
++CLIP
+\emph default
+ Nachricht einfach nach, ob die anrufende Nummer mit 
+\begin_inset Quotes eld
+\end_inset
+
+Alarm
+\begin_inset Quotes erd
+\end_inset
+
+ oder der festen Nummer übereinstimmt.
+ Ist sie alarm, wird dies gleich in der globalen Vairable gespeichert.
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Am Ende von 
+\emph on
+timerHandler
+\emph default
+ können wir nun einfach testet, ob 
+\emph on
+isAlarm 
+\emph default
+gesetzt ist.
+ Danach Rufen wir entweder die feste oder die 
+\begin_inset Quotes eld
+\end_inset
+
+Alarm
+\begin_inset Quotes erd
+\end_inset
+
+ Nummer an.
+\begin_inset VSpace defskip
+\end_inset
+
+Im 
+\emph on
+smsHandler
+\emph default
+ testen wir, ob die ersten 6 Zeichen (unser Passwort ist 6 Zeichen lang)
+ dem Passwort entsprechen.
+ Ist dies der Fall kopieren wir ab Stelle 7 (wir erwarten ein Trennzeichen
+ zwischen Passwort und neuer Nummer) und kopieren die nächsten 20 Zeichen
+ in den Speicher und aktualisieren den Eintrag im Telefonbuch.
+\begin_inset VSpace defskip
+\end_inset
+
+Mit dieser geringfügigen Veränderung können wir nun auch auf 
+\begin_inset Quotes eld
+\end_inset
+
+Alarm
+\begin_inset Quotes erd
+\end_inset
+
+ reagieren.
+\end_layout
+
+\begin_layout Subsection*
+Auswertung
+\end_layout
+
+\begin_layout Standard
+Aufgrund der wenig textuellen Ausgabe, werden wir diesmal viel von unserem
+ Versuch berichten.
+ Und anzeigen, was dabei zu sehen war.
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\footnotesize\ttfamily},frame=single,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+RING
+\end_layout
+
+\begin_layout Plain Layout
+
++CLIP: "0151543-----",161
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In diesem Versuch haben wir von einer nicht gespeicherten Nummer angerufen.
+ Wie man sieht, bekommt man den RING und die Nummer wird angezeigt.
+ Als nächstes zeigen wir die Ausgabe, wenn wir von einer der eingespeicherten
+ Nummern aus anrufen.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\footnotesize\ttfamily},frame=single,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+RING
+\end_layout
+
+\begin_layout Plain Layout
+
+2 : an
+\end_layout
+
+\begin_layout Plain Layout
+
+3 : an
+\end_layout
+
+\begin_layout Plain Layout
+
+3 : aus
+\end_layout
+
+\begin_layout Plain Layout
+
+3 : an
+\end_layout
+
+\begin_layout Plain Layout
+
+...
+\end_layout
+
+\begin_layout Plain Layout
+
+3 :an
+\end_layout
+
+\begin_layout Plain Layout
+
+3 : aus
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+2 : aus
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Wir sehen hier an erster Stelle das 
+\emph on
+RING
+\emph default
+, aber die Information über die Nummer nicht mehr.
+ Gleich darauf springen unsere Debugnachrichten an, die uns im Sekundentakt
+ die LED3 ein und ausschalten (die LED selber ging auch an und aus), und
+ nach 20 Sekunden blieb sie aus.
+ Mit einer kurzen Verzögerung haben wir einen Anruf bekommen.
+ Die zweite LED geht zu Beginn an und ging, nachdem wir aufgelegt haben
+ aus.
+ Es bleibt zu erwähnen, dass wenn man den Anruf nicht nimmt, das die LED2
+ erst mit einigen Minuten Verzögerung ausgeht.
+ Wir haben nicht heraus bekommen warum, aber scheinbar bekommt das Modul
+ die Nachricht erst mit einiger Verzögerung.
+\begin_inset VSpace defskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Als nächstes haben wir eine SMS an das Modul geschickt.
+ Wir haben die Nachricht darüber wieder abgefangen, aber in der zweiten
+ Abfrage der eingespeicherten Nummern, sieht man, dass sich der Eintrag
+ unter 
+\emph on
+ALARM
+\emph default
+ auf eine neue Nummer (die, die wir mitgeschickt haben) geändert hat.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\footnotesize\ttfamily},frame=single,numbers=left,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+at+cpbr=1,100
+\end_layout
+
+\begin_layout Plain Layout
+
++CPBR: 2,"017665316700",129,"HWP2"
+\end_layout
+
+\begin_layout Plain Layout
+
++CPBR: 3,"017665338235",129,"HWP3"
+\end_layout
+
+\begin_layout Plain Layout
+
++CPBR: 4,"017665348409",129,"HWP4"
+\end_layout
+
+\begin_layout Plain Layout
+
++CPBR: 5,"017683269836",129,"Wojtek"
+\end_layout
+
+\begin_layout Plain Layout
+
++CPBR: 6,"017665390997",129,"HWP6"
+\end_layout
+
+\begin_layout Plain Layout
+
++CPBR: 7,"017668065207",129,"HWP7"
+\end_layout
+
+\begin_layout Plain Layout
+
++CPBR: 8,"017665374344",129,"HWP8"
+\end_layout
+
+\begin_layout Plain Layout
+
++CPBR: 10,"+4915118985237",145,"dasandere"
+\end_layout
+
+\begin_layout Plain Layout
+
++CPBR: 11,"017665376367",129,"dieda"
+\end_layout
+
+\begin_layout Plain Layout
+
++CPBR: 42,"+49176-------",145,"Alarm"
+\end_layout
+
+\begin_layout Plain Layout
+
+OK 
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+//An dieser Stelle haben wir eine SMS geschrieben
+\end_layout
+
+\begin_layout Plain Layout
+
+//mit dem richtigen Passwort
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+at+cpbr=1,100
+\end_layout
+
+\begin_layout Plain Layout
+
++CPBR: 2,"017665316700",129,"HWP2"
+\end_layout
+
+\begin_layout Plain Layout
+
++CPBR: 3,"017665338235",129,"HWP3"
+\end_layout
+
+\begin_layout Plain Layout
+
++CPBR: 4,"017665348409",129,"HWP4"
+\end_layout
+
+\begin_layout Plain Layout
+
++CPBR: 5,"017683269836",129,"Wojtek"
+\end_layout
+
+\begin_layout Plain Layout
+
++CPBR: 6,"017665390997",129,"HWP6"
+\end_layout
+
+\begin_layout Plain Layout
+
++CPBR: 7,"017668065207",129,"HWP7"
+\end_layout
+
+\begin_layout Plain Layout
+
++CPBR: 8,"017665374344",129,"HWP8"
+\end_layout
+
+\begin_layout Plain Layout
+
++CPBR: 10,"+4915118985237",145,"dasandere"
+\end_layout
+
+\begin_layout Plain Layout
+
++CPBR: 11,"017665376367",129,"dieda"
+\end_layout
+
+\begin_layout Plain Layout
+
++CPBR: 42,"0151534------",145,"Alarm"
+\end_layout
+
+\begin_layout Plain Layout
+
+OK
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

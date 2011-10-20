@@ -1,0 +1,1204 @@
+#LyX 1.6.7 created this file. For more info see http://www.lyx.org/
+\lyxformat 345
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\language ngerman
+\inputencoding auto
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_amsmath 1
+\use_esint 1
+\cite_engine basic
+\use_bibtopic false
+\paperorientation portrait
+\leftmargin 3cm
+\topmargin 2cm
+\rightmargin 2cm
+\bottommargin 2cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\defskip medskip
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\author "" 
+\author "" 
+\end_header
+
+\begin_body
+
+\begin_layout Title
+
+\lang english
+Technische Informatik IV: Praktikum
+\end_layout
+
+\begin_layout Author
+Protokoll zu Aufgabe 7
+\end_layout
+
+\begin_layout Date
+von Alexander Steen, Max Wisniewski
+\end_layout
+
+\begin_layout Subsection*
+Vorbereitung
+\end_layout
+
+\begin_layout Standard
+Für diese Aufgabe haben wir uns mit der Sektion Incoming AT Commands des
+ ADL User Guide auseinandergeetzt.
+\end_layout
+
+\begin_layout Subsection*
+Aufgaben
+\end_layout
+
+\begin_layout Enumerate
+AT-Kommando AT+COUNTDOWN erstellen
+\end_layout
+
+\begin_layout Enumerate
+Dieses Kommando erweitern, sodass heruntergezählt wird
+\end_layout
+
+\begin_layout Enumerate
+Erweitern, sodass durch einen Read-Aufruf der ursprüngliche Startwert angezeigt
+ wird
+\end_layout
+
+\begin_layout Enumerate
+Erweitern, sodass durch einen Test-Aufruf die möglichen Startwerte angezeigt
+ werden
+\end_layout
+
+\begin_layout Subsection*
+Dokumentation
+\end_layout
+
+\begin_layout Description
+adl_atCmdSubscribe Dieser Befehl erlaubt es einem, selbst geschriebene Funktione
+n bei Eingabe eines benutzerdefinierten AT-Kommandos auszulösen Die Syntax
+ der Aufrufes ist:
+\begin_inset Newline newline
+\end_inset
+
+
+\family typewriter
+\size small
+s16 adl_atCmdSubscribe (ascii * Kommando, adl_atCmdHandler_t Handler, u16
+ Optionen)
+\begin_inset Newline newline
+\end_inset
+
+
+\family default
+\size default
+Dabei ist Kommando die Zeichenkette, bei dem die Funktion Handler aufgerufen
+ werden soll.
+ Der Parameter Optionen ermöglicht es einem zu bestimmen, wie das Kommando
+ eingesetzt werden können soll.
+ Der zweite 4-er Block der 16-Byte-Zahl Optionen gibt an, ob das Kommando
+ lesend, testend oder als Aktionen eingesetzt werden kann.
+ Außerdem wird hier noch festgelegt, ob das Kommando Parameter akzeptiert.
+ Der dritte 4-er Block von Optionen beschreibt die maximale, der vierte
+ 4-er-Block die minimale Anzahl an Parametern, falls erlaubt.
+ Für die Optionen existieren zur besseren Lesbarkeit auch Konstanten.
+ Also ergibt sich:
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="3">
+<features>
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Bitmuster
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Bedeutung
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Konstante
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0000 0001 0000 0000
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Das Kommando akzeptiert Parameter
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+ADL_CMD_TYPE_PARA
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0000 0010 0000 0000
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+AT+KOMMANDO=? wird akzeptiert
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+ADL_CMD_TYPE_TEST 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0000 0100 0000 0000
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+AT+KOMMANDO? wird akzeptiert
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+ADL_CMD_TYPE_READ
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0000 1000 0000 0000
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+AT+KOMMANDO wird akzeptiert
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+ADL_CMD_TYPE_ACT
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\family typewriter
+\size small
+
+\begin_inset Newline newline
+\end_inset
+
+
+\family default
+\size default
+Um Optionen zu kombinieren, nutzt man die bitweise Disjunktion (|).
+\family typewriter
+\size small
+
+\begin_inset Newline newline
+\end_inset
+
+
+\family default
+\size default
+Der Handler muss dann folgende Form haben:
+\family typewriter
+\size small
+
+\begin_inset Newline newline
+\end_inset
+
+void (*) adl_atCmdHandler_t (adl_atCmdPreParser_t *Params)
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection*
+Durchführung und Auswertung
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\small\ttfamily},frame=single,language=C,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+void countdown(adl_atCmdPreParser_t *parameter) {
+\end_layout
+
+\begin_layout Plain Layout
+
+	adl_atSendResponse(ADL_AT_RSP, "
+\backslash
+r
+\backslash
+nOK
+\backslash
+r
+\backslash
+n");
+\end_layout
+
+\begin_layout Plain Layout
+
+} 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Dieser Handler kann von einem AT+Kommando angesprochen werden und gibt dann
+ 
+\begin_inset Quotes eld
+\end_inset
+
+OK
+\begin_inset Quotes erd
+\end_inset
+
+ aus.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\small\ttfamily},frame=single,language=C,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+void main_task(void) {
+\end_layout
+
+\begin_layout Plain Layout
+
+	adl_atCmdSubscribe("AT+COUNTDOWN", countdown, ADL_CMD_TYPE_ACT);
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Der weiter oben gezeigte Handler wird auf das Kommando AT+COUNTDOWN registriert,
+ sodass bei Nutzung des Kommandos als Aktion, die Funktion countdown angesprunge
+n wird.
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\small\ttfamily},frame=single,language=C,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+adl_tmr_t *timer_n;
+\end_layout
+
+\begin_layout Plain Layout
+
+s16 timerZahl = -1;
+\end_layout
+
+\begin_layout Plain Layout
+
+s16 paramZahl;
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Wir speichern den Timer global, und speichern uns unter paramZahl, mit welchem
+ Startwert der Timer das letzte Mal aufgerufen wurde.
+ Mit timerZahl wird die aktuelle Countdown-Sekunde gespeichert, ein Wert
+ von -1 bedeutet, dass gerade kein Timer läuft.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset listings
+lstparams "basicstyle={\small\ttfamily},frame=single,language=C,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+void countdownhandler(u8 event, void *context) {
+\end_layout
+
+\begin_layout Plain Layout
+
+	ascii puffer[20]; // Genug Platz für die Ausgabe
+\end_layout
+
+\begin_layout Plain Layout
+
+	if (--timerZahl <= 0) {
+\end_layout
+
+\begin_layout Plain Layout
+
+		adl_atSendResponse(ADL_AT_RSP, "
+\backslash
+r
+\backslash
+n +COUNTDOWN: Fertig
+\backslash
+r
+\backslash
+n");
+\end_layout
+
+\begin_layout Plain Layout
+
+		// Timer deregistrieren
+\end_layout
+
+\begin_layout Plain Layout
+
+		adl_tmrUnSubscribe(timer_n, countdownhandler, ADL_TMR_TYPE_100MS);
+\end_layout
+
+\begin_layout Plain Layout
+
+		timerZahl = -1;
+\end_layout
+
+\begin_layout Plain Layout
+
+	} else {
+\end_layout
+
+\begin_layout Plain Layout
+
+		// aktuellen Countdown ausgeben
+\end_layout
+
+\begin_layout Plain Layout
+
+		wm_sprintf(puffer, "
+\backslash
+r
+\backslash
+n +COUNTDOWN: %i
+\backslash
+r
+\backslash
+n", timerZahl);
+\end_layout
+
+\begin_layout Plain Layout
+
+		adl_atSendResponse(ADL_AT_RSP, puffer);
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Diesen Countdown-Handler benutzen wir, wenn ein Timer registriert wird.
+ Dieser gibt uns periodisch den aktuellen Countdown bzw.
+ eine Nachricht, falls dieser zuende ist.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\small\ttfamily},frame=single,language=C,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+void countdown(adl_atCmdPreParser_t *parameter) {
+\end_layout
+
+\begin_layout Plain Layout
+
+	ascii param[3];
+\end_layout
+
+\begin_layout Plain Layout
+
+	// Bei Action-Abfrage nur OK senden
+\end_layout
+
+\begin_layout Plain Layout
+
+	if (parameter->Type == ADL_CMD_TYPE_ACT) {
+\end_layout
+
+\begin_layout Plain Layout
+
+		adl_atSendResponse(ADL_AT_RSP, "
+\backslash
+r
+\backslash
+nOK
+\backslash
+r
+\backslash
+n");
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\begin_layout Plain Layout
+
+	// Parameter wurde mit übergeben
+\end_layout
+
+\begin_layout Plain Layout
+
+	if (parameter->Type == ADL_CMD_TYPE_PARA) {
+\end_layout
+
+\begin_layout Plain Layout
+
+		wm_strGetParameterString(param, parameter->StrData, 0);
+\end_layout
+
+\begin_layout Plain Layout
+
+		// Prüfe, ob es eine Zahl ist
+\end_layout
+
+\begin_layout Plain Layout
+
+		if (wm_isnumstring(param)) {
+\end_layout
+
+\begin_layout Plain Layout
+
+			paramZahl = wm_atoi(param);
+\end_layout
+
+\begin_layout Plain Layout
+
+			if (paramZahl >= 0 && paramZahl <= 300) {
+\end_layout
+
+\begin_layout Plain Layout
+
+				// Bereich stimmt
+\end_layout
+
+\begin_layout Plain Layout
+
+				if (timerZahl >= 0) {
+\end_layout
+
+\begin_layout Plain Layout
+
+					// Ein Countdown läuft noch: Fehler!
+\end_layout
+
+\begin_layout Plain Layout
+
+					adl_atSendResponse(ADL_AT_RSP, "
+\backslash
+r
+\backslash
+n+COUNTDOWN: ERROR
+\backslash
+r
+\backslash
+n");
+\end_layout
+
+\begin_layout Plain Layout
+
+				} else {
+\end_layout
+
+\begin_layout Plain Layout
+
+					// Countdown anlegen
+\end_layout
+
+\begin_layout Plain Layout
+
+					adl_atSendResponse(ADL_AT_RSP, "
+\backslash
+r
+\backslash
+nOK
+\backslash
+r
+\backslash
+n");
+\end_layout
+
+\begin_layout Plain Layout
+
+					timerZahl = paramZahl;
+\end_layout
+
+\begin_layout Plain Layout
+
+					// Timer anmelden, zyklisch jede sekunde
+\end_layout
+
+\begin_layout Plain Layout
+
+					timer_n = adl_tmrSubscribe(
+\end_layout
+
+\begin_layout Plain Layout
+
+						TRUE,
+\end_layout
+
+\begin_layout Plain Layout
+
+						10,ADL_TMR_TYPE_100MS, // 10 * 100ms = 1s
+\end_layout
+
+\begin_layout Plain Layout
+
+						countdownhandler);
+\end_layout
+
+\begin_layout Plain Layout
+
+				}
+\end_layout
+
+\begin_layout Plain Layout
+
+			} else { 
+\end_layout
+
+\begin_layout Plain Layout
+
+				// Parameter außerhalb des Bereiches
+\end_layout
+
+\begin_layout Plain Layout
+
+				adl_atSendResponse(ADL_AT_RSP, "
+\backslash
+r
+\backslash
+n +COUNTDOWN: ERROR
+\backslash
+r
+\backslash
+n");
+\end_layout
+
+\begin_layout Plain Layout
+
+			}
+\end_layout
+
+\begin_layout Plain Layout
+
+		} else {
+\end_layout
+
+\begin_layout Plain Layout
+
+			// Parameter ist keine Zahl: Fehler!
+\end_layout
+
+\begin_layout Plain Layout
+
+			adl_atSendResponse(ADL_AT_RSP, "
+\backslash
+r
+\backslash
+n +COUNTDOWN: ERROR
+\backslash
+r
+\backslash
+n");
+\end_layout
+
+\begin_layout Plain Layout
+
+		}
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Diesen Kommando-Handler benutzen wir, um auf die Anfragen zu antworten.
+ Diesen registrieren wir jetzt mit:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\small\ttfamily},frame=single,language=C,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+void main_task(void) {
+\end_layout
+
+\begin_layout Plain Layout
+
+	adl_atCmdSubscribe("AT+COUNTDOWN", countdown, ADL_CMD_TYPE_PARA | ADL_CMD_TYPE_
+ACT
+\end_layout
+
+\begin_layout Plain Layout
+
+		| 0x0011);
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Dabei ist unser Kommando sowohl als Aktion als auch mit Parametern (minimal
+ 1, maximal 1) aufrufbar.
+\begin_inset Newline newline
+\end_inset
+
+
+\series bold
+
+\begin_inset Newline newline
+\end_inset
+
+Testlauf
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\small\ttfamily},frame=single,language=C,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
++GSM: Anmeldung im Netz abgeschlossen
+\end_layout
+
+\begin_layout Plain Layout
+
+AT+COUNTDOWN
+\end_layout
+
+\begin_layout Plain Layout
+
+OK
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+AT+COUNTDOWN=20
+\end_layout
+
+\begin_layout Plain Layout
+
+OK
+\end_layout
+
+\begin_layout Plain Layout
+
++COUNTDOWN: 19
+\end_layout
+
+\begin_layout Plain Layout
+
++COUNTDOWN: 18
+\end_layout
+
+\begin_layout Plain Layout
+
+...
+\end_layout
+
+\begin_layout Plain Layout
+
++COUNTDOWN: Fertig
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Um den möglichen Parameterbereich ausgeben zu lassen, ergänzen wir folgende
+ Zeile in unseren Kommando-Handler:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\small\ttfamily},frame=single,language=C,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+	if (parameter->Type == ADL_CMD_TYPE_TEST) {
+\end_layout
+
+\begin_layout Plain Layout
+
+		adl_atSendResponse(ADL_AT_RSP, "
+\backslash
+r
+\backslash
+n+COUNTDOWN: (1...300)
+\backslash
+r
+\backslash
+n");
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Um dann auch einzubauen, dass der letzte Startwert ausgegeben wird, ergänzen
+ wir den Kommando-Handler so, dass er die globale Variable paramZahl ausgibt,
+ bzw.
+ anzeigt, dass gerade keine Countdown läuft:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\small\ttfamily},frame=single,language=C,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+	if (parameter->Type == ADL_CMD_TYPE_READ) {
+\end_layout
+
+\begin_layout Plain Layout
+
+		// Kein Countdown läuft
+\end_layout
+
+\begin_layout Plain Layout
+
+		if (timerZahl == -1) 			{
+\end_layout
+
+\begin_layout Plain Layout
+
+			adl_atSendResponse(ADL_AT_RSP, "
+\backslash
+r
+\backslash
+n+COUNTDOWN: NONE
+\backslash
+r
+\backslash
+n");
+\end_layout
+
+\begin_layout Plain Layout
+
+		} else {
+\end_layout
+
+\begin_layout Plain Layout
+
+			// String zusammenbauen und ausgeben
+\end_layout
+
+\begin_layout Plain Layout
+
+			ascii puffer[20];
+\end_layout
+
+\begin_layout Plain Layout
+
+			wm_sprintf(puffer, "
+\backslash
+r
+\backslash
+n+COUNTDOWN: %i
+\backslash
+r
+\backslash
+n", paramZahl);
+\end_layout
+
+\begin_layout Plain Layout
+
+			adl_atSendResponse(ADL_AT_RSP, puffer);
+\end_layout
+
+\begin_layout Plain Layout
+
+		}
+\end_layout
+
+\begin_layout Plain Layout
+
+	}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Um jetzt alle neuen Möglichkeiten auch bereitzustellen, registrieren wir
+ jetzt unser Kommando mit allen Optionen:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "basicstyle={\small\ttfamily},frame=single,language=C,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
+void main_task(void) {
+\end_layout
+
+\begin_layout Plain Layout
+
+	adl_atCmdSubscribe("AT+COUNTDOWN", countdown, ADL_CMD_TYPE_PARA | ADL_CMD_TYPE_
+ACT
+\end_layout
+
+\begin_layout Plain Layout
+
+		| ADL_CMD_TYPE_TEST | ADL_CMD_TYPE_READ | 0x0011);
+\end_layout
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Testlauf
+\series default
+
+\begin_inset listings
+lstparams "basicstyle={\small\ttfamily},frame=single,language=C,tabsize=4"
+inline false
+status open
+
+\begin_layout Plain Layout
+
++GSM: Anmeldung im Netz abgeschlossen
+\end_layout
+
+\begin_layout Plain Layout
+
+AT+COUNTDOWN
+\end_layout
+
+\begin_layout Plain Layout
+
+OK
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+AT+COUNTDOWN?
+\end_layout
+
+\begin_layout Plain Layout
+
++COUNTDOWN: NONE
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+AT+COUNTDOWN=?
+\end_layout
+
+\begin_layout Plain Layout
+
++COUNTDOWN: (1...300)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+AT+COUNTDOWN=20
+\end_layout
+
+\begin_layout Plain Layout
+
+OK
+\end_layout
+
+\begin_layout Plain Layout
+
++COUNTDOWN: 19
+\end_layout
+
+\begin_layout Plain Layout
+
++COUNTDOWN: 18
+\end_layout
+
+\begin_layout Plain Layout
+
+AT+COUNTDOWN?   // Letzten Startwert ausgeben
+\end_layout
+
+\begin_layout Plain Layout
+
++COUNTDOWN: 20
+\end_layout
+
+\begin_layout Plain Layout
+
++COUNTDOWN: 17
+\end_layout
+
+\begin_layout Plain Layout
+
+...
+\end_layout
+
+\begin_layout Plain Layout
+
+AT+COUNTDOWN=20  // Neuen Countdown starten, obwohl noch einer läuft
+\end_layout
+
+\begin_layout Plain Layout
+
++COUNTDOWN: ERROR  // produziert einen Fehler
+\end_layout
+
+\begin_layout Plain Layout
+
+...
+\end_layout
+
+\begin_layout Plain Layout
+
++COUNTDOWN: Fertig
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
