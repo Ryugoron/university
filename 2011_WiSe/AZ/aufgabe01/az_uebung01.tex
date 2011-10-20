@@ -116,9 +116,26 @@ Für $n \in \N$ mit $n \geq 1$ sei $T_n := \{ l \geq 1 | \; l | n\}$ die Menge i
 
 \begin{enumerate}[\bfseries a)]
 
-\item Es sei $n = p_{1}^{k_1} \cdot ... \cdot p_{s}^{k_s}$ die Primfaktorzerlegung von $n$. Geben Sie eine Formel für die Anzahl $\#T_n$ der Teiler von $n$ an.
+\item Es sei $n = p_{1}^{k_1} \cdot ... \cdot p_{s}^{k_s}$ die Primfaktorzerlegung von $n$. Geben Sie eine Formel für die Anzahl $\#T_n$ der Teiler von $n$ an.\\
+
+%% -----------------------------------------------------------------
+%%                   	 Lösung Aufgabe 3a
+%% ----------------------------------------------------------------
+
+
+Für diese Formel reicht uns ein einfaches kombinatorisches Argument. Wir haben $s$ verschiedene Elemente mit jeweils $k_i$ vorkommen. Diese wollen wir nun in allen kombination Möglichkeiten haben. Dies führt zur Formel:
+$$\#T_n = \prod_{j=0}^{s} ( k_j + 1)$$
 
 \item Charakterisieren Sie diejenigen Zahlen, für die $\#T_n$ ungerade ist.
+
+
+%% -----------------------------------------------------------------
+%%                   	 Lösung Aufgabe 3b
+%% ----------------------------------------------------------------
+
+\textbf{Vermutung:} $\#T_n$ ungerade $\Leftrightarrow \exists a\in \N : a^2 = n$.\\
+\textbf{Beweis:}\\
+
 
 \end{enumerate}
 
@@ -141,6 +158,9 @@ Ein Herrscher hält 500 Personen in Einzelzellen gefangen, die von 1 bis 500 dur
 \end{itemize}
 
 Wie viele Gefangene kommen frei? Ist der Insasse von Zelle 179 unter den Freigelassenen?
+
+\vspace{30px}
+\textbf{Vermutung:} 
 
 
 
