@@ -1,32 +1,10 @@
-\section{Einleitung}
-
-\begin{description}
-
-\item{\textbf{Def.:}} Ein Algorithmus ist ein endlich beschriebenes, effektives Verfahren, das eine Eingabe in eine Ausgabe überführt.
-
-\end{description}
-
-Bisher haben wir einfache solcher Algorithmen betrachten (ALP1, ALP3, etc.). In dieser Vorlesung werden wir uns nun mit komplexeren Problemen beschäftigen. Wir wollen die Probleme unter folgenden Aspekten betrachten:
-
-\begin{itemize}
-
-\item Entwurf von Algorithmen
-
-\item Analyse dieser Algorithmen
-
-\item Bewertung dieser Algorithmen
-
-\end{itemize}
-
-Zu Begin Betrachten wir ein einfaches Problem.
-
-\section{Repräsentant einer Menge}
+\chapter{Repräsentant einer Menge}
 
 Gegeben sei folgendes statistisches Problem:\\
 Es seien $n$ Zahlen / Datensätze gegeben, wobei $n >> 0$ gilt.\\
 Gesucht ist ein Repräsentativer Wert für diese Menge.
 
-\subsection{Naiver Ansatz}
+\section{Naiver Ansatz}
 
 \begin{description}
 
@@ -41,7 +19,7 @@ Sind beispielsweise $n-1$ Werte zwischen $0$ und $10$ und ein $n$ter liegt bei $
 Dieser Repräsentant ist leicht zu berechnen, aber nicht sehr schön.\\
 Betrachten wir daher einen anderen Ansatz.
 
-\subsection{K - SELECT}
+\section{K - SELECT}
 
 \begin{description}
 
@@ -54,12 +32,12 @@ $$s \text{ heißt Median} :\Leftrightarrow \; rg(s) = \left\lceil \frac{n+1}{2} 
 
 \end{description}
 
-\subsubsection{Das Problem}
+\subsection{Das Problem}
 
 Gegeben Sei $S, \; |S| = n$ paarweise verschiedene Zahlen.\\
 Nun wollen wir den Median $s$ von $S$ möglichst effizient finden.
 
-\subsubsection{Algorithmus I in $\Theta(n \cdot \log n)$}
+\subsection{Algorithmus I in $\Theta(n \cdot \log n)$}
 
 Was die Laufzeit schon nahe legt, bedienen wir uns hier eines Sortieralgorithmuses.
 
@@ -79,7 +57,7 @@ Benötigt $\Theta (1)$ Schritte.
 
 Da für (vergleichsbasiertes) Sortieren jede Lösung mit $\Omega (n \cdot \log n)$ beschränkt ist, kann eine Lösung für das Medianproblem die Sortierung verwendet nicht schneller sein. Bleibt zu untersuchen, ob der Median ähnlich schwer ist, oder ob es einen Algorithmus gibt, der das Problem schneller lösen kann.
 
-\subsubsection{SELECT in O (n)}
+\subsection{SELECT in O (n)}
 
 Angenommen es existiert eine Funktion SPLITTER(S), welche uns ein Element $q\in S$ liefert, so dass gilt:\\
 $$rg(q) \geq \left\lfloor \frac{1}{4} \; n \right\rfloor \quad \land \quad rg(q) \leq \left\lceil \frac{3}{4} \; n\right\rceil.$$
