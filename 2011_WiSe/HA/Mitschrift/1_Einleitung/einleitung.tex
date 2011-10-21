@@ -1,0 +1,141 @@
+\section{Einleitung}
+
+\begin{description}
+
+\item{\textbf{Def.:}} Ein Algorithmus ist ein endlich beschriebenes, effektives Verfahren, das eine Eingabe in eine Ausgabe überführt.
+
+\end{description}
+
+Bisher haben wir einfache solcher Algorithmen betrachten (ALP1, ALP3, etc.). In dieser Vorlesung werden wir uns nun mit komplexeren Problemen beschäftigen. Wir wollen die Probleme unter folgenden Aspekten betrachten:
+
+\begin{itemize}
+
+\item Entwurf von Algorithmen
+
+\item Analyse dieser Algorithmen
+
+\item Bewertung dieser Algorithmen
+
+\end{itemize}
+
+Zu Begin Betrachten wir ein einfaches Problem.
+
+\section{Repräsentant einer Menge}
+
+Gegeben sei folgendes statistisches Problem:\\
+Es seien $n$ Zahlen / Datensätze gegeben, wobei $n >> 0$ gilt.\\
+Gesucht ist ein Repräsentativer Wert für diese Menge.
+
+\subsection{Naiver Ansatz}
+
+\begin{description}
+
+\item{Idee} Wir verwenden den Durchschnitt / Mittelwert.\\
+Die Laufzeit ist einfach, da wir nur einmal über alle Datensätze müssen. Setzen wir dabei eine konstante Zeit für Addition und Division vorraus, ist die Laufzeit $O(n)$.
+
+\item{Problem:} Der Mittelwert ist Anfällig für Außreißer und daher nicht sehr aussagekräftig.\\
+Sind beispielsweise $n-1$ Werte zwischen $0$ und $10$ und ein $n$ter liegt bei $10.000.000$ so wird das ganze Ergebnis zu diesem Wert hin verfälscht.
+
+\end{description}
+
+Dieser Repräsentant ist leicht zu berechnen, aber nicht sehr schön.\\
+Betrachten wir daher einen anderen Ansatz.
+
+\subsection{K - SELECT}
+
+\begin{description}
+
+\item{\bfseries Def.:} Ein Element $s$ einer total geordneten Menge $S$ hat den Rang $k$ $:\Leftrightarrow \;$ es gibt genau $(k-1)$ Elemente in $S$, die kleiner sind als $s$.\\
+
+Man schreibt dafür $\; rg(s)$.
+
+\item{\bfseries Def.:} Sei $S$ total geordnet mit $n = |\,S\,|$ und $s\in S$.\\
+$$s \text{ heißt Median} :\Leftrightarrow \; rg(s) = \left\lceil \frac{n+1}{2} \right\rceil .$$
+
+\end{description}
+
+\subsubsection{Das Problem}
+
+Gegeben Sei $S, \; |S| = n$ paarweise verschiedene Zahlen.\\
+Nun wollen wir den Median $s$ von $S$ möglichst effizient finden.
+
+\subsubsection{Algorithmus I in $\Theta(n \cdot \log n)$}
+
+Was die Laufzeit schon nahe legt, bedienen wir uns hier eines Sortieralgorithmuses.
+
+\begin{enumerate}
+
+\item Soritere $S$. z.\,B. mit Heap - Sort .\\
+Benötigt $\Theta (n\cdot \log n)$ Schritte.
+
+\item Gib das Element an der Stelle $\left\lceil \frac{n+1}{2} \right\rceil$ aus.\\
+Benötigt $\Theta (1)$ Schritte.
+
+\end{enumerate}
+
+\textbf{Laufzeit: } $T(n) = \Theta (n \cdot \log n) + \Theta(1) = \Theta(n \cdot \log n)$.
+
+\vspace{\baselineskip}
+
+Da für (vergleichsbasiertes) Sortieren jede Lösung mit $\Omega (n \cdot \log n)$ beschränkt ist, kann eine Lösung für das Medianproblem die Sortierung verwendet nicht schneller sein. Bleibt zu untersuchen, ob der Median ähnlich schwer ist, oder ob es einen Algorithmus gibt, der das Problem schneller lösen kann.
+
+\subsubsection{SELECT in O (n)}
+
+Angenommen es existiert eine Funktion SPLITTER(S), welche uns ein Element $q\in S$ liefert, so dass gilt:\\
+$$rg(q) \geq \left\lfloor \frac{1}{4} \; n \right\rfloor \quad \land \quad rg(q) \leq \left\lceil \frac{3}{4} \; n\right\rceil.$$
+
+\begin{description}
+
+\item{\bfseries Lemma:} Angenommen wir können SPLITTER ohne weitere Kosten benutzen. Dann können wir den Median in $O (n)$ Zeit berechnen.
+
+\item{\bfseries Beweis:} Um diese Aussage zu beweisen lösen wir das allgemeinere Problem 
+$$\text{SELECT}(k,S)$$
+finde Element mit Rang $k$.
+\vspace{\baselineskip}
+Dieses Problem wird "Auswahlproblem" genannt.
+
+\item{\bfseries Idee:} Nehme SPLITTER als PIVOT Element und teile die Menge der Daten daran auf.
+
+\pagebreak
+
+\item{\bfseries Pseudocode:}
+
+
+\begin{lstlisting}
+SELECT( k , S )
+	IF |S|  <  100 THEN
+		RETURN BRUTFORCE( k , S )  // z. B. Algorithmus I
+	q $\leftarrow$  SPLITTER( S )
+	$S_< \; \leftarrow$ { s $\in$ S | s < q }
+	$S_> \; \leftarrow$ { s $\in$ S | s > q}
+	IF $| \;S_<\; | \geq  k$ THEN
+		RETURN  SELECT( k , $S_<$ )
+	ELSE IF $| S_< | = k - 1$ THEN
+		RETURN q
+	ELSE
+		RETURN SELECT( $k - |S_<| - 1 \;,\;  S_>$)
+\end{lstlisting}
+
+\item{\bfseries Laufzeitanalyse:} \\ Da $rg(q) \in \left[\left\lfloor \frac{1}{4}\;n\;\right\rfloor\, , \, \left\lceil \frac{3}{4} \; n \right\rceil \right]$ gilt $\left| S_< \right| \, , \, \left| S_> \right| \leq \frac{3}{4} \; n$.
+\vspace{\baselineskip}
+Also gilt:
+$$T(n) \leq \left\{ \begin{array}{lr} O(1) & , n < 100 \\ O(n) + T\left( \frac{3}{4} \; n\right) & ,\text{sonst} \end{array}\right. $$
+
+\begin{description}
+
+\item{\bfseries Behauptung:} $$T(n) \in O(n)$$
+
+\item{\bfseries Beweis:}
+$$
+\begin{array}{rl}
+T(n) & \leq c\cdot n + T\left( \frac{3}{4} \;n \right) \\
+& \leq c \cdot n + c\left( \frac{3}{4} \;n \right) + T \left( \right(\frac{3}{4}\left)^2 \;n \right) \\
+& \leq c\cdot n \sum_{i=0}^{\infty} \left( \frac{3}{4}^i \right) + O(1)\\
+& \leq (4c)\cdot n + O(1)\\
+&= O(n)
+\end{array}{rl}
+$$
+\mbox{}\hfill $\square$
+\end{description}
+
+\end{description}

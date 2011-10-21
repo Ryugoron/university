@@ -1,0 +1,32 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{babel}
+
+\usepackage{geometry} 
+\usepackage{verbatim} 
+\usepackage{listings}
+
+\usepackage[colorlinks,pdfpagelabels,pdfstartview = FitH,bookmarksopen = true,bookmarksnumbered = true,linkcolor = black,
+plainpages =false,hypertexnames = false,citecolor = black] {hyperref}
+
+\usepackage{amssymb} 
+\usepackage{amsmath} 
+
+%
+\title{HA Mitschrift}
+\author{Max Wisniewski}
+\date{\today}
+%
+
+\begin{document}
+
+\lstset{language=Java, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2, mathescape=true}
+
+\maketitle
+\tableofcontents
+
+\include{./1_Einleitung/einleitung}
+
+\end{document}
