@@ -34,13 +34,12 @@ public class MMergesort<E extends Comparable<E>>{
 	 * @param toSort
 	 * @return
 	 */
-	@SuppressWarnings("unchecked")
 	public E[] sort(E[] toSort){
 		array = toSort;
 		
 		//This is used to have a second array of the same size to merge in later
 		//The required space for the sort is 2n \in O(n)
-		mergeArray = (E[]) new Object[toSort.length];	
+		mergeArray = toSort.clone();	
 		
 		
 		compCounter = 0;
@@ -66,7 +65,7 @@ public class MMergesort<E extends Comparable<E>>{
 		//First, use selection sort for parts below size of m:
 		if(m > 1){
 			int start = 0;
-			int end = m;
+			int end = m > array.length ? array.length : m;
 			while(start < array.length){
 				selectionSort(start, end);
 				start = start + m;
@@ -80,8 +79,11 @@ public class MMergesort<E extends Comparable<E>>{
 			int start = 0;
 			int middle = start + partSize;
 			int end = middle + partSize;
+			end = end > array.length ? array.length : end;
 			while(start < array.length){
-				merge(start, middle, end);
+				if(middle>start && end>middle){
+					merge(start, middle, end);
+				}
 				start = start + partSize;
 				middle = middle + partSize;
 				end = middle + partSize;
@@ -140,9 +142,9 @@ public class MMergesort<E extends Comparable<E>>{
 	private void selectionSort(int start, int end){
 		int swap;
 		E save;
-		for(int i = start; i< end; i++){
+		for(int i = start; i< end - 1; i++){
 			swap = i;
-			for(int j=i; i< end; i++){
+			for(int j=i; j< end - 1; j++){
 				compCounter++;
 				if(array[j].compareTo(array[swap]) < 0) swap = j;
 			}
