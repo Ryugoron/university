@@ -1,0 +1,3 @@
+\select@language {ngerman}
+\contentsline {chapter}{\numberline {1}Hauptsatz der elementaren Zahlentheorie}{2}{chapter.2}
+\contentsline {section}{\numberline {1.1}Division mit Rest}{2}{section.3}
