@@ -94,7 +94,7 @@ SELECT( k , S )
 		RETURN SELECT( $k - |S_<| - 1 \;,\;  S_>$)
 \end{lstlisting}
 
-\item{\bfseries Laufzeitanalyse:} \\ Da $rg(q) \in \left[\left\lfloor \frac{1}{4}\;n\;\right\rfloor\, , \, \left\lceil \frac{3}{4} \; n \right\rceil \right]$ gilt $\left| S_< \right| \, , \, \left| S_> \right| \leq \frac{3}{4} \; n$.
+\item{\bfseries Laufzeitanalyse:} \\ Da $rg(q) \in \left[\left\lfloor \frac{1}{4}\;n\;\right\rfloor\, , \, \left\lceil \frac{3}{4} \; n \right\rceil \right]$ gilt $\left| S_< \right| \, , \, \left| S_> \right| \leq \frac{3}{4} \; n$.\\
 \vspace{\baselineskip}
 Also gilt:
 $$T(n) \leq \left\{ \begin{array}{lr} O(1) & , n < 100 \\ O(n) + T\left( \frac{3}{4} \; n\right) & ,\text{sonst} \end{array}\right. $$
@@ -111,7 +111,7 @@ T(n) & \leq c\cdot n + T\left( \frac{3}{4} \;n \right) \\
 & \leq c\cdot n \sum_{i=0}^{\infty} \left( \frac{3}{4}^i \right) + O(1)\\
 & \leq (4c)\cdot n + O(1)\\
 &= O(n)
-\end{array}{rl}
+\end{array}
 $$
 \mbox{}\hfill $\square$
 \end{description}
