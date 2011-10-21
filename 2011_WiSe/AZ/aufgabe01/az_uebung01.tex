@@ -133,9 +133,25 @@ $$\#T_n = \prod_{j=0}^{s} ( k_j + 1)$$
 %%                   	 Lösung Aufgabe 3b
 %% ----------------------------------------------------------------
 
+\begin{description}
+
+\item{\bfseries Lemma} Seien $n, t_1, t_2 \in \NN$ mit $n=t_1 \cdot t_2$. Dann ist $\left( t_1,t_2\right)$ ein Teilerpaar, d.h. es existiert keine andere Zahl $t_3$ für die gilt: $n=t_1 \cdot t_3$ oder $n=t_2 \cdot t_3$. Die Teilerbeziehung ist jeweils eindeutig.
+
+\item{\bfseries Beweis} Gelten die Bezeichner aus dem Lemma.\\
+Nehmen wir an, es gäbe o.B.d.A. zu $t_1$ nicht nur $t_2$ sondern auch $t_3$.\\
+$$t_1 \cdot t_2 = t_1  \cdot t_3 \Leftrightarrow t_1 \cdot \left( t_2 - t_3\right) = 0$$
+Da $t_1 \not=0$ ist, da es Teiler ist, muss $t_2=t_3$ gelten. Damit ist es eindeutig.\\
+
+\end{description}
+
 \textbf{Vermutung:} $\#T_n$ ungerade $\Leftrightarrow \exists a\in \N : a^2 = n$.\\
 \textbf{Beweis:}\\
-
+"$\Rightarrow$"\\
+Da wir eine ungerade Zahl an Teilern haben, muss es eine Zahl $a$ geben, die keinen von sich verschiedenen Partner hat, dalle anderen nach Lemma einen eindeutigen Partner haben. Da aber gilt $a\;|\;n$, kann nur $n = a \cdot a$ gelten, womit $n$ eine Quadratzahl ist.\\
+"$\Leftarrow$"\\
+Da $n$ Quadratzahl ist, gibt es den Teiler $a$, der sein eingenes Teilerpaar darstellt. Korrollar zum Lemma gilt, dass es keine zweite Zahl $b$ gibt mit $b\not=a \land n = b\cdot b$. Wir haben also einen Teiler und jeder weiter Teiler kommt als Teilerpaar.\\
+Damit haben wir $2k + 1$ Teiler. $\Rightarrow \#T_n$ ist ungerade.\\
+\mbox{} \hfill $\square$
 
 \end{enumerate}
 
@@ -145,7 +161,7 @@ $$\#T_n = \prod_{j=0}^{s} ( k_j + 1)$$
 %% ----------------------------------------------------------------
 
 
-\subsection*{Augabe 4 (Die Amnestie)}
+\subsection*{Aufgabe 4 (Die Amnestie)}
 
 Ein Herrscher hält 500 Personen in Einzelzellen gefangen, die von 1 bis 500 durchnummeriert sind. Anlässlich seines fünfizgsten Geburtstags gewährt er eine Amnestie nach folgenden Regeln:
 
