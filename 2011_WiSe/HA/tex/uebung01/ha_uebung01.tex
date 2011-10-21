@@ -60,9 +60,12 @@ $ \underset{n\rightarrow\infty}{lim} \frac{1}{2^{(2^n) - n}} = 0$\\
 Damit gilt nach konvergenz Kriterium $2^n \in \Omega (2^{(2^n)})\Rightarrow g_9 \in \Omega (g_{10})$
 
 \item
-$ n^{log{(\log{(n)})}} \in \Omega (2^n)$: \\
-Kein Plan
-
+$ n^{\log{(\log{(n)})}} \in \Omega (2^n)$: \\
+Es gilt: $n^{\log \log n} = 2^{\log n \cdot \log \log n} = 2^{\log (n + \log n)}$\\
+$$
+\underset{n\rightarrow\infty}{lim} \frac{ 2^{\log (n + \log n)}}{2^n} = \underset{n\rightarrow\infty}{lim} 2^{n - \log (n + \log n)} = 0 \Leftarrow \underset{n\rightarrow\infty}{lim} n - \log (n + \log n) = \infty
+$$
+Dies ist der Fall, wenn $n$ stärker wächst als $ \log (n + \log n) $.
 \item
 $(\lceil \log{n} \rceil)! \in \Omega (n^{log{(\log{(n)})}})$: \\
 Später
@@ -85,13 +88,14 @@ $\underset{n\rightarrow\infty}{\lim} \frac{\sqrt{2}}{n^2} = \underset{n\rightarr
 $\Rightarrow (\sqrt{2})^{\log{n}} \in \Theta (n^2) \Rightarrow g_4 \in \Omega (g_5)$
 
 \item
-$\log^2 n \in \Omega (\sqrt{2})$: \\
-tbd
+$\log^2 n \in \Omega (\sqrt{n})$: \\
+$$\underset{n\rightarrow\infty}{\lim} \frac{\log^2 n}{\sqrt{n}} = \underset{n\rightarrow\infty}{\lim} \frac{\log^2 n}{\log (2^{\sqrt{n}})} = 0$$
+Sagt Wolframalpha
 
 \item
 $\ln n \in \Omega (\log^2 n)$: \\
-tbd
-
+$$\underset{n\rightarrow\infty}{\lim} \frac{\ln n}{\log^2 n} = \underset{n\rightarrow\infty}{\lim} \frac{(\ln 2)(\log n)}{\log^2 n} = \underset{n\rightarrow\infty}{\lim} \frac{\ln 2}{\log n} = 0$$
+Nach Konvergenzkriterium gilt: $g_2 \in \Omega(g_3)$
 \item
 $n^{\frac{1}{\log n}} \in \Omega (\ln n)$: \\
 Zunächst gilt: $n^{\frac{1}{\log n}} = 2^{\frac{\log n}{\log n}} = 2$.\\
