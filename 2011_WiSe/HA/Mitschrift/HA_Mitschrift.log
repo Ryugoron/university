@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.3-1.40.12 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2011.10.20)  21 OCT 2011 18:46
+This is pdfTeX, Version 3.1415926-2.3-1.40.12 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2011.10.20)  21 OCT 2011 18:48
 entering extended mode
 **HA_Mitschrift.tex
 (E:\repos\university\2011_WiSe\HA\Mitschrift\HA_Mitschrift.tex
@@ -518,23 +518,25 @@ LaTeX Font Info:    Redeclaring font encoding OMS on input line 568.
 LaTeX Info: Redefining \[ on input line 2666.
 LaTeX Info: Redefining \] on input line 2667.
 )
+\@input{macros.aux}
+(E:\repos\university\2011_WiSe\HA\Mitschrift\macros.tex)
 (E:\repos\university\2011_WiSe\HA\Mitschrift\HA_Mitschrift.aux
 (E:\repos\university\2011_WiSe\HA\Mitschrift\chapter01\einleitung.aux)
 (E:\repos\university\2011_WiSe\HA\Mitschrift\chapter02\rep.aux))
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 23.
-LaTeX Font Info:    ... okay on input line 23.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 23.
-LaTeX Font Info:    ... okay on input line 23.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 23.
-LaTeX Font Info:    ... okay on input line 23.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 23.
-LaTeX Font Info:    ... okay on input line 23.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 23.
-LaTeX Font Info:    ... okay on input line 23.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 23.
-LaTeX Font Info:    ... okay on input line 23.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 23.
-LaTeX Font Info:    ... okay on input line 23.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 25.
+LaTeX Font Info:    ... okay on input line 25.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 25.
+LaTeX Font Info:    ... okay on input line 25.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 25.
+LaTeX Font Info:    ... okay on input line 25.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 25.
+LaTeX Font Info:    ... okay on input line 25.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 25.
+LaTeX Font Info:    ... okay on input line 25.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 25.
+LaTeX Font Info:    ... okay on input line 25.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 25.
+LaTeX Font Info:    ... okay on input line 25.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -598,7 +600,7 @@ File: pdftex.def 2011/05/27 v0.06d Graphics/color for pdfTeX
 \makeMPintoPDFobject=\count129
 \everyMPtoPDFconversion=\toks28
 )))
-Package hyperref Info: Link coloring ON on input line 23.
+Package hyperref Info: Link coloring ON on input line 25.
  ("E:\Programme\TeX\MiKTeX 2.9\tex\latex\hyperref\nameref.sty"
 Package: nameref 2010/04/30 v2.40 Cross-referencing by name of section
 
@@ -607,9 +609,9 @@ Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
 )
 \c@section@level=\count130
 )
-LaTeX Info: Redefining \ref on input line 23.
-LaTeX Info: Redefining \pageref on input line 23.
-LaTeX Info: Redefining \nameref on input line 23.
+LaTeX Info: Redefining \ref on input line 25.
+LaTeX Info: Redefining \pageref on input line 25.
+LaTeX Info: Redefining \nameref on input line 25.
 
 (E:\repos\university\2011_WiSe\HA\Mitschrift\HA_Mitschrift.out)
 (E:\repos\university\2011_WiSe\HA\Mitschrift\HA_Mitschrift.out)
@@ -618,16 +620,18 @@ LaTeX Info: Redefining \nameref on input line 23.
 ("E:\Programme\TeX\MiKTeX 2.9\tex\latex\listings\lstlang1.sty"
 File: lstlang1.sty 2004/09/05 1.3 listings language file
 )
-LaTeX Font Info:    Try loading font information for U+msa on input line 28.
+LaTeX Font Info:    Try loading font information for U+msa on input line 30.
 
 ("E:\Programme\TeX\MiKTeX 2.9\tex\latex\amsfonts\umsa.fd"
 File: umsa.fd 2009/06/22 v3.00 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 28.
+LaTeX Font Info:    Try loading font information for U+msb on input line 30.
 
 ("E:\Programme\TeX\MiKTeX 2.9\tex\latex\amsfonts\umsb.fd"
 File: umsb.fd 2009/06/22 v3.00 AMS symbols B
 ) [1
+
+
 
 {C:/ProgramData/MiKTeX/2.9/pdftex/config/pdftex.map}]
 (E:\repos\university\2011_WiSe\HA\Mitschrift\HA_Mitschrift.toc)
@@ -706,22 +710,22 @@ LaTeX Font Info:    Try loading font information for T1+cmtt on input line 82.
  ("E:\Programme\TeX\MiKTeX 2.9\tex\latex\base\t1cmtt.fd"
 File: t1cmtt.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )) [5]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 33.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 33.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 35.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 35.
 
 (E:\repos\university\2011_WiSe\HA\Mitschrift\HA_Mitschrift.aux
 (E:\repos\university\2011_WiSe\HA\Mitschrift\chapter01\einleitung.aux)
 (E:\repos\university\2011_WiSe\HA\Mitschrift\chapter02\rep.aux))
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 33.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 33.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 35.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 35.
 Package rerunfilecheck Info: File `HA_Mitschrift.out' has not changed.
 (rerunfilecheck)             Checksum: 5DAC6CD627C21896D8E58053FF6AA3B3;556.
  ) 
 Here is how much of TeX's memory you used:
- 8601 strings out of 494045
- 119009 string characters out of 3148392
- 310932 words of memory out of 3000000
- 11732 multiletter control sequences out of 15000+200000
+ 8605 strings out of 494045
+ 119125 string characters out of 3148392
+ 310959 words of memory out of 3000000
+ 11733 multiletter control sequences out of 15000+200000
  23770 words of font info for 63 fonts, out of 3000000 for 9000
  715 hyphenation exceptions out of 8191
  29i,9n,40p,375b,1258s stack positions out of 5000i,500n,10000p,200000b,50000s
