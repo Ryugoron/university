@@ -20,7 +20,7 @@
 \fancyhead[R]{WS 2011/12}
 \fancyfoot{}
 \fancyfoot[L]{}
-\fancyfoot[C]{\thepage}
+\fancyfoot[C]{\thepage / \pageref{LastPage}}
 \renewcommand{\footrulewidth}{0.5pt}
 \renewcommand{\headrulewidth}{0.5pt}
 \setlength{\parindent}{0pt} 
@@ -122,7 +122,45 @@ tbd
 
 \subsection*{(a)}
 
-tbd
+\begin{description}
+
+\item{\bfseries Selectionsort}
+
+\begin{description}
+
+\item{\bfseries Beschreibung:} Solange bis die zu sortierende Liste leer ist, sucht Selectionsort das kleinste Element, löscht dieses aus der Liste und fügt es hinten an eine am Anfang neu erzeugte Liste an.
+
+\item{\bfseries Laufzeit:} Um das kleinste Element in einer unsortierten Liste zu finden, muss man sich jedes Element einmal ansehen. Bei einer Liste der Länge $n$ bedeutet dies $T_{smallest}(n) = n$.\\
+Nach der obigen Beschreibung nehmen wir $n$ mal das kleinste Element aus der Liste, wobei die Liste in jedem Schritt um ein Element schrumpft. Um das Element hinten an die neue Liste zu hängen, können wir konstante laufzeit annehmen. (LinkedList rear oder Array auf das ende + 1).\\
+$$
+\begin{array}{rcl}
+\Rightarrow T(n) &=& \sum_{i=0}^{n-1} i \\
+&=& \frac{n\cdot (n-1)}{2} \\
+&=& \frac{1}{2} \left( n^2 - n \right)
+\end{array}
+$$
+
+\end{description}
+
+\item{\bfseries Mergesort}
+
+\begin{description}
+
+\item{\bfseries Beschreibung:} Teile die Liste rekursiv in 2 gleichgroße Listen, bis die Teile trivial zu lösen sind, z.B. bei einem Element, und vereinige danach die sortierten Teillisten auf dem Weg den Rekursionsbaum hoch wieder, in der richtigen Reihenfolge.
+
+\item{\bfseries Laufzeit:} Wir teilen die Liste in 2 gleichgroße Teile (da n Zweierpotenz ist, geht diese Partitionierung immer genau gleich groß werden). Diese werden wieder bearbeitet. Nach diesem Schritt werden wir die Listen mergen. Das mergen funktioniert so, dass ich nach einem Vergleich zwischen den jeweils kleinten Elementen beider Listen (die ganz vorne stehen) eins in die neue Liste einfügen kann. Das führt dazu, dass ich n Vergleiche brauche. Dies ist die Worstcase Laufzeit, wenn immerabwechselnd ein Element aus den Listen genommen wird.\\
+Betrachten wir den Berechnungsgraphen sehen wir, dass der Baum nach $log n$ seine Blätter hat. Dies gilt, da wir nach jedem Schritt die Listen halbieren und erst aufhören, wenn die Listen die Länge 1 haben. 
+$$
+\begin{array}{rcl}
+\Rightarrow T(n) &=& 2 \cdot T(\frac{n}{2}) + n  \\
+&=& 4\cdot T(\frac{n}{4}) + 2n + n\\  &=& 8\cdot T(\frac{n}{8}) +4n +2n + n\\
+&\stackrel{Tiefe}{=}& n \cdot \log n 
+\end{array}
+$$
+
+\end{description}
+
+\end{description}
 
 \subsection*{(b)}
 
@@ -131,5 +169,7 @@ tbd
 \subsection*{(c)}
 
 tbd
+
+\label{LastPage}
 
 \end{document}
