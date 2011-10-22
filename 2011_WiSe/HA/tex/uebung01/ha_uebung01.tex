@@ -152,13 +152,38 @@ $$
 
 \item{\bfseries Beschreibung:} Teile die Liste rekursiv in 2 gleichgroße Listen, bis die Teile trivial zu lösen sind, z.B. bei einem Element, und vereinige danach die sortierten Teillisten auf dem Weg den Rekursionsbaum hoch wieder, in der richtigen Reihenfolge.
 
-\item{\bfseries Laufzeit:} Wir teilen die Liste in 2 gleichgroße Teile (da n Zweierpotenz ist, geht diese Partitionierung immer genau gleich groß werden). Diese werden wieder bearbeitet. Nach diesem Schritt werden wir die Listen mergen. Das mergen funktioniert so, dass ich nach einem Vergleich zwischen den jeweils kleinten Elementen beider Listen (die ganz vorne stehen) eins in die neue Liste einfügen kann. Das führt dazu, dass ich n Vergleiche brauche. Dies ist die Worstcase Laufzeit, wenn immerabwechselnd ein Element aus den Listen genommen wird.\\
-Betrachten wir den Berechnungsgraphen sehen wir, dass der Baum nach $log n$ seine Blätter hat. Dies gilt, da wir nach jedem Schritt die Listen halbieren und erst aufhören, wenn die Listen die Länge 1 haben. 
+\item{\bfseries Laufzeit:} In jedem Schritt Teilen wir die Liste in 2 Teile. Haben wir Listen der Größe 1 erreicht, können wir aufhören. Diese sind ohne weiteres sortiert. Nach jedem Teilen benötigen wir noch $n$ Schritte um beide Listen zu mergen (da wir im Worst-Case immer abwechselnd ein Element aus den jeweiligen Listen nehmen müssen)
 $$
 \begin{array}{rcl}
-\Rightarrow T(n) &=& 2 \cdot T(\frac{n}{2}) + n  \\
-&=& 4\cdot T(\frac{n}{4}) + 2n + n\\  &=& 8\cdot T(\frac{n}{8}) +4n +2n + n\\
-&\stackrel{Tiefe}{=}& n \cdot \log n 
+\Rightarrow T(1) &=& 0  \\
+T(2) &=& 2 \text{ ,aus folgender Formel ausgerechnet}\\
+T(n) &=& T(\left\lfloor \frac{n}{2} \right\rfloor)+ T(\left\lceil \frac{n}{2} \right\rceil) + n  \quad , n>1\\
+\end{array}
+$$
+Da $n$ eine Zweierpotenz ist, können wir $n = 2^k$ substituieren.
+$$\Rightarrow T(2^k) = T(\left\lfloor 2^{k-1} \right\rfloor)+ T(\left\lceil 2^{k-1} \right\rceil) + n$$
+Nun gilt $\forall a > 0 : 2^{n-1} \in \mathbb{N} $ und da $n>1 \Rightarrow k>0$.
+$$\Rightarrow T(2^k) = T(2^{k-1}) + n$$
+Nun stellen wir die charakteristische Gleichung für den homogenen Teil auf:
+$$x^k = 2\cdot x^{k-1} \Leftrightarrow x = 2$$
+Als Lösung des inhomogenen Teils wählen wir $k \cdot 2^k$:
+$$
+\begin{array}{rcl}
+T(2^k) &=& c_1 \cdot 2^k + c_2 \cdot k \cdot 2^k\\
+\stackrel{\text{resub.}}{\Leftrightarrow} T(n) &=& c_1 \cdot n + c_2 \cdot n \cdot \log n\\
+&T(1) = 0&\\
+T(1) = 0 &=& c_1 \cdot 1 + c_2 \cdot 1 \cdot \log 1\\
+0&=&c_1\\
+&T(2) = 2&\\
+T(2) = 2 &=& 0 \cdot 1 + c_2 \cdot 2 \cdot \log 2\\
+2&=&c_2 \cdot 2\\
+c_2 &=& 1 
+\end{array}
+$$
+Setzen wir dies in unsere aufgelöste Form ein erhalten wir:
+$$
+\begin{array}{rcl}
+T(n) &=& c_1 \cdot n + c_2 \cdot n \cdot \log n\\ &=& 0 \cdot n + 1 \cdot n \log n \\ &=& n \cdot \log n
 \end{array}
 $$
 
