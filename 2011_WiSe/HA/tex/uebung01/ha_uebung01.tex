@@ -12,6 +12,7 @@
 \usepackage{listings}
 \usepackage{xcolor}
 \usepackage{paralist}
+
 \usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
 \usepackage{fancyhdr}
 \pagestyle{fancy}
@@ -197,7 +198,120 @@ tbd
 
 \subsection*{(c)}
 
-tbd
+Der Header mit allen wichtigen Member sieht folgender Maßen aus:
+\begin{lstlisting}
+public class MMergesort<E extends Comparable<E>>{
+	int m;
+
+	// 2 debug member	
+
+	E[] array;
+	E[] mergeArray;
+\end{lstlisting}
+
+Die aufrufe von SORT sorgen dafür, dass array und mergeArray immer die selbe größe haben.\\
+Unsere Implementierung von MMergesort beinhaltet 3 wichtige Funktionen.\\
+\begin{lstlisting}
+private void sortHelper(){
+	//First, use selection sort for parts below size of m:
+	if(m > 1){
+		int start = 0;
+		int end = m > array.length ? array.length : m;
+		while(start < array.length){
+			selectionSort(start, end);
+			start = start + m;
+			end = end + m;
+			end = end > array.length ? array.length : end;
+		}
+	}
+	//now we begin merging the parts
+	int partSize = (m > 1) ? m : 1;
+	while(partSize < array.length){
+		int start = 0;
+		int middle = start + partSize;
+		int end = middle + partSize;
+		end = end > array.length ? array.length : end;
+		while(start < array.length){
+			if(middle>start && end>middle){
+				merge(start, middle, end);
+			}
+			start = start + partSize;
+			middle = middle + partSize;
+			end = middle + partSize;
+			end = end > array.length ? array.length : end;
+		}
+		partSize *= 2;
+	}
+}
+\end{lstlisting}
+
+Sorthelper führt am Anfang das Selectionsort auf den $n \mod m$ Teilstücken aus. Danach werden diese Teile Schritt für Schritt gemerged. Da wir auf einem Array arbeiten, benötigen wir den Dividestep nicht, da das Array uns schon einen linksvollständigen Baum darstellt.Je nachdem, welche 2er Potenz wir als Index und Breite nehmen, haben wir einen kompletten Unterbaum. So werden erst alle Bäume der Größe m gemerged. Danach der Größe 2m und so weiter. Wir achten bei der ausführung darauf, dass die Indizes nicht über die Arraygrenze rutschen, was bei Größen, die keine Zweiterpotenz sind passieren kann. Als nächsten wird noch betrachtet, ob $m$ mindestens 2 ist, da sonst der Aufruf von Selectionsort ohnehin nichts tun wird.\\
+\vspace{\baselineskip}\\
+
+\begin{lstlisting}
+private void selectionSort(int start, int end){
+	int swap;
+	E save;
+	for(int i = start; i< end - 1; i++){
+		swap = i;
+		for(int j=i; j< end - 1; j++){
+			compCounter++;
+			if(array[j].compareTo(array[swap]) < 0) swap = j;
+		}
+		save = array[i];
+		array[i] = array[swap];
+		array[swap] = save;
+	}
+}
+\end{lstlisting}
+Das Selectionsort arbeitet In-Place. Dazu wird angenommen, das in jedem Durchlauf der äußeren Schleife links von $i$ die Liste sortiert ist und rechts der unsortierte Teil ist. Nun wird rechts von $i$ das kleinste Element gesucht und mit $i$ geswapt. Soweit entspricht es der Beschreibung in 3a). Das dieser Algorithmus funktioniert wurde in ALP2 und ALP3 gezeigt.\\
+
+\begin{lstlisting}
+private void merge(int start,int middle, int end){
+	System.arraycopy(array, start, mergeArray, start, middle-start);
+	int fst=start, snd=middle, pos = start;
+	while(fst < middle && snd < end){
+		if(fst == middle){
+			//Copy the secend until the end
+			for(int i = snd; i<end; i++){
+				array[pos] = array[i];
+				pos++;
+			}
+			return; 
+		}else if(snd == end){
+			//Copy the first until the end
+			for(int i = fst; i<middle; i++){
+				array[pos] = mergeArray[i];
+				pos++;
+			}	
+			return; 
+		}else{
+			//Wenn beides noch offen ist
+			if(mergeArray[fst].compareTo(array[snd]) < 0){
+				array[pos] = mergeArray[fst];
+				fst++;
+			}else{
+				array[pos] = array[snd];
+				snd++;
+			}
+			pos++;
+		}
+	}
+}
+\end{lstlisting}
+Als erstes speichern wir den ersten Teil der Liste zwischen. Der Algorithmus arbeitet so, dass es immer die ersten beiden Elemente der beiden Listen vergleicht (fst und snd) das minimum der beiden nimmt un hinten an die neu entstehenden Liste anhängt. Sollte eine der beiden Listen leer sein, können wir den Rest der anderen jeweils komplett hinten anfügen. Das megen ended, wenn wir bei beiden Listen am Ende sind oder wenn nachdem der Rest einer der beiden Listen kopiert werden konnte.\\
+\vspace{\baselineskip}\\
+Nachdem wir MMergesort so implementiert haben ist Mergesort leicht:
+\begin{lstlisting}
+public class Mergesort<E extends Comparable<E>> extends MMergesort<E>{	
+	public Mergesort(){
+		super(1);
+	}
+}
+\end{lstlisting}
+Da wir schon darauf geachtet haben, dass bei zu kleinem m kein Selectionsort benutzt wird, ist MMergesort mit $m=1$ ein einfaches Mergesort.\\
+Die Testklasse benutzt 2 Array ns und ms, die jeweils speichern, welche Werte von n und m getestet werden und probiert dann jede kombination aus.\\
+Mithilfe dieser konstruktion konnte eine Schranke bei etwa \emph{MUSS NOCH GEMACHT WERDEN} gefunden werden.
 
 \label{LastPage}
 
