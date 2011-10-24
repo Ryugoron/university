@@ -162,7 +162,7 @@ T(n) &=& T(\left\lfloor \frac{n}{2} \right\rfloor)+ T(\left\lceil \frac{n}{2} \r
 \end{array}
 $$
 Da $n$ eine Zweierpotenz ist, können wir $n = 2^k$ substituieren.
-$$\Rightarrow T(2^k) = T(\left\lfloor 2^{k-1} \right\rfloor)+ T(\left\lceil 2^{k-1} \right\rceil) + n$$
+$$\Rightarrow T(2^k) = T\left(\left\lfloor 2^{k-1} \right\rfloor\right)+ T(\left\lceil 2^{k-1} \right\rceil) + n$$
 Nun gilt $\forall a > 0 : 2^{n-1} \in \mathbb{N} $ und da $n>1 \Rightarrow k>0$.
 $$\Rightarrow T(2^k) = 2\cdot T(2^{k-1}) + n$$
 Nun stellen wir die charakteristische Gleichung für den homogenen Teil auf:
@@ -194,7 +194,32 @@ $$
 
 \subsection*{(b)}
 
-tbd
+Nachdem wir in der letzten Aufgabe die inhomogene Rekursion schon gelöst haben, können wir jetzt einfach die Gleich erneut mit anderem Anker auflösen.
+In der Rechnung ist zu beachten, das wir $m \leq 1$ annehmen, da schon bei dieser Größe keine echte Sortierung per Selection mehr passiert.
+$$
+\begin{array}{rcl}
+T(m)= \frac{m^2 - m}{2} &=&  2 c_1 m + 2 c_2 m \cdot \log m\\
+T(2m) = m^2 + m &=& 2c_1 m + 2c_2 m \log (2m)\\
+\end{array}
+$$
+Anker m bschreibt die Größe, wenn wir Selektionsort ausführen und die nächste 2er Potenz (die wir annehmen durften) ist bei $2m$ zu finden.
+$$
+\begin{array}{rcl}
+II - I:\;1 &=& c_2 \cdot \log(2m) - c_2 \cdot \log m\\
+1 &=& c_2 \cdot \left( \log (2m) - \log m\right)= c_2\\
+\text{in II}\; m^2 - m &=& 2c_1 \cdot m + 2m\log m\\
+c_1 &=& \frac{m-1}{2} - \log m
+\end{array}
+$$
+
+Nun können wir die konstanten einsetzen und die Formel endgültig aufstellen:
+$$
+T(n) = \frac{mn - n}{2} - n \cdot \log m + n \log n
+$$
+Diese Form macht auf den ersten Blick in sofern sinn, als das wir bei $n = m$ die reine Laufzeit für Selectionsort haben und bei $m=1$ reines Mergesort benutzen. In sofern schaut die Form schoneinmal sinnvoll aus.\\
+\vspace{\baselineskip}\\
+
+Als nächsten betrachten wir, wann MMergesort sich als am besten herrausstellt.
 
 \subsection*{(c)}
 

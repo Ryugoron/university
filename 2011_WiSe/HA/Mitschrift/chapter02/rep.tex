@@ -116,4 +116,41 @@ $$
 \mbox{}\hfill $\square$
 \end{description}
 
+\subsection{Implementierung von SPLITTER}
+
+Damit k-SELECT die versprochene lineare Laufzeit erreicht, müssen wir uns als nächstes die Implementierung von Splitter ansehen. Da wir uns in jedem Schritt einen neuen Splitter besorgen, muss die Laufzeit sehr gering gehalten werden.
+
+\subsubsection{Randomisierte Lösung}
+
+Die erste Idee ist es, statt dem SPLITTER mit den gewünschten Eigenschaften einfach einen zufällig Gewählten zu nehmen. Wenn man diese Laufzeit berechnen wird man auch auf eine lineare kommen.\\
+\vspace{\baselineskip}\\
+Um dieses Problem zu lösen werden wir später Randomisierte Algorithmen betrachten und wie man Laufzeiten aus Erwartungswerten bestimmt.
+
+\subsubsection{BFRPT - Algorithm}
+
+Der Algorithmus wurde nach seinen Entdeckern Blum\footnote{Turing Award 1995}, Floyd\footnote{Turing Award 1978}, Pratt, Rivest\footnote{Turing Award 2002}, Tarijan\footnote{Turing Award 1986} benannt.\\
+\vspace{\baselineskip}\\
+Grundlegend funktioniert der Algorithmus folgender Maßen:\\
+Man wählt zufällig eine Stichprobe $S' \subseteq S$ mit $\left| S' \right| = \left| \frac{n}{5} \right|$, so dass der Median von $S'$ ein guter Splitter von $S$ ist. Bestimme rekursiv den Media von $S'$.
+
+\subsubsection{Wählen von $S'$}
+
+Die Idee ist $S$ in 5er Gruppen zu unterteilen. Innerhalb dieser Gruppen können wir den Median in konstanter Zeit findet. Baue aus den Medianen der 5er Gruppen die Menge $S'$ und nimm deren Median.
+
+\begin{description}
+
+\item{\bfseries Lemma:} Der Median von $S'$ ist ein guter SPLITTER von $S$, wenn $n$ groß genug ist.
+
+\item{\bfseries Anschaung:} HIER WIRD NOCH EIN BILD UND ERKLÄRUNG EINGEFÜGT!!
+
+\item{\bfseries Beweis:}
+
+Wir wollen prüfen, ob der Median, den wir finden, wirklich SPLITTER Eigenschaften besitzt. Das heißt wir wollen wissen, ob min. $\frac{1}{4}$ kleiner und $\frac{1}{4}$ größer ist.\\
+\vspace{\baselineskip}\\
+Größer:\\
+Es sind $\left\lceil \frac{1}{2} \left\lceil \frac{n}{5} \right\rceil \right\rceil$ Elemente aus $S'$ größer als der Median. Da alle Elemente aus $S'$ Mediane ihrer 5er Gruppen sind, wissen wir, das in jeder dieser Gruppen 3 Elemente größer sind als unser gefundener Median. Dies gilt für alle Gruppen, außer die Gruppe vom Median selber und die mögliche letzte Gruppe.\\
+Dies führt zu $3 \cdot \left\lceil \frac{1}{2} \left\lceil \frac{n}{5} \right\rceil \right\rceil -3$\\
+\vspace{\baselineskip}\\ 
+\end{description} 
+
 \end{description}
