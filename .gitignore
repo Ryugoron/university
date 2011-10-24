@@ -4,6 +4,7 @@
 *.aux
 *.synctex.gz
 *.toc
+*.div
 
 # Compiled source #
 ###################

@@ -27,7 +27,7 @@
 \setlength{\parindent}{0pt} 
 \setlength{\headheight}{15pt}
 
-\author{Tutor: Tilmann}
+\author{Tutor: Lena Schlipf}
 \date{}
 \title{Max Wisniewski , Alexander Steen}
 
@@ -38,6 +38,11 @@
 \maketitle
 \thispagestyle{fancy}
 
+
+%% ------------------------------------------------------
+%%                     AUFGABE 1
+%% ------------------------------------------------------
+
 \section*{Aufgabe 1}
 
 Die Funktionen der Aufgabe sollen derart geordnet werden, so dass $ g_i \in \Omega (g_{i+1}) $ gilt. Geben Sie auch an, wenn sogar $ g_i = \Theta (g_{i+1}) $ ist. 
@@ -46,34 +51,107 @@ Die Funktionen der Aufgabe sollen derart geordnet werden, so dass $ g_i \in \Ome
 
 Die Folge erfüllt die Eigenschaft und enthält die Elemente, die geordent werden müssen:\\
 
-$(g_i)_{1 \leq i \leq 10} = ( n^{\frac{1}{\log{n}}} , \ln{n} , \log^2{n}  , (\sqrt{2})^{\log{n}}  ,  n^2 ,  4^{log{n}} , (\lceil \log{n} \rceil)! ,   n^{log{(log{(n)})}} ,  2^n  , 2^{(2^n)})$
+%%$$(g_i)_{1 \leq i \leq 10} = ( n^{\frac{1}{\log{n}}} , \ln{n} , \log^2{n}  , (\sqrt{2})^{\log{n}}  ,  n^2 ,  4^{log{n}} , (\lceil \log{n} \rceil)! ,   %%n^{log{(log{(n)})}} ,  2^n  , 2^{(2^n)})$$
+
+$$(g_i)_{1 \leq i \leq 10} = (2^{(2^n)}, 2^n  ,  n^{log{(log{(n)})}}, (\lceil \log{n} \rceil)!,  4^{log{n}} ,  n^2 ,  (\sqrt{2})^{\log{n}}  , \log^2{n}  ,  \ln{n}, n^{\frac{1}{\log{n}}})$$
+
+Was wir an dieser Stelle benutzen werden, sind die Definitionen:\\
+
+1. $f \in O (g) \Leftrightarrow 0 \leq \underset{\lim x \rightarrow \infty}{\limsup} \left| \frac{f(x)}{g(x)} \right| < \infty$\\
+2. $f \in \Omega (g) \Leftrightarrow \exists c > 0 \; \exists x_0 > 0\; \forall x > x_0 \; : \; \left| f(x) \right| \geq c \cdot \left| g(x) \right|$\\
+
+Und der Satz:\\
+
+$f \in \Omega (g) \Leftrightarrow g \in O (f)$\\
+
+Die Äquivalenz der jeweils passenden Definitionen wurde in vorangegangenen Vorlesung gezeigt, genau so wie die Richtigkeit des Satzes.
 
 \begin{description}
 \item{\textbf{Beweis}} 
-\begin{enumerate}
+\begin{enumerate}[\bfseries 1.]
 
 \item
-$  2^n  \in \Omega (2^{(2^n)})$ : \\
+$  2^n  \in O (2^{(2^n)})$ : \\
 $\underset{n\rightarrow\infty}{lim} \frac{2^n}{2^{(2^n)}} = \underset{n\rightarrow\infty}{lim} \frac{2^n \cdot 1}{2^n \cdot 2^{(2^n) - n}} = $
 $ \underset{n\rightarrow\infty}{lim} \frac{1}{2^{(2^n) - n}}$\\
 Da $2^n$ stärker wächst als $n$, gilt:\\
 $ \underset{n\rightarrow\infty}{lim} \frac{1}{2^{(2^n) - n}} = 0$\\
-Damit gilt nach konvergenz Kriterium $2^n \in \Omega (2^{(2^n)})\Rightarrow g_9 \in \Omega (g_{10})$
+Damit gilt nach konvergenz Kriterium $2^n \in \Omega (2^{(2^n)})\Rightarrow g_1 \in \Omega (g_{2})$
 
 \item
-$ n^{\log{(\log{(n)})}} \in \Omega (2^n)$: \\
-Es gilt: $n^{\log \log n} = 2^{\log n \cdot \log \log n} = 2^{\log (n + \log n)}$\\
+$ n^{\log{(\log{(n)})}} \in O (2^n)$: \\
+Es gilt: $n^{\log \log n} = 2^{\log n \cdot \log \log n}$\\
 $$
-\underset{n\rightarrow\infty}{lim} \frac{ 2^{\log (n + \log n)}}{2^n} = \underset{n\rightarrow\infty}{lim} 2^{n - \log (n + \log n)} = 0 \Leftarrow \underset{n\rightarrow\infty}{lim} n - \log (n + \log n) = \infty
+\underset{n\rightarrow\infty}{lim} \frac{ 2^{\log n \cdot \log \log n}}{2^n} = \underset{n\rightarrow\infty}{lim}  2^{(\log n \cdot \log \log n )- n} = 0 \Leftarrow \underset{n\rightarrow\infty}{lim} \log (n + \log n) - n = - \infty
 $$
-Dies ist der Fall, wenn $n$ stärker wächst als $ \log (n + \log n) $.
-\item
-$(\lceil \log{n} \rceil)! \in \Omega (n^{log{(\log{(n)})}})$: \\
-Später
+Nun können wir das asymptotische Verhalten der beiden Terme betrachten, um festzustellen, ob sie gegen $-\infty$ fallen, d.h. gegen 0, wenn man den vorderen Term durch den hinteren Teilt:\\
+$$
+\underset{\lim x \rightarrow \infty}{\lim} \frac{\log n \cdot \log \log n}{n} \stackrel{\text{alles }>0}{\leq} \underset{\lim x \rightarrow \infty}{\lim} \frac{2 \cdot \log n}{n} \stackrel{\text{l'Hôpital}}{=}  \underset{\lim x \rightarrow \infty}{\lim} \frac{1}{n} = 0
+$$
+
+Aus unserer Vorüberlegung folgt: $n^{\log (\log n)} \in O(2^n) \Rightarrow g_2 \in \Omega (g_3)$
 
 \item
-$4^{\log{(n)}} \in \Omega ((\lceil \log{n} \rceil)!)$: \\
-Wie gehabt
+$(\lceil \log{n} \rceil)! \in O (n^{log{(\log{(n)})}})$: \\
+
+Beweisskizze: Wir werden zeigen, dass die Funktion $\frac{(\lceil \log{n} \rceil)!}{n^{log{(\log{(n)})}}}$ innerhalb von Zweierpotenzen streng monoton fällt und danach, dass die Eckpunkte, das heißt die Zweierpotenzen an sich, auch monoton fallen. Damit kann man schlussfolgern, das eine Kurve, die durch die Punkte an den Zweierpotenzen geht, wie der $\limsup$ konvergiert, da die Funktion niemals größer als diese springen wird.\\
+Als erstes ist zu beachten, dass  $\frac{(\lceil \log{n} \rceil)!}{n^{log{(\log{(n)})}}} > 0$ gilt, da keiner dieser Terme bei $n\geq 0$ eine negative Zahl produziert.
+
+\begin{description}
+
+\item{\bfseries Eckpunkte fallen:} $n=2^m$ z.z.\\
+$$\frac{(\lceil \log{n} \rceil)!}{n^{log{(\log{(n)})}}} >  \frac{(\lceil \log{2 \cdot n} \rceil)!}{(2\cdot n)^{log{(\log{(2\cdot n)})}}}$$
+$$
+\begin{array}{rcl}
+\frac{(\lceil \log{2^{m+1}} \rceil)!}{(2^{m+1})^{log{(\log{(2^{m+1})})}}} &=& \frac{(m+1)!}{(2^{m+1})^{\log m+1}}\\
+&=& \frac{(m+1)!}{(m+1)^{m+1}} \left( \Rightarrow \text{für m: } \frac{m!}{m^m}\right)\\
+&=&  \frac{m}{(m+1)^m}\; (\text{kleinere Basis im Nenner, mach es größer})\\
+&<& \frac{m}{m^m}= \frac{(\lceil \log{n} \rceil)!}{n^{log{(\log{(n)})}}}
+\end{array}
+$$
+
+\item{\bfseries Intervalle fallen:} Auf dem Interval $\left( n, 2n \right)$, für $n$ der Form $n = 2^m$ fällt die Funktion.\\
+Zu beachten, zwischen $\log 2^m =m$ und $\log 2^{m+1} = m+1$ liegt keine natürliche Zahl. Deshalb kann auf dem Interval eingeschänkt dieser Teil als Konstante angenommen werden.\\
+
+$$
+\Rightarrow \frac{k}{n^{\log (\log n)}}\quad \text{die Funktion im Nenner wächst, da jede Einzelkomponente wächst.}
+$$
+
+$\Rightarrow$ Innerhalb der Intervalle fällt die Funktion und die obere grenze pro Interval fällt streng monoton. Dies ist nach Analysis ein Konvergenzkriterium. Da wir nicht zeigen müssen, dass es nicht $\Theta$ ist, hören wir an dieser Stelle auf und zeigen nicht, dass es wirklich gegen 0 konvergiert.\\
+$\Rightarrow g_3\in \Omega (g_4)$
+
+\end{description}
+
+\item
+$4^{\log{(n)}} \in O ((\lceil \log{n} \rceil)!)$: \\
+Wie wir im nächsten Schritt zeigen gilt: $4^{\log n} = n^2$.\\
+Wir bedienen uns hier des gleichen Kriteriums, wie im letzen Schritt.\\
+
+\begin{description}
+
+\item{\bfseries Punkte fallen:} für $n = 2^m$ , nach $2n = 2^{m+1}$z.z.
+$$
+\frac{2^{2m+2}}{\left\lceil \log 2^{m+1} \right\rceil !} = \frac{4^{m+1}}{(m+1)!} = \frac{4}{m+1} \cdot \frac{4^m}{m!} \stackrel{\text{für }m>3}{<} \frac{4^m}{m!} = \frac{n^2}{\lceil \log n \rceil !}
+$$
+
+\item{\bfseries Intervallmaxima fallen monoton} Da wir diesmal wieder eine konstante annehmen können, sieht die Folge so aus: $\frac{1}{k} \cdot n^2$. Da $n>0$, wird  $n^2$ streng monoton steigen. Deshalb und aus dem ersten Punkt folgt, dass das Maximum kurz vor der letzen Zweierpotenz liegen muss, also kurz bevor der Nenner einen neuen Wert annimmt.z.z.: \\
+$$
+\frac{(2^{m+1} - 1)^2}{(m)!} < \frac{(2^m - 1)^2}{(m-1)!}
+$$
+Beweis:\\
+$$
+\begin{array}{rcl}
+\frac{(2^{m+1} - 1)^2}{(m)!} &=& \frac{(2\cdot2^m -1)^2}{m \cdot (m-1)!}\\
+&=& \frac{4\cdot 2^{2m} - 4\cdot 2^m +1}{m \cdot (m-1)!}\\
+&=& \frac{3\cdot 2^{2m} - 2\cdot 2^m}{m} \cdot \frac{(2^m - 1)^2}{(m-1)!}\\
+&<& \frac{(2^m -1 )^2}{(m-1)!}
+\end{array}
+$$
+
+Nun lässt sich zeigen (was in dieser Stelle ausgenommen wurde), dass beide Folgen (obere und untere) gegen 0 fallen. Nach Sandwich Kriterium muss also auch die eingeschlossene Folge gegen 0 konvergieren.\\
+$\Rightarrow g_4 \in \Omega (g_5)$
+
+\end{description}
 
 \item
 $n^2 \in \Theta (4^{\log{(n)}})$: \\
@@ -82,37 +160,55 @@ $4^{\log n} = (2^2)^{\log n} =  2^{2\cdot \log n} = 2^{\log n^2} = n^2$\\
 $\Rightarrow g_5 \in \Theta (g_6)$
 
 \item
-$(\sqrt{2})^{\log{n}} \in \Theta (n^2)$:\\
+$(\sqrt{2})^{\log{n}} \in O (n^2)$:\\
 Ersteinmal gilt : $(\sqrt{2})^{\log{n}} = (2^{\frac{1}{2}})^{\log n} = 2^{\frac{1}{2} \cdot \log n} = 2^{\log \sqrt{n}} = \sqrt{2}$\\
 Nun wenden wir wieder das Konvergenzkreterium an: \\
 $\underset{n\rightarrow\infty}{\lim} \frac{\sqrt{2}}{n^2} = \underset{n\rightarrow\infty}{\lim} \frac{1}{n^{1.5}} = 0$\\
-$\Rightarrow (\sqrt{2})^{\log{n}} \in \Theta (n^2) \Rightarrow g_4 \in \Omega (g_5)$
+$\Rightarrow (\sqrt{2})^{\log{n}} \in O (n^2) \Rightarrow g_6 \in \Omega (g_7)$
 
 \item
-$\log^2 n \in \Omega (\sqrt{n})$: \\
-$$\underset{n\rightarrow\infty}{\lim} \frac{\log^2 n}{\sqrt{n}} = \underset{n\rightarrow\infty}{\lim} \frac{\log^2 n}{\log (2^{\sqrt{n}})} = 0$$
-Sagt Wolframalpha
+$\log^2 n \in O (\sqrt{n})$: \\
+$$\underset{n\rightarrow\infty}{\lim} \frac{\log^2 n}{\sqrt{n}} \stackrel{\text{l'Hôpital}}{=} \underset{n\rightarrow\infty}{\lim} \frac{4\cdot\sqrt{n} \cdot  \log n}{n} = \underset{n\rightarrow\infty}{\lim} \frac{4\cdot \log n}{\sqrt{n} } $$
+$$
+\stackrel{\text{l'Hôpital}}{=} \underset{n\rightarrow\infty}{\lim} \frac{8\cdot \sqrt{n}}{n} \stackrel{\text{l'Hôpital}}{=} \underset{n\rightarrow\infty}{\lim} \frac{4}{\sqrt{n}} = 0
+$$
+
+An dieser Stelle sollte offensichtlich sein, dass es gegen 0 konvergiert.\\ $\Rightarrow g_7 \in \Omega (g_8)$
 
 \item
 $\ln n \in \Omega (\log^2 n)$: \\
 $$\underset{n\rightarrow\infty}{\lim} \frac{\ln n}{\log^2 n} = \underset{n\rightarrow\infty}{\lim} \frac{(\ln 2)(\log n)}{\log^2 n} = \underset{n\rightarrow\infty}{\lim} \frac{\ln 2}{\log n} = 0$$
-Nach Konvergenzkriterium gilt: $g_2 \in \Omega(g_3)$
+Nach Konvergenzkriterium gilt: $g_8 \in \Omega(g_9)$
 \item
 $n^{\frac{1}{\log n}} \in \Omega (\ln n)$: \\
 Zunächst gilt: $n^{\frac{1}{\log n}} = 2^{\frac{\log n}{\log n}} = 2$.\\
 Daraus folgt offensichtlich:\\
-$\underset{n\rightarrow\infty}{\lim} \frac{2}{\ln n} = 0 \Rightarrow g_1 \in \Omega (g_2)$
+$\underset{n\rightarrow\infty}{\lim} \frac{2}{\ln n} = 0 \Rightarrow g_9 \in \Omega (g_{10})$
 
 \end{enumerate}
 \end{description}
+
+%% ----------------------------------------------------
+%%                     AUFGABE 2
+%% ----------------------------------------------------
 
 \section*{Aufgabe 2}
 
 Sei $n$ die Anzahl der verschiedenen Sammelbilder. Sei $X$ Zufallsvariable für die Anzahl der benötigten Packungen Müsli, bis wir alle $n$ Sammelbilder haben. Die Wahrscheinlichkeit für ein bestimmtes Bild ist gleichverteilt.
 
+%% ----------------------------------------------------
+%%                          2 a)
+%% ----------------------------------------------------
+
 \subsection*{(a)}
 
 tbd
+
+
+%% ----------------------------------------------------
+%%                          2 b)
+%% ----------------------------------------------------
+
 
 \subsection*{(b)}
 $E[X_{i}]=\frac{1}{p_{i}}$, mit $p_{i}$ Wahrscheinlichkeit ein neues
@@ -129,6 +225,12 @@ Dann ist
 E[X_{i}]=\frac{1}{p_{i}}=\frac{1}{\frac{n-i+1}{n}}=\frac{n}{n-i+1}
 \]
 
+
+%% ----------------------------------------------------
+%%                          2 c)
+%% ----------------------------------------------------
+
+
 \subsection*{(c)}
 
 
@@ -144,7 +246,18 @@ E[X]\stackrel{(a)}{=}\sum_{i=1}^{n}E[X_{i}]\stackrel{(b)}{=}\sum_{i=1}^{n}\frac{
 \]
 
 
+%% ----------------------------------------------------
+%%                      AUFGABE 3
+%% ----------------------------------------------------
+
+
 \section*{Aufgabe 3}
+
+
+%% ----------------------------------------------------
+%%                          3 a)
+%% ----------------------------------------------------
+
 
 \subsection*{(a)}
 
@@ -213,6 +326,12 @@ $$
 
 \end{description}
 
+
+%% ----------------------------------------------------
+%%                          3 b)
+%% ----------------------------------------------------
+
+
 \subsection*{(b)}
 
 Nachdem wir in der letzten Aufgabe die inhomogene Rekursion schon gelöst haben, können wir jetzt einfach die Gleich erneut mit anderem Anker auflösen.
@@ -241,6 +360,12 @@ Diese Form macht auf den ersten Blick in sofern sinn, als das wir bei $n = m$ di
 \vspace{\baselineskip}\\
 
 Als nächsten betrachten wir, wann MMergesort sich als am besten herrausstellt.
+
+
+%% ----------------------------------------------------
+%%                          3 c)
+%% ----------------------------------------------------
+
 
 \subsection*{(c)}
 
