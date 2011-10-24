@@ -115,12 +115,33 @@ Sei $n$ die Anzahl der verschiedenen Sammelbilder. Sei $X$ Zufallsvariable für 
 tbd
 
 \subsection*{(b)}
+$E[X_{i}]=\frac{1}{p_{i}}$, mit $p_{i}$ Wahrscheinlichkeit ein neues
+Bild (das $i$-te Bild) zu erhalten.
 
- tbd
+Für $p_{i}$ ergibt sich $p_{i}=\frac{n-i+1}{n}$, da wir in Runde
+1 eine Wahrscheinlichkeit von $p_{1}=\frac{n-1+1}{n}=1$, in Runde
+2 $p_{2}=\frac{n-2+1}{n}=\frac{n-1}{n}$, etc. haben, ein neues Bild
+zu erhalten.
+
+Dann ist
+
+\[
+E[X_{i}]=\frac{1}{p_{i}}=\frac{1}{\frac{n-i+1}{n}}=\frac{n}{n-i+1}
+\]
 
 \subsection*{(c)}
 
-tbd
+
+z.z.: $E[X]=O(n\, log\, n)$
+
+\[
+E[X]\stackrel{(a)}{=}\sum_{i=1}^{n}E[X_{i}]\stackrel{(b)}{=}\sum_{i=1}^{n}\frac{n}{n-i+1}=n\sum_{i=1}^{n}\frac{1}{n-i+1}
+\]
+
+
+\[
+\stackrel{(*)}{=}n\sum_{i=1}^{n}\frac{1}{i}=n\cdot O(log\: n)=O(n\, log\, n)
+\]
 
 
 \section*{Aufgabe 3}
