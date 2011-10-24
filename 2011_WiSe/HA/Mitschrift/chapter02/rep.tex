@@ -145,12 +145,95 @@ Die Idee ist $S$ in 5er Gruppen zu unterteilen. Innerhalb dieser Gruppen können
 
 \item{\bfseries Beweis:}
 
-Wir wollen prüfen, ob der Median, den wir finden, wirklich SPLITTER Eigenschaften besitzt. Das heißt wir wollen wissen, ob min. $\frac{1}{4}$ kleiner und $\frac{1}{4}$ größer ist.\\
+Wir wollen prüfen, ob der Median $g$, den wir finden, wirklich SPLITTER Eigenschaften besitzt. Das heißt wir wollen wissen, ob min. $\frac{1}{4}$ kleiner und $\frac{1}{4}$ größer ist.\\
 \vspace{\baselineskip}\\
 Größer:\\
-Es sind $\left\lceil \frac{1}{2} \left\lceil \frac{n}{5} \right\rceil \right\rceil$ Elemente aus $S'$ größer als der Median. Da alle Elemente aus $S'$ Mediane ihrer 5er Gruppen sind, wissen wir, das in jeder dieser Gruppen 3 Elemente größer sind als unser gefundener Median. Dies gilt für alle Gruppen, außer die Gruppe vom Median selber und die mögliche letzte Gruppe.\\
+Es sind $\left\lceil \frac{1}{2} \left\lceil \frac{n}{5} \right\rceil \right\rceil$ Elemente aus $S'$ größer als $g$. Da alle Elemente aus $S'$ Mediane ihrer 5er Gruppen sind, wissen wir, das in jeder dieser Gruppen 3 Elemente größer sind als$g$. Dies gilt für alle Gruppen, außer die Gruppevon $g$ selber und die mögliche letzte Gruppe.\\
 Dies führt zu $3 \cdot \left\lceil \frac{1}{2} \left\lceil \frac{n}{5} \right\rceil \right\rceil -3$\\
 \vspace{\baselineskip}\\ 
+Kleiner:\\
+Es gibt ebenso$ \left\lceil \frac{1}{2} \left\lceil \frac{n}{5} \right\rceil \right \rceil$ Gruppen, deren Meridiane kleiner sind als $g$. In jeder dieser Gruppe, wissen wir von 3 Elementen die kleiner sind, bis auf die Gruppe von $g$ und die letzte Gruppe, die in diese Klasse fallen könnte.\\
+Dies führt zu mindestens $3 \left\lceil \frac{1}{2} \left\lceil \frac{n}{5} \right\rceil \right\rceil -3$ Elementen, die kleiner sind als $q$.\\
+\vspace{\baselineskip}\\
+Zusammensetzen:\\
+Es gilt $3 \left\lceil \frac{1}{2} \left\lceil \frac{n}{5} \right\rceil \right\rceil -3 \geq 3 \cdot \frac{1}{2} \cdot \frac{1}{5} n - 3 = \frac{3}{10}n -3$.\\
+Für einen guten SPLITTER, muss die Anzahl der außerhalb liegenden Elemente (sowohl größer als auch kleiner) größer als $\frac{1}{4} n$ sein.\\
+$$
+\begin{array}{rcl}
+\Rightarrow \frac{3}{10}n - 3 \geq \frac{1}{4} &\Leftrightarrow& \left( \frac{3}{10} -  \frac{1}{4} \right)n \geq 3\\
+&\Leftrightarrow& n\geq 60
+\end{array}
+$$
+
+Wir sehen hier, dass wir mit dem Verfahren garantiert einen guten SPLITTER finden, wenn wir mehr als 60 Elemente haben. Mit diesem Problem haben wir uns aber schon im Algorithmus beschäftigt. Dort haben wir gesagt, dass wir bei Listen bestimmter Größe das ganze Problem mit BRUTEFORCE lösen wollen. Damit werden die Listen in denen wir einen SPLITTER suchen immer garantiert 60 Elemente besitzen.\vspace{\baselineskip}\\
+Nachdem wir nun wissen, dass wir mit diesem Verfahren einen SPLITTER erhalten, müssen wir prüfen, ob dieses Verfahren den Algorithmus asymptotisch langsamer macht oder ob wir bei einer lineraten Laufzeit bleiben.
+
 \end{description} 
 
 \end{description}
+
+\subsubsection{Laufzeit K-SELECT mit BFRPT Algorithmus}
+
+Betrachten wir nocheinmal, wie unser Algorithmus nun nach dem Einsetzen des SPLITTER Codes aussieht.
+
+\begin{lstlisting}
+SELECT (S, K)
+	IF $|S| < 100$ THEN
+		RETURN BRUTEFORCE(S , K)
+	Unterteile S in 5er Gruppen
+	S'$\leftarrow\{\text{Median jeder 5er Gruppe}\}$
+	q $\leftarrow$ SELECT( S', $\left\lceil \frac{|S'| + 1}{2} \right\rceil$)
+	$S_< \leftarrow \{ s \in S \; | \; s < q \}$
+	$S_> \leftarrow \{ s \in S \; | \; s > q\}$
+	IF $|S_<| \geq k$ THEN
+		RETURN SELECT($S_<$, K)
+	ELSE IF $|S_<| = K - 1$ THEN
+		RETURN q
+	ELSE
+		RETURN SELECT($S_>, \;K - |S_<| - 1$)
+\end{lstlisting}
+
+Nun können wir aus dem Programm die Anzahl der Vergleiche ablesen:
+
+$$
+T(n) \leq \left\{ \begin{array}{lr} O(1) &, n<100\\ O(n) + T\left( \left\lceil \frac{n}{5}\right\rceil \right) + T\left( \frac{3}{4}n \right) & , \text{sonst}\end{array}\right.
+$$
+
+\begin{description}
+
+\item{\bfseries Behauptung:} $T(n) = O(n)$
+
+\item{\bfseries Beweis:} Induktion über n mit $\exists \alpha > 0 \; : \; T(n) \leq \alpha \cdot n$
+
+\begin{description}
+
+\item{\bfseries I.A.:} $n<100$ klar, da $T(n)$ konstant.
+
+\item{\bfseries I.S.:} $n \rightarrow n+1$\\
+
+$$
+\begin{array}{rcl}
+T(n) &\leq& c \cdot n + T \left( \left\lceil \frac{n}{5} \right\rceil \right) + T \left( \frac{3}{4} n \right)\\
+&\stackrel{\text{I.A.}}{\leq}& c\cdot n + \alpha \left\lceil \frac{n}{5} \right\rceil + \alpha \left( \frac{3}{4} n\right)\\
+&\leq& c \cdot n + \alpha \left( \frac{n}{5} +1\right) \alpha \left( \frac{3}{4} n \right)\\
+&=& n \left( c + \frac{19}{20} \right) \alpha + \alpha\\
+&\leq& \alpha \cdot n
+\end{array}
+$$
+
+Den letzten Schritt darf jeder für sich selbst nachvollziehen.\\
+So sehen wir, dass die Laufzeit immer noch lineare ist.
+
+\end{description}
+
+\mbox{} \hfill $\square$
+
+\end{description}
+
+\section{Bemerkung}
+
+Was wollten wir an diesem Beispiel sehen?\\
+Was wir erreicht haben, ist ein Algorithmus, der kurz, elegant und optimal ist. Um diesen zu gewinne mussten wir nicht-triviale Struckturen benutzen, auf die man nicht mehr so leicht kommt, wie auf Quicksort oder Mergesort.\\
+Die Laufzeit des Algorithmus war nicht sofort offensichtlich und brauchte eine Analyse samt Beweis.\vspace{\baselineskip}\\
+Mit solchen Algorithmen werden wir uns im folgenden in der Vorlesung beschäftigen. Ein jeder hat mindestens einen kleinen Kniff dabei.\\
+Zu Bemerken bleibt, dass der oben genannte und analysierte Algorithmus zwar linear läuft, die Konstanten sind allerdings so hoch, das bis zu einer Listengröße von $2^{25}$ Quicksort und anschließendes nehmen des k-ten Elements schneller ist.
