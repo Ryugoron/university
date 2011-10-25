@@ -67,13 +67,15 @@ Seien $a,b\in \Z$.\\
 Faktorisiert man die Formel aus, so gilt:\\
 $$a^n - b^n = \left( a - b \right) \cdot \sum_{s=0}^{n-1} a^s b^{n-1-s}$$
 
+Nun können wir diese Formel verwenden.
+
 $$\begin{array}{crl}
 &\left(a^m - b^m \right)&|\left( a^n - b^n \right) \\
-\stackrel{\text{Fakt.}}{\Leftrightarrow} &  \left( a - b \right) \cdot \sum_{s=0}^{m-1} a^s b^{m-1-s}  &|    \left( a - b \right) \cdot \sum_{s=0}^{n-1} a^s b^{n-1-s}\\
-\stackrel{\text{Eig. 5}}{\Leftrightarrow} &  \sum_{s=0}^{m-1} a^s b^{m-1-s}  &|    \sum_{s=0}^{n-1} a^s b^{n-1-s}\\
-\Leftrightarrow &  \sum_{s=0}^{m-1} a^s b^{m-1-s}  &|    \sum_{s=0}^{k\cdot m-1} a^s b^{k \cdot m-1-s}\\
-\Leftrightarrow &  \sum_{s=0}^{m-1} a^s b^{m-1-s}  &|    \sum_{s=0}^{k\cdot m-1} a^s b^{k \cdot m-1-s}\\
+\stackrel{\text{Def.}}{\Leftrightarrow} & \left( a^m - b^m \right) &| \left( \left( a^m \right) ^k - \left( a^m \right)^k \right)\\ 
+\stackrel{\text{Fakt.}}{\Leftrightarrow} &  \left( a^m - b^m \right) &| \left( a^m - b^m \right) \cdot \underset{s=0}{\overset{k-1}{\sum}} \left( a^m \right)^s \left( b^m \right)^{k-1-s}\\
 \end{array}$$
+
+Nach Eigenschaft 4 der Vorlesung ($\forall a,b \in \Z\;\forall c \in \Z \setminus \{0\} \; : \; a|b \Leftrightarrow a|(c \cdot b)$), dass die Aussage stimmen muss, da gilt $\forall p \in \Z \; : \; p | p$, was ebenfalls in der Vorlesung gezeigt wurde.
 
 \item Zeigen Sie weiter:
 
@@ -84,10 +86,22 @@ $$ k \text{ ungerade} \quad \Rightarrow \quad (\forall a,b \in \Z : (a^m + b^m) 
 %% ------------------------------------------------------------------
 
 \textbf{Beweis}: \\
-
 Seinen $a,b\in \Z$.\\
 Faktorisiert man die Formal aus, so gilt für ungerade n:
-$$a^n - b^n = (a-b) \cdot \sum_{s = 0}^{n - 1} a^s$$
+$$a^n + b^n = (a + b) \cdot \sum_{s = 0}^{n - 1} (-1)^s a^sb^{n-1-s}$$
+
+Wenden wir diese Formel auf die Aussage an, kommen wir auf:
+
+$$
+\begin{array}{crl}
+
+& \left( a^m + b^m \right) &| \left( a^n + b^n \right)\\
+\stackrel{\text{Def.}}{\Leftrightarrow}& \left( a^m + b^m \right) &| \left( \left( a^m \right)^k + \left( b^m\right)^k \right)\\
+\stackrel{\text{Formel}}{\Leftrightarrow} & \left( a^m + b^m \right) &| \left( a^m + b^m \right)\cdot \left( \underset{s=0}{\overset{k-1}{\sum}} (-1)^s \left( a^m \right)^s \left( b^m \right)^{k-1-s} \right)
+\end{array}
+$$
+
+Nun gitl wieder nach den selben Überlegungen wie in \textbf{a)} muss diese Formel gelten.
 
 \end{enumerate}
 
@@ -226,7 +240,7 @@ Da aber nur $t\cdot j$ für beliebige t gedreht wird, kann bei der Zelle das Sch
 \mbox{} \hfill $\square$
 
 
-\vspace{10px}
+\pagebreak
 
 \textbf{Vermutung:} Die Zelle $z$ ist am Ende offen, genau dann wenn $\#T_z$ ungerade ist.\\
 \textbf{Beweis:}\\
