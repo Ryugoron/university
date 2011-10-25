@@ -9,8 +9,8 @@ public class MergeTest {
 		
 		System.out.println("Test für M = 10, 100, 1000 und n = 10, 100, 1000, 100000 soweit sinnvoll.");
 		
-		int[] ms = {10, 100, 1000, 10000};
-		int[] ns = {10, 100, 1000, 100000, 1000000};
+		int[] ms = {1, 2, 3, 4, 5, 6, 7, 10, 100, 1000};
+		int[] ns = {1000, 100000, 1000000, 10000000};
 		
 		Random gen = new Random(System.currentTimeMillis());
 		Mergesort<Integer> merge = new Mergesort<Integer>();

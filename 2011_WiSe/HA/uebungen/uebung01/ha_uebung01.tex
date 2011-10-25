@@ -59,10 +59,12 @@ Was wir an dieser Stelle benutzen werden, sind die Definitionen:\\
 
 1. $f \in O (g) \Leftrightarrow 0 \leq \underset{\lim x \rightarrow \infty}{\limsup} \left| \frac{f(x)}{g(x)} \right| < \infty$\\
 2. $f \in \Omega (g) \Leftrightarrow \exists c > 0 \; \exists x_0 > 0\; \forall x > x_0 \; : \; \left| f(x) \right| \geq c \cdot \left| g(x) \right|$\\
+3. $f \in \Theta (g) \Leftrightarrow 0 < \underset{n \rightarrow \infty}{\lim} \left| \frac{f(n)}{g(n)} \right| < \infty$\\
 
 Und der Satz:\\
 
-$f \in \Omega (g) \Leftrightarrow g \in O (f)$\\
+4. $f \in \Omega (g) \Leftrightarrow g \in O (f)$\\
+5. $\underset{n \rightarrow \infty}{\lim} f(n) = c \Leftrightarrow \exists g,h \; : \; g > f \land h < f \; \land \; \underset{n \rightarrow \infty}{\lim} h(n) = c \; \land \; \underset{n \rightarrow \infty}{\lim} g(n) = c $ (Sandwich Kriterium)\\
 
 Die Äquivalenz der jeweils passenden Definitionen wurde in vorangegangenen Vorlesung gezeigt, genau so wie die Richtigkeit des Satzes.
 
@@ -94,21 +96,39 @@ Aus unserer Vorüberlegung folgt: $n^{\log (\log n)} \in O(2^n) \Rightarrow g_2 
 \item
 $(\lceil \log{n} \rceil)! \in O (n^{log{(\log{(n)})}})$: \\
 
-Beweisskizze: Wir werden zeigen, dass die Funktion $\frac{(\lceil \log{n} \rceil)!}{n^{log{(\log{(n)})}}}$ innerhalb von Zweierpotenzen streng monoton fällt und danach, dass die Eckpunkte, das heißt die Zweierpotenzen an sich, auch monoton fallen. Damit kann man schlussfolgern, das eine Kurve, die durch die Punkte an den Zweierpotenzen geht, wie der $\limsup$ konvergiert, da die Funktion niemals größer als diese springen wird.\\
+Beweisskizze: Wir werden zeigen, dass die Funktion $\frac{(\lceil \log{n} \rceil)!}{n^{log{(\log{(n)})}}}$ innerhalb von Zweierpotenzen streng monoton fällt und danach, dass die Eckpunkte, das heißt die Zweierpotenzen an sich, gegen 0 konvergieren. Damit kann man schlussfolgern, das eine Kurve, die durch die Punkte an den Zweierpotenzen geht, wie der $\limsup$ konvergiert, da die Funktion niemals größer als diese springen wird.\\
 Als erstes ist zu beachten, dass  $\frac{(\lceil \log{n} \rceil)!}{n^{log{(\log{(n)})}}} > 0$ gilt, da keiner dieser Terme bei $n\geq 0$ eine negative Zahl produziert.
 
 \begin{description}
 
-\item{\bfseries Eckpunkte fallen:} $n=2^m$ z.z.\\
-$$\frac{(\lceil \log{n} \rceil)!}{n^{log{(\log{(n)})}}} >  \frac{(\lceil \log{2 \cdot n} \rceil)!}{(2\cdot n)^{log{(\log{(2\cdot n)})}}}$$
+%%\item{\bfseries Eckpunkte fallen:} $n=2^m$ z.z.\\
+%%$$\frac{(\lceil \log{n} \rceil)!}{n^{log{(\log{(n)})}}} >  \frac{(\lceil \log{2 \cdot n} \rceil)!}{(2\cdot n)^{log{(\log{(2\cdot n)})}}}$$
+%%$$
+%%\begin{array}{rcl}
+%%\frac{(\lceil \log{2^{m+1}} \rceil)!}{(2^{m+1})^{log{(\log{(2^{m+1})})}}} &=& \frac{(m+1)!}{(2^{m+1})^{\log m+1}}\\
+%%&=& \frac{(m+1)!}{(m+1)^{m+1}} \left( \Rightarrow \text{für m: } \frac{m!}{m^m}\right)\\
+%%&=&  \frac{m}{(m+1)^m}\; (\text{kleinere Basis im Nenner, mach es größer})\\
+%%&<& \frac{m}{m^m}= \frac{(\lceil \log{n} \rceil)!}{n^{log{(\log{(n)})}}}
+%%\end{array}
+%%$$
+
+\item{\bfseries Eckpunkte konvergieren:} Die Folge $t_m = \frac{(\lceil \log{2^m} \rceil)!}{n^{log{(\log{(2^m)})}}} = \frac{m!}{m^m}$ konvergiert gegen 0.\\
+Beweis:
 $$
 \begin{array}{rcl}
-\frac{(\lceil \log{2^{m+1}} \rceil)!}{(2^{m+1})^{log{(\log{(2^{m+1})})}}} &=& \frac{(m+1)!}{(2^{m+1})^{\log m+1}}\\
-&=& \frac{(m+1)!}{(m+1)^{m+1}} \left( \Rightarrow \text{für m: } \frac{m!}{m^m}\right)\\
-&=&  \frac{m}{(m+1)^m}\; (\text{kleinere Basis im Nenner, mach es größer})\\
-&<& \frac{m}{m^m}= \frac{(\lceil \log{n} \rceil)!}{n^{log{(\log{(n)})}}}
+\underset{m \rightarrow \infty}{\lim} t_m = \underset{m \rightarrow \infty}{\lim} \frac{m!}{m^m} &=& \underset{m \rightarrow \infty}{\lim} \prod_{i=1}^{m} \frac{i}{m}\\
+&=& \left( \underset{m \rightarrow \infty}{\lim} \frac{1}{m} \right) \cdot \left( \underset{m \rightarrow \infty}{\lim} \prod_{i=2}^{m} \frac{i}{m} \right)
 \end{array}
 $$
+Nun können wir den hinteren Term abschätzen, da  $\forall 1<i\leq m \; : \; 0 \leq \frac{i}{m} \leq 1$ gilt. Damit können wir den gesammte Produkt, gegen eine Zahl $0\leq k \leq 1$ aschätzen.\\
+$$
+\begin{array}{rcl}
+\Rightarrow \underset{m \rightarrow \infty}{\lim} t_m &=& \underset{m \rightarrow \infty}{\lim} \frac{1}{m} \cdot k\\
+&=& 0
+\end{array}
+$$
+
+Wir wissen nun, dass die Eckpunkte gegen 0 konvergieren.
 
 \item{\bfseries Intervalle fallen:} Auf dem Interval $\left( n, 2n \right)$, für $n$ der Form $n = 2^m$ fällt die Funktion.\\
 Zu beachten, zwischen $\log 2^m =m$ und $\log 2^{m+1} = m+1$ liegt keine natürliche Zahl. Deshalb kann auf dem Interval eingeschänkt dieser Teil als Konstante angenommen werden.\\
@@ -117,10 +137,12 @@ $$
 \Rightarrow \frac{k}{n^{\log (\log n)}}\quad \text{die Funktion im Nenner wächst, da jede Einzelkomponente wächst.}
 $$
 
-$\Rightarrow$ Innerhalb der Intervalle fällt die Funktion und die obere grenze pro Interval fällt streng monoton. Dies ist nach Analysis ein Konvergenzkriterium. Da wir nicht zeigen müssen, dass es nicht $\Theta$ ist, hören wir an dieser Stelle auf und zeigen nicht, dass es wirklich gegen 0 konvergiert.\\
-$\Rightarrow g_3\in \Omega (g_4)$
-
 \end{description}
+
+Wir haben nun gezeigt, dass die zwischen 2 Zweierpotenzen die Funktion fällt, und das die Folge der Anfangspunkte gegen 0 konvergiert.\\
+Damit gilt : $\underset{n \rightarrow \infty}{\lim} t_m = \underset{n \rightarrow \infty}{\limsup} \frac{g_3(n)}{g_4(n)} = 0$. Damit gilt nach Definition $g_4 \in O (g_3)$
+
+$\Rightarrow g_3\in \Omega (g_4)$
 
 \item
 $4^{\log{(n)}} \in O ((\lceil \log{n} \rceil)!)$: \\
@@ -291,14 +313,14 @@ $$
 $$
 \begin{array}{rcl}
 \Rightarrow T(1) &=& 0  \\
-T(2) &=& 2 \text{ ,aus folgender Formel ausgerechnet}\\
-T(n) &=& T(\left\lfloor \frac{n}{2} \right\rfloor)+ T(\left\lceil \frac{n}{2} \right\rceil) + n  \quad , n>1\\
+T(2) &=& 1 \text{ ,aus folgender Formel ausgerechnet}\\
+T(n) &=& T(\left\lfloor \frac{n}{2} \right\rfloor)+ T(\left\lceil \frac{n}{2} \right\rceil) + n - 1 \quad , n>1\\
 \end{array}
 $$
 Da $n$ eine Zweierpotenz ist, können wir $n = 2^k$ substituieren.
-$$\Rightarrow T(2^k) = T\left(\left\lfloor 2^{k-1} \right\rfloor\right)+ T(\left\lceil 2^{k-1} \right\rceil) + n$$
+$$\Rightarrow T(2^k) = T\left(\left\lfloor 2^{k-1} \right\rfloor\right)+ T(\left\lceil 2^{k-1} \right\rceil) + 2^k - 1$$
 Nun gilt $\forall a > 0 : 2^{n-1} \in \mathbb{N} $ und da $n>1 \Rightarrow k>0$.
-$$\Rightarrow T(2^k) = 2\cdot T(2^{k-1}) + n$$
+$$\Rightarrow T(2^k) = 2\cdot T(2^{k-1}) + 2^k -1$$
 Nun stellen wir die charakteristische Gleichung für den homogenen Teil auf:
 $$x^k = 2\cdot x^{k-1} \Leftrightarrow x = 2$$
 Als Lösung des inhomogenen Teils wählen wir $k \cdot 2^k$:
@@ -309,20 +331,22 @@ T(2^k) &=& c_1 \cdot 2^k + c_2 \cdot k \cdot 2^k\\
 &T(1) = 0&\\
 T(1) = 0 &=& c_1 \cdot 1 + c_2 \cdot 1 \cdot \log 1\\
 0&=&c_1\\
-&T(2) = 2&\\
-T(2) = 2 &=& 0 \cdot 1 + c_2 \cdot 2 \cdot \log 2\\
-2&=&c_2 \cdot 2\\
-c_2 &=& 1 
+&T(2) = 1&\\
+T(2) = 1 &=& 0 \cdot 1 + c_2 \cdot 2 \cdot \log 2\\
+1&=&c_2 \cdot 2\\
+c_2 &=& \frac{1}{2} 
 \end{array}
 $$
 Setzen wir dies in unsere aufgelöste Form ein erhalten wir:
 $$
 \begin{array}{rcl}
-T(n) &=& c_1 \cdot n + c_2 \cdot n \cdot \log n\\ &=& 0 \cdot n + 1 \cdot n \log n \\ &=& n \cdot \log n
+T(n) &=& c_1 \cdot n + c_2 \cdot n \cdot \log n\\ &=& 0 \cdot n + \frac{1}{2} \cdot n \log n \\ &=& \frac{1}{2} \cdot n \cdot \log n 
 \end{array}
 $$
 
 \end{description}
+
+Die konstante von $\frac{1}{2}$ macht soweit Sinn, als dass wir auf der letzten Ebene unseres Baumes keine Vergleiche mehr brauchen, sondern nur auf den Ebenen darüber.
 
 \end{description}
 
@@ -354,13 +378,42 @@ $$
 
 Nun können wir die konstanten einsetzen und die Formel endgültig aufstellen:
 $$
-T(n) = \frac{mn - n}{2} - n \cdot \log m + n \log n
+T(n) = \left\{ 
+\begin{array}{lr}
+\frac{n^2 -n}{2} &, n < m\\
+\frac{mn - n}{2} - n \cdot \log m + n \log n  &, n\geq m
+\end{array}
+\right.
 $$
 Diese Form macht auf den ersten Blick in sofern sinn, als das wir bei $n = m$ die reine Laufzeit für Selectionsort haben und bei $m=1$ reines Mergesort benutzen. In sofern schaut die Form schoneinmal sinnvoll aus.\\
 \vspace{\baselineskip}\\
 
-Als nächsten betrachten wir, wann MMergesort sich als am besten herrausstellt.
+Als nächsten betrachten wir, wann MMergesort sich als am besten herrausstellt, wir nehmen hier wie im Tutorium vorgeschlagen, die einfache Gleichung.\\
+Was wir wissen wollen ist, für welche $n>0$ (vernünftige Einschränkung) gilt:\\
+$$
+\begin{array}{rcl}
+\frac{n^2 - n}{2} &<& n \cdot \log n\\
+n-1 &<& 2\log n\\
+n - \log n^2 &<& 1
+\end{array}
+$$
+Da die linke Seite monoton steigt und wir nur einen kleinen Zahlenbereich erwarten, der die Gleichung erfüllt, stellen wir einfach eine Wertetabelle auf.\\
 
+\begin{center}
+\begin{tabular}{c|c}
+$n$ & $ n - \log n^2$ \\
+\hline\\
+1 & 1 \\
+2 & 0\\
+3 & -0.16\\
+4 & 0\\
+5 & 0.35\\
+6 & 0.83\\
+7 & 1.38\\
+\end{tabular}
+\end{center}
+
+Wie man dieser Tabelle ablesen kann, ist für Listen mit eine Länge zwiswchen 1 und 6 Selectionsort besser als Mergesort. Das Minimum liegt bei 3. Daraus folgt, dass MMergesort für $ m = 3$ am besten funktioniert.
 
 %% ----------------------------------------------------
 %%                          3 c)
@@ -380,7 +433,7 @@ public class MMergesort<E extends Comparable<E>>{
 	E[] mergeArray;
 \end{lstlisting}
 
-Die aufrufe von SORT sorgen dafür, dass array und mergeArray immer die selbe größe haben.\\
+Die Aufrufe von SORT sorgen dafür, dass array und mergeArray immer die selbe größe haben.\\
 Unsere Implementierung von MMergesort beinhaltet 3 wichtige Funktionen.\\
 \begin{lstlisting}
 private void sortHelper(){
@@ -482,7 +535,48 @@ public class Mergesort<E extends Comparable<E>> extends MMergesort<E>{
 \end{lstlisting}
 Da wir schon darauf geachtet haben, dass bei zu kleinem m kein Selectionsort benutzt wird, ist MMergesort mit $m=1$ ein einfaches Mergesort.\\
 Die Testklasse benutzt 2 Array ns und ms, die jeweils speichern, welche Werte von n und m getestet werden und probiert dann jede kombination aus.\\
-Mithilfe dieser konstruktion konnte eine Schranke bei etwa \emph{MUSS NOCH GEMACHT WERDEN} gefunden werden.
+Ein exemplarischer Testlauf sieht folgender Maßen aus (Ausgabetext gekürzt, da es sonst 2 Seiten sind):
+
+\begin{lstlisting}
+---- n = 100000 -----------
+Mergesort:Last sorting took '2068302 steps' and needed '49 ms'.
+MMergesort(m=1): [...] '2068302 steps' [...] '21 ms'.
+MMergesort(m=2):[...] '2007097 steps' [...] '20 ms'.
+MMergesort(m=3):[...] '2108619 steps' [...] '19 ms'.
+MMergesort(m=4):[...] '2053025 steps' [...] '17 ms'.
+MMergesort(m=5):[...] '2093692 steps' [...] '17 ms'.
+MMergesort(m=6):[...] '2197988 steps' [...] '19 ms'.
+MMergesort(m=7):[...] '2049053 steps' [...] '16 ms'.
+MMergesort(m=10):[...] '2235044 steps' [...] '17 ms'.
+MMergesort(m=100):[...] '6243519 steps' [...] '39 ms'.
+MMergesort(m=1000):[...] '50908051 steps' [...] '295 ms'.
+---- n = 1000000 -----------
+Mergesort:[...] '23923677 steps' and needed '245 ms'.
+MMergesort(m=1):[...] '23923677 steps' [...] '240 ms'.
+MMergesort(m=2):[...] '24050842 steps' [...] '225 ms'.
+MMergesort(m=3):[...] '25139230 steps' [...] '227 ms'.
+MMergesort(m=4):[...] '23835923 steps' [...] '224 ms'.
+MMergesort(m=5):[...] '24747148 steps' [...] '226 ms'.
+MMergesort(m=6):[...] '24978240 steps' [...] '220 ms'.
+MMergesort(m=7):[...] '25692281 steps' [...] '229 ms'.
+MMergesort(m=10):[...] '25958325 steps' [...] '221 ms'.
+MMergesort(m=100):[...] '67818149 steps' [...] '460 ms'.
+MMergesort(m=1000):[...] '513085734 steps' [...] '3014 ms'.
+---- n = 10000000 -----------
+Mergesort:[...] '292383010 steps' and needed '2700 ms'.
+MMergesort(m=1):[...] '292383010 steps' [...] '2709 ms'.
+MMergesort(m=2):[...] '290701629 steps' [...] '2553 ms'.
+MMergesort(m=3):[...] '285585058 steps' [...] '2477 ms'.
+MMergesort(m=4):[...] '285590369 steps' [...] '2429 ms'.
+MMergesort(m=5):[...] '285706076 steps' [...] '2387 ms'.
+MMergesort(m=6):[...] '293544393 steps' [...] '2430 ms'.
+MMergesort(m=7):[...] '293891926 steps' [...] '2444 ms'.
+MMergesort(m=10):[...] '301629925 steps' [...] '2451 ms'.
+MMergesort(m=100):[...] '719346999 steps' [...] '4962 ms'.
+MMergesort(m=1000):[...] '5187713975 steps' [...] '30989 ms'.
+\end{lstlisting}
+
+Wir sehen hier gerade bei den größeren Listen, das ein Wert von $m=5$ scheinbar die beste Laufzeit hat. Das wir 1 m weiter oben liegen, wird wahrscheinlich an nicht beachteten Konstanten liegen.
 
 \label{LastPage}
 
