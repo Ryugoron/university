@@ -1,0 +1,74 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm]{geometry} 
+\usepackage{babel}
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc} 
+\usepackage{ae} 
+\usepackage{amssymb} 
+\usepackage{amsmath} 
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{paralist}
+\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[C]{Alegbra und Zahlentheorie}
+\fancyhead[L]{Übung Nr. 2}
+\fancyhead[R]{WS 2011/12}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage / \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\setlength{\parindent}{0pt} 
+\setlength{\headheight}{15pt}
+
+%
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\NN}{\mathbb{N} \setminus \{0\}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\ggT}{\text{ggT}}
+\newcommand{\kgV}{\text{kgV}}
+%
+
+\author{Tutor: not known}
+\date{}
+\title{Max Wisniewski , Alexander Steen}
+
+\begin{document}
+
+\lstset{language=Java, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2}
+
+\maketitle
+\thispagestyle{fancy}
+
+%% -------------------------------------------
+%%                 AUFGABE 1
+%% -------------------------------------------
+
+\section*{Aufgabe 1}
+
+Es seien $a,b \in \N \setminus \{ 0,1 \}$ natürliche Zahlen, sowie
+$$
+a= p_1^{k_1}\cdot ...\cdot p_s^{k_s} \quad \text{und} \quad b = q_1^{l_1} \cdot ... \cdot q_s^{l_t}
+$$
+\begin{enumerate}[\bfseries a)]
+
+\item Geben Sie die Primfaktorzerlegung von $\ggT (a,b)$ und $\kgV (a,b)$ an.\\
+
+\item Beweisen Sie die Formel
+
+$$
+\ggT (a,b) \cdot \kgV (a,b) = a \cdot b
+$$
+
+\end{enumerate}
+\section*{Aufgabe 2}
+
+\section*{Aufgabe 3}
+
+\label{LastPage}
+\end{document}
