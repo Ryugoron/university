@@ -183,7 +183,7 @@ $\Rightarrow g_5 \in \Theta (g_6)$
 
 \item
 $(\sqrt{2})^{\log{n}} \in O (n^2)$:\\
-Ersteinmal gilt : $(\sqrt{2})^{\log{n}} = (2^{\frac{1}{2}})^{\log n} = 2^{\frac{1}{2} \cdot \log n} = 2^{\log \sqrt{n}} = \sqrt{2}$\\
+Ersteinmal gilt : $(\sqrt{2})^{\log{n}} = (2^{\frac{1}{2}})^{\log n} = 2^{\frac{1}{2} \cdot \log n} = 2^{\log \sqrt{n}} = \sqrt{n}$\\
 Nun wenden wir wieder das Konvergenzkreterium an: \\
 $\underset{n\rightarrow\infty}{\lim} \frac{\sqrt{2}}{n^2} = \underset{n\rightarrow\infty}{\lim} \frac{1}{n^{1.5}} = 0$\\
 $\Rightarrow (\sqrt{2})^{\log{n}} \in O (n^2) \Rightarrow g_6 \in \Omega (g_7)$
@@ -224,8 +224,8 @@ Sei $n$ die Anzahl der verschiedenen Sammelbilder. Sei $X$ Zufallsvariable für 
 
 \subsection*{(a)}
 
-$E[X]$ soll die Anzahl der Runden sein, bis man alle Bilder hat. $E[ X_i ]$ soll beschreiben, wie viele Runden man in Runde $i$ braucht, das heißt wie viele Runden wir von $i-1$ bis $i$ Bilder brauchen. nun brauchen wir alle Bilderkarten $n = \overset{n}{\underset{i=1}{\sum}} i$.Die Zufallsvariable $X_i$ beschareibt die Anzahl der Runden, das heißt für alle Runden brauchen wir $X = \overset{n}{\underset{i=1}{\sum}} X_i$.\\
-Nach der lineraität des Erwartungswertes gilt:\\
+$E[X]$ soll die Anzahl der Runden sein, bis man alle Bilder hat. $E[ X_i ]$ soll beschreiben, wie viele Runden man in Runde $i$ braucht, das heißt wie viele Runden wir von $i-1$ bis $i$ Bilder brauchen. Nun brauchen wir alle Bilderkarten $n = \overset{n}{\underset{i=1}{\sum}} i$.Die Zufallsvariable $X_i$ beschreibt die Anzahl der Runden, das heißt für alle Runden brauchen wir $X = \overset{n}{\underset{i=1}{\sum}} X_i$.\\
+Nach der Linearität des Erwartungswertes gilt:\\
 $$E[ X ] = E \left[ \sum_{i=1}^{n} X_i \right] = \sum_{i=1}^{n} E[ X_i ]$$
 
 

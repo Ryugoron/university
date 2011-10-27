@@ -3,9 +3,9 @@ package mergesort;
 import java.util.Random;
 
 public class MergeTest {
-
 	
 	public static void main(String[] args) {
+		
 		
 		System.out.println("Test für M = 10, 100, 1000 und n = 10, 100, 1000, 100000 soweit sinnvoll.");
 		
