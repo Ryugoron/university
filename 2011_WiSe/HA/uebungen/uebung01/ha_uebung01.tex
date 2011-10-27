@@ -542,6 +542,9 @@ public class Mergesort<E extends Comparable<E>> extends MMergesort<E>{
 	}
 }
 \end{lstlisting}
+
+\pagebreak
+
 Da wir schon darauf geachtet haben, dass bei zu kleinem m kein Selectionsort benutzt wird, ist MMergesort mit $m=1$ ein einfaches Mergesort.\\
 Die Testklasse benutzt 2 Array ns und ms, die jeweils speichern, welche Werte von n und m getestet werden und probiert dann jede kombination aus.\\
 Ein exemplarischer Testlauf sieht folgender Maßen aus (Ausgabetext gekürzt, da es sonst 2 Seiten sind):
@@ -585,7 +588,7 @@ MMergesort(m=100):[...] '719346999 steps' [...] '4962 ms'.
 MMergesort(m=1000):[...] '5187713975 steps' [...] '30989 ms'.
 \end{lstlisting}
 
-Wir sehen hier gerade bei den größeren Listen, das ein Wert von $m=5$ scheinbar die beste Laufzeit hat. Das wir 1 m weiter oben liegen, wird wahrscheinlich an nicht beachteten Konstanten liegen.
+Wir sehen hier gerade bei den größeren Listen, das ein Wert von $m=5$ scheinbar die beste Laufzeit hat. Das wir 1 m weiter oben liegen, wird wahrscheinlich an nicht beachteten Konstanten liegen. Dies liegt noch in unserem Interval. Man sieht auch, dass die Sortierung mit reinem Mergesort genau gleich viele Schritte benätigt, wie $m=1$, was aber bei unserer Implementierung nicht wieter verwunderlich ist.
 
 \label{LastPage}
 

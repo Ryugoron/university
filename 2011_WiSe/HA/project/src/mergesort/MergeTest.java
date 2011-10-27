@@ -6,6 +6,13 @@ public class MergeTest {
 	
 	public static void main(String[] args) {
 		
+		boolean b = false;
+		
+		if(args.length > 0){
+			if(args[0].equals("-p")){
+				b = true;
+			}
+		}
 		
 		System.out.println("Test für M = 10, 100, 1000 und n = 10, 100, 1000, 100000 soweit sinnvoll.");
 		
@@ -25,17 +32,27 @@ public class MergeTest {
 			System.out.println("---- n = "+n+" -----------");
 			System.arraycopy(sort, 0, save, 0, sort.length);
 			merge.sort(sort);
+			if(b) MergeTest.printArray(sort);
 			System.out.print("Mergesort:"+merge.getStatistic()+"\n");
 			for(int m : ms){
 				System.arraycopy(save, 0, sort, 0, sort.length);
 				mmerge = new MMergesort<Integer>(m);
 				mmerge.sort(sort);
+				if(b) MergeTest.printArray(sort);
 				System.out.print("MMergesort(m="+m+"):"+mmerge.getStatistic()+"\n");
 			}
 		}
 			
 		
 		
+	}
+	
+	private static <E> void printArray(E[] array){
+		System.out.print("array[");
+		for(E e : array){
+			System.out.print(e);
+		}
+		System.out.println("]");
 	}
 
 }
