@@ -1,0 +1,229 @@
+\chapter{Definition und Modell}
+
+In diesem Abschnitt werden das Berechnungsmodell, dass wir zu Grunde legen eingeführt und erklärt, sowie grundlegende Definition erneut eingeführt. Alldies sollte schon aus vorangegangenen Veranstaltungen bekannt sein, wird aber zu Klarheit nocheinmal eingeführt.
+
+\section{Berechnungmodell}
+
+Bei der Analyse von Algorithmen zählen wir \emph{elementare Schritte}. Um diese Schritte näher zu beschreiben müssen wir zunächst das Berechnungsmodell einführen.\\
+Da wir nicht für jeden neuen Computer, der entwickelt wird, ein neues Berechnungsmodell einführen wollen. ist das Berechungsmodell ein \emph{abstraktes, mathematisches Modell} von Rechner, um Begriffe wie Berechenbarkeit, Algorithmus, Laufzeit, Speicherplatz, etc. zu definieren.
+
+\textbf{Beispiele:} Turingmaschiene, $\mu$-Rekursion, GameOfLife, Lambda Kalkül und viele mehr.\\
+
+Wir werden im folgenden die RAM benutzen.
+
+\subsection{RAM}
+
+Die RAM (Random Access Maschine) ist eine Registermaschiene, die einen klassischen von-Neumann Rechner simuliert. Sie besteht aus zwei Komponenten.
+
+\begin{description}
+
+\item{\bfseries Register:} Eine Registermaschiene hat \emph{unendlich} viele Register $\left[ R_0 | R_1 | R_2 | ... \right], mit \quad R_i \in \Z \forall i \in \N$
+
+\item{\bfseries Programm:} Ein Programm ist eine \emph{endliche} Folge von Befehlen. Die Befehle sehen, wie folgt aus:
+
+\begin{itemize}
+
+\item $A \; := \; B \text{ op } C$, wobei $A,B,C$ Register, indireckt addressiert oder eine Zahl sein kann und op $\in \{  +, -, * / \}$ \footnote{$/$ ist die ganzzahlige Division, da auf $\Z$ nur diese definiert ist}.
+
+\item $A := B$
+
+\item GOTO L (label)
+
+\item GGZ B, L\\
+springt zu L (label), wenn B größer als 0 ist.
+
+\item GLZ B, L\\
+springt zu L (label), wenn B kleiner als 0 ist.
+
+\item GZ B,L\\
+springt zu L (label), wenn B gleich 0 ist
+
+\item HALT\\
+Beendet das Programm
+
+\end{itemize}
+
+\item{Variante:} Als kleine Variation zu dieser RAM benötigen wir für den späteren Stoff die \emph{Probabilistische RAM}. Diese besitzt eine zusätzliche Operation:
+
+\begin{itemize}
+
+\item RAND B\\
+erzeugt eine zufällige Zahl $[0,B)$
+
+\end{itemize}
+
+\end{description}
+
+\subsection{Imperatives Programmieren}
+
+Für das imperative Programmieren ist der Zustand am wichtigesten. \\
+$$
+Z \; := \; (IP, R_0, R_1, R_2,...)
+$$
+wobei IP der Befehlszähler (Programmcounter) is.\\
+Jeder Befehl hat einen \emph{Effekt}, der den Zustand ändert. Darüber können wir wiederum, wie in GTI gelernt, den Folgezustand
+$$
+Z_i = (IP,R_0,R_1,R_2,...) \models (IP', R_0',R_1',R_2,...) = Z_i+1
+$$ 
+und darüber den transitiven Abschluss:
+$$
+Z_0 \overset{*}{\models} Z_n \Leftrightarrow \exists Z_1,...,Z_{n-1} \; : \; Z_0 \models Z_1 \models ... \models Z_{n-1} \models Z_n
+$$
+
+\subsection{Funktionsberechnung}
+
+\begin{description}
+
+\item{Def.:} Ein Programm \emph{berechnet} eine Funktion
+$$
+f \; : \; \Z * \rightarrow \Z *
+$$
+falls gilt:\\
+Bei Eingabe $a_0, a_1, a_2, ..., a_{n-1}$ in die Register $R_0, R_1, R_2, ..., R_{n-1}$. Läuft das Programm bis HALT, steht danach die Ausgabe $b_0, b_1, b_2 , ..., b_{m-1} = f(a_1, a_2, ..., a_{n-1})$ in den Registern $R_0, R_1, R_2, ... R_{m-1}$.
+
+\subsection{Church - Turing - These}
+
+\begin{quote}
+Die Klasse der Turing-berechenbaren Funktionen ist genau die Klasse der intuitiv berechenbaren Funktionen.
+\end{quote}
+
+Eine daraus folgende Implikation ist, dass es kein Rechnermodell geben kann, dass mehr als die bisherigen Modelle berechnen kann. Für uns ist (ohne das wir es nocheinmal speziell gezeigt haben) RAM-berechenbarkeit genau intuitiv-berechenbra (Turingberechenbar).
+
+\end{description}
+
+\section{Laufzeit und Speicherplatz}
+
+Im folgenden sei $P_f$ RAM - Programm, das $f$ berechnet und x Eingabe.
+
+\begin{description}
+
+\item{\bfseries Def.:}
+
+\begin{description}
+
+\item{$T_{P_f}$ : } Gesammtkosten der Arbeitsschritte bis HALT bei x erreicht wird.
+
+\item{$S_{P_f}$ : } Gesammter Platzbedarf bis HALT bei x erreicht wird. 
+
+\end{description}
+
+\end{description}
+
+\subsection{Kostenmaße}
+
+Was bedeuten diese Definitionen konkret für uns?
+
+\subsubsection{Einheitskostenmaß (EKM)}
+
+Jeder Schritt hat die Kosten 1.
+
+\begin{description}
+
+\item{$T_{P_f}(x) = $ } \#Schritte, die bei Eingabe x ausgeführt werden.
+
+\item{$S_{P_f}(x) = $ } \#\emph{verschiedene} Register auf die das Programm zugreift.
+
+\item{\bfseries Vorteil}
+
+\begin{itemize}[-]
+
+\item einfach
+
+\item einigermaßen Realistisch
+
+\end{itemize}
+
+\item{bfseries Nachteil}
+
+\begin{itemize}[-]
+
+\item unrealistisch bei großen Zahlen
+
+\end{itemize}
+
+\end{description}
+
+\subsubsection{Logarithmisches Kostenmaß (LKM)}
+
+Die Kosten eines Befehles sind die gesammte Anzahl der manipulierten Bits. Ist auch auf andere basen übertragbar.
+
+\begin{description}
+
+\item{$T_{P_f}(x) = $} Muss für die einzelnen Befehle eigen definiert werden.\\
+z.B. $R_0 = R_1 + R_2 : \left\lfloor \log | R_1 | + \log | R_2 | \right\rfloor $, wobei noch mehr denkbar ist (z.B. $R_0$ reinrechnen)
+
+\item{$S_{P_f}(x) =$} $\max \left\{ \text{Bits, die zu einem Zeitpunkt benutzt werden} \right\}$
+
+\item{\bfseries Vorteil}
+
+\begin{itemize}[-]
+
+\item realistisch, auch bei großen Zahlen
+
+\end{itemize}
+
+\item{bfseries Nachteil}
+
+\begin{itemize}[-]
+
+\item schwer damit zu rechnen
+
+\end{itemize}
+
+\end{description}
+
+\subsubsection{Pragmatische Entscheidung}
+
+Wann wollen wir nun welches Modell anwenden?\\
+Die Vor- und Nachteile geben uns schon einen guten Indikator, wann sich was anbieten. Folgende Überlegung erweist sich oft als sinnvoll:
+
+\begin{description}
+
+\item{\bfseries EKM} Kombinatorischer Algorithmus \\
+(z.B. Suchen, Sortieren, Zeichenketten, Graphen)
+
+\item{\bfseries LKM} Zahlentheoretische Algorithmen \\
+(z.B. Primzahlen (-test, -findung), Rechenoperationen, etc.)
+
+\item{\bfseries Vorsicht} Im EKM sind einige schmutzige Tricks möglich. (z.B. Primzahlfindun in linearer Zeit)
+
+\end{description}
+
+\section{Verallgemeinerung}
+
+Bisher haben wir für die Laufzeit nur jeweils eine feste Eingabe betrachtet. Im folgenden wollen wir Eingaben in Größen (zusammenhängenden Gruppen) zusammen fassen.\\
+Wie verhält sich der Algorithmus bei einer Eingabegröße?
+
+\subsection{Beispiel}
+
+Diese Eingabegrößen sind uns in früheren Analysen schon untergekommen.
+
+\begin{enumerate}[\bfseries 1.]
+
+\item Die Anzahl der Elemente einer Liste/Menge. Wird oft beim sortieren verwendet.
+
+\item Anzahl der Knoten und Kanten eines Graphen. Wird bei vielen Graphenalgorithmen benutzt.
+
+\item Anzahl der Stellen einer Zahl. Kann man für Primzahltests nehmen.
+
+\end{enumerate}
+
+\subsection{Worst-Case-Analyse}
+
+Mit der Worst-Case-Analyse soll die schlimmstmögliche Laufzeit und Speicherplatzbedarf für eine Eingabegröße errechnet werden:
+
+$$
+T_{\text{wc}}(n) = \max \{ T(x) \; | \; |x|=n \}
+$$
+$$
+S_{\text{wc}}(n) = \max \{ S(x) \; | \; |x| = n\}
+$$
+
+In der Analyse kann man sich das Leben oft leichter machen, wenn man sich die Eingabe für den schlimmsten Fall vorher überlegt und nicht erst alle durchprobiert.
+
+\subsection{Amortisiert Analyse}
+
+Bei der amortisierten Analyse will man die durchschnittlichen Kosten für eine oder mehrere Operationen bestimmen.
+Uns sind diese Analysen beispielsweise schon beim einfügen in eine Arraylist begegnet.\\
+
+Da wir uns in der Vorlesung noch nicht spiezieller damit beschäftigt haben, wird dieser Punkt zu einer späteren Zeit ergänzt werden.
