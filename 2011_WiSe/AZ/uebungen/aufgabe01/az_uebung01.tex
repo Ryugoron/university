@@ -125,7 +125,8 @@ Rechnen wir die Faktorisierte Form aus (von $n-1$ aus angefangen):
 $$
 \begin{array}{cl}
 & \left( a + b \right) \cdot \overset{n-1}{\underset{s=0}{\sum}} (-1)^s a^s b^{n-1-s}\\
-=& \left( a^n + a^{n-1}b \right) - \left( a^{n-1}b + a^{n-2}b^2 \right) + ... - \left(a^2b^{n-2} + ab^{n-1} \right) + \left( ab^{n-1} b^n\right)\\
+=& (-1)^{2k} \left( a^n + a^{n-1}b \right) + (-1)^{2k-1} \left( a^{n-1}b + a^{n-2}b^2 \right) \\
+& + ... + (-1)^{1} \left(a^2b^{n-2} + ab^{n-1} \right) + (-1)^0 \left( ab^{n-1} b^n\right)\\
 =& a^n + \left( a^{n-1}b - a^{n-1}b \right) + ... + \left(ab^{n-1} - ab^{n-1} \right) + b^n\\
 =& a^n + b^n
 \end{array}
