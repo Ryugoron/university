@@ -65,7 +65,7 @@ $$\forall a,b \in \Z : \; (a^m - b^m) | (a^n - b^n).$$
 \textbf{Beweis}: \\
 Seien $a,b\in \Z$.\\
 Faktorisiert man die Formel aus, so gilt:\\
-$$a^n - b^n = \left( a - b \right) \cdot \sum_{s=0}^{n-1} a^s b^{n-1-s}$$
+$$(*) \quad a^n - b^n = \left( a - b \right) \cdot \sum_{s=0}^{n-1} a^s b^{n-1-s}$$
 
 Nun können wir diese Formel verwenden.
 
@@ -88,7 +88,7 @@ $$ k \text{ ungerade} \quad \Rightarrow \quad (\forall a,b \in \Z : (a^m + b^m) 
 \textbf{Beweis}: \\
 Seinen $a,b\in \Z$.\\
 Faktorisiert man die Formal aus, so gilt für ungerade n:
-$$a^n + b^n = (a + b) \cdot \sum_{s = 0}^{n - 1} (-1)^s a^sb^{n-1-s}$$
+$$(**) \quad a^n + b^n = (a + b) \cdot \sum_{s = 0}^{n - 1} (-1)^s a^sb^{n-1-s}$$
 
 Wenden wir diese Formel auf die Aussage an, kommen wir auf:
 
@@ -101,7 +101,37 @@ $$
 \end{array}
 $$
 
-Nun gitl wieder nach den selben Überlegungen wie in \textbf{a)} muss diese Formel gelten.
+Nun gilt wieder nach den selben Überlegungen wie in \textbf{a)} muss diese Formel gelten.
+
+\item Beweis (*)\\
+
+Seien $a,b \in \Z$ und $n \in \N$.\\
+Rechnen wir die Faktorisierte Form aus (von $n-1$ aus angefangen):
+$$
+\begin{array}{cl}
+& \left( a - b\right) \cdot \overset{n-1}{\underset{s=0}{\sum}} a^s b^{n-1-s} \\
+=& \left( \left( a^n - a^{n-1}b \right) + \left( a^{n-1} b - a^{n-2}b^2 \right) + ... + \left( a^2b^{n-2} - ab^{n-1} \right) + \left(ab^{n-1} - b^n \right) \right)\\
+=&  a^n + \left( - a^{n-1}b +  a^{n-1} b \right)  + \left( - a^{n-2}b^2  + ... \right) +  ...+ \left( ...+   a^2b^{n-2}\right) + \left(  - ab^{n-1}  + ab^{n-1}\right) - b^n\\
+=& a^n - b^n
+\end{array}
+$$
+
+Bis auf die äußeren beiden Elemente stehen je 2 aufeinanderfolgende Summanden, die sich gegenseitig auslöschen.
+
+\item Beweis (**)\\
+
+Seien $a,b \in \Z$ und $n \in \N$ mit $\exists k \in \N \; : \; n = 2\cdot k + 1$.\\
+Rechnen wir die Faktorisierte Form aus (von $n-1$ aus angefangen):
+$$
+\begin{array}{cl}
+& \left( a + b \right) \cdot \overset{n-1}{\underset{s=0}{\sum}} (-1)^s a^s b^{n-1-s}\\
+=& \left( a^n + a^{n-1}b \right) - \left( a^{n-1}b + a^{n-2}b^2 \right) + ... - \left(a^2b^{n-2} + ab^{n-1} \right) + \left( ab^{n-1} b^n\right)\\
+=& a^n + \left( a^{n-1}b - a^{n-1}b \right) + ... + \left(ab^{n-1} - ab^{n-1} \right) + b^n\\
+=& a^n + b^n
+\end{array}
+$$
+
+Wie bei c) löschen sich bis auf die äußersten beide alle Elemente gegenseitig aus.
 
 \end{enumerate}
 
@@ -142,6 +172,7 @@ $$
 191 & 192 & 193 & 194 & 195 & 196 & 197 & 198 & 199 & 200 \\
 \end{array}
 $$
+\pagebreak \\
 Alle Primzahlen in diesem Interval:\\
 $\{2, 3, 5, 7, 11 ,13, 17, 19,23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83,$\\
 $ 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173,$\\
@@ -239,8 +270,6 @@ Sei $z$ Zelle und $j$ Tag und es gilt $j \not | z. => \exists k,r \in \N : k\cdo
 Da aber nur $t\cdot j$ für beliebige t gedreht wird, kann bei der Zelle das Schloss nicht nochmal gedreht werden.
 \mbox{} \hfill $\square$
 
-
-\pagebreak
 
 \textbf{Vermutung:} Die Zelle $z$ ist am Ende offen, genau dann wenn $\#T_z$ ungerade ist.\\
 \textbf{Beweis:}\\
