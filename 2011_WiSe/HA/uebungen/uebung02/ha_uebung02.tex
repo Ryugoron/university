@@ -51,12 +51,50 @@ Sei $S = \{ s_1, s_2, ..., s_n \} $ eine Menge von $n$ paarweise verschiedenen E
 %%                         a)
 %% -----------------------------------------------
 
-\item Angenommen, Sie haben eine Funktion, welche den gewichteten Median in Zeit $T(n)$ bestimmt. Zeigen Sie, wie man den (normalen) Median in Zeit $O(n) + T(n)$ berechnen kann.
+\item Angenommen, Sie haben eine Funktion, welche den gewichteten Median in Zeit $T(n)$ bestimmt. Zeigen Sie, wie man den (normalen) Median in Zeit $O(n) + T(n)$ berechnen kann.\\
 
+\textbf{Beweis:} Als Eingabe für unseren Algorithmus (Median) bekommen wir eine Liste von Werten ($s_1, ..., s_n$). Diese erweitern wir nun auf die Form für den gewichteten Median. Dazu legen wir eine 2. Liste mit den Werten an (oder erweitern die andere Liste auf Tupel $(s_i, w_i)$, was beides auf das selbe hinaus läuft). Für die Gewichte wählen wir $\forall 1\leq i \leq n : w_i = \frac{1}{n}$. Auf die neue Strucktur können wir den Algorithmus für den \emph{gewichteten Median} anwenden.\\
+
+\textbf{Laufzeit:} Wir konstruieren zunächst die neue Liste. Dafür gehen wir einmal drüber und erzeugen Tupel. Das Gewicht können wir in $O(1)$ erstellen und den Tupel auch. Dies tun wir für $n$ Elemente. Je nachdem, ob wir $n$ besitzen oder noch suchen müssen, haben wir als Laufzeit $n$ oder $2n$. Wir benötigen aber für das Erstellen der neuen Eingabe $O(n)$ Schritte. Danach führen wir den gegebenen Algorithmus aus.\\
+$\Rightarrow T_{\text{Median}}(n) = T_{\text{gewichteter Median}}(n) + O(n)$\\
+
+\textbf{Median:} Bleibt zu zeigen, dass das Ergebnis $s_g$ der Median ist:\\
+Kleinere Elemente, sei $n_k$ die Anzahl der Elemente, die kleiner als $s_g$ sind:
+$$
+\sum_{s_i < s_g} w_i \stackrel{\text{Gewichte}}{=} \sum_{s_i< s_g} \frac{1}{n} \stackrel{\text{Def.: }n_k}{=} \frac{n_k}{n} \stackrel{\text{Def.}}{\leq} \frac{1}{2} 
+$$
+$$
+\Leftrightarrow n_k <= \frac{n}{2}
+$$
+Kleinere Elemente, sei $n_g$ die Anzahl der Elemente, die größer sind als $s_g$ sind:
+$$
+\sum_{s_i > s_g} w_i \stackrel{\text{Gewichte}}{=} \sum_{s_i> s_g} \frac{1}{n} \stackrel{\text{Def.: }n_g}{=} \frac{n_k}{n} \stackrel{\text{Def.}}{<} \frac{1}{2}
+$$
+$$
+\Leftrightarrow n_g < \frac{n}{2}
+$$
+
+Da gelten muss, das $n_g + n_k + 1 = n$ erfüllen unsere beiden Ergebnisse die Bedingungen für den normalen Median.
 %% -----------------------------------------------
 %%                         b)
 %% -----------------------------------------------
-\item  Zeigen Sie, wie man den gewichteten Median in $O(n \cdot \log n)$ Zeit berechnen kann.
+\item  Zeigen Sie, wie man den gewichteten Median in $O(n \cdot \log n)$ Zeit berechnen kann.\\
+
+\textbf{Beweis:} Wir wählne uns einen geeigneten Sortieralgorithmus. Hier bietet sich Mergesort an. Aus dem letzten Übungszettel wissen wir, dass $T_{\text{Mergesort}}(n) = n \cdot \log n - (n - 1)$ ist.\\
+Nachdem wir unseren Liste sortiert haben tun wir folgendes:
+\begin{enumerate}[{Schritt} 1]
+\item Erzeuge $sum = 0$ Laufsummenvariable mit 0 und indexvariable $i = 0$
+\item Rechne $sum \leftarrow sum + w_i$.
+\item Ist $sum <= \frac{1}{2}$ inkrementiere $i$ um eins und mache mit Schritt 2 weiter.
+\item (Ist dies nicht der Fall) Gebe $s_i$ zurück.
+\end{enumerate}
+
+Was wir als erstes sehen, ist dass die Summer der Gewichte, die kleiner als der \emph{gewichtete Median} sind, $\leq \frac{1}{2}$ da wir beim ersten mal, wenn es größer ist aus der Schleife gehen und dort nur den Media drauf gerechnet haben. Da wir beim finden über $\frac{1}{2}$ gekommen sind, wissen wir, dass aus der Bedingung, dass die Gesammtgewichte $=1$ sind, dass die Gewichte der Elemente, die größer sind $\geq \frac{1}{2}$ sein müssen.\\
+
+\textbf{Laufzeit:} Die erste Überlegung ist, ob die Schleife abbricht.\\
+Eine einfache Antwort wäre, dass wir alle Gewichte aufsummieren, d.h. wir wissen im $n$-ten Schritt, dass $sum = 1$ ist. Die Abbruchbedingung wird also spätestens nach $n$ Schritten erfüllt. Da wir aber äußerste Beweisfetischisten sind, weden wir für die Terminierung noch einen formellen Beweis am Ende des Übungsblattes geben.\\
+Für die Laufzeit ergibt sich nun : $T(n) = T_{\text{Mergesort}} + n \cdot (c) + d$, wobei $c$ die konstanten kosten sind, für das aufsummieren der Gewichte und inkrementieren des indexes sind und $d$ die Fixkosten für das anlegen der beiden Variablen sind.\\
+$\Rightarrow T(n) = n \cdot \log n - (n-1) + n \cdot c + d \in O(n \log n)$.
 
 %% -----------------------------------------------
 %%                         c)
