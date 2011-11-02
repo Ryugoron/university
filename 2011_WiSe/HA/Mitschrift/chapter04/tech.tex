@@ -1,0 +1,155 @@
+\chapter{Grundlegende Techniken}
+
+\section{Lösen von Rekursionsgleichungen}
+
+\subsection{Raten und Induktion}
+
+Diesen Ansatz ist immer dann zu wählen, wenn einem die Laufzeit des Algorithmus sofort klar ist.\\
+
+Das ganze führt natürlich nur zum Ziel, wenn die Induktion aufgeht. Man kann also prinzipiell ziemlich lange raten, bis man auf ein vernünftiges Ergebnis kommt.
+
+\subsection{Auflösen und Muster erkennen}
+
+Beim Auflösen, führen wir die Rekursion Schritt für Schritt aus. Sobald wir ein Muster beim Auflösen erkennen, können wir es bis auf Ebene $k$ hinschreiben und dann analysieren, für welches $k$ der Anker erreicht wird. Diesen kann man dann in die Gleichung einsetzen und wird dadurch die endgülitge Laufzeit erhalten.
+
+\textbf{Beispiel:} Mergesort\\
+Annahme: $n = 2^k$.
+$$
+T(n) = \left\{
+\begin{array}{lr}
+0 & , n = 1\\
+2 T\left( \frac{n}{2} \right) + n - 1, \text{sonst}
+\end{array}
+\right.
+$$
+
+$$
+\begin{array}{rcl}
+T(n) &=& 2 T\left( \frac{n}{2} \right) + n - 1\\
+&=& 2 \cdot \left( 2 T\left( \frac{n}{2^2} \right) + \frac{n}{2} - 1\right) + n - 1\\
+&=& 2^2 T\left( \frac{n}{2^2} \right) 2n -2^1 - 2^0\\
+&=& 2^3 T \left( \frac{n}{2^3} \right) 3n - 2^2 - 2^ 1 - 2^0\\
+&& \text{Nach k Schritten}\\
+$=$ 2^k T \left( \frac{n}{2^k} \right) +  kn - \overset{k-1}{\underset{i=0}{\sum}} 2^i\\
+&& k = \log n \text{ (Beim Anker)}\\
+&=& 2^{\log n} \cdot T(1) + n \cdot \log n - \frac{2^{\log n} - 1}{2 - 1}\\
+&=& n \log n - n + 1
+\end{array}
+$$
+
+\subsection{Rekursionbaum analysieren}
+
+tbd
+
+\subsection{Master Theorem}
+
+tbd
+
+\section{Divide \& Conquer}
+
+\textbf{Def.:} Unterteile ein großes Problem in kleinere Probleme. Löse diese einzeln und setzte die Teilergebnisse zusammen.\\
+
+\textbf{Bsp.:} Mergesort, Quicksort\\
+
+Um Divide\&Conquer Algorithmen zu Analysieren muss man häufig Rekursionsgleichungen analysieren.
+
+\subsection{Beispiel: Multiplizieren von Zahlen}
+
+Gegeben sind zwei Zahlen $a,b \in \N$\\
+Gescuht ist $ a \cdot b$
+
+\subsubsection{Schulmethode}
+
+\textbf{Beispiel:} Sei $a=1234$ und $b = 512$
+
+$$
+\begin{array}{cccccccc}
+1 & 2 & 3 & 4 & \cdot & 5 & 1 & 2\\
+\hline
+&&&&2&4&6&8\\
+&&&1&2&3&4&\\
+&&6&1&7&0&&\\
+\hline
+&&6&3&1&8&0&8
+\end{array}
+$$
+
+Sei $n := $ Anzahl der Ziffern (ist eine Zahl kürzer als die andere, füllen wir sie am Anfang mit 0en auf).\\
+$\Rightarrow n^2$ Multiplikationen und $n^2$ Additionen $\Rightarrow \Theta (n^2)$\\
+
+Dies gilt für jedes Zahlensystem, da sich die Anzahl der Ziffern mit den Systemen immer weiter verändern.\\
+
+\subsubsection{Divide\&Conquer beim Multiplizieren}
+
+Wir teilen $a,b$ in 2 kleinere Zahlen (weniger Ziffern) und lösen das ganze rekursiv. Wir nehmen jetzt einmal an, dass wir uns im Binärsystem bewegen.
+
+$$
+a = a_h \cdot 2^{\left\lceil \frac{n}{2} \right\rceil} + a_l
+$$
+$$
+b = b_h \cdot 2^{\left\lceil \frac{n}{2} \right\rceil} + b_l
+$$
+
+$$
+\Rightarrow \begin{array}{rcl}
+a \cdot b &=& \left( a_h \cdot 2^{\left\lceil \frac{n}{2} \right\rceil} + a_l \right) \left( b_h \cdot 2^{\left\lceil \frac{n}{2} \right\rceil} + b_l \right)\\
+&=& a_hb_h \cdot 2^{2 \left\lceil \frac{n}{2} \right\rceil} + a_hb_l \cdot 2^{\left\lceil \frac{n}{2} \right\rceil}+ a_lb_h \cdot 2^{\left\lceil \frac{n}{2} \right\rceil} + a_lb_l
+\end{array}
+$$
+Das führt zu:
+\begin{itemize}
+\item 2 Multiplikationen mit $\frac{n}{2}$ Bits
+\item 2 x Bitshifting
+\item 3 Additionen
+\end{itemize}
+Anker bei 1,2,4 Bits (egal so lange eine Konstante gewählt wird).\\
+
+\textbf{Laufzeit:}
+$$
+T(n) \leq \left\{ \begin{array}{lr}
+O(1) &, n = O(1)\\
+4 T(\frac{n}{2}) + O(n) &, sonst
+\end{array} \right.
+$$
+
+Diese Formel wird an dieser Stelle nicht aufgelöst, da das Ergbnis mit $\Theta (n^2)$ nicht besser geworden ist.\\
+
+\textbf{Optimierung:}\\
+
+Unser Problem ist, das wir 4 rekursive Aufrufe haben. Doch durch einen genialen Einfall, können wir das ganze auf 3 reduzieren.\\
+
+Betrachten wir einmal die Form von eben, aber wir streichen die Verschiebung durch $2^k$.
+
+$$
+\begin{array}{crcl}
+&\left( a_h + a_l \right) \left( b_h + b_l \right) &=& a_hb_h + a_hb_l + a_lb_j + a_lb_l\\
+\Leftrightarrow& a_hb_l + a_lb_j &=& \left( a_h + a_l \right) \left( b_h + b_l \right) - a_hb_h - a_lb_l
+\end{array}
+$$
+
+Hier sieht man, dass wir mit 3 Gleichungen auf unsere 4 Terme kommen können. Das bedeutet für unsere Rekursion:
+
+$$
+T(n) \leq \left\{ \begin{array}{lr}
+O(1) &, n \leq 3\\
+4 T(\frac{n}{2}) + O(n) &, sonst
+\end{array} \right.
+$$
+
+\textbf{Lösen der Rekursionsgleichung}
+
+$$
+\begin{array}{rcl}
+T(n) &\leq& 3 \cdot T\left( \frac{n}{2} \right) + cn\\
+&\leq& 3 \cdot \left( 3 \cdot T \left( \frac{n}{2^2} \right) + c \cdot \frac{n}{2} \right) + cn\\
+&& ... \\
+&\leq& 3^k \cdot T\left( \frac{n}{2^k}\right) + cn \cdot \left( \overset{\log k}{\underset{i=0}{\sum}} \frac{3^i}{2^i}\right)\\
+&& \text{Nach }k=\log n\text{ Schritten haben wir den Anker erreicht}\\
+&=& 3^{\log n} \cdot O(1) + cn \cdot \left( \overset{\log k}{\underset{i=0}{\sum}} \frac{3^i}{2^i}\right)\\
+&=& c\cdot \frac{\left( \frac{3}{2}\right)^{\log n + 1} - 1}{\frac{3}{2} - 1}\\
+&=& 2cn\cdot \frac{3}{2} \cdot \left( \frac{3}{2} \right)^{\log n}\\
+&=&3cn^{\log 3}
+\end{array}
+$$
+
+Die Laufzeit ist also $T(n) \in O(n^{\log 3})$, wobei $n^{\log 3} \approx n^{1.58}$ ist, was weniger ist als $n^2$.
