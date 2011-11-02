@@ -82,7 +82,7 @@ Da gelten muss, das $n_g + n_k + 1 = n$ erfüllen unsere beiden Ergebnisse die B
 
 \textbf{Beweis:} Wir wählne uns einen geeigneten Sortieralgorithmus. Hier bietet sich Mergesort an. Aus dem letzten Übungszettel wissen wir, dass $T_{\text{Mergesort}}(n) = n \cdot \log n - (n - 1)$ ist.\\
 Nachdem wir unseren Liste sortiert haben tun wir folgendes:
-\begin{enumerate}[{Schritt} 1]
+\begin{enumerate}[{Schritt} 1:]
 \item Erzeuge $sum = 0$ Laufsummenvariable mit 0 und indexvariable $i = 0$
 \item Rechne $sum \leftarrow sum + w_i$.
 \item Ist $sum <= \frac{1}{2}$ inkrementiere $i$ um eins und mache mit Schritt 2 weiter.
@@ -108,7 +108,85 @@ $\Rightarrow T(n) = n \cdot \log n - (n-1) + n \cdot c + d \in O(n \log n)$.
 
 \section*{Aufgabe 2}
 
-In der Vorlesung wurden zur Berechnung des BFPRT-Algorithmus die Menge in 5er Gruppen unterteilt. Untersuchen Sie, wie sich der Algorithmus für $k=2n+1,\; n \in \mathbb N $ verhält.
+In der Vorlesung wurden zur Berechnung des BFPRT-Algorithmus die Menge in 5er Gruppen unterteilt. 
+
+\begin{enumerate}[\bfseries (a)]
+
+\item Was passiert bei 7er Blöcken.\\
+
+\begin{description}
+
+\item{\bfseries Splitter:} Als erstes prüfen wir, ob die Splittereigenschaft noch erfüllt ist (analog zur Untersuchung aus der VL).\\
+Elemente, die kleiner sind:\\
+Wir haben $n/7$ Gruppen aufgerunded. Davon wissen wir wieder, dass die Hälft Dieser Gruppen einen kleineren Median hat als unser gefundener Splitter. In jeder dieser Gruppen sind 4 Elemente kleiner als der jeweilige Median (und durch Transitivität kleiner als der Splitter). Dies gilt für alle Gruppen, bis auf die nicht voll besetzte (da können 3 Fehlen) und die Gruppe des Splitters (in der der Splitter fehlt)\\
+$
+\Rightarrow n_k =4 \cdot \left\lceil \frac{1}{2} \cdot \left\lceil \frac{n}{7}\right\rceil  \right\rceil - 4
+$
+Elemente, die größer sind:\\
+Wir haben hier exakt die selbe Abschätzung, wie oben. $n/7$ Gruppen, von denen die Hälte größer ist, diese besitzen jeweils 4 Elemente, von denen wir die Größe relativ zum Splitter kennen. Davon gehen wieder 4 Elemente ab. Aus der letzten Gruppe und der Splitter selber.\\
+$
+\Rightarrow n_g = 4 \cdot \left\lceil \frac{1}{2} \cdot \left\lceil \frac{n}{7}\right\rceil  \right\rceil - 4
+$
+\end{description}
+
+Nun können wir untersuchen, wie viele Elemente wir wegschmeißen können:\\
+Wir schätzen das ganze erstmal nach unten ab:
+$$
+\begin{array}{crcl}
+&4 \cdot \left\lceil \frac{1}{2} \cdot \left\lceil \frac{n}{7}\right\rceil  \right\rceil - 4 \geq 4 \cdot \frac{1}{2} \cdot \frac{n}{7} - 4 &\geq& \frac{1}{4}\\
+\Leftrightarrow& \frac{2}{7} \cdot n & \geq& \frac{17}{4}\\
+\Leftrightarrow &  n & \geq & \frac{17 \cdot 7}{4 \cdot 2}\\
+\Rightarrow & n &\geq& 15
+\end{array}
+$$
+
+\textbf{Beweis:} Nun bestimmen wir noch die Laufzeit.
+Als erstes gilt $\Omega (n)$ als Komplexität des Problems (nicht des Algorithmus). Dies gilt, das wir jedes Element mindestens einmal anfassen müssen, um es zu prüfen. Sollten wir eine echt sublineare Laufzeit erreichen, würden wir einige Elemente nicht betrachten. Wir könnten also einen Fall konstruieren, in dem wir den Median nicht betrachten. Das Ergebnis dieses Algorithmus würde also nicht korrekt sein. $\Rightarrow \Omega (n)$ ist untere Schranke für die Komplexität des Problems.\\
+Für die Beschrenkung nach oben, zeigen wir, dass immer noch gilt $T(n) \in O(n)$\\
+Als Laufzeit können wir ersteinmal, da der Splitter immer noch seine Eigenschaften erfüllt, die Formel aus der VL nehmen:\\
+
+$$
+T(n) \leq \left\{
+\begin{array}{lr}
+O(1) & ,n < 50\\
+O(n) + T\left( \left \lceil \frac{n}{7} \right \rceil \right) + T \left( \frac{3}{4} n \right) & , sonst
+\end{array}
+\right.
+$$
+
+Dies Beweisen wir mit einer Induktion über n.
+
+\begin{description}
+
+\item{\bfseries Behauptung:} $\exists \alpha > 0 \; : \;T(n) \leq \alpha \cdot n$
+
+\item{\bfseries I.A.} Für $n< 50$
+
+\item{\bfseries I.S.}
+
+$$
+\begin{array}{rcl}
+T(n) &\leq& O(n) + T\left( \left \lceil \frac{n}{7} \right \rceil \right) + T \left( \frac{3}{4} n \right)\\
+&\stackrel{I.V.}{\leq}& O(n) + \alpha \left \lceil \frac{n}{7} \right \rceil + \alpha \cdot \frac{3}{4} n\\
+&\leq& c \cdot n + \alpha \frac{n}{7} + \alpha + \alpha \frac{3}{4} n \leq \alpha n
+\end{array}
+$$
+
+Zeigen wir nun den letzten Schritt:
+
+$$
+\begin{array}{crcl}
+& cn + \alpha \cdot \left( \frac{n}{7} + \frac{3}{4}n + 1 \right) &\leq& \alpha n\\
+\Leftrightarrow & cn & \leq & \alpha \cdot \left( n - \frac{n}{7} - \frac{3}{4}n - 1 \right)\\
+\Leftrightarrow& cn &\leq& \alpha \left( \frac{28n - 4n - 21n}{28} - 1 \right)
+\end{array}
+$$
+
+\end{description}
+
+\item Was passiert bei 3er Blöcken.\\
+
+\end{enumerate}
 
 
 %% -----------------------------------------------------
