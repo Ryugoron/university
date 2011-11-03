@@ -33,7 +33,7 @@
 
 \begin{document}
 
-\lstset{language=Java, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2}
+\lstset{language=Java, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2, mathescape=true}
 
 \maketitle
 \thispagestyle{fancy}
@@ -99,8 +99,56 @@ $\Rightarrow T(n) = n \cdot \log n - (n-1) + n \cdot c + d \in O(n \log n)$.
 %% -----------------------------------------------
 %%                         c)
 %% -----------------------------------------------
-\item Zeigen Sie, wie man den gewichteten Median in $O(n)$ Zeit  finden kann, wenn ein Linearzeitalgorithmus zum Finden des normalen Medians zur Verfügung steht.
+\item Zeigen Sie, wie man den gewichteten Median in $O(n)$ Zeit  finden kann, wenn ein Linearzeitalgorithmus zum Finden des normalen Medians zur Verfügung steht.\\
 
+Wir geben zunächst eine veränderte Variante des K-SELECT Algorithmuses an. Die Eingaben dafür sind eine Menge S von Tupeln $\{ (s_i, w_i) \}$ und ein Wert G, wobei $0 \leq G \leq 1$ gilt. Der Aufruf für den \emph{gewichteten Median} ist dann:\\
+GSELECT( S , 1/2).
+
+\begin{lstlisting}
+GSELECT (S , K)
+	IF |S| < 100 THEN
+		RETURN BRUTEFORCE(S , K)
+	(q, $w_q$) $\leftarrow$ MEDIAN (S)	// Auf ersten Teil der Elemente angewandt.
+	$S_l \leftarrow \{ s \in S | s < q \}$
+	$S_g \leftarrow \{ s \in S | s > q \}$
+	$w_l = \sum_{(s,w)\in S_l} w$
+	$w_g = \sum_{(s,w)\in S_g} w$
+	IF $w_l > $  K THEN
+		RETURN GESLECT ($S_l$ , K)
+	ELSE IF $w_l = $ K THEN
+		RETURN $q$
+	ELSE
+		RETURN GESELCT ($S_g$, K $- w_l - w_q$)  
+\end{lstlisting}
+
+Bei diesem Algorithmus teilen wir die gegebene Menge in 2 Teile (die aufgrund der Medianeigenschaft gleich groß sind). Danach iterieren wir über die Listen um die Gesamtgewichte zu berechnen. Können wir feststellen, in welcher Liste der gewichtete Median liegen muss.
+Ist das Gewicht der kleineren Liste größer als das gesuchte, müssen wir darin weiter suchen. Sollte es schon $\frac{1}{2}$ sein, ist der Median unser gewichtete Median. Sollte es kleiner sein, ist der gewichtete Median im größeren Teil. Wenn wir darin weiter suchen, müssen wir aber das schon berechnete Gewicht des kleineren Teils vom gesuchten Gewicht abziehen.
+
+\textbf{Laufzeit:} Diese Überlegungen führen zu folgender Laufzeit:\\
+Wir nehmen zur Analyse wieder eine Liste mit einer Zweierpotenz als Länge an. Wobei $c, d>0$ Konstanten sind.
+$$
+T(n) \leq \left\{ 
+\begin{array}{lr}
+d &, n < 100\\
+c \cdot n + T(\frac{n}{2}) &,sonst
+\end{array}
+\right.
+$$
+Lösen wir das ganze auf.
+$$
+\begin{array}{rcl}
+T(n) &\leq& T(\frac{n}{2}) + cn\\
+&\leq& T( \frac{n}{2^2}) + \frac{c}{2}n + \frac{c}{1}n\\
+&& \text{Nach k Schritten}\\
+&\leq& T( \frac{n}{2^k} ) + c\cdot n \cdot  \overset{k-1}{\underset{i=0}{\sum}} \left(\frac{1}{2}\right)^i
+\end{array}
+$$
+Der erste Term wird nach spätestens nach $\log n$ Schritt den Anker erreichen und damit konstant. Die Reihe konvergiert, da $\overset{\infty}{\underset{i=0}{\sum}} q^i$ für $0 \leq q < 1$ konvergiert. Im speziellen konvergiert diese Reihe gegen 2.\\
+Es gilt also:
+$$
+T(n) \leq d + 2cn \in O(n)
+$$
+Unser gefundener Algorithmus für den \emph{gewichteten Median} hat also eine lineare Laufzeit.
 \end{enumerate}
 %% -----------------------------------------------------
 %%                         AUFGABE 2
@@ -133,10 +181,10 @@ Nun können wir untersuchen, wie viele Elemente wir wegschmeißen können:\\
 Wir schätzen das ganze erstmal nach unten ab:
 $$
 \begin{array}{crcl}
-&4 \cdot \left\lceil \frac{1}{2} \cdot \left\lceil \frac{n}{7}\right\rceil  \right\rceil - 4 \geq 4 \cdot \frac{1}{2} \cdot \frac{n}{7} - 4 &\geq& \frac{1}{4}\\
-\Leftrightarrow& \frac{2}{7} \cdot n & \geq& \frac{17}{4}\\
-\Leftrightarrow &  n & \geq & \frac{17 \cdot 7}{4 \cdot 2}\\
-\Rightarrow & n &\geq& 15
+&4 \cdot \left\lceil \frac{1}{2} \cdot \left\lceil \frac{n}{7}\right\rceil  \right\rceil - 4 \geq 4 \cdot \frac{1}{2} \cdot \frac{n}{7} - 4 &\geq& \frac{1}{4} n\\
+\Leftrightarrow& \frac{2}{7} n - \frac{1}{4} n &\geq& 4\\
+\Leftrightarrow& \frac{8 - 7}{28} n &\geq& 4\\
+\Leftrightarrow&  n &\geq& 112\\
 \end{array}
 $$
 
@@ -148,7 +196,7 @@ Als Laufzeit können wir ersteinmal, da der Splitter immer noch seine Eigenschaf
 $$
 T(n) \leq \left\{
 \begin{array}{lr}
-O(1) & ,n < 50\\
+O(1) & ,n < 120 \\
 O(n) + T\left( \left \lceil \frac{n}{7} \right \rceil \right) + T \left( \frac{3}{4} n \right) & , sonst
 \end{array}
 \right.
@@ -160,7 +208,7 @@ Dies Beweisen wir mit einer Induktion über n.
 
 \item{\bfseries Behauptung:} $\exists \alpha > 0 \; : \;T(n) \leq \alpha \cdot n$
 
-\item{\bfseries I.A.} Für $n< 50$
+\item{\bfseries I.A.} Für $n< 120$  gilt es, da die Laufzeit konstant ist.
 
 \item{\bfseries I.S.}
 
@@ -178,13 +226,87 @@ $$
 \begin{array}{crcl}
 & cn + \alpha \cdot \left( \frac{n}{7} + \frac{3}{4}n + 1 \right) &\leq& \alpha n\\
 \Leftrightarrow & cn & \leq & \alpha \cdot \left( n - \frac{n}{7} - \frac{3}{4}n - 1 \right)\\
-\Leftrightarrow& cn &\leq& \alpha \left( \frac{28n - 4n - 21n}{28} - 1 \right)
+\Leftrightarrow& cn &\leq& \alpha \left( \frac{3}{28}n - 1 \right)\\
+\Leftrightarrow& c \cdot \frac{n}{\frac{3}{28}n - 1} &\leq& \alpha
 \end{array}
 $$
+Damit muss $\alpha$ größer sein, als eine Konstante mal einen Wert, der einen Grenzwert kleiner unendlich besitzt. Von konvergenten Folgen wissen wir, dass diese ein Maximum besitzen. Wählen wir dieses, können wir unser $\alpha$ einfach größer als ($c\cdot $max) wählen und damit kann $\alpha$ konstant sein.
 
 \end{description}
 
+\pagebreak
+
 \item Was passiert bei 3er Blöcken.\\
+
+\textbf{Splitter:} Wir wählen wieder den selben Ansatz zur Analyse des Splitters. Wir haben $\left\lceil \frac{n}{3} \right\rceil$ Blöcke und davon sind 0.5 größer (oder kleiner). Dadrin sind jeweils 2 Elemente, von denen wir wissen, dass sie kleiner (größer) als der Splitter sind. Dies gilt wieder für die letzte Gruppe und die Gruppe des Splitters nicht:\\
+
+$$
+\begin{array}{rcl}
+2 \cdot \left\lceil \frac{n}{2} \left\lceil \frac{n}{3} \right\rceil \right\rceil &\geq& \frac{1}{4} n\\
+\frac{n}{3} - 2&\geq& \frac{1}{4} n\\
+\frac{1}{12}n &\geq& 2\\
+n &\geq& 24
+\end{array}
+$$
+
+Also haben wir für Listen, die länger als 24 sind, die Splittereigenschaft erfüllt.\\
+Die Laufzeit ist also:
+$$
+T(n) = \left\{
+\begin{array}{lr}
+d &, n<30\\
+c n+ T \left(\left\lceil \frac{n}{3} \right\rceil \right) + T \left( \frac{3}{4}n \right) &,sonst
+\end{array}\right.
+$$
+
+\begin{description}
+
+\item{\bfseries Annahme:} $T(n) \in O (n \cdot \log n)$
+
+\item{\bfseries Induktion:} $\exists \alpha > 0 : T(n) \leq \alpha \cdot n \log n$ (Für das $c$ wählen wir die selbe Konstante $\alpha$, da wir das Maximum der beiden Nehmen können, falls es existiert)
+
+\item{\bfseries I.A. :} Gilt, da für $n<24$ konstant.
+
+\item{\bfseries I.S. :}
+$$
+\begin{array}{rcl}
+T(n) &=& O(n) +  T \left(\left\lceil \frac{n}{3} \right\rceil \right) + T \left( \frac{3}{4}n \right)\\
+&\stackrel{I.V.}{\leq}& \alpha n + \alpha \cdot \left\lceil \frac{n}{3} \right\rceil \cdot \log \left\lceil \frac{n}{3} \right\rceil + \alpha \frac{3}{4}n \cdot \log (\frac{3}{4}n)\\
+&=& \alpha \cdot \left( n + \left\lceil \frac{n}{3} \right\rceil \cdot \log \left\lceil \frac{n}{3} \right\rceil + \frac{3}{4}n \cdot \log (\frac{3}{4}n) \right)\\
+&\leq& \alpha \cdot n \log n
+\end{array}
+$$
+Wenn gilt:
+$$
+\begin{array}{crcl}
+&\left( n + \left\lceil \frac{n}{3} \right\rceil \cdot \log \left\lceil \frac{n}{3} \right\rceil + \frac{3}{4}n \cdot \log (\frac{3}{4}n) \right) & \leq & n \log n\\
+\end{array}
+$$
+Da wir an dieser Stelle zu lange bräuchten um die Umformung konkret aufzuschreiben, verweisen wir hier auf ein positives Ergebnis von Wolframalpha. Wir können den Term auch noch abschätzen nach:\\
+$n + 2 \cdot \frac{3}{4}n \cdot \log (\frac{3}{4}n)  = \frac{3}{2} n \log \frac{3}{4}n + n = \frac{3}{2}n\log n + n \cdot ( \frac{3}{2} \log \frac{3}{4}  + 1)$
+Für große $n$ kann man sehen, dass es kleiner sein muss $n \log n$.
+
+\item{\bfseries Annahme:} $T(n) \in \Omega (n \log n)$
+
+\item{\bfseries Induktion:} $\exists \alpha > 0 \; : \; T(n) \geq \alpha \cdot n \log n$ (Selber trick mit c wie oben.)
+
+\item{\bfseries I.A.} Für kleine $n$ ist $n \log n$ konstant.
+
+\item{\bfseries I.S.}
+$$
+\begin{array}{rcl}
+T(n) &=&  O(n) +  T \left(\left\lceil \frac{n}{3} \right\rceil \right) + T \left( \frac{3}{4}n \right)\\
+&\stackrel{I.V.}{\geq}& \alpha n + \alpha \cdot \left\lceil \frac{n}{3} \right\rceil \cdot \log \left\lceil \frac{n}{3} \right\rceil + \alpha \frac{3}{4}n \cdot \log (\frac{3}{4}n)\\
+&\geq& \alpha n + \alpha \cdot  \frac{n}{3} \cdot \log \frac{n}{3} + \alpha \frac{3}{4}n \cdot \log (\frac{3}{4}n)\\
+&=& \alpha n \cdot \left( 1 +  \frac{1}{3} \log \frac{1}{3} + \frac{1}{3} \log n + \frac{3}{4} \log \frac{3}{4} + \frac{3}{4} \log n\right)\\
+&\geq& \alpha n \cdot \left( \frac{4+9}{12} \log n\right)\\
+&\geq& \alpha n \cdot \log n
+\end{array}
+$$
+\end{description}
+
+Damit haben wir gezeigt, dass $T(n) \in \Omega (n \log n) \; \land \; T(n) \in O (n \log n)$ gilt.\\
+$\Rightarrow T(n) \in \Theta (n \log n)$
 
 \end{enumerate}
 
@@ -209,13 +331,106 @@ $$
 b=y_1u^n + y_2 u^{n-1} + ... + y_n u^1.
 $$
 
-Zeigen Sie: $a=b \Leftrightarrow x=y$ , $a<b \Leftrightarrow x < y$(lexikographisch).
+Zeigen Sie: (*) $a=b \Leftrightarrow x=y$ , (**) $a<b \Leftrightarrow x < y$ (lexikographisch).
+
+\begin{description}
+
+\item{\bfseries Beweis *:} \\
+Wir fassen die Vektoren $x,y \in \mathbb{Z}[u]$, also als Vektoren des Polynomrings auf. Damit folgt die Aussage direkt (wie in Mafi 2 gezeigt).
+
+\item{\bfseries Beweis **:}\\
+Wir fassen die Zahlen $a,b$ als u-adische Zahlen auf. Dies können wir machen, da jede ''Ziffer'' kleiner ist als die Basis.\\
+Bilden wir nun die Differenz :
+$$
+x - y = \left( x_1 - y_1 , x_2 - y_2 , x_3 - y_3 , x_4 - y_4, ... , x_n - y_n\right) 
+$$
+$$
+= (x_1 - y_1) \cdot u^n + (x_1 - y_1) \cdot u^{n-1} + ... + (x_n - y_n) = a - b < 0
+$$
+Da wir annehmen können, dass $x$ lexikographisch kleiner ist als $y$, existiert ein $j$ als kleinster Index, an dem sich beide Zahlen das erste mal unterscheiden. Damit gilt für die Zahl, dass es auch bei $(x_j - y_j) \cdot u^{n-j}$. Aus der Zahldarstellung wissen wir, dass wenn die Zahl, an dieser Stelle positiv ist, wird jede Subtraktion von Stellen darunter die Zahl nicht mehr positiv machen können.
+Dies gilt auch im Umkehrschluss. Wenn die Differenz kleiner 0 ist, gibt es eine Stelle $t$ an der sich beide Zahlen unterscheiden. dort ist $x_t < y_t$. Da dies wiederum der kleinste Index (größte Stelle nach Zahlendarstellung) ist, ist damit $x$ lexikographisch kleiner als $y$.
+
+\end{description}
 
 %% -----------------------------------------------
 %%                         b)
 %% -----------------------------------------------
 
-\item Entwerfen Sie einen Algorithmus, der für zwei gegebene Folgen nichtnegativer Zahlen $x=(x_1; ... ; x_m)$ und $y=(y_1; ...; y_n)$ in "linearer" Zeit entscheidet, ob $x$ als Teilfolge $(y_{i+1},...,y_{i+m})$ in $y$ vorkommt ($0 \leq i \leq n-m$). Berechnen Sie die Kosten des Algorithmus im EKM und im LKM.
+\item Entwerfen Sie einen Algorithmus, der für zwei gegebene Folgen nichtnegativer Zahlen $x=(x_1; ... ; x_m)$ und $y=(y_1; ...; y_n)$ in ''linearer'' Zeit entscheidet, ob $x$ als Teilfolge $(y_{i+1},...,y_{i+m})$ in $y$ vorkommt ($0 \leq i \leq n-m$). Berechnen Sie die Kosten des Algorithmus im EKM und im LKM.
+
+\begin{description}
+
+\item{\bfseries Algorithmus:}
+
+\begin{enumerate}[\bfseries {Schritt} 1:]
+
+\item Falls $n <m$ gib FALSE zurück
+\item Wähle $u = \max \{ x_1, ...,x_m,y_1,...,y_n$\} + 1
+\item Berechne $a = x_1 \cdot u^m + x_2 \cdot u^{m-1} + ... + x_m$
+\item Berechne $b = y_1 \cdot u^m + y_2 \cdot u^{m-1} + ... + y_m$
+\item Setzte Indexvariable $i=m$
+\item Falls $a=b$ gib TRUE zurück
+\item Rechne $b \leftarrow (b \mod u^m) \cdot u + y_{i+1}$
+\item Setze $i \leftarrow i + 1$
+\item Ist $i > n-m$ Gib FALSE zurück
+\item Springe zu Schritt 6
+
+\end{enumerate}
+
+\pagebreak
+
+\item{\bfseries Laufzeit (EKM):}
+
+\begin{description}
+
+\item{\bfseries Schritt 1:} Ist ein konstanter Vergleich $O(1)$
+\item{\bfseries Schritt 2:} Wir iterieren einmal über die Liste $\Rightarrow O(n + m)$
+\item{\bfseries Schritt 3/4:} Wir rechnen pro Stelle einmal Plus und 2 mal Mal $\Rightarrow O(m)$
+\item{\bfseries Schritt 5:} Konstant $O(1)$
+\item{\bfseries Schleife:} Die Schleife wird im Worstcase $n-m$ mal ausgeführt:
+
+\begin{description}
+
+\item{\bfseries Schritt 6:} Dauert Konstant viel Zeit $\Rightarrow O(1)$
+\item{\bfseries Schritt 7:} Einmal modulo ($u^n$ kann von 3./4. genommen werden), einmal Multiplizieren und eine Addition $\Rightarrow O(1)$
+\item{\bfseries Schritt 8,9,10:} Konstant $O(1)$
+
+\end{description}
+
+\end{description}
+
+Damit ist die gesamte Laufzeit \\$T(n) = O(1) + O(n + m) +2 \cdot  O(m) + (m-n) \cdot O(1) = O(m + n)$\\
+Nehmen wir an, dass $n >> m$ gilt:\\
+$T(n) = O(n)$
+
+\item{\bfseries Laufzeit (LKM):}
+Wir schätzen die Komponeten von $x$ und $y$  durch $u$ ab.
+\begin{description}
+
+\item{\bfseries Schritt 1:} Ist ein Vergleich $O(\log n)$
+\item{\bfseries Schritt 2:} Wir iterieren einmal über die Liste $\Rightarrow O((n + m) \log u )$
+\item{\bfseries Schritt 3/4:} Wir rechnen pro Stelle einmal Plus und 2 mal Mal $\Rightarrow O(m \log u)$
+\item{\bfseries Schritt 5:} $O(\log m)$
+\item{\bfseries Schleife:} Die Schleife wird im Worstcase $n-m$ mal ausgeführt:
+
+\begin{description}
+
+\item{\bfseries Schritt 6:} $O(m \cdot \log u)$
+\item{\bfseries Schritt 7:} Einmal modulo, einmal Multiplizieren und eine Addition $\Rightarrow O(m \log u)$
+\item{\bfseries Schritt 8:} Kosten $O(\log n)$ (betrachtet über die ganze Schleife hinweg allerdings $O(1)$)
+\item{\bfseries Schritt 9} $O(\log n)$
+\item{\bfseries Schritt 10:} Konstant $O(1)$ (oder auch $\log 6$ :D)
+
+\end{description}
+
+\end{description}
+
+Damit ergibt sich eine Gesamtlaufzeit von:\\
+$T(n) = O( (n+m) \log u + (n-m) m \log u + \log n)$\\
+Nehmen wir einmal an, dass $n >> m$ gilt:\\
+$T(n) = O(n \log u + \log n)$
+
+\end{description}
 
 
 \end{enumerate}
