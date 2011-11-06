@@ -1,0 +1,173 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm]{geometry} 
+\usepackage{babel}
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc} 
+\usepackage{ae} 
+\usepackage{amssymb} 
+\usepackage{amsmath} 
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{paralist}
+\usepackage{fancyhdr}
+\usepackage{subfigure}
+\pagestyle{fancy}
+\fancyhead[C]{Alegbra und Zahlentheorie}
+\fancyhead[L]{Übung Nr. 3}
+\fancyhead[R]{WS 2011/12}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage / \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\setlength{\parindent}{0pt} 
+\setlength{\headheight}{15pt}
+
+%
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\NN}{\mathbb{N} \setminus \{0\}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\ggT}{\text{ggT}}
+\newcommand{\kgV}{\text{kgV}}
+%
+
+\author{Tutor: David Müßig}
+\date{}
+\title{Max Wisniewski, Alexander Steen}
+
+\begin{document}
+
+\lstset{language=Java, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2}
+
+\maketitle
+\thispagestyle{fancy}
+
+%% -------------------------------------------
+%%                 AUFGABE 1
+%% -------------------------------------------
+\section*{Aufgabe 1}
+
+Es seien $G$ eine Menge und $\cdot : G \times G \to G, (g,h) \mapsto g \cdot h$, eine assoziative Verknüpfung mit einem linksneutralem Element $e \in G$ und einem linksinversen Element $g' \in G$ für jedes $g \in G$.
+
+\begin{enumerate}[\bfseries a)]
+%% -------------------------------------------
+%%  Aufgabe 1a
+%% -------------------------------------------
+%% Aufgabenstellung
+\item Es seien $g \in G$ und $g' \in G$ ein Element mit $g' \cdot g = e$. Zeigen Sie $g \cdot g' = e$.
+\\ \\
+%% -------------------------------------------
+%% Lösung
+\textbf{Beweis}: \\
+Es seien $g,g' \in G$, sodass $g' \cdot g = e$. Es sei $g'' \in G$ ein Linksinverses zu $g'$. Dann gilt: \\
+$$ e = g'' \cdot g' = g'' \cdot (e \cdot g') = g'' \cdot ((g' \cdot g) \cdot g') $$
+$$ \stackrel{assoz.}{=} (g'' \cdot g') \cdot (g \cdot g') = e \cdot (g \cdot g') $$
+$$ = g \cdot g' $$
+\mbox{} \hfill $\square$
+%% -------------------------------------------
+%%  Aufgabe 1b
+%% -------------------------------------------
+%% Aufgabenstellung
+\item Beweisen Sie, dass $g \cdot e = g$ für alle $g \in G$ gilt.
+\\ \\
+%% -------------------------------------------
+%% Lösung
+\textbf{Beweis}: \\
+Es seien $g,g' \in G$, sodass $g' \cdot g = e$. Dann gilt: \\
+$$ e \cdot g = (g' \cdot g) \cdot g \stackrel{a)}{=} (g \cdot g') \cdot g $$
+$$ \stackrel{assoz.}{=} g \cdot (g' \cdot g) = g \cdot e $$
+\mbox{} \hfill $\square$
+\end{enumerate}
+
+%% -------------------------------------------
+%%                 AUFGABE 2
+%% -------------------------------------------
+\section*{Aufgabe 2}
+
+Auf $\R$ wird folgende Verknüpfung $\star : \R \times \R \to \R$, mit $(a,b) \mapsto a \cdot b + a + b$ definiert.
+
+\begin{enumerate}[\bfseries a)]
+
+%% -------------------------------------------
+%%  Aufgabe 2a
+%% -------------------------------------------
+%% Aufgabenstellung
+\item Zeigen Sie, dass $\star$ das Assoziativgesetz erfüllt und es ein neutrales Element gibt.
+\\ \\
+%% -------------------------------------------
+%% Lösung
+\textbf{Beweis}: \\
+
+%% -------------------------------------------
+%%  Aufgabe 2b
+%% -------------------------------------------
+%% Aufgabenstellung
+\item Welche Elemente in $\R$ besitzen bzgl. $\star$ keine Inversen? Geben Sie die kleinste Teilmenge $\N \subset \R$ an, für die $(\R \setminus \N,\star)$ eine Gruppe ist.
+\\ \\
+%% -------------------------------------------
+%% Lösung
+
+\end{enumerate}
+
+%% -------------------------------------------
+%%                 AUFGABE 3
+%% -------------------------------------------
+\section*{Aufgabe 3}
+\begin{enumerate}[\bfseries a)]
+%% -------------------------------------------
+%%  Aufgabe 3a
+%% -------------------------------------------
+%% Aufgabenstellung
+\item
+%% -------------------------------------------
+%% Lösung
+
+%% -------------------------------------------
+%%  Aufgabe 3b
+%% -------------------------------------------
+%% Aufgabenstellung
+\item
+%% -------------------------------------------
+%% Lösung
+
+\end{enumerate}
+
+%% -------------------------------------------
+%%                 AUFGABE 4
+%% -------------------------------------------
+\section*{Aufgabe 4}
+\begin{enumerate}[\bfseries a)]
+%% -------------------------------------------
+%%  Aufgabe 4a
+%% -------------------------------------------
+%% Aufgabenstellung
+\item
+%% -------------------------------------------
+%% Lösung
+
+%% -------------------------------------------
+%%  Aufgabe 4b
+%% -------------------------------------------
+%% Aufgabenstellung
+\item
+%% -------------------------------------------
+%% Lösung
+
+
+%% -------------------------------------------
+%%  Aufgabe 4c
+%% -------------------------------------------
+%% Aufgabenstellung
+\item
+%% -------------------------------------------
+%% Lösung
+
+\end{enumerate}
+
+%% -------------------------------------------
+\label{LastPage}
+\end{document}
