@@ -101,16 +101,31 @@ Auf $\R$ wird folgende Verknüpfung $\star : \R \times \R \to \R$, mit $(a,b) \m
 %% -------------------------------------------
 %% Lösung
 \textbf{Beweis}: \\
-
+Sei $a,b,c \in \R$. Dann gilt: \\
+$$ a \star (b \star c) = a \star (b \cdot c + b +c) $$
+$$ = a \cdot (b \cdot c + b + c) + a + (b \cdot c + b + c) $$
+$$ = a \cdot b \cdot c + a \cdot b + a \cdot c + a + b \cdot c + b +c $$
+$$ = (a \cdot b + a + b) \cdot c + (a \cdot b +a + b)+c $$
+$$ = (a \star b) \cdot c + (a \star b) + c = (a \star b) \star c $$
+\mbox{} \hfill $\square$
+\newpage
+\textbf{Behauptung}: $e = 0$ ist das neutrale Element bzgl. $\star$. \\
+\textbf{Beweis}: \\
+Sei $a \in \R$. Dann gilt: \\
+$$ 0 \star a = 0 \cdot a + 0 + a = a $$
 %% -------------------------------------------
 %%  Aufgabe 2b
 %% -------------------------------------------
 %% Aufgabenstellung
-\item Welche Elemente in $\R$ besitzen bzgl. $\star$ keine Inversen? Geben Sie die kleinste Teilmenge $\N \subset \R$ an, für die $(\R \setminus \N,\star)$ eine Gruppe ist.
+\item Welche Elemente in $\R$ besitzen bzgl. $\star$ keine Inversen? Geben Sie die kleinste Teilmenge $N \subset \R$ an, für die $(\R \setminus N,\star)$ eine Gruppe ist.
 \\ \\
 %% -------------------------------------------
 %% Lösung
-
+Suche Inverses $b' \in \R$ zu $b \in \R$: \\
+$$ b' \star b = 0 \Leftrightarrow b' \cdot b + b' + b = 0 $$
+$$ \Leftrightarrow b' = \frac{-b}{b+1} $$
+Also besitzt $b = -1$ kein Inverses, da $\frac{-b}{b+1}$ für $b = -1$ nicht existiert. \\
+$ \Rightarrow N = \{-1\} \Rightarrow (\R \setminus \{-1\}, \star)$ ist Gruppe.
 \end{enumerate}
 
 %% -------------------------------------------
