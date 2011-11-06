@@ -55,6 +55,11 @@ Es seien $a,b \in \N \setminus \{ 0,1 \}$ natürliche Zahlen, sowie
 $$
 a= p_1^{k_1}\cdot ...\cdot p_s^{k_s} \quad \text{und} \quad b = q_1^{l_1} \cdot ... \cdot q_s^{l_t}
 $$
+Fassen wir nun $a, b$ als Produkt der Primzahlen auf, die in mindestens einer von beiden Zerlegungen auftreten, also
+$$ a= z_1^{i_1}\cdot ...\cdot z_u^{i_u} $$
+wobei $i_j = k_j $ falls die Primzahl in der echten Zerlegung von $a$ existiert, sonst $i_j = 0$. Analog ist
+$$ b = z_1^{h_1}\cdot ...\cdot z_u^{h_u} $$
+wobei $h_j = l_j $ falls die Primzahl in der echten Zerlegung von $b$ existiert, sonst $h_j = 0$.
 \begin{enumerate}[\bfseries a)]
 %% -------------------------------------------
 %%  Aufgabe 1a
@@ -63,7 +68,11 @@ $$
 \item Geben Sie die Primfaktorzerlegung von $\ggT (a,b)$ und $\kgV (a,b)$ an.\\
 %% -------------------------------------------
 %% Lösung
-
+Nach der obigen Zerlegung gilt:
+$$ \ggT(a,b) = \prod_{m=0}^{u} z_m^{\min{(i_m,h_m)}}$$
+Dies macht Sinn, da der ggT das Produkt der gemeinsamen Primfaktoren(-potenzen) der Zahlen $a$ und $b$ ist. 
+$$ \kgV(a,b) = \prod_{m=0}^{u} z_m^{\max{(i_m,h_m)}}$$
+blabla
 %% -------------------------------------------
 %%  Aufgabe 1b
 %% -------------------------------------------
@@ -72,7 +81,11 @@ $$
 $$ \ggT (a,b) \cdot \kgV (a,b) = a \cdot b $$
 %% -------------------------------------------
 %% Lösung
-
+$$ \ggT (a,b) \cdot \kgV (a,b) = \prod_{m=0}^{u} z_m^{\min{(i_m,h_m)}} \cdot \prod_{m=0}^{u} z_m^{\max{(i_m,h_m)}} $$
+$$ = \prod_{m=0}^{u} z_m^{\min{(i_m,h_m)}} \cdot z_m^{\max{(i_m,h_m)}} $$
+$$ = \prod_{m=0}^{u} z_m^{i_m} \cdot z_m^{h_m} = \prod_{m=0}^{u} z_m^{i_m} \cdot \prod_{m=0}^{u} z_m^{h_m} $$
+$$ = a \cdot b $$
+\mbox{} \hfill $\square$
 \end{enumerate}
 
 %% -------------------------------------------
