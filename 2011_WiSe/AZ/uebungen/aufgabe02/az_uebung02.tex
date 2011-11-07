@@ -70,9 +70,13 @@ wobei $h_j = l_j $ falls die Primzahl in der echten Zerlegung von $b$ existiert,
 %% Lösung
 Nach der obigen Zerlegung gilt:
 $$ \ggT(a,b) = \prod_{m=0}^{u} z_m^{\min{(i_m,h_m)}}$$
-Dies macht Sinn, da der ggT das Produkt der gemeinsamen Primfaktoren(-potenzen) der Zahlen $a$ und $b$ ist. 
+Dies macht Sinn, da der ggT das Produkt der gemeinsamen Primfaktoren(-potenzen) der Zahlen $a$ und $b$ ist. \\
+
+
 $$ \kgV(a,b) = \prod_{m=0}^{u} z_m^{\max{(i_m,h_m)}}$$
-blabla
+
+Diese Formel macht in sofern Sinn, als dass, wenn wir die Zahlen einfach multilpzieren, erhalten wir $z_m^{i_m + h_m}$. Diese Form ist aber unter umständen zu groß. Um diesen Umstand zu vermindern, ziehen wir einfach den gemeinsamen Teil herraus. Wir wir aus der vorgegangenen Formel sehen, ist der gemeinsame Teil genua das Minimum. Ziehen wir von $a+ b$ das Minimum ab, erhalten wir das Maximum der beiden Elemente.
+
 %% -------------------------------------------
 %%  Aufgabe 1b
 %% -------------------------------------------
