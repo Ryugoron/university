@@ -12,8 +12,8 @@
 \usepackage{listings}
 \usepackage{xcolor}
 \usepackage{paralist}
-\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
 \usepackage{fancyhdr}
+\usepackage{subfigure}
 \pagestyle{fancy}
 \fancyhead[C]{Alegbra und Zahlentheorie}
 \fancyhead[L]{Übung Nr. 2}
@@ -34,9 +34,9 @@
 \newcommand{\kgV}{\text{kgV}}
 %
 
-\author{Tutor: not known}
+\author{Tutor: David Müßig}
 \date{}
-\title{Max Wisniewski , Alexander Steen}
+\title{Max Wisniewski, Alexander Steen}
 
 \begin{document}
 
@@ -55,20 +55,170 @@ Es seien $a,b \in \N \setminus \{ 0,1 \}$ natürliche Zahlen, sowie
 $$
 a= p_1^{k_1}\cdot ...\cdot p_s^{k_s} \quad \text{und} \quad b = q_1^{l_1} \cdot ... \cdot q_s^{l_t}
 $$
+Fassen wir nun $a, b$ als Produkt der Primzahlen auf, die in mindestens einer von beiden Zerlegungen auftreten, also
+$$ a= z_1^{i_1}\cdot ...\cdot z_u^{i_u} $$
+wobei $i_j = k_j $ falls die Primzahl in der echten Zerlegung von $a$ existiert, sonst $i_j = 0$. Analog ist
+$$ b = z_1^{h_1}\cdot ...\cdot z_u^{h_u} $$
+wobei $h_j = l_j $ falls die Primzahl in der echten Zerlegung von $b$ existiert, sonst $h_j = 0$.
+\begin{enumerate}[\bfseries a)]
+%% -------------------------------------------
+%%  Aufgabe 1a
+%% -------------------------------------------
+%% Aufgabenstellung
+\item Geben Sie die Primfaktorzerlegung von $\ggT (a,b)$ und $\kgV (a,b)$ an.\\
+%% -------------------------------------------
+%% Lösung
+Nach der obigen Zerlegung gilt:
+$$ \ggT(a,b) = \prod_{m=0}^{u} z_m^{\min{(i_m,h_m)}}$$
+Dies macht Sinn, da der ggT das Produkt der gemeinsamen Primfaktoren(-potenzen) der Zahlen $a$ und $b$ ist. 
+$$ \kgV(a,b) = \prod_{m=0}^{u} z_m^{\max{(i_m,h_m)}}$$
+blabla
+%% -------------------------------------------
+%%  Aufgabe 1b
+%% -------------------------------------------
+%% Aufgabenstellung
+\item Beweisen Sie die Formel
+$$ \ggT (a,b) \cdot \kgV (a,b) = a \cdot b $$
+%% -------------------------------------------
+%% Lösung
+\textbf{Beweis}: \\
+$$ \ggT (a,b) \cdot \kgV (a,b) = \prod_{m=0}^{u} z_m^{\min{(i_m,h_m)}} \cdot \prod_{m=0}^{u} z_m^{\max{(i_m,h_m)}} $$
+$$ = \prod_{m=0}^{u} z_m^{\min{(i_m,h_m)}} \cdot z_m^{\max{(i_m,h_m)}} $$
+$$ = \prod_{m=0}^{u} z_m^{i_m} \cdot z_m^{h_m} = \prod_{m=0}^{u} z_m^{i_m} \cdot \prod_{m=0}^{u} z_m^{h_m} $$
+$$ = a \cdot b $$
+\mbox{} \hfill $\square$
+\end{enumerate}
+
+%% -------------------------------------------
+%%                 AUFGABE 2
+%% -------------------------------------------
+\section*{Aufgabe 2}
 \begin{enumerate}[\bfseries a)]
 
-\item Geben Sie die Primfaktorzerlegung von $\ggT (a,b)$ und $\kgV (a,b)$ an.\\
+%% -------------------------------------------
+%%  Aufgabe 2a
+%% -------------------------------------------
+%% Aufgabenstellung
+\item Bestimmen Sie den größten gemeinsamen Teiler von 165 und 585 mit dem euklidischen Algorithmus.
+%% -------------------------------------------
+%% Lösung
+$585 = 3 \cdot 165 + 90$\\
+$165 = 1 \cdot 90 + 75$\\
+$90 = 1 \cdot 75 + 15$\\
+$75 = 5 \cdot 15 + 0$\\
+\\
+$\Rightarrow \ggT (165,585) = 15$
 
-\item Beweisen Sie die Formel
+%% -------------------------------------------
+%%  Aufgabe 2b
+%% -------------------------------------------
+%% Aufgabenstellung
+\item Geben Sie die Primfaktorzerlegungen von 165 und 585 an und überprüfen Sie das Ergebnis aus a) mit Ihrer Formel aus Aufgabe 1, a).
+%% -------------------------------------------
+%% Lösung
+$$585 = 3^2 \cdot 5 \cdot 13$$
+$$165 = 3 \cdot 5 \cdot 11$$
 
-$$
-\ggT (a,b) \cdot \kgV (a,b) = a \cdot b
-$$
+Nach \textbf{1 a)} gilt dann für den größten gemeinsamen Teiler: \\
+$$ \ggT (585, 165) = 3 \cdot 5 = 15 $$
 
+%% -------------------------------------------
+%%  Aufgabe 2c
+%% -------------------------------------------
+%% Aufgabenstellung
+\item Berechnen Sie mit dem erweiterten euklidischen Algorithmus den größten gemeinsamen Teiler $d$ von 142 und 202 und ganze Zahlen $a$ und $b$, sodass
+$$ d = a \cdot 142 + b \cdot 202. $$
+%% -------------------------------------------
+%% Lösung
+\begin{figure}[ht]
+  %% eukl. Alg.
+  \subtable{
+	\begin{tabular}{ll}
+		202 & $= 1 \cdot 142 + 60$\\
+		142 & $= 2 \cdot 60 + 22$\\
+		60 & $= 2 \cdot 22 + 16$\\
+		22 & $= 1 \cdot 16 + 6$\\
+		16 & $= 2 \cdot 6 + 4$\\
+		6 & $= 1 \cdot 4 + 2$\\
+		4 & $= 2 \cdot 2 + 0$\\
+	\end{tabular}
+  }
+  %% Tabelle des erweiterten eukl. Alg.
+  \subtable{
+	\begin{tabular}{l||l|l|l|l}
+		$i$ & $a_i$ & $q_i$ & $x_i$ & $y_i$ \\
+		\hline \hline
+		0 & 202 & - & 1 & 0\\
+		1 & 142 & - & 0 & 1\\
+		2 & 60 & 1 & 1 & -1\\
+		3 & 22 & 2 & -2 & 3\\
+		4 & 16 & 2 & 5 & -7\\
+		5 & 6 & 1 & -7 & 10\\
+		6 & 4 & 2 & 19 & -27\\
+		7 & 2 & 1 & -26 & 37\\
+		8 & 0 & 2 & 33 &\\
+		\hline
+	\end{tabular}
+  }
+\end{figure}
+
+$\Rightarrow d = \ggT (142, 202) = 2, b = -26, a = 37$ \\
 \end{enumerate}
-\section*{Aufgabe 2}
 
+%% -------------------------------------------
+%%                 AUFGABE 3
+%% -------------------------------------------
 \section*{Aufgabe 3}
+%% Aufgabenstellung
+Es sei $(\varepsilon_k)_{k \in \N}$ die periodische Folge $(1,3,2,-1,-3,-2,...)$. \\
+Beweisen Sie, dass eine ganze Zahl $a = \sum_{k=0}^{m}{a_k \cdot 10^k}$ genau dann durch 7 teilbar ist, wenn ihre gewichtete Quersumme es ist.\\
+Testen Sie es mit diesem Kriterium die Zahlen 10.167.157 und 8.484.372 auf Teilbarkeit durch 7.\\
+\\
+%% -------------------------------------------
+%% Lösung
+Es gilt
+$$ 10^0 \equiv 1 \mod 7 $$
+$$ 10^1 \equiv 3 \mod 7 $$
+$$ 10^2 \equiv 2 \mod 7 $$
+$$ 10^3 \equiv -1 \mod 7 $$
+$$ 10^4 \equiv -3 \mod 7 $$
+$$ 10^5 \equiv -2 \mod 7 $$
+$$ 10^6 \equiv 1 \mod 7 $$
+$$ ... $$
+$$ 10^k \equiv \varepsilon_k \mod 7 $$
+Also ergibt sich für eine Zahl $a$
+$$ a = \sum_{k=0}^{m}{a_k \cdot 10^k} \equiv \sum_{k=0}^{m}{a_k \cdot \varepsilon_k} \mod 7 $$
+\mbox{} \hfill $\square$
+\\
+Sei nun $a = 10167157$.\\
+Test: $7 + 3\cdot 5 + 2\cdot 1 - 1\cdot 7 - 3 \cdot 6 - 2 \cdot 1 + 1 \cdot 0 + 3 \cdot 1 = 0$.
+Da $0|7 \Rightarrow 10167157|7$.\\
+Sei nun $a = 8484372$.\\
+Test: $2 + 3 \cdot 7 + 2 \cdot 3 - 1 \cdot 4 - 3 \cdot 8 - 2 \cdot 4 + 8 = 1$.
+Da $1\nmid 7 \Rightarrow 8484372\nmid7$.
 
+%% -------------------------------------------
+%%                 AUFGABE 4
+%% -------------------------------------------
+\section*{Aufgabe 4}
+%% Aufgabenstellung
+Vor einem Bienenvolk sind folgende Daten bekannt: Es hat zwischen 200 und 250 Mitglieder. Stellen sich die Bienen in 7er-Reihen auf, dann bleibt eine Biene alleine. Wenn sie sich in 5er-Reihen aufstellen, dann bleiben drei übrig. Wie viele Mitglieder hat das Bienenvolk?\\
+\\
+%% -------------------------------------------
+%% Lösung
+Aus der Aufgabenstellung erstellen wir folgendes Kongruenzsystem $(*)$: \\
+
+$$ x \equiv 1 \mod 7 $$
+$$ x \equiv 3 \mod 5 $$
+
+Aus dem chinesischen Restsatz folgt direkt (da $\ggT(5,7)=1$): \\
+
+$$ (*) \Leftrightarrow x \equiv 1 - (-2) \cdot 7 \cdot (1-2)$$
+$$ \equiv -27 \mod 35$$
+
+Wähle $k \in \N$ mit $200 \leq -27 + k \cdot 35 \leq 250$ \\
+$ \Rightarrow k = 7 $\\
+$ \Rightarrow $ Das Bienenvolk hat $ -27 + 7 \cdot 35 = 218 $ Mitglieder.
+%% -------------------------------------------
 \label{LastPage}
 \end{document}

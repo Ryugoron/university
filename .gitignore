@@ -3,8 +3,10 @@
 *.out
 *.aux
 *.synctex.gz
+*.synctex
 *.toc
 *.div
+*.dvi
 
 # Compiled source #
 ###################
