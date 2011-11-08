@@ -31,8 +31,8 @@ Wir definieren $k_i$ als die Kosten von der Ware $i$ und $w_i$ als Wert der Ware
 Als Rekursion nehmen wir:
 $$
 \begin{array}{lrcl}
-\forall p  & E[0,p] & = & 0\\
-\forall n & E[n,0]&=& 0\\
+\forall p \; : & E[0,p] & = & 0\\
+\forall n \; : & E[n,0]&=& 0\\
 &E[n,p] &=& \max \left\{ E[n-1, p] , E[n-1, p - k_n] \right\}
 \end{array}
 $$
