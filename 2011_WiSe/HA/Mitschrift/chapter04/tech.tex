@@ -39,11 +39,141 @@ $$
 
 \subsection{Rekursionbaum analysieren}
 
-tbd
+Die Rekursionsbaummethode läuft ähnlich zur Einsetzmethode. Hier werden die einzelnen Schritte der Rekursion aber als Baum dargestellt und danach ausgewertet.\\
+Beispiel:\\
+$$
+T(n) \leq \left\{ 
+\begin{array}{lr}
+0 &, n = 1\\
+3 \cdot T (\frac{n}{2} ) + cn & \text{, sonst}
+\end{array}
+\right.
+$$
+
+%%\begin{tikzpicture}[level/.style={sibling distance=60mm/#1}]
+%%\node[circle,draw](11){$T(n)$};
+%%\node[circle,draw](21) [below, left of =11] {$T(\frac{n}{2}$};
+%%\node[circle,draw](31) [below, left of=21] {$T(\frac{n}{4}$};
+%%\node[circle,draw](32) [right of = 31] {$T(\frac{n}{4}$};
+%%\node[circle,draw](33) [right of =32] {$T(\frac{n}{4}$};
+%%\node[circle,draw](22) [right of = 21] {$T(\frac{n}{2}$};
+%%\node[circle,draw](34) [right of = 33] {$T(\frac{n}{4}$};
+%%\node[cricle,draw](35) [right of = 34] {$T(\frac{n}{4}$};
+%%\node[cricle,draw](36) [right of = 35] {$T(\frac{n}{4}$};
+%%\node[circle,draw](23) [right of = 22] {$T(\frac{n}{2}$};
+%%\node[circle,draw](37) [right of = 36] {$T(\frac{n}{4}$};
+%%\node[cricle,draw](38) [right of = 37] {$T(\frac{n}{4}$};
+%%\node[cricle,draw](39) [right of = 38] {$T(\frac{n}{4}$};
+%%\end{tikzpicture}
+
+Graph is tbd
 
 \subsection{Master Theorem}
 
-tbd
+\begin{description}
+
+\item{\bfseries Satz:} Sei $a \geq 1 \; , \; n > 1 \; , \; c>0$\\
+$$
+f \; : \; \N \rightarrow \N \quad , \quad t \; : \; \N \rightarrow \N
+$$
+Sei
+$$
+T(n) = \left\{
+\begin{array}{lr}
+t(n) & , n < c\\
+a \cdot T(\frac{n}{b}) + f(n) & \text{, sonst}
+\end{array}
+\right.
+$$
+eine Rekursion.\\
+Dann gilt
+
+\begin{enumerate}[(I)]
+
+\item Wenn
+$$
+\exists \varepsilon > 0 \; : \; f(n) = O\left( n^{\log_b a \; - \varepsilon} \right),
+$$
+dann ist
+$$
+T(n) = \Theta \left( n^{\log_b a} \right)
+$$
+
+\item Wenn
+$$
+f(n) = \Theta \left( n^{\log_b a} \right),
+$$
+dann ist
+$$
+T(n) = \Theta \left( n^{\log_b a} \cdot \log n \right)
+$$
+
+\item Wenn
+$$
+\exists \varepsilon > 0 \; : \; f(n) = \Omega \left( n^{\log_b a \; + \varepsilon} \right) \land \exists d < 1 \; : \; a\cdot f\left( \frac{n}{b} \right) \leq c \cdot f(n),
+$$
+damm ist
+$$
+T(n) = \Theta \left( f(n) \right)
+$$
+
+\end{enumerate}
+
+\item{\bfseries Beispiele:}
+
+\begin{enumerate}[\bfseries (1)]
+
+\item Karatsuba (mit Optimierung)\\
+$T(n) \leq 3 \cdot T( \frac{n}{2} ) + O(n)$\\
+Das Mastertheorem geht mit $a = 3, \; b=2,\; f(n) = cn,\; \varepsilon  = 0.25$\\
+$cn \leq n^{1.5 - \varepsilon} = n^{1.25} = O(n^{\log_2 3 \; - \varepsilon}$
+$$
+\Rightarrow T(n) = \Theta \left( n^{\log_2 3} \right)
+$$
+
+\item Karatsuba (ohne Optimierung)\\
+$T(n) = 4 \cdot T(\frac{n}{2} ) + O(n)$\\
+Mastertheorem geht mit $a=4, \; b=2, \; f(n) = cn, \; 0 < \varepsilon \leq 1$\\
+$f(n) = O(n^{2 - \varepsilon})$
+$$
+\Rightarrow T(n) = \Theta (n^2)
+$$
+
+\item Mergesort\\
+$T(n) = 2 \cdot T( \frac{n}{2} ) + n - 1$\\
+Das Mastertheorem geht, mit $a = 2, b=2, f(n) = n - 1$\\
+$f(n) = n - 1 = \Theta ( n^{\log_2 2}) = \Theta (n)$
+$$
+\Rightarrow \Theta (n \cdot \log n)
+$$
+
+\item Binäre Suche\\
+$T(n) = T(\frac{n}{2}) + c$\\
+Mastertheorem geht, mit $a = 1, b = 2, f(n) = c$\\
+Das Mastertheorem geht, mit $a = 1, b=2, f(n) = c$\\
+$c = \Theta ( n^{\log_2 1} ) = \Theta (n^0) = \Theta (1)$
+$$
+\Rightarrow T(n) = \Theta (\log n)
+$$
+
+\end{enumerate}
+
+\item{\bfseries Beweisidee:} Lösen wir den Rekursionsbaum der allgemeinen Gleichung auf, so erhalten wir die folgende Form:\\
+Wir in der nächsten Ebene pro Knoten $a$ neue Knoten und teilen unser $n$ durch $b$. Die Höhe des Baumes ist damit $\log_b n$.
+$$
+\Rightarrow T(n) = \sum_{i = 0}^{\log_b n} a^i f\left( \frac{n}{b^i} \right)
+$$
+Nun können wir daraus mehrere Fälle gewinnen:\\
+Falls auf jeder Ebene die selbe Zahl steht, gewinnen Fall 2 aus dem Satz.\\
+Falls die Kosten pro Ebene immer kleiner werden, erhalten wir Fall 3.\\
+Und falls die Kosten immer mehr werden, erhalten wir den ersten Fall1.\\
+
+\item{\bfseries Grenzfälle:} Wo geht das Mastertheorem nicht?\\
+Bei mehr als einem verscheidenen Rekurisonsaufruf, z.B. $T(n) = 2 \cdot T(\frac{n}{2}) + T(\frac{n}{3}) + O(n)$\\
+
+Wenn keiner der Fälle greift, z.B. $T(n) = 2 \cdot T(\frac{n}{2}) + \Theta ( n \cdot \log n)$
+
+\end{description}
 
 \section{Divide \& Conquer}
 
@@ -153,3 +283,52 @@ T(n) &\leq& 3 \cdot T\left( \frac{n}{2} \right) + cn\\
 $$
 
 Die Laufzeit ist also $T(n) \in O(n^{\log 3})$, wobei $n^{\log 3} \approx n^{1.58}$ ist, was weniger ist als $n^2$.
+
+\subsection{Beispiel: Closest Pair Problem}
+
+Bei diesem Problem haben wir $n$ Punkte in der Ebene gegeben und wollen das Paar von Punkten finden, so dass der Abstand dieser Punkte das Minimum aller Abstände der menge ist.
+
+\subsubsection{Naiver Ansatz}
+Wir berechnen alle Abstände und nehmen davon das minimum.\\
+Alle Abstände zu berechnen dauert $\left( n \choose 2 \right)$, das minimum einer Menge kann man in $n-1$ herraus finden.
+$\Rightarrow \Theta (n^2)$
+
+\subsubsection{Closest-Pair mit Divide \& Conquer}
+Wir teilen die Punktmenge in 2 gleichgroße Hälften indem wir nach $x$ Koordinate sortieren.
+Wir nehmen $q$ als Median dieser Menge und definieren:
+$$
+P_L = \{ p \in P \; | \;  p_x \leq q_x \} \quad , \quad P_R = \{ p \in P \; | \; p_x > q_x\}
+$$
+Finde in diesen Mengen rekrusiv das engste Paar.\\
+$\delta_L = CP(P_L) \; , \; \delta_R = CP(P_R)$\\
+$\delta = \min \{ \delta_L \; , \; \delta_R \}$\\
+
+Nun muss dieses $\delta$ aber nicht der kleinste Abstand sein, da das engeste Paar genau auf die beiden Teile verteilt sein könnte.
+
+\begin{description}
+\item{\bfseries Beobachtung 1:} Wen es ein engstes Paar $p,q$ mit $p\in P_L \; , \; q \in P_R$ gibt, so liegt es in einem $2 \delta$ Streifen um die Mittellinie $q_x$.
+\item{\bfseries Beobachtung 2:} Wenn es ein engeres Paar gitb, so muss es zusätzlich im Rechteck $(\delta , 2\delta)$ zentriert um die Mittelachse liegen.
+\item{\bfseries Beobachtung 3:} Der Abstand zwischen 2 Punkten wird üblicherweise mit $\sqrt{\|\| p,q\|\|}$ berechent. Aber auf unserer RAM können wir die Wurzel leider nicht einfach so berechnen. Aber da wir nur die Abstände vergleichen wollen, können wir auch die Quadrate der Abstände vergleichen.
+\item{\bfseries Volumenbetrachtung:} Wir wollen $n$ Punkte auf eine Fläche F setzten mit $\forall p,q \; : \; d(p,q) \geq 1$.\\
+Um es leichter Abzuschätzen erlauben wir $d(p,q)\geq 0.5$ können wir das ganze mit disjunkten Kreisen beschreiben. Jedem Punkt gehört von einem solchen Kreis ein Viertel.
+$\Rightarrow $ Die Menge der Punkte pro Rechtekc ist beschänkt.
+\end{description}
+
+Aus diesen Betrachtungen können wir folgendes schließen:\\
+Alle Punkte in $P_L$ haben Mindestabstand $\delta$.\\
+Alle Punkte in $P_R$ haben Mindestabstand $\delta$.\\
+Wie viele Punkte aus $P_L$ können in dem Rechteck R leigen? Das Rechteck hat die Maße $(\delta , \delta)$ und aus unserer Volumenbetrachtung folgt, dass jedem Punkt $\frac{1}{4}(\frac{\delta}{2})^2 \cdot \pi = \frac{3}{16} \delta^2$ Fläche gehört.\\
+Das heißt, dass in der Fläche $R_L$ maximal $\left\lfloor \frac{16}{3}\right\rfloor = 5$.\\
+
+Die selbe Überlegung können wir für $R_R$ anstellen.\\
+
+$\Rightarrow$ Wir müssen pro Rechteck nur den Abstand zu 9 Nachfolgern berechnen. Dann nehmen wir immer das globale Minimum von $\delta$.\\
+
+Die Rechtecke können wir optimal Durchmustern, indem wir die Punkte im $2 \delta$ Bereich nehmen (geht leicht, da wir eine sortierte Liste haben) und diese nun auch aufsteigend nach y - Koordinate sortieren und jeweils 10 Punkte vergleichen.
+
+\textbf{Optimierung:} Wir müssten nur in jedem Rekursionsschritt 2 mal Sortieren. Dies ist unnötig, da wir die Liste 2 mal Vorsortieren können und dann in jedem Schritt maximal lineare Zeit benötigen um die Listen für den nächsten Schritt zu gewinnen.\\
+Im Falle der x-Kooridnaten brauchen wir bloß die Listen zu splitten. Im Falle der y-Koordinaten müssen wir einen umgekehrten Mergealgorithmus anwenden (der bekannte aus Mergesort).\\
+
+\textbf{Laufzeit:}\\
+Vorverarbeitung: $O(n) \cdot \log n$\\
+Im Algorithmus: $O(n) = 2 \cdot T(\frac{n}{2}) = O (n \cdot \log n)$
