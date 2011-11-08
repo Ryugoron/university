@@ -74,7 +74,7 @@ Graph is tbd
 
 \item{\bfseries Satz:} Sei $a \geq 1 \; , \; n > 1 \; , \; c>0$\\
 $$
-f \; : \; \N \rightarrow \N \quad , \quad t \; : \; \N \rightarrow \N
+f \; : \; \N \rightarrow \R^+ \quad , \quad t \; : \; \N \rightarrow \R^+
 $$
 Sei
 $$
@@ -88,7 +88,7 @@ $$
 eine Rekursion.\\
 Dann gilt
 
-\begin{enumerate}[(I)]
+\begin{enumerate}[\bfseries (i)]
 
 \item Wenn
 $$
@@ -112,7 +112,7 @@ $$
 $$
 \exists \varepsilon > 0 \; : \; f(n) = \Omega \left( n^{\log_b a \; + \varepsilon} \right) \land \exists d < 1 \; : \; a\cdot f\left( \frac{n}{b} \right) \leq c \cdot f(n),
 $$
-damm ist
+dann ist
 $$
 T(n) = \Theta \left( f(n) \right)
 $$

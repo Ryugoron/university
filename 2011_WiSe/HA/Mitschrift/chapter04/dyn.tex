@@ -12,6 +12,30 @@ Anzahl & Name & Preis & Wert\\
 1x & Apfel & $0,40$\euro{} & 3\\
 1x & Brötchen & $0,60$\euro{} & 9\\
 1x & Buttermilch & $1,00$\euro{} & 5\\
-1x & Gummibärchenl & $0,80$\euro{} & 10\\
+1x & Gummibärchen & $0,80$\euro{} & 10\\
 1x & Bifi & $0,60$\euro{} & 6\\
 \end{tabular}
+
+\begin{description}
+
+\item{\bfseries Naiver Algorithmus:}
+
+Wir berechnen alle Teilmengen, deren Gewicht kleiner als 1,50 \euro{} ist. Dann suchen wir uns das Minimum der Werte herraus. Im Worstcase beduetet das für uns, dass wir alle Teilmengen berechnen müssen, was eine Laufzeit von $2^n$ zur Folge hat. Danach suchen wir uns das Minimum herraus.
+Für das Minimum müssen wir im schlimmsten Fall $n$ Zahlen auf addieren.\\
+
+Als Laufzeit erhalten wir insgesammt $T(n) = 2^n$ eine exponentielle Laufzeit.
+
+\item{\bfseries Rekursiver Ansatz:} Schränke das Problem auf Teilprobleme ein und setzte die teillösungen in Beziehung.\\
+
+Wir definieren $k_i$ als die Kosten von der Ware $i$ und $w_i$ als Wert der Ware $i$.\\
+Als Rekursion nehmen wir:
+$$
+\begin{array}{lrcl}
+\forall p  & E[0,p] & = & 0\\
+\forall n & E[n,0]&=& 0\\
+E[n,p] = \max \left\{ E[n-1, p] , E[n-1, p - k_n] \right\}
+\end{array}
+$$
+
+Diese Gleichung beduetet für uns, dass wir uns in jedem Schritt entscheiden können, ob wir einen Artikel nehmen oder nicht. Nehmen wir ihn, müssen wir von unseren vorhandenen Geld die Kosten der Ware abziehen. Von diesen beiden Ergebnissen wählen wir einfach das Maximum um die Beste Möglichkeit zu erhalten.
+\end{description}
