@@ -4,12 +4,16 @@
 \usepackage[utf8]{inputenc} 
 \usepackage[T1]{fontenc} 
 \usepackage{tabularx}
+\usepackage{graphicx}
+\usepackage{listings}
 
 \author{Paul Podlech \\ 3910583 \and Max Wisniewski\\4370074}
 \title{Mikroprozessor Praktikum\\ Fr. HWP 2 \\ Aufgabenblock 1}
 \date{\today}
 
 \begin{document}
+
+\lstset{language=C, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2, mathescape=true, numbers=left}
 
 \maketitle
 
@@ -86,7 +90,42 @@ Linksshift & Shiftet die Bits nach links und füllt mit 0en & <<\\
 \end{itemize}
 
 Daraus könen wir herraus lesen, dass Select für alle auf 0 steht, dass heißt es ist als I/O Port geschaltet. Die Direction von 0x0F heißt, dass für Bit 0 eine 1 anliegt (da die unteren 4 Bit gesetzt sind). Wenn LED\_ROT mit unserem OUT verodert wird, kann man, wie in der letzen Aufgabe gezeigt, heißt dass, dass das 0te Bit gesetzt wird.\\
+
+\begin{figure}[h!]
+	\includegraphics[scale=0.6]{1_3.png}
+\end{figure}
+
 Aus unserem Bild kann man herrauslesen, das an P4.0 eine 1 herraus kommt.
+
+\item{\bfseries A 1.1..4} Die LED leuchted, wenn wir eine Potentialdifferenz über der LED haben. Da auf der rechten Seite der LED eine Betriebsspannung (von 3V) anliegt, wie man aus dem Schaltbild lesen kann, benötigen wir ein niedrigeres Potential, damit ein Strom fließen kann. Diese wird bei 0 erreicht, da die Spannung zwischen den beiden Potentialen dann groß genug ist. Bei einem Highpegel wird diese Differenz 0 sein.
+
+\pagebreak
+
+\item{\bfseries A 1.1.5} Erläutern Sie inhaltlich die Bedeutung der folgenden Codezeilen:
+
+\begin{lstlisting}
+unsigned char a;
+#define LEDRT (0x01)
+P4DIR = 0x00;
+a = 10;
+P4OUT = a;
+P4OUT = 0x01;
+P4DIR = 0x07;
+P4OUT = 0x00;
+P4OUT |= 0x01;
+P4OUT |= LEDRT;
+P4OUT ^= ~LEDRT;
+P4OUT ^= LEDRT;
+\end{lstlisting}
+
+Direction wird 2 mal gesetzt. Nach der ersten Anweisung wird alles auf eingang gesetzt und außen ist nichts zusehen. Nach der zweiten können wir an Leitung P4.0, P4.1, P4.2 ein Signal sehen.\\
+Die Zeilen 5,6 haben keine Auswirkungen, da sie nicht sichtbar sind nach außen.\\
+Nach Zeile 7 können wir die 1 auf P4.0 sehen, die in 6 gesetzt wurde.\\
+Nach Zeile 8 können wir von außen an P4.0, P4.1, P4.2 eine 0 sehen.\\
+Nach Zeile9 wurde auf P4.0 eine 1 gesetzt.\\
+Nach Zeile 10 hat sich nichts geändert, da das Bit 0 schon vorher gesetzt wurde.\\
+Nach Zeile 11 wurde mit dem komplement von LEDRT getoggelt. Das heißt, dass P4OUT nun 0xFF ist. Jedes Bit ist 1 und damit ist an P4.0, P4.1, P4.2 diese auch zu sehen. Die anderen Bits sind immer noch nicht auf OUT geschaltet.\\
+Nach Zeile 12 wurde Bit 0 wieder getoggelt. Das bedeutet das an P4.0 eine 0 anliegt und an P4.1, P4.2  weiter die 1 bleibt.
 
 \end{description}
 
