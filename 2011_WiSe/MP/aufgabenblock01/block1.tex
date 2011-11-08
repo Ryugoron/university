@@ -127,6 +127,36 @@ Nach Zeile 10 hat sich nichts geändert, da das Bit 0 schon vorher gesetzt wurde
 Nach Zeile 11 wurde mit dem komplement von LEDRT getoggelt. Das heißt, dass P4OUT nun 0xFF ist. Jedes Bit ist 1 und damit ist an P4.0, P4.1, P4.2 diese auch zu sehen. Die anderen Bits sind immer noch nicht auf OUT geschaltet.\\
 Nach Zeile 12 wurde Bit 0 wieder getoggelt. Das bedeutet das an P4.0 eine 0 anliegt und an P4.1, P4.2  weiter die 1 bleibt.
 
+\pagebreak
+
+\item{\bfseries A 1.1.6} Schreiben Sie ein Programm, dass die Phasen ein Ampel durchläuft. Und zwischen den einzelnen Phasen immer etwas Zeit lässt.\\
+Wir haben uns dafür Makros für die Werte von Rot, Gelb und Grün geschrieben. Diese werden immer Program immer wieder kombiniert und dan auf die Outleitung gesetzt. Beim Aufruf haben wir als erstes darauf geachtet, dass die Leitungs Direction erst auf OUT gesetzt wird, wenn wir im OUT was etwas reingeschrieben haben.
+
+\begin{lstlisting}
+#define	ROT		(0x01) // Bitmaske fuer rote LED
+#define	GELB		(0x02) // Bitmaske fuer gelbe LED
+#define	GRUEN	(0x04) // Bitmaske fuer gruene LED
+
+void aufgabe1(){
+	P4SEL		=	0x00;	 // setze den gesammten Port auf OUT
+	P4DIR		=	7	 // setzt LED Leitungen auf OUT
+	P4OUT	=	~ROT; //setzt die rote LED
+	wait(50000);
+	wait(50000);
+	P4OUT	=	~( ROT | GELB); //setzt sowohl die rote als auch die gelbe LED
+	wait(50000);
+	P4OUT	= 	~(GRUEN);	 //setzt die gruene LED
+	wait(50000);
+	wait(50000);
+	P4OUT	=	~(GELB)	 // gelbe LED auf an
+	wait(50000);
+}
+\end{lstlisting}
+
+Wir haben uns an dieser Stelle für die einfache Lösung entschieden und überschreiben alle Bits, die wir nicht setzten wollen. Dies könnte man umgehen indem man die Bits an sich setzt. Da in unserem Programm aber nicht mehr passiert, ist das an dieser Stelle vertretbar.
+
+Unsere Beobachtungen waren: Es funktioniert.
+
 \end{description}
 
 \end{document}
