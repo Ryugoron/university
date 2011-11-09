@@ -1,0 +1,223 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm]{geometry} 
+\usepackage{babel}
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc} 
+\usepackage{ae} 
+\usepackage{amssymb} 
+\usepackage{amsmath} 
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{paralist}
+
+\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[C]{Höhere Algorithmik}
+\fancyhead[L]{Übung Nr. 3}
+\fancyhead[R]{WS 2011/12}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage$\,$ von \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\setlength{\parindent}{0pt} 
+\setlength{\headheight}{15pt}
+
+\author{Tutor: Lena Schlipf}
+\date{}
+\title{Max Wisniewski , Alexander Steen}
+
+\begin{document}
+
+\lstset{language=Java, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2, mathescape=true}
+
+\maketitle
+\thispagestyle{fancy}
+
+\section*{Aufgabe 1}
+
+In dieser Aufgabe von wir zwei $n \times n$ Matrizen schneller als mit der schulmethode Berechnen.
+
+\begin{enumerate}[\bfseries (a)]
+
+\item Erklären Sie in einem Satz, wie viele Additionen und Multiplikationen asymptotisch nötig sind, um zwei $n \times n$ Matrizen mit dem Schulalgorithmus zu multiplizieren.\\
+
+Bei der Schulmethode rechnet man einfach Zeilen mal Spalten, was bei $n \cdot n$ Einträgen und pro Eintrag $n$ Multiplikationen und $n-1$ Additionen sind.
+
+$\Rightarrow n^3$ Multiplikationen und $n^3 - n^2$ Additionen.
+
+\item Zeigen Sie, warum die in der Übung gegebene Zerlegung von $2\times2$ Matrizen auf beliebige Matrizen erweiterbar ist.\\
+
+\item Beschreiben Sie die Laufzeit von Strassens Algorithmus mit einer Rekursionsgleichung und lösen Sie diese.\\
+
+Für die Analyse nehmen wir das EKM.\\
+Um zwei Matrizen zu Addieren (oder Subtrahieren) müssen wir die Komponeten addieren. Dafür brauchen wir also $n^2$ Operationen.\\
+Um nun die einzelnen Komponenten zu berechnen braucht man für $P_1$ bis $P_7$ 10 dieser Additionen/Subtraktionen. Um nach der Rekursion auf $r,s,t,u$ zu kommen benötigen wir nocheinmal 9 Additionen/Subtraktionen. Diese operieren alle auf $\frac{n}{2}\times\frac{n}{2}$ Matrizen.
+
+$$
+\Rightarrow T(n) = \left\{ 
+\begin{array}{lr}
+O(1)&,n = 2\\
+7 T(\frac{n}{2}) + 19n^2&,\text{sonst}
+\end{array}
+\right.
+$$
+
+Nun wenden wir darauf das Mastertheorem an:\\
+Mit $a=7, \; b=2, \; f(n) = 19n^2$\\
+$$
+f(n) = 19n^2 \stackrel{\varepsilon = 0.5}{=} O(n^{2.5 - 0.5}) =O( n^{\log_2 7}), \text{da} \log_2 7 \approx 2.81
+$$
+Damit können wir den ersten Fall des Mastertheorems anwenden:
+$$
+\Rightarrow T(n) = \Theta \left( n^{\log_2 7} \right) \approx \Theta \left( n^{2.81} \right)
+$$
+\end{enumerate}
+
+\section*{Aufgabe 2}
+Geben Sie möglichst gute asymptotische Schranken für die folgenden rekursiv definierte Funktion $T(n)$ an; dabei ist $T(n) \in \Theta(1)$ für $n \leq 2$.
+
+\begin{enumerate}[\bfseries (a)]
+
+\item $T(n) = T(\frac{9}{10} n) + n$\\
+Hier gilt $a = 1, \; b = \frac{10}{9}, \; f(n) = n$
+$$
+f(n) = n = \Omega (n^{0 + \varepsilon}), \quad \text{mit } \varepsilon = 1,
+$$
+bleibt zu zeigen, dass $a \cdot f(\frac{n}{b}) \leq c \cdot f(n)$:
+$$
+1 \cdot f(\frac{9}{10} n) = \frac{9}{10}n \text{ gilt, mit } c = \frac{9}{10}
+$$
+$$
+\Rightarrow T(n) = \Theta (n)
+$$
+
+\item $T(n) = T(n-a) + T(a) + n, \; a\leq 1$\\
+Wie man schnell sieht, kann man hier das Mastertheorem nicht anwenden ($n-a$ kann nicht auf $\frac{n}{b}$ gebracht werden). Wir verlegen uns deshalb aufs einsetzen:
+$$
+\begin{array}{rcl}
+T(n) &=& T(n - a) + T(a) + n\\
+&=& T(n - 2a) + T(a) + n - a + T(a) + n\\
+&=& T(n - 2a) + 2T(a) + 2n - a\\
+&=& T(n - 3a) +3 T(a) +3n - 3a\\
+&=& T(n - 4a) +4T(a) + 4n - a \cdot \overset{3}{\underset{i=1}{\sum}} i\\
+&& \text{Nach k Schritten}\\
+&=& T(n - ka) + kT(a) + kn - a \cdot \overset{k-1}{\underset{i=1}{\sum}} i\\
+\end{array}
+$$
+Der Anker wird bei\\
+$n - ka = 2 \Leftrightarrow k = \frac{n-2}{a}$
+Damit löst sich die Gleichung auf zu:
+$$
+\begin{array}{rcl}
+T(n) &=& \Theta(1) + \frac{n-2}{a} T(a) + \frac{n-2}{a} \cdot n - a \cdot \frac{(\frac{n-2}{a} - 1)(\frac{n-2}{a})}{2}
+\end{array}
+$$
+$T(a)$ ist konstant, da $a\leq1$ den Rekursionsanker trifft. Damit erhält man, wenn man alles ausklammert am Schluss:
+$$
+T(n) = \Theta(n^2)
+$$
+
+\item $T(n) = T(\sqrt{n}) + 1$\\
+Wieder sieht man hier schnell das es nicht auf die Form des Mastertheorem kommen kann.
+
+$$
+\begin{array}{rcl}
+T(n) &=& T(\sqrt{n}) + 1\\
+&=& T(n^{\frac{1}{2}}) + 1\\
+&=& T(n^{\frac{1}{4}}) + 2\\
+&& \text{Nach k Schritten}\\
+&=& T(n^{\frac{1}{2^k}}) + kn
+\end{array}
+$$
+Den Anker erreichn wir dabei mit:
+$n^{\frac{1}{2^k}} = 2 \Leftrightarrow 2^{2^k} = n \Leftrightarrow \log_2 (\log _2 n) = k$\\
+Daraus ergibt sich eine Lauzeit von:
+$$T(n) = \Theta ( n \cdot \log \log n)$$
+
+
+\item $T(n) =2 T(\frac{n}{4}) + \sqrt{n}$\\
+$a= 2 , \; b = 4, \; f(n) = \sqrt{n}$
+Nun gilt:
+$$
+\sqrt{n} = n^{\frac{1}{2}} = n^{\log_4 2} = \Theta (n^{\log_4 2})
+$$
+Damit können wir das Mastertheorem anwenden.
+$$
+\Rightarrow T(n) = \sqrt{n} \cdot \log n
+$$
+
+
+\item FEHLER!! MASTER THEOREM GEHT NICHT \\ $T(n) = 7 T(\frac{n}{3}) + n^2$\\
+$a= 7, \; b = 3, \; f(n) = n^2$
+Nun gilt:
+$$
+n^2 = \Omega (n^{2 - 0.1}) = \Omega(n^{\log_3 7}) \quad , \text{ wobei wir }\varepsilon =  0.1 \text{ wählen}
+$$
+und
+$$
+a \cdot f(\frac{n}{b}) = 7 \cdot \frac{n^2}{9} \leq \frac{7}{9} n^2
+$$
+Damit können wir das Mastertheorem anwenden.
+$$
+\Rightarrow T(n) = \Theta(n^2)
+$$
+
+\item $T(n) = 2 T(\frac{n}{2}) + n \log n$\\
+$a=2, \; b=2, \; f(n) = n \log n$\\
+Nun gilt:
+$$
+n^{\log_2 2} = n = O(n^{2-\varepsilon}) \; , \varepsilon = 1 
+$$
+Damit können wir das Mastertheorem anwenden:
+$$
+\Rightarrow T(n) = \Theta(n)
+$$
+
+\item $T(n) = T(n - 1) + \frac{1}{n}$\\
+Wie man sieht, kann man diese Formel nicht auf Mastertheoremform bringen.\\
+Deshalb setzen wir ein:
+$$
+\begin{array}{rcl}
+T(n) &=& T(n - 1) + \frac{1}{n}\\
+&=& T( n - 2 ) + \frac{1}{n-1} + \frac{1}{n}\\
+&& \text{Nach k Schritten}\\
+&=& T(n -  k) + \overset{k-1}{\underset{i=0}{\sum}} \frac{1}{n-i}
+\end{array}
+$$
+Den Anker erreichen wir bei\\
+$$
+n - k = 2 \Leftrightarrow k = n - 2
+$$
+Also gilt:
+$$
+\begin{array}{rcl}
+T(n) &=& \Theta(1) + \overset{n-3}{\underset{i=0}{\sum}} \frac{1}{n-i}\\
+&=& \Theta (1) - \frac{1}{1} - \frac{1}{2} + \overset{n-1}{\underset{i=0}{\sum}} \frac{1}{n-i}\\
+&=& \Theta(1) + \overset{n}{\underset{i=1}{\sum}} \frac{1}{i}\\
+&=& \Theta (1) + O(\log n)
+$=$ O (\log n)
+\end{array}
+$$
+Den letzten Umformungsschritt haben wir auf dem ersten Übungszettel gesehen. Das ganze würde sich noch genauer durch die Euler-Mascheroni-Konstante abschätzen, aber diese Näherung war uns nah genug.
+
+\end{enumerate}
+
+
+\section*{Aufgabe 3}
+
+\begin{enumerate}[\bfseries (a)]
+
+\item Implementieren Sie Karatsubas Algorithmus, sowie die Schulmethode zur Multiplikation ganzer Zahlen. Vergleichen Sie die Laufzeit beider Algorithmen experiementell und schätzen Sie ab, ab welcher Eingabe Karatsuba besser ist.
+
+\item Entwicklen Sie eine hybride Implementierung.
+
+\end{enumerate}
+
+\label{LastPage}
+
+\end{document}
