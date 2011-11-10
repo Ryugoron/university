@@ -113,6 +113,7 @@ $$ = (a \star b) \cdot c + (a \star b) + c = (a \star b) \star c $$
 \textbf{Beweis}: \\
 Sei $a \in \R$. Dann gilt: \\
 $$ 0 \star a = 0 \cdot a + 0 + a = a $$
+\mbox{} \hfill $\square$
 %% -------------------------------------------
 %%  Aufgabe 2b
 %% -------------------------------------------
@@ -137,18 +138,32 @@ $ \Rightarrow N = \{-1\} \Rightarrow (\R \setminus \{-1\}, \star)$ ist Gruppe.
 %%  Aufgabe 3a
 %% -------------------------------------------
 %% Aufgabenstellung
-\item
+\item Es sei $g \in G$ eine Gruppe, so dass $g^2 = e$ für alle $g \in G$ gilt. Weisen Sie nach, dass $G$ abelsch ist. Geben Sie für jedes $k \geq 1$ eine Gruppe $G$ mit $2k$ Elementen an, in der $g^2 = e$ für jedes Gruppenelement $g \in G$ gilt.
+\\ \\
 %% -------------------------------------------
 %% Lösung
-
+(1) $\forall g \in G: g^2 = e \Rightarrow G$ abelsch. \\
+\textbf{Beweis}: \\
+Sei $a,b \in G$. Dann gilt:
+$$ a \cdot b = e \cdot a \cdot b = b^2 \cdot a \cdot b $$
+$$ = b \cdot (b \cdot a) \cdot b \cdot e = b \cdot (b \cdot a) \cdot b \cdot a^2 $$
+$$ = b \cdot (b \cdot a) \cdot  (b \cdot a) \cdot a = b \cdot (b \cdot a)^2 \cdot a $$
+$$ = b \cdot e \cdot a = b \cdot a$$
+\mbox{} \hfill $\square$
+\\
+(2) Je eine Gruppe $G$ wie oben mit $2^k$ Elementen. \\
+...
 %% -------------------------------------------
 %%  Aufgabe 3b
 %% -------------------------------------------
 %% Aufgabenstellung
-\item
+\item Es sei $G$ eine endliche abelsche Gruppe. Zeigen Sie, dass 
+$$ \prod_{g\in G}g^2 = e.$$
 %% -------------------------------------------
 %% Lösung
-
+\textbf{Beweis}: \\
+...
+\mbox{} \hfill $\square$
 \end{enumerate}
 
 %% -------------------------------------------
