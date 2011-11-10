@@ -45,3 +45,7 @@ desktop.ini
 Icon?
 Thumbs.db
 *.swp
+
+# Save files by unix #
+######################
+*~

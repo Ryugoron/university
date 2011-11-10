@@ -77,7 +77,7 @@ s &=& a (g - h) + (a+b)h\\
 t &=& (c+d)e + d(f-e)\\
 &=& ce + de + df - de\\
 &=& ce + df\\
-&&\\
+&&
 u &=& (a+d)(e+h)+a(g-h) - (c+d) e - (a-c)(e+g)\\
 &=& ae + ah + de + dh + ag - ah - ce - de -ae\\
 && -ag +ce + cg\\
