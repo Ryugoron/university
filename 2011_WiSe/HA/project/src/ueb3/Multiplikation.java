@@ -1,8 +1,11 @@
 package ueb3;
 
+
 public class Multiplikation {
 	private static long[] tenPow;
 	private static int maxPows = 1000;
+	
+	protected static long[] as, bs;
 	
 	private static int counter;
 	
@@ -10,12 +13,16 @@ public class Multiplikation {
 		return counter;
 	}
 	
-	static{
+	static {
 		tenPow = new long[maxPows];
 		tenPow[0] = 1l;
 		for(int i = 1; i< maxPows; i++){
 			tenPow[i] = 10l * tenPow[i-1];
 		}
+		
+		// Creates some test objects:
+		as = new long[] {5l, 10l, 201l, 4012l, 6924l, 948104l, 9285032l, 92840271l, 847206432l, 9472819482l, 392019284732l, 92049382940392123l, 958890297263612857l};
+		bs = new long[] {9l, 64l, 503l, 983l, 9493l, 93251l, 192841l, 92817532l, 91827472718l, 918287432812l, 9293847827232l, 298473291239432812l, 949276849237501839l};
 	}
 
 	public static long schulMethode(long a, long b){
@@ -31,7 +38,7 @@ public class Multiplikation {
 		int length_faktor1 = (int)Math.floor(Math.log10(faktor1)+1);
 		int length_faktor2 =(int)Math.floor(Math.log10(faktor2)+1);
 		
-		long prod = 0;
+		long prod = 0l;
 		
 		// übertrag bei multiplikation
 		long carry = 0;
@@ -104,7 +111,9 @@ public class Multiplikation {
 //		}
 		
 		if(maxLength <= 1){
-			return schulMethodeStat(a,b);
+			counter += 2;
+			return a*b;
+			//return schulMethodeStat(a,b);
 		}
 		
 		//Pro Schritt haben wir 6
@@ -128,14 +137,21 @@ public class Multiplikation {
 //		return a*b; // :)
 	}
 	
-	private static long karatsubaStatTwo(long a, long b){
-		return a*b;
-	}
 	
 	public static void main(String[] args) {
-		System.out.println(Multiplikation.schulMethode(1234151L,685475801L));
-		System.out.println("Schul: "+getCount());
-		System.out.println(Multiplikation.karatsuba(1234151L,685475801L));
-		System.out.println("Karatsuba: "+getCount());
+		//
+		synchronized (Multiplikation.class) {			
+			long a=0L;
+			long b=0L;
+			for(int i = 0; i<12; i++){
+				a = as[i];
+				b = bs[i];
+				long schul = schulMethode(a, b);
+				int time1 = getCount();
+				long kara = karatsuba(a, b);
+				int time2 = getCount();
+				System.out.println("a = "+a+", b = "+b+", schul = "+schul+", Zeit: "+time1+", karatsuba = "+kara+", Zeit: "+time2);
+			}
+		}
 	}
 }

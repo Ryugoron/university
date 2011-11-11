@@ -13,7 +13,7 @@
 \usepackage{xcolor}
 \usepackage{paralist}
 
-\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
+%%\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
 \usepackage{fancyhdr}
 \pagestyle{fancy}
 \fancyhead[C]{Höhere Algorithmik}
@@ -277,7 +277,93 @@ Den letzten Umformungsschritt haben wir auf dem ersten Übungszettel gesehen. Da
 \begin{enumerate}[\bfseries (a)]
 
 \item Implementieren Sie Karatsubas Algorithmus, sowie die Schulmethode zur Multiplikation ganzer Zahlen. Vergleichen Sie die Laufzeit beider Algorithmen experiementell und schätzen Sie ab, ab welcher Eingabe Karatsuba besser ist.
-
+\\ \\
+Bei der Implementierung der Schulmethode gibt es nichts besonderes zu sagen. Karatsubas Algorithmus wurde zur Basis 10 implementiert - dies ist allerdings für die Analyse im EKM nicht tragisch, da sich dann hier die Anzahl der Operationen um eine Konstante von der Implementierung zur Basis 2 unterscheidet. 
+\begin{lstlisting}
+private static long schulMethodeStat(long a, long b) {
+		long faktor1 = a; long faktor2 = b;
+		int length_faktor1 = (int)Math.floor(Math.log10(faktor1)+1);
+		int length_faktor2 =(int)Math.floor(Math.log10(faktor2)+1);
+		
+		long prod = 0; long carry = 0;
+		// Aktuell betrachtete Stellen:
+		long stelle_faktor1;
+		long stelle_faktor2;
+		int zehnerpotenz_zeilenprodukt = 1;
+		
+		// wir multiplizieren erst alle Stellen des ersten
+		// Faktors nacheinander mit allen Stellen
+		// des zweiten Faktors
+		for (int i = 0; i < length_faktor2; ++i) {
+			// Hole aktuelle Stelle des 2. Faktors und multipliziere
+			// nacheinander mit allen Stellen des ersten Faktors
+			stelle_faktor2 = (faktor2%10);
+			faktor1 = a;
+			carry = 0;
+			long zeilenprodukt = 0; 
+			int zehnerpotenz_stellenprodukt = 1;
+			
+			for (int j = 0; j < length_faktor1; ++j) {
+				stelle_faktor1 = (faktor1%10);
+				long tmp = stelle_faktor2 * stelle_faktor1 + carry;
+				
+				zeilenprodukt = zeilenprodukt +
+					(tmp % 10)*zehnerpotenz_stellenprodukt;
+				zehnerpotenz_stellenprodukt = zehnerpotenz_stellenprodukt * 10;
+				carry = tmp / 10;
+				// letzte stelle des faktors abspalten
+				faktor1 = faktor1/10;
+				
+				counter += 3;
+			}
+			// restlichen Uebertrag draufrechnen
+			zeilenprodukt = zeilenprodukt + zehnerpotenz_stellenprodukt*carry;
+			// naechste Stelle
+			faktor2 = faktor2/10;
+			
+			prod = prod + zeilenprodukt * zehnerpotenz_zeilenprodukt;
+			zehnerpotenz_zeilenprodukt = zehnerpotenz_zeilenprodukt * 10;
+			
+			counter += 2;
+		}
+	return prod;
+}
+\end{lstlisting}
+\begin{lstlisting}
+private static long karatsubaStat(long a, long b) {
+	// tenPow ist ein Array von Zehnerpotenzen
+	// wird statisch vor dem Start des Algo
+	// berechnet.
+	long faktor1 = a;
+	long faktor2 = b;
+	int length_faktor1 = (int)Math.floor(Math.log10(faktor1)+1);
+	int length_faktor2 =(int)Math.floor(Math.log10(faktor2)+1);
+	int maxLength = Math.max(length_faktor1, length_faktor2);
+	
+	if(maxLength <= 1){
+		return schulMethodeStat(a,b);
+	}
+	
+	//Pro Schritt haben wir 6
+	//2 Um es in Karatsuba einzusetzen
+	//4 Beim zusammensetzen der Zahlen nach der Rekursion
+	counter += 6;
+		
+	int halfExp = maxLength / 2;
+	// Das Div und mod stellt das Aufteilen der Zahlen dar
+	long faktor1_L = faktor1 % tenPow[halfExp];
+	long faktor1_H = faktor1 / tenPow[halfExp];
+	long faktor2_L = faktor2 % tenPow[halfExp];
+	long faktor2_H = faktor2 / tenPow[halfExp];
+	// Wie in der VL
+	long p1 = karatsubaStat(faktor1_H ,faktor2_H);
+	long p2 = karatsubaStat(faktor1_L, faktor2_L);
+	long p3 = karatsubaStat((faktor1_H + faktor1_L), (faktor2_H + faktor2_L));
+	//Die Multiplikation mit den 10er Potenzen stellt unser Shiften dar
+	return p1 * (tenPow[halfExp * 2]) + (p3 - p1 - p2) * (tenPow[halfExp]) + p2;
+\end{lstlisting}
+Bei der Analyse zählen wir Additions- und Multiplikationsoperationen. Das Verschieben um eine Potenz wird dabei nicht als eigentliche Berechnung berücksichtigt.
+\\
 \item Entwicklen Sie eine hybride Implementierung.
 
 \end{enumerate}
