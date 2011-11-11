@@ -46,7 +46,7 @@ In dieser Aufgabe von wir zwei $n \times n$ Matrizen schneller als mit der schul
 
 \item Erklären Sie in einem Satz, wie viele Additionen und Multiplikationen asymptotisch nötig sind, um zwei $n \times n$ Matrizen mit dem Schulalgorithmus zu multiplizieren.\\
 
-Bei der Schulmethode rechnet man einfach Zeilen mal Spalten, was bei $n \cdot n$ Einträgen und pro Eintrag $n$ Multiplikationen und $n-1$ Additionen sind.
+Bei der Schulmethode rechnet man einfach Zeilen mal Spalten, was bei $n \cdot n$ Einträgen pro Eintrag $n$ Multiplikationen und $n-1$ Additionen sind.
 
 $\Rightarrow n^3$ Multiplikationen und $n^3 - n^2$ Additionen.
 
@@ -230,7 +230,7 @@ T(n) &=& 2 T(\frac{n}{2}) + n \log n\\
 \end{array}
 $$
 
-Per geeignetem Test kann man sehen, dass die beiden hinteren Reihen konvergieren. (Die hinterste von beiden kann man gegen $\overset{\infty}{\underset{i=0}{\sum}} \frac{2^{0.5 i}/2^i} = \overset{\infty}{\underset{i=0}{\sum}} \frac{1}{2^{0.5i}}$ abschätzen.)\\
+Per geeignetem Test kann man sehen, dass die beiden hinteren Reihen konvergieren. (Die hinterste von beiden kann man gegen $\overset{\infty}{\underset{i=0}{\sum}} \frac{2^{0.5 i}}{2^i} = \overset{\infty}{\underset{i=0}{\sum}} \frac{1}{2^{0.5i}}$ abschätzen.)\\
 Der Anker liegt bei:\\
 $$
 2 = \frac{n}{2^k} \Leftrightarrow k = \log n - 1
@@ -276,96 +276,142 @@ Den letzten Umformungsschritt haben wir auf dem ersten Übungszettel gesehen. Da
 
 \begin{enumerate}[\bfseries (a)]
 
-\item Implementieren Sie Karatsubas Algorithmus, sowie die Schulmethode zur Multiplikation ganzer Zahlen. Vergleichen Sie die Laufzeit beider Algorithmen experiementell und schätzen Sie ab, ab welcher Eingabe Karatsuba besser ist.
-\\ \\
-Bei der Implementierung der Schulmethode gibt es nichts besonderes zu sagen. Karatsubas Algorithmus wurde zur Basis 10 implementiert - dies ist allerdings für die Analyse im EKM nicht tragisch, da sich dann hier die Anzahl der Operationen um eine Konstante von der Implementierung zur Basis 2 unterscheidet. 
+\item Implementieren Sie Karatsubas Algorithmus, sowie die Schulmethode zur Multiplikation ganzer Zahlen. Vergleichen Sie die Laufzeit beider Algorithmen experiementell und schätzen Sie ab, ab welcher Eingabe Karatsuba besser ist.\\
+
+Die Schulmethode haben wir wie folgt implementiert:
+
 \begin{lstlisting}
-private static long schulMethodeStat(long a, long b) {
-		long faktor1 = a; long faktor2 = b;
-		int length_faktor1 = (int)Math.floor(Math.log10(faktor1)+1);
-		int length_faktor2 =(int)Math.floor(Math.log10(faktor2)+1);
-		
-		long prod = 0; long carry = 0;
-		// Aktuell betrachtete Stellen:
-		long stelle_faktor1;
-		long stelle_faktor2;
-		int zehnerpotenz_zeilenprodukt = 1;
-		
-		// wir multiplizieren erst alle Stellen des ersten
-		// Faktors nacheinander mit allen Stellen
-		// des zweiten Faktors
-		for (int i = 0; i < length_faktor2; ++i) {
-			// Hole aktuelle Stelle des 2. Faktors und multipliziere
-			// nacheinander mit allen Stellen des ersten Faktors
-			stelle_faktor2 = (faktor2%10);
-			faktor1 = a;
-			carry = 0;
-			long zeilenprodukt = 0; 
-			int zehnerpotenz_stellenprodukt = 1;
-			
-			for (int j = 0; j < length_faktor1; ++j) {
-				stelle_faktor1 = (faktor1%10);
-				long tmp = stelle_faktor2 * stelle_faktor1 + carry;
-				
-				zeilenprodukt = zeilenprodukt +
-					(tmp % 10)*zehnerpotenz_stellenprodukt;
-				zehnerpotenz_stellenprodukt = zehnerpotenz_stellenprodukt * 10;
-				carry = tmp / 10;
-				// letzte stelle des faktors abspalten
-				faktor1 = faktor1/10;
-				
-				counter += 3;
-			}
-			// restlichen Uebertrag draufrechnen
-			zeilenprodukt = zeilenprodukt + zehnerpotenz_stellenprodukt*carry;
-			// naechste Stelle
-			faktor2 = faktor2/10;
-			
-			prod = prod + zeilenprodukt * zehnerpotenz_zeilenprodukt;
-			zehnerpotenz_zeilenprodukt = zehnerpotenz_zeilenprodukt * 10;
-			
-			counter += 2;
+private static BigInteger schulMultiplikationStat(BigInteger a, BigInteger b){
+	BigInteger erg = new BigInteger("0");
+	for(int i = 0; i< a.bitLength(); i++){
+		//Wir iterieren einmal ueber die erste Zahl
+		if(a.testBit(i)){
+			//Und wenn das Bit gesetzt ist, addieren wir die n Stellen auf die Zahl drauf
+			erg = erg.add(b.shiftLeft(i));
+			counter += b.bitLength(); // Wir muessen die Stellen von b oft addieren
 		}
-	return prod;
+	}
+	return erg;
 }
 \end{lstlisting}
+
+Wir iterieren einmal über die erste Zahl rüber. Wenn wir an der i-ten Stelle eine 1 haben, so addieren wir die Zahl auf unser Ergebnis. Dafür benötigen wir so viele Additionen, wie die zweite Zahl Bits hat. Wir haben uns an dieser Stelle das händische Addieren der einzelnen Bits gesparrt, aber mit in die Laufzeit eingerechnet. Über diese an sich zweifache Schleife kommen wir wieder auf eine quadratische Laufzeit.\\
+
+Der Karatsumaalgorithmus sieht wie folgt aus:
+
 \begin{lstlisting}
-private static long karatsubaStat(long a, long b) {
-	// tenPow ist ein Array von Zehnerpotenzen
-	// wird statisch vor dem Start des Algo
-	// berechnet.
-	long faktor1 = a;
-	long faktor2 = b;
-	int length_faktor1 = (int)Math.floor(Math.log10(faktor1)+1);
-	int length_faktor2 =(int)Math.floor(Math.log10(faktor2)+1);
-	int maxLength = Math.max(length_faktor1, length_faktor2);
-	
-	if(maxLength <= 1){
-		return schulMethodeStat(a,b);
+private static BigInteger karatsubaStat(BigInteger a, BigInteger b){
+	int n = Math.max(a.bitLength(), b.bitLength());
+	if(n <= 2){
+		counter += 4;
+		return a.multiply(b);
 	}
+	int half = n / 2;
+
+	BigInteger a_H = a.shiftRight(half);	
+	BigInteger a_L = a.subtract(a_H.shiftLeft(half)); 
+	BigInteger b_H = b.shiftRight(half);
+	BigInteger b_L = b.subtract(b_H.shiftLeft(half));
 	
-	//Pro Schritt haben wir 6
-	//2 Um es in Karatsuba einzusetzen
-	//4 Beim zusammensetzen der Zahlen nach der Rekursion
-	counter += 6;
-		
-	int halfExp = maxLength / 2;
-	// Das Div und mod stellt das Aufteilen der Zahlen dar
-	long faktor1_L = faktor1 % tenPow[halfExp];
-	long faktor1_H = faktor1 / tenPow[halfExp];
-	long faktor2_L = faktor2 % tenPow[halfExp];
-	long faktor2_H = faktor2 / tenPow[halfExp];
-	// Wie in der VL
-	long p1 = karatsubaStat(faktor1_H ,faktor2_H);
-	long p2 = karatsubaStat(faktor1_L, faktor2_L);
-	long p3 = karatsubaStat((faktor1_H + faktor1_L), (faktor2_H + faktor2_L));
-	//Die Multiplikation mit den 10er Potenzen stellt unser Shiften dar
-	return p1 * (tenPow[halfExp * 2]) + (p3 - p1 - p2) * (tenPow[halfExp]) + p2;
+	/*
+	 * Formel aus der Vorlesung, mit 3 Rekursionsschritten
+	 */
+	BigInteger high = karatsubaStat(a_H, b_H);
+	BigInteger middle = karatsubaStat(a_H.add(a_L), b_H.add(b_L));
+	BigInteger low = karatsubaStat(a_L, b_L);
+	counter +=2; //Fuer die beiden Additionen in middle
+	
+	BigInteger highShifted = high.shiftLeft(2*half);
+	BigInteger middleShifted = middle.subtract(high.add(low)).shiftLeft(half);
+	
+	// 2 Additionen in middleShifted und 2 im Ergebnis
+	counter += 4;
+	return highShifted.add(middleShifted).add(low);
+}
 \end{lstlisting}
-Bei der Analyse zählen wir Additions- und Multiplikationsoperationen. Das Verschieben um eine Potenz wird dabei nicht als eigentliche Berechnung berücksichtigt.
-\\
+Der Counter den wir mitführen zählt die Anzahl der Additionen. Er wird bei jedem Aufruf reseted und kann mit getCount() den letzten Wert ausgeben.\\
+Wir nehmen hier einen sehr niedrigen Anker, von 2 Bits. Bei diesen 2 Bits wissen wir, das maximal 2 weitere Additionen ausgeführt werden, die wir auch mitzählen.\\
+Wenn wir die Zahlen in unsere Nibble aufteilen, erhalten wir die obere Hälfte, indem wir die untere Hälfte einfach aus dem Bereich shiften. Da von oben 0en reingeshifted werden, steht am Ende nur noch der obere Teil da.\\
+Den unteren Teil können wir gewinnen, indem wir den oberen Teil wieder zurück shiften und von der ursprünglichen Zahl subtrahieren. Danach steht folglich nur noch der untere Teil da.\\
+
+Eine einfache Testmethode, die pro Durchgang größere Zahlen addiert, sollte uns liefern, ab welcher Länge Karatsuma besser als die Schulmethode ist:
+
+\begin{lstlisting}
+...
+
+189-Stellen - Schulmethode brauchte: 19467, Karatsuba brauchte: 18946, Hybrid brauchte: 5275
+192-Stellen - Schulmethode : 18432, Karatsuba : 19478
+195-Stellen - Schulmethode : 18330, Karatsuba : 19940
+199-Stellen - Schulmethode : 20497, Karatsuba : 21046
+202-Stellen - Schulmethode : 20604, Karatsuba : 20654
+205-Stellen - Schulmethode : 20295, Karatsuba : 21718
+209-Stellen - Schulmethode : 21945, Karatsuba : 21746
+212-Stellen - Schulmethode : 23532, Karatsuba : 22838
+215-Stellen - Schulmethode : 23865, Karatsuba : 23538
+219-Stellen - Schulmethode : 25623, Karatsuba : 23650
+222-Stellen - Schulmethode : 24864, Karatsuba : 24392
+225-Stellen - Schulmethode : 27000, Karatsuba : 24392
+229-Stellen - Schulmethode : 23358, Karatsuba : 24854
+232-Stellen - Schulmethode : 28072, Karatsuba : 25582
+235-Stellen - Schulmethode : 30315, Karatsuba : 26786
+239-Stellen - Schulmethode : 27246, Karatsuba : 27038
+242-Stellen - Schulmethode : 27346, Karatsuba : 27192
+245-Stellen - Schulmethode : 29645, Karatsuba : 27962
+249-Stellen - Schulmethode : 30876, Karatsuba : 29824
+252-Stellen - Schulmethode : 31248, Karatsuba : 30258
+255-Stellen - Schulmethode : 32640, Karatsuba : 31140
+258-Stellen - Schulmethode : 34056, Karatsuba : 33128
+262-Stellen - Schulmethode : 30654, Karatsuba : 32652
+265-Stellen - Schulmethode : 35775, Karatsuba : 32764
+...
+\end{lstlisting}
+
+Wir haben hier den Abschnitt gewählt, indem die Grenze lag. Wie man sieht wird Karatsuma bei uns um die 230 Bits herum langsam schneller als die Schulmethode. Aus Platzgründen haben wir hier die Hybride Laufzeit nicht mit beschrieben, in den Testläufen kann man sich aber überzeugen, das die Hybride Implementierung etwa 3-4 mal so schnell ist.
+
+\pagebreak
+
 \item Entwicklen Sie eine hybride Implementierung.
 
+Die Hybride Methode ist nach unserer Implementierung nicht mehr schwer zu bestimmen. Wenn wir unseren Anker erreicht haben, wechseln wir einfach zur Schulmethode. Dazu sind wir über eine static Variable geganen um den Anker von aussen umsetzen zu können.
+
+\begin{lstlisting}
+if(n <= hybridSwitch){
+	return schulMultiplikationStat(a, b);
+}	
+\end{lstlisting}
+
+Nun sind wir über eine Zahl iteriert und haben in jedem Schritt einen anderen \emph{hybridSwitch} gewählt:
+
+\begin{lstlisting}
+1-Umschaltpunkt - Hybrid brauchte: 93429
+2-Umschaltpunkt - Hybrid brauchte: 39588
+3-Umschaltpunkt - Hybrid brauchte: 25712
+4-Umschaltpunkt - Hybrid brauchte: 21148
+5-Umschaltpunkt - Hybrid brauchte: 19549
+6-Umschaltpunkt - Hybrid brauchte: 18877
+7-Umschaltpunkt - Hybrid brauchte: 18050
+8-Umschaltpunkt - Hybrid brauchte: 17935
+9-Umschaltpunkt - Hybrid brauchte: 17941
+10-Umschaltpunkt - Hybrid brauchte: 17978
+11-Umschaltpunkt - Hybrid brauchte: 17995
+12-Umschaltpunkt - Hybrid brauchte: 18321
+13-Umschaltpunkt - Hybrid brauchte: 19700
+14-Umschaltpunkt - Hybrid brauchte: 20692
+15-Umschaltpunkt - Hybrid brauchte: 20734
+\end{lstlisting}
+
+An diesem Beispiel sehen wir, dass wir bei ungefähr 9 die beste Laufzeit erreichen. Im Testlauf zu a) kann man sich davon überzeugen, das es wirklich schneller läuft.Die Umschaltpunkte beschreiben jeweils die Anzahl der Maximalen Bits der beiden Zahlen.\\
+
+Zur Benutzung des Programms:\\
+Es kann mit 
+\begin{lstlisting}
+java MultiplikationBin -a
+java MultiplikationBin -b
+java MultiplikationBin
+\end{lstlisting}
+aufgerufen werden. Gibt man keinen Parameter an, so wird Aufgabenteil a) ausgeführt. Wählt man eine der Ergenzungen so wird man in den entsprechenden Teil ausgeführt.\\
+
+Das Programm wurde mit java6 geschrieben und kann einfach Toplevel kompiliert werden.
 \end{enumerate}
 
 \label{LastPage}
