@@ -20,7 +20,7 @@
 \fancyhead[R]{WS 2011/12}
 \fancyfoot{}
 \fancyfoot[L]{}
-\fancyfoot[C]{\thepage / \pageref{LastPage}}
+\fancyfoot[C]{\thepage\, von \pageref{LastPage}}
 \renewcommand{\footrulewidth}{0.5pt}
 \renewcommand{\headrulewidth}{0.5pt}
 \setlength{\parindent}{0pt} 
@@ -142,7 +142,9 @@ $ \Rightarrow N = \{-1\} \Rightarrow (\R \setminus \{-1\}, \star)$ ist Gruppe.
 \\ \\
 %% -------------------------------------------
 %% Lösung
-(1) $\forall g \in G: g^2 = e \Rightarrow G$ abelsch. \\ \\
+(1) $\forall g \in G: g^2 = e \Rightarrow G$ abelsch. \\
+
+
 \textbf{Beweis}: \\
 Sei $a,b \in G$. Dann gilt:
 $$ a \cdot b = e \cdot a \cdot b = b^2 \cdot a \cdot b $$
@@ -151,8 +153,9 @@ $$ = b \cdot (b \cdot a) \cdot  (b \cdot a) \cdot a = b \cdot (b \cdot a)^2 \cdo
 $$ = b \cdot e \cdot a = b \cdot a$$
 \mbox{} \hfill $\square$
 \\
-(2) Je eine Gruppe $G$ wie oben mit $2^k$ Elementen. \\ \\
-Blablaba kein Bock
+(2) Je eine Gruppe $G$ wie oben mit $2^k$ Elementen. \\
+
+Für jedes $k$ ist $\mathbb{Z}_2^k$ eine Gruppe, für die das obere gilt und die $2^k$ Elemente hat. Das es sich um eine Gruppe handelt, wurde in der VL gezeigt. Die Gruppe ist abelsch, da jede Komponente verknüpft mit sich selbst das neutrale Elemente ist (siehe $\mathbb{Z}_2$.
 %% -------------------------------------------
 %%  Aufgabe 3b
 %% -------------------------------------------
@@ -185,6 +188,46 @@ Es sei $G$ eine endliche Gruppe und $\mathfrak{M} := \{ M \subset G \, | \, M \t
 %% -------------------------------------------
 %% Lösung
 Seien $A,B \in \mathfrak{M}$ zyklische Teilmengen von $G$.
+Seien $a,b\in \mathfrak{M}$ Elemente, so dass
+$$
+\left< a \right> = A \quad \text{and} \quad \left< b \right> = B.
+$$
+Nun gilt: (*) $A \cap B \not= \emptyset$.
+\begin{description}
+
+\item{\bfseries Beweis:} Da für eine zyklische Teilmenge $\left< q \right>$ gilt: $q^n = q$. Damit ist $q^{n-1}$ da neutrale Element, da $e \cdot q = q$. Das neutrale Element ist also in jeder \emph{zyklischen Teilmenge} enthalten.
+
+\end{description}
+
+Da wir ein Element im Schnitt haben, können wir dieses über $a$ und $b$ bilden.\\
+Sei $k = {\min \{k | k\geq 0 \; \land \; a^k \in B\}}$
+Sei nun $x = a^k$ Element dieses Schnittes. Nun zeigen wir:
+
+\begin{description}
+
+\item{\bfseries Lemma 1:} $x$ (wie oben konstruiert) ist erzeugendes Element für den Schnitt, d.h. \\
+$\left< x \right> = A \cap B$
+
+\item{\bfseries Beweis:}
+Da $x \in A\cap B \Rightarrow \exists \, l \geq 0 \; : \; b^l =x$. Wir zeigen nun, dass
+$\left< x \right> = A \cap B$\\
+$\subseteq$ : \\
+Sei $m\geq 0$.\\
+$x^m = \left( a^{k} \right)^m = a^{m \cdot k}\stackrel{m \cdot k \leq 0}{\Rightarrow} x^m \in A$\\
+$x^m = \left(b^l \right)^m = b^{m \cdot l}\stackrel{m \cdot l \geq 0}{\Rightarrow} x^m \in B$\\
+$\Rightarrow \forall m \geq 0 \; : \; x^m \in A \cap B$\\
+
+$\supseteq$:\\
+Angenommen es existiert ein $y \in A \cap B$, so dass $\forall t \geq 0 \; : \; x^t \not= y$.\\
+Seien nun $a_y , b_y \geq 0$, so dass $a^{a_y} = y$ und $b^{b_y} = y$.
+Nun müssten wir zeigen, dass es keine Zerlegung gibt, so dass gilt: $t\cdot k = a_y \; \land \; t \cdot l = b_y$.
+
+\end{description}
+
+Aus \emph{Lemma 1} folgt direkt, dass der Schnitt $A \cap B$ eine \emph{zyklische Teilmenge} von $G$ ist.
+
+\pagebreak
+
 %% -------------------------------------------
 %%  Aufgabe 4b
 %% -------------------------------------------
@@ -192,7 +235,7 @@ Seien $A,B \in \mathfrak{M}$ zyklische Teilmengen von $G$.
 \item Zeichnen Sie die Zykelgraphen von $\Z_n, n\in \N$, der Gruppen aus Aufgabe 3 a) und der Diedergruppe $D_6$. \\
 %% -------------------------------------------
 %% Lösung
-\vspace{20cm}
+\pagebreak
 %% handgemalt
 %% -------------------------------------------
 %%  Aufgabe 4c
