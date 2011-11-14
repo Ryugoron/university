@@ -142,7 +142,7 @@ $ \Rightarrow N = \{-1\} \Rightarrow (\R \setminus \{-1\}, \star)$ ist Gruppe.
 \\ \\
 %% -------------------------------------------
 %% Lösung
-(1) $\forall g \in G: g^2 = e \Rightarrow G$ abelsch. \\
+(1) $\forall g \in G: g^2 = e \Rightarrow G$ abelsch. \\ \\
 \textbf{Beweis}: \\
 Sei $a,b \in G$. Dann gilt:
 $$ a \cdot b = e \cdot a \cdot b = b^2 \cdot a \cdot b $$
@@ -151,8 +151,8 @@ $$ = b \cdot (b \cdot a) \cdot  (b \cdot a) \cdot a = b \cdot (b \cdot a)^2 \cdo
 $$ = b \cdot e \cdot a = b \cdot a$$
 \mbox{} \hfill $\square$
 \\
-(2) Je eine Gruppe $G$ wie oben mit $2^k$ Elementen. \\
-...
+(2) Je eine Gruppe $G$ wie oben mit $2^k$ Elementen. \\ \\
+Blablaba kein Bock
 %% -------------------------------------------
 %%  Aufgabe 3b
 %% -------------------------------------------
@@ -162,7 +162,12 @@ $$ \prod_{g\in G}g^2 = e.$$
 %% -------------------------------------------
 %% Lösung
 \textbf{Beweis}: \\
-...
+Sei $\kappa:\,G \to G, g \mapsto g^{-1}$ eine Funktion, wobei $g^{-1} \in G$ das Inverse zu $g \in G$ beschreibt. Da $G$ Gruppe, besitzt jedes Element ein eindeutiges Inverses $\Rightarrow \kappa$ bijektiv $\Rightarrow \kappa(G) = G$.
+Also gilt: \\
+$$ \prod_{g\in G}g^2 = \prod_{g\in G}g \cdot g \stackrel{\text{G abelsch}}{=} \prod_{g\in G}g \prod_{g\in G}g  $$
+$$ \stackrel{\kappa \text{ bij.}}{=} \prod_{g\in G}g \prod_{g\in G}\kappa(g)
+ \stackrel{\text{Def.}}{=} \prod_{g\in G}g \prod_{g\in G} g^{-1} $$
+$$ \prod_{g\in G}g \cdot g^{-1} =  \prod_{g\in G}e = e $$
 \mbox{} \hfill $\square$
 \end{enumerate}
 
@@ -170,32 +175,39 @@ $$ \prod_{g\in G}g^2 = e.$$
 %%                 AUFGABE 4
 %% -------------------------------------------
 \section*{Aufgabe 4}
+Es sei $G$ eine endliche Gruppe und $\mathfrak{M} := \{ M \subset G \, | \, M \text{ zyklisch} \}$ die Menge aller zyklischen Teilmengen von $G$.
 \begin{enumerate}[\bfseries a)]
 %% -------------------------------------------
 %%  Aufgabe 4a
 %% -------------------------------------------
 %% Aufgabenstellung
-\item
+\item Zeigen Sie, dass der Durchschnitt zweier zyklischen Teilmengen von G zyklisch ist. \\ \\
 %% -------------------------------------------
 %% Lösung
-
+Seien $A,B \in \mathfrak{M}$ zyklische Teilmengen von $G$.
 %% -------------------------------------------
 %%  Aufgabe 4b
 %% -------------------------------------------
 %% Aufgabenstellung
-\item
+\item Zeichnen Sie die Zykelgraphen von $\Z_n, n\in \N$, der Gruppen aus Aufgabe 3 a) und der Diedergruppe $D_6$. \\
 %% -------------------------------------------
 %% Lösung
-
-
+\vspace{20cm}
+%% handgemalt
 %% -------------------------------------------
 %%  Aufgabe 4c
 %% -------------------------------------------
 %% Aufgabenstellung
-\item
+\item Geben Sie eine Gruppe mit dem Zykelgraphen vom Aufgabenblatt an. \\
 %% -------------------------------------------
 %% Lösung
-
+Die Gruppe $\Z_3 \times \Z_3$ besitzt genau den Zykelgraphen vom Aufgabenblatt. \\
+Dabei ist die Zuordnung der Gruppenelemente z.B.:\\
+$$ e = (0,0) $$
+$$ g_1 = (1,1), g_2 = (2,2) $$
+$$ g_3 = (1,0), g_4 = (2,0) $$
+$$ g_5 = (0,1), g_6 = (0,2) $$
+$$ g_6 = (1,2), g_7 = (2,1) $$ %% stimmt nicht, glaub ich!
 \end{enumerate}
 
 %% -------------------------------------------
