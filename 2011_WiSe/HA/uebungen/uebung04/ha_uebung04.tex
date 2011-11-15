@@ -164,7 +164,7 @@ Damit haben wir gezeigt, das wir ein \emph{lokales Minimum} in $O(n)$ finden kö
 %% ------------------------------
 \section*{Aufgabe 3}
 
-Für eine gegebene Folge $M_1 , M_2, ... , M_n$ von $n$ Matrizen ist das \emph{Matrizenkettenprodukt} $M_1 \cdot M_2 \cdot \cdots \cdot M_n$ zu berechnen. Die Matrizen haben dabei verschiedene Dimensionen. $M_1$ ist eine $\left( p_{M_1} \right)_1 \times \left( p_{M_1} \right)_2$ Matrix, $M_2$ ist eine $\left( p_{M_2} \right)_1 \times \left( p_{M_2} \right)_2$ usw.\\
+Für eine gegebene Folge $M_1 , M_2, ... , M_n$ von $n$ Matrizen ist das \emph{Matrizenkettenprodukt} $M_1 \cdot M_2 \cdot \cdots \cdot M_n$ zu berechnen. Die Matrizen haben dabei verschiedene Dimensionen. $M_1$ ist eine $p_1 \times p_2$ Matrix, $M_2$ ist eine $p_2 \times p_3$ Matrix usw.\\
 
 Um eine $a\times b$ Matrix mit einer $b \times c$ Matrix zu multiplizieren, benötigen wir bekanntlich $acb$ Multiplikationen und $ac\left( b - 1 \right)$ Additionen, also insgesammt $ac \left( 2b - 1\right)$ Additionen, also insgesamt $ac\left( 2b - 1\right)$ elementare Operationen.
 
@@ -175,7 +175,15 @@ Um eine $a\times b$ Matrix mit einer $b \times c$ Matrix zu multiplizieren, ben�
 %%       a)
 %% ------------------------------
 \item Bezeichne mit $P[i,j]$ die Kosten für eine optimale Klammerung des Matrizenkettenprodukts $M_i \cdot \cdots \cdot M_j \; ( 1 \leq i \leq j \leq n)$. Unser Ziel ist, $P[1,n]$ zu berechnen. Finden Sie eine geeignete Rekursionsgleichung für $P[i,j]$.\\
-Lösung
+
+\textbf{Lösung:}
+$$
+\begin{array}{lcrcl}
+\forall 1 \leq i = j \leq n &\; : \;& P[i,j] &=& 0\\
+\forall 1 \leq i \leq n & : & P[i, i + 1] & = & p_i \cdot p_{i+2} \cdot (2 \cdot p_{i+1} - 1) \\
+&& P[i,j] &=& \underset{a \in (i,j)}{\min} P[i,a] + P[a+1,j] + p_i \cdot p_{j+1} \cdot (2 \cdot p_{a+1} - 1)
+\end{array}
+$$
 
 \item Benutzen Sie Ihre Rekursion, um Pseudecode für einen Algorithmus anzugeben, welcher die optimalen Kosten $P[1,n]$ bestimmt. Analysieren Sie Laufziet und Platzbedarf.
 
