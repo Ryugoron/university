@@ -1,0 +1,193 @@
+%<TpX v="5" PdfTeXFormat="tex" ArrowsSize="0.7" StarsSize="1" DefaultFontHeight="5" DefaultSymbolSize="30" ApproximationPrecision="0.01" PicScale="1" Border="2" BitmapRes="20000" HatchingStep="2" DottedSize="0.5" DashSize="1" LineWidth="0.3">
+%  <text x="4.53151" y="106.61" t="0,0" tex="n00" h="5"/>
+%  <line x1="13.9125" y1="108.041" x2="32.9925" y2="108.041" lw="2.00"/>
+%  <text x="35.5366" y="106.769" t="0,1" tex="n01" h="5"/>
+%  <line x1="44.9176" y1="108.2" x2="63.9976" y2="108.2" lw="2.00"/>
+%  <line x1="7.87051" y1="105.179" x2="7.87051" y2="93.4126"/>
+%  <text x="4.21351" y="88.1656" t="1,0" tex="n10" h="5"/>
+%  <line x1="14.5485" y1="89.5966" x2="33.6285" y2="89.5966"/>
+%  <text x="36.1726" y="88.3246" t="1,1" tex="n11" h="5"/>
+%  <line x1="45.5536" y1="89.7556" x2="64.6336" y2="89.7556"/>
+%  <line x1="39.3526" y1="104.861" x2="39.3526" y2="93.0946"/>
+%  <text x="70.1986" y="106.61" t="..." h="5"/>
+%  <text x="69.2446" y="88.0066" t="..." h="5"/>
+%  <text x="96.4336" y="106.769" t="0,n-1" tex="n00" h="5"/>
+%  <line x1="108.995" y1="108.2" x2="128.075" y2="108.2" lw="2.00"/>
+%  <line x1="99.7726" y1="105.338" x2="99.7726" y2="93.5716"/>
+%  <text x="96.1156" y="88.3246" t="1,n-1" tex="n10" h="5"/>
+%  <line x1="109.631" y1="89.7556" x2="128.711" y2="89.7556"/>
+%  <text x="131.096" y="106.451" t="0,n" tex="n00" h="5"/>
+%  <line x1="134.435" y1="105.02" x2="134.435" y2="93.2536" lw="2.00"/>
+%  <text x="130.778" y="88.0066" t="1,n" tex="n10" h="5"/>
+%  <line x1="7.87051" y1="85.7806" x2="7.87051" y2="74.0146"/>
+%  <text x="4.21351" y="68.7676" t="2,0" tex="n10" h="5"/>
+%  <line x1="14.5485" y1="70.1986" x2="33.6285" y2="70.1986" lw="2.00"/>
+%  <text x="36.1726" y="68.9266" t="2,1" tex="n11" h="5"/>
+%  <line x1="45.5536" y1="70.3576" x2="64.6336" y2="70.3576" lw="2.00"/>
+%  <line x1="39.3526" y1="85.4626" x2="39.3526" y2="73.6966"/>
+%  <text x="69.2446" y="68.6086" t="..." h="5"/>
+%  <line x1="99.7726" y1="85.9396" x2="99.7726" y2="74.1736"/>
+%  <text x="96.1156" y="68.9266" t="2,n-1" tex="n10" h="5"/>
+%  <line x1="109.631" y1="70.3576" x2="128.711" y2="70.3576" lw="2.00"/>
+%  <line x1="134.435" y1="85.6216" x2="134.435" y2="73.8556" lw="2.00"/>
+%  <text x="130.778" y="68.6086" t="2,n" tex="n10" h="5"/>
+%  <line x1="75.4456" y1="108.041" x2="94.5256" y2="108.041" lw="2.00"/>
+%  <line x1="76.0816" y1="89.5966" x2="95.1616" y2="89.5966"/>
+%  <line x1="76.0816" y1="70.1986" x2="95.1616" y2="70.1986" lw="2.00"/>
+%  <line x1="7.55251" y1="47.7796" x2="7.55251" y2="36.0135" lw="2.00"/>
+%  <text x="3.8955" y="30.7665" t="1,0" tex="n10" h="5"/>
+%  <line x1="14.2305" y1="32.1975" x2="33.3105" y2="32.1975"/>
+%  <text x="35.8546" y="30.9255" t="1,1" tex="n11" h="5"/>
+%  <line x1="45.2356" y1="32.3566" x2="64.3156" y2="32.3566"/>
+%  <line x1="39.0346" y1="47.4616" x2="39.0346" y2="35.6955"/>
+%  <text x="68.9266" y="30.6075" t="..." h="5"/>
+%  <line x1="99.4546" y1="47.9386" x2="99.4546" y2="36.1726"/>
+%  <text x="95.7976" y="30.9255" t="1,n-1" tex="n10" h="5"/>
+%  <line x1="109.313" y1="32.3566" x2="128.393" y2="32.3566"/>
+%  <line x1="134.117" y1="47.6206" x2="134.117" y2="35.8546"/>
+%  <text x="130.46" y="30.6075" t="1,n" tex="n10" h="5"/>
+%  <line x1="7.55251" y1="28.3815" x2="7.55251" y2="16.6155" lw="2.00"/>
+%  <text x="3.8955" y="11.3685" t="2,0" tex="n10" h="5"/>
+%  <line x1="14.2305" y1="12.7995" x2="33.3105" y2="12.7995" lw="2.00"/>
+%  <text x="35.8546" y="11.5275" t="2,1" tex="n11" h="5"/>
+%  <line x1="45.2356" y1="12.9585" x2="64.3156" y2="12.9585" lw="2.00"/>
+%  <line x1="39.0346" y1="28.0635" x2="39.0346" y2="16.2975"/>
+%  <text x="68.9266" y="11.2095" t="..." h="5"/>
+%  <line x1="99.4546" y1="28.5405" x2="99.4546" y2="16.7745"/>
+%  <text x="95.7976" y="11.5275" t="2,n-1" tex="n10" h="5"/>
+%  <line x1="109.313" y1="12.9585" x2="128.393" y2="12.9585" lw="2.00"/>
+%  <line x1="134.117" y1="28.2225" x2="134.117" y2="16.4565"/>
+%  <text x="130.46" y="11.2095" t="2,n" tex="n10" h="5"/>
+%  <line x1="75.7636" y1="32.1975" x2="94.8436" y2="32.1975"/>
+%  <line x1="75.7636" y1="12.7995" x2="94.8436" y2="12.7995" lw="2.00"/>
+%  <text x="5.3265" y="50.1646" t="..." h="5"/>
+%  <text x="37.1265" y="49.2106" t="..." h="5"/>
+%  <text x="98.3416" y="50.0056" t="..." h="5"/>
+%  <text x="132.05" y="49.6876" t="..." h="5"/>
+%  <line x1="7.87051" y1="65.2696" x2="7.87051" y2="53.5036"/>
+%  <line x1="39.3526" y1="64.9516" x2="39.3526" y2="53.1856"/>
+%  <line x1="99.7726" y1="65.4286" x2="99.7726" y2="53.6626"/>
+%  <line x1="134.435" y1="65.1106" x2="134.435" y2="53.3446"/>
+%  <line x1="13.9125" y1="50.1646" x2="32.9925" y2="50.1646" lw="2.00"/>
+%  <line x1="45.8716" y1="50.0056" x2="64.9516" y2="50.0056" lw="2.00"/>
+%  <line x1="76.5586" y1="49.8466" x2="95.6386" y2="49.8466" lw="2.00"/>
+%  <line x1="109.79" y1="50.0056" x2="128.87" y2="50.0056" lw="2.00"/>
+%  <text x="68.9266" y="48.2566" t="..." h="5"/>
+%</TpX>
+\begin{figure}
+\centering
+\ifpdf
+\setlength{\unitlength}{1.00 mm}%
+\begin{picture}(137.45,104.56)(1.90,8.13)
+\put(4.53,106.61){\fontsize{14.23}{17.07}\selectfont n00}
+\thicklines\lbezier(13.91,108.04)(32.99,108.04)
+\put(35.54,106.77){\fontsize{14.23}{17.07}\selectfont n01}
+\thicklines\lbezier(44.92,108.20)(64.00,108.20)
+\thinlines\lbezier(7.87,105.18)(7.87,93.41)
+\put(4.21,88.17){\fontsize{14.23}{17.07}\selectfont n10}
+\thinlines\lbezier(14.55,89.60)(33.63,89.60)
+\put(36.17,88.32){\fontsize{14.23}{17.07}\selectfont n11}
+\thinlines\lbezier(45.55,89.76)(64.63,89.76)
+\thinlines\lbezier(39.35,104.86)(39.35,93.09)
+\put(70.20,106.61){\fontsize{14.23}{17.07}\selectfont ...}
+\put(69.24,88.01){\fontsize{14.23}{17.07}\selectfont ...}
+\put(96.43,106.77){\fontsize{14.23}{17.07}\selectfont n00}
+\thicklines\lbezier(108.99,108.20)(128.07,108.20)
+\thinlines\lbezier(99.77,105.34)(99.77,93.57)
+\put(96.12,88.32){\fontsize{14.23}{17.07}\selectfont n10}
+\thinlines\lbezier(109.63,89.76)(128.71,89.76)
+\put(131.10,106.45){\fontsize{14.23}{17.07}\selectfont n00}
+\thicklines\lbezier(134.43,105.02)(134.43,93.25)
+\put(130.78,88.01){\fontsize{14.23}{17.07}\selectfont n10}
+\thinlines\lbezier(7.87,85.78)(7.87,74.01)
+\put(4.21,68.77){\fontsize{14.23}{17.07}\selectfont n10}
+\thicklines\lbezier(14.55,70.20)(33.63,70.20)
+\put(36.17,68.93){\fontsize{14.23}{17.07}\selectfont n11}
+\thicklines\lbezier(45.55,70.36)(64.63,70.36)
+\thinlines\lbezier(39.35,85.46)(39.35,73.70)
+\put(69.24,68.61){\fontsize{14.23}{17.07}\selectfont ...}
+\thinlines\lbezier(99.77,85.94)(99.77,74.17)
+\put(96.12,68.93){\fontsize{14.23}{17.07}\selectfont n10}
+\thicklines\lbezier(109.63,70.36)(128.71,70.36)
+\thicklines\lbezier(134.43,85.62)(134.43,73.86)
+\put(130.78,68.61){\fontsize{14.23}{17.07}\selectfont n10}
+\thicklines\lbezier(75.45,108.04)(94.53,108.04)
+\thinlines\lbezier(76.08,89.60)(95.16,89.60)
+\thicklines\lbezier(76.08,70.20)(95.16,70.20)
+\thicklines\lbezier(7.55,47.78)(7.55,36.01)
+\put(3.90,30.77){\fontsize{14.23}{17.07}\selectfont n10}
+\thinlines\lbezier(14.23,32.20)(33.31,32.20)
+\put(35.85,30.93){\fontsize{14.23}{17.07}\selectfont n11}
+\thinlines\lbezier(45.24,32.36)(64.32,32.36)
+\thinlines\lbezier(39.03,47.46)(39.03,35.70)
+\put(68.93,30.61){\fontsize{14.23}{17.07}\selectfont ...}
+\thinlines\lbezier(99.45,47.94)(99.45,36.17)
+\put(95.80,30.93){\fontsize{14.23}{17.07}\selectfont n10}
+\thinlines\lbezier(109.31,32.36)(128.39,32.36)
+\thinlines\lbezier(134.12,47.62)(134.12,35.85)
+\put(130.46,30.61){\fontsize{14.23}{17.07}\selectfont n10}
+\thicklines\lbezier(7.55,28.38)(7.55,16.62)
+\put(3.90,11.37){\fontsize{14.23}{17.07}\selectfont n10}
+\thicklines\lbezier(14.23,12.80)(33.31,12.80)
+\put(35.85,11.53){\fontsize{14.23}{17.07}\selectfont n11}
+\thicklines\lbezier(45.24,12.96)(64.32,12.96)
+\thinlines\lbezier(39.03,28.06)(39.03,16.30)
+\put(68.93,11.21){\fontsize{14.23}{17.07}\selectfont ...}
+\thinlines\lbezier(99.45,28.54)(99.45,16.77)
+\put(95.80,11.53){\fontsize{14.23}{17.07}\selectfont n10}
+\thicklines\lbezier(109.31,12.96)(128.39,12.96)
+\thinlines\lbezier(134.12,28.22)(134.12,16.46)
+\put(130.46,11.21){\fontsize{14.23}{17.07}\selectfont n10}
+\thinlines\lbezier(75.76,32.20)(94.84,32.20)
+\thicklines\lbezier(75.76,12.80)(94.84,12.80)
+\put(5.33,50.16){\fontsize{14.23}{17.07}\selectfont ...}
+\put(37.13,49.21){\fontsize{14.23}{17.07}\selectfont ...}
+\put(98.34,50.01){\fontsize{14.23}{17.07}\selectfont ...}
+\put(132.05,49.69){\fontsize{14.23}{17.07}\selectfont ...}
+\thinlines\lbezier(7.87,65.27)(7.87,53.50)
+\thinlines\lbezier(39.35,64.95)(39.35,53.19)
+\thinlines\lbezier(99.77,65.43)(99.77,53.66)
+\thinlines\lbezier(134.43,65.11)(134.43,53.34)
+\thicklines\lbezier(13.91,50.16)(32.99,50.16)
+\thicklines\lbezier(45.87,50.01)(64.95,50.01)
+\thicklines\lbezier(76.56,49.85)(95.64,49.85)
+\thicklines\lbezier(109.79,50.01)(128.87,50.01)
+\put(68.93,48.26){\fontsize{14.23}{17.07}\selectfont ...}
+\end{picture}%
+\else
+  \setlength{\unitlength}{1bp}%
+  \begin{picture}(389.62, 296.39)(0,0)
+  \put(0,0){\includegraphics{a2_worst_case}}
+  \put(7.47,279.16){\fontsize{14.23}{17.07}\selectfont n00}
+  \put(95.36,279.61){\fontsize{14.23}{17.07}\selectfont n01}
+  \put(6.57,226.87){\fontsize{14.23}{17.07}\selectfont n10}
+  \put(97.16,227.32){\fontsize{14.23}{17.07}\selectfont n11}
+  \put(193.62,279.16){\fontsize{14.23}{17.07}\selectfont ...}
+  \put(190.91,226.42){\fontsize{14.23}{17.07}\selectfont ...}
+  \put(267.98,279.61){\fontsize{14.23}{17.07}\selectfont n00}
+  \put(267.08,227.32){\fontsize{14.23}{17.07}\selectfont n10}
+  \put(366.24,278.71){\fontsize{14.23}{17.07}\selectfont n00}
+  \put(365.34,226.42){\fontsize{14.23}{17.07}\selectfont n10}
+  \put(6.57,171.89){\fontsize{14.23}{17.07}\selectfont n10}
+  \put(97.16,172.34){\fontsize{14.23}{17.07}\selectfont n11}
+  \put(190.91,171.44){\fontsize{14.23}{17.07}\selectfont ...}
+  \put(267.08,172.34){\fontsize{14.23}{17.07}\selectfont n10}
+  \put(365.34,171.44){\fontsize{14.23}{17.07}\selectfont n10}
+  \put(5.67,64.17){\fontsize{14.23}{17.07}\selectfont n10}
+  \put(96.26,64.62){\fontsize{14.23}{17.07}\selectfont n11}
+  \put(190.01,63.72){\fontsize{14.23}{17.07}\selectfont ...}
+  \put(266.18,64.62){\fontsize{14.23}{17.07}\selectfont n10}
+  \put(364.43,63.72){\fontsize{14.23}{17.07}\selectfont n10}
+  \put(5.67,9.18){\fontsize{14.23}{17.07}\selectfont n10}
+  \put(96.26,9.63){\fontsize{14.23}{17.07}\selectfont n11}
+  \put(190.01,8.73){\fontsize{14.23}{17.07}\selectfont ...}
+  \put(266.18,9.63){\fontsize{14.23}{17.07}\selectfont n10}
+  \put(364.43,8.73){\fontsize{14.23}{17.07}\selectfont n10}
+  \put(9.73,119.15){\fontsize{14.23}{17.07}\selectfont ...}
+  \put(99.87,116.45){\fontsize{14.23}{17.07}\selectfont ...}
+  \put(273.39,118.70){\fontsize{14.23}{17.07}\selectfont ...}
+  \put(368.94,117.80){\fontsize{14.23}{17.07}\selectfont ...}
+  \put(190.01,113.75){\fontsize{14.23}{17.07}\selectfont ...}
+  \end{picture}%
+\fi
+\end{figure}

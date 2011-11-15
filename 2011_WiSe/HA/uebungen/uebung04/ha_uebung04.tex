@@ -38,26 +38,26 @@
 \maketitle
 \thispagestyle{fancy}
 
+%% ------------------------------
+%%       Aufgabe 1
+%% ------------------------------
 \section*{Aufgabe 1}
 
 Sei $P$ eine Menge von $n$ Punkten in der Ebene, In der Vorlesung haben Sie einen Algorithmus kennengelernt, der ein engstes Paar von $p$ in Zeit $O \left( n \log n \right)$ bestimmt. Dabei haben wir angenommen, dass alle $x$-Kooridnate in $P$ verschieden sind. Zeigen Sie, wie man den Algorithmus anpassen kann, damit wir diese Annahme nicht mehr benötigen. Die Laufzeit soll immer noch $O\left( n \log n \right)$ betragen.\\
 
 \textbf{Lösung:}
 
-Das Problem, wenn wir Punkte mit der selben $x$-Koordinate zulassen, besteht darin, dass wir bei der Aufteilung anhand des Medians der $x$-Kooridnaten nicht mehr 2 gleich große Menge mit der halben Größe der Ursprünlgichen Menge erhalten. Im Extremfall, dass alle $x$ Kooridnaten den selben Wert haben, hätten wir keine Partitionierung erreicht und müssten mit einem $\delta = \infty$ in den Conquer Schritt gehen, was für uns bedeuten würde, dass wir jeden Punkt mit jedem anderen vergleichen müssten.\\
+Das Problem an dieser Stelle ist, dass wir nach dem Algorithmus die Menge $P$ in 2 Teile spalten $R_L = \{ p \in P \; | \; p_x < q_x\} \cup \{q\}$ und $R_R = \{ p \in P \; | \; p_x < q_x\}$, wobei $q$ der Median der $x$-Koordinaten ist. Nun würden wir aber alle Elemente, die die selbe $x$ - Koordinate des Medians haben, nicht mit betrachten. Im schlimmsten Fall würden wir also alle Punkte paarweise betrachten müssen, weil in $R_L$ nur $q$ liegt und $R_R = \emptyset$ gilt, wenn alle Elemente die selbe $x$ - Koordinate haben. Da innerhalb dieser Mengen kein Abstand existiert, muss $\delta = \infty$ gelten. Würden wir nur 10 Elemente paarweise vergleichen, würden wir den geringsten Abstand unter umständen nicht finden.\\
 
-Dies ist aber nicht nötig. Da wir den Split anhand der $x$ - Achse des Medians vornehmen, können wir einfach die eine Hälfte der gleichen Werte in den linken Teil und die andere Hälfte in den rechten Teil tun und auf diesen beiden Mengen weiter rechenen. Wir erhalten ein $\delta$ zurück, mit dem wir die Rechtecke aus dem Beweis bilden können, und vergleichen nun je 10 Elemente paarweise alle Elemente aufsteigend nach $y$ Koordinate durch.\\
+Dieses Problem können wir lösen indem wir uns die Optimierung des Algorithmuses aus der VL betrachten und uns ansehen, was bei gleichen Elementen passiert.\\
+Wir haben die Punkte nach $x$ - Koordinaten vorsortiert. Danach geben wir nur noch Zeiger für ein minimales Element und ein Zeiger für ein maximales Element weiter. Um den $x$ Median zu finden müssen wir nun nur bei $\frac{min + max}{2}$ nachsehen und haben $q$. Nun teilen wir die Punktmenge in 2 gleichgroße Teile, indem wir als Zeiger $(min, \frac{min+max}{2})$ und $(\frac{min+max}{2}+1,max)$ weiter geben. So haben wir nicht nur die kleinere und größeren in 2 Teile gespalten, sondern auch noch die gleichen. Hier geraten wir also nicht in die Verlegenheit einige Punkte nicht zu betrachten. Sonst bleibt der Algorithmus gleich.\\
 
-Den paarweisen Vergleich haben wir schon im orginal Algorithmus gehabt, ändert also nichts an der Laufzeit. Bleibt also nur noch der andere Schnitt zu betachten.\\
-
-Die optimierte Fassung sah vor, ein sortiertes Feld mitzuführen und im Divide Schritt die Grenzen zu verschieben, nähmlich immer auf die Mitte zwischen dem kleinsten und dem größten Index. Sollten wir nun mehrere gleiche Elemente als Median haben, so werden diese an dieser Stelle schon richtig geteilt und es wird korrekt fortgefahren.\\
-
-Daraus ergibt sich, das er in der Vorlesung vorgestellte Algorithmus das Problem für nicht verschiedene $x$-Koordinaten schon gelöst hat. Dieser hatte wie in der Aufgabe gesagt die Laufzeit $O(n \log n)$, an der sich aufgrund mangelnder Veränderungen für den neuen Algorithmus nichts getan hat.\\
-
-Damit haben wir ein Algorithmus für das Problem mit Laufzeit $O (n \log n)$
+Als Laufzeit ergibt sich exakt die selbe, da wir eigentlich nichts gemacht habe. Wir haben die Vorverarbeitungszeit $O(n \log n)$ und pro Schritt benötigen wir wieder $T(n) = 2 T(\frac{n}{2}) + O(n)$. Da wir beim Teilen nicht mehr tun müssen als vorher. Dies ergibt wieder eine Laufzeit von $O(n \log n)$
 
 \pagebreak
-
+%% ------------------------------
+%%       Aufgabe 2
+%% ------------------------------
 \section*{Aufgabe 2}
 
 Sei $G = \left( V, E \right)$ ein Gittergraph mit $n$ Zeilen und $n$ Spalten. Formal heißt das:\\
@@ -65,34 +65,92 @@ $V = \left\{ \{ (i,j), (i' , j') \} | \left| i - i' \right| + \left| j - j' \rig
 
 \begin{enumerate}[\bfseries (a)]
 
+
+%% ------------------------------
+%%      	a)
+%% ------------------------------
 \item Zeigen Sie, dass immer ein lokales Minimum existiert.\\
 
 \textbf{Lösung:}\\
 Der Graph $G$ hat nach Definition $n^2$ viele Knoten. Dies bedeutet insbesondere, dass $W = \{ x_v \; | \; v \in V \}$ eine endliche, nicht-leere Menge ist.\\
-Für jede endliche, niicht-leere Teilmenge über einer total geordneten Grundmenge gilt, dass diese eine (globales) Minimum und Maximum besitzt\footnote{Wie in Mafi I gezeigt wurde}. Nun ist $\mathbb{R}$ eine total geordnete Menge und $W \subset \mathbb{R}$. Damit besitzt $W$ ein (globales) Minumum.\\
+Für jede endliche, niicht-leere Teilmenge über einer total geordneten Grundmenge gilt, dass diese eine (globales) Minimum und Maximum besitzt\footnote{Wie in Mafi I gezeigt wurde}. Nun ist $\mathbb{R}$ eine total geordnete Menge und $W \subset \mathbb{R}$. Damit besitzt $W$ ein (globales) Minimum.\\
 
 Sei $m \in M$ nun der Knoten mit $x_m = \min W$. Da gilt, dass die Elemente aus $W$ alle paarweise verschieden sind, gilt ins besonderen, dass\\
 $\forall v \in V \; : \; x_v \leq x_m$ oder $\forall v \in V \setminus \{m\} \; : \; x_v < x_m$.\\
 
 Dies gilt insbesondere auch für die Nachberknoten von $m$. Damit ist $m$ auch sowohl \emph{globales Minimum} als auch \emph{lokales Minimum} in diesem Graphen.
 
+
+%% ------------------------------
+%%       b)
+%% ------------------------------
 \item Der folgende Algorithmus heißt \emph{lokale Suche}: Beginne bei einem beliebigen Knoten $v \in V$. Falls ein $v$ ein \emph{lokales Minimum} ist, sind wir fertig. Ansonsten hat $v$ einen Nachbern $w$ mit $x_w < x_v$ (wenn es mehr als einen solchen Nachbern gibt, wählen wir denjenigen mit dem kleinsten $x_w$). Gehe zu $w$ und wiederhole, bis ein lokales Minimum erreicht ist.\\
 
 Zeigen Sie, dass lokale Suche im schlimmesten Fall $\Omega (n^2)$ viele Schritte benötigt.\\
 
 \textbf{Lösung:}\\
 
-Um diese Laufzeit zu erreichen Konstruieren wir uns einen Fall, indem bei gegebenem $v\in V$ der Algorithmus jedes $w in V$ besuchen muss.
+Um diese Laufzeit zu erreichen Konstruieren wir uns einen Fall, indem bei gegebenem $v\in V$ der Algorithmus jedes (i-te) Element $w in V$ besuchen muss, wobei $i\in \mathbb{N}$ konstant ist.\\
 
+Unsere Konstruktion sieht wie folgt aus: Wir starten bei $v$ in der linken, oberen Ecke $i = j = 0$. Nun wählen wir Schlangenlinien durch unseren Pfad, so dass wir immer eine Zeile überspringen (am Rand nur 1 Element berühren). Die Knoten entlang dieses Pfades sind immer um 1 kleiner als der Vorgänger. (Wir starten bei $x_{0,0} = n^2$. Die Knoten aus den frei gelassenen Ebenen, wählen wir so, dass wir sie nicht betreten, groß genug und beliebig ($> n^2$).
+
+Asl Folge erhalten wir so : $x_{0,0} > x_{0,1} > ... > x_{0,n} > x_{1,n} > x_{2,n} > x_{2,n-1} > ... > x_{2,0} > x_{3,0} > ...> x_{n,n}$
+(Wenn $n$ gerade ist, sonst $x_{0,n}$). Der Weg sieht also folgender Maßen aus:
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.7]{a2_worst_case.pdf}\\
+Stellt einen Pfad dar, der $\Omega (n^2) $ viele Knoten besucht.
+\end{figure}
+
+Wir berühren hier $\frac{n^2}{2} + \frac{n}{2}$ Knoten. Diese kommen zustande indem wir jede zweite Spalte komplett durchgehen und jede andere nur ein Element betrachten. Auf jedem dieser Felder haben wir 4 Vergleiche gemacht. Dies lässt uns bei einer Laufzeit von $\Omega (n^2)$.
+
+%% ------------------------------
+%%       c)
+%% ------------------------------
 \item Zeigen Sie, wie man ein lokales Minimum in $O (n)$ Zeit finden kann. Begründen Sie Korrektheit und Laufzeit Ihres Algorithmus.
 
 \textbf{Lösung:}\\
 
 Die Idee dieser Lösung sieht wie folgt aus:\\
-Wir legen in jedem Schritt ein Kreuz über das Feld, so dass es das gesammte Gitter in 4 (inetwa) gleichgroße Teile zerlegt. Als nächstes suchen wir uns das Minimum dieser $2 \cdot n$ Elemente, die auf dem Kreuz liegen. Von dem Knoten des Minimums aus,
+Wir legen in jedem Schritt ein Kreuz über das Feld, so dass es das gesammte Gitter in 4 (in etwa) gleichgroße Teile zerlegt. Als nächstes suchen wir uns das Minimum dieser $2 \cdot n - 1$ Elemente, die auf dem Kreuz liegen. Von dem Knoten des Minimums aus, betrachten wir die beiden Nachbern, die nicht in dem Streifen liegen (wahlweise auch alle, da kein Nachber auf dem Streifen kleiner sein kann). Ist keines der Elemente kleiner, so haben wir lokales Minimum. Sonst gehen wir in Richtung des kleineren Nachberns.
+Damit haben wir ein $\frac{3}{4}$ des Quadrates weggeworfen und müssen nur nach das verbleibende Viertel mit den Maßen $\frac{n}{2} \times \frac{n}{2}$ weiter machen.\\
 
+\textbf{Korrektheit:}\\
+Für die Korrektheit zeigen wir, dass ein \emph{lokales Minimum} im eingeschränkten Viertel liegen muss (außer wir haben schon eins im Streifen gefunden gefunden).\\
+
+
+
+\textbf{Laufzeit:}\\
+Um das Minimum von $2n-1$ Elementen zu finden benötigen wir $2n-2$ Vergleiche\footnote{gezeigt in ALP3}. Von da aus brauchen wir noch 2 Vergleiche um den Teil des kleineren Nachbern zu ermitteln. Danach fahren wir auf den halbierten Zeilen und Spalten fort (sollten wir zu wenig haben für die Hälfte, nehmen wir uns weitere Elemente aus dem Streifen, dies macht es nicht falsch, aber leichter zu analysieren).
+
+$$
+\Rightarrow T(n) = \left\{
+\begin{array}{lr}
+c_1 n &, n < 4 \text{(egal solange konstant)}\\
+T(\frac{n}{2}) + c_2 n &, sonst
+\end{array}
+\right.
+$$
+Mit $c_1, c_2 \in \mathbb{R}^+$ konstant.
 \end{enumerate}
 
+Dies können wir nun mithilfe des Mastertheorems abschätzen:\\
+$a=1, b=2, f(n) = c_2 n$\\
+Wir prüfen den 3. Fall des Theorems:\\
+$f(n) = c_2 \cdot n = \Omega (n^{0 + 1})= \Omega (n^{\log_1 2 + 1})$, mit $\varepsilon = 1$\\
+und\\
+$a f(\frac{n}{b}) = f(\frac{n}{2}) = \frac{1}{2}n \leq c \cdot n$, mit $c = \frac{3}{4}$\\
+Damit sind die Bedingungen für den 3. Fall des Mastertheorems erfüllt und es gilt:
+$$
+\Rightarrow T(n) = \Theta ( n)  
+$$\\
+
+Damit haben wir gezeigt, das wir ein \emph{lokales Minimum} in $O(n)$ finden können.
+
+%% ------------------------------
+%%       Aufgabe 3
+%% ------------------------------
 \section*{Aufgabe 3}
 
 Für eine gegebene Folge $M_1 , M_2, ... , M_n$ von $n$ Matrizen ist das \emph{Matrizenkettenprodukt} $M_1 \cdot M_2 \cdot \cdots \cdot M_n$ zu berechnen. Die Matrizen haben dabei verschiedene Dimensionen. $M_1$ ist eine $\left( p_{M_1} \right)_1 \times \left( p_{M_1} \right)_2$ Matrix, $M_2$ ist eine $\left( p_{M_2} \right)_1 \times \left( p_{M_2} \right)_2$ usw.\\
@@ -101,13 +159,25 @@ Um eine $a\times b$ Matrix mit einer $b \times c$ Matrix zu multiplizieren, ben�
 
 \begin{enumerate}[\bfseries (a)]
 
+
+%% ------------------------------
+%%       a)
+%% ------------------------------
 \item Bezeichne mit $P[i,j]$ die Kosten für eine optimale Klammerung des Matrizenkettenprodukts $M_i \cdot \cdots \cdot M_j \; ( 1 \leq i \leq j \leq n)$. Unser Ziel ist, $P[1,n]$ zu berechnen. Finden Sie eine geeignete Rekursionsgleichung für $P[i,j]$.\\
 Lösung
 
 \item Benutzen Sie Ihre Rekursion, um Pseudecode für einen Algorithmus anzugeben, welcher die optimalen Kosten $P[1,n]$ bestimmt. Analysieren Sie Laufziet und Platzbedarf.
 
+
+%% ------------------------------
+%%      b)
+%% ------------------------------
 \item Erweitern Sie Ihren Algorithmus so, dass er auch eine optimale Klammerung ausgibt.\\
 
+
+%% ------------------------------
+%%      	c)
+%% ------------------------------
 \item Implementieren Sie ein Programm, das eine optimale Klammerung für die matrizenmultiplikation bestimmt und die Multiplikation durchführt. Vergleichen SIe Ihr Programm mit einer naiven Implementierung, welche die Matrizen von links nach rechts multipliziert.
 
 \end{enumerate}
