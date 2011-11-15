@@ -119,7 +119,18 @@ Damit haben wir ein $\frac{3}{4}$ des Quadrates weggeworfen und müssen nur nach
 \textbf{Korrektheit:}\\
 Für die Korrektheit zeigen wir, dass ein \emph{lokales Minimum} im eingeschränkten Viertel liegen muss (außer wir haben schon eins im Streifen gefunden gefunden).\\
 
+Betrachten wir für den Beweis das Porgram aus \emph{b)}. Wir wählen als Startknoten des Algorithmus das Minimum unseres Streifen $y$. Wir wissen, dass der Algorithmus entlang der kleinere Elemente läuft. Nun wissen wir, dass er immer ein \emph{lokales Minimum} finden muss (Sollte dies nicht gegeben sein, nehmen wir die Quellensuche auf POSETs, wie sie in Mafi I gezeigt wird, da diese analog abläuft).
+Im ersten Schritt betritt der Algorithmus unser ausgewählte Rechteck nach Konstruktion.\\
 
+Nun wissen wir, dass die Folge $(a_n)_{n \in \mathbb{N}}$ der besuchten Knoten eine monoton fallende sein muss, mit $a_0 = m$, da jeder folgende Wert kleiner sein muss (nach Algorithmus). Da nun aber für das Kreuz $K$ gilt, dass\\
+$\forall k \in K \setminus \{m\} \; : \; k > m$\\
+und für die Folge, dass\\
+$\forall n \in \mathbb{N} \; : \; a_n < m$, was direckt aus der monotonie folgt.
+$$
+\Rightarrow \forall k \in K \; \forall a \in (a_n)_{n \in \mathbb{N}} \; : \; k > a \Rightarrow K \cap (a_n)_{n \in \mathbb{N}} = \{m\}
+$$
+Da wir nach Konstruktion aber nicht über $m$ zurücklaufen können, da wir nur in Richtung eines echt kleineren gehen können, also keine Schleifen bilden können. Die Folge muss also auf ein Element innerhalb unsere eingeschränkten Quadrates liegen.\\
+\mbox{} \hfill $\square$
 
 \textbf{Laufzeit:}\\
 Um das Minimum von $2n-1$ Elementen zu finden benötigen wir $2n-2$ Vergleiche\footnote{gezeigt in ALP3}. Von da aus brauchen wir noch 2 Vergleiche um den Teil des kleineren Nachbern zu ermitteln. Danach fahren wir auf den halbierten Zeilen und Spalten fort (sollten wir zu wenig haben für die Hälfte, nehmen wir uns weitere Elemente aus dem Streifen, dies macht es nicht falsch, aber leichter zu analysieren).
