@@ -1,0 +1,89 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm]{geometry} 
+\usepackage{babel}
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc} 
+\usepackage{ae} 
+\usepackage{amssymb} 
+\usepackage{amsmath} 
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{paralist}
+
+%%\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[C]{Höhere Algorithmik}
+\fancyhead[L]{Übung Nr. 4}
+\fancyhead[R]{WS 2011/12}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage$\,$ von \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\setlength{\parindent}{0pt} 
+\setlength{\headheight}{15pt}
+
+\author{Tutor: Lena Schlipf}
+\date{}
+\title{Max Wisniewski , Alexander Steen}
+
+\begin{document}
+
+\lstset{language=Java, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2, mathescape=true}
+
+\maketitle
+\thispagestyle{fancy}
+
+\section*{Aufgabe 1}
+
+Sei $P$ eine Menge von $n$ Punkten in der Ebene, In der Vorlesung haben Sie einen Algorithmus kennengelernt, der ein engstes Paar von $p$ in Zeit $O \left( n \log n \right)$ bestimmt. Dabei haben wir angenommen, dass alle $x$-Kooridnate in $P$ verschieden sind. Zeigen Sie, wie man den Algorithmus anpassen kann, damit wir diese Annahme nicht mehr benötigen. Die Laufzeit soll immer noch $O\left( n \log n \right)$ betragen.\\
+
+Lösung
+
+\section*{Aufgabe 2}
+
+Sei $G = \left( V, E \right)$ ein Gittergraph mit $n$ Zeilen und $n$ Spalten. Formal heißt das:\\
+$V = \left\{ \{ (i,j), (i' , j') \} | \left| i - i' \right| + \left| j - j' \right| = 1 \right\}$. Desweiteren sei jeder Knoten $v \in V$ mit einer Zahl $x_v \in \mathbb{R}$ beschriftet, so dass die $x_v$ paarweise verschieden sind. Ein \emph{lokales Minimum} von $G$ ist ein Knoten, dessen Beschriftung kleiner ist als die Beschriftung seiner Nachbern.
+
+\begin{enumerate}[\bfseries (a)]
+
+\item Zeigen Sie, dass immer ein lokales Minimum existiert.\\
+
+Lösung
+
+\item Der folgende Algorithmus heißt \emph{lokale Suche}: Beginne bei einem beliebigen Knoten $v \in V$. Falls ein $v$ ein \emph{lokales Minimum} ist, sind wir fertig. Ansonsten hat $v$ einen Nachbern $w$ mit $x_w < x_v$ (wenn es mehr als einen solchen Nachbern gibt, wählen wir denjenigen mit dem kleinsten $x_w$). Gehe zu $w$ und wiederhole, bis ein lokales Minimum erreicht ist.\\
+
+Zeigen Sie, dass lokale Suche im schlimmesten Fall $\Omega (n^2)$ viele Schritte benötigt.\\
+
+Lösung
+
+\item Zeigen Sie, wie man ein lokales Minimum in $O (n)$ Zeit finden kann. Begründen Sie Korrektheit und Laufzeit Ihres Algorithmus.
+
+\end{enumerate}
+
+\section*{Aufgabe 3}
+
+Für eine gegebene Folge $M_1 , M_2, ... , M_n$ von $n$ Matrizen ist das \emph{Matrizenkettenprodukt} $M_1 \cdot M_2 \cdot \cdots \cdot M_n$ zu berechnen. Die Matrizen haben dabei verschiedene Dimensionen. $M_1$ ist eine $\left( p_{M_1} \right)_1 \times \left( p_{M_1} \right)_2$ Matrix, $M_2$ ist eine $\left( p_{M_2} \right)_1 \times \left( p_{M_2} \right)_2$ usw.\\
+
+Um eine $a\times b$ Matrix mit einer $b \times c$ Matrix zu multiplizieren, benötigen wir bekanntlich $acb$ Multiplikationen und $ac\left( b - 1 \right)$ Additionen, also insgesammt $ac \left( 2b - 1\right)$ Additionen, also insgesamt $ac\left( 2b - 1\right)$ elementare Operationen.
+
+\begin{enumerate}[\bfseries (a)]
+
+\item Bezeichne mit $P[i,j]$ die Kosten für eine optimale Klammerung des Matrizenkettenprodukts $M_i \cdot \cdots \cdot M_j \; ( 1 \leq i \leq j \leq n)$. Unser Ziel ist, $P[1,n]$ zu berechnen. Finden Sie eine geeignete Rekursionsgleichung für $P[i,j]$.\\
+Lösung
+
+\item Benutzen Sie Ihre Rekursion, um Pseudecode für einen Algorithmus anzugeben, welcher die optimalen Kosten $P[1,n]$ bestimmt. Analysieren Sie Laufziet und Platzbedarf.
+
+\item Erweitern Sie Ihren Algorithmus so, dass er auch eine optimale Klammerung ausgibt.\\
+
+\item Ipmlementieren Sie ein Programm, das eine optimale Klammerung für die matrizenmultiplikation bestimmt und die Multiplikation durchführt. Vergleichen SIe Ihr Programm mit einer naiven Implementierung, welche die Matrizen von links nach rechts multipliziert.
+
+\end{enumerate}
+
+\label{LastPage}
+
+\end{document}
