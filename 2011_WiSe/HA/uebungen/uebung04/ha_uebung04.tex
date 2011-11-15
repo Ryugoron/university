@@ -42,7 +42,21 @@
 
 Sei $P$ eine Menge von $n$ Punkten in der Ebene, In der Vorlesung haben Sie einen Algorithmus kennengelernt, der ein engstes Paar von $p$ in Zeit $O \left( n \log n \right)$ bestimmt. Dabei haben wir angenommen, dass alle $x$-Kooridnate in $P$ verschieden sind. Zeigen Sie, wie man den Algorithmus anpassen kann, damit wir diese Annahme nicht mehr benötigen. Die Laufzeit soll immer noch $O\left( n \log n \right)$ betragen.\\
 
-Lösung
+\textbf{Lösung:}
+
+Das Problem, wenn wir Punkte mit der selben $x$-Koordinate zulassen, besteht darin, dass wir bei der Aufteilung anhand des Medians der $x$-Kooridnaten nicht mehr 2 gleich große Menge mit der halben Größe der Ursprünlgichen Menge erhalten. Im Extremfall, dass alle $x$ Kooridnaten den selben Wert haben, hätten wir keine Partitionierung erreicht und müssten mit einem $\delta = \infty$ in den Conquer Schritt gehen, was für uns bedeuten würde, dass wir jeden Punkt mit jedem anderen vergleichen müssten.\\
+
+Dies ist aber nicht nötig. Da wir den Split anhand der $x$ - Achse des Medians vornehmen, können wir einfach die eine Hälfte der gleichen Werte in den linken Teil und die andere Hälfte in den rechten Teil tun und auf diesen beiden Mengen weiter rechenen. Wir erhalten ein $\delta$ zurück, mit dem wir die Rechtecke aus dem Beweis bilden können, und vergleichen nun je 10 Elemente paarweise alle Elemente aufsteigend nach $y$ Koordinate durch.\\
+
+Den paarweisen Vergleich haben wir schon im orginal Algorithmus gehabt, ändert also nichts an der Laufzeit. Bleibt also nur noch der andere Schnitt zu betachten.\\
+
+Die optimierte Fassung sah vor, ein sortiertes Feld mitzuführen und im Divide Schritt die Grenzen zu verschieben, nähmlich immer auf die Mitte zwischen dem kleinsten und dem größten Index. Sollten wir nun mehrere gleiche Elemente als Median haben, so werden diese an dieser Stelle schon richtig geteilt und es wird korrekt fortgefahren.\\
+
+Daraus ergibt sich, das er in der Vorlesung vorgestellte Algorithmus das Problem für nicht verschiedene $x$-Koordinaten schon gelöst hat. Dieser hatte wie in der Aufgabe gesagt die Laufzeit $O(n \log n)$, an der sich aufgrund mangelnder Veränderungen für den neuen Algorithmus nichts getan hat.\\
+
+Damit haben wir ein Algorithmus für das Problem mit Laufzeit $O (n \log n)$
+
+\pagebreak
 
 \section*{Aufgabe 2}
 
@@ -53,15 +67,29 @@ $V = \left\{ \{ (i,j), (i' , j') \} | \left| i - i' \right| + \left| j - j' \rig
 
 \item Zeigen Sie, dass immer ein lokales Minimum existiert.\\
 
-Lösung
+\textbf{Lösung:}\\
+Der Graph $G$ hat nach Definition $n^2$ viele Knoten. Dies bedeutet insbesondere, dass $W = \{ x_v \; | \; v \in V \}$ eine endliche, nicht-leere Menge ist.\\
+Für jede endliche, niicht-leere Teilmenge über einer total geordneten Grundmenge gilt, dass diese eine (globales) Minimum und Maximum besitzt\footnote{Wie in Mafi I gezeigt wurde}. Nun ist $\mathbb{R}$ eine total geordnete Menge und $W \subset \mathbb{R}$. Damit besitzt $W$ ein (globales) Minumum.\\
+
+Sei $m \in M$ nun der Knoten mit $x_m = \min W$. Da gilt, dass die Elemente aus $W$ alle paarweise verschieden sind, gilt ins besonderen, dass\\
+$\forall v \in V \; : \; x_v \leq x_m$ oder $\forall v \in V \setminus \{m\} \; : \; x_v < x_m$.\\
+
+Dies gilt insbesondere auch für die Nachberknoten von $m$. Damit ist $m$ auch sowohl \emph{globales Minimum} als auch \emph{lokales Minimum} in diesem Graphen.
 
 \item Der folgende Algorithmus heißt \emph{lokale Suche}: Beginne bei einem beliebigen Knoten $v \in V$. Falls ein $v$ ein \emph{lokales Minimum} ist, sind wir fertig. Ansonsten hat $v$ einen Nachbern $w$ mit $x_w < x_v$ (wenn es mehr als einen solchen Nachbern gibt, wählen wir denjenigen mit dem kleinsten $x_w$). Gehe zu $w$ und wiederhole, bis ein lokales Minimum erreicht ist.\\
 
 Zeigen Sie, dass lokale Suche im schlimmesten Fall $\Omega (n^2)$ viele Schritte benötigt.\\
 
-Lösung
+\textbf{Lösung:}\\
+
+Um diese Laufzeit zu erreichen Konstruieren wir uns einen Fall, indem bei gegebenem $v\in V$ der Algorithmus jedes $w in V$ besuchen muss.
 
 \item Zeigen Sie, wie man ein lokales Minimum in $O (n)$ Zeit finden kann. Begründen Sie Korrektheit und Laufzeit Ihres Algorithmus.
+
+\textbf{Lösung:}\\
+
+Die Idee dieser Lösung sieht wie folgt aus:\\
+Wir legen in jedem Schritt ein Kreuz über das Feld, so dass es das gesammte Gitter in 4 (inetwa) gleichgroße Teile zerlegt. Als nächstes suchen wir uns das Minimum dieser $2 \cdot n$ Elemente, die auf dem Kreuz liegen. Von dem Knoten des Minimums aus,
 
 \end{enumerate}
 
@@ -80,7 +108,7 @@ Lösung
 
 \item Erweitern Sie Ihren Algorithmus so, dass er auch eine optimale Klammerung ausgibt.\\
 
-\item Ipmlementieren Sie ein Programm, das eine optimale Klammerung für die matrizenmultiplikation bestimmt und die Multiplikation durchführt. Vergleichen SIe Ihr Programm mit einer naiven Implementierung, welche die Matrizen von links nach rechts multipliziert.
+\item Implementieren Sie ein Programm, das eine optimale Klammerung für die matrizenmultiplikation bestimmt und die Multiplikation durchführt. Vergleichen SIe Ihr Programm mit einer naiven Implementierung, welche die Matrizen von links nach rechts multipliziert.
 
 \end{enumerate}
 
