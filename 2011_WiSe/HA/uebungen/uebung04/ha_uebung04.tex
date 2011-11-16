@@ -180,22 +180,51 @@ Um eine $a\times b$ Matrix mit einer $b \times c$ Matrix zu multiplizieren, ben�
 $$
 \begin{array}{lcrcl}
 \forall 1 \leq i = j \leq n &\; : \;& P[i,j] &=& 0\\
-\forall 1 \leq i \leq n & : & P[i, i + 1] & = & p_i \cdot p_{i+2} \cdot (2 \cdot p_{i+1} - 1) \\
 && P[i,j] &=& \underset{a \in (i,j)}{\min} P[i,a] + P[a+1,j] + p_i \cdot p_{j+1} \cdot (2 \cdot p_{a+1} - 1)
 \end{array}
 $$
 
-\item Benutzen Sie Ihre Rekursion, um Pseudecode für einen Algorithmus anzugeben, welcher die optimalen Kosten $P[1,n]$ bestimmt. Analysieren Sie Laufziet und Platzbedarf.
+Da immer gilt, dass $i \leq j$ ist, liegt unser Anker auf der Diagonalen. Wir brauchen nur den oberen oder unteren Teil der Matrix auszufüllen (je nachdem auf welcher achse $i$ und $j$ steht).\\
+
+Diese Gleichung sucht immer Schrittweise nach der besten Multiplikation. Wir teilen die Menge der Matrizen in 2 Hälften und suchen uns die beste lokale Partitionierung herraus, wenn wir die kosten für die Addition der beiden Ergebnisse mit drauf rechnen. In $P[1,n]$ steht danach das globale Maximum.
+
+%% ------------------------------
+%%		b)
+%% ------------------------------
+\item Benutzen Sie Ihre Rekursion, um Pseudecode für einen Algorithmus anzugeben, welcher die optimalen Kosten $P[1,n]$ bestimmt. Analysieren Sie Laufziti und Platzbedarf.\\
+
+Der Pseudocode sieht, wie folgt aus:
+
+\begin{lstlisting}[language=Pascal, numbers=right]
+for i := 1 to n do
+	P[i,i] := 0;
+	Back[i,j] = null;	//Marker fuer das Ende
+for j := 1 to n do
+	for i := 1 to j do
+		wa := $\infty$ ;// Maximaler Wert bisher
+		a := null;	// Voraenger mit dem groessten Wert
+		for x := i to j do
+			mom = P[i,a] + P[a+1,j] + p[i]*p[j+1]*(2*p[a+1]-1);
+			if mom > wa then
+				wa = mom;
+				a := x;
+		P[i,j] = wa;
+		Back[i,j] = a;
+\end{lstlisting}
+
+\textbf{Platzbedarf:} Für diesen Algorithmus legen wir, wenn wir es einfach machen ein 2 Dimensionales Array, der Größe $n \times n$ an. Da wir aber in jedem in Zeile $i$ nur jeweils $i$ der Einträge brauchen (Start bei 1) könnten wir es auch optimieren, dass wir unterschiedlich Lange Arrays in das erste packen. Da wir aber damit immer noch $\underset{i=1}{\overset{n}{\sum}} i$ Einträge brauchen, verbleiben wir bei einem Speicherplatzbedarf von $\Theta (n^2)$.\\
+
+\textbf{Laufzeit:} Als Laufzeit für den Algorithmus schauen wir uns an, wie viele Operationen wir pro benutzem Feld haben.\\
 
 
 %% ------------------------------
-%%      b)
+%%      	c)
 %% ------------------------------
 \item Erweitern Sie Ihren Algorithmus so, dass er auch eine optimale Klammerung ausgibt.\\
 
 
 %% ------------------------------
-%%      	c)
+%%      	d)
 %% ------------------------------
 \item Implementieren Sie ein Programm, das eine optimale Klammerung für die matrizenmultiplikation bestimmt und die Multiplikation durchführt. Vergleichen SIe Ihr Programm mit einer naiven Implementierung, welche die Matrizen von links nach rechts multipliziert.
 
