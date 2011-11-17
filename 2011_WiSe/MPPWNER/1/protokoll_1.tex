@@ -1,0 +1,96 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm]{geometry} 
+\usepackage{babel}
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc} 
+\usepackage{ae} 
+\usepackage{amssymb} 
+\usepackage{amsmath} 
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{paralist}
+\usepackage{fancyhdr}
+\usepackage{subfigure}
+\pagestyle{fancy}
+\fancyhead[C]{Mikroprozessorpraktikum}
+\fancyhead[L]{Protokoll 1}
+\fancyhead[R]{WS 2011/12}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage / \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\setlength{\parindent}{0pt} 
+\setlength{\headheight}{15pt}
+
+
+\author{Teilnehmer:\\ \\Marco Träger, Matr. XXXXXXXX\\Alexander Steen, Matr. 4357549}
+\date{Gruppe: XXX, Arbeitsplatz: XXX}
+\title{Mikroprozessorpraktikum WS 2011/12\\ Aufgabenkomplex: 1}
+
+\begin{document}
+
+\lstset{language=c, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2}
+
+\maketitle
+\thispagestyle{fancy}
+\newpage
+\section*{A 1.1 Output}
+\subsection*{A 1.1.1}
+\subsection*{A 1.1.2}
+\subsection*{A 1.1.3}
+\subsection*{A 1.1.4}
+\subsection*{A 1.1.5}
+\subsection*{A 1.1.6}
+\section*{A 1.2	Input}
+\subsection*{A 1.2.1}
+\begin{description}
+\item[P1DIR] entscheidet, ob der jeweilige Pin als Eingang oder Ausgang fungiert, dabei beschreibt 0 einen Eingang, 1 einen Ausgang
+\item[P1IN] besteht aus einem Byte, deren Bits den aktuellen Logikpegel an dem jeweiligen Pin des Ports 1 darstellen
+\item[P1OUT] zeigt an dem jeweiligen Bit an, welcher Logikpegel an dem zugehörigen Port anliegen soll, falls P1DIR auf Ausgang und P1SEL auf I/O-Funktion geschaltet ist
+\item[P1SEL] gibt an, ob die einzelnen Pins des Port 1 direkt als I/O benutzt werden oder für ein angeschlossenes Modul genutzt werden
+\item[P1IE] de-/aktiviert die Intertupt-Flags (P1IFG) für die Pins des ersten Ports.
+\item[P1IES] entscheidet, ob man Interrupt durch eine low-high-Flanke (0) oder eine high-low-Flanke (1) auf dem jeweiligen Pin ausgelöst werden soll.
+\item[P1IFG] bezeichnet die Interrupt-Flags der Pins von Port 1. Ist ein Bit von P1IFG auf 1 gesetzt, so wurde von dem zugehörigen Pin ein Interrupt ausgelöst.
+\end{description}
+
+\subsection*{A 1.2.2}
+Der AND-Operator (\&) führt bitweise die Verundung der Bits der Arguments aus.\\
+Geht man für das Codebeispiel
+\begin{lstlisting}
+if (P1IN & Taster) {...}
+\end{lstlisting}
+davon aus, dass man Pin $i$ ein Taster angeschlossen ist, so kann man durch Wahl der Variable \texttt{Taster} als Bitmaske, die nur an der Stelle $i$ eine 1 enthält (\texttt{Taster} = $2^i$), erreichen, dass die Abfrage genau dann erfolgreich ist, falls der Taster gedrückt wurde.
+\subsection*{A 1.2.3}
+\begin{lstlisting}[numbers=left]
+#define Taster_rechts (0x01)
+#define Taster_links (0x02)
+P1DIR = 0x00;
+P4DIR = 0xFF;
+P4OUT = 0;
+a = 7;
+P4OUT = a;
+P1OUT = a;
+a = P1IN & 0x30; //beide Tasten
+a = P1IN & 0x00; //Taste rechts
+a = P1IN & 0x01; //Taste rechts
+a = P1IN & 0x02; //Taste rechts
+a = P1IN & 0x03; //Taste links
+a = P1IN & 0x03; //beide Tasten
+P4OUT = P1IN & Taster_rechts; //Taster an P1.0 nicht
+P4OUT = P1IN & Taster_links; //Taster an P1.0
+\end{lstlisting}
+Alle Pins von Ports 1 werden auf Eingang geschaltet.
+Hier werden nun alle Pins von Ports 4 auf Ausgang geschaltet.
+An alle Pins von Port 4 werden die Logikpegel 0 angelegt.
+
+\subsection*{A 1.2.4}
+\section*{A 1.3 Ampel}
+\subsection*{A 1.3.1}
+\section*{A 1.4 Taster}
+\subsection*{A 1.3.1}
+\label{LastPage}
+\end{document}
