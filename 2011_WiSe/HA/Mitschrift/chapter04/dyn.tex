@@ -2,40 +2,248 @@
 
 Das dynamische Programmieren wurde schon einmal ein ALP III eingeführt. Im weiteren Sinne handelt es sich um eine Rekursion, in der schon einmal berechnete Rekursionswerte gecached werden oder alle möglichen Ergebnisse von klein nach groß vorberechnet werden.
 
-\subsection{Einführungsbeispiel: Einkaufsproblem}
+\subsection{Charakterisierung}
 
-Wir haben ein Guthaben von $1,60$ und wollen aus den folgenden Waren einkaufen, so dass der Wert dieser Waren sich für uns maximiert.\\
+\begin{itemize}
+\item Bei Problemen, die sich mit dynamischem Programmieren lösen lassen, handelt es es sich um Optimierungsprobleme
 
-\begin{tabular}{cccc}
-Anzahl & Name & Preis & Wert\\
-\hline
-1x & Apfel & $0,40$\euro{} & 3\\
-1x & Brötchen & $0,60$\euro{} & 9\\
-1x & Buttermilch & $1,00$\euro{} & 5\\
-1x & Gummibärchen & $0,80$\euro{} & 10\\
-1x & Bifi & $0,60$\euro{} & 6\\
-\end{tabular}
+\item Man findet erst einmal nur den \emph{Wert} einer optimalen Lösung und nicht die Lösung selbst
 
-\begin{description}
+\item Man muss das Problem \emph{geeignet} auf Teilprobleme einschränken
 
-\item{\bfseries Naiver Algorithmus:}
+\item Man muss eine Rekursion für die Teilprobleme finden
 
-Wir berechnen alle Teilmengen, deren Gewicht kleiner als 1,50 \euro{} ist. Dann suchen wir uns das Minimum der Werte herraus. Im Worstcase beduetet das für uns, dass wir alle Teilmengen berechnen müssen, was eine Laufzeit von $2^n$ zur Folge hat. Danach suchen wir uns das Minimum herraus.
-Für das Minimum müssen wir im schlimmsten Fall $n$ Zahlen auf addieren.\\
+\item Und diese Rekursion zuletzt implementieren (Memoization)
+\end{itemize}
 
-Als Laufzeit erhalten wir insgesammt $T(n) = 2^n$ eine exponentielle Laufzeit.
+Die Schritte nach denen wir dabei vorgehen sehen folgender Maen aus:
 
-\item{\bfseries Rekursiver Ansatz:} Schränke das Problem auf Teilprobleme ein und setzte die teillösungen in Beziehung.\\
+\begin{enumerate}[\bfseries Schritt 1:]
 
-Wir definieren $k_i$ als die Kosten von der Ware $i$ und $w_i$ als Wert der Ware $i$.\\
-Als Rekursion nehmen wir:
+\item Finde eine geeignete Teillösung für das Problem aus dem sich die Gesammtlösung gewinnen lässt.
+
+\item Finde eine Rekursion für diese Teillösungen.
+
+\item Fülle die Tabelle aus.
+
+\item Finde den Wert der optimalen Lösung und rekonstruiere den Folge, die zu diesem Wert führt.
+
+\end{enumerate}
+
+\subsection{Beispiel: Einkaufsprobelm}
+
+\emph{Gegeben} sind $n$ Waren $W = \{ 1 , ... , n \}$, so für jede Ware ein Preis und ein Wert existiert $p_i, w_i \in \N, 1 \leq i \leq n$, sowie ein Budget $B \in \N$.\\
+\emph{Gesucht} ist $X \subseteq W$, so dass
 $$
-\begin{array}{lrcl}
-\forall p \; : & E[0,p] & = & 0\\
-\forall n \; : & E[n,0]&=& 0\\
-&E[n,p] &=& \max \left\{ E[n-1, p] , E[n-1, p - k_n] \right\}
+\left( \sum_{i\in X} p_i \leq B \right) \; \land \; \left( \forall y \subseteq W \; : \; \sum_{i \in y} p_i \leq B \Rightarrow \sum_{i \in X} w_i \geq \sum_{j \in y} w_j \right)
+$$
+
+Beim dynamischen Programmieren wollen wir dieses Optimierungsproblem durch eine Rekursion lösen, in der sich die einzelnen Teile überlappen können. Diese wollen wir aber nur ein einziges mal berechnen.\\
+
+Dazu wählen wir den folgenden \emph{Ansatz}:
+\begin{enumerate}[\bfseries (1)]
+
+\item Finde eine \emph{geschickte} Art das Problem auf Teilprobleme einzuschränken. In unserem Fall eignet sich
+$E[m,b]$, was den Wert des besten Einkaufs angibt, wenn nur Waren $1,...,m$ genommen werden können und ein Budget von $b$ zur Verfügung steht. Dabei wollen wir\\
+E[n,B] berechnen.
+
+\item Finde eine Rekursionsgleichung für das Teilproblem
+$$
+\begin{array}{lcrcl}
+\forall b \leq B &:& E[0,b] &=& 0\\
+\forall 0 \leq m \leq n &:& E[m,0] &=& 0\\
+\forall b < p_m &:& E[m,b] &=& E[m-1,b]\\
+\forall b \geq p_m &:& E[m,b] &=& \max \{ E[m-1,b] , E[m-1, b-p_m] + w_m\}
 \end{array}
 $$
 
-Diese Gleichung beduetet für uns, dass wir uns in jedem Schritt entscheiden können, ob wir einen Artikel nehmen oder nicht. Nehmen wir ihn, müssen wir von unseren vorhandenen Geld die Kosten der Ware abziehen. Von diesen beiden Ergebnissen wählen wir einfach das Maximum um die Beste Möglichkeit zu erhalten.
+\item Implementieren der Rekursion\\
+Eine direkte Implementierung hat hier allerdings Exponentielle Laufzeit zur Folge.\\
+\textbf{Besser:} Merke die Werte in einer Tabelle.\\
+\textbf{Noch besser:} Fülle die Tabelle von unten nach oben auf.
+
+\pagebreak
+
+\begin{lstlisting}[language=Pascal]
+for m := 0 to n do
+	E[m,0] := 0
+for b := 1 to b do
+	E[0,b] :=0
+for m := 1 to n do
+	for b := 1 to B do
+		if ( p[m] > b ) then
+			E[m,b] :=  E[m-1,b]
+		else
+			E[m,b] := max { E[m-1,b] , E[m-1, b - p[m]] + w[m]}
+return E[n,B]
+\end{lstlisting}
+
+Wir füllen das komplette Feld der größe $n \cdot B$. Dabei müssen wir auf jedem Feld das Maximum Zweier zaheln berechnen und eine konstante Anzahl von Additionen machen.\\
+Laufzeit : $\Theta ( n \cdot B)$\\
+Speicher : $\Theta ( n \cdot B)$\\
+
+Leider ist $B$ exponentiell in der Eingabe $\Rightarrow$ das Problem ist schwach NP-Vollständig, dass bedeutet für kleine oder beschränkte $B$ liegt das Problem in P. Es hat damit eine pseudopolynomielle Laufzeit.
+
+\item Bestimme das optimale Ergebnis (Die Waren und nicht nur den Wert)\\
+
+Hier stehen einem mehrere Möglichkeiten zur Verfügung. Hier einmal 3 exemplarisch:
+
+\begin{enumerate}[\bfseries (a)]
+
+\item Ma verwendet eine zweite Tabelle und speichert den Weg, dan man gegangen ist (1 : kaufen, 0 : nicht kaufen) und konstruiert ihn nach dem Algorithmus.
+$$
+TE[m,B] = \left\{ 
+\begin{array}{lr}
+\text{true} &, \text{kaufen}\\
+\text{false} &, \text{nicht kaufen}
+\end{array}
+\right.
+$$
+\begin{lstlisting}[language=haskell]
+ware n B TE p
+	| TE [n,B]	= n : ware (n-1) (B - p[n]) TE p
+	| otherwise	= ware (n-1) B TE p
+\end{lstlisting}
+Wie wir sehen, gehen wir die Waren durch und sehe uns jede einmal an.$\Rightarrow \Theta ( n )$, was den Algorithmus insgesammt nicht langsamer macht.
+
+\item Wir berechnen den Rückschluss ohne ihn auf dem Weg zu speichern
+
+\begin{lstlisting}[language=haskell]
+ware n B E p w
+	| E[n,B] == ( w[n] + E[n-1,B - p[n])	= n : ware (n-1) (b - p[n]) E p w
+	| otherwise					= ware (n - 1) B E p w
+\end{lstlisting}
+
+Hier wird in jedem Schritt mehr gerechnet, allerdings immer noch konstant viel. Dies lässt uns wieder bei einer Laufzeit von $\Theta (n)$ zurück, die wie eben keinen Einfluss auf die asymptotische Gesammtlaufzeit hat.
+
+\item Speichere in jedem Feld die komplette Liste bisher erworbener Waren mit. Dies kann je nach Art und Weise der Speicherung effizient oder ineffizient sein.
+
+\end{enumerate}
+
+\end{enumerate}
+
+\textbf{Beispiel:}
+
+Wir haben ein Guthaben von $1,60$ und wollen aus den folgenden Waren einkaufen, so dass der Wert dieser Waren sich für uns maximiert.\\
+
+\begin{tabular}{ccccc}
+ID & Anzahl & Name & Preis & Wert\\
+\hline
+1 & 1x & Apfel & $0,40$\euro{} & 3\\
+2 & 1x & Brötchen & $0,60$\euro{} & 9\\
+3 & 1x & Buttermilch & $1,00$\euro{} & 5\\
+4 & 1x & Gummibärchen & $0,80$\euro{} & 10\\
+5 & 1x & Bifi & $0,60$\euro{} & 6\\
+\end{tabular}
+
+Tragen wir dies nun in die Tabelle aus der Rekursion ein erhalten wir folgendendes:\\
+
+\begin{tabular}{l|ccccccccc}
+& 0,0 & 0,2 & 0,4 & 0,6 & 0,8 & 1,0 & 1,2 & 1,4 & 1,5\\
+\hline
+0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+1 & 0 & 0 & 3 & 3 & 3 & 3 & 3 & 3 & 3\\
+2 & 0 & 0 & 3 & 4 & 4 & 7 & 7 & 7 & 7\\
+3 & 0 & 0 & 3 & 4 & 4 & 7 & 7 & 9 & 10\\
+4 & 0 & 0 & 3 & 9 & 9 & 12 & 13 & 13 & 16\\
+5 & 0 & 0 & 3 & 9 & 10 & 12 & 13 & 19 & 19
+\end{tabular}
+
+Aus dieser Tabelle können wir nun schon ablesen, dass unser größter Gewinn einen Wert von 19 haben wird. Wir müssen nur noch ausrechnen, wie dieser zu stande kommt.\\
+
+Wenden wir eines der erwähnten Verfahren an, gelangen wir zu dem Schluss, dass es für uns am besten ist, wenn wir Gummibärhcne und Bifi kaufen. (Auf jedenfall haben wir nach der Definition der Waren den Höchsten Wert bei gegebenen geld erreicht.)
+
+\subsection{Beispiel: Traveling-Salesman-Problem (TSP)}
+
+\emph{Gegeben} sind $n$ Städte $0, ... , n-1$, so dass gilt: $\forall 0 \leq i < j \leq n-1 \; : \; d(i,j)= d(j,i) > 0$  \\
+\emph{Gesucht} ist eine Permutation $\sigma_S \; : \; \{ 0 , ..., n-1 \} \rightarrow \{0, ... , n-1\}$ mit $\sigma_S(0) = 0$, so dass
+$$
+\sum_{i=0}^{n-1} d \left( \sigma_S(i), \sigma_S(i + 1 \mod n) \right)
+$$
+minimal ist.
+
+\textbf{Lösung:}
+\begin{description}
+\item{\bfseries Naiv:} Wir berechnen alle Permutationen und  nehmen das Minimum der Längen.\\
+Wir können $n-1$ Permutationen berechnen und benötigen $\Theta ( n )$ um die Länge davon zu bestimmen $\Rightarrow \Theta ( n! )$.\\
+Dies ist sehr schlecht, das
+$$
+\Theta (n ! ) = 2^{\Theta (n \log n)}
+$$
+superexponentiell wächst. Dies ist für $n> 10$ hoffnungslos zu berechnen.
+
+\item{\bfseries Dynamisch:}
+
+\begin{enumerate}[\bfseries Schritt 1:]
+
+\item Finde geeignete Teillösungen.\\
+
+Sei $S \subseteq \{ 1 , .. , n-1 \}$ Teilmenge von Städten.
+Sei $m \in \{0, .., n-1\} \setminus S$.\\
+Nun sei T[$S$,$m$], die Länge einer optimalen Tour, die bei $0$ anfängt, bei $m$ aufhört und alle Städte in $S$ besucht.\\
+Unser Ziel ist nun T[$\{0, ... , n-1\}$, $0$] zu finden.
+
+\item Finde eine Rekursion
+$$
+\begin{array}{rcrcl}
+\forall m &:& T[\emptyset , m] &=& d(0,m)\\
+&& T[S,m] &=& \underset{a \in S}{\min} T[S \setminus a, a] + d(a,m)
+\end{array}
+$$
+Wir bestimmen hier welche Stadt wir als letztes besuchen, bevor wir zu $m$ gehen.
+
+\item Fülle die Tabelle aus
+
+\item Finde eine optimale Lösung
+
+\end{enumerate}
+
+\item{\bfseries Laufzeit:} Die Tabelle hat $2^{n-1} \cdot n$ Einträge. Pro Eintrag haben wir eine Laufzeit vin $\Theta (n)$\\
+$\Rightarrow \Theta (n^2 2^n)$\\
+\item{\bfseries Platzbedarf:} Wie zuvor beschrieben hat die Tabelle $\Theta (n2^n)$ Einträge. Dies ist auch unser amortisierter Speicherplatzverbrauch.
 \end{description}
+
+Das Problem ist eines der kanonischen NP-Vollständigen Problemen, deswegen ist es unwahrscheinlich das ein wesentlich besserer Algorithmus existiert.
+
+\subsection{Beispiel: Viterbi - Algorithmus}
+
+Der Viterbie - Algorithmus will einen versteckten Zustand, den wir nur indirekt über ine gestörte Quelle beobachten können, ermitteln. Genauer will er eine Folge von wahrscheinlichsten Zuständen ermitteln.
+
+\subsubsection{Hidden Markov Model (HMM)}
+
+\textbf{Def.:} Ein verstecktes Markovmodell (Hidden Markov Model) besteht aus:\\
+
+Zustandsmenge $Q$, $|Q| < \infty$\\
+Ausgangsalphabet $\Sigma$, $| \Sigma | < \infty$\\
+Ausgangsverteilung $P_q, q \in Q, \; P_q \in [0,...,1], \underset{t\in Q}{\sum} P_t = 1$\\
+Asugabeverteilung \\
+$\forall q \in Q \, \forall \sigma \in \Sigma \; : \;$ Pr[Modell gibt $\sigma$ aus | Modell ist in Zustand $q$] $\in [0,...,1]$\\
+Die Summe aller dieser Wahrscheinlichkeiten für einen Zustand ist 1.\\
+Übergangsverteilung:\\
+$\forall p,q \in Q \; : \; $ Pr[nächster Zustand ist $q$ | jetziger Zustand ist $p$] $\in [0,..., 1]$. Wobei die Summe für ein $q$ wiederum 1 ist.\\
+
+\textbf{Semantik:} 
+\begin{itemize}
+
+\item Wähle zufällig einen Zustand $q_0$ gemäß der Anfangsverteilung.
+
+\item Ist der aktuelle Zustand $q_i$ wähle ein $\sigma$ gemäß der Ausgabeverteilung.
+
+\item Wähle den nächste Zustand $q_{i+1}$ gemäß der Übergangsverteilung
+
+\end{itemize}
+
+Bei der Konstruktion handelt es sich um eine probabilistische Turingmaschiene.
+
+\textbf{Problem: } Das Problem das wir jetzt Lösen wollen ist:\\
+\emph{Gegeben:} $\sigma_0, \sigma_1,...,  \sigma_{n-1}$.
+\emph{Gesucht:} Zustandsfolge $q_0,q_1, ..., q_{n-1}$, so dass\\
+Pr[$\sigma_0, \sigma_1, ... , \sigma_{n-1}$ | $q_0, q_1 , ... , q_{n-1}$] maximal ist.
+
+\subsubsection{Satz von Base:}
+
+tbd
+
+\subsubsection{Klausurregen:}
+
+tbd

@@ -1,0 +1,122 @@
+\subsection*{Aufgabe 2: Input}
+
+\begin{description}
+
+\item{\bfseries A 1.2.1} Erläutern Sie unter Nutzung des \emph{User Guide}s die Funktionalität der sieben Register.
+
+\begin{description}
+
+\item{\bfseries P1DIR} wurde schon in A 1.1.1 erklärt und bezeichnet die Richtung des Ports (lesen oder schreiben)
+
+\item{\bfseries P1IN} Aus diesem Registern kann man lesen welches Bit auf P1 gesendet / geschrieben / angelegt ist.
+
+\item{\bfseries P1OUT} Wurde schon in A 1.1.1 beschrieben. In dieses Register schreiben wir einen Wert, den wir nach außen sichtbar machen wollen. Dieses Bit ist genau dann sichtbar, wenn P1DIR auf OUT steht.
+
+\item{\bfseries P1SEL} Wurde schon in A 1.1.1 beschrieben. Wählt aus, wer diesen Wert lesen soll. Kann an ein Modul direkt geleitet werden.
+
+\item{\bfseries P1IE} Schaltet für dieses Bit ein, ob es einen Interrupt werfen darf oder nicht.
+
+\item{\bfseries P1IES} Legt fest, ob der Interruptbit bei High-To-Low (Bit:1) oder bei Low-to-High (Bit:0) gesetzt werden soll.
+
+\item{\bfseries P1IFG} Ist die Interruptflag, die zeigt an, ob der Trigger ausgelöst wurde. Dieses Register sollte nach dem aufruf der InterruptServiceRoutine wieder auf 0 gesetzt werden, damit man auf ein neuen Interrupt warten kann.
+
+\end{description}
+
+\item{\bfseries A 1.2.2} Erläutern Sie die Funktionalität des Operators \emph{AND} zur Bitmanipulation. Diskutieren Sie die Einsatzmöglichkeiten am Beispiel einer IF-Anweisung (IF (PIN1 \& Taster)) { ... }\\
+
+Die Bitweiseverundung ist folgender Maßen definiert:
+$$
+\begin{array}{crcl}
+AND  \; : \; & \mathbb{B}^n \times \mathbb{B}^n &\rightarrow & \mathbb{B}^n\\
+&  ((a_0, a_1, ... , a_n) \; , \; ( b_0, b_1, ... b_n)) & \mapsto & ((a_0 \land b_0), (a_1 \land b_1), ... (a_n \land b_n))
+\end{array}
+$$
+Bei unseren 8-Bit breiten Ports ist $n$ üblicherweise 8.\\
+
+In der Anwendung für die If Anweisung, können wir über eine Bitmaske (PIN1) überprüfen, ob ein Taster gesetzt gerückt wurde. Dies können wir realisieren, wenn Taster das Register ist, in das die Taster über den Port in IN schreiben (oder eine Interruptflag gesetzt haben). Nun steht in PIN1 eine Maske, die 1 an der Stelle ist, an der der Taster seine Flag setzt, und sonst 0en hat. Verunden wir nun die beiden, erhalten wir:\\
+0, wenn der Taster nicht gesetzt wurde. Das gesuchte Bit ist 0, und alle anderen werden über die Maske genullt.\\
+$\not=$ 0, wenn der Taster gedrückt wurde. Das gesuchte Bit ist 1 und alle anderen 0.\\
+
+Dies hat zur Folge, dass bei gedrücktem Taster in das IF Konstrukt gesprungen wird und sonst nicht (da if bei arg $\not= 0$/ betreten wird).
+
+\item{\bfseries A 1.2.3} Nutzen Sie die obere Schaltung zur Erklärung der nachfolgenden dargestellten Befehlszeilen und geben Sie an, welchen Wert die Variable a (unsigned char) in den einzelnen Zeilen annimmt. Beachten Sie dabei den Tastenzustand im Kommentar.
+
+\begin{lstlisting}
+#define Taster_rechts (0x01)
+#define Taster_links (0x02)
+P1DIR = 0x00;
+P4DIR = 0xFF;
+P4OUT = 0;
+a = 7;
+P4OUT = a;
+P1OUT = a;
+a = P1IN & 0x30; //beide Tasten gedrueckt
+a = P1IN & 0x00; //Taste rechts gedrueckt
+a = P1IN & 0x01; //Taste rechts gedrueckt
+a = P1IN & 0x02; //Taste rechts gedrueckt
+a = P1IN & 0x03; //Taste links gedrueckt
+a = P1IN & 0x03; //beide Tasten gedrueckt
+P4OUT = P1IN & Taster_rechts; //Taster an P1.0 nicht gedrueckt
+P4OUT = P1IN & Taster_links; //Taster an P1.0 gedrueckt
+\end{lstlisting}
+
+Wir beschreiben im folgenden, was die einzelnen Zeilen tun:
+
+\begin{enumerate}[\bfseries {Zeile} 1]
+
+\item Definiert die Maske, welches Bit der Taster rechts setzt.
+
+\item Definiert die Maske, welche Bit der Taster links setzt.
+
+\item Der gesammte Port 1 (jedes Bit) wird auf IN gesetzt.
+
+\item Wir setzten den gesammten Port 4 auf OUT (die Bits die bisher drauf liegen werden sichtbar)
+
+\item Wir zeigen Port 4 auf jedem Bit eine 0
+
+\item $a = 7$
+
+\item Wir setzen die untersten 3 Bits des Ports auf 1, sollte SEL = 0 und das richtige Modul verbunden sein, würden nun alle LEDs leuchten.
+
+\item Wir setzen P1OUT auf a, was über das Programm hinweg nicht sichtbar wird, da P1OUT auf INT steht.
+
+\item a ist 0, da beide Taster die unteren beiden Bits sind. Die verundung macht daraus insgesammt eine 0.
+
+\item Verundung mit 0 ist immer 0.
+
+\item $a = 1$, da Taster 1 in 0x01 schreibt und gedrückt ist.
+
+\item $a = 0$, da Taster 2 nicht gedrückt ist.
+
+\item $a = 2$, da Taster 2 gedrückt (Wert 2) und Taster 1 nicht gedrückt (Wert 0).
+
+\item $a = 3$, das beide gedrückt sind und die werte sich addieren.
+
+\item $a = 0$, da P1.0 das Bit ist, das rechten Taster gesetzt wird. Dieses ist nicht gesetzt wird also 0 sein
+
+\item a ist nicht bestimmt, da wir den linken Taster überprüfen, aber P4.0 den rechten spezifiziert und auf P4.1, was den linken beschreibt, nicht eingegangen wird.
+
+\end{enumerate}
+
+\item{\bfseries A 1.2.4} Schreiben Sie ein Programm mit folgender Funktionalität:
+
+\begin{itemize}
+
+\item gelbe LED (P4.1) an, wenn keine Taste gedrückt ist
+\item grüne LED (P4.2) an, wenn rechte Taste gedrückt und linke Taste nicht gedrückt ist
+\item rote LED (P4.0) an, wenn linke taste gedrückt und rechte Taste nicht
+\item gelbe LED (P4.1) an, wenn beide Tasten gedrückt sind
+
+\end{itemize}
+
+Unser Programm sieht folgender Maen aus:
+
+\begin{lstlisting}
+void coolFunction(){
+
+}
+\end{lstlisting}
+
+Auswertung:
+
+\end{description}
