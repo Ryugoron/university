@@ -1,0 +1,31 @@
+%<TpX v="5" ArrowsSize="0.7" StarsSize="1" DefaultFontHeight="5" DefaultSymbolSize="30" ApproximationPrecision="0.01" PicScale="1" Border="2" BitmapRes="20000" HatchingStep="2" DottedSize="0.5" DashSize="1" LineWidth="0.3">
+%  <rect x="9.77851" y="9.77851" w="130.38" h="100.011"/>
+%  <rect x="68.4496" y="9.46052" w="9.85801" h="100.329" lw="2.00"/>
+%  <rect x="10.0965" y="55.5706" w="129.744" h="9.38102" lw="2.00"/>
+%  <text x="107.246" y="59.0686" t="min" h="5" lw="2.00"/>
+%  <line x1="111.221" y1="62.0896" x2="111.062" y2="69.4036" arr2="h40"/>
+%  <rect x="104.702" y="64.7926" w="9.22202" h="44.6791"/>
+%  <rect x="78.1486" y="84.1906" w="62.1691" h="7.79101"/>
+%  <text x="87.3706" y="86.4166" t="min" h="5"/>
+%  <line x1="91.1866" y1="86.7346" x2="91.5046" y2="79.5796" arr2="h40"/>
+%  <rect x="78.4666" y="72.5836" w="26.394" h="5.56501"/>
+%  <rect x="88.0066" y="64.9516" w="6.99601" h="19.398"/>
+%</TpX>
+\begin{figure}
+\centering
+\ifpdf
+  \setlength{\unitlength}{1bp}%
+  \begin{picture}(381.37, 295.74)(0,0)
+  \put(0,0){\includegraphics{local_min.pdf}}
+  \put(281.95,146.29){\fontsize{14.23}{17.07}\selectfont min}
+  \put(225.62,223.81){\fontsize{14.23}{17.07}\selectfont min}
+  \end{picture}%
+\else
+  \setlength{\unitlength}{1bp}%
+  \begin{picture}(381.37, 295.74)(0,0)
+  \put(0,0){\includegraphics{local_min}}
+  \put(281.95,146.29){\fontsize{14.23}{17.07}\selectfont min}
+  \put(225.62,223.81){\fontsize{14.23}{17.07}\selectfont min}
+  \end{picture}%
+\fi
+\end{figure}

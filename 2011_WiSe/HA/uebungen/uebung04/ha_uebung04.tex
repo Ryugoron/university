@@ -89,7 +89,6 @@ Dies gilt insbesondere auch für die Nachberknoten von $m$. Damit ist $m$ auch s
 Zeigen Sie, dass lokale Suche im schlimmesten Fall $\Omega (n^2)$ viele Schritte benötigt.\\
 
 \textbf{Lösung:}\\
-
 Um diese Laufzeit zu erreichen Konstruieren wir uns einen Fall, indem bei gegebenem $v\in V$ der Algorithmus jedes (i-te) Element $w in V$ besuchen muss, wobei $i\in \mathbb{N}$ konstant ist.\\
 
 Unsere Konstruktion sieht wie folgt aus: Wir starten bei $v$ in der linken, oberen Ecke $i = j = 0$. Nun wählen wir Schlangenlinien durch unseren Pfad, so dass wir immer eine Zeile überspringen (am Rand nur 1 Element berühren). Die Knoten entlang dieses Pfades sind immer um 1 kleiner als der Vorgänger. (Wir starten bei $x_{0,0} = n^2$. Die Knoten aus den frei gelassenen Ebenen, wählen wir so, dass wir sie nicht betreten, groß genug und beliebig ($> n^2$).
@@ -111,10 +110,17 @@ Wir berühren hier $\frac{n^2}{2} + \frac{n}{2}$ Knoten. Diese kommen zustande i
 \item Zeigen Sie, wie man ein lokales Minimum in $O (n)$ Zeit finden kann. Begründen Sie Korrektheit und Laufzeit Ihres Algorithmus.
 
 \textbf{Lösung:}\\
-
 Die Idee dieser Lösung sieht wie folgt aus:\\
 Wir legen in jedem Schritt ein Kreuz über das Feld, so dass es das gesammte Gitter in 4 (in etwa) gleichgroße Teile zerlegt. Als nächstes suchen wir uns das Minimum dieser $2 \cdot n - 1$ Elemente, die auf dem Kreuz liegen. Von dem Knoten des Minimums aus, betrachten wir die beiden Nachbern, die nicht in dem Streifen liegen (wahlweise auch alle, da kein Nachber auf dem Streifen kleiner sein kann). Ist keines der Elemente kleiner, so haben wir lokales Minimum. Sonst gehen wir in Richtung des kleineren Nachberns.
-Damit haben wir ein $\frac{3}{4}$ des Quadrates weggeworfen und müssen nur nach das verbleibende Viertel mit den Maßen $\frac{n}{2} \times \frac{n}{2}$ weiter machen.\\
+Damit haben wir ein $\frac{3}{4}$ des Quadrates weggeworfen und müssen nur nach das verbleibende Viertel mit den Maßen $\frac{n}{2} \times \frac{n}{2}$ weiter machen.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.7]{local_min.pdf}\\
+Ein Grid das die Aufteilung rekursiv Darstellt.
+\end{figure}
+
+\pagebreak
 
 \textbf{Korrektheit:}\\
 Für die Korrektheit zeigen wir, dass ein \emph{lokales Minimum} im eingeschränkten Viertel liegen muss (außer wir haben schon eins im Streifen gefunden gefunden).\\
@@ -204,7 +210,7 @@ for j := 1 to n do
 		wa := $\infty$ ;// Maximaler Wert bisher
 		a := null;	// Voraenger mit dem groessten Wert
 		for x := i to j do
-			mom = P[i,a] + P[a+1,j] + p[i]*p[j+1]*(2*p[a+1]-1);
+			mom = P[i,x] + P[x+1,j] + p[i]*p[j+1]*(2*p[x+1]-1);
 			if mom > wa then
 				wa = mom;
 				a := x;
@@ -212,21 +218,114 @@ for j := 1 to n do
 		Back[i,j] = a;
 \end{lstlisting}
 
+\pagebreak
+
 \textbf{Platzbedarf:} Für diesen Algorithmus legen wir, wenn wir es einfach machen ein 2 Dimensionales Array, der Größe $n \times n$ an. Da wir aber in jedem in Zeile $i$ nur jeweils $i$ der Einträge brauchen (Start bei 1) könnten wir es auch optimieren, dass wir unterschiedlich Lange Arrays in das erste packen. Da wir aber damit immer noch $\underset{i=1}{\overset{n}{\sum}} i$ Einträge brauchen, verbleiben wir bei einem Speicherplatzbedarf von $\Theta (n^2)$.\\
 
 \textbf{Laufzeit:} Als Laufzeit für den Algorithmus schauen wir uns an, wie viele Operationen wir pro benutzem Feld haben.\\
-Lösen wir einmal die Formel von eben auf, erhalten wir $\underset{i=1}{\overset{n}{\sum}} i = \frac{n \cdot \left( n + 1\right)}{2}$ Einträge. Pro Feld müssen wir 
+Nun müssen wir aber Pro Feld nicht 1 annehmen, sondern haben pro Feld $i-j$ $c$ konstante Operationen. Dies ergibt die Formel:
+$$
+T(n) = \sum_{j=0}^{n} \sum_{i=0}^{j} (i-j) \cdot c = \frac{1}{6} cn \cdot (n + 1) \cdot (n + 2)
+$$ 
+Das gibt uns eine Laufzeit von $\Theta(n^3)$, die allerdings sehr gute Konstanten besitzt. (Das c bewegt sich im Bereich von $\approx 6$ elementar Operationen).
 
 %% ------------------------------
 %%      	c)
 %% ------------------------------
 \item Erweitern Sie Ihren Algorithmus so, dass er auch eine optimale Klammerung ausgibt.\\
 
+Im in \emph{b)} beschriebenen Algorithmus haben wir schon ein Feld \emph{Back} angelegt, indem wir für jedes Feld gespeichert haben, wo wir weiter geklammert haben. Anahnd dieser Information können wir den optimalen Weg rekonstruieren (Wir habe uns für eine reine Rekursion entschieden, da sie am leichtesten verständlich ist):
+
+\begin{lstlisting}[language=Pascal]
+OptimaleKlammerung(i,j)
+	if( i = j)
+		return "M_" + i;
+	a = Back[i,j];
+	links = OptimaleKlammerung(i,a);
+	rechts = OptimaleKlammerung(a+1,j);
+	return "(" + links + ") * (" + rechts + ")";
+\end{lstlisting}
+
+Sollten wir nun eine optimale Klamerung benutzen wollen zum ausrechnen, so geben wir keine Strings zurück, sondern Matrizen und beim zusammensetzten (letzem return) multiplizieren wir die Matrizen einfach.
+
+\pagebreak
 
 %% ------------------------------
 %%      	d)
 %% ------------------------------
-\item Implementieren Sie ein Programm, das eine optimale Klammerung für die matrizenmultiplikation bestimmt und die Multiplikation durchführt. Vergleichen SIe Ihr Programm mit einer naiven Implementierung, welche die Matrizen von links nach rechts multipliziert.
+\item Implementieren Sie ein Programm, das eine optimale Klammerung für die Matrizenmultiplikation bestimmt und die Multiplikation durchführt. Vergleichen SIe Ihr Programm mit einer naiven Implementierung, welche die Matrizen von links nach rechts multipliziert.
+
+\begin{description}
+
+\item{\bfseries Implementierung:}
+
+\begin{lstlisting}
+public static Matrix naive_ketten_multiplikation(Matrix[] matrices){
+	...
+	Matrix erg = matrices[0];
+	for(int i = 1; i < matrices.length; i++){
+		erg = Matrix.matmult(erg, matrices[i]);
+	}
+	return erg;
+}
+\end{lstlisting}
+Wir gehen unser Feld von Matrizen durch und multiplizieren diese der Reihe nach auf.\\
+
+
+\begin{lstlisting}
+public static Matrix kettenMultiplikation(Matrix[] matrices){
+	// ... Fehler / kleine Werte etc.
+	int n = matrices.length;
+	dyn = new int[n][n];
+	back = new int[n][n];
+	
+	for(int i = 0; i < n; i++){
+		dyn[i][i] = 0;
+		back[i][i] = -1;
+	}
+	for(int j = 0; j< n; j++){
+		for(int i = 0; i<j; i++){
+			int acc = Integer.MAX_VALUE;
+			int a = 0;
+			for(int x=i; x<j; x++){
+				int mom = dyn[i][x] + dyn[x+1][j] + matrices[i].getColumnDimension() * matrices[j].getRowDimension()*(2*matrices[x].getRowDimension());
+				if(mom < acc){
+					acc = mom;
+					a = x;
+				}
+			}
+			dyn[i][j] = acc;
+			back[i][j] = a;
+		}
+	}
+	matToMult = matrices;
+	return multByReverse(0, n-1);
+}
+\end{lstlisting}
+
+Wir gehen genau wie in \emph{b)} beschrieben vor. Der Algorithmus ist nur auf JAVA angepasst.
+
+\pagebreak
+
+\begin{lstlisting}
+private static Matrix multByReverse(int i, int j){
+	if(i == j){
+		return matToMult[i];
+	}
+	int a = back[i][j];
+	return Matrix.matmult(multByReverse(i,a), multByReverse(a+1,j));
+}
+\end{lstlisting}
+
+Diese Methode funktioniert, wie in \emph{c)} beschrieben. Wenn wir ein und die selbe Matrix haben, werden wir diese zurück geben. Sonst suchen wir uns den gespeicherten Wert, nehmen an dieser Stelle die Teilung vor, multiplizieren Rekursiv die Matrizen. Wenn diese Methoden zurückkehren, werden wir die Ergebnisse multiplizieren.
+
+\item{\bfseries Testläufe:}\\
+Die Testläufe laufen über eine Anzahl $n$ (bei uns auf 100 gesetzt) random generierte Matrizen (die Dimension ist auf 200 begrenzt).\\
+Wenn der Parameter ('-o') angegeben wurde, so werden diese Matrizen alle ausgegeben werden. Am Ende werden die Zeiten für die Multiplikation der naiven und der dynamischen Lösung ausgegeben.\\
+
+
+Unsere Testläufe haben erstens ergeben, dass die Multiplikation das selbe Ergebnis liefert. (Getestet mit Parameter '-o'). Von der Laufzeit her betrachtet haben wir je nachdem, wie schlecht die naive Klammerung ist, einen minimalen Geschwindigkeitsverlust (lag bei wenigen ms drunter) bis zu einem Speed-Up von 15. Im Schnitt konnten wir beobachten, dass die dynamische Implementierung etwa 8 mal so schnell war.
+\end{description}
 
 \end{enumerate}
 
