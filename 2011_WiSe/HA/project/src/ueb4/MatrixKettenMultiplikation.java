@@ -30,7 +30,7 @@ public class MatrixKettenMultiplikation {
 		if(matrices.length == 0) throw new IllegalArgumentException("No Matrix was given.");
 		Matrix erg = matrices[0];
 		for(int i = 1; i < matrices.length; i++){
-			erg = Matrix.matmult(erg, matrices[i]);
+			erg = Matrix.mult(erg, matrices[i]);
 		}
 		return erg;
 	}
@@ -91,7 +91,7 @@ public class MatrixKettenMultiplikation {
 			return matToMult[i];
 		}
 		int a = back[i][j];
-		return Matrix.matmult(multByReverse(i,a), multByReverse(a+1,j));
+		return Matrix.mult(multByReverse(i,a), multByReverse(a+1,j));
 	}
 	
 	private static boolean output = false;
