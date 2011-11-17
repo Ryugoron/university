@@ -215,7 +215,7 @@ for j := 1 to n do
 \textbf{Platzbedarf:} Für diesen Algorithmus legen wir, wenn wir es einfach machen ein 2 Dimensionales Array, der Größe $n \times n$ an. Da wir aber in jedem in Zeile $i$ nur jeweils $i$ der Einträge brauchen (Start bei 1) könnten wir es auch optimieren, dass wir unterschiedlich Lange Arrays in das erste packen. Da wir aber damit immer noch $\underset{i=1}{\overset{n}{\sum}} i$ Einträge brauchen, verbleiben wir bei einem Speicherplatzbedarf von $\Theta (n^2)$.\\
 
 \textbf{Laufzeit:} Als Laufzeit für den Algorithmus schauen wir uns an, wie viele Operationen wir pro benutzem Feld haben.\\
-
+Lösen wir einmal die Formel von eben auf, erhalten wir $\underset{i=1}{\overset{n}{\sum}} i = \frac{n \cdot \left( n + 1\right)}{2}$ Einträge. Pro Feld müssen wir 
 
 %% ------------------------------
 %%      	c)
