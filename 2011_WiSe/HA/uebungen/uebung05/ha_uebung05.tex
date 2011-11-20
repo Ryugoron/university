@@ -1,0 +1,168 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm]{geometry} 
+\usepackage{babel}
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc} 
+\usepackage{ae} 
+\usepackage{amssymb} 
+\usepackage{amsmath} 
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{paralist}
+
+%%\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[C]{Höhere Algorithmik}
+\fancyhead[L]{Übung Nr. 4}
+\fancyhead[R]{WS 2011/12}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage$\,$ von \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\setlength{\parindent}{0pt} 
+\setlength{\headheight}{15pt}
+
+\author{Tutor: Lena Schlipf}
+\date{}
+\title{Max Wisniewski , Alexander Steen}
+
+\begin{document}
+
+\lstset{language=Java, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2, mathescape=true}
+
+\maketitle
+\thispagestyle{fancy}
+
+\begin{flushright}
+\begin{tabular}{|c|c|c||c|}
+\hline
+1&2&3&$\Sigma$\\
+\hline \hline
+\qquad \qquad & \qquad \qquad & \qquad \qquad & \qquad \qquad \\
+\hline
+\end{tabular}
+\end{flushright}
+
+%% -------------------------------------
+%%		Aufgabe 1
+%% -------------------------------------
+
+\subsection*{Aufgabe 1 \mdseries Varianten der Vorlesungsbeispiele}
+
+\begin{enumerate}[\bfseries (a)]
+
+%% -------------------------------------
+%%			a)
+%% -------------------------------------
+
+
+\item Betrachten Sie folgende Variation des Einkaufsproblems:\\
+Zu einer Ware $i$ existiert nun abgesehen vom Preis $p_i$ und einem Wert $w_i$ nun auch noch eine Häufigkeit $h_i$. Weiterhin haben wir ein Budget $B$ und wollen als Ziel nun eine \emph{Multmenge} von Artikeln finden, das bei $B$ die Summe der Werte maximiert.\\
+Zeigen Sie, dass diese Variante auch mit Laufzeit $O(nB)$ läuft.\\
+
+\textbf{Lösung:}
+
+
+%% -------------------------------------
+%%			b)
+%% -------------------------------------
+
+\item In der Vorlesung haben Sie gesehen, wie das Rundreiseproblem mit Hilfe von dynamischen Programieren gelöst werden kann. Arbeiten Sie die Details des Algorithmus aus und geben Sie Pseudecode an, um eine optimale Tour zu berechnen.\\
+
+\textbf{Lösung:}
+
+\end{enumerate}
+
+
+%% -------------------------------------
+%%		Aufgabe 2
+%% -------------------------------------
+
+\subsection*{Aufgabe 2 \mdseries Münzwechseln}
+
+\begin{enumerate}[\bfseries (a)]
+
+%% -------------------------------------
+%%			a)
+%% -------------------------------------
+
+
+\item Entwerfen Sie einen Algorithmus, der berechnet, auf weiviele Arten ein Euro (und allgemeiner \emph{n Cent}) mit beliebig viel Münzen $\leq 1$ Euromünze gewechselt werden kann. Die Lösung soll dynamische Programmierung verwenden und für beliebige Wärungen funktionieren.\\
+
+\textbf{Lösung:}
+
+%% -------------------------------------
+%%			b)
+%% -------------------------------------
+
+\item Analysieren Sie die Laufzeit Ihres Algorithmus.\\
+
+\textbf{Lösung:}
+
+%% -------------------------------------
+%%			c)
+%% -------------------------------------
+
+\item Implementieren Sie Ihren Algorithmus in \emph{Java} und wenden sie ihn auf das Problem in \emph{a)} an, sowie 1 \$ in 1-, 5-, 10- und 25- Centstücke an.\\
+
+\textbf{Lösung:}
+
+\end{enumerate}
+
+%% -------------------------------------
+%%		Aufgabe 3
+%% -------------------------------------
+
+\subsection*{Aufgabe 3 \mdseries Versteckte Markov-Modelle}
+
+\begin{enumerate}[\bfseries (a)]
+
+%% -------------------------------------
+%%			a)
+%% -------------------------------------
+
+\item Betrachten Sie das folgende Markov-Modell.
+
+\begin{itemize}
+\item Zustände: $Q = \{ q,r,s\}$
+\item Alphabet: $\Sigma = \{ a,b\}$
+\item Anfangsverteilung: $\{ q : 0.1, r : 0.4, s : 0.5 \}$
+\item Ausgabeverteilung für q $\{ a : 0.2, b : 0.8 \}$
+\item Ausgabeverteilung für r $\{ a : 0.7, b : 0.3 \}$
+\item Ausgabeverteilung für s $\{ a : 0.5, b : 0.5\}$
+\item Übergangsverteilung für q: $\{ q : 0.8, r : 0.1, s : 0.1 \}$
+\item Übergangsverteilung für r: $\{ q : 0.3, r : 0.3, s : 0.4 \}$
+\item Übergangsverteilung für s: $\{ q : 0.2, r : 0.4, s : 0.4 \}$
+\item
+\end{itemize}
+
+Benutzen Sie den Viterbi-Algorithmus, um die wahrscheinlichste Erklärung für die Ausgabefolge \emph{abba} zu ermitteln.\\
+
+\textbf{Lösung:}
+
+%% -------------------------------------
+%%			b)
+%% -------------------------------------
+
+\item Bei einer Implementierung des Viterbi-Algorithmus rechnet man oft mit den Werten $\log p_i$ statt den Wahrscheinlichkeiten $p_i$. Erklären Sie, warum das eine gute Idee ist.\\
+
+\textbf{Lösung:}
+
+%% -------------------------------------
+%%			c)
+%% -------------------------------------
+
+\item Eine Anwenung von versteckten Markov-Modellen ist die Fehlerkorrektur. Beschreiben Sie, wie man mit einem \emph{versteckten Markov-Modell} eine Übertragung eines Satzes deutscher Sprache über eine Leitung die zu 10% gestört ist, überträgt, modeliert.\\
+
+\textbf{Lösung:}
+
+\end{enumerate}
+
+\label{LastPage}
+
+\end{document}
