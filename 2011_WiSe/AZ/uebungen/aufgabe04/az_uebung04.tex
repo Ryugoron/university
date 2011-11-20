@@ -88,7 +88,38 @@ Die von $P,Q,R,S$ definierte Form hat 4 Punkte, die paarweise den selben Abstand
 
 \item Wählen Sie eine Ecke $E \in \{  P,Q,R,S\} $. Dann sei $D$ die Achse durch $E$ und den Mittelpunkt der gegenüberliegenden Seite des Tetraeders $T$. Geben Sie die Abbildungsmatrix für die Drehung um $D$ um den Winkel $120^\circ$ und $240^\circ$ bzgl. der Standardbasis des $\R ^3$ an.\\
 
-\textbf{Lösung:}
+\textbf{Lösung:}\\
+Wir gehen nach dem folgenden Prinzip vor. Wir wählen unsere Basis so, dass die Drehachse unsere z-Achse darstellt und Drehen nur in der x-y-Ebene. Danach führen wir einen Basiswechsel durch um in die Standardbasis zu kommen.\\
+
+Wenn wir Berechnen zunächst $M_1$ die Drehung um $120^\circ$.\\
+$$
+M_1 \left( \begin{array}{c} 1 \\ 0 \\ 0 \end{array} \right) = \left( \begin{array}{c} \cos 120^\circ \\ \sin 120^\circ \\ 0 \end{array} \right), \; M_1 \left( \begin{array}{c} 0 \\ 1 \\ 0 \end{array} \right) = \left( \begin{array}{c} \sin 120^\circ \\ \cos 120^\circ \\ 0 \end{array} \right), \; M_1 \left( \begin{array}{c} 0 \\ 0 \\ 1 \end{array} \right) = \left( \begin{array}{c} 0 \\ 0 \\ 1 \end{array} \right)
+$$
+$$
+\Rightarrow M_1 = \left(
+\begin{array}{ccc}
+\cos 120^\circ & \sin 120^\circ & 0 \\
+\sin 120^\circ & \cos 120^\circ & 0 \\
+0 & 0 & 1
+\end{array} \right)
+$$
+
+Wenn wir Berechnen zunächst $M_2$ die Drehung um $240^\circ$.\\
+$$
+M_2 \left( \begin{array}{c} 1 \\ 0 \\ 0 \end{array} \right) = \left( \begin{array}{c} \cos 240^\circ \\ \sin 240^\circ \\ 0 \end{array} \right), \; M_2 \left( \begin{array}{c} 0 \\ 1 \\ 0 \end{array} \right) = \left( \begin{array}{c} \sin 240^\circ \\ \cos 240^\circ \\ 0 \end{array} \right), \; M_2 \left( \begin{array}{c} 0 \\ 0 \\ 1 \end{array} \right) = \left( \begin{array}{c} 0 \\ 0 \\ 1 \end{array} \right)
+$$
+$$
+\Rightarrow M_2 = \left(
+\begin{array}{ccc}
+\cos 240^\circ & \sin 240^\circ & 0 \\
+\sin 240^\circ & \cos 240^\circ & 0 \\
+0 & 0 & 1
+\end{array} \right)
+$$
+
+Nun müssen wir nur noch die Basiswechselmatrix $S$ und die Inversematrix $S^{-1}$ berechnen. (Diese existiert nach Satz aus Lina I).\\
+
+\textbf{\Huge KEIN BOCK}
 
 %% --------------------------------------------
 %%			c)
@@ -96,6 +127,8 @@ Die von $P,Q,R,S$ definierte Form hat 4 Punkte, die paarweise den selben Abstand
 \item Wählen Sie zwei gegenüberliegende Kanten von $T$. Dann sei $D$ die Achse durch die Mittelpunkte dieser beiden Kanten. Geben Sie die Abbildungsmatrix für die Drehung um $D$ um den Winkel $180^\circ$ bzgl. der Standardbasis des $\R ^3$ an. \\
 
 \textbf{Lösung:}
+
+\textbf{\Huge WAYNE}
 
 \end{enumerate}
 
