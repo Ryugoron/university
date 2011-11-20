@@ -1,0 +1,210 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm]{geometry} 
+\usepackage{babel}
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc} 
+\usepackage{ae} 
+\usepackage{amssymb} 
+\usepackage{amsmath} 
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{paralist}
+\usepackage{fancyhdr}
+\usepackage{subfigure}
+\pagestyle{fancy}
+\fancyhead[C]{Alegbra und Zahlentheorie}
+\fancyhead[L]{Übung Nr. 3}
+\fancyhead[R]{WS 2011/12}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage\, von \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\setlength{\parindent}{0pt} 
+\setlength{\headheight}{15pt}
+
+%
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\NN}{\mathbb{N} \setminus \{0\}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\ggT}{\text{ggT}}
+\newcommand{\kgV}{\text{kgV}}
+%
+
+\author{Tutor: David Müßig}
+\date{}
+\title{Max Wisniewski, Alexander Steen}
+
+\begin{document}
+
+\lstset{language=Java, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2}
+
+\maketitle
+\thispagestyle{fancy}
+
+%% -------------------------------------------
+%%                 AUFGABE 1
+%% -------------------------------------------
+\subsection*{Aufgabe 1 \mdseries Die Tetraedergruppe}
+
+Gegeben seien folgende Punkte $\mathbb{R}^3:$
+$$
+P=(1,1,1),\; Q=(-1,-1,1),\; R=(1,-1,-1),\; S=(-1,1,-1)
+$$
+\begin{enumerate}[\bfseries (a)]
+
+%% --------------------------------------------
+%%			a)
+%% -------------------------------------------
+\item Berechnen Sie die Abstände $d(P,Q), d(P,R), d(P,S), d(Q,R), d(Q,S)$ und $d(R,S)$. Schließen Sie, dass die angegebenen Punkte die Eckpunkte eines regulären Tetraeders $T$ sind.\\
+
+\textbf{Lösung:}
+
+\begin{description}
+
+\item{$d(P,Q)$} $=\sqrt{2^2 + 2^2 + 0} = \sqrt{8}$
+
+\item{$ d(P,R)$} $= \sqrt{0 + 2^2 + 2^2} = \sqrt{8}$
+
+\item{$d(P,S)$} $= \sqrt{2^2 + 0 + 2^2} = \sqrt{8}$
+
+\item{$d(Q,R)$} $= \sqrt{2^2 + 0 + 2^2} = \sqrt{8}$
+
+\item{$ d(Q,S)$} $=\sqrt{0 + 2^2 + 2^2} = \sqrt{8}$
+
+\item{$d(R,S)$} $=\sqrt{2^2 + 2^2 + 0} = \sqrt{8}$
+
+\end{description}
+
+Die von $P,Q,R,S$ definierte Form hat 4 Punkte, die paarweise den selben Abstand ($\geq 0+ \varepsilon, \varepsilon > 0$) haben, darum erfüllen Sie die Bedingung, dass alle paarweise verscheiden sind. Deshalb handelt es sich hier bei um ein \emph{regelmäßiges} Tetraeder.
+
+%% ---------------------------------------------
+%% 			b)
+%% --------------------------------------------
+
+\item Wählen Sie eine Ecke $E \in \{  P,Q,R,S\} $. Dann sei $D$ die Achse durch $E$ und den Mittelpunkt der gegenüberliegenden Seite des Tetraeders $T$. Geben Sie die Abbildungsmatrix für die Drehung um $D$ um den Winkel $120^\circ$ und $240^\circ$ bzgl. der Standardbasis des $\R ^3$ an.\\
+
+\textbf{Lösung:}
+
+%% --------------------------------------------
+%%			c)
+%% --------------------------------------------
+\item Wählen Sie zwei gegenüberliegende Kanten von $T$. Dann sei $D$ die Achse durch die Mittelpunkte dieser beiden Kanten. Geben Sie die Abbildungsmatrix für die Drehung um $D$ um den Winkel $180^\circ$ bzgl. der Standardbasis des $\R ^3$ an. \\
+
+\textbf{Lösung:}
+
+\end{enumerate}
+
+\pagebreak
+
+%%--------------------------------------------------
+%%		AUFGABE 2
+%% -------------------------------------------------
+\subsection*{Aufgabe 2 \mdseries Würfel, Okta- und Dodekaeder}
+
+\begin{enumerate}[\bfseries (a)]
+
+%% ----------------------------------------
+%%			a)
+%% ---------------------------------------
+\item Es sei $W \subset \R ^3$ der Würfel mit den Eckpunkten
+
+$$
+(1,1,\pm 1), \; (-1,1, \pm 1), \; (-1, -1, \pm 1), \; (1, -1, \pm 1)
+$$
+Bestimmen Sie die spezielle Symmetriegruppe $SO(W)$\\
+
+
+\textbf{Lösung:}\\
+Als Drehungen haben wir die folgenden Möglichkeiten:
+\begin{itemize}
+\item Identität
+\item Achse durch die Mittelpunkte 2er gegenüberliegender Seiten\\
+3 Achsen mit Drehungen um $90^\circ, \; 180^\circ , \; 270^\circ$
+\item Achse durch zwei gegenüberliegende Eckpunkte\\
+4 Achsen mit Drehungen um $120^\circ , 240^\circ$
+\item Achse durch die Mittelpunkte zweier gegenüberliegender Kanten\\
+6 Achsen mit Drehungen um $180^\circ$
+\end{itemize}
+
+Macht insgesammt $\# SO(W) = 24$.
+
+%% -----------------------------------------
+%%			b)
+%% -----------------------------------------
+\item Die Punkte
+$$
+(\pm 1, 0 , 0), \; (0, \pm 1, 0), \; (0,0,\pm 1)
+$$
+sind Eckpunkte eines Polyeders $O \subset \R ^ 3$. Skizzieren Sie $O$. Bestimmen Sie die spezielle Symmeriegruppe $SO(O)$. Vergleichen Sie $SO$(O) und $SO(W)$. Was stellen Sie fest? Haben Sie eine Erklärung dafür?\\
+
+\textbf{Lösung:}\\
+Als Drehungen haben wir die folgenden Möglichkeiten:
+\begin{itemize}
+\item Identität
+\item Achse durch die Mittelpunkte 2er gegenüberliegender Seiten\\
+4 Achsen mit Drehungen um $120^\circ , \; 240^\circ$
+\item Achse durch zwei gegenüberliegende Eckpunkte\\
+3 Achsen mit Drehungen um $90^\circ , \; 180^\circ , \; 270^\circ$
+\item Achse durch die Mittelpunkte zweier gegenüberliegender Kanten\\
+6 Achsen mit Drehungen um $180^\circ$
+\end{itemize}
+
+Das Macht insgesammt $\# SO(O) = 24$. Wir sehen also, dass die beiden Symmetriegruppen die selben Anzahlen von Elementen haben. Die Drehungen teilen sich dabei auch noch gleich auf die selbe Anzahl von korrespondierenden Achsen auf. Damit sind die beiden Gruppen isomorph zu einander.
+
+%% -------------------------------------------
+%%			c)
+%% -----------------------------------------
+\item Ein Dodekaeder $D \subset \R ^3$ ist ein reguläres Polyeder, das von $12$ regelmäßigen Fünfecken begrenzt wird. Beschreiben Sie die spezielle Symmetriegruppe $SO(D)$\\
+
+\textbf{Lösung:}\\
+Das ganze verhält sich analog zu den Köpern aus \emph{a)} und \emph{b)}.
+
+Als Drehungen haben wir die folgenden Möglichkeiten:
+\begin{itemize}
+\item Identität
+\item Achse durch die Mittelpunkte 2er gegenüberliegender Seiten\\
+6 Achsen mit Drehungen um $60^\circ , \; 120^\circ , \; 180^\circ , \; 240^\circ$
+\item Achse durch zwei gegenüberliegende Eckpunkte\\
+10 Achsen mit Drehungen um $120^\circ , \; 240^\circ $
+\item Achse durch die Mittelpunkte zweier gegenüberliegender Kanten\\
+15 Achsen mit Drehungen um $180^\circ$
+\end{itemize}
+
+Das Macht insgesammt $\# SO(D) = 60$. 
+
+%% -----------------------------------------
+%%			d)
+%% ----------------------------------------
+\item Recherchieren Sie den Begriff "platonischer Körper" {} und dokumentieren Sie Ihre Ergebnisse.\\
+
+\textbf{Lösung:}\\
+Haben wir gemacht *grins*
+\end{enumerate}
+
+%% ------------------------------------------
+%%		AUFGABE 3
+%% -----------------------------------------
+\subsection*{Aufgabe 3 \mdseries Solitaire}
+
+\begin{enumerate}[\bfseries (a)]
+
+%% ---------------------------------------------
+%%			a)
+%% --------------------------------------------
+\item Bestimmen Sie alle Endpositionen des des Solitairspiels mit genau zwei Steinen.
+
+
+%% ---------------------------------------------
+%%			b)
+%% ---------------------------------------------
+\item Führen Sie die Diskussion aus der Vorlesung für das Spielfeld (siehe Zettel) durch.
+
+\end{enumerate}
+
+\label{LastPage}
+\end{document}
