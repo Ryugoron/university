@@ -267,7 +267,7 @@ void aufgabe_1_2_4() {
 
 \section*{A 1.3 Ampel}
 \begin{description}
-\item[A 1.3.1]
+\item[A 1.3.1] Nutzen Sie alle drei LED und den rechten Taster (P1.0), um eine Fußgängerampel zu programmieren. \\
 
 \begin{lstlisting}[numbers=left]
 	#define Taster_rechts (0x01)
@@ -275,7 +275,7 @@ void aufgabe_1_2_4() {
 	#define gelb (0x02)
 	#define gruen (0x04)
 	
-void aufgabe_1_2_4() {
+void aufgabe_1_3_1() {
 	// Letzten beiden Pins von Port 1 (Taster) als I/O-Input verwenden
 	P1SEL &= ~(Taster_rechts);
 	P1DIR &= ~(Taster_rechts);
@@ -305,7 +305,7 @@ void aufgabe_1_2_4() {
 \end{description}
 \section*{A 1.4 Taster}
 \begin{description}
-\item[A 1.4.1]
+\item[A 1.4.1] Entwickeln Sie einen Binärzähler \\
 
 \begin{lstlisting}[numbers=left]
 	#define Taster_rechts (0x01)
@@ -316,7 +316,7 @@ void aufgabe_1_2_4() {
 	
 unsigned char counter = 0;
 	
-void aufgabe_1_2_4() {
+void aufgabe_1_4_1() {
 	// Letzten beiden Pins von Port 2 (Taster) als I/O-Input verwenden
 	P1SEL &= ~(Taster_rechts+Taster_links);
 	P1DIR &= ~(Taster_rechts+Taster_links);
