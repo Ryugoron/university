@@ -80,7 +80,7 @@ $$
 
 \end{description}
 
-Die von $P,Q,R,S$ definierte Form hat 4 Punkte, die paarweise den selben Abstand ($\geq 0+ \varepsilon, \varepsilon > 0$) haben, darum erfüllen Sie die Bedingung, dass alle paarweise verscheiden sind. Deshalb handelt es sich hier bei um ein \emph{regelmäßiges} Tetraeder.
+Die von $P,Q,R,S$ definierte Form hat 4 Punkte, die paarweise den selben Abstand ($\geq 0+ \varepsilon, \varepsilon > 0$) haben, darum erfüllen Sie die Bedingung, dass alle paarweise verscheiden sind. Daraus ergibt sich, dass die Oberfläche aus 4 gleichseitigen Dreiecken besteht. Deshalb handelt es sich hier bei um ein \emph{regelmäßiges} Tetraeder.
 
 %% ---------------------------------------------
 %% 			b)
@@ -119,20 +119,67 @@ $$
 
 Nun müssen wir nur noch die Basiswechselmatrix $S$ und die Inversematrix $S^{-1}$ berechnen. (Diese existiert nach Satz aus Lina I).\\
 
-\textbf{\Huge KEIN BOCK}
+Wählen wir zunächst eine Achse. Wir nehmen $E = P$. Da sich alle Punkte auf den Einheitskreis um den Nullpunkt bewegen, muss der Schwerpunkte des Tetraeders auch der Nullpunkt $( 0 , 0 ,0 )$ sein. Damit geht jede Drehachse durch diesen, also auch die Achse die auf den Mittelpunkt der gegenüberliegenden Seite geht.\\
+
+Damit haben wir einen Vektor unseres neuen Vektorraumes bekommen. Nach dem Basiswechselsatz, kann ich mir nun aus der Standardbasis eine neue Basis wählen mit $B' = \left\{ \frac{1}{\sqrt{3}}(1,1,1), \frac{1}{\sqrt{2}}(1,0,-1), \frac{1}{\sqrt{6}}(1,-2,1) \right\}$. Dabei handelt es sich an dieser Stelle schon um eine Orthonormalbasis, da wir in der Drehung vorhin davon ausgagangen sind, dass es eine ist. (Eigenschaften dürfen gerne selbst nachgerechnet werden)\\
+
+Damit ergeben sich:
+$$
+S (1,0,0) = (\frac{1}{\sqrt{3}} , \frac{1}{\sqrt{3}} , \frac{1}{\sqrt{3}}) , \; S (0,1,0) = (\frac{1}{\sqrt{2}},0,- \frac{1}{\sqrt{2}}), \; S (0,0,1) = (\frac{1}{\sqrt{6}}, - \frac{2}{\sqrt{6}}, \frac{1}{\sqrt{6}})
+$$
+$$
+\Rightarrow S = \left( 
+\begin{array}{ccc}
+\frac{1}{\sqrt{3}} &  \frac{1}{\sqrt{2}} & \frac{1}{\sqrt{6}}\\
+\frac{1}{\sqrt{3}} & 0 & - \frac{2}{\sqrt{6}} \\
+\frac{1}{\sqrt{3}} & - \frac{1}{\sqrt{2}} & \frac{1}{\sqrt{6}})
+\end{array}
+\right)
+$$
+Daraus können wir $S^{-1}$ berechnen:
+$$
+\Rightarrow S^{-1} = \left(
+\begin{array}{ccc}
+0.57735 & 0.57735 & 0.57735\\
+0.707107 & 0 & - 0.707107\\
+0.408248 & -0.816497 & 0.408248 
+\end{array}
+\right)
+$$
+
+Als Ergebnis bekommen wir nun die folgenden Matrizen:
+
+$$D_{120} = S^{-1} M_1 S \qquad \text{und} \qquad D_{240} = S^{-1} M_2 S$$
 
 %% --------------------------------------------
 %%			c)
 %% --------------------------------------------
-\item Wählen Sie zwei gegenüberliegende Kanten von $T$. Dann sei $D$ die Achse durch die Mittelpunkte dieser beiden Kanten. Geben Sie die Abbildungsmatrix für die Drehung um $D$ um den Winkel $180^\circ$ bzgl. der Standardbasis des $\R ^3$ an. \\
+\item Wählen Sie zwei gegenüberliegende Kanten von $T$. Dann sei $D$ die Achse durch die Mittelpunkte dieser beiden Kanten. Geben Sie die Abbildungsmatrix für die Drehung um $D$ um den Winkel $180^\circ$ bzgl. der Standardbasis des $\R ^3$ an.
+
+\pagebreak
 
 \textbf{Lösung:}
 
-\textbf{\Huge WAYNE}
+Nehmen wir wieder an, dass die z-Achse, die Drehachse ist. Die Drehung sieht nun folgender Maßen aus:
+$$
+M = \left(
+\begin{array}{ccc}
+\cos 180^\circ & \sin 180^\circ & 0 \\
+\sin 180^\circ & \cos 180^\circ & 0 \\
+0 & 0 & 1
+\end{array}
+\right) = \left(
+\begin{array}{ccc}
+-1 & 0 & 0 \\
+0 & -1 & 0 \\
+0 & 0 & 1
+\end{array}
+\right)
+$$
+
+Nun müssten wir wiederum die Basiswechsel $S$ und $S^{-1}$ in die Orthonormalbasis der Drehachse machen. Aber auf die Punkte wollen wir an dieser Stelle verzichten.
 
 \end{enumerate}
-
-\pagebreak
 
 %%--------------------------------------------------
 %%		AUFGABE 2
@@ -174,6 +221,10 @@ $$
 (\pm 1, 0 , 0), \; (0, \pm 1, 0), \; (0,0,\pm 1)
 $$
 sind Eckpunkte eines Polyeders $O \subset \R ^ 3$. Skizzieren Sie $O$. Bestimmen Sie die spezielle Symmeriegruppe $SO(O)$. Vergleichen Sie $SO$(O) und $SO(W)$. Was stellen Sie fest? Haben Sie eine Erklärung dafür?\\
+
+\textbf{Skizze:}
+
+\pagebreak
 
 \textbf{Lösung:}\\
 Als Drehungen haben wir die folgenden Möglichkeiten:
@@ -231,13 +282,113 @@ So kann sowohl jeder Eckpunkt, jede Seitenfläche als auch jede Kante auf die je
 %% ---------------------------------------------
 %%			a)
 %% --------------------------------------------
-\item Bestimmen Sie alle Endpositionen des des Solitairspiels mit genau zwei Steinen.
+\item Bestimmen Sie alle Endpositionen des des Solitairspiels mit genau zwei Steinen.\\
 
+\textbf{Lösung:}\\
+Wir nehmen die Konstruktion des Spielfeldes aus der Vorlesung, die gefüllt mit den Elementen aus der \emph{Kleinschen Vierergruppe} folgendermaßen aussah:\\
+
+\begin{center}
+\begin{tabular}{|cc|ccc|cc|}
+\hline
+&&a&b&c&&\\
+&&b&c&a&&\\
+\hline
+a&b&c&a&b&c&a\\
+b&c&a&b&c&a&b\\
+c&a&b&c&a&b&c\\
+\hline
+&&c&a&b&&\\
+&&a&b&c&&\\
+\hline
+\end{tabular}
+\end{center}
+
+Nun wissen wir aus den Überlegungen aus der Vorlesung, dass die Kombination der Steine auf dem Spielfeld immer den selben Wert ergeben muss und unsere Startposition ist \emph{b}.\\
+Da in der Endposition nur 2 Steine verbleiben, müssen diese Steine auf den Feldern $a$ und $c$ liegen, da allein diese Kombination aus 2 Elementen ein $b$ ergibt. (Das neutrale Element ist nicht Teil unseres Spielfeldes, kommt hierbei also nicht in betracht)\\
+
+Die nächste Überlegung aus der Vorlesung, die wir hier anwenden können, ist das Symmetrieargument. Da wir das Spiel gedreht um den Mittelpunkt um $90^\circ , \; 180^\circ , \; 270^\circ $ und $360^\circ$ führen können und dabei auf das selbe kommen müssten, können nur Endpositionen in Frage kommen, die auch bei Drehung und Spiegelung ihren Wert erhalten. Dabei kann die Reihenfolge der Elemente bei der Projektion vertauscht werden. Aber dies ist zu vernachlässigen, da die Gruppe abelsch ist, wir also die Elemente beliebig tauschen können.\\
+
+Als letztes gilt noch, dass die Felder sich für eine Endposition nicht gegenseitig auslöschen dürfen können, d.h. nicht neben einander liegen können.\\
+
+Daraus ergeben sich die folgenden Endkonfigurationen (Drehungen (+3 Konfigurationen) und Spiegelungen (+4 Konfigurationen nach Drehung), werden nicht extra Aufgeführt):\\
+
+\begin{center}
+\begin{tabular}{ccc}
+\begin{tabular}{|cc|ccc|cc|}
+\hline
+&&&&&&\\
+&&&&&&\\
+\hline
+&&&&&&\\
+&&&&&&\\
+&&&&&&c\\
+\hline
+&&&a&&&\\
+&&&&&&\\
+\hline
+\end{tabular} &
+\begin{tabular}{|cc|ccc|cc|}
+\hline
+&&&&&&\\
+&&&&&&\\
+\hline
+&&&&&&a\\
+&&&&&&\\
+&&&c&&&\\
+\hline
+&&&&&&\\
+&&&&&&\\
+\hline
+\end{tabular}&
+\begin{tabular}{|cc|ccc|cc|}
+\hline
+&&&&c&&\\
+&&&&&&\\
+\hline
+&&&&&&\\
+&&&&&&\\
+&&&&&&\\
+\hline
+&&&&&&\\
+&&a&&&&\\
+\hline
+\end{tabular}
+\end{tabular}
+\end{center}
+
+Das ergibt für uns insgesammt diese Konfigurationen mulipliziert mit der Anzahl von Drehungen und Spiegelungen $= 12$ Konfigurationen.
 
 %% ---------------------------------------------
 %%			b)
 %% ---------------------------------------------
-\item Führen Sie die Diskussion aus der Vorlesung für das Spielfeld (siehe Zettel) durch.
+\item Führen Sie die Diskussion aus der Vorlesung für das Spielfeld (siehe Zettel) durch.\\
+
+\textbf{Lösung:}\\
+Für die erste Betrachtung haben wir schon einmal die Elemente der \emph{Kleinschen Gruppe} in das Spielfeld eingezeichnet.
+
+\begin{center}
+\begin{tabular}{|ccc|ccc|ccc|}
+\hline
+&&&c&a&b&&&\\
+&&&a&b&c&&&\\
+&&&b&c&a&&&\\
+\hline
+c&a&b&c&a&b&c&a&b\\
+a&b&c&a&b&c&a&b&c\\
+b&c&a&b&c&a&b&c&a\\
+\hline
+&&&c&a&b&&&\\
+&&&a&b&c&&&\\
+&&&b&c&a&&&\\
+\hline
+\end{tabular}
+\end{center}
+
+Das Feld haben wir nach dem selben Muster, wie das ursprüngliche Feld, aus diesem erweitert. Insbesondere sind nur die äußersten 3 Felder pro äußerem Quadrat dazu gekommen. Diese ergeben aufaddiert (da wir in einer abelschen Gruppe die Elemente beliebig tauschen können) immer $e$, das neutrale Element.\\
+
+Unsere Startkonfiguration hat also die Summe $b$. Wir suchen also wiederum die Felder, die ein $b$ enthalten und unter Drehung und Spiegelung abgeschlossen sind.\\
+
+Dies sind die selben Felder, die schon in der Diskusion aus der Vorlesung hatten. Daraus ergibt sich, dass es 5 Endkonfigurationen mit einem Stein gibt und eine, die sogar auf der Mitte endet.
 
 \end{enumerate}
 
