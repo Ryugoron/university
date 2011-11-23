@@ -106,6 +106,10 @@ for m := 0 to $n-1$ do
 return T[2^{n-1}, 0];
 \end{lstlisting}
 
+\textbf{Platzbedarf:} Wir haben ein Feld der Dimension $n \times 2^{n-1}$, dies kostet uns also $\Theta (n \cdot 2^n)$ Platz.\\
+\textbf{Laufzeit:} Pro Feld, müssen wir alle unsere Städte durchgehen und gucken, ob das Bit in unserer Zahl gesetzt ist. Das testen kostet uns konstante Laufzeit, das minimum bestimmen auch. Sollte die Bestimung der Distanz auch konstant sein, so haben wir pro Feld eine Laufzeit von $\Theta (n)$.\\
+Insgesammt haben wir (was man auch an den 3 for Schleifen sehen könnte) eine Laufzeit von $\Theta (n^2 \cdot 2^n)$
+
 \end{enumerate}
 
 
