@@ -38,16 +38,6 @@
 \maketitle
 \thispagestyle{fancy}
 
-\begin{flushright}
-\begin{tabular}{|c|c|c||c|}
-\hline
-1&2&3&$\Sigma$\\
-\hline \hline
-\qquad \qquad & \qquad \qquad & \qquad \qquad & \qquad \qquad \\
-\hline
-\end{tabular}
-\end{flushright}
-
 %% -------------------------------------
 %%		Aufgabe 1
 %% -------------------------------------
@@ -65,16 +55,56 @@
 Zu einer Ware $i$ existiert nun abgesehen vom Preis $p_i$ und einem Wert $w_i$ nun auch noch eine Häufigkeit $h_i$. Weiterhin haben wir ein Budget $B$ und wollen als Ziel nun eine \emph{Multmenge} von Artikeln finden, das bei $B$ die Summe der Werte maximiert.\\
 Zeigen Sie, dass diese Variante auch mit Laufzeit $O(nB)$ läuft.\\
 
-\textbf{Lösung:}
+\textbf{Lösung:}\\
 
+Der Algorithmus ist in seiner Rekursionsgleichung davon ausgegangen, dass wir nach dem Kauf eines Artikels diesen nicht nocheinmal betrachten wollen und ist Aufgrund dieser Annahmen in jedem Schritt eine Zeile in der Tabelle nach oben gegangen (pro Zeilen hatten wir einen Artikel). Streichen wir das unbedingte nach oben gehen, erhalten wir die folgende Rekursionsvorschrift (Die Bezeichner sind, wie in der Vorlesung gewählt):
 
+$$
+\begin{array}{lcrcl}
+\forall b \leq B & : & E[0,b] &=& 0\\
+\forall 0 \leq m \leq n &:& E[m,0] &=& 0\\
+\forall b < p[m] & : & E[m,b] &=& E[m-1,b]\\
+\forall b \geq p[m] &:& E[m,b] &=& \max \; \{ E[m-1,b] , E[m, b - p[m] + w[m] \}
+\end{array}
+$$
+
+Der Unterschied hier besteht nur in der letzten Zeile. Wenn wir einen Artikel genommen haben, so können wir uns dafür entscheiden ihn erneut zu nehmen.\\
+
+Was man an dieser Stelle nun gut sehen kann, ist dass wir nur auf ein anderes Feld im Array zugreifen ($E[m, b- p[m]]$ statt $E[m - 1, b - p[m]]$). Der Algorithmus wird sich auch nur in diesem Zugriff unterscheiden.\\
+
+Wir haben also wider nur $\Theta ( n \cdot B)$ Zellen (Platzverbrauch) und pro Zelle müssen wir 2 Zahlen vergleichen und einen Wert addieren.\\
+Dies macht eine Laufzeit von $\Theta ( n \cdot B )$
 %% -------------------------------------
 %%			b)
 %% -------------------------------------
 
 \item In der Vorlesung haben Sie gesehen, wie das Rundreiseproblem mit Hilfe von dynamischen Programieren gelöst werden kann. Arbeiten Sie die Details des Algorithmus aus und geben Sie Pseudecode an, um eine optimale Tour zu berechnen.\\
 
-\textbf{Lösung:}
+\textbf{Lösung:}\\
+
+Aus der Vorlesung haben wir eine Menge $S \subseteq \{1,..,n-1 \}$ Teilmenge von $m \in \{ 0, ... , n-1\} \setminus S$. $T[S , m]$ sind nun die kosten des optimalsten Weges, der in 0 anfängt, alle Städte aus $S$ besucht und in $m$ endet. Die Rekursion, mit der wir das Ergebnis finden wollen ist:
+$$
+\begin{array}{lcrcl}
+\forall m &:& T[\emptyset , m] &=& d(0,m)\\
+&& T[ S,m ] &=& \underset{a\in S}{\min} \; T[S \setminus \{ a \} , a] + d(a,m)
+\end{array}
+$$
+
+Unsere erste Überlegung um den Algorithmus aufzuschreiben ist, dass wir alle Teilmenge von $\{ 1, ... , n-1 \}$ aufstellen müssen. Bei jeder dieser Teilfolgen interessiert uns nur, ob das Element drin ist oder nicht. Wir verwenden also eine Bitmap, die sich am günstigesten über die Zahl $2^{n-1}$ darstellen. (Die 0 ist nicht Teil unserer Menge, dies hat zur Folge, dass wir im Algorithmus die Elemente immer um eins versetzt angucken müssen).
+
+\begin{lstlisting}{language=Pascal}
+for m := 0 to $n-1$ do
+	T[0,m] := 0;
+for m := 0 to $n-1$ do
+	for s := 1 to 2^{n-1} do
+		minValue := $\infty$;
+		for a:= 0 to $n-1$ do
+			if s & 1 << (a-1) then
+				minValue := min (minValue, T[s & ~(1 << (a-1)), a] + d(a,m));
+		T[s, m] = minValue;
+
+return T[2^{n-1}, 0];
+\end{lstlisting}
 
 \end{enumerate}
 
