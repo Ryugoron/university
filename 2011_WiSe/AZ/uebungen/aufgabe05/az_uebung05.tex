@@ -81,7 +81,7 @@ $$
 \end{array}.
 $$
 
-Nach Analysis wissen wir, dass diese Funktion umkehrbar ist (siehe \emph{Logarithmus}). Die Funktion an sich ist also bijektiv, bleibt nur die Homomorphismuseigenschaft zu zeigen.
+Nach Analysis wissen wir, dass diese Funktion umkehrbar ist (siehe \emph{Logarithmus}). Der Bldbereich von $a^x$ ist auch gesammt $\R_{>0}$. Die Funktion an sich ist also bijektiv und total, bleibt nur die Homomorphismuseigenschaft zu zeigen.
 $$
 \begin{array}{rcl}
 \varphi (x) \cdot \varphi (y) &=& \pi^{x} \cdot \pi^{y}\\
@@ -157,13 +157,49 @@ Betrachtet man allerdings die Funktionswerte, sehen wir, dass das Bild der beide
 
 \textbf{Lösung:}\\
 
+$H$ ist keine Untergruppe von $S_4$.\\
+\textbf{Beweis:}\\
+
+Nehmen wir die beiden Permutationen
+$$
+\sigma_1 = \begin{pmatrix} 1 & 2 & 3 & 4 \\ 1 & 2 & 4 & 3 \end{pmatrix} \quad  \sigma_2 = \begin{pmatrix} 1 & 2 & 3 & 4 \\ 1 & 3 & 2 & 4 \end{pmatrix}
+$$
+Beide sind in $H$, da $\sigma_1 (4) = 3$ und $\sigma_2 (4) = 4$.\\
+Bilden wir aber nun $\sigma_2 \circ \sigma_1$ erhalten wir:
+$$
+\sigma_2 \circ \sigma_1 =  \begin{pmatrix} 1 & 2 & 3 & 4 \\ 1 & 3 & 4 & 2 \end{pmatrix}
+$$
+Kombinieren wir die beiden Funktionen, so ist das Ergebnis nicht in $H$. Da $\sigma_2 \circ \sigma_1 \not \in H$ ist die Menge nicht abgeschlossen und daher keine Untergruppe von $S_4$.
 \item Es seien $G$ eine \textbf{abelsche} Gruppe und $H := \{ g \in G \; | \; g^2 = e \}$. Zeigen Sie, dass $H$ eine Untergruppe von $G$ ist.\\
 
 \textbf{Lösung:}\\
 
-\item Weisen Sie nach, dass $H := \{ m \in O_2 (\R ) \; | \; m^2 = 2 \}$ keine \textbf{Untergruppe} von $O_2 (\R ) $ ist. Welche Eigenschaft ist nicht erfüllt?\\
+
+Das \textbf{neutrale Element} ist in $H \Rightarrow H \not= \emptyset$.\\
+$e^2 = e \cdot e = e$\\
+
+Das \textbf{inverse Element} ist drin:\\
+Trivial da mit $m^2 = e \Leftrightarrow m \cdot m = e$ $m$ Selbstinvers ist.\\
+
+\textbf{Abgeschlossenheit}:\\
+Seien $m_1,m_2 \in H$\\
+$(m_1 \cdot m_2)^2 = (m_1 \cdot m_2) (m_1 \cdot m_2) \stackrel{abelsch}{=} (m_1 \cdot m_2) (m_2 \cdot m_1 \stackrel{Asso.}{=} m_1 m_2^2 m_1$\\
+$= m_1 e m_1 = m_1^2 = e \Rightarrow (m_1 \cdot m_2) \in H$
+
+\pagebreak
+
+\item Weisen Sie nach, dass $H := \{ m \in O_2 (\R ) \; | \; m^2 = e \}$ keine \textbf{Untergruppe} von $O_2 (\R ) $ ist. Welche Eigenschaft ist nicht erfüllt?\\
 
 \textbf{Lösung:}
+
+Die Eigenschaft, die hier nicht erfüllt ist, ist die aus \emph{b)}. Elemente aus $O_2 (\R)$ sind im allgemeinen nicht abelsch.\\
+Nehmen wir uns ein Rechteck um den Mittelpunkt. Als erstes Element wählen wir ein Drehung um $180^\circ$ $\sigma_1$ und eine Spiegelung an der Diagonalen (siehe Bild) $\delta_1$.\\
+
+Führen wir nun $(\sigma_1 \delta_1)^2$ aus, erreichen wir leider nicht das neutrale Element.\\
+
+\vspace{15cm}
+
+$\Rightarrow H$ ist nicht abgeschlossen $\Rightarrow H$ ist keine Untergruppe. 
 
 \end{enumerate}
 
