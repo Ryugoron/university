@@ -1,0 +1,171 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm]{geometry} 
+\usepackage{babel}
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc} 
+\usepackage{ae} 
+\usepackage{amssymb} 
+\usepackage{amsmath} 
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{paralist}
+\usepackage{fancyhdr}
+\usepackage{subfigure}
+\pagestyle{fancy}
+\fancyhead[C]{Alegbra und Zahlentheorie}
+\fancyhead[L]{Übung Nr. 3}
+\fancyhead[R]{WS 2011/12}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage\, von \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\setlength{\parindent}{0pt} 
+\setlength{\headheight}{15pt}
+
+%
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\NN}{\mathbb{N} \setminus \{0\}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\ggT}{\text{ggT}}
+\newcommand{\kgV}{\text{kgV}}
+%
+
+\author{Tutor: David Müßig}
+\date{}
+\title{Max Wisniewski, Alexander Steen}
+
+\begin{document}
+
+\lstset{language=Java, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2}
+
+\maketitle
+\thispagestyle{fancy}
+
+%% -------------------------------------------
+%%                 AUFGABE 1
+%% -------------------------------------------
+
+\subsection*{Aufgabe 1 \mdseries (Symmetriegruppe und spezielle Symmetriegruppen)}
+
+Es seien $M \subset \mathbb{R}^2$ eine Teilmenge, die eine Basis für $\mathbb{R}^2$ enthält, und
+$$
+\begin{array}{rcl}
+M' & := & M \times \{ 0 \} = \{ (x,y,0) \in \R^3 \; | \; (x,y) \in M \}\\
+M'' & := & M \times [-1 , 1] = \{ (x,y,t) \in \R^3 \; | \; (x,y) \in M, \; -1 \leq t \leq 1 \}
+\end{array}
+$$
+Beweisen Sie $O(M) \cong SO(M') \cong SO(M'')$\\
+
+\textbf{Lösung:}\\
+
+%% -------------------------------------------
+%%		AUFGABE 2
+%% ------------------------------------------
+
+\subsection*{Aufgabe 2 \mdseries (Isomorphismen)}
+
+Zeigen Sie, dass die Gruppen $(\R,+)$ und $(\R_{>0},\cdot)$ isomorph sind.\\
+
+\textbf{Lösung:}\\
+Wir konstruieren eine \emph{bijektive Funktion} und zeigen danach, dass man die Operatoren nach außen ziehen kann.\\
+Sei 
+$$
+\begin{array}{lrcl}
+\varphi \; : \; & \R & \longrightarrow & \R_{>0}\\
+& x & \longmapsto & \pi^x
+\end{array}.
+$$
+
+Nach Analysis wissen wir, dass diese Funktion umkehrbar ist (siehe \emph{Logarithmus}). Die Funktion an sich ist also bijektiv, bleibt nur die Homomorphismuseigenschaft zu zeigen.
+$$
+\begin{array}{rcl}
+\varphi (x) \cdot \varphi (y) &=& \pi^{x} \cdot \pi^{y}\\
+	&\stackrel{\text{Exp. Gesetz}}{=}& \pi^{x + y}\\
+	&\stackrel{Def.}{=}& \varphi(x+y)\\
+\text{Neutrales Element:}&&\\
+\varphi (0) &=& \pi^0\\
+	&=& 1\\
+\end{array}
+$$
+
+%% -------------------------------------------
+%%		AUFGABE 3
+%% --------------------------------------------
+\subsection*{Aufgabe 3 \mdseries (Homomorphismen)}
+Es sei $Q \subset \R^2$ ein Quadrat mit Mittelpunkt 0.\\
+
+\begin{enumerate}[\bfseries a)]
+\item Nummerieren Sie die Eckpunkte von $Q$ entgegen dem Uhrzeigersinn von 1 bis 4. Ein Element $f \in D_4$ definiert die Permutation $\varphi (f) \in S_4$ durch $\varphi (f) (i) = f(i),\, i=1,...,4$. Geben Sie $\varphi (f)$ für jedes Element $f \in D_4$ an. Ist $\varphi \; : \; D_4 \rightarrow S_4$ injektiv und/oder surjektiv?\\
+
+\textbf{Lösung:}\\
+
+Für das Quadrat haben wir in der Symmetriegruppe $D_4$ zunächst 8 Elemente. Dies sind Identität, Rotation um den Mittelpunkt um $90^\circ , 180^\circ , 270^\circ$, sowie Spiegelungen an der horizontalen, vertikalen und den beiden diagonalen Achsen. Diesen weisen wir jetzt durch $\varphi$ ein Element zu:\\
+$$
+\begin{array}{rclcrcl}
+\varphi (id)	&=& \begin{pmatrix} 1 & 2 & 3 & 4 \\ 1 & 2 & 3 & 4 \end{pmatrix}& \quad &
+\varphi (90^\circ) &=& \begin{pmatrix} 1 & 2 & 3 & 4 \\ 2 & 3 & 4 & 1 \end{pmatrix}\\
+\varphi (180^\circ ) &=& \begin{pmatrix} 1 & 2 & 3 & 4 \\ 3 & 4 & 1 & 2 \end{pmatrix}&&
+\varphi (270^\circ ) &=& \begin{pmatrix} 1 & 2 & 3 & 4 \\ 4 & 1 & 2 & 3 \end{pmatrix}\\
+\varphi (Hor.) &=& \begin{pmatrix} 1 & 2 & 3 & 4 \\ 4 & 3 & 2 & 1 \end{pmatrix}&&
+\varphi (Vert) &=& \begin{pmatrix} 1 & 2 & 3 & 4 \\ 2 & 1 & 4 & 3 \end{pmatrix}\\
+\varphi (Diag. 1) &=& \begin{pmatrix} 1 & 2 & 3 & 4 \\ 1 & 4 & 3 & 2 \end{pmatrix}&&
+\varphi (Diag. 2) &=& \begin{pmatrix} 1 & 2 & 3 & 4 \\ 3 & 2 & 1 & 4 \end{pmatrix}\\
+\end{array}
+$$
+Diese Funktionwerte erhält man, wenn man das Rechteck mit den Eckpunkten betrachtet.\\
+
+Für den zweiten Teil der Frage beatrchten wir zunächst die\\
+\textbf{Surjektivität.} Die Funktion kann nicht surjektiv sein, da $\# D_4 = 8$, aber $\# S_4 = 24$. Da aber aus dem Definitionsbereich jedem Element genau ein Funktionswert zugeordnet ist, können maximal 8 Werte im Wertebereich getroffen werden. Da $8 < 24$ können also nie alle getroffen werden.\\
+
+Für die \textbf{Injektivität} können wir die endlichen Funktionswerte der Funktion anschauen, die wir oben definiert haben. Wie wir sehen, sind alle unterschiedlich. Da gilt: $\forall a,b \in D_4 \; : \; a \not= b \Rightarrow \varphi (a) \not= varphie (b)$ 
+
+\item Nummerieren Sie nun die Kanten von $Q$ von 1 bis 4 und konstruieren Sie damit eine weitere Abbildung $\psi : D_4 \rightarrow S_4$. Kann man die Ecken und Kanten so nummerieren, dass $\varphi = \psi$ gilt? Hat man $\varphi ( D_4) = \psi (D_4)$?\\
+
+\textbf{Lösung:}\\
+Nummeriert man die Kanten, wie gehabt durch, erhält man die folgende Abbildung:
+$$
+\begin{array}{rclcrcl}
+\psi (id)	&=& \begin{pmatrix} 1 & 2 & 3 & 4 \\ 1 & 2 & 3 & 4 \end{pmatrix}& \quad &
+\psi (90^\circ) &=& \begin{pmatrix} 1 & 2 & 3 & 4 \\ 2 & 3 & 4 & 1 \end{pmatrix}\\
+\psi (180^\circ ) &=& \begin{pmatrix} 1 & 2 & 3 & 4 \\ 3 & 4 & 1 & 2 \end{pmatrix}&&
+\psi (270^\circ ) &=& \begin{pmatrix} 1 & 2 & 3 & 4 \\ 4 & 1 & 2 & 3 \end{pmatrix}\\
+\psi (Hor.) &=& \begin{pmatrix} 1 & 2 & 3 & 4 \\ 1 & 4 & 3 & 2 \end{pmatrix}&&
+\psi (Vert) &=& \begin{pmatrix} 1 & 2 & 3 & 4 \\ 3 & 2 & 1 & 4 \end{pmatrix}\\
+\psi (Diag. 1) &=& \begin{pmatrix} 1 & 2 & 3 & 4 \\ 4 & 3 & 2 & 1 \end{pmatrix}&&
+\psi (Diag. 2) &=& \begin{pmatrix} 1 & 2 & 3 & 4 \\ 2 & 1 & 4 & 3 \end{pmatrix}\\
+\end{array}
+$$
+
+Wir sehen, dass wir das annährend das selbe Ergebnis erzielen können. Allerdings sind die beiden Spiegelungspaare unterschiedlich. Bei den Ecknummerierungen belassen die Diagonalen jeweils 2 der Punkte auf dem Platz. Bei den Seiten sind dies die Horizontalen und Vertikalen Achsen. Daran erkennen wir, dass wir niemals eine Nummerierung finden, so dass die beiden Funktionen gleich sein. Da bei der Spiegelung immer die eine Art (horizontal/vertikal oder diagonal) die Ecken belässt und die andere die Seiten.\\
+
+Betrachtet man allerdings die Funktionswerte, sehen wir, dass das Bild der beiden Abbildungen das selbe ist.
+\end{enumerate}
+
+%% -------------------------------------
+%%		AUFGABE 4
+%% -------------------------------------
+\subsection*{Aufgabe 4 \mdseries (Untergruppen)}
+
+\begin{enumerate}[\bfseries a)]
+
+\item Ist $H := \{ \sigma \in S_4 \; | \; \sigma (4) = 3  \; \lor \; \sigma (4) = 4 \}$ eine Untergrupe von $S_4$?\\
+
+\textbf{Lösung:}\\
+
+\item Es seien $G$ eine \textbf{abelsche} Gruppe und $H := \{ g \in G \; | \; g^2 = e \}$. Zeigen Sie, dass $H$ eine Untergruppe von $G$ ist.\\
+
+\textbf{Lösung:}\\
+
+\item Weisen Sie nach, dass $H := \{ m \in O_2 (\R ) \; | \; m^2 = 2 \}$ keine \textbf{Untergruppe} von $O_2 (\R ) $ ist. Welche Eigenschaft ist nicht erfüllt?\\
+
+\textbf{Lösung:}
+
+\end{enumerate}
+
+\label{LastPage}
+\end{document}
