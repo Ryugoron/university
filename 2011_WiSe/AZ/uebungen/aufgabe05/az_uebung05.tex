@@ -16,7 +16,7 @@
 \usepackage{subfigure}
 \pagestyle{fancy}
 \fancyhead[C]{Alegbra und Zahlentheorie}
-\fancyhead[L]{Übung Nr. 3}
+\fancyhead[L]{Übung Nr. 5}
 \fancyhead[R]{WS 2011/12}
 \fancyfoot{}
 \fancyfoot[L]{}
@@ -63,6 +63,16 @@ Beweisen Sie $O(M) \cong SO(M') \cong SO(M'')$\\
 
 \textbf{Lösung:}\\
 
+$O(M) \cong SO(M'):$\\
+Die Erweiterung bringt uns, dass wir unser 2 Dimensionales Object nun in der x-y Ebene liegen haben. Die Drehung können wir eins zu eins übertragen. Die Drehung finden nun nicht um den Punkt in der Fläche statt, sondern um eine Gerade, die senkrecht (zur x-y Ebene) durch diesen Punkt geht. Alle Winkel des alten Punktes sind nach der transformation auf die Gerade anzuwenden.\\
+
+Die Spiegelungen können wir in $SO(M')$ folgender Maßen darstellen. Wir nehmen die Spiegelachse aus $O(M)$ und interpretieren diese als Drehachse (die in der xx-y Ebene liegt). An dieser Achse können wir nur eine $180^\circ$ Drehung ausführen, da wir sonst nicht in $M\times\{ 0 \}$ bleiben. Diese Drehung stellt nun genau die Spiegelung dar.\\
+
+$SO(M') \cong SO(M'')$:\\
+Diese Kongruenz kann nicht gelten. Dies machen wir uns am Beispiel von $M$ eines Rechtecks mit Kantenlänge 2 klar. Dieses Rechteck hat (wie in 3 nochmal gezeigt) 8 Elemente in $O(M)$. Nun ergibt die Erweiterung des Rechtecks auf $M''$ allerdings einen Würfel. Von diesem hatten wir letzte Woche gezeigt, dass gilt: $\# SO ( W) = 24$. Da wir keine bijektive Funktion finden können, die 8 Elemente auf 24 abbildet (wie in Aufgabe 3b) thematisiert), können die beiden Gruppen nicht kongruent sein.
+
+\pagebreak
+
 %% -------------------------------------------
 %%		AUFGABE 2
 %% ------------------------------------------
@@ -92,6 +102,8 @@ $$
 	&=& 1\\
 \end{array}
 $$
+
+Wir haben eine bijektive Funktion, die das neutrale Element auf sich selbst abbildet und die es zulässt, dass man die Operation nach innen und außen ziehen kann. Daher sind die beiden Gruppen Isomorph zu einander.
 
 %% -------------------------------------------
 %%		AUFGABE 3
@@ -186,8 +198,6 @@ Seien $m_1,m_2 \in H$\\
 $(m_1 \cdot m_2)^2 = (m_1 \cdot m_2) (m_1 \cdot m_2) \stackrel{abelsch}{=} (m_1 \cdot m_2) (m_2 \cdot m_1 \stackrel{Asso.}{=} m_1 m_2^2 m_1$\\
 $= m_1 e m_1 = m_1^2 = e \Rightarrow (m_1 \cdot m_2) \in H$
 
-\pagebreak
-
 \item Weisen Sie nach, dass $H := \{ m \in O_2 (\R ) \; | \; m^2 = e \}$ keine \textbf{Untergruppe} von $O_2 (\R ) $ ist. Welche Eigenschaft ist nicht erfüllt?\\
 
 \textbf{Lösung:}
@@ -197,7 +207,7 @@ Nehmen wir uns ein Rechteck um den Mittelpunkt. Als erstes Element wählen wir e
 
 Führen wir nun $(\sigma_1 \delta_1)^2$ aus, erreichen wir leider nicht das neutrale Element.\\
 
-\vspace{15cm}
+\vspace{200px}
 
 $\Rightarrow H$ ist nicht abgeschlossen $\Rightarrow H$ ist keine Untergruppe. 
 
