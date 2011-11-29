@@ -27,13 +27,13 @@
 \setlength{\headheight}{15pt}
 
 
-\author{Teilnehmer:\\ \\Marco Träger, Matr. XXXXXXXX\\Alexander Steen, Matr. 4357549}
-\date{Gruppe: XXX, Arbeitsplatz: XXX}
+\author{Teilnehmer:\\ \\Marco Träger, Matr. 4130515\\Alexander Steen, Matr. 4357549}
+\date{Gruppe: Freitag, Arbeitsplatz: HWP 1}
 \title{Mikroprozessorpraktikum WS 2011/12\\ Aufgabenkomplex: 1}
 
 \begin{document}
 
-\lstset{language=c, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2}
+\lstset{language=c, basicstyle=\ttfamily\fontsize{9pt}{9pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2}
 
 \maketitle
 \thispagestyle{fancy}
@@ -81,11 +81,11 @@ Alle der folgenden Register haben einen Ein-Byte-Wert, besitzen also jeweils eig
 		\texttt{P4OUT \&= \textasciitilde(1 $<<$ x)} & setzt das x-te Bit von \texttt{P4OUT} zurück \\
 		\texttt{P4OUT \textasciicircum= (1 $<<$ x)} & invertiert das x-te Bit von \texttt{P4OUT} \\
 		\texttt{P4OUT |= maske} & setzt alle Bits von \texttt{P4OUT}, die in \texttt{maske} gesetzt sind\\
-		\texttt{P4OUT \&= \textasciitilde maske} & setzt alle Bits von \texttt{P4OUT} zurück, die in \texttt{maske} gesetzt sind \\
+		\texttt{P4OUT \&= \textasciitilde maske} & setzt alle Bits von \texttt{P4OUT} zurück, die in \texttt{maske} gesetzt sind \\	
 		\texttt{P4OUT \textasciicircum = maske} & invertiert alle Bits von \texttt{P4OUT}, die in \texttt{maske} gesetzt sind \\
 		\end{tabular}
 		
-	
+	\newpage
 	\item[A 1.1.3] Erläutern Sie anhand der Abbildung der inneren Struktur einer Portleitung für die folgenden Registerbelegungen den Signalpfad und den Logikpegel der Portleitung P4.0. \\ \\
 		\begin{lstlisting}[numbers=left]
 # define LED_ROT (0x01)
@@ -101,13 +101,12 @@ P4OUT |= LED_ROT;
 		\end{lstlisting}
 		
 		Der Signalpfad ist dabei:
-		HIER FEHLT EIN BILD
-	
+		\begin{figure}[h!]
+			\includegraphics[scale=0.3]{0401011.png}
+		\end{figure}	
 	\item[A 1.1.4] Warum leuchtet eine LED am Port P4.0, wenn der Logikpegel "0" ist und nicht bei dem Logikpegel "1"? \\
 	
-		Betrachten wir die obrige Abbildung, P4.0 ist in der Abbildung mit P4B0 beschriftet, die LED am Port P4.0 mit LED1.	An der LED1 liegt an der rechten Seite die Betriebsspannung an. Die linke Seite ist an die Betriebsspannung angeschossen
-	wenn der Logikpegel "1" ist, wenn der Logikpegel "0" ist die Erdung. Wenn der Logikpegel "0" anliegt, existiert eine Potentialdifferenz an der Diode,
-	also liegt eine Spannung an. Damit fließt Strom durch die LED und darum leuchtet sie. Wenn der Logikpegel "1" anliegt, liegt keine
+		Betrachten wir die Abbildung des Schaltbildes für die LEDs: P4.0 ist dort mit P4B0 beschriftet, die LED am Port P4.0 mit LED1. An der LED1 liegt an der rechten Seite die Betriebsspannung an. Die linke Seite ist an die Betriebsspannung angeschossen	wenn der Logikpegel "1" ist. Wenn der Logikpegel "0" ist, ist die linke Seite an der Erdung angeschlossen. Wenn nun also der Logikpegel "0" anliegt, existiert eine Potentialdifferenz zwischen den beiden Seiten der Diode, also liegt über ihr eine Spannung an. Damit fließt Strom durch die LED und darum leuchtet sie. Wenn der Logikpegel "1" anliegt, liegt keine
 	Potentialdifferenz vor.
 
 
@@ -145,14 +144,13 @@ P4OUT ^= LEDRT;
 	\item[A 1.1.6] Schreiben Sie ein kleines Programm, welches den Durchlauf einer Sequenz eines Ampelsignals mit den Phasen (Rot, Rot-Gelb, Grün, Gelb, Rot) simuliert. Nutzen Sie dazu die bereitgestellte Funktion wait() für eine Zeitschleife. Benutzen Sie eigene Macros und Operatoren zur Bitmanipulation.  \\ \\
 	
 		\begin{lstlisting}[numbers=left]
-#define ROT 		~(0x01)
+#define ROT 			~(0x01)
 #define GELB  		~(0x02)
 #define ROTGELB 	~(0x03)
 #define GRUEN 		~(0x04)
 #define WAITTIME	50000
 
 void aufgabe116() {
-
 	P4SEL = 0x00;
 	P4DIR = 0x07;
 
@@ -168,10 +166,10 @@ void aufgabe116() {
 	wait(WAITTIME);
 }
 		\end{lstlisting}
-		Erklärung fehlt hier
+		In den ersten Zeilen werden erst einige Konstanten definiert, sodass wir die Ampelfarben verständlicher im Code setzen können. In den Zeilen 9 und 10 werden die Leitungen von Port 4 auf die I/O-Funktion und auf Ausgang geschaltet, da hier die LEDs angeschlossen sind. Nun werden nach und nach die richtigen Farben für die Ampelphasen geschaltet (mit einer gewissen Verzögerung).
 \end{description}
 
-
+\newpage
 \section*{A 1.2	Input}
 
 \begin{description}
@@ -187,9 +185,9 @@ void aufgabe116() {
 		\item[P1IFG] bezeichnet die Interrupt-Flags der Pins von Port 1. Ist ein Bit von P1IFG auf 1 gesetzt, so wurde von dem zugehörigen Pin ein Interrupt ausgelöst.
 	\end{description}
 	
-	\item[A 1.2.2] Erläutern Sie die Funktion des Operators AND zur Bitmanipulation. Diskutieren Sie die Einsatzmöglichkeit am Beispiel einer IF-Anweisung \\ \\
+	\item[A 1.2.2] Erläutern Sie die Funktion des Operators AND zur Bitmanipulation. Diskutieren Sie die Einsatzmöglichkeit am Beispiel einer IF-Anweisung \\
 	
-	Der AND-Operator (\&) führt bitweise die Verundung der Bits der Arguments aus.
+	Der AND-Operator (\&) führt Bit für Bit die Verundung der Bits der Arguments aus.\\
 	\begin{lstlisting}
 if (P1IN & Taster) {...}
 	\end{lstlisting}
@@ -215,6 +213,7 @@ a = P1IN & 0x03; //beide Tasten gedr.
 P4OUT = P1IN & Taster_rechts; //Taster an P1.0 nicht gedr.
 P4OUT = P1IN & Taster_links; //Taster an P1.0 gedr.
 	\end{lstlisting}
+	\newpage
 	\begin{description}
 		\item[Zeile 1,2] Definiert Bitmasken, auf welche Bits der Register der rechte bzw. linke Taster zugreift
 		\item[Zeile 3] Alle Pins von Ports 1 werden auf Eingang geschaltet
@@ -264,7 +263,7 @@ void aufgabe_1_2_4() {
 \end{lstlisting}
 
 \end{description}
-
+\newpage
 \section*{A 1.3 Ampel}
 \begin{description}
 \item[A 1.3.1] Nutzen Sie alle drei LED und den rechten Taster (P1.0), um eine Fußgängerampel zu programmieren. \\
@@ -287,22 +286,30 @@ void aufgabe_1_3_1() {
 	P4OUT |= (rot+gelb+gruen)
 	
 	if (P1IN & Taster_rechts) {
+		// Gelbe LED an
 		P4OUT &= ~(gelb);
 		wait(3000);
+		// Gelb aus, rote LED an
 		P4OUT |= gelb;
 		P4OUT &= ~rot;
 		wait(3000);
+		// Zusaetzlich gelbe LED an
 		P4OUT &= ~gelb;
 		wait(3000);
+		// Rot und Gelb aus, gruen an
 		P4OUT |= (rot+gelb);
 		P4OUT &= ~gruen;
 		wait(3000);
+		// Gruen aus
 		P4OUT |= gruen;
 		wait(5000);
 	}
 }
 \end{lstlisting}
+In diesem Programm werden einfach nacheinander die richtige LEDs an- bzw. ausgeschaltet, sodass wir eine Ampelablauf simulieren. Die waits verzögern dabei die Auswertung so, dass wir wahrnehmen können, in welcher Reihenfolge die LEDs an- und ausgeschaltet werden.
 \end{description}
+
+\newpage
 \section*{A 1.4 Taster}
 \begin{description}
 \item[A 1.4.1] Entwickeln Sie einen Binärzähler \\
@@ -325,19 +332,26 @@ void aufgabe_1_4_1() {
 	P4DIR |= (rot+gelb+gruen);
 	
 	if (P1IN & Taster_rechts) {
+		// Rechte  Taste gedrueckt
 		if (counter < 7) {
+			// Mehr als 7 geht nicht
 			++counter;
 		}
 	} else if (P1IN & Taster_links) {
+		// Rechte  Taste gedrueckt
 		if (counter > 1) {
+			// Weniger als 1 geht nicht
 			--counter;
 		}
 	}
-	
+	// Korrekte LEDs setzen:
+	// Wertigkeiten der LEDs sind gespiegelte
+	// Wertigkeit der Bits von counter
 	P4OUT &= ~(((counter & 0x01) << 2) + ((counter & 0x02) << 1) + (counter & 0x04))
 	wait(100);
 }
 \end{lstlisting}
+Das Prellen der Kontakte bewirkt, dass mehr Phasenübergange (Flanken) wahrgenommen werden, als tatsächlich vorkommen sollen. Dieses Problem kann man dadurch umgehen, dass man nach dem Verarbeiten eines Tastendrucks eine gewisse Zeit wartet um auf die Stabilisierung des Tasterpegels zu warten. Wir haben die Wartezeit experimentell ermittelt, sodass die Wartezeit die kleinste ist, bei der das Problem nicht mehr auftritt.
 \end{description}
 \label{LastPage}
 \end{document}
