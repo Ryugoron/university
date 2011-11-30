@@ -1,0 +1,94 @@
+\chapter{Datenstruckturen}
+
+\section{Vereinigung disjunkter Mengen (DSU)}
+
+\subsection{Definition}
+
+Sie $S$ eine endliche Menge, die wir als Abstraktion als $S = \{ 1, ... , n\}$ auffassen.\\
+
+Eine Partition von $S$ in nicht-leere disjunkte Teilmengen, stellt sich wie folgt dar:
+$$
+S = S_1 \cup S_2 \cup ... \cup S_k , \quad \forall i \leq k \; : \; S_i \not= \emptyset , \quad \forall i,j \; : \; i \not= j \Rightarrow S_i \cap S_j = \emptyset
+$$
+
+\textbf{Problem:} Speichere eine Partition von $S$ und unterstütze die zwei Operatioenen:
+\begin{description}
+
+\item{\bfseries FIND(S):} Finde Menge der Partition, die $s \in S$ enthält.
+
+\item{\bfseries UNION($S_i,S_j$):} Ändere die Partitionen so, dass $S_i$ und $S_j$ durch $S_i \cup S_j$ dargestellt werden.
+
+\end{description}
+
+\subsection{Anwendung}
+
+\begin{enumerate}[\bfseries (1)]
+
+\item Finden von Zusammenhangskomponenten eines Graphen.
+
+\item Algorithmus von Kruskal (und Prim)
+
+\item Segmentierung eines Bildes.\\
+Speizieller kann man so Schrittweise annähren, wo bestimmte Bereiche innerhalb eines Bildes sind.
+
+\item Perkolation.\\
+Gegeben ein System von Blöcken (Quadratisch auf einem Raster). Bei welcher Wahrscheinlichkeit von nicht durchlässigen Blöcken, kann Wasser von oben nach untern aus dem Raster fließen.
+
+\item Äquivalenzen in Fortran
+
+\end{enumerate}
+
+\subsection{Realisierung der Datenstrucktur}
+
+Jedes Element entspricht einem Record / Knoten / Object.\\
+
+Jede Menge $S_i$ wird von einem Representanten $s \in S_i$ dargestellt. Dieser Representant sollte für jede Teilmenge eindeutig sein.\\
+
+Jedes Element speichert in seinem Record nun einen Verweis auf seinen Nachfolger. Das Element ohne Nachfolger ist der Representant.\\
+
+Diese Darstellung heißt \emph{disjunkter Mengenwald}.\\
+FIND(s): Gibt die Wurzel aus.\\
+UNION(i,j): Setzt Nachfolger von j auf i.\\
+
+\textbf{Laufzeit:}\\
+UNION: $O(1)$\\
+FIND: $O(n)$
+
+\subsection{Optimierungen}
+
+\begin{description}
+
+\item{\bfseries UNION - By- Rank}\\
+$rg(s)$ - Höhe des Baumes unter $S$.\\
+
+Nun wollen wir immer den kleineren unter den größeren Baum hängen.
+
+\item{\bfseries Lemma} Ein Baum, der wie oben konstruiert wird, dessen Wurzel $rg(k)$ hat, besitzt min $2^k$ viele Elemente.
+
+\item{\bfseries Beweis:}
+
+\begin{description}
+
+Induktion über die jeweils größeren Bäume.
+
+\item{\bfseries I.A.} $k=0$\\
+Es ist nur die Wurzel im Baum $\Rightarrow$ 1 Element $= 2^0$
+
+\item{\bfseries I.S.} $k-1 \longrightarrow k$\\
+Der Rank kann sich nur erhöhen, wenn man 2 Bäume mit dem sleben Rank $k-1$ vereinigt (der andere kann nicht größer sein, da wir o.B.d.A über den größeren induzieren).\\
+
+$\stackrel{I.S.}{\Longrightarrow} 2 \cdot 2^{k-1} = 2^k$ Elemente.
+
+\end{description}
+
+Aus dem Lemma folgt:\\
+$\Rightarrow$ Die Maximale Höhe bei $n$ Elementen ist $ O (\log n)$\\
+
+\textbf{Laufzeit:}\\
+FIND(s) : $O(\log n)$\\
+UNION(i,j) : $O(1)$
+
+\item{\bfseries Pfadkompression:}\\
+Wenn wir find auf einem Objekt ausführen, dann ziehen wir den gesammten Weg, den wir bis zur Wurzel gehen zusammen. D.h. wir hängen jeden Knoten, den wir auf dem Pfad sehen direckt an die Wurzel.
+
+\end{description}

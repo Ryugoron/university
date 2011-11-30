@@ -1,0 +1,179 @@
+\section{Greedy - Algorithmen}
+
+\subsection{Definition}
+
+Ein Greedy - Algorithmus trifft lokal optimale Entscheidungen in der Hoffnun, dass diese Entscheidungen zu einer global optimalen Lösung führen.\\
+
+Das schwierige an Greedy - Algorithmen ist in den meisten Fällen nicht der Algorithmus selbst, da dieser häufig sehr intuitiv ist, sondern der Beweis, dass die Lösung korrekt ist. Dies passiert in den meißten Fällen über ein Austauschlemma, indem man zeigt, dass man eine optimale Lösung so umformen kann, dass es die Lösung des Greedy - Algorithmus ist.
+
+\subsection{Vorlesungsplanung / Intervallauswahl}
+
+\begin{description}
+
+\item{\bfseries Geg.:} Intervalle $R := {I_1 , I_2 , ... , I_n}$, wobei $I= (a_i, e_i)$ ein Tupel aus Start und Endzeit des Intervalls ist.
+
+\item{\bfseries Ges.:} Die Größte Teilmenge $V \subset R$, so dass sich keine zwei Intervalle überlappen:
+$$
+\forall I_\nu, I_\kappa \in V \; : \; a_\nu \geq e_\kappa \lor a_\kappa \geq e_\nu
+$$
+
+\item{\bfseries Grundidee:} \\
+Beginne mit $A = \emptyset$ und füge die Kanten nach und nach in $A$ ein.\\
+
+Nimm das Intervall, dass am ehesten Endet, füge es zu $A$ hinzu und entferne alle Elemente aus $R$, die mit dem neuen Intervall in $A$ überlappen.
+
+\item{\bfseries Algorithmus:}\\
+
+\begin{lstlisting}[language=Pascal]
+$A$ := $\emptyset$
+while $R \not= \emptyset$ do
+	i := min $e(i)$
+	A := $A \cup \{I_i\}$
+	R := $R \setminus \{ x | a_x < e_i\}$
+\end{lstlisting}
+
+\item{\bfseries Korrektheit:}\\
+Sei $S$ eine optimale Teilemnge von $R$. Wir wollen zeigen, dass $|A| = |S|$ gilt.\\
+
+Seien $i_1 , i_2 , ... , i_k$ und $j_1, ... , j_m$die Indizes der intervalle von $A$ bzw $S$, zeitlicher geordneter Folgen.\\
+
+Induktion über die Länge der Folge
+
+\begin{description}
+
+\item{\bfseries Beh.:} $\forall r \leq n \; : \; e(i_r) \leq e(j_r)$
+
+\item{\bfseries I.A.:} $r=1$\\
+$e(i_1) \leq e(j_1)$ ist klar, da der Greedy - Algorithmus das kleinste Element nimmt.
+
+\item{\bfseries I.S.} $r \longrightarrow r+1$\\
+Nach dem Algorithmus, liegt $e(i_{r++1})$ noch in $R$, da nach Ordnung $a(i_r) \leq e(j_r) \leq a(j_{r+1}) \leq e(j_{r+1})$. Dies gilt nach Induktionsvorrausetzung. Der Algorithmus muss also ein Ende in $(e(i_r),e(j_{r+1}))$ wählen: $\Rightarrow e(i_{r+1}) \leq e(j_{r+1})$\\ \mbox{} \hfill $\square$
+
+\end{description}
+
+\textbf{Widerspruchsbeweis:}\\
+Angenommen $k<m$, dann gilt $e(i_k) \leq e(j_k)$ und es gibt noch $I$ mit $e(j_{j+1})$ in $R$.\\
+$\Rightarrow R \not= \emptyset \Rightarrow$ der Algorithmus hat nicht terminiert.\\
+\mbox{} \hfill $\square$
+
+\end{description}
+
+\subsection{Intervallunterteilungsproblem}
+
+\begin{description}
+
+\item{\bfseries Geg.:} $n$ Intervalle $I_1 , I_2 , .. , I_n$
+
+\item{\bfseries Ges.:} Die Minimale Anzahl von Labeln, so dass jdes Intervall ein Label aht und Intervalle nur dann das gleiche Label haben, wenn sie sich nicht überlappen.
+
+\item{\bfseries Grundidee:}\\
+Teste für jedes intervall, ob ein bereits vorhandenes Label benutzt werden kann. Wenn nicht füge eine neues Label hinzu.
+
+\item{\bfseries Regeln zum Durchlaufen:}\\
+Eine Möglichkeit:
+Nimm den zeitigsten Start.\\
+labelc++;\\
+labelc -= $\# \{ e_i \; | \; a_{i-1} < e_i < a_i \}$
+
+\item{\bfseries Algorithmus:}\\
+Sortiere nach Startpunkten:\\
+\begin{lstlisting}[language=Pascal]
+i=1;
+for j = 1 to n
+	i = max $\{ i, $ Intervalle, die $I_j$ ueberlappen$\} $
+\end{lstlisting}
+
+\item{\bfseries Korrektheit:}\\
+Sei $d$ die Tiefe der Menge der Intervalle (Maximale Anzahl von Intervallen, die sich zu einem Zeitpunkt überschneiden).
+
+\begin{description}
+
+\item{\bfseries Beh.:} Die Anzahl der Label ist mindestens $d$.
+
+\item{\bfseries Bew.:} Die Situation trifft bei einem Intervall auf, wird daher bei unserem Algorithmus berücksichtigt.
+
+\item{\bfseries Beh.:} Der Algorithmus ist korrekt.
+
+\item{\bfseries Bew.:} gilt trivialer weise. \mbox{} \hfill $\square$
+
+\end{description}
+
+\end{description}
+
+\subsection{Caching}
+
+Im Computer haben wir eine Speicherhierarchie. Am schnellsten greifen wir auf die Register der CPU zu, danach auf den Cache (wobei man noch zwischen den einzelnen Levels des Chaches differenzieren kann), danach der Hauptspeicher, Festplatte und noch weiter wenn man möchte.\\
+
+Betrachtet man die Zugriffszeiten, so sieht man, dass von Ebene zu Ebene sich die Zugriffszeit etwa vertausendfacht. Deshalb möchten wir möglichst oft auf die niedrigen Ebenen zugreifen und eher selten auf die oberen.\\
+
+Da die niedrigen Ebenen allerdings teuerer sind, hat man meißtens weniger Speicher nach unten hin. Es werden also effiziente Strategien benötigt, um immer das beste Ergebnis beim Zugriff zu erzielen.\\
+
+Veralgemeinerung:\\
+\textbf{Hauptspeicher:} Kann $n$ Wörter speichern\\
+\textbf{Cache:} Kann $k < n$ Wörter speichern.\\
+
+Wir betrachtetn nun einen offline Algorithmus. Also einen Algorithmus, bei dem uns die Folge der Zugriffe bekannt ist. In realen System ist dies allerdings selten der Fall.
+
+\begin{description}
+
+\item{\bfseries Geg.:} Folge $d_1d_2 ... d_m$ von Zugriffen auf den Hauptspeicher.
+
+\item{\bfseries Ges.:} \\
+Minimal Änderung der Lesevorgänge aus dem Hauptspeicher.\\
+
+Greift ein $d_i$ auf ein Datensatz zu, muss dieser im Cache vorhanden sein oder gerade geholt werden.
+
+\item{\bfseries Beobachtung:}\\
+Speicherzugriffe passieren nur bei 'Cache Misses'.\\
+
+Denn wir können jede Strategie so umformen, dass die Zugriffe erst bei einem 'Cache Miss' passieren ohne dass die Zugriffsanzahl sich verändert.\\
+$\Rightarrow$ Dies nenen wir eine reduzierte Strategie
+
+\item{\bfseries Furthest-in-the-future Regel}\\
+Bei einem 'Chache Miss' entferne das Element, dessen Zugriff am weitesten in der zukunft liegt.
+
+\item{\bfseries Satz} Furthest-in-the-future ist optimal, d.h. es liefert eine reduzierte Strategie mit minimaler Anzahl von 'Chache-Misses'
+
+\item{\bfseries Beweis:}\\
+Wir beweisen im folgenden ein Austauschlemma. Mit diesem können wir zeigen, dass wir eine beliebige reduzierte optimale Lösung so umformen können, dass sie wir unsere Lösung funktioniert und maximal genau so viele 'Cache-Misses' produziert.\\
+Dies würde bedueten, dass unsere Lösung optimal ist.
+
+\item{\bfseries Austauschlemma:}\\
+Sie $S$ eine reduzierte optimale Strategie, die in den ersten $j$ Zugriffen mit $S_ff$ übereinstimmt. Dann ex. ein reduziertes $S'$ mit $j+1$ Zugriffen nach $S_{ff}j$ und höchstens so vielen 'Chache-Misses', wie $S$.
+
+\item{\bfseries Beweis:}\\
+Sei $d=d_{j+1}$ (der $j+1$ erste Zugriff)
+\begin{description}
+
+\item{\bfseries Fall 1:} $d$ im Cahce\\
+Da bis $j$ $S$, $S_{ff}$ gleich sind, ist $d$ bei beiden im Cache $\Rightarrow S' = S$. Damit ist auch die 'Cache-Miss' Anzahl gleich geblieben.
+
+\item{\bfseries Fall 2:} $d$ nicht im Cache (bei beiden) $\land$ $S$, $S_{ff}$ entfernen das gleiche Element $\Rightarrow S'=S$
+
+\item{\bfseries Fall 3:} $d$ ist nicht im Cache, aber $S$ entfernt $e$ und $S_{ff}$ entfernt $f$.\\
+
+Konstruiere $S'$:
+
+$S'$ verhätl sich wie $S_ff, S$ bis $j$ und entfernt dann $f$. $S'$ verhält sich sonst wie $S$ bis:
+
+\begin{enumerate}[\bfseries (1)]
+
+\item Zugriff auf $g$ ($g+e \land g + f$) mit 'Cache-Miss' und $S'$ entfernt $e$ aus dem Cache\\
+$\Rightarrow$ $S'$ entfernt $f$\\
+beide Miss und Caches sind gliech.
+
+\item Zugriff $f$\\
+$S$ hat $f$ nicht im Chache.\\
+$S$ entfernt $e'$ aus dem Cache\\
+Nun ist entweder $e = e'$, dann sind beide wieder gleich und $S$ hat ein 'Miss' mehr.\\
+oder $e \not= e'$.\\
+Dann können wir den Zusätzlichen 'Cache-Miss' von $S$ dafür nutzen um in $S'$ bei $e'$ das $e$ durch $e'$ zu ersetzen. Dabei bleiben die Anzahl der Cache-Misses gleich.
+
+\item Zugriff auf $e$
+Kann nicht passieren, da der Algorithmus das Element genommen hat, das am weitesten Weg liegt. Hier kann sich also nichts unterscheiden zwischen $S$ und $S_{ff}$
+
+\end{enumerate}
+
+\end{description}
+
+\end{description}

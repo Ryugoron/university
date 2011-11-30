@@ -222,7 +222,7 @@ Die Summe aller dieser Wahrscheinlichkeiten für einen Zustand ist 1.\\
 Übergangsverteilung:\\
 $\forall p,q \in Q \; : \; $ Pr[nächster Zustand ist $q$ | jetziger Zustand ist $p$] $\in [0,..., 1]$. Wobei die Summe für ein $q$ wiederum 1 ist.\\
 
-\textbf{Semantik:} 
+\textbf{Semantik:} n
 \begin{itemize}
 
 \item Wähle zufällig einen Zustand $q_0$ gemäß der Anfangsverteilung.
@@ -242,8 +242,53 @@ Pr[$\sigma_0, \sigma_1, ... , \sigma_{n-1}$ | $q_0, q_1 , ... , q_{n-1}$] maxima
 
 \subsubsection{Satz von Base:}
 
-tbd
+Zur Syntax: $Pr [A | B] = Pr_B [A]$ wird in den meißten Büchern als äquivalent angenommen.\\
 
-\subsubsection{Klausurregen:}
+Der Satz von Base besagt nun:
 
-tbd
+$$
+Pr_B [A] = \frac{Pr_B [A]  \cdot Pr[A]}{Pr[B]}
+$$
+
+\subsubsection{Vereinfachung:}
+
+Was wir mit dem Algorithmus von Viterbi bestimmen wollten war
+$$
+argmax \; Pr[q_0q_1 ... q_{n-1} \text{ Zustände } | \; \sigma_0 \sigma_1 ... \sigma_{n-1} \text{ Ausgabe} ]
+$$
+
+Nach dem Satz von Base können wir diese Wahrscheinlichkeit umschreiben als
+$$
+argmax \; \frac{Pr [\sigma_0\sigma_1 ... \sigma_{n-1} \; | \; q_0q_1 ... q_{n-1}] \cdot Pr[q_0q_1...q_{n-1}}{Pr(\sigma_0\sigma_1...\sigma_{n-1})}.
+$$
+
+Diese Umstellung ist für uns äußerst günstig, da wir diesen Wert einfach ausrechnen können. Wir müssen also nur über die Parameter iterieren und das Maximum nehmen.\\
+
+Dieser Algorithmus lässt sich allerdings noch weiter vereinfachen.\\
+Da wir uns nur für die Zustände interessieren ist uns die konkrete Wahrscheinlichkeit erst einmal egal. Da die Nenner alle gleich sind, bei gegebener Ausgabe, müssen wir nicht mehr durch die Wahrschenlichkeit der Ausgabe teilen. Die Formel vereinfacht sich folgender Maßen:
+$$
+argmax \; Pr_{q_0q_1...q_{n-1}} [\sigma_0 \sigma_1 ... \sigma_{n-1}] = argmax \; o(q_0,\sigma_0) \cdot ... \cdot o(q_{n-1},\sigma_{n-1} \cdot a(q_0) \cdot t(q_0,q_1) \cdot ... \cdot t(q_{n-2},q_{n-1})
+$$
+
+\subsubsection{Algorithmus von Viterbi}
+
+Mithilfe dieser Vorüberlegungen können wir nun die Teilprobleme finden:\\
+E[q,j] := max (Pr einer Zustandsfolge, die in q endet und die Lönge j+1 hat und dabei $\sigma_0 ... \sigma_j$ ausgibt)\\
+
+Unser Ziel ist also : $E[q,l-1]$\\
+
+\textbf{Rekursion:}\\
+$$
+\begin{array}{lrcl}
+\forall q\in Q \; : \; & E[q,0] &=& q(q) \cdot o(q,\sigma_0)\\
+& E[q,j] &=& \underset{r\in Q}{\max} E [r,j-1] \cdot t(r,q) \cdot o(q,\sigma_j) 
+\end{array}
+$$
+
+\textbf{Laufzeit und Speicherplatz}\\
+Die Tabelle hat die Größe $\Theta ( | Q | \cdot l)$\\
+pro Eintrag iterieren wir einmal über alle Zustände und rechnen innerhalb konstant : $\Theta (| Q | ^2 \cdot l)$.\\
+
+Diese Werte können wir aber noch drücken, wenn wir Divide and Conquer verwenden. Desweiteren sehen wir, dass wir immer nur die Zeile davor für die Berechnung brauchen. Kombiniert ergibt das:\\
+Speicher: $\Theta (| Q | + l)$\\
+Laufzeit $\Theta (| Q |^2 + l \log l )$
