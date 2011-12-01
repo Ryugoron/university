@@ -112,24 +112,29 @@ Ziel ist es $E[n-1]$ zu bestimmen, weil wir dort alle Knoten betrachtet haben.
 
 \item{\bfseries Korrektheit} 
 
+
+
 \item{\bfseries Algorithmus}
 
-%%
-%%		KOMMENTARE
-%%
 \begin{lstlisting}[language=Pascal]
 if n = 1 then
-	Erg := [0];
-	return w(0);
-Erg1 := [0];
-w1 := w(0);
+	Erg := [0];	// Die optimale Menge enthaelt nur 0
+	return w(0); // und hat deren Wert
+Erg1 := [0];	// Sonst speichern wir den Wert
+w1 := w(0);	//  in der ersten Laufvariable
 if(w(0) > w(1) then
-	Erg2 := [0];
-	w2 := w(0);
+	Erg2 := [0];	// Un den andern Anker
+	w2 := w(0);	// in der zweiten
 else
 	Erg2 := [1];
 	w2 := w(1);
 
+//
+// Wir gehen wie bei Fibonacci mit
+// Akkumulatoren durch, dabei schieben
+// wir immer das neure Element (2) in das
+// aeltere (1) und errechnen das neue.
+//
 for i := 2 to n-1 do
 	if w1 + w(i) > w2 then
 		save := w1 +w(i);
@@ -188,6 +193,42 @@ Da wir ein Gegenbeispiel gefunden haben, kann der Algorithmus mit dieser Ordnung
 %% -----------------------------------------
 \item Sortiere absteigend nach den Anfangszeiten.
 
+Diese Sortierung gibt zusammen mit dem Algorithmus
+\begin{lstlisting}[language=Pascal]
+A := $\emptyset$
+while R $\not= \emptyset$ do
+	i := max a(i)
+	A := $A \cup \{I_i \}$
+	R := R $\setminus \{ x \; | \; e(x) > a(i)\}$
+\end{lstlisting}
+
+\textbf{Beweis:}\\
+Sei $S$ eine optimale Teilmenge von $R$. Wir wollen zeigen, dass $| A | = | S |$ gilt.\\
+
+Seien $i_1 , i_2 , ... , i_k$ und $j_1 , j_2 , ... , j_m$ die Indizes der Intervalle von $A$ bzw. von $S$, zeitlich (absteigend) geordneter Folgen.\\
+
+Wir induzieren über die Länge der beiden Folgen.
+
+\begin{description}
+
+\item{\bfseries Beh.:}  $\forall r \leq m \; : \; a(i_r) \geq a(j_r)$
+
+\item{\bfseries I.A.} $a(i_1) \geq a(j_1)$ ist trivialer weise erfüllt, da der Algorithmus im ersten Schritt das $i_1$ wählt, mit dem größten $a(i_1)$.
+
+\item{\bfseries I.S.} $r \longrightarrow r + 1$\\
+Nach dem Algorithmus, liegt $a(i_{r+1})$ noch in $R$, da nach Ordnung gilt $e(i_r)\geq a(i_r) \stackrel{I.V.}{\geq} a(j_{r}) \geq e(j_{r+1}) \geq a(j_{r+1})$.\\
+
+Der neue Anfang von $a(i_{r+1})$ muss also im Intervall $(a(j_{r+1}) , a(j_{r}))$ (Wir haben hier an dieser Stelle da ganze umgedreht, weil Intervalle sorum aufgeschrieben werden)  liegen. Damit muss $a(i_{r+1}) \geq a(j_{r+1})$ sein. \mbox{} \hfill $\square$
+
+\item{\bfseries Beweis der Optimalität:}\\
+Angenommen $k < m$ dann können wir aus unserer oberen Behauptung ziehen, dass noch min ein Element in $R$ sein muss, nämlich $I_{k+1}$. Der Algortihmus kann also nicht terminiert sein.\\
+
+Angenommen $k > m$, dann wäre $S$ nicht optimal gewesen.\\
+
+$\Rightarrow A$ ist eine optimale Lösung. \mbox{} \hfill $\square$ 
+
+\end{description} 
+
 
 %% -----------------------------------------
 %%		c)
@@ -230,10 +271,68 @@ Wir haben ein Gegenbeispiel gefunden und damit ist der Algorithmus nicht korrekt
 %% -----------------------------------------
 \subsection*{Aufgabe 3 \mdseries Autobahnfahrt}
 
-Gegeben ist eine Menge von Tankstellen, entlang eines Weges (wir setzten an dieser Stelle vorraus, dass Sie nach der Anordnung am Weg sortiert sind). Wir haben ein Auto, dass bei vollem Tank (nach jeder Tankstelle an der Man hält) $n$ Kilometer fahren kann.\\
+Gegeben ist eine Menge von Tankstellen entlang eines Weges und ein Auto, dass $n$ Kilometer fahren kann.\\
 Wir suchen nun eine Minimale Anzahl von Tankstellen, mit der Wir unser Ziel erreichen können (ohne mit einem leeren Tank liegen zu bleiben).\\
 
 \textbf{Lösung:}\\
+
+\textbf{Notation und Idee:}\\
+Wir setzten hier einmal vorraus, dass die Tankstellen uns in einer Liste gegeben werden, die sie nach Abstand zum Startpunkt sortiert. Zwischen 2 Tankstellen möchten wir den Abstand dieser beiden Tankstellen haben.\\
+
+Als Darstellung wählen wir eine Liste des Treibstoffverbrauches $S = [\delta_1 , \delta_2 , ... \delta_{m+1}]$, wobei $\delta_1$ der verbrauchte Treibstoff vom Startpunkt zur ersten Tankstelle ist, $\delta_2$ der verbrauchte Treibstoff zwischen der ersten und der zweiten Tankstelle usw.\\
+$\delta_{n+1}$ ist nun der verbrauchte Treibstoff von der letzten Tankstelle zum Zielpunkt.\\
+
+Für den Beweis konstruieren wir uns noch eine Funktion $w \; : \; Tankstelle \longrightarrow \mathbb{N}$, die den Abstand einer Tankstelle zum Start angibt.\\
+
+
+Um das Ziel zu finden gehen wir nun die Tankstellen durch, bis wir nicht mehr genügend Sprit bis zur nächsten Tankstelle haben.
+
+\textbf{Algorithmus:}
+\begin{lstlisting}[language=Pascal]
+stops := 0;
+tank := n;
+for i := 0 to m do
+	if S[i] > n then
+		error	// Die Strecke kann nicht befahren werden
+	if S[i] > tank then
+		stops++;
+		tank := n;
+	tank := tank - S[i];		
+\end{lstlisting}
+
+\textbf{Korrektheit:}\\
+
+Sei $k$ eine optimale Anzahl von Stopps und $l$ die Anzahl von Stopps, die uns der Algorithmus zurückgibt. Nun seien $i_1 , i_2 , ..., i_k$ und $j_1 , j_2 , ... , j_l$ die Indizes der Tankstellen bei der $k$ bzw. $l$ getankt haben.\\
+
+\begin{description}
+
+\item{\bfseries Beh.:} $\forall r \leq k \; : \; w(i_r) \geq w(j_r)$
+
+\item{\bfseries Bew.:} Induktion über $k$
+
+\item{\bfseries I.A.} $w(i_1) \geq w(j_1)$ gilt, da unser Algorithmus ersteinmal soweit fährt, bis die nächste Etappe nicht mehr zu schaffen ist. Da die nächste Tankstelle vom Start also nicht zu erreichen ist, muss der optimale stopp von $k$ vorher tanken.
+
+\item{\bfseries I.S.} $r \longrightarrow r + 1$\\
+Nach I.V. gilt $w(i_r) \geq w(j_r)$. Der Algorithmus fährt mit dem Auto nun so weit, dass für den Weg bis zur nächsten Tankstelle der Sprit nicht mehr genügt.\\
+Da die optimale Tour höchstens genau so weit ist, wie die Greedy - Tour, kann der Sprit maximal genau so weit reichen, wie der Sprit der Greedy-Tour.\\
+
+Formal ist: $w(j_r) \leq w(i_r) \leq w(i_{r+1}) \leq w(t)$, wobei $t$ die Tankstelle direkt nach $i_{r+1}$ ist. Da der Sprit bis nach $t$ von$i_r$ nicht reicht, werden wir von $j_r$ nicht bis $t$ kommen. Deshalb muss der nächste Stop der optimalen Tour zwischen $w(j_r)$ und $w(i_r)$ liegen. Damit gilt: $w(j_{r+1} \leq w(i_{r+1})$
+
+\item{\bfseries Beweis der Optimalität}\\
+Ist $l > k$, wissen wir, dass die Greedy-Tour nach $k$ Stops mindestens genau so viel Strecke zurückgelegt hat, wie die optimale Tour. Der Weg zum Ziel sollte von dieser Tankstelle also aus möglich sein, deswegen würde der Algorithmus keinen weiteren Stop mehr machen. Dieser Fall ist also nicht möglich.\\
+
+Ist $k > l$ wäre $k$ keine optimale Tour.\\
+
+Damit kann nur $k =l$ gelten. Unser Algorithmus liefert also eine minimale Anzahl von Stops.
+\end{description}
+
+\textbf{Laufzeit:}\\
+
+Sollte die Darstellung nicht sortiert sein, so müssen wir alle Tankstellen nach Abstand zum Startpunkt sortieren. Dies ist mit $\Omega (m \cdot \log m)$ nach unten beschränkt. Kann aber je nach Darstellung der Tankstellen beliebig schlecht werden.\\
+
+Nehmen wir in, dass die Tankstellen, wie angenommen, schon sortiert nach Abstand zum Start sortiert sind. Nun können wir in $O(m)$ die Abstände zwischen den einzelnen Tankstellen bestimmen, damit den Treibstoffverbraucht und diesen in die Liste $S$ eintragen.\\
+
+Der angegebene Algorithmus läuft nun in $\Theta (m)$ durch, da wir für jede Tankstelle entscheiden, ob wir den nächsten Weg noch schaffen. Da wir 2 Vergleiche haben und maximal 2 Operationen in der Schleife.
 
 \label{LastPage}
 \end{document}
