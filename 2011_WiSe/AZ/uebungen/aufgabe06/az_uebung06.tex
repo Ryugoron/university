@@ -139,7 +139,8 @@ Nach I.V. bildet $c_1 \alpha_{\omega-1} = \alpha_\omega = d_k \alpha_{\omega -1}
 
 \end{description}
 
-Die Induktion bricht an einem Punkt ab. Wir können über den Zykel auch unendlich weiter laufen, da es keine Fehler erzeugt.
+Die Induktion bricht an einem Punkt ab. Wir können über den Zykel auch unendlich weiter laufen, da es keine Fehler erzeugt.\\
+\pagebreak
 
 \textbf{Schritt:}\\
 Nun können wir $c_1$ und $d_k$ aus der Permutation herrausnehmen und mit der Verkleinerten Permutation fortfahren:
@@ -172,7 +173,7 @@ Nach \emph{b)} wissen wir, dass $\{c_1 , ..., c_s \} = \{ d_1 , ... , d_t \}$ gi
 
 \begin{enumerate}[\bfseries a)]
 \item Schreiben Sie die Permutation
-$$
+$$ \sigma =
 \left( \begin{array}{cccccccccccccc}
 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14  \\
 3 & 5 & 7 & 13 & 14 & 1 & 12 & 10 & 8 & 9 & 2 & 6 & 4 & 11  \\
@@ -182,12 +183,12 @@ als Produkt disjunkter Zykel.
 
 \textbf{Lösung:}\\
 $$
-(3 \; 7 \; 12 \; 6  \;1) \cdot (5 \;14 \;11\; 2) \cdot (13 \;4) \cdot (10\; 9\; 8)
+\sigma = (3 \; 7 \; 12 \; 6  \;1) \cdot (5 \;14 \;11\; 2) \cdot (13 \;4) \cdot (10\; 9\; 8)
 $$
 
 
 \item Stellen Sie die Permutation
-$$
+$$ \sigma = 
 \left( \begin{array}{cccccccccccccc}
 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13  \\
 11 & 4 & 9 & 3 & 10 & 5 & 2 & 8 & 12 & 6 & 13 & 7 & 1  \\
@@ -195,16 +196,41 @@ $$
 $$
 als Produkt von Transposition dar.\\
 
+\textbf{Schritt 1:} Disjunkte Zykel bestimmen:\\
+$$
+\sigma = \left( 1  \; 11 \; 13 \right) \cdot \left( 2 \; 4 \; 3 \; 9 \; 12 \; 7  \right) \cdot \left( 5 \; 10 \; 6 \right) \cdot \left( 8 \right)
+$$
 
+\textbf{Schritt 2:} Transposition aufstellen:\\
+$$
+\sigma = \left( 1 \; 13 \right) \cdot \left( 1 \; 11 \right) \cdot \left( 2 \; 7 \right) \cdot \left( 2 \;  12 \right) \cdot \left( 2 \; 9 \right) \cdot \left( 2 \; 3 \right) \cdot \left( 2 \; 4 \right) \cdot \left( 5 \; 6 \right) \cdot \left( 5 \; 10 \right)
+$$
+
+\pagebreak
 
 \item Geben Sie das Vorzeichen der Permutation 
-$$
+$$ \sigma =
 \left( \begin{array}{cccccccccccccc}
 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10  \\
 4 & 7 & 9 & 3 & 6 & 5 & 10 & 2 & 1 & 8  \\
 \end{array} \right)
 $$
-an.
+an.\\
+
+\textbf{Schritt 1:} Disjunkte Zykel aufschreiben:\\
+$$
+\sigma = \left( 1 \; 4 \; 3 \; 9 \right) \cdot \left( 2 \; 7 \; 10 \; 8 \right) \cdot \left( 5 \; 6 \right)
+$$
+
+\textbf{Schritt 2:} Transpositionen aufschreiben:\\
+$$
+\sigma = ( 1 \; 9 ) \cdot (1 \; 3 ) \cdot ( 1 \; 4 ) \cdot ( 2 \; 8 ) \cdot (2 \; 10 ) \cdot ( 2 \; 7 ) \cdot (5 \; 6 )
+$$
+
+\textbf{Schritt 3:} Transpositionen zählen:\\
+In der Vorlesung hatten wir die Charakterisierung, dass das Vorzeichen die Parität der Anzahl der Transpositionen ist.\\
+Da wir hier 7 Transpositionen haben (und dabei nochmal geübt haben Transpositionen aufzustellen), ist\\
+ sign $ \sigma = -1$
 
 \end{enumerate}
 
@@ -213,8 +239,28 @@ an.
 %% -------------------------------------
 \subsection*{Aufgabe 4 \mdseries (Gruppenwirkungen)}
 
+Für die folgenden Aufgaben sei $G$ Gruppe, $M$ Menge, $g \in G$ und $x \in M$.\\
+$\sigma \; : \; G \times M \rightarrow M$ wird wie in der Vorlesung eingeführt gebildet und mit $g \cdot x$ ausgewertet.
+
 \begin{enumerate}[\bfseries a)]
-\item stuff
+\item $G := S_7, \; M := \{ 1, ...,7 \} \; g := (1 \; 3 \; 6) \cdot (3 \;5 ) \; x:=5$.\\
+
+\textbf{Auswertung:}\\
+$g \cdot x = ( 1 \; 3 \; 6) \cdot ( 3 \; 5 ) \;5= (1 \; 3 \; 6) \; 3 = 6$
+
+\item $G := O_2 ( \R ), \; M := \R ^2, \; g$ die Drehung um den Winkel $\frac{\pi }{4}, \; x := \begin{pmatrix}1 \\ 1 \end{pmatrix}$\\
+
+\textbf{Auswertung:}\\
+$$
+g \cdot x = \begin{pmatrix} \cos \frac{\pi }{4} & - \sin \frac{\pi }{4} \\ \sin \frac{\pi }{4} & \cos \frac{\pi }{4} \end{pmatrix} \cdot \begin{pmatrix} 1 \\ 1 \end{pmatrix} = \begin{pmatrix} \frac{1}{\sqrt{2}} & -\frac{1}{\sqrt{2}} \\ \frac{1}{\sqrt{2}} & \frac{1}{\sqrt{2}} \end{pmatrix} \cdot \begin{pmatrix}1 \\ 1 \end{pmatrix} = \begin{pmatrix} 0 \\ \sqrt{2} \end{pmatrix}
+$$
+
+\item $G = GL_2( \R ), \; M := \R ^2,\; g := \begin{pmatrix} 3 & -5 \\ 2 & 11 \end{pmatrix}, \; x := \begin{pmatrix} 4 \\ -3 \end{pmatrix}$\\
+
+\textbf{Auswertung:}\\
+$$
+g \cdot x = \begin{pmatrix} 3 & -5 \\ 2 & 11 \end{pmatrix} \cdot \begin{pmatrix} 4 \\ -3 \end{pmatrix} = \begin{pmatrix} 27 \\ -25 \end{pmatrix}
+$$
 \end{enumerate}
 
 \label{LastPage}
