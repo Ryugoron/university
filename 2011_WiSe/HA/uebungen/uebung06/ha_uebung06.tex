@@ -44,13 +44,13 @@
 \subsection*{Aufgabe 1 \mdseries Unabhängige Mengen in Pfaden}
 
 Sei $G = \left( V ,\, E \right) $ ein \emph{Pfad}, mit den Knoten $v_1, v_2, ..., v_n$.\\
-Dazu gehört eine Funktion $w \; : \; V \longrightarrow \mathbb{N}^*$, die einem Knoten ein positives ganzzahliges Gewicht zuordnet, im folgenden mit $w(v_i) = w_i$ bezeichnet.
+Dazu gehört eine Funktion $w \; : \; V \longrightarrow \mathbb{N}^*$, die einem Knoten ein positives ganzzahliges Gewicht zuordnet, im Folgenden mit $w(v_i) = w_i$ bezeichnet.
 \\
 
 Zur Notation:\\
-Wir werden im folgenden einen Pfad wie folgt darstellen:\\
+Wir werden im Folgenden einen Pfad wie folgt darstellen:\\
 $[w_0, w_1, w_2, w_3 , ... , w_{n-1}]$.\\
-Dabei sind zwei Knoten benachbert, wenn diese nebeneinander in der Liste stehen. Die Knoten sind ihrer Nummerierung entsprechend aufsteigend angeordnet und in der Liste steht nur der Wert, die die Funktion $w$ ihm zuordnet.
+Dabei sind zwei Knoten benachbart, wenn diese nebeneinander in der Liste stehen. Die Knoten sind ihrer Nummerierung entsprechend aufsteigend angeordnet und in der Liste steht nur der Wert, die die Funktion $w$ ihm zuordnet.
 \begin{enumerate}[\bfseries (a)]
 
 %% -------------------------------
@@ -62,10 +62,10 @@ Dabei sind zwei Knoten benachbert, wenn diese nebeneinander in der Liste stehen.
 \textbf{Lösung:}\\
 Betrachten wir den \emph{Pfad} $[1, 9 , 10 , 9 , 1]$.\\
 
-Nach dem Algorithmus nehmen wir den Größten Wert, hier Knoten $2$ mit dem Wert $10$, und entfernen ihn und seine Nachbern (Knoten $1$ und $3$). Es verbleibt der Folgende Graph: $[1], [1]$. Der restliche Graph ist \emph{unabhängig}, bei weiterer Ausführung werden die beiden 1en genommen und nicht mehr gelöscht als diese beiden in zwei Schritten, da sie keine Nachbern mehr besitzen.\\
+Nach dem Algorithmus nehmen wir den größten Wert, hier Knoten $2$ mit dem Wert $10$, und entfernen ihn und seine Nachbern (Knoten $1$ und $3$). Es verbleibt der Folgende Graph: $[1], [1]$. Der restliche Graph ist \emph{unabhängig}, bei weiterer Ausführung werden die beiden 1en genommen und nicht mehr gelöscht als diese beiden in zwei Schritten, da sie keine Nachbarn mehr besitzen.\\
 
 Der Algorithmus liefert uns also die Knoten $0,2,4$ mit dem gesammt Gewicht $12$.\\
-Wie man an diesem Beispiel aber leicht sieht, wäre die maximale unabängige Menge allerdings $1,3$ mit dem Gewicht $18$. Diese beiden Knoten wurden aber als Nachbern eines wenig kleinere Knotens im 1 Schritt allerdings verworfen.\\
+Wie man an diesem Beispiel aber leicht sieht, wäre die maximale unabängige Menge allerdings $1,3$ mit dem Gewicht $18$. Diese beiden Knoten wurden aber als Nachbarn eines wenig kleinere Knotens im 1 Schritt allerdings verworfen.\\
 
 Da wir ein Gegenbeispiel gefunden haben, kann der Algorithmus nicht korrekt sein. \mbox{} \hfill $\square$
 
@@ -75,15 +75,17 @@ Da wir ein Gegenbeispiel gefunden haben, kann der Algorithmus nicht korrekt sein
 
 \item Geben Sie ein Beispiel, bei dem der Algorithmus (vgl. Aufgabenzettel) keine unabhängige Menge maximalen Gewichts bestimmt.\\
 
+\pagebreak
+
 \textbf{Lösung:}\\
 Der Algorithmus zerlegt die Menge in zwei unabängeige Menge, die eine hat gerade Indizes, die andere ungerade.\\
 Wir wollen uns eine Menge konstruieren, in der die maximal unabhängige Menge sowohl gerade, als auch ungerade Indizes enthält.\\
 
 Wir untersuchen $[1,9,1,1,9,1]$.\\
-Die Menge der Werte mit geraden Indizes ist hier $\{ 9, 1 , 1 \}$ und die mit ungeraden ist $\{ 1 , 1 , 9 \}$. Beide ergeben ein Gesammtgewicht von $11$.\\
-Auch hier sehen wir schnell, dass Element $1,4$ ein Gesammtgewicht von $18$ hat und somit mehr Gewicht hat, als die beiden Menge, deren Maximum den größten Wert unter den unabhängigen Menge haben soll.\\
+Die Menge der Werte mit geraden Indizes ist hier $\{ 9, 1 , 1 \}$ und die mit ungeraden ist $\{ 1 , 1 , 9 \}$. Beide ergeben ein Gesamtgewicht von $11$.\\
+Auch hier sehen wir schnell, dass Element $1,4$ ein Gesamtgewicht von $18$ hat und somit mehr Gewicht hat, als die beiden Menge, deren Maximum den größten Wert unter den unabhängigen Menge haben soll.\\
 
-Da dies wie an diesem Beispiel gezeigt nicht immer der Fall ist, bestimmt der Algorithmus lieder nicht die unabhängige Menge mit maximalen Gewicht. \mbox{} \hfill $\square$
+Da dies wie an diesem Beispiel gezeigt nicht immer der Fall ist, bestimmt der Algorithmus leider nicht die unabhängige Menge mit maximalen Gewicht. \mbox{} \hfill $\square$
 
 %% -----------------------------------------
 %%		c)
@@ -106,13 +108,26 @@ $$
 \end{array}
 $$
 
-Sollten wir nur 1 Element haben nehmen wir dies einfach. Haben wir 2 Nehmen wir das Maximum von beiden. Nehmen wir das Maximum von erstens, wir nehmen das j - te Element müssen dafür aber das daneben verwerfen, oder zweitens wir nehmen es nicht, aber können das daneben wählen.\\
+Sollten wir nur 1 Element haben nehmen wir dies einfach. Haben wir 2, nehmen wir das Maximum von beiden. Nehmen wir das Maximum von erstens, wir nehmen das j - te Element müssen dafür aber das daneben verwerfen, oder zweitens wir nehmen es nicht, aber können das daneben wählen.\\
 
 Ziel ist es $E[n-1]$ zu bestimmen, weil wir dort alle Knoten betrachtet haben.
 
 \item{\bfseries Korrektheit} 
 
+\begin{description}
 
+\item{\bfseries Beh.:} $\forall j \leq n \; : E[j]$ ist maximal.
+
+\item{\bfseries I.A.} Gilt für $j = 0$ und $j=1$ trivialerweise.
+
+\item{\bfseries I.S.} $r \longrightarrow r+1$ \\
+Wir wissen, dass die letzten beiden Mengen ohne $j$ und ohne $j , j-1$ maximal sind. Wenn wir nun $j+1$ dazunehmen, wissen wir, dass wir den Eintrag $j$ nicht betrachten können, da dieser ein Nachber von $j+1$ ist. Wollen wir $j+1$ dazunehmen, können wir das nur tun, wenn wir $E[j-1]$ nehmen. Der maximale Wert von $E[j+1]$ ist also das Optimum von $E[j]$ und $E[j-1] + w(j+1)$.\\
+
+Damit ist unser berechneter Wert von $E[j+1]$ maximal. \mbox{} \hfill $\square$
+
+\end{description}
+
+\pagebreak
 
 \item{\bfseries Algorithmus}
 
@@ -123,7 +138,7 @@ if n = 1 then
 Erg1 := [0];	// Sonst speichern wir den Wert
 w1 := w(0);	//  in der ersten Laufvariable
 if(w(0) > w(1) then
-	Erg2 := [0];	// Un den andern Anker
+	Erg2 := [0];	// Und den andern Anker
 	w2 := w(0);	// in der zweiten
 else
 	Erg2 := [1];
@@ -164,6 +179,8 @@ Da wir immer nur den letzte Wert (w2) und den vorletzten Wert (w1) für den näc
 \end{description}
 
 \end{enumerate}
+
+\pagebreak
 
 %% ------------------------------------------
 %%		AUFGABE 2
@@ -213,12 +230,14 @@ Wir induzieren über die Länge der beiden Folgen.
 
 \item{\bfseries Beh.:}  $\forall r \leq m \; : \; a(i_r) \geq a(j_r)$
 
-\item{\bfseries I.A.} $a(i_1) \geq a(j_1)$ ist trivialer weise erfüllt, da der Algorithmus im ersten Schritt das $i_1$ wählt, mit dem größten $a(i_1)$.
+\item{\bfseries I.A.} $a(i_1) \geq a(j_1)$ ist trivialerweise erfüllt, da der Algorithmus im ersten Schritt das $i_1$ wählt, mit dem größten $a(i_1)$.
 
 \item{\bfseries I.S.} $r \longrightarrow r + 1$\\
 Nach dem Algorithmus, liegt $a(i_{r+1})$ noch in $R$, da nach Ordnung gilt $e(i_r)\geq a(i_r) \stackrel{I.V.}{\geq} a(j_{r}) \geq e(j_{r+1}) \geq a(j_{r+1})$.\\
 
-Der neue Anfang von $a(i_{r+1})$ muss also im Intervall $(a(j_{r+1}) , a(j_{r}))$ (Wir haben hier an dieser Stelle da ganze umgedreht, weil Intervalle sorum aufgeschrieben werden)  liegen. Damit muss $a(i_{r+1}) \geq a(j_{r+1})$ sein. \mbox{} \hfill $\square$
+Der neue Anfang von $a(i_{r+1})$ muss also im Intervall $(a(j_{r+1}) , a(j_{r}))$ (Wir haben hier an dieser Stelle das ganze umgedreht, weil Intervalle so rum aufgeschrieben werden)  liegen. Damit muss $a(i_{r+1}) \geq a(j_{r+1})$ sein. \mbox{} \hfill $\square$
+
+\pagebreak
 
 \item{\bfseries Beweis der Optimalität:}\\
 Angenommen $k < m$ dann können wir aus unserer oberen Behauptung ziehen, dass noch min ein Element in $R$ sein muss, nämlich $I_{k+1}$. Der Algortihmus kann also nicht terminiert sein.\\
@@ -237,7 +256,7 @@ $\Rightarrow A$ ist eine optimale Lösung. \mbox{} \hfill $\square$
 
 Dieser Fall verhält sich analog zu \emph{a)}.  Nehmen wir die selben Intervalle $R = \{ I_1, I_2, I_3 \}$, wobei $I_1 = (1, 100), \; I_2 = (2, 10), \; I_3 = (12 , 20)$.\\
 
-Da $I_1$ auch das letzte Ende hat, wird der Algorithmus dieses Interval zu erst nehme und alle anderen verwerfen, da diese Überlappen. Optimal hier wäre wie gehabt $I_2, I_3$.\\
+Da $I_1$ auch das letzte Ende hat, wird der Algorithmus dieses Intervall zuerst nehme und alle anderen verwerfen, da diese überlappen. Optimal hier wäre wie gehabt $I_2, I_3$.\\
 
 Wir haben wieder ein Gegenbeispiel gefunden, damit kann der Algorithmus nicht korrekt sein.
 
@@ -249,7 +268,7 @@ Wir haben wieder ein Gegenbeispiel gefunden, damit kann der Algorithmus nicht ko
 Diese Ordnung bildet keine valide Lösung.\\
 Nehmen wir als Beispiel $R = \{ I_1 , I_2 , I_3\}$ mit $I_1 = (1,10)$ , $I_2 = (9,12)$ , $I_3 = (11,20)$.\\
 
-Der Algorithmus würde uns als kürzestes Interval $I_2$ liefern. Damit fallen $I_1, I_3$ aus der Menge, weil sie nicht veträglich sind. Die maximale Anzahl von Intervallen ist aber $I_1, I_2$, da diese beiden \emph{verträglich} sind.
+Der Algorithmus würde uns als kürzestes Intervall $I_2$ liefern. Damit fallen $I_1, I_3$ aus der Menge, weil sie nicht veträglich sind. Die maximale Anzahl von Intervallen ist aber $I_1, I_2$, da diese beiden \emph{verträglich} sind.
 
 
 %% -----------------------------------------
@@ -265,6 +284,7 @@ Wir haben ein Gegenbeispiel gefunden und damit ist der Algorithmus nicht korrekt
 
 \end{enumerate}
 
+\pagebreak
 
 %% -----------------------------------------
 %%		AUFGABE 3
@@ -272,12 +292,12 @@ Wir haben ein Gegenbeispiel gefunden und damit ist der Algorithmus nicht korrekt
 \subsection*{Aufgabe 3 \mdseries Autobahnfahrt}
 
 Gegeben ist eine Menge von Tankstellen entlang eines Weges und ein Auto, dass $n$ Kilometer fahren kann.\\
-Wir suchen nun eine Minimale Anzahl von Tankstellen, mit der Wir unser Ziel erreichen können (ohne mit einem leeren Tank liegen zu bleiben).\\
+Wir suchen nun eine minimale Anzahl von Tankstellen, mit der wir unser Ziel erreichen können (ohne mit einem leeren Tank liegen zu bleiben).\\
 
 \textbf{Lösung:}\\
 
 \textbf{Notation und Idee:}\\
-Wir setzten hier einmal vorraus, dass die Tankstellen uns in einer Liste gegeben werden, die sie nach Abstand zum Startpunkt sortiert. Zwischen 2 Tankstellen möchten wir den Abstand dieser beiden Tankstellen haben.\\
+Wir setzen hier einmal vorraus, dass die Tankstellen uns in einer Liste gegeben werden, die sie nach Abstand zum Startpunkt sortiert. Zwischen 2 Tankstellen möchten wir den Abstand dieser beiden Tankstellen haben.\\
 
 Als Darstellung wählen wir eine Liste des Treibstoffverbrauches $S = [\delta_1 , \delta_2 , ... \delta_{m+1}]$, wobei $\delta_1$ der verbrauchte Treibstoff vom Startpunkt zur ersten Tankstelle ist, $\delta_2$ der verbrauchte Treibstoff zwischen der ersten und der zweiten Tankstelle usw.\\
 $\delta_{n+1}$ ist nun der verbrauchte Treibstoff von der letzten Tankstelle zum Zielpunkt.\\
@@ -285,7 +305,7 @@ $\delta_{n+1}$ ist nun der verbrauchte Treibstoff von der letzten Tankstelle zum
 Für den Beweis konstruieren wir uns noch eine Funktion $w \; : \; Tankstelle \longrightarrow \mathbb{N}$, die den Abstand einer Tankstelle zum Start angibt.\\
 
 
-Um das Ziel zu finden gehen wir nun die Tankstellen durch, bis wir nicht mehr genügend Sprit bis zur nächsten Tankstelle haben.
+Um das Ziel zu finden gehen wir nun die Tankstellen durch, bis wir nicht mehr genügend Sprit bis zur nächsten Tankstelle haben.\\
 
 \textbf{Algorithmus:}
 \begin{lstlisting}[language=Pascal]
@@ -311,6 +331,8 @@ Sei $k$ eine optimale Anzahl von Stopps und $l$ die Anzahl von Stopps, die uns d
 \item{\bfseries Bew.:} Induktion über $k$
 
 \item{\bfseries I.A.} $w(i_1) \geq w(j_1)$ gilt, da unser Algorithmus ersteinmal soweit fährt, bis die nächste Etappe nicht mehr zu schaffen ist. Da die nächste Tankstelle vom Start also nicht zu erreichen ist, muss der optimale stopp von $k$ vorher tanken.
+
+\pagebreak
 
 \item{\bfseries I.S.} $r \longrightarrow r + 1$\\
 Nach I.V. gilt $w(i_r) \geq w(j_r)$. Der Algorithmus fährt mit dem Auto nun so weit, dass für den Weg bis zur nächsten Tankstelle der Sprit nicht mehr genügt.\\
