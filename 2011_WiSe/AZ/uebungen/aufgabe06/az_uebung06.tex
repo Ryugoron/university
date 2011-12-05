@@ -52,20 +52,76 @@
 %% -------------------------------------------
 
 \subsection*{Aufgabe 1 \mdseries (Die additive Gruppen von $\Q$)}
-Beweisen Sie, dass $\Q$ nicht endlich erzeugt ist.
+Beweisen Sie, dass $\Q$ nicht endlich erzeugt ist.\\
 
 \textbf{Beweis:}\\
+
+Die Addition von zwei Zahlen $a,b \in \Q$ sieht folgender Maßen aus:\\
+Sei $a := \frac{p_1}{q_1}, \; b := \frac{p_2}{q_2}$, mit $p_1,p_2 \in \Z$ und $q_1,q_2 \in \NN$.\\
+Dann ist:
+$$
+a+b = \frac{p_1}{q_1} + \frac{p_2}{q_2} = \frac{p_1q_2 + p_2q_1}{q_1q_2}.
+$$
+
+Nun wollen wir für den Beweis nur noch vollig gekürzte Brüche betrachten.\\
+Um nach der Addition noch zu kürzen, Teilen wir Zähler und Nenner durch deren ggT.
+$$
+p_1 = r \cdot \ggT (p_1,q_1), \; q_1 = s \cdot \ggT (p_1,q_1) \Rightarrow \frac{p_1}{q_1}=\frac{r \cdot \ggT (p_1,q_1)}{s \cdot \ggT (p_1 ,q_1)} = \frac{r}{s}
+$$
+
+\textbf{Lemma:}\\
+Sei $M = \{ \frac{p_1}{q_1} , ... , \frac{p_n}{q_n} \} \subset \Q$ endliche Teilmenge, mit $p_i \in \Z, \, q_i \in \NN, 1 \leq i \leq n$. Dann ist:
+$$\frac{1}{q_1 \cdot q_2 \cdot ... \cdot q_n + 1} \not\in \left< M \right>.$$
+
+\textbf{Beweis:}\\
+Sei o.B.d.A $q_i > 1$, da 1 als neutrales Element der Multiplikation das Ergebnis nicht verändert.\\
+
+Analog zum Beweis von Euklid, wird hier ersichtlich, dass keiner unserer Nenner $q_i$ die Zahl $q_1 \cdot ... \cdot q_n + 1$ teilen kann. Da aber alle Zahlen im Nenner durch Multiplikation erzeugt werden, kann keiner unserer Nenner der Basis dieses Element erzeugen.\\
+
+(Einen ähnliches Beweis kann man führen, wenn man zeigt, dass aus den bestehenden Primzahlen der Nenner (in Primfaktordarstellung) durch Multiplikation keine neue von den anderen verschiedene Primzahl gewonnen werden kann.)\\
+\mbox{} \hfill $\square$\\
+
+Mithilfe des Lemmas können wir nun leicht sehen, dass wir zu jeder beliebigen endlichen Basis eine Zahl wie im Lemma konstruieren können, die nicht von der Basis erzeugt werden kann. Damit kann $\Q$ nicht endlich erzeugt werden.
 
 %% -------------------------------------------
 %%		AUFGABE 2
 %% ------------------------------------------
 
+\pagebreak
+
 \subsection*{Aufgabe 2 \mdseries (Zykelzerlegungen)}
 
 \begin{enumerate}[\bfseries a)]
-\item Es seien $c_1$ und $c_2$ zwei disjunkte Zykel in $S_n$. Zu zeigen ist $c_1 \cdot c_2 = c_2 \cdot c_1$.
+\item Es seien $c_1$ und $c_2$ zwei disjunkte Zykel in $S_n$. Zu zeigen ist $c_1 \cdot c_2 = c_2 \cdot c_1$.\\
 
-\item Beweisen Sie folgende Aussage: ...bla
+\textbf{Beweis:}\\
+Sei $a \in \{ 1 ,.. ,n \}$ beliebig, $c_1 = \left( \alpha_1 ... \alpha_k \right), c_2 = \left( \beta_1  ...  \beta_l \right)$ disjunkt.\\
+
+\begin{enumerate}[\bfseries {Fall} 1]
+
+\item $a \not\in \{ \alpha_1, ... , \alpha_k , \beta_1 , ... , \beta_l \}$.\\
+$$c_1 a = a \; \land \; c_2 a = a \Longrightarrow (c_1 \cdot c_2) a = a = (c_2 \cdot c_1) a$$
+
+\item $a \in \{ \alpha_1 , ... , \alpha_k\}$\\
+$\Rightarrow \exists 1 \leq i \leq k \; : \; a = \alpha_i$. (Zur vereinfachung gilt gleich $\alpha_1 = \alpha_{k+1}$)\\
+$\stackrel{\text{disjunkt}}{\Rightarrow} a=\alpha_i, \alpha_{i+1} \not\in \{ \beta_1 , ... , \beta_l \}$
+$$
+c_1 \cdot a = \alpha_{i+1} \, \land \, c_2 \cdot a = a \Longrightarrow (c_1 \cdot c_2) a = c_1 a = \alpha_{i+1} = c_2 \alpha_{i+1} = (c_2 \cdot c_1) a
+$$
+
+\item $a \in \{ \beta_1 , ... , \beta_l \}$\\
+Analog zu \emph{Fall 2}.\\
+
+\mbox{} \hfill $\square$
+
+\end{enumerate}
+
+
+\item Beweisen Sie folgende Aussage:\\
+\textbf{Satz:} Es seien $c_1, ..., c_s$ und $d_1, ... , d_t$ Zykel, so dass $c_i$ und $c_j$ für $1 \leq i < j \leq s$ und $d_k$ und $d_l$ für $1 \leq k < l \leq t$ disjunkt sind. Dann gilt
+$$
+c_1 \cdot ... \cdot c_s = d_1 \cdot ... \cdot d_t \Rightarrow \{ c_1 , ..., c_s \} = \{ d_1 , ... , d_t \}
+$$
 
 \item Leiten Sie folgendes Ergebnis ab: ...bla
 \end{enumerate}
