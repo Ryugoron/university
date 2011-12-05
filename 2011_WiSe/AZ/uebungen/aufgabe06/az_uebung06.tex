@@ -113,7 +113,6 @@ $$
 Analog zu \emph{Fall 2}.\\
 
 \mbox{} \hfill $\square$
-
 \end{enumerate}
 
 
@@ -123,7 +122,45 @@ $$
 c_1 \cdot ... \cdot c_s = d_1 \cdot ... \cdot d_t \Rightarrow \{ c_1 , ..., c_s \} = \{ d_1 , ... , d_t \}
 $$
 
-\item Leiten Sie folgendes Ergebnis ab: ...bla
+\textbf{Beweis:}
+
+Wir machen eine eine Rückwärtsinduktion:\\
+
+Sei $c_1 = (\alpha_1 ... \alpha_p)$. Da beide Permutationen $\alpha_1$ auf das selbe Element abbilden, muss ein $k \in \{ 1,.., t \}$ existieren, so dass $d_k$ dieses $\alpha_1$ enthält. Dieses $k$ ist eindeutig, da die Zykel paarweise disjunkt sind.\\
+
+\begin{description}
+
+\item{\bfseries Behauptung} $\forall 1 \leq a \leq p \; : \; c_1 \alpha_a = d_k \alpha_a$
+
+\item{I.A.} Da die Zykel disjunkt sind, aber die Komposition auf das selbe abbildet, gilt $c_1 \alpha_1 = \alpha_2 = d_k \alpha_1$, nach Auswahl von $c_1 , d_k$.
+
+\item{I.S.} $\omega \rightarrow \omega+1$\\
+Nach I.V. bildet $c_1 \alpha_{\omega-1} = \alpha_\omega = d_k \alpha_{\omega -1}$ auf das selbe Element. Nun wissen wir wieder über die Komposition, dass beide dieses Element, dass sich im zykel befindet auf das selbe Element abbildet. $c_1 \alpha_\omega = \alpha_{\omega+1} = d_k \alpha_\omega$.
+
+\end{description}
+
+Die Induktion bricht an einem Punkt ab. Wir können über den Zykel auch unendlich weiter laufen, da es keine Fehler erzeugt.
+
+\textbf{Schritt:}\\
+Nun können wir $c_1$ und $d_k$ aus der Permutation herrausnehmen und mit der Verkleinerten Permutation fortfahren:
+$c_2 ... c_s = d_1 ... d_{k-1} d_{k+1} .. d_t$\\
+
+Hat man den letzten Zykel von $c$ herraus genommen, bleibt hier nur noch die Identität. Damit muss auch $d$ nun die Identität sein und keinen Zykel übirig behalten haben. Da wir schrittweise gleiche Zykel herausgenommen haben folgt daraus $\{ c_1 , ... , c_s \} = \{ d_1 , ... , d_t \}$ und $s = t$. \\
+\mbox{} \hfill $\square$
+
+\item Leiten Sie folgendes Ergebnis ab: \\
+\textbf{Folgerung:} Jede Permutation $\sigma \in S_n \setminus \{ e \}$ besitzen eine bis auf die Reihenfolge eindeutige Darstellung
+$$
+\sigma = c_1 \cdot ... \cdot c_s
+$$
+als Produkt paarweise disjunkter Zykel.\\
+
+\textbf{Beweis:}\\
+Sei $\sigma = d_1 \cdot ... \cdot d_t$ eine weitere Zerlegung paarweise disjunkter Zykel.\\
+
+Nach \emph{b)} wissen wir, dass $\{c_1 , ..., c_s \} = \{ d_1 , ... , d_t \}$ gilt. Die benutzten Zykel sind also die selben. Da nach \emph{a)} disjunkte Zykel kommutativ sind, können wir die Reihenfolge in der Darstellung auch herstellen, egal welche Reihenfolge die Zykel haben.\\
+\mbox{} \hfill $\square$
+
 \end{enumerate}
 
 
@@ -156,7 +193,9 @@ $$
 11 & 4 & 9 & 3 & 10 & 5 & 2 & 8 & 12 & 6 & 13 & 7 & 1  \\
 \end{array} \right)
 $$
-als Produkt von Transposition dar
+als Produkt von Transposition dar.\\
+
+
 
 \item Geben Sie das Vorzeichen der Permutation 
 $$
