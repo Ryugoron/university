@@ -1,0 +1,17 @@
+\subsection*{Aufgabe 4: Abarbeitungszeit einer Codezeile}
+
+\begin{description}
+
+\item{\bfseries A 2.4.1} Bestimmen Sie messtechnisch die Abarbeitungszeit der folgdenen Codezeile bei Nutzung der XT2CLK und der LFXT1CLK Taktquelle.
+
+\begin{lstlisting}
+	P5OUT ^= 0x10;
+\end{lstlisting}
+
+\textbf{Ergebnis:}
+Bei einem XT2CLK Takt bei 7,373MHz haben wir eine Ausführungsfrequenz von $1,898 \mu s$\\
+Bei einem LFXT1CLK Takt bei 32,7kHz haben wir eine Ausführungsfrequenz von $427,232 \mu s$\\
+
+Die einmalige Ausführung ist dabei jeweils die Hälfte, da es  bei einer Periode zwei mal zur Ausführung kommt.
+
+\end{description}

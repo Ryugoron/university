@@ -2,12 +2,52 @@
 
 \begin{description}
 
-\item{\bfseries A 2.1.1} Bestimmen Sie messtechnisch die Frequenz der \emph{LFXT1CLK} und  \emph{XT2CLK} Taktquelle.
+\item{\bfseries A 2.1.1} Bestimmen Sie messtechnisch die Frequenz der \emph{LFXT1CLK} und  \emph{XT2CLK} Taktquelle.\\
 
-\item{\bfseries A 2.1.2} Bestimmen Sie messtechnisch die minimale und maximale Takt- frequenz des MCLK-Taktes, die sich auf Basis der LFXT1CLK-, XT2CLK- und DCOCLK-Taktquellen bereitstellen läßt.
+Das Programm, dass deen Takt auf die Portleitung P5.0 legt, sieht wie folgt aus:
 
-\item{\bfseries A 2.1.3} An P2.5 ist ein Oszillatorwiderstand $R_{OSC}$ von 39kOhm angeschlossen. Erläutern Sie, wie der externe Widerstand für den DCOCLK-Taktgenerator nutzbar gemacht wird. 
+\begin{lstlisting}
+void aufgabe21(){
+	P5Sel |= (1<<4);	//  Module Mode
+	P5Dir |= (1<<4);	// P5.4 auf Out
+	BCSCTL2 = BCSCTL2 & SELM_3 | SELM_3;	// Die oberen beiden Bits sind Multiplexer
+								// den wir auf LFXT1CLK setzen.
 
-\item{\bfseries A 2.1.4} Welchen Einfluss hat der Widerstand auf den DCOCLK-Taktgenerator? 
+	//BCSCTL2 = BCSCTL2 & SELM_2 | SELM_2;	// Setzt das hoechste Bit auf 1 und das 2. auf 0
+					// Damit wird XT2CLK 
+	
+	BCSCTL" = BCSCTL2 & DIVM_0 | DIVM_0;
+}
+\end{lstlisting}
+
+\textbf{Bestimmung der Werte:}\\
+
+\emph{LFXT1CLK} hat die Frequenz $32,7691$ kHz.\\
+
+\emph{XT2CLK} hat die Frequenz $7,37326$ MHz.\\
+
+\item{\bfseries A 2.1.2} Bestimmen Sie messtechnisch die minimale und maximale Takt- frequenz des MCLK-Taktes, die sich auf Basis der LFXT1CLK-, XT2CLK- und DCOCLK-Taktquellen bereitstellen läßt.\\
+
+Unser letztes Programm muss nur angepasst werden, indem wir bei SEL noch die 0 testen (DCOCLK ist sowohl 0 als auch 1).\\
+
+Die Minima und Maxima kann man über den Divider einstellen, dabei ist 0 ein Divisor von 1 und 4 ein Divisor von 8. Damit ergibt sich nach Messung:
+
+\begin{center}
+\begin{tabular}{lcc}
+& Maximum & Minimum\\
+LFTXT1CLK & 32,7 kHz & 4,09614 kHz \\
+XT2CLK & 7,373 MHz & 921,656 kHz\\
+DCOCLK & 7,259MhZ (ossziliert) & 925 kHz (osszilert) \\
+\end{tabular}
+\end{center}
+
+\item{\bfseries A 2.1.3} An P2.5 ist ein Oszillatorwiderstand $R_{OSC}$ von 39kOhm angeschlossen. Erläutern Sie, wie der externe Widerstand für den DCOCLK-Taktgenerator nutzbar gemacht wird.\\
+
+Der Oszilierende Wiederstand kann über das DCOR Bit, welches das unterste Bit in BCSCTL2 gesetzt werden kann.
+
+\item{\bfseries A 2.1.4} Welchen Einfluss hat der Widerstand auf den DCOCLK-Taktgenerator? \\
+
+Hat man den oszilierenden Wiederstand dazugeschaltet so ist die Frequenz bei 925kHz. Ist er nicht dabei haben wir eine Frequenz von 212 kHz gemessen. Bei einem 8 fachen Divisor haben wir also eine etwa die 4fache Frequenz.\\
+Dies hat sich auch bei den anderen Divisoren bestätigt.
 
 \end{description}

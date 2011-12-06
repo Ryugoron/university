@@ -17,7 +17,7 @@
 \usepackage{fancyhdr}
 \pagestyle{fancy}
 \fancyhead[C]{Höhere Algorithmik}
-\fancyhead[L]{Übung Nr. 6}
+\fancyhead[L]{Übung Nr. 7}
 \fancyhead[R]{WS 2011/12}
 \fancyfoot{}
 \fancyfoot[L]{}
@@ -49,6 +49,13 @@
 
 \textbf{Beweis:}\\
 
+Sei $Z = z_1z_2 ... z_m$ eine Anfragefolge auf den Speicher.\\
+Sei $D = d_1d_2 ... d_n$ eine allgemeine Zugriffsfolge einer Ersetzungsstrategie. Mit zugehörigen $T = t_1t_2 ... t_n$ Zeitpunkten, so dass $d_i$ bei Anfrage $z_{t_i}$ passiert. Sei $T_{red} = a_1a_2 ... a_n$ eine Folge mit Zeitpunkten, so dass $d_i$ bei Anfrage $z_{a_i}$ passiert und bei $z_{a_i}$ ein Cache - Miss aufgetreten ist.\\
+
+Wir wollen nun $T' $ schrittweise konstruieren, so dass $T'$ am Ende eine reduzierte Folge ist induziert. Sei $T'$ initial $T$.\\
+
+Sei $i = \min \{ i \in \{ 1, ... , n \} \; | \; t_i \not= a_i \}$. Insbesondere gilt $t_1 .. t_{i-1} = a_1 ... a_{i-1}$. Bei gleicher Startkonfiguration ist nach $z_{t_{i-1}}$ der Cache bei 
+
 \item Geben Sie eine allgemeine Zugriffsfolge an, so dass die LRU Strategie bei k Wörtern k mal so viele Misses wie die Furthest-in-the-Future Strategie erzeugt.\\
 
 \textbf{Lösung:}\\
@@ -69,9 +76,13 @@ Betrachten Sie eine Folge von \textbf{Union} und \textbf{Find} Operationen der L
 
 \textbf{Beweis:}\\
 
-\item Wenn alle\textbf{Find} - Operationen auf Mengen mit mindestens $\log \; n$ Elementen durchgeführt werden, so ist die Gesamtlaufzeit $O(n + m)$.\\
+Idee: Union : Kosten 2
+
+\item Wenn alle \textbf{Find} - Operationen auf Mengen mit mindestens $\log \; n$ Elementen durchgeführt werden, so ist die Gesamtlaufzeit $O(n + m)$.\\
 
 \textbf{Beweis:}\\
+
+Tipp: Im $\log* n$ Teil steht es. Hauptlemma + andere Aufteilung (nicht der Rang)
 
 \end{enumerate}
 

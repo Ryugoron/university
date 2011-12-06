@@ -1,0 +1,62 @@
+\subsection*{Aufgabe 3: Dynamische Taktumschaltung}
+
+\begin{description}
+
+\item{\bfseries A 2.3.1} Entwicklen Sie ein Programm, das auf Tastendruck die Taktfrequenz des Mikrocontrollers zwischen 4,096kHz und 7,3728 MHz umschaltet. Der XT2CLK Taktgenerator soll dafür nicht eingesetzt werden. Kontrollieren Sie messtechnisch den Frequenzwechsel und bestimmen sie den Stromverbrauch.\\
+
+\textbf{Vorüberlegung:}\\
+
+Da wir den XT2CLK Generator nicht benutzen dürfen, können wir die 7,3728 nur erreichen wenn wir einen Divisor von 1 nehmen und die DCOCLK benutzten. Wenn auf eine Taste gedrückt wird, schalten wir im Multiplexer DIVM auf LFTXT1CLK um. Dieser wird nicht über XT2 angeschlossen und kann daher benutzt werden.
+
+\textbf{Programm:}\\
+
+\begin{lstlisting}
+
+#define RECHTS (0x02)
+#define LINKS (0x01)
+
+init23(){
+	P5SEL |= (1<<4); // Fuer Frequenzmessung
+	P5DIR |= (1<<4);
+
+	P4OUT |= 0x07;	//LEDs sollten aus sein
+	LEDOFF;
+
+	P1SEL &= ~(0x03);	//Macht Taster1/2
+	P1DIR &= ~0x03;	// zum lesen bereit
+}
+
+aufgabe23(){
+	//Nimmt DCOCLK bei keinem Divisor
+	if(RECHTS & P1IN){
+		BCSCTL2 = BCSCTL2 & ~SELM_3 | SELM_1;
+		BCSCTL2 = BCSCTL2 & ~DIVM_3 | DIVM_0;
+		BCSCTL2 = BCSCTL2 & ~1 | 1;
+	} 
+	//Nimmt LFTXT1CLK mit 8 als Divisor
+	else if(LINKS & P1IN){
+		BCSCTL2 = BCSCTL2 & ~SELM_3 | SELM_3;
+		BCSCTL2 = BCSCTL2 & ~DIVM_3 | DIVM_3;
+		BCSCTL2 = BCSCTL" & ~1 | 1;
+	}
+}
+
+\end{lstlisting}
+
+\textbf{Auswertung:}\\
+
+Bei einer Frequenz von $7,374MHz$ ist der Stromverbrauch $4,78mA$ und bei $4,09614kHz$ ist der Verbrauch $0,483mA$. Darüber hinaus konnten wir beobachten, dass unser Program funktioniert.
+
+\item{\bfseries A 2.3.2} Welche Schlußfolgerungen hinsichtlich des Energieverbrauches ziehen Sie? Berechnen Sie für beide gemessenen Stromverbrauchswerte die theoretisch mögliche Batterielaufzeitdes Moduls bei Nutzung einer Batterie mit einer Kapazität von 1100mAh?\\
+
+Wir sehen an dieser Stelle, dass es sich lohnt die Taktfrequenz runter zu drehen, wann immer wir nicht schnell rechnen oder reagieren müssen. Da ein Rechner in den der größten Zeit nichts zu tun hat und immer nur schubweise Arbeit erledigen muss, kann man den Stromverbrauch drastisch senken.\\
+
+Der Stromverbrauch sinkt bei der geringen Frequenz auf ein Zehntel des maximalen Wertes.\\
+
+Für den zweiten Teil gilt die Formel $T = \frac{\text{Kapazität}}{\text{Strom}}$, damit ergibt sich für die beiden gemessenen Werte:\\
+
+$7,374MHz \Rightarrow T= \frac{1100mAh}{4,78mA} \approx 230h \approx 9,5d$\\
+
+$4,0961kHz \Rightarrow T = \frac{1100mAh}{0,483mA} = \approx 2277h \approx 95d \approx 13,5$ Wochen
+
+\end{description}
