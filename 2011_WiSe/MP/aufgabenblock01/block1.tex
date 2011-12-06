@@ -14,6 +14,19 @@
 \usepackage{geometry} 
 
 
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[L]{Mikroprozessorpraktikum}
+\fancyhead[R]{Max Wisniewski \\ Paul Podlech}
+\fancyhead[C]{}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage$\,$ von \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\setlength{\parindent}{0pt} 
+\setlength{\headheight}{15pt}
+
 
 \author{Paul Podlech \\ 3910583 \and Max Wisniewski\\4370074}
 \title{Mikroprozessor Praktikum\\ Fr. HWP 2 \\ Aufgabenblock 1}
@@ -26,6 +39,7 @@
 \lstset{language=C, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2, mathescape=true, numbers=left}
 
 \maketitle
+\thispagestyle{fancy}
 
 \newpage
 
@@ -34,5 +48,7 @@
 \input{aufgabe02}
 \input{aufgabe03}
 \input{aufgabe04}
+
+\label{LastPage}
 
 \end{document}
