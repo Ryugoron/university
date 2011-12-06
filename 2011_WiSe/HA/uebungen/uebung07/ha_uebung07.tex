@@ -1,0 +1,147 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm]{geometry} 
+\usepackage{babel}
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc} 
+\usepackage{ae} 
+\usepackage{amssymb} 
+\usepackage{amsmath} 
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{paralist}
+
+%%\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[C]{Höhere Algorithmik}
+\fancyhead[L]{Übung Nr. 6}
+\fancyhead[R]{WS 2011/12}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage$\,$ von \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\setlength{\parindent}{0pt} 
+\setlength{\headheight}{15pt}
+
+\author{Tutor: Lena Schlipf}
+\date{}
+\title{Max Wisniewski , Alexander Steen}
+
+\begin{document}
+
+\lstset{language=Java, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2, mathescape=true}
+
+\maketitle
+\thispagestyle{fancy}
+
+%% ----------------------------------
+%%		AUFGABE 1
+%% ----------------------------------
+\subsection*{Aufgabe 1 \mdseries Caching}
+
+\begin{enumerate}[\bfseries (a)]
+
+\item Zeigen Sie, dass jede Offline-Caching-Strategie durch eine \emph{reduzierte} Ersetzungsstrategie ersetzt werden kann, die nicht die Anzahl der Hauptspeicherzugriffe erhöht.\\
+
+\textbf{Beweis:}\\
+
+\item Geben Sie eine allgemeine Zugriffsfolge an, so dass die LRU Strategie bei k Wörtern k mal so viele Misses wie die Furthest-in-the-Future Strategie erzeugt.\\
+
+\textbf{Lösung:}\\
+
+
+\end{enumerate}
+
+%% ----------------------------------
+%%		AUFGABE 2
+%% ----------------------------------
+\subsection*{Aufgabe 2 \mdseries Union-Find}
+
+Betrachten Sie eine Folge von \textbf{Union} und \textbf{Find} Operationen der Länge \emph{m}. Gegeben ist die Startpartition $\{\{ 1 \} , \{ 2 \} , ... , \{ n \} \}$. Verwendet werden sowohl Union-By-Rank also auch Pfadkompression.
+
+\begin{enumerate}[\bfseries (a)]
+
+\item Werden alle \textbf{Union}-Operationen vor allen \textbf{Find} - Operationen durchgeführt, so ist die Gesamtlaufzeit $O(n + m)$.\\
+
+\textbf{Beweis:}\\
+
+\item Wenn alle\textbf{Find} - Operationen auf Mengen mit mindestens $\log \; n$ Elementen durchgeführt werden, so ist die Gesamtlaufzeit $O(n + m)$.\\
+
+\textbf{Beweis:}\\
+
+\end{enumerate}
+
+%% ----------------------------------
+%%		AUFGABE 3
+%% ----------------------------------
+\subsection*{Aufgabe 3 \mdseries Bitmaps}
+
+Sie $n$ eine natürtliche Zahl. Eine $ n \times n $ Bitmap ist ein Array $B[1 ... n, 1 ... n]$ vom Typ \texttt{Boolean}, welches ein Schwarz-Weiß-Bild darstellt.
+
+\begin{enumerate}[\bfseries (a)]
+
+\item Entwerfen und analysieren Sie einen effizienten Algorithmus, der eine größte Zusammenhangskomponente von schwarzen Pixeln in B bestimt.\\
+
+\textbf{Lösung:}
+
+\item Beschreiben und analysieren Sie eine Funktion schwärze(i,j), die das Pixel an der Stelle $B[i,j]$ schwarz färbt und die Größe einer größten Zusammenhangskomponente von schwarzen Pixeln zurückgibt. Nehmen Sie an, dass zu Beginn alle Pixel weiß sind. Die Gesamtlaufzeit für jede Folge von m Aufrufen von schwärze sollte so gering wie möglich sein.
+
+\textbf{Lösung:}
+
+\item Was ist die worst-case Laufzeit für einen Aufruf Ihrer Funktion schwärze aus (b)?
+
+\textbf{Lösung:}
+
+\end{enumerate}
+
+%% ----------------------------------
+%%		AUFGABE 4
+%% ----------------------------------
+\subsection*{Aufgabe 4 \mdseries Matroide}
+
+Sei $S$ eine endliche, nichtleere Menge und sei $\mathfrak{I} \subseteq 2^S$ eine nichtleere Menge von Teilmengen von $S$. Das Paar $M = (S, \mathfrak{I})$ soll ein Matriod, nach Definition aus der Aufgabe sein.
+
+\begin{enumerate}[\bfseries (a)]
+
+\item Eine inklusionsmaximale unabhängige Menge heißt \emph{Basis} von $M$. Zeigen Sie, dass alle Basen von $M$ die gleiche Anzahl von Elementen haben.\\
+
+\textbf{Beweis:} (Widerspruch)\\
+Angenommen $A,B$ sind inklusionsmaximale unabhängige Mengen von $M$, mit o.B.d.A. $|A| < |B|$.\\
+Dann wissen wir, dass $B \setminus A \not= \emptyset$ ist, die mindestens die überzähligen im Schnitt liegen und wenigestens ein weiteres Element, da $A$ sonst nicht inklusionsmaximal wäre.\\
+
+Nun können wir nach Austauscheigenschaft $x \in B \setminus A$ nehmen und $A \cup \{x \}$ bilden, so dass $A \cup \{ x \} \in \mathfrak{I}$ sein muss. Nun ist aber $A$ nicht inklusionsmaximal, da $A \subset A \cup \{x \}$ ist.\\
+\mbox{} \hfill $\square$
+
+\item Sei $w \; : S \longrightarrow \mathbb{R}^+$ eine Gewichtsfunktion. Gesucht ist eine Basis von von $M$ mit maximalem Gewicht, wobei das Gewicht einer Teilmenge die Summer der Einzelgewichte ist. Der Algorithmus funktioniert wie folgt:\\
+
+\begin{itemize}
+
+\item Sortiere $S$ absteigend.
+
+\item Setzt $B := \emptyset$.
+
+\item Gehe $S$ Elementweise durch (nach Ordnung.\\
+Füge ein $x \in S$ zu $B$ hinzu, wenn $B$ dadurch unabhängig bleibt.
+
+\item Gib $B$ zurück.
+
+\end{itemize}
+
+Zeigen Sie, dass der gierige Algorithmus eine Basis von maximalem Gewicht bestimmt. Was können Sie zur Laufzeit sagen?
+
+\textbf{Korrektheit:}\\
+
+bla\\
+
+\textbf{Laufzeit:}\\
+
+blub
+
+\end{enumerate}
+
+\label{LastPage}
+\end{document}
