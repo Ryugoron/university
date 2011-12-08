@@ -49,18 +49,68 @@
 
 \textbf{Beweis:}\\
 
-Sei $Z = z_1z_2 ... z_m$ eine Anfragefolge auf den Speicher.\\
-Sei $D = d_1d_2 ... d_n$ eine allgemeine Zugriffsfolge einer Ersetzungsstrategie. Mit zugehörigen $T = t_1t_2 ... t_n$ Zeitpunkten, so dass $d_i$ bei Anfrage $z_{t_i}$ passiert. Sei $T_{red} = a_1a_2 ... a_n$ eine Folge mit Zeitpunkten, so dass $d_i$ bei Anfrage $z_{a_i}$ passiert und bei $z_{a_i}$ ein Cache - Miss aufgetreten ist.\\
+Sie $D = d_1...d_n$ ein nicht reduzierte Zugriffsfolge. Wir konstruieren schrittweise aus $D$ eine \emph{reduzierte} Zugriffsfolge $D'$. Sei $D'$ zu Beginn $D$.\\
 
-Wir wollen nun $T' $ schrittweise konstruieren, so dass $T'$ am Ende eine reduzierte Folge ist induziert. Sei $T'$ initial $T$.\\
+Sei $j$ der größte Index, bis zu dem $D'$ eine reduzierte Teilfolge ist. Nach den $j$ Zugriffen ist der Cache bei beiden Folgen gleich und $D'$ hat höchstens so viele Cachemisses, wie $D$.\\
 
-Sei $i = \min \{ i \in \{ 1, ... , n \} \; | \; t_i \not= a_i \}$. Insbesondere gilt $t_1 .. t_{i-1} = a_1 ... a_{i-1}$. Bei gleicher Startkonfiguration ist nach $z_{t_{i-1}}$ der Cache bei 
+Betrachten wir nun den nächsten Zugriff $d_{j+1}$ aus $D$.\\
 
-\item Geben Sie eine allgemeine Zugriffsfolge an, so dass die LRU Strategie bei k Wörtern k mal so viele Misses wie die Furthest-in-the-Future Strategie erzeugt.\\
+\textbf{Fall 1:} $d_{j+1}$ passiert genau dann, wenn der Zugriff auf den Wert passiert. Dies ist nach Konstruktion von $j$ nicht möglich.\\
+
+\textbf{Fall 2:} $d_{j+1}$ passiert bevor wir den Wert brauchen und wir schmeißen keinen Wert aus dem Cache, den wir bis zum Zugriff auf den Wert der bei $d_{j+1}$ geladen wird benötigen. Dann können wir den Zugriff einfach nach hinten verschieben. Die Anzahl der Hauptspeicherzugriffe bleibt gleich.\\
+
+\textbf{Fall 3:} $d_{j+1}$ lädt einen Wert, der nie gelesen wird in der Zukunft. Diesen Zugriff können wir Fallen lassen. Um die Konstruktion richtig zu gestallten fügen wir ein NOP ein um die Nummerierung bei zu behalten. Die Anzahl der Hauptspeicherzugriffe wird um 1 kleiner.\\
+
+\textbf{Fall 4:} $d_{j+1}$ macht einen Zugriff, der einen Wert liest, der in der Zukunft benötigt wird, dafür aber einen Wert aus dem Cache schmeißt, den wir auf dem Weg noch brauchen. Wir können $d_{j+1}$ nach hinten schieben und den Zugriff auf den ersetzen Wert (der passieren muss, spätestens bei dem Zugriff der orginal benötigten Folge) durch ein NOP ersetzen, da dieser Wert noch im Cache steht. Die Anzahl der Hauptspeicherzugriffe wird um 1 kleiner.\\
+
+Jeder der auftretenden Fälle sorgt dafür, das wir gleich oder weniger Hauptspeicherzugriffe haben. Dies beduetet für uns, dass, sobald kein $j$ mehr gefunden werden kann, dass $D'$ eine reduzierte Strategie ist, die maximal so viele Hauptspeicherzugriffe hat wie $D$.
+
+\item Geben Sie eine allgemeine Zugriffsfolge an, so dass die LRU Strategie bei p Wörtern und einem Cache der Größe k ($p<k$),  k mal so viele Misses wie die Furthest-in-the-Future Strategie erzeugt.\\
 
 \textbf{Lösung:}\\
 
+Wir konstruieren eine Folge von Werten, die wir lesen wollen, mit $Z = (1 ... p)^{s+1}$, wobei eine Zahl i für das i-te Wort steht und $s+1$ für die Anzahl, wie oft diese Folge wiederholt wird. Der Einfachkeit halber gelte $p = 2 \cdot k$.\\
 
+Die ersten $k$ Werte sollen bei beiden Strategien schon im Cache stehen.\\
+
+Bei \emph{Furthest-in-the-future} gilt:\\
+Es stehen $(1..k)$ im Cache. Lesen wir nun $k+1$, werden wir $k$ aus dem Cache schmeißen, da wir es als letztes wieder lesen. Dies zieht sich bei jedem Wert bis zu $p$ weiter durch. Bei der ersten Folge $(1...p)$ haben wir $p - k$ Misses. Bei jeder weiteren, müssen wir auch $k$ in den Speicher laden und danach wie beim ersten mal durch gehen. Dies führt zu $p-k+1$ Misses.\\
+
+Insgesamt haben wir $miss_{ff} = p - k + s \cdot (p - k + 1)$ \\
+
+Bei \emph{LRU} gilt:\\
+Wenn wir $k+1$ lesen, werfen wir die $1$ aus dem Cache. Lesen wir $k+2$ werfen wir die $2$ aus dem Speicher. Wir shiften die Wörter also immer durch den Cache. Da wir, wenn wir bei $p+1$ ankommen, keinen der ursprünglichen Werte im Cache haben, müssen wir diese Werte alle wieder lesen.\\
+Insgesammt haben wir, bis auf die ersten $k$ Zugriffe nur Cachemisses.\\
+
+Isgesammt haben wir $miss_{LRU} = (s+1)p - k$\\
+
+\textbf{Untersuchung:}\\
+Wir sollten zeigen, dass $miss_{LRU} \geq k \cdot miss_{ff}$ gilt. Setzen wir hier einmal unsere Formeln ein.
+$$
+\begin{array}{crcl}
+& miss_{LRU} &\geq& k \cdot miss_{ff}\\
+\Leftrightarrow & (s+1)p - k &\geq& k \cdot (p - k + s \cdot (p - k + 1)\\
+\Leftrightarrow & sp + p - k &\geq&  kp - k^2 +ks \cdot (p - k + 1)\\
+\Leftrightarrow & sp + p - k - kp + k^2 - ks \cdot ( p - k + 1) & \geq & 0\\
+\Leftrightarrow & k^2 (1 + s) - k (2 + p + ps) +(s+1)p & \geq & 0
+\end{array}
+$$
+
+An dieser Stelle haben wir eine Quadratische Funktion in $k$. Diese ist wächst gegen $\pm \infty$ gegen $infty$. Also sollte rechts von der größeren der beiden Nullstellen die Gleichung immer erfüllt sein. Wie wir an dieser Stelle schon sehen können, kann man diese $p$ und $s$ immer konstruieren, wir können diese aber noch Versuchen näher zu bestimmen und zu zeigen, dass sie immer existieren müssen.\\
+Nach p-q-Formel gilt:\\
+
+$$
+\begin{array}{rcl}
+n_{1/2} &=& \frac{2 + p + ps}{1 + s} \pm \sqrt{ \left( \frac{2 + p + ps}{1 + s} \right)^2 - \frac{s+1}{1+s}}\\
+&=& p + \frac{2}{1 + s} \pm \sqrt{ \left( p + \frac{2}{1 + s} \right)^2 - 1}\\
+\end{array}
+$$
+
+Wenn wir nun $s$ groß genug wählen (beispielsweise gegen unendlich streben lassen), erhalten wir die Formel:\\
+$n_{1/2} = p \pm \sqrt{p^2 - 1}$\\
+
+Daraus können wir den ungefähren Wert ermitteln, dass bei $p\geq 2k$ die Anzahl der Misses immer $k$ mal so groß ist bei LRU, wie bei Furthest-in-the-Future.\\
+\mbox{} \hfill $\square$
 \end{enumerate}
 
 %% ----------------------------------
@@ -76,7 +126,32 @@ Betrachten Sie eine Folge von \textbf{Union} und \textbf{Find} Operationen der L
 
 \textbf{Beweis:}\\
 
-Idee: Union : Kosten 2
+Wir verwenden hier die Buchhaltermethode. Diese kann zur Berechnung von amortisierten Kosten verwendet werden, indem die akkumulierten Kosten einer bestimmten Funktion auf viele einzelne andere aufgeteilt werden.\\
+
+Die Kosten für Union sind mit $T_U(n) = O(1)$ bezeichnet. Wir setzen die konstante auf $c$, sodass $T_U(n) = c$.\\
+
+Als nächsten nehmen wir die Kosten für das Umhängen einer einzelnen Kante im Wald. Wir biegen hier nur einen Pointer um, daher sind die Kosten auch konstant berechnet. Daher ergibt sich $T_H(n) = O(1)$ und wir wollen dies mit der konstanten $d$ beschreiben, sodass $T_H(n) = d$.\\
+
+Nach der Bankiersmethode sagen wir nun, dass Union die Kosten für das Umhängen mittragen soll : $T_U'(n) = c + d = O(1)$. Die asymptotische Laufzeit hat sich ncht geändert, aber sie tragen nun die kosten für ein Umhängen mit.\\
+
+Nachdem alle Unions ausgeführt wurden, haben wir einen Baum der folgenderMaßen aussieht:
+\begin{lstlisting}
+                       [ ]
+                   d/       \d
+                  [ ]        [ ]
+                 /  \      /  |  \
+\end{lstlisting}
+Wobei $d$ an jeder Kante steht und für die gespeicherten Kosten einer Unionoperation steht. Wird nun ein \emph{Find} ausgeführt so müssen wir einen solchen Pfad nach oben Laufen und für die Länge des Pfades je einen Knoten umhängen. Wenn wir einen Pfad der Länge $k+1$ haben, müssen wir $k$ Knoten Umhängen. Dies würde uns $d\cdot k$ Kosten verursachen.\\
+
+Da aber jeder Knoten, den wir Umhängen müssen, durch ein Union einmal vereinigt worden sein musste, besitzt dieser an seiner Kante, die ihn mit seinem Vater verbindet die gespeicherten Kosten $d$. Dies gilt für alle Knoten, bis auf die direkt unter einer Wurzel, da diese schon umgehangen worden sein können. Diese müssen aber nicht erneut umgehangen werden.\\
+
+Bei einem Find braucht also jeder Knoten, der umgehangen wird, die Kosten die das Union auf ihm gespart hat auf. Somit verursacht das Find keine Kosten um den Weg nach oben zu gehen, da diese Kosten nun alle schon vom Union bezahlt worden sind.\\
+$\Rightarrow T_F(n) = O(1)$.\\
+Alle diese überlegungen beziehen sich auf eine Operation der Folge von Operationen, wenn wir die gesamtkosten durch die Anzahl der Kosten teilen.\\
+
+\mbox{} \hfill $\square$\\
+
+Dieser Vorteil würde verloren gehen, wenn wir ein nach einem Find, Union zulassen, da wir nun eine nicht Wurzelkante haben, die keine gespeicherten Kosten hat. Wir könnten also wieder Pfade erzeugen, deren Kosten noch nicht bezahlt sind.
 
 \item Wenn alle \textbf{Find} - Operationen auf Mengen mit mindestens $\log \; n$ Elementen durchgeführt werden, so ist die Gesamtlaufzeit $O(n + m)$.\\
 
@@ -98,6 +173,7 @@ Sie $n$ eine natürtliche Zahl. Eine $ n \times n $ Bitmap ist ein Array $B[1 ..
 \item Entwerfen und analysieren Sie einen effizienten Algorithmus, der eine größte Zusammenhangskomponente von schwarzen Pixeln in B bestimt.\\
 
 \textbf{Lösung:}
+Wir 
 
 \item Beschreiben und analysieren Sie eine Funktion schwärze(i,j), die das Pixel an der Stelle $B[i,j]$ schwarz färbt und die Größe einer größten Zusammenhangskomponente von schwarzen Pixeln zurückgibt. Nehmen Sie an, dass zu Beginn alle Pixel weiß sind. Die Gesamtlaufzeit für jede Folge von m Aufrufen von schwärze sollte so gering wie möglich sein.
 
