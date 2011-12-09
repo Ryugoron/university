@@ -157,7 +157,7 @@ Dieser Vorteil würde verloren gehen, wenn wir ein nach einem Find, Union zulass
 
 \textbf{Beweis:}\\
 
-Tipp: Im $\log* n$ Teil steht es. Hauptlemma + andere Aufteilung (nicht der Rang)
+Tipp: Im $\log^* n$ Teil steht es. Hauptlemma + andere Aufteilung (nicht der Rang)
 
 \end{enumerate}
 
@@ -173,15 +173,93 @@ Sie $n$ eine natürtliche Zahl. Eine $ n \times n $ Bitmap ist ein Array $B[1 ..
 \item Entwerfen und analysieren Sie einen effizienten Algorithmus, der eine größte Zusammenhangskomponente von schwarzen Pixeln in B bestimt.\\
 
 \textbf{Lösung:}
-Wir 
+Wir werden, wie in \emph{b)} einen Algorithmus angeben, der Union-Find benutzt.\\
+Die allgemeine Idee ist es, das Array von links oben nach rechts unten zu durchwandern und uns dabei einen neuen Knoten, wenn er schwarz ist, mit dem linken und dem oberen Nachbarn zu vereinigen, wenn diese auch schwarz sind. Damit wir schnell auf die Elemente im Baum zugreifen können, führt jeder Baum im Wald der disjunkten Mengen eine LinkedList, die alle Elemente speichert.
+Bei der Liste müssen wir nur jeweils 2 oder 4 (bei einer doppelt verketteten Liste) Pointer umgebogen werden.\\
+Der Algorithmus sieht wie folgt aus, wir nehmen an, dass die Felder initial als einelementige Mengen in der UF-Strucktur enthalten sind:
+\begin{lstlisting}[language=Pascal]
+maxSize := 0; //groesse der Komponente
+max := null; // Root der groessten Komponente
+Union := init(B);		// Macht aus jedem Feld eine Menge
+for i := 1 to n do
+	for j:= 1 to n do
+		if B[i,j] == schwarz do
+			if i>1 && B[i-1,j] == schwarz do
+				// Da wir B[i,j] erstes mal betrachten, ist es nicht gemerged.
+				Union.union(Union.find(B[i-1,j],B[i,j]);
+				if maxSize < Union.getList(Union.find(B[i-1,j])).size() do				
+					maxSize := Union.getList(Union.find(B[i,j])).size();
+					max := Union.find(B[i,j]);
+			if( j > 1 && B[i,j-1] == schwarz do
+				// B[i,j] koennte gemerged sein
+				Union.union(Union.find(B[i,j-1],Union.find(B[i,j]));
+				if maxSize < Union.getList(Union.find(B[i,j-1])).size() do				
+					maxSize := Union.getList(Union.find(B[i,j])).size();
+					max := Union.find(B[i,j]);
+return Union.getList(max);
+\end{lstlisting}
+
+\textbf{Analyse:}\\
+Für den Speicherplatz brauchen wir zunächst einmal das Array von Pixeln, die Union-Find-Strucktur, und die Listen der Komponenten, die vereint sind.\\
+Alle diese Struckturen haben einen Speicherplatzverbauch ovn $O(n^2)$. Das Array sollte klar sein. Die UF-Strucktur hat für jedes Feld einen Knoten und noch konstant viele Pointer. Die Zusammenhangskomponenten bestehen aus einer LinkedList, in der aber jedes Element nur einmal vorkommt und seine Pointer in die Berechnung mit übernehmen kann.\\
+Insgesammt macht das einen Platzbedarf von $O(n^2)$.\\
+
+Bei der Laufzeit müssen wir einmal über das Array iterieren. Pro Schritt führen wir maximal 2 mal \textbf{union} aus, das konstante Laufzeit hat.  Da wir in bei jedem Schirtt, wenn wir vereinigen, das find auf beiden Elementen aufgerufen haben, muss ein betrachtetes Element immer unmittelbar unter der Wurzel stehen. Daher sind auch die Find Operationen konstant zu betrachten.\\
+Zuletzt folgt noch das Zusammenlegen der Komponenten. Da dies aber wie erwähnt nur ien merge von 2 LinkedList ist, kann dies auch konstant betrachtet werden, da nur Start und Endpointer der Strucktur umgebogen werden müssen.\\
+Insgesammt haben wir für den Algorithmus eine Laufzeit von $O(n^2)$\\
+
+Dieser Algorithmus weist zusammengefasst genau die Strucktur auf, die Herr Mulzer in der Vorlesung schon erklärt hat, um Zusammenhangskomponenten in Graphen zu finden, erklärt hat.
+
 
 \item Beschreiben und analysieren Sie eine Funktion schwärze(i,j), die das Pixel an der Stelle $B[i,j]$ schwarz färbt und die Größe einer größten Zusammenhangskomponente von schwarzen Pixeln zurückgibt. Nehmen Sie an, dass zu Beginn alle Pixel weiß sind. Die Gesamtlaufzeit für jede Folge von m Aufrufen von schwärze sollte so gering wie möglich sein.
 
-\textbf{Lösung:}
+\textbf{Lösung:}\\
+Unsere Grundidee bleibt die selbe. Die Erweiterung mit den Listen der Größten Zusammenhangskomponente bleibt gleich. Abgesehen davon speichern wir uns diesmal \emph{max} und \emph{maxSize} persistent, damit diese nach einem Funktionsaufruf erhalten bleiben.
+Beide sind zu Begin wie in \emph{a)} initialisiert.\\
 
-\item Was ist die worst-case Laufzeit für einen Aufruf Ihrer Funktion schwärze aus (b)?
+\begin{lstlisting}[language=Pascal]
+blacken(i,j) IS
+for x := -1 to 1 do
+	for y := -1 to 1 do
+		if x+i < 1 || x + i >n || j+y < 1 || j + y > n || abs(x) + abs(y) /= 1 do
+			continue;
+		// Wir sind nicht uebers Feld hinweg und direckt unter oder neben dem Feld
+		if B[i+x , j + y] == schwarz do
+			Union.union(Union.find(B[i + x,j - y],Union.find(B[i,j]));
+			if maxSize < Union.getList(Union.find(B[i + x,j + y])).size() do				
+				maxSize := Union.getList(Union.find(B[i,j])).size();
+				max := Union.find(B[i,j]);
+return Union.getList(max);
+\end{lstlisting}
 
-\textbf{Lösung:}
+\textbf{Analyse:}\\
+Den Speicher können wir wie eben berechnen. Dieser gilt nun nicht für einen Aufruf, weil er über längere Zeit gehalten werden muss, aber über die komplette dauer, die eine Algorithmus darauf ausgeführt wird, ist der Speicherplatzbedarf wiederum $O(n^2)$.\\
+
+Da wir auf die Laufzeit schon in \emph{b)} eingehen noch etwas zu Korrektheit.\\
+
+Wenn wir einen Knoten schwarz färben, d.h. wir gehen davon aus, dass er davor nicht schwarz war, gehen wir alle seine Nachbern durch und betrachten, ob diese schon schwarz sind. Sollten sie es sein, vereinigen wir sie in der UF-Strucktur. Dies hat genau den gewünschten Effekt für uns, da diese Mengen danach vereinigt sind.\\
+Nun vegleichen wir bei jedem vereinigen, ob wir eine neue größte Menge erreichen. Sollte die neu vereinigte Menge größer als die gespeicherte sein, speichern wir diese. Am Ende geben wir die Liste der Elemente aus, die in der Menge vom Maximum liegen.
+
+\item Was ist die worst-case Laufzeit für einen Aufruf Ihrer Funktion schwärze aus (b)?\\
+
+\textbf{Lösung:}\\
+
+Wir konstruieren uns folgendes Schema, nach dem wir die Elemente in der ersten Runde schwärzen:\\
+\begin{lstlisting}
+[s s] w [s s] w [s s] ...
+ w w  w  w w  w  w w ...
+[s s] w [s s] w [s s] ...
+... 
+\end{lstlisting}
+Alle diese Mengen haben den Rank 1, da immer ein Element am nächste hängt. In den folgenden Runden, mergen wir ersteinmal die Zeilen bis diese vollständig gefüllt sind. Dabei machen wir aus den 2er Mengen zunächst 5er, dann 11er und so weiter.\\
+Sind wir damit fertig fangen wir nach dem Schema an Zeilen zu mergen.\\
+
+Initial haben wir $\frac{n}{6}$ Tupel von Elementen, die einen Rang von 1 haben. Die restlichen Elemente müssen frei bleiben, damit diese nicht gemerget werden müssen.\\
+In jeder Runde halbiert sich nun die Anzahl der Menge, solange bis nur noch eine Komponente haben.\\
+
+Nun sollten wir noch Elemente haben, die wir mergen können. (zumindest in den initial freien Zeilen, da wir in diesen nur 1 Element zum Mergen brauchten). In jeder Runde können wir die Mengen, die alle den gleichen Rang haben, so mergen, dass der Rang jeweils um 1 steigt.\\
+
+Am Ende haben wir also eine Menge vom Rank $\log \frac{n}{6}$. Nun sollte sich also ein Element finden lassen, dass ganz unten im Baum steht. Färben wir einen Nachbern dieses Knotens schwarz, so wird bei einem find auf diesem Knoten, der komplette Baum bis zur Wurzel durchlaufern werden müssen. Da dieser Rank $\log \frac{n}{6}$ hat erhalten wir eine Laufzeit für diesen Worst-Case von $O( \log n)$.
 
 \end{enumerate}
 
@@ -203,7 +281,7 @@ Dann wissen wir, dass $B \setminus A \not= \emptyset$ ist, die mindestens die ü
 Nun können wir nach Austauscheigenschaft $x \in B \setminus A$ nehmen und $A \cup \{x \}$ bilden, so dass $A \cup \{ x \} \in \mathfrak{I}$ sein muss. Nun ist aber $A$ nicht inklusionsmaximal, da $A \subset A \cup \{x \}$ ist.\\
 \mbox{} \hfill $\square$
 
-\item Sei $w \; : S \longrightarrow \mathbb{R}^+$ eine Gewichtsfunktion. Gesucht ist eine Basis von von $M$ mit maximalem Gewicht, wobei das Gewicht einer Teilmenge die Summer der Einzelgewichte ist. Der Algorithmus funktioniert wie folgt:\\
+\item Sei $w \; : S \longrightarrow \mathbb{R}^+$ eine Gewichtsfunktion. Gesucht ist eine Basis von $M$ mit maximalem Gewicht, wobei das Gewicht einer Teilmenge die Summer der Einzelgewichte ist. Der Algorithmus funktioniert wie folgt:\\
 
 \begin{itemize}
 
@@ -222,12 +300,51 @@ Zeigen Sie, dass der gierige Algorithmus eine Basis von maximalem Gewicht bestim
 
 \textbf{Korrektheit:}\\
 
-bla\\
+Sei $A$ eine inklusionsmaximale Basis maximalen Gewichts und $B$ die Menge, die der Algorithmus zurück gibt.\\
+
+\textbf{Schritt 1:} $B$ ist inkulsionsmaximale Basis.\\
+Annahme: $B$ wäre nicht inklusionsmaximale Basis.\\
+Dann gäbe es noch eine Element $s$  in der Menge $S$, so dass $B \cup \{ s \}$ unabhängig ist. Wäre der Algorithmus an diesem $s$ vorbei gekommen, wäre nach Vererbungslemma die Untermenge zu diesem Zeitpunkt nach der Vereinigung mit $s$ immer noch unabhängig gewesen.\\
+
+Demnach muss der Algorithmus $s$ genommen haben und $s$ muss Teil von $B$ sein. Demnach muss $B$ inklusionsmaximal sein.\\
+Dies sagt uns nach \emph{a)}, dass $|A| = |B|$ gelten muss.
+
+\textbf{Schritt 2:}\\
+Wir sortieren $A$ und $B$ absteigend und nummerieren so ihre Elemente durch, mit $B = b_1b_2 ... b_n$ und $A = a_1a_2 ... a_n$.\\
+Sei nun $i$ der kleinste Index, ab dem sich die beiden Folgen unterscheiden.\\
+
+Wir zeigen nun, dass $w(a_i) = w(b_i)$ gelten muss.\\
+
+\textbf{Fall 1:} $w(a_i) < w(b_i)$\\
+Nach Vererbungsaxiom muss auch $A \setminus \{ a_i \}$ unabhängig sein. Da nun $|A| < |B|$ (gefolgert aus Aufgabenteil \emph{a)}) gilt, können wir $b_i$ aus $B$ nehmen, das nach Annahme nicht in $A$ sein kann und benutzen darauf das Austauschaxiom.\\
+Nun hat aber $(A \setminus \{a_i \}) \cup \{ b_i \}$ ein größeres Gewicht als $A$, damit kann $A$ nicht maximales Gewicht gehabt haben.\\
+
+\textbf{Fall 2:} $w(a_i) > w(b_i)$\\
+Nach Vererbungsaxiom ist $B \setminus \{ b_i \}$ unabhängig. Nun gilt wiederum $|B| > |A|$. Nach Austauschlemma ist nun $(B \setminus \{ b_i \} ) \cup \{ a_i \}$ eine inklusionsmaximale Menge mit einem größeren Gewicht als $B$. Nach den selben Überlegungen aus dem ersten Schritt war nun allerdings im Algorithmus (da wir die Menge nach größe geordnet haben) die Menge $B$ zu einem Zeitpunkt $B = b_1 ... b_{i-1}$. Da $a_{i} > b_{i}$, muss der Algorithmus diesen Wert vorher geprüft haben und da die Menge unabhängig ist, muss er es genommen haben. Damit ist dieser Fall unmöglich.\\
+
+\textbf{Fall 3:} $w(a_i) = w(b_i)$\\
+Dies ist der einzigste verbliebene Fall. Wir können wieder nach Vererbungs- und Austauschaxiom die Elemente austauschen, aber diesmal bleibt das Gewicht gleich. Damit haben $A$ und $B$ das gleiche Gewicht und $B$ hat maximales Gewicht.\\
+\mbox{} \hfill $\square$
 
 \textbf{Laufzeit:}\\
 
-blub
+Wir haben 3 Schritte des Algorithmus, die wir durchgehen müssen.\\
 
+Um $S$ zu sortieren benötigt man bekanntlich $O ( |S| \log |S|) $. In einzelfällen kann es schneller gehen, wenn die Soriterung irrelevant ist.\\
+
+Die Schleife wird $|S|$ mal durchlaufen.\\
+Je nachdem, wie die Teilmengen aussehen, können wir die Überprüfung ob ein $B$ unabhängig ist beschleunigen. Beschreibe hier $t(|S|)$ diese Laufzeit.\\
+Wir können diese Laufzeit schon einmal nach unten beschränken:\\
+
+Nehmen wir zum speichern der Teilmengen einen Trie. Da wir die Mengen der Größe nach sortieren, können wir die Reihenfolge der Elemente sehr gut abschätzen.\\
+Von einem Trie haben wir gelernt, dass alle Operationen so lange dauern, wie unser Wort lang ist, dies bedeutet für uns, dass der vergleich $t(|S|) = |B| \leq |S| = O (|S| )$ ist. Sollten alleunabhängigen Menge total verscheiden sein, kann uns das viel Speicherplatz kosten, sollten diese Mengen aber sehr viele gemeinse Prefixe besitzen sinkt der Platzverbrauch.\\
+
+Um $B$ mitzuführen und immer zu erweitern benötigen wir $O(1)$ wenn wir z.B. eine LinkedList nehmen.\\
+
+Insgesammt erhalten wir somit eine obere Schranke von:\\
+$T(n) = O( T_{sort}(n) + n \cdot T_{check} (n) ) = O(n \cdot \log n + n^2) = O(n^2)$\\
+
+Diese Laufzeit kann in speziellen Anwendungen gedrückt werden, wenn entweder Sortierung weggelassen oder optimiert werden kann (Countingsort o.Ä.) oder der Check Effektiver geht (Union-Find bei Kruskal und Prim).
 \end{enumerate}
 
 \label{LastPage}
