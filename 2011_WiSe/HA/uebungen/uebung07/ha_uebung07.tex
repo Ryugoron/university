@@ -59,11 +59,11 @@ Betrachten wir nun den nächsten Zugriff $d_{j+1}$ aus $D$.\\
 
 \textbf{Fall 2:} $d_{j+1}$ passiert bevor wir den Wert brauchen und wir schmeißen keinen Wert aus dem Cache, den wir bis zum Zugriff auf den Wert der bei $d_{j+1}$ geladen wird benötigen. Dann können wir den Zugriff einfach nach hinten verschieben. Die Anzahl der Hauptspeicherzugriffe bleibt gleich.\\
 
-\textbf{Fall 3:} $d_{j+1}$ lädt einen Wert, der nie gelesen wird in der Zukunft. Diesen Zugriff können wir Fallen lassen. Um die Konstruktion richtig zu gestallten fügen wir ein NOP ein um die Nummerierung bei zu behalten. Die Anzahl der Hauptspeicherzugriffe wird um 1 kleiner.\\
+\textbf{Fall 3:} $d_{j+1}$ lädt einen Wert, der nie gelesen wird in der Zukunft. Diesen Zugriff können wir fallen lassen. Um die Konstruktion richtig zu gestalten, fügen wir ein NOP ein um die Nummerierung beizubehalten. Die Anzahl der Hauptspeicherzugriffe wird um 1 kleiner.\\
 
 \textbf{Fall 4:} $d_{j+1}$ macht einen Zugriff, der einen Wert liest, der in der Zukunft benötigt wird, dafür aber einen Wert aus dem Cache schmeißt, den wir auf dem Weg noch brauchen. Wir können $d_{j+1}$ nach hinten schieben und den Zugriff auf den ersetzen Wert (der passieren muss, spätestens bei dem Zugriff der orginal benötigten Folge) durch ein NOP ersetzen, da dieser Wert noch im Cache steht. Die Anzahl der Hauptspeicherzugriffe wird um 1 kleiner.\\
 
-Jeder der auftretenden Fälle sorgt dafür, das wir gleich oder weniger Hauptspeicherzugriffe haben. Dies beduetet für uns, dass, sobald kein $j$ mehr gefunden werden kann, dass $D'$ eine reduzierte Strategie ist, die maximal so viele Hauptspeicherzugriffe hat wie $D$.
+Jeder der auftretenden Fälle sorgt dafür, das wir gleich oder weniger Hauptspeicherzugriffe haben. Dies beduetet für uns, dass sobald kein $j$ mehr gefunden werden kann, dass $D'$ eine reduzierte Strategie ist, die maximal so viele Hauptspeicherzugriffe hat wie $D$.
 
 \item Geben Sie eine allgemeine Zugriffsfolge an, so dass die LRU Strategie bei p Wörtern und einem Cache der Größe k ($p<k$),  k mal so viele Misses wie die Furthest-in-the-Future Strategie erzeugt.\\
 
@@ -96,7 +96,7 @@ $$
 \end{array}
 $$
 
-An dieser Stelle haben wir eine Quadratische Funktion in $k$. Diese ist wächst gegen $\pm \infty$ gegen $infty$. Also sollte rechts von der größeren der beiden Nullstellen die Gleichung immer erfüllt sein. Wie wir an dieser Stelle schon sehen können, kann man diese $p$ und $s$ immer konstruieren, wir können diese aber noch Versuchen näher zu bestimmen und zu zeigen, dass sie immer existieren müssen.\\
+An dieser Stelle haben wir eine quadratische Funktion in $k$. Diese ist wächst gegen $\pm \infty$ gegen $infty$. Also sollte rechts von der größeren der beiden Nullstellen die Gleichung immer erfüllt sein. Wie wir an dieser Stelle schon sehen können, kann man diese $p$ und $s$ immer konstruieren, wir können diese aber noch Versuchen näher zu bestimmen und zu zeigen, dass sie immer existieren müssen.\\
 Nach p-q-Formel gilt:\\
 
 $$
@@ -134,7 +134,7 @@ Als nächsten nehmen wir die Kosten für das Umhängen einer einzelnen Kante im 
 
 Nach der Bankiersmethode sagen wir nun, dass Union die Kosten für das Umhängen mittragen soll : $T_U'(n) = c + d = O(1)$. Die asymptotische Laufzeit hat sich ncht geändert, aber sie tragen nun die kosten für ein Umhängen mit.\\
 
-Nachdem alle Unions ausgeführt wurden, haben wir einen Baum der folgenderMaßen aussieht:
+Nachdem alle Unions ausgeführt wurden, haben wir einen Baum der folgendermaßen aussieht:
 \begin{lstlisting}
                        [ ]
                    d/       \d
@@ -147,7 +147,7 @@ Da aber jeder Knoten, den wir Umhängen müssen, durch ein Union einmal vereinig
 
 Bei einem Find braucht also jeder Knoten, der umgehangen wird, die Kosten die das Union auf ihm gespart hat auf. Somit verursacht das Find keine Kosten um den Weg nach oben zu gehen, da diese Kosten nun alle schon vom Union bezahlt worden sind.\\
 $\Rightarrow T_F(n) = O(1)$.\\
-Alle diese überlegungen beziehen sich auf eine Operation der Folge von Operationen, wenn wir die gesamtkosten durch die Anzahl der Kosten teilen.\\
+Alle diese Überlegungen beziehen sich auf eine Operation der Folge von Operationen, wenn wir die Gesamtkosten durch die Anzahl der Kosten teilen.\\
 
 \mbox{} \hfill $\square$\\
 
@@ -174,9 +174,9 @@ Sie $n$ eine natürtliche Zahl. Eine $ n \times n $ Bitmap ist ein Array $B[1 ..
 
 \textbf{Lösung:}
 Wir werden, wie in \emph{b)} einen Algorithmus angeben, der Union-Find benutzt.\\
-Die allgemeine Idee ist es, das Array von links oben nach rechts unten zu durchwandern und uns dabei einen neuen Knoten, wenn er schwarz ist, mit dem linken und dem oberen Nachbarn zu vereinigen, wenn diese auch schwarz sind. Damit wir schnell auf die Elemente im Baum zugreifen können, führt jeder Baum im Wald der disjunkten Mengen eine LinkedList, die alle Elemente speichert.
-Bei der Liste müssen wir nur jeweils 2 oder 4 (bei einer doppelt verketteten Liste) Pointer umgebogen werden.\\
-Der Algorithmus sieht wie folgt aus, wir nehmen an, dass die Felder initial als einelementige Mengen in der UF-Strucktur enthalten sind:
+Die allgemeine Idee ist es, das Array von links oben nach rechts unten zu durchwandern und uns dabei einen neuen Knoten, wenn er schwarz ist, mit dem linken und dem oberen Nachbarn zu vereinigen, wenn diese auch schwarz sind. Damit wir schnell auf die Elemente im Baum zugreifen können, führt jeder Baum im Wald der disjunkten Mengen eine verkettete Liste, die alle Elemente speichert.
+Bei der Liste müssen nur jeweils 2 oder 4 (bei einer doppelt verketteten Liste) Pointer umgebogen werden.\\
+Der Algorithmus sieht wie folgt aus (Wir nehmen an, dass die Felder initial als einelementige Mengen in der UF-Struktur enthalten sind):
 \begin{lstlisting}[language=Pascal]
 maxSize := 0; //groesse der Komponente
 max := null; // Root der groessten Komponente
@@ -200,21 +200,21 @@ return Union.getList(max);
 \end{lstlisting}
 
 \textbf{Analyse:}\\
-Für den Speicherplatz brauchen wir zunächst einmal das Array von Pixeln, die Union-Find-Strucktur, und die Listen der Komponenten, die vereint sind.\\
-Alle diese Struckturen haben einen Speicherplatzverbauch ovn $O(n^2)$. Das Array sollte klar sein. Die UF-Strucktur hat für jedes Feld einen Knoten und noch konstant viele Pointer. Die Zusammenhangskomponenten bestehen aus einer LinkedList, in der aber jedes Element nur einmal vorkommt und seine Pointer in die Berechnung mit übernehmen kann.\\
+Für den Speicherplatz brauchen wir zunächst einmal das Array von Pixeln, die Union-Find-Struktur, und die Listen der Komponenten, die vereint sind.\\
+Alle diese Strukturen haben einen Speicherplatzverbauch von $O(n^2)$. Das Array sollte klar sein. Die UF-Struktur hat für jedes Feld einen Knoten und noch konstant viele Pointer. Die Zusammenhangskomponenten bestehen aus einer LinkedList, in der aber jedes Element nur einmal vorkommt und seine Pointer in die Berechnung mit übernehmen kann.\\
 Insgesammt macht das einen Platzbedarf von $O(n^2)$.\\
 
-Bei der Laufzeit müssen wir einmal über das Array iterieren. Pro Schritt führen wir maximal 2 mal \textbf{union} aus, das konstante Laufzeit hat.  Da wir in bei jedem Schirtt, wenn wir vereinigen, das find auf beiden Elementen aufgerufen haben, muss ein betrachtetes Element immer unmittelbar unter der Wurzel stehen. Daher sind auch die Find Operationen konstant zu betrachten.\\
-Zuletzt folgt noch das Zusammenlegen der Komponenten. Da dies aber wie erwähnt nur ien merge von 2 LinkedList ist, kann dies auch konstant betrachtet werden, da nur Start und Endpointer der Strucktur umgebogen werden müssen.\\
+Bei der Laufzeit müssen wir einmal über das Array iterieren. Pro Schritt führen wir maximal 2 mal \textbf{union} aus, das konstante Laufzeit hat.  Da wir in bei jedem Schirtt, wenn wir vereinigen, das Find auf beiden Elementen aufgerufen haben, muss ein betrachtetes Element immer unmittelbar unter der Wurzel stehen. Daher sind auch die Find Operationen konstant zu betrachten.\\
+Zuletzt folgt noch das Zusammenlegen der Komponenten. Da dies aber wie erwähnt nur ein Merge von zwei LinkedList ist, kann dies auch konstant betrachtet werden, da nur Start und Endpointer der Struktur umgebogen werden müssen.\\
 Insgesammt haben wir für den Algorithmus eine Laufzeit von $O(n^2)$\\
 
-Dieser Algorithmus weist zusammengefasst genau die Strucktur auf, die Herr Mulzer in der Vorlesung schon erklärt hat, um Zusammenhangskomponenten in Graphen zu finden, erklärt hat.
+Dieser Algorithmus weist zusammengefasst genau die Struktur auf, die Herr Mulzer in der Vorlesung schon erklärt hat, um Zusammenhangskomponenten in Graphen zu finden, erklärt hat.
 
 
 \item Beschreiben und analysieren Sie eine Funktion schwärze(i,j), die das Pixel an der Stelle $B[i,j]$ schwarz färbt und die Größe einer größten Zusammenhangskomponente von schwarzen Pixeln zurückgibt. Nehmen Sie an, dass zu Beginn alle Pixel weiß sind. Die Gesamtlaufzeit für jede Folge von m Aufrufen von schwärze sollte so gering wie möglich sein.
 
 \textbf{Lösung:}\\
-Unsere Grundidee bleibt die selbe. Die Erweiterung mit den Listen der Größten Zusammenhangskomponente bleibt gleich. Abgesehen davon speichern wir uns diesmal \emph{max} und \emph{maxSize} persistent, damit diese nach einem Funktionsaufruf erhalten bleiben.
+Unsere Grundidee bleibt die selbe. Die Erweiterung mit den Listen der größten Zusammenhangskomponente bleibt gleich. Abgesehen davon speichern wir uns diesmal \emph{max} und \emph{maxSize} persistent, damit diese nach einem Funktionsaufruf erhalten bleiben.
 Beide sind zu Begin wie in \emph{a)} initialisiert.\\
 
 \begin{lstlisting}[language=Pascal]
@@ -237,8 +237,8 @@ Den Speicher können wir wie eben berechnen. Dieser gilt nun nicht für einen Au
 
 Da wir auf die Laufzeit schon in \emph{b)} eingehen noch etwas zu Korrektheit.\\
 
-Wenn wir einen Knoten schwarz färben, d.h. wir gehen davon aus, dass er davor nicht schwarz war, gehen wir alle seine Nachbern durch und betrachten, ob diese schon schwarz sind. Sollten sie es sein, vereinigen wir sie in der UF-Strucktur. Dies hat genau den gewünschten Effekt für uns, da diese Mengen danach vereinigt sind.\\
-Nun vegleichen wir bei jedem vereinigen, ob wir eine neue größte Menge erreichen. Sollte die neu vereinigte Menge größer als die gespeicherte sein, speichern wir diese. Am Ende geben wir die Liste der Elemente aus, die in der Menge vom Maximum liegen.
+Wenn wir einen Knoten schwarz färben, d.h. wir gehen davon aus, dass er davor nicht schwarz war, gehen wir alle seine Nachbern durch und betrachten, ob diese schon schwarz sind. Sollten sie es sein, vereinigen wir sie in der UF-Struktur. Dies hat genau den gewünschten Effekt für uns, da diese Mengen danach vereinigt sind.\\
+Nun vegleichen wir bei jedem Vereinigen, ob wir eine neue größte Menge erreichen. Sollte die neu vereinigte Menge größer als die gespeicherte sein, speichern wir diese. Am Ende geben wir die Liste der Elemente aus, die in der Menge vom Maximum liegen.
 
 \item Was ist die worst-case Laufzeit für einen Aufruf Ihrer Funktion schwärze aus (b)?\\
 
@@ -323,14 +323,14 @@ Nun hat aber $(A \setminus \{a_i \}) \cup \{ b_i \}$ ein größeres Gewicht als 
 Nach Vererbungsaxiom ist $B \setminus \{ b_i \}$ unabhängig. Nun gilt wiederum $|B| > |A|$. Nach Austauschlemma ist nun $(B \setminus \{ b_i \} ) \cup \{ a_i \}$ eine inklusionsmaximale Menge mit einem größeren Gewicht als $B$. Nach den selben Überlegungen aus dem ersten Schritt war nun allerdings im Algorithmus (da wir die Menge nach größe geordnet haben) die Menge $B$ zu einem Zeitpunkt $B = b_1 ... b_{i-1}$. Da $a_{i} > b_{i}$, muss der Algorithmus diesen Wert vorher geprüft haben und da die Menge unabhängig ist, muss er es genommen haben. Damit ist dieser Fall unmöglich.\\
 
 \textbf{Fall 3:} $w(a_i) = w(b_i)$\\
-Dies ist der einzigste verbliebene Fall. Wir können wieder nach Vererbungs- und Austauschaxiom die Elemente austauschen, aber diesmal bleibt das Gewicht gleich. Damit haben $A$ und $B$ das gleiche Gewicht und $B$ hat maximales Gewicht.\\
+Dies ist der einzige verbliebene Fall. Wir können wieder nach Vererbungs- und Austauschaxiom die Elemente austauschen, aber diesmal bleibt das Gewicht gleich. Damit haben $A$ und $B$ das gleiche Gewicht und $B$ hat maximales Gewicht.\\
 \mbox{} \hfill $\square$
 
 \textbf{Laufzeit:}\\
 
 Wir haben 3 Schritte des Algorithmus, die wir durchgehen müssen.\\
 
-Um $S$ zu sortieren benötigt man bekanntlich $O ( |S| \log |S|) $. In einzelfällen kann es schneller gehen, wenn die Soriterung irrelevant ist.\\
+Um $S$ zu sortieren benötigt man bekanntlich $O ( |S| \log |S|) $. In einzelfällen kann es schneller gehen, wenn die Sortierung irrelevant ist.\\
 
 Die Schleife wird $|S|$ mal durchlaufen.\\
 Je nachdem, wie die Teilmengen aussehen, können wir die Überprüfung ob ein $B$ unabhängig ist beschleunigen. Beschreibe hier $t(|S|)$ diese Laufzeit.\\
@@ -341,10 +341,10 @@ Von einem Trie haben wir gelernt, dass alle Operationen so lange dauern, wie uns
 
 Um $B$ mitzuführen und immer zu erweitern benötigen wir $O(1)$ wenn wir z.B. eine LinkedList nehmen.\\
 
-Insgesammt erhalten wir somit eine obere Schranke von:\\
+Insgesamt erhalten wir somit eine obere Schranke von:\\
 $T(n) = O( T_{sort}(n) + n \cdot T_{check} (n) ) = O(n \cdot \log n + n^2) = O(n^2)$\\
 
-Diese Laufzeit kann in speziellen Anwendungen gedrückt werden, wenn entweder Sortierung weggelassen oder optimiert werden kann (Countingsort o.Ä.) oder der Check Effektiver geht (Union-Find bei Kruskal und Prim). 
+Diese Laufzeit kann in speziellen Anwendungen gedrückt werden, wenn entweder Sortierung weggelassen oder optimiert werden kann (Countingsort o.Ä.) oder der Check effektiver geht (Union-Find bei Kruskal und Prim). 
 \end{enumerate}
 
 \label{LastPage}
