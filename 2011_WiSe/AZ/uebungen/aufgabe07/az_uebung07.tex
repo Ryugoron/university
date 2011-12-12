@@ -30,6 +30,7 @@
 \newcommand{\N}{\mathbb{N}}
 \newcommand{\NN}{\mathbb{N} \setminus \{0\}}
 \newcommand{\Z}{\mathbb{Z}}
+\newcommand{\C}{\mathbb{C}}
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\Q}{\mathbb{Q}}
 \newcommand{\ggT}{\text{ggT}}
@@ -53,11 +54,25 @@
 
 \subsection*{Aufgabe 1 \mdseries (Die entgegengesetzte Gruppe)}
 Es seien $(G, \cdot)$ eine Gruppe und $\star : G \times G, (g,h) \mapsto h \cdot g$. \\
-Zeigen Sie, dass $G^{op} := (G, \star)$ eine Gruppe ist. \\ \\
+Zeigen Sie, dass $G^{op} := (G, \star)$ eine Gruppe ist. \\
+Es sei $e$ das neutrale Element von $G$, $e_op$ das neutrale Element von $G^{op}$. $a^{-1}$ beschreibt das inverse Element von $a$ bzgl. $G$, $a_{op}^{-1}$ das inverse Element von $a$ bzgl. $G^{op}$, falls es existiert.\\ \\
 \textbf{Beweis:}\\
-(i) $e \in G^{op}$ \\
+(i) $\exists e_{op} \in G^{op}$ \\
+Es gilt $e_{op} = e$, da $\forall g\in G: e \star g = g \cdot e = g$ und $e \in G^{op}$ gilt nach Konstruktion. 
+\\ \\
 (ii) $\forall a,b,c \in G^{op}:\,(a \star b) \star c = a \star (b \star c)$ \\
-(iii) $\forall a \in G^{op}: \, a^{-1} \in G^{op}$
+Es seien $a,b,c \in G^{op}$. Dann gilt: \\
+$$ (a \star b) \star c = (b \cdot a) \star c = c \cdot (b \cdot a) $$
+$$ = (c \cdot b) \cdot a = a \star (c \cdot b) = a \star (b \star c)$$
+\\
+(iii) $\forall a \in G^{op}: \, a_{op}^{-1} \in G^{op}$ \\
+Es gilt: $a_{op}^{-1} = a^{-1} \; \forall a \in G_{op}$ \\
+Beweis: 
+Sei $a \in G_{op}$.
+$$ a \star a^{-1} = a^{-1} \cdot a = e$$
+$\forall a \in G_{op}: \; a^{-1} \in G_{op}$ nach Konstruktion.
+\\ \\
+Rechtsinverse sind auch Linksinverse, analog für neutrale Elemente (nach VL und vorige Zettel).
 \mbox{} \hfill $\square$\\
 
 
@@ -68,15 +83,71 @@ Zeigen Sie, dass $G^{op} := (G, \star)$ eine Gruppe ist. \\ \\
 \subsection*{Aufgabe 2 \mdseries (Wirkungen von $\R$ auf $\C$)}
 
 \begin{enumerate}[\bfseries a)]
-\item 
+\item Zeigen Sie, dass durch $\sigma:\;\R \times \C \to \C, (t, z) \mapsto \exp(t) \cdot z$
+eine Linkswirkung von $\R$ auf $\C$ gegeben ist. Geben Sie für jede komplexe Zahl $z$ die
+Bahn $\R \cdot z$ und die Standgruppe $\R_z$ an. Fertigen Sie eine Skizze der Bahnen an.
+\begin{enumerate}[\bfseries (1)]
+\item $\sigma$ ist Linkswirkung. \\
 \textbf{Beweis:}\\
-beweis
+Fasse $\R$ als additive Gruppe auf. \\ \\
+(i) $\forall z \in \C:\; \sigma(0,z) = z$ \\
+Sei $z \in \C$.
+$$ \sigma(0,z) = \exp(0) \cdot z = 1 \cdot z = z $$
+\newpage
+(ii) $\forall x_1, x_2 \in \R, \forall z \in \C: \; \sigma(x_1, \sigma(x_2,z)) = \sigma (x_1 + x_2, z)$ \\
+Sei $ x_1, x_2 \in \R, z \in \C$.
+$$ \sigma(x_1, \sigma(x_2,z)) = \sigma(x_1, \exp(x_2) \cdot z) $$
+$$ \exp(x_1) \cdot (\exp(x_2) \cdot z) = (\exp(x_1) \cdot \exp(x_2)) \cdot z $$
+$$ \exp(x_1 + x_2) \cdot z = \sigma(x_1 + x_2, z)$$
 \mbox{} \hfill $\square$\\
 
-\item 
+\item Bahnen \\
+Sei $z \in \C$. \\
+$ \R \cdot z = \{ \exp(r) \cdot z | r \in \R \} = \{\rho \cdot z | \rho > 0 \}$, also alle reellen Vielfachen von $z$ (''Streckung'' von $z$).
+\item Standgruppen
+Sei $z \in \C$. \\
+$\R_z = \{r \in \R | \exp(r) \cdot z = z \} = \left\{
+\begin{array}{cc}
+\R &, \text{falls } z = 0 \\
+\{0\} & \text{sonst}
+\end{array}
+ \right.$
+\item Skizze
+\vspace{7cm}
+
+\end{enumerate}
+
+\item Zeigen Sie, dass durch $\sigma:\;\R \times \C \to \C, (t, z) \mapsto exp(i \cdot t) \cdot z$
+eine Linkswirkung von $\R$ auf $\C$ gegeben ist. Geben Sie für jede komplexe Zahl $z$ die
+Bahn $\R \cdot z$ und die Standgruppe $\R_z$ an. Fertigen Sie eine Skizze der Bahnen an.
+\begin{enumerate}[\bfseries (1)]
+\item $\sigma$ ist Linkswirkung. \\
 \textbf{Beweis:}\\
-beweis
+Fasse $\R$ als additive Gruppe auf. \\ \\
+(i) $\forall z \in \C:\; \sigma(0,z) = z$ \\
+Sei $z \in \C$.
+$$ \sigma(0,z) = \exp(i \cdot 0) \cdot z = \exp(0) \cdot z = 1 \cdot z = z $$
+(ii) $\forall x_1, x_2 \in \R, \forall z \in \C: \; \sigma(x_1, \sigma(x_2,z)) = \sigma (x_1 + x_2, z)$ \\
+Sei $ x_1, x_2 \in \R, z \in \C$.
+$$ \sigma(x_1, \sigma(x_2,z)) = \sigma(x_1, \exp(i\cdot x_2) \cdot z) $$
+$$ \exp(i \cdot x_1) \cdot (\exp(i \cdot x_2) \cdot z) = (\exp(i \cdot x_1) \cdot \exp(i \cdot x_2)) \cdot z $$
+$$ \exp(i\cdot x_1 + i \cdot x_2) \cdot z = \exp(i \cdot (x_1 + x_2)) \cdot z = \sigma(x_1+x_2,z)$$
 \mbox{} \hfill $\square$\\
+\newpage
+\item Bahnen \\
+Sei $z \in \C$. \\
+$ \R \cdot z = \{ \exp(i \cdot r) \cdot z | r \in \R \}$, also alle 'Drehungen' von $z$ (falls man $z$ als Vektor mit Länge $|z|$ interpretiert).
+\item Standgruppen
+Sei $z \in \C$. \\
+$\R_z = \{r \in \R | \exp(i \cdot r) \cdot z = z \} = \left\{
+\begin{array}{cc}
+\R &, \text{falls } z = 0 \\
+\{2 \pi k\,|\,k \in \Z\} & \text{sonst}
+\end{array}
+ \right.$
+\item Skizze
+\vspace{7cm}
+\end{enumerate}
 \end{enumerate}
 
 
@@ -85,19 +156,54 @@ beweis
 %%		AUFGABE 3
 %% --------------------------------------------
 \subsection*{Aufgabe 3 \mdseries (Wirkung einer Untergruppe von $S_8$)}
-
+Es sei $\sigma := (1\;2\;3) (5\;6\;7\;8) \in S_8$.
 \begin{enumerate}[\bfseries a)]
-\item 
-\item 
+\item Bestimmen Sie die Ordnung von $\sigma$. \\
+Den ersten Zykel müsste man ein Vielfaches von Drei mal ausführen, den zweiten ein Vielfaches von Vier mal ausführen. Damit nun  beiden gerecht wird, entspricht dies dem kGV. \\
+Die Ordnung entspricht also $\kgV(3,4) \stackrel{\ggT(3,4)=1}{=} 3 \cdot 4 = 12$. 
+\item Es seien $G := <\sigma> \subseteq S_8$ und
+$$ \Gamma:\; G \times \{1,2,3,4,5,6,7,8\} \to \{1,2,3,4,5,6,7,8\} $$
+$$(\sigma^i, j) \mapsto s^i(j).$$
+Geben Sie für jedes der Elemente 1, 4 und 5 seine $G$-Bahn und seine Standgruppe in $G$ an. \\
+$$ \sigma \cdot 1 = \{\sigma^i(1)\} =  \{1,2,3 \}$$
+$$ \sigma_1 = \{\sigma^i \in G \, | \, \sigma^i(1) = 1 \} = \{ \sigma^{3k}\,|\,k \in \Z\}$$
+\\
+$$ \sigma \cdot 4 = \{\sigma^i(4)\} =  \{4\} $$
+$$ \sigma_1 = \{\sigma^i \in G \, | \, \sigma^i(3) = 4 \} = G $$
+\\
+$$ \sigma \cdot 5 = \{\sigma^i(5)\} =  \{5,6,7,8 \} $$
+$$ \sigma_1 = \{\sigma^i \in G \, | \, \sigma^i(5) = 5 \} = \{ \sigma^{4k}\,|\,k \in \Z\} $$
 \end{enumerate}
 
 %% -------------------------------------
 %%		AUFGABE 4
 %% -------------------------------------
 \subsection*{Aufgabe 4 \mdseries (Zyklische Gruppen)}
-
+Es seien $m, n > 0$ positive ganze Zahlen, so dass $\ggT(m,n) = 1$. \\
+Zeigen Sie, dass das Element $(1,1) \in \Z_m \times \Z_n$ Ordnung $m\cdot n$ hat und folgern Sie
+$$ \Z_m \times \Z_n \cong \Z_{m\cdot n} $$
+\textbf{Lösung:}\\
+Offenbar gilt $(1,1)^{m \cdot n} = (1,1)$. \\
+Da das erste Element in $m$ zyklisch und das zweite Element in $n$ zyklisch ist, muss ein gemeinsames Vielfaches von $m$ und $n$ die Ordnung sein. Da nun $\ggT(m,n) = 1 \Rightarrow \kgV(m,n) = m \cdot n$. \\
+$ \Rightarrow ord((1,1)) = m\cdot n $.
+\\ \\
+Sei nun o.B.d.A. $m > n$. Dann ist
+$$ \varphi : \, \Z_m \times \Z_n \to \Z_{m\cdot n} $$
+$$ (i,j) \mapsto i \cdot n + j $$
+ein Gruppenisomorphismus.
+\\
 \textbf{Beweis:}\\
-beweis
+Sei $x=(a,b),y=(c,d) \in \Z_m \times \Z_n$. \\
+$ \varphi (x + y) = \varphi (a+c,b+d) = (a+c) \cdot n + (b+d) $ \\
+$ = a \cdot n + c \cdot n + b + d = a \cdot n + b + c \cdot n + d$ \\
+$ = \varphi(a,b) + \varphi(c,d)$ \\
+\\
+$\varphi$ ist wohldefiniert, da wir minimal $\varphi(0,0) = 0$ und maximal $\varphi(m-1,n-1) = (m-1) \cdot n + (n-1)$ $ = m \cdot n - 1 \in \Z_{m\cdot n}$ haben. \\
+$\varphi^{-1}$ existiert, mit
+$$ \varphi^{-1} : \, \Z_{m\cdot n} \to \Z_m \times \Z_n$$
+$$ j \mapsto (a,b) $$
+mit $j = a \cdot n + b$ (ganzzahlige Division). \\
+Da die Umkehrfunktion von $\varphi$ existiert, ist $\varphi$ bijektiv.
 \mbox{} \hfill $\square$\\
 
 \label{LastPage}
