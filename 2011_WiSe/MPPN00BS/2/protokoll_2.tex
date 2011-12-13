@@ -1,0 +1,269 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm]{geometry} 
+\usepackage{babel}
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc} 
+\usepackage{ae} 
+\usepackage{amssymb} 
+\usepackage{amsmath} 
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{paralist}
+\usepackage{fancyhdr}
+\usepackage{subfigure}
+\pagestyle{fancy}
+\fancyhead[C]{Mikroprozessorpraktikum}
+\fancyhead[L]{Protokoll 2}
+\fancyhead[R]{WS 2011/12}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage / \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\setlength{\parindent}{0pt} 
+\setlength{\headheight}{15pt}
+
+
+\author{Teilnehmer:\\ \\Marco Träger, Matr. 4130515\\Alexander Steen, Matr. 4357549}
+\date{Gruppe: Freitag, Arbeitsplatz: HWP 1}
+\title{Mikroprozessorpraktikum WS 2011/12\\ Aufgabenkomplex: 2}
+
+\begin{document}
+
+\lstset{language=c, basicstyle=\ttfamily\fontsize{9pt}{9pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2}
+
+\maketitle
+\thispagestyle{fancy}
+\newpage
+\section*{A 2.1 Taktfrequenz}
+
+\begin{description}
+	\item[A 2.1.1] Bestimmen Sie messtechnisch die Frequenz der LFXT1CLK- und XT2CLK-Taktquelle \\ \\
+		\begin{description}
+			\item[LFXT1CLK] BLA machen wir
+			\begin{lstlisting}
+void aufgabe211() {
+        P5SEL |= (1 << 4);		// Signal an den Ausgang legen
+        P5DIR |= (1 << 4);
+        BCSCTL2 = (BCSCTL2 & ~SELM_3) | SELM_3; // LFXTCLK
+        BCSCTL2 = (BCSCTL2 & ~DIVM_0) | DIVM_0; // Divisor /1
+}
+			\end{lstlisting}
+
+-> 32,76927 $\cdot 10^3 $ Hz
+			\item[XT2CLK]  Blablabla
+			\begin{lstlisting}
+void aufgabe211() {
+        P5SEL |= (1 << 4);		// Signal an den Ausgang legen
+        P5DIR |= (1 << 4);
+        BCSCTL2 = (BCSCTL2 & ~SELM_3) | SELM_2; // XT2CLK
+        BCSCTL2 = (BCSCTL2 & ~DIVM_0) | DIVM_0; // Divisor /1
+}	
+			\end{lstlisting}
+-> 7,373165 $\cdot 10^6  $ Hz
+		\end{description}
+	
+
+	\item[A 2.1.2] Bestimmen Sie messtechnisch die minimale und maximale Takt- frequenz des MCLK-Taktes, die sich auf Basis der LFXT1CLK-, XT2CLK- und DCOCLK-Taktquellen bereitstellen läßt. Belegen Sie die Messergebnisse mit einer Berechnung auf Basis aller Komponenten aus den Blockschaltbildern. \\ \\
+
+	
+		
+	\item[A 2.1.3] An P2.5 ist ein Oszillatorwiderstand $R_{osc}$ von 39kOhm angeschlossen. Erläutern Sie, wie der externe Widerstand für den DCOCLK-Taktgenerator nutzbar gemacht wird.  
+		
+%% TODO
+		
+	\item[A 2.1.4] Welchen Einfluss hat der Widerstand auf den DCOCLK-Taktgenerator?  \\
+	
+	%% TODO
+
+\end{description}
+
+\newpage
+\section*{A 2.2 Stromverbrauch AB HIER REST NOCH ALT}
+
+\begin{description}
+	\item[A 1.2.1] Erläutern Sie unter Nutzung des User's Guide die Funktionalität der sieben Register:
+	
+	\begin{description}
+		\item[P1DIR] entscheidet, ob der jeweilige Pin als Eingang oder Ausgang fungiert, dabei beschreibt 0 einen Eingang, 1 einen Ausgang
+		\item[P1IN] besteht aus einem Byte, deren Bits den aktuellen Logikpegel an dem jeweiligen Pin des Ports 1 darstellen
+		\item[P1OUT] zeigt an dem jeweiligen Bit an, welcher Logikpegel an dem zugehörigen Port anliegen soll, falls P1DIR auf Ausgang und P1SEL auf I/O-Funktion geschaltet ist
+		\item[P1SEL] gibt an, ob die einzelnen Pins des Port 1 direkt als I/O benutzt werden (Wert 0) oder für ein angeschlossenes Modul (Wert 1)
+		\item[P1IE] de-/aktiviert die Intertupt-Flags (P1IFG) für die Pins des ersten Ports.
+		\item[P1IES] entscheidet, ob man Interrupt durch eine low-high-Flanke (0) oder eine high-low-Flanke (1) auf dem jeweiligen Pin ausgelöst werden soll.
+		\item[P1IFG] bezeichnet die Interrupt-Flags der Pins von Port 1. Ist ein Bit von P1IFG auf 1 gesetzt, so wurde von dem zugehörigen Pin ein Interrupt ausgelöst.
+	\end{description}
+	
+	\item[A 1.2.2] Erläutern Sie die Funktion des Operators AND zur Bitmanipulation. Diskutieren Sie die Einsatzmöglichkeit am Beispiel einer IF-Anweisung \\
+	
+	Der AND-Operator (\&) führt Bit für Bit die Verundung der Bits der Arguments aus.\\
+	\begin{lstlisting}
+if (P1IN & Taster) {...}
+	\end{lstlisting}
+	Geht man für das Codebeispiel davon aus, dass an dem Pin $i$ von Port 1 ein Taster angeschlossen ist, so kann man durch Wahl der Variable \texttt{Taster} als Bitmaske, die nur an der Stelle $i$ eine 1 enthält (\texttt{Taster} = $2^i$), erreichen, dass die Abfrage genau dann erfolgreich ist, falls der Taster gedrückt wurde.
+	
+	\item[A 1.2.3] Erklären Sie die nachfolgenden Befehlszeilen und geben Sie an, welchen Wert die Variable a in den einzelnen Zeilen annimmt. \\
+	
+	\begin{lstlisting}[numbers=left]
+#define Taster_rechts (0x01)
+#define Taster_links (0x02)
+P1DIR = 0x00;
+P4DIR = 0xFF;
+P4OUT = 0;
+a = 7;
+P4OUT = a;
+P1OUT = a;
+a = P1IN & 0x30; //beide Tasten gedr.
+a = P1IN & 0x00; //Taste rechts gedr.
+a = P1IN & 0x01; //Taste rechts gedr.
+a = P1IN & 0x02; //Taste rechts gedr.
+a = P1IN & 0x03; //Taste links gedr.
+a = P1IN & 0x03; //beide Tasten gedr.
+P4OUT = P1IN & Taster_rechts; //Taster an P1.0 nicht gedr.
+P4OUT = P1IN & Taster_links; //Taster an P1.0 gedr.
+	\end{lstlisting}
+	\newpage
+	\begin{description}
+		\item[Zeile 1,2] Definiert Bitmasken, auf welche Bits der Register der rechte bzw. linke Taster zugreift
+		\item[Zeile 3] Alle Pins von Ports 1 werden auf Eingang geschaltet
+		\item[Zeile 4] Hier werden nun alle Pins von Ports 4 auf Ausgang geschaltet
+		\item[Zeile 5] An alle Pins von Port 4 werden die Logikpegel 0 angelegt
+		\item[Zeile 6] \texttt{a} wird auf 7 gesetzt
+		\item[Zeile 7] Setzt die unteren drei Bits von \texttt{P4OUT} auf 1. Wenn \texttt{P4SEL} für die unteren drei Pins auf I/O-Funktion gestellt ist, liegt an diesen Pins nun jeweils eine 1 an (die LEDs leuchten nicht).
+		\item[Zeile 8] Setzt die unteren drei Bits von \texttt{P1OUT} auf 1. Da \texttt{P1DIR} auf Eingang steht, ändert sich nichts.
+		\item[Zeile 9] Da die beiden Tasten die beiden untersten Bits sind, ist das Ergebnis der Verundung 0, also wird a = 0 gesetzt
+		\item[Zeile 10] Hier wird mit Und auf 0 ausgeführt, also wird a = 0 gesetzt
+		\item[Zeile 11] a = 1, da Taster gedrückt
+		\item[Zeile 12] a = 0, da mit der Bitmaske für den linken Taster verglichen wird
+		\item[Zeile 13] a = 2, weil der Wert des linken Tasters genommen wird (an der zweiten Stelle in der Maske)
+		\item[Zeile 14] a = 3, da sowohl der Wert des linken Tasters (2) und des rechten (1) genommen wird
+		\item[Zeile 15] \texttt{P4OUT} wird auf 0 gesetzt, da kein Taster gedrückt ist
+		\item[Zeile 16] \texttt{P4OUT} wird auf 0 gesetzt, da die Bitmaske den Tasterwert von P1.0 nicht berücksichtigt
+	\end{description}
+	
+	\item[A 1.2.4] Schreiben Sie ein Programm, das die Ampelphasen simuliert. \\
+	
+	\begin{lstlisting}[numbers=left]
+	#define Taster_rechts (0x01)
+	#define Taster_links (0x02)
+	#define rot (0x01)
+	#define gelb (0x02)
+	#define gruen (0x04)
+	
+void aufgabe_1_2_4() {
+	// Letzten beiden Pins von Port 1 (Taster) als I/O-Input verwenden
+	P1SEL &= ~0x03;
+	P1DIR &= ~0x03;
+	// Letzten drei Pins von Port 4 (LEDs) als I/O-Output verwenden
+	P4SEL &= ~0x07;
+	P4DIR |= 0x07;
+	
+	if (~((P1IN & Taster_rechts) ^ (P1IN & Taster_links))) {
+		// Beide Tasten bzw. keine von beiden
+		P4OUT &= ~gelb;
+	} else if((P1IN & Taster_rechts) & ~(P1IN & Taster_lins)) {
+		// Rechte Taste
+		P4OUT &= ~gruen;
+	} else if(~(P1IN & Taster_rechts) & (P1IN & Taster_lins)) {
+		// Linke Taste
+		P4OUT &= ~rot;
+	}
+}
+\end{lstlisting}
+
+\end{description}
+\newpage
+\section*{A 2.3 Taktumschaltung}
+\begin{description}
+\item[A 1.3.1] Nutzen Sie alle drei LED und den rechten Taster (P1.0), um eine Fußgängerampel zu programmieren. \\
+
+\begin{lstlisting}[numbers=left]
+	#define Taster_rechts (0x01)
+	#define rot (0x01)
+	#define gelb (0x02)
+	#define gruen (0x04)
+	
+void aufgabe_1_3_1() {
+	// Letzten beiden Pins von Port 1 (Taster) als I/O-Input verwenden
+	P1SEL &= ~(Taster_rechts);
+	P1DIR &= ~(Taster_rechts);
+	// Letzten drei Pins von Port 4 (LEDs) als I/O-Output verwenden
+	P4SEL &= ~(rot+gelb+gruen);
+	P4DIR |= (rot+gelb+gruen);
+	
+	// alle LEDs ausschalten
+	P4OUT |= (rot+gelb+gruen)
+	
+	if (P1IN & Taster_rechts) {
+		// Gelbe LED an
+		P4OUT &= ~(gelb);
+		wait(3000);
+		// Gelb aus, rote LED an
+		P4OUT |= gelb;
+		P4OUT &= ~rot;
+		wait(3000);
+		// Zusaetzlich gelbe LED an
+		P4OUT &= ~gelb;
+		wait(3000);
+		// Rot und Gelb aus, gruen an
+		P4OUT |= (rot+gelb);
+		P4OUT &= ~gruen;
+		wait(3000);
+		// Gruen aus
+		P4OUT |= gruen;
+		wait(5000);
+	}
+}
+\end{lstlisting}
+In diesem Programm werden einfach nacheinander die richtige LEDs an- bzw. ausgeschaltet, sodass wir eine Ampelablauf simulieren. Die waits verzögern dabei die Auswertung so, dass wir wahrnehmen können, in welcher Reihenfolge die LEDs an- und ausgeschaltet werden.
+\end{description}
+
+\newpage
+\section*{A 2.4 Codezeile}
+\begin{description}
+\item[A 1.4.1] Entwickeln Sie einen Binärzähler \\
+
+\begin{lstlisting}[numbers=left]
+	#define Taster_rechts (0x01)
+	#define Taster_links (0x02)
+	#define rot (0x01)
+	#define gelb (0x02)
+	#define gruen (0x04)
+	
+unsigned char counter = 0;
+	
+void aufgabe_1_4_1() {
+	// Letzten beiden Pins von Port 2 (Taster) als I/O-Input verwenden
+	P1SEL &= ~(Taster_rechts+Taster_links);
+	P1DIR &= ~(Taster_rechts+Taster_links);
+	// Letzten drei Pins von Port 4 (LEDs) als I/O-Output verwenden
+	P4SEL &= ~(rot+gelb+gruen);
+	P4DIR |= (rot+gelb+gruen);
+	
+	if (P1IN & Taster_rechts) {
+		// Rechte  Taste gedrueckt
+		if (counter < 7) {
+			// Mehr als 7 geht nicht
+			++counter;
+		}
+	} else if (P1IN & Taster_links) {
+		// Rechte  Taste gedrueckt
+		if (counter > 1) {
+			// Weniger als 1 geht nicht
+			--counter;
+		}
+	}
+	// Korrekte LEDs setzen:
+	// Wertigkeiten der LEDs sind gespiegelte
+	// Wertigkeit der Bits von counter
+	P4OUT &= ~(((counter & 0x01) << 2) + ((counter & 0x02) << 1) + (counter & 0x04))
+	wait(100);
+}
+\end{lstlisting}
+Das Prellen der Kontakte bewirkt, dass mehr Phasenübergange (Flanken) wahrgenommen werden, als tatsächlich vorkommen sollen. Dieses Problem kann man dadurch umgehen, dass man nach dem Verarbeiten eines Tastendrucks eine gewisse Zeit wartet um auf die Stabilisierung des Tasterpegels zu warten. Wir haben die Wartezeit experimentell ermittelt, sodass die Wartezeit die kleinste ist, bei der das Problem nicht mehr auftritt.
+\end{description}
+\label{LastPage}
+\end{document}
