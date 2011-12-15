@@ -114,14 +114,56 @@ Sollte kein extract mehr ausgeführt werden, so gilt $1 \in K(l), l=m+1$. Der Al
 
 Damit gilt unsere Behauptung für $i=1$.
 
-\item{\bfseries I.S.:} Nach Induktionsvorraussetzung wurden die Zahlen ${1,..,i-1}$ schon ihren Extract Operationen zugewiesen. Sie $R = \{ E_k | E_k = \{ 1, ..., i-1 \} \}$
+\item{\bfseries I.S.:} $i-1 \rightarrow i$\\
+Nach Induktionsvorraussetzung wurden die Zahlen ${1,..,i-1}$ schon ihren Extract Operationen zugewiesen. Sie $R = \{ E_k | E_k = \{ 1, ..., i-1 \} \}$. Nun wissen wir nach dem Algorithmus, dass wir die Zahl $i$ in einem Extract erst sehen können nach einem $i \in I_{in}$. Sei $k$ der Index, so dass $E_k = i$, wobei $k=m+1$, wenn es ken Intervall gibt. Und $E_k \not\in R$\\
 
+Nun müssen zwischen $in$ und $k$ alle Extracts schon einen Wert haben, der kleiner ist als $i$, sonst würde es ein $x<k$ geben, so dass dieses Extract das $i$ genommen hätte.\\
+
+Nach Induktionsvorraussetzung wurden alle Werte von $x \; in \leq x < k$ schon eine Wert besitzen. Der Algorithmus wird eine Menge, immer mit der nächst groößeren Menge vereinigen. Da nun aber alle $K(x)$ mit genannten eigenschaften mit einer nächst größeren Menge vereinigt worden sind, muss der Algorithmus wenn er $i$ sucht, die Menge nehmen, in der sich nun $K(in)$ befindet. Diese befindet sich, wie gezeigt in $K(k)$.\\
+
+Unser Algorithmus hat also für $i = E_k$ das Feld $em[k] = i$ gesetzt. Sollte $k=m+1$ sein wurde kein Extract auf diesem Element ausgeführt und der Algorithmus hätte die if Block übersprungen und auch den Wert niemals zugewiesen.\\
+\mbox{}\hfill $\square$
 
 \end{description}
 
 \item Beschreiben Sie, wie man den Algorithmus aus b) effizient mit einer Union-Find Struktur implementieren kann und analysieren Sie die Laufzeit.\\
 
 \textbf{Lösung:}\\
+Für die effiziente Berechnung brauchen wir zunächst eine Unionfind Struktur \textbf{UF}. Diese wird initial so vereinigt, dass wir alle Elemente, die in der selben Insertfolge liegen vereinigt werden. Prinzipiell können wir auch dies als Startpartition aussuchen.\\
+
+Im nächsten Schritt packen wir alle Represantanten als Schlüssel in eine SortedMap \textbf{SM} und eine HashMap \textbf{HM} um die Umkehrung zu finden, die eine Menge mit einem Extract identifizieren kann.\\
+Dafür rufen wir auf einem beliebeigen $x \in I_j$ , $find(x)$ auf und packen es mit dem j in die Map:\\
+Dazu bauen wir das Programm, dass danach folgendes erfüllt ist:\\
+$foral 1 \leq j \leq m+1 \; : \; x \in I_j \Rightarrow (x,j)\in SM \; \land \; (j,x) \in HM$\\
+
+Der Algorithmus sieht nach dieser Vorverarbeitung folgender Maßen aus:\\
+\begin{lstlisting}[language=Pascal]
+for i:= 1 to n do
+	j' := UF.find(i);
+	j := SM.get(j');
+	if j != m + 1 do
+		em[j] := i;
+		l := SM.ceilKey(j);
+		l' := HM.get(l);
+		UF.union(j', l');
+		nJ := UF.find(j');
+		HM.del(i');
+		HM.del(j');
+		HM.add(nJ, l);
+		SM.del(j);
+		SM.replace(l, nJ);
+\end{lstlisting}
+
+\textbf{Laufzeit:}
+Die Vorverarbeitung kostet uns $O(n + m \log m)$. Wir müssen $n$ Elemente in ihre Mengen in der UnionFind Struktur stecken. Da wir linear durch die Liste laufen können, ist es un möglich ein neues Element (Baum mit Rank 0) mit dem Represtanten zu vereinigen. Daher ist der Rank jeder Komponente nach der Initialisierung 1. Die Laufzeit zum reinen joinen ist. Wenn wir ein Intervall haben, so müssen wir die Representaten danach in eine SortedMap eintragen. Dies können wir beispielsweise über einen RotSchwarzBaum machen. Einfügen hat hier drauf die Laufzeit $O(\#Elemente)$. Bis zum Schluss also bei $m$ Inserts $M$ Elemente.\\
+
+Im gegebenen veränderten Algorithmus haben wir eine Schleife, die n mal durchlaufen wird. Zu Begin jedes Durchlaufens brauchen müssen wir find auf einem beliebigen Element ausführen. Dies kann im schlimmsten Fall der Schlechtkondizioniertest Fall sein, so dass wir $O(\alpha (n,n))$ benötigen. Die nächste Operation kostet uns $=(\log m)$ Zeit.\\
+
+Sind wir nicht in der letzten Komponente so müssen wir uns mit ceilKey ($O ( \log m) $) und get  ($O(\log m)$) die Mengen und Intervalle zu finden. Die del haben die selbe Laufzeit müssen also konstant oft ausgeführt werden.\\
+
+Das Union kostet $O (1)$ und find wurde auf den Representaten der gerade vereinigten Mengen ausgeführt, diese stehen auf maximal 1 unter der neuen Wurzel. Die Operation kostet daher $O(1)$.\\
+
+Insgesammt ergibt sich eine Laufzeit von $O (m \log m + n \log m)$.
 
 \end{enumerate}
 
