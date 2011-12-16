@@ -17,7 +17,7 @@
 \usepackage{fancyhdr}
 \pagestyle{fancy}
 \fancyhead[C]{Höhere Algorithmik}
-\fancyhead[L]{Übung Nr. 7}
+\fancyhead[L]{Übung Nr. 8}
 \fancyhead[R]{WS 2011/12}
 \fancyfoot{}
 \fancyfoot[L]{}
@@ -53,21 +53,14 @@ $$
 $$
 wobei eine Zahl $i$ bedeutet, dass \emph{insert(i)} ausgeführt wird. Geben Sie die Ergebnisse der einzelnen extract-min Operationen an.
 
-\textbf{Lösung:}\\
+\textbf{Lösung:}
 \begin{enumerate}[1 {. extract-min:} ]
-
 \item 4
-
 \item 3
-
 \item 2
-
 \item 6
-
 \item 8
-
 \item 1
-
 \end{enumerate}
 
 \item Gegeben ist eine Algorithmus und eine Folge von Operationen
@@ -131,6 +124,8 @@ Unser Algorithmus hat also für $i = E_k$ das Feld $em[k] = i$ gesetzt. Sollte $
 \textbf{Lösung:}\\
 Für die effiziente Berechnung brauchen wir zunächst eine Unionfind Struktur \textbf{UF}. Diese wird initial so vereinigt, dass wir alle Elemente, die in der selben Insertfolge liegen vereinigt werden. Prinzipiell können wir auch dies als Startpartition aussuchen.\\
 
+\pagebreak
+
 Im nächsten Schritt packen wir alle Represantanten als Schlüssel in eine SortedMap \textbf{SM} und eine HashMap \textbf{HM} um die Umkehrung zu finden, die eine Menge mit einem Extract identifizieren kann.\\
 Dafür rufen wir auf einem beliebeigen $x \in I_j$ , $find(x)$ auf und packen es mit dem j in die Map:\\
 Dazu bauen wir das Programm, dass danach folgendes erfüllt ist:\\
@@ -167,6 +162,8 @@ Insgesammt ergibt sich eine Laufzeit von $O (m \log m + n \log m)$.
 
 \end{enumerate}
 
+\pagebreak
+
 %% ----------------------------------
 %%		AUFGABE 2
 %% ----------------------------------
@@ -193,8 +190,51 @@ Nach der Analyse könnten wir nun auch aussagen, dass wenn wir für jedes Zähle
 
 \textbf{Lösung:}\\
 
-voll -> verdoppeln\\
-1/3 -> halbieren
+Wir müssen für die dynamische Größe 2 Dinge tun. Wen das Array voll oder über eine bestimmte Füllmenge geht, dann müssen wir das Array vergrößern und alles was bisher darin war kopieren. Wenn es zu leer wird, müssen wir es wieder verkleinern und auch wieder alles kopieren.\\
+
+Damit wir einfügen und löschen konstant hinbekommen, kann das kopieren nur um einen konstanten Faktor der Größe sein. So können wir beim einfügen und löschen die Kosten darauf aufteilen. Wir wollen die Kosten nun so aufteilen, so dass wir mit dem Einfügen das Vergrößern bezahlen und mit dem Löschen das Verkleinern.\\
+
+Wir müssen also nur 2 Arten von Folgen analysieren. Die erste ist eine Folge von add und enlarge Operatioenen (die wir durch reine adds darstellen können) und die andere eine Folge von remove und reduce Operatioenen  (die wir wieder durch reine removes darstellen können).\\
+
+Betrachten wir uns diese Folgen einmal genauer, sehen wir, dass wir einen Worst-Case so aufbauen können, das wir die amortisierte Laufzeit gegen diesen Fall abschätzen können. Dieser Fall ist genau ein flackern zwischen vergrößern und verkleinern. Hätten wir noch mehr Operationen würden wir zwar eine leicht bessere Gesamtlaufzeit bekommen, aber wenn wir die Laufzeit des Flackerns gut beschreiben können, haben wir auch die besseren Laufzeiten damit abgeschätzt.\\
+
+Als nächstes Überlegen wir uns, dass es keinen Sinn macht das Array zu vergrößern, bevor es vollständig gefüllt ist, da wir sonst immer unnötig Speicher verbrauchen, da der letzte Teil nie genutzt wird.\\
+
+Damit das Array gleichmäßgt wächst sagen wir nun, dass wir es, wenn es voll ist, $k$ mal so groß machen wie zuvor. Ist es zu leer so teilen wir die Länge durch $k$. Damit ist die Länge des Array ein Exponent zur Basis $k$. Eine leichte erste Überlegung ist, dass wir als Grenze für das verkleinern einen Wert wählen müssen, der kleiner als $\frac{1}{k}$ ist, da wir sonst das Array nicht komplett rein kopieren könnten.\\
+
+Da wir durch einfügen das Array quasi unendlich oft erweitern können, können wir aussagen, dass die Kosten vom erweitern von allen add Operationen getragen werden müssen, seit dem letzten Kopiervorgang. Sonst müsste ein add, die Kosten von $m$ kopiertvorgängen mittragen und wär somit nicht mehr konstant.\\
+
+Sei $l>k$ nun die Zahl, so dass wir das Array bei einer Füllmenge von $\frac{1}{l}$ verkleinern.\\
+D.h. die Operatioen im Worst-Case zum einfügen bei einem Array der Größe $n$ sind genau $n - \frac{k\cdot n}{l} = \frac{l-k}{l} n$. Nun ist die Folge so aufgebaut, dass wir nach diesen Operationen noch $n$ Elemente kopieren müssen. Sollten wir nun noch dazwischen Remove ausführen oder eine Längere Liste von adds zur Verfügung haben, würde die relativen Kosten nur sinken.\\
+Wann wir für eine add Operation also $\frac{l}{l-k}$ annehmen (WIr brauchen $n$ Operationen für das umkopieren und die Folge ist so Lang wie eben geant. Also brauchen wir das reziproke des Koeffizienten), so können wir das Array auf jedenfall Erweitern und haben dabei amoritisiert nur konstante Kosten gehabt.\\
+
+Gleiche Überlegungen führen dazu, dass man beim Löschen in einem Array der Länge $n$ $\frac{n}{k} - \frac{n}{l} = \frac{l-k}{l \cdot k} n$ Operationen hat. Für eine Operation können wir amortisiert die Kosten $\frac{l \cdot k}{l-k}$ annehmen, so sind die Kosten für das Verkleinern amortisiert wieder konstant.\\
+
+Nun haben wir gezeigt, dass wir auch mit erweitern und verkleinern eine amorisiert Konstante Laufzeit hinbekommt und zwar mit $T_{add}(n)= \frac{l}{l-k}$ und $T_{rem}(n) = \frac{l \cdot k}{l-k}$. Nun müssen wir nur noch $k,l$ so bestimmen, dass wir einen möglichst guten Tradeoff zwischen Laufzeit und der Speicherplatznutuzng finden. Der bei dieser aufgestellten Eigenschaft mindestens benötigte Platz ist $\frac{k}{l}n$ (nach dem verkleinern)  oder $\frac{1}{k}n$ (nach dem Vergrößern)\\
+
+Nun haben wir 4 Funktionen, von denen wir die Laufzeit möglichst klein und den Platz möglichst groß halten wollen. Da wir immer mindestens ene Formel finden, bei der min eine der Variablen im Nenner steht, können wir darauf schließen, dass der Ideale Punkt in einem recht niedrigen Bereich  liegt, da der Graph eine Hyperbel beschreibt und dieser gegen 0 sehr schnell steigt, was uns für die Laufzeit nicht gefällt und bei großen Werten recht schnell gegen die 0 geht.\\
+
+Wir schauen uns also einfach einmal eine Tabelle über ein paar exemplarische Werte an. Wir haben uns dafür entschieden nur natürliche Ergebnisse zu nehmen, da sich es gerade für $k$ günstiger macht, wenn die Länge des Arrays eine natürliche Zahl ist.\\
+
+\begin{center}
+\begin{tabular}{l|cccc}
+$(k,l)$& $T_{add}$ &$ T_{rem}$ &$ Sp_{grö}$ & $Sp_{kl}$\\
+\hline
+(2,3) & 3 & 6 & $\frac{1}{2}n$ & $\frac{2}{3} n$\\
+(2,4) & 2 & 4 & $\frac{1}{2}n$ & $\frac{1}{2}n$\\
+(3,4) & 4 & 12 & $\frac{1}{3}n$ & $\frac{3}{4}n$\\
+(2,5) & $\frac{5}{3}$ & $\frac{10}{3}$ & $\frac{1}{2}n$ & $\frac{2}{5}n$\\\
+(3,5) & $\frac{5}{2}$ & $\frac{15}{2}$ & $\frac{1}{3}n$ & $\frac{3}{5}n$\\
+(4,5) & 5 & 20 & $\frac{1}{4}n$ & $\frac{4}{5}n$\\
+\end{tabular}
+\end{center}
+
+Nun halten wir den Tradeoff bei den ersten beiden Einträgen der Tabelle für am akzeptabelsten. Weder die Laufzeiten sind zu schlecht, noch der Platz wird zu wenig genutzt. Nun kann man sich noch dafür entscheiden, ob es einem wichtiger ist, weniger Platz zu verbrauchen und dafür geringfügig länger bei den Operationen zu brauchen oder lieber den Platz optimaler Nutzen.\\
+
+Wenn wir viel aus Datenstruckturen löschen möchten, macht sich der (2,3) Fall ganz gut, wenn wir eher viel einfügen der (2,4) Fall, da bei beiden ver erweiterungsspeicher gleich ist, aber die Laufzeit besser.\\
+Java implementiert z.B. eher den ersten Fall.\\
+
+Wir konnten also ermitteln, dass wir ein Array dynamisch verwalten können und das mit konstanten Kosten. Dabei ergab sich für der beste Tradeoff zwischen Laufzeit und Speicherausnutzung, wenn wir die Arrays immer verdoppeln oder halbieren. Halbieren können wir dabei entweder bei $\frac{1}{4}$ Füllmenge, wen wir eine schnellere laufzeit der Operationen wollen, oder bei $\frac{1}{3}$, wenn wir den Platz besser nutzen wollen.
 
 \end{enumerate}
 
@@ -210,11 +250,13 @@ voll -> verdoppeln\\
 \textbf{Lösung:}\\
 Wir konstruieren uns eine Indikatorvariable, ob die k-te Person ihr eigenes Geschenk zieht. Die Wahrscheinlichkeit bestimmen wir unabhängig von den $k-1$ vorrigen Personen, so dass wir über alle Indikatorvariablen eine Summer bilden können und diese immer noch mit der Linearität des Erwartungswertes nach aussen ziehen können.\\
 
+\pagebreak
+
 Sei
 $$
 X_k = \left\{ \begin{array}{lr} 1 &,\text{k-te Person zieht ihr geschenk}\\ 0 &, \text{sonst}\end{array} \right. .
 $$
-Die Wahrscheinlichkeit $Pr(X = X_k)$  muss nun mit einberechnen, dass die $k-1$ Gäste zuvor das Geschenk nicht gezogen haben. Da bei jedem Zug die Anzahl der Geschänke sich verringert haben wir die Wahrscheinlichkeit:
+Die Wahrscheinlichkeit $Pr(X_k = 1)$  muss nun mit einberechnen, dass die $k-1$ Gäste zuvor das Geschenk nicht gezogen haben. Da bei jedem Zug die Anzahl der Geschänke sich verringert haben wir die Wahrscheinlichkeit:
 $$
 Pr(X_k = 1) = \frac{n-1}{n} \cdot \frac{n-2}{n-1} \cdot ... \cdot \frac{n - k}{n-k +1} \cdot \frac{1}{n-k} = \frac{(n-1)! \cdot (n-k)! }{(n-k -1)! n! (n-k)} = \frac{1}{n}
 $$
