@@ -41,35 +41,68 @@
 \section*{A 2.1 Taktfrequenz}
 
 \begin{description}
-	\item[A 2.1.1] Bestimmen Sie messtechnisch die Frequenz der LFXT1CLK- und XT2CLK-Taktquelle \\ \\
+	\item[A 2.1.1] Bestimmen Sie messtechnisch die Frequenz der \texttt{LFXT1CLK}- und \texttt{XT2CLK}-Taktquelle. \\ \\
+	Zur Lösung dieser Aufgabe werden zusätzlich zu den in Aufgabenblock 1 beschriebenen Registern das \texttt{BC2CTL2}-Register benutzt. In diesem Register werden einige der Bits für die Taktsteuerung verwaltet. Die zwei höchstwertigsten Bits legen die Taktquelle und die zwei nächst niederen Bits die Auswahl des Taktteilers fest. Für diese Aufgabe wird die Taktteilung ausgeschaltet (also auf den Divisor 1), damit der tatsächliche Takt gemessen wird.
 		\begin{description}
-			\item[LFXT1CLK] BLA machen wir
-			\begin{lstlisting}
+			\item[LFXT1CLK] Um auf P5.4 das Taktsignal messen zu können, wird nach dem Verbinden der Portleitung mit dem Takt (via \texttt{P5SEL}) das Messgerät angeschaltet. Nun wird das folgende Programm ausgeführt:
+\begin{lstlisting}
 void aufgabe211() {
-        P5SEL |= (1 << 4);		// Signal an den Ausgang legen
-        P5DIR |= (1 << 4);
-        BCSCTL2 = (BCSCTL2 & ~SELM_3) | SELM_3; // LFXTCLK
-        BCSCTL2 = (BCSCTL2 & ~DIVM_0) | DIVM_0; // Divisor /1
+    P5SEL |= (1 << 4);	// Leitung mit Modul verbinden
+    P5DIR |= (1 << 4);	// Als Ausgang fungieren
+    BCSCTL2 = (BCSCTL2 & ~SELM_3) | SELM_3; // LFXTCLK
+    BCSCTL2 = (BCSCTL2 & ~DIVM_3) | DIVM_0; // Divisor 1
 }
-			\end{lstlisting}
-
--> 32,76927 $\cdot 10^3 $ Hz
-			\item[XT2CLK]  Blablabla
-			\begin{lstlisting}
+\end{lstlisting}
+			Am Messgerät lässt lässt sich eine Frequenz von $32,76927$ kHz messen. Dies ist die Taktfrequenz der \texttt{LFXT1CLK}.
+			\item[XT2CLK]  Diese Messung wird analog zur \texttt{LFXT1CLK}-Messung durchgeführt. Einzig die Selektion der Taktquelle ändert sich (siehe Code):
+\begin{lstlisting}
 void aufgabe211() {
-        P5SEL |= (1 << 4);		// Signal an den Ausgang legen
-        P5DIR |= (1 << 4);
-        BCSCTL2 = (BCSCTL2 & ~SELM_3) | SELM_2; // XT2CLK
-        BCSCTL2 = (BCSCTL2 & ~DIVM_0) | DIVM_0; // Divisor /1
+    P5SEL |= (1 << 4);	// Leitung mit Modul verbinden
+    P5DIR |= (1 << 4);	// Als Ausgang fungieren
+    BCSCTL2 = (BCSCTL2 & ~SELM_3) | SELM_2; // XT2CLK
+    BCSCTL2 = (BCSCTL2 & ~DIVM_3) | DIVM_0; // Divisor 1
 }	
-			\end{lstlisting}
--> 7,373165 $\cdot 10^6  $ Hz
+\end{lstlisting}
+			Aus der Messung ergibt sich eine Taktfrequenz von $7,373165$ MHz für die \texttt{XT2CLK}-Taktquelle.
 		\end{description}
 	
 
-	\item[A 2.1.2] Bestimmen Sie messtechnisch die minimale und maximale Takt- frequenz des MCLK-Taktes, die sich auf Basis der LFXT1CLK-, XT2CLK- und DCOCLK-Taktquellen bereitstellen läßt. Belegen Sie die Messergebnisse mit einer Berechnung auf Basis aller Komponenten aus den Blockschaltbildern. \\ \\
-
-	
+	\item[A 2.1.2] Bestimmen Sie messtechnisch die minimale und maximale Taktfrequenz des \texttt{MCLK}-Taktes, die sich auf Basis der \texttt{LFXT1CLK}-, \texttt{XT2CLK}- und \texttt{DCOCLK}-Taktquellen bereitstellen läßt. Belegen Sie die Messergebnisse mit einer Berechnung auf Basis aller Komponenten aus den Blockschaltbildern.
+		
+		\begin{description}
+			\item[LFXT1CLK] Als maximale Frequenz dieser Taktquelle kann das Ergebnis aus Aufgabe 2.1.1 hergenommen werden, also $f_{max} \approx 32,76927 \text{ kHz }$. Durch Modifikation mit dem größten Taktteiler (ein Achtel) können wir hier den minimalen Takt $f_{min}$ produzieren. Also ergibt sich als Code:
+\begin{lstlisting}
+void aufgabe212() {
+    P5SEL |= (1 << 4);	// Leitung mit Modul verbinden
+    P5DIR |= (1 << 4);	// Als Ausgang fungieren
+    BCSCTL2 = (BCSCTL2 & ~SELM_3) | SELM_3; // LFXTCLK
+    BCSCTL2 = (BCSCTL2 & ~DIVM_3) | DIVM_3; // Divisor 8
+}
+\end{lstlisting}
+			Aus der Messung ergibt sich ein Takt von $4,096158$ kHz. \\
+			Dies deckt sich mit den Erwartungen, da sich für die minimale Taktfrequenz rechnerisch ergibt:
+			$$ f_{min} = f_{max} \cdot \frac{1}{8} \approx 32,76927 \text{ kHz} \cdot \frac{1}{8} \approx 4,096159 \text{ kHz}$$
+			
+			\item[XT2CLK] Analog zur \texttt{LFXT1CLK}-Taktquelle, können wir die maximale Frequenz aus Aufgabe 2.1.1 nehmen, die minimale Frequenz wiederum durch den Taktteiler mit Divisor 8 erreichen. Der Code dazu ist ebenfalls analog, wird darum nicht wiederholt. \\ \\
+			Also ergibt sich für die maximale Frequenz $f_{max} \approx 7,373165 \text{ MHz}$. \\
+			Die Messung des minimalen Taktes ergibt eine Frequenz von $921,6456 \text{ kHz}$. \\
+			Auch dies stimmt mit dem rechnerischen Ergebnis überein:
+			$$ f_{min} = f_{max} \cdot \frac{1}{8} \approx 7,373165 \text{ MHz} \cdot \frac{1}{8} \approx 921,6456 \text{ kHz}$$
+			\item[DCOCLK] Um die minimale und maximale Frequenz der \texttt{DCOCLK}-Taktquelle zu messen, binden wir in der \texttt{main.c} wieder die DCO-Quelle ein (Funktionsaufruf \texttt{DCO();}). Bei dieser Taktquelle können wir zusätzlich mit Hilfe des DCOR-Bits die Frequenz manipulieren. Dies kann ebenfalls im BCSCTL2-Register gesetzt werden. Die erste Messung wurde mit DCOR = 0 durchgeführt:
+			\begin{lstlisting}
+void aufgabe212() {
+    P5SEL |= (1 << 4);	// Leitung mit Modul verbinden
+    P5DIR |= (1 << 4);	// Als Ausgang fungieren
+    BCSCTL2 = (BCSCTL2 & ~SELM_3) | SELM_0; // DCO
+    BCSCTL2 = (BCSCTL2 & ~DIVM_3) | DIVM_0; // Divisor 1
+    BCSCTL2 &= ~DCOR;  // DCOR auf 0
+}
+\end{lstlisting}
+			Die Messung ergibt einen Takt von $ f_{DCOR = 0} \approx 1,7026 \text{ MHz} $.
+			Mit gesetztem DCOR-Bit ergibt die Messung $ f_{DCOR = 1} \approx 7,3684 \text{ MHz} $, was also die maximale Frequenz $f_{max}$ ist. \\
+			Für die Messung der minimalen Frequenz wird der Taktteiler wie in den vorigen Aufgaben genutzt, deshalb wird der Code nicht gezeigt. Die Messung für die minimale Frequenz ergibt einen Takt von ca. $212,8 \text{ kHz}$. Dies bestätigt das rechnerische Ergebnis:
+			$$ f_{min} = f_{DCOR = 0} \cdot \frac{1}{8} \approx 1,7026 \text{ MHz} \cdot \frac{1}{8} = 212,825 \text{ kHz} $$
+		\end{description}
 		
 	\item[A 2.1.3] An P2.5 ist ein Oszillatorwiderstand $R_{osc}$ von 39kOhm angeschlossen. Erläutern Sie, wie der externe Widerstand für den DCOCLK-Taktgenerator nutzbar gemacht wird.  
 		
