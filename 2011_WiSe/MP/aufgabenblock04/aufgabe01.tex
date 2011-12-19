@@ -1,0 +1,35 @@
+\subsection*{Aufgabe 4.1 : Taster}
+
+\subsubsection*{A 4.1.1}
+	Wir wollen die Interruptfähigkeit des Ports 1 nutzen. Der Effekt besteht darin, dass nicht ständig ein Polling des Zustands einer Portleitung erforderlich ist, 
+	um den Zustand der Taster zu erkennen.\\
+
+	Unsere Beispielanwendung besteht im Kern aus einer Endlosschleife, die eine wait() Funktion und eine Codezeile zum toggeln der LED (P4.2) beinhaltet.\\
+
+	Beide Taster an Port1 (P1.0 und P1.1) sollen interruptfähig sein und auf eine LH-Flanke den Interrupt auslösen. Die notwendige Initialisierung der Register 
+	des Ports P1 und die Freigabe des Interrupts muß vor der Endlosschleife erfolgen.\\
+
+	In der ISR Interrupt-Service-Routine für den Port1 soll folgende Funktionalität integriert werden:
+	\begin{itemize}
+		\item für den Taster an P1.0:
+			nach jedem 10-ten Tastendruck soll die LED (P4.0) getoggelt werden
+        		\item für den Taster an P1.1:
+			bei jedem Tastendruck soll die LED (P4.1) getoggelt werden
+	\end{itemize}
+	Im nächsten Schritt soll eine Lösung gefunden werden, die eine mögliche Interruptquelle ausschalten kann.\\
+
+	Verändern Sie dazu die ISR in der Form:
+	\begin{itemize}
+		\item für den Taster an P1.0:\\
+        			nach jedem 10-ten Tastendruck soll die LED (P4.0) getoggelt werden\\
+        			nur bei leuchtender LED (P4.1) soll der Taster (P1.0) interruptfähig sein\\
+		\item für den Taster an P1.1:\\
+			bei jedem Tastendruck soll die LED (P4.1) getoggelt werden
+
+	Testen und dokumentieren Sie ihre Lösung.\\
+
+\textbf{Programm:}\\
+
+\textbf{Erklärung:}\\
+
+\textbf{Beobachtung:}

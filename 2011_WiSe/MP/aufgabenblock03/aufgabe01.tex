@@ -1,0 +1,115 @@
+\subsection*{Aufgabe 3.1: Programmierung}
+
+\subsubsection*{A 3.1.1}
+	Ermitteln Sie auf Basis für den Watchdog alle mögliche Zeiten, die sich auf Basis der ACLK-Taktquelle (f=32768Hz) mit dem WDTCTL Register einstellen 
+	lassen. Fassen Sie die notwendigen Bitbelegung des WDTCL-Registers mit den dazu gehörigen Zeiten tabellarisch zusammen.\\
+
+	\begin{center}
+		\begin{tabular}{cc|cc}
+			WDTIS0 & WDTIS1 & Selektiert & Takt\\
+			\hline
+			0 & 0 & Q15 & 1000ms\\
+			0 & 1 & Q13 & 250ms\\
+			1 & 0 & Q9 & 15,625ms\\
+			1 & 1 & Q6 & 1,953125ms\\
+			
+		\end{tabular}\\
+		\emph{WDTSSEL} ist in jedem Fall 1 gewesen, was der Taktquelle ACLK entspricht.
+	\end{center}
+
+\subsubsection*{A 3.1.2}
+	Wie verändern sich die in A 3.1.1 bestimmten Zeiten wenn man mit den DIVAx-Bits im BCSCTL1-Register die ACLK Vorteiler auf 1, 2, 4, und 8 setzt?\\
+
+	Die Zeit wird vereinfacht, verdoppelt und verachtfacht. Da die Periodendauer sich, wie im letzten Aufgabeblock genau so verhält.
+
+\subsubsection*{A 3.1.3}
+	Entwickeln Sie eine eigenständige Endlosschleife die folgenden Ablauf von 5 Schritten zyklisch ausführt:
+	\begin{enumerate}[\bfseries 1. {Schritt: }]
+        		\item alle LED (P4.0..2) aus , 1 Sekunden warten
+        		\item LED (P4.0) an, 1 Sekunden warten, LED (P4.0) aus
+	        	\item LED (P4.1) an, 1 Sekunden warten, LED (P4.1) aus
+        		\item LED (P4.2) an, 1 Sekunden warten, LED (P4.2) aus
+        		\item alle LED (P4.0..2) an, 1 Sekunden warten, alle LED (P4.0..2) aus
+	\end{enumerate}
+	Die erforderlichen Zeitverzögerungen realisieren Sie bitte mit der wait() Funktion (wait(50000) entspricht 0,5 Sekunde; beachten Sie den zulässigen 
+	Zahlenbereich des Parameters). Testen Sie das Programm.\\
+	
+	\textbf{Programm:}\\
+	Das Programm ist wieder an unsere alten Programme angelehnt:
+	\begin{lstlisting}
+aufgabe313init(){
+	P4SEL &= ~(0x07);
+	P4DIR |= 0x07;
+	P4OUT |= 0x07;
+}
+
+aufgabe313(){
+	P4OUT |= (0x07);
+	wait(50000);	wait(50000);
+	P4OUT |= (0x07);
+	wait(50000);	wait(50000);
+	P4OUT &= ~(1<<0);
+	wait(50000);	wait(50000);
+	P4OUT |= (0x07);
+	wait(50000);	wait(50000);
+	P4OUT &= ~(1<<1);
+	wait(50000);	wait(50000);
+	P4OUT |= (0x07);
+	wait(50000);	wait(50000);
+	P4OUT &= ~(1<<2);
+	wait(50000);	wait(50000);
+	P4OUT |= (0x07);
+	wait(50000);wait(50000);
+	P4OUT &= ~(0x07);
+	wait(50000); wait(50000);
+}
+	\end{lstlisting}
+	Dieses Programm haben wir in die Endlosschleife der Main eingebaut.\\
+	
+	\textbf{Beobachtung:}\\
+	Alle zwei Sekunden geht eine LED an. Zwischen 2 LEDs ist je eine Sekunde keine an. Die LEDs werden alle drei ordentlich durchgegangen und am Ende
+	gehen alle an. Danach fängt das ganze von vorne an.
+
+\subsubsection*{A 3.1.4}
+	Im nächsten Schritt aktivieren Sie vor der Endlosschleife den Watchdog ohne weitere Einstellungen. Wie verhält sich das Programm jetzt? Erläutern Sie 	
+	die gemachten Beobachtungen.\\
+
+	\textbf{Beobachtung:}\\
+	Wir haben unser \emph{init313()} um die Aktivierung des Watchogs erweitert (\emph{WDTCTL = WDTPW}). Damit wird HOLD auf 0 gesetzt. Wir 	
+	brauchen nur das Passwort, damit die Änderung angenommen wird.\\
+	
+	Wir beobachten, dass die LEDs alle anbleiben, auch wenn wir sie direckt vorher ausschalten. Wir schließen daraus, dass der Zähler des Watchdogs in 
+	der init() hochgezählt wurde und wenn wir den Watchdog anschalten, wird er sofort ein RESET feuern.
+
+\subsubsection*{A 3.1.5}
+	Jetzt wollen wir den Watchdog vor der Endlosschleife mit folgenden Einstellungen aktivieren:
+	\begin{itemize}
+        		\item Watchdog auf Basis des ACLK-Takt mit dem Vorteiler 8
+        			(dazu folgender C-Code: \emph{ BCSCTL1|=DIVA0 + DIVA1;})
+        		\item Zählerstand 32768 für RESET
+	\end{itemize}
+	Berechnen Sie für diese Einstellung die Zeit bis der Watchdog einen RESET auslöst. Wie lange dauert ein Durchlauf der Schleife mit den oben 
+	beschriebenen fünf Schritten? Zu welchem Zeitpunkt löst der Watchdog einen RESET aus? Testen das Programm und diskutieren Sie das erkennbare 
+	Verhalten.\\
+
+	\textbf{Programm:}
+		\begin{lstlisting}
+aufgabe314init(){
+	P4SEL &= ~(0x07);
+	P4DIR |= 0x07;
+	P4OUT |= 0x07;
+	BSCTL1 |= DIVA0 + DIVA1;
+	WDTCTL = WDTPW + WDTCNTCL + WDTSSEL;
+}
+		\end{lstlisting}
+
+	\textbf{Beobachtung:}
+	Wir haben den Taktdivisor auf 8 eingestellt und haben erwartet, dass wir nun etwas 8s warten müssen, bis ein RESET ausgelöst wird. Nach der Wartezeit, die wir zwischen den einzelnen LEDs eingestellt haben, stimmt die Zeit von 8 Sekunden auch. Nachdem der Watchdog angesprungen ist, wurde der Divisor mit in die Systemzeit übernommen. Das führt dazu, dass die LEDs nur kurz anspringen und sofort wieder Resetet werden, da die Wait Anweisung nun auf 8 Sekunden erweitert wurde.
+
+\subsubsection*{A 3.1.6}
+	Einen \emph{Reset} durch den Watchdog innerhalb der Endlosschleife kann verhindert werden, wenn man innerhalb der Endlosschleife den Watchdog neu 
+	programmiert . Fügen Sie dazu einfach nach dem 5. Schritt eine entsprechende Codezeile ein. Testen und dokumentieren Sie das.\\
+
+	\textbf{Beobachtung:}\\
+	Nun läuft das Programm genaus so durch, wie schon bei Aufgabe \emph{A.3.1.2}. Bei Aufgabe A 3.1.5 haben wir schon bestimmt, dass die Zeit 
+	ausreicht, dass die Schleife einmal durchlaufen kann. Daher soltle der Watchdog für diese einfache Anwendung immer ausreichend schnell zurück gesetzt werden.

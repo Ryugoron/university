@@ -1,0 +1,24 @@
+\subsection*{Aufgabe 3.3: Software-Reset}
+
+\subsubsection*{A 3.3.1}
+	Bei Auftreten der Codezeile
+	\begin{itemize}
+		\item MCU\underline{ }RESET;
+	\end{itemize}
+	im Quellcode soll ein RESET des Controllers herbeigeführt werden.\\
+
+	\textbf{Lösung:}
+		Wir müssten dafür ein Makro schreiben das den Systemreset ausführt. Dazu könnten wir zum Beispiel den Watchdog anschalten und sofort 
+		anspringen lassen. Glücklicherweise gibt es dieses Makro schon in System.h schon und muss nur noch aufgerufen werden.
+\subsubsection*{A 3.3.2}
+	Vervollständigen Sie dafür folgende Coldezeile
+	\begin{itemize}
+		\item \# define MCU\underline{ }RESET (...);
+	\end{itemize}
+	Schreiben Sie ein kleines Programm, mit dem Sie die Funktion testen können. Das Programm soll bei Tastendruck einen Reset auslösen und über die LED ein Neutstart in geeigneter Weise signalisieren. Nutzen SIe dazu den Watchdog.\\
+
+	\texbtf{Lösung:}\\
+	Wir benutzen das Programm von Aufgabe A 3.2.3 und fügen an das Ende der Schleife vom Tastendruck MCU_RESET ein.\\
+	\textbf{Beobachtung:}\\
+	Es funktioniert.
+	

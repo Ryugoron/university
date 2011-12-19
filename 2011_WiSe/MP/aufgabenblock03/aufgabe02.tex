@@ -1,0 +1,36 @@
+\subsection*{Aufgabe 3.2: Verteilung}
+
+\subsubsection*{A 3.2.1}
+	Stellen Sie sich vor nach dem 3. Schritt aus A3.1.3 und der erfolgten Änderung aus A3.1.6 wird das Programm gezwungen längere Zeit eine andere 
+	Aufgabe abzuarbeiten. Wir simulieren das durch folgende Codezeile:
+	\begin{itemize}
+		\item while(P1IN \& 0x01){P4OUT \& =~0x01; wait(30000); P4OUT |= 0x01; wait(30000);};
+	\end{itemize}
+	Solange der Taster an P1.0 gedrückt ist, wird die while Schleife abgearbeitet. Erklären Sie was in der Codezeile ausgeführt wird. Welche Beobachtung 	
+	machen Sie, wenn der Taster länger als 6 Sekunden gedrückt wird oder einfach dauerhaft gedrückt bleibt. Erklären Sie die Beobachtung.\\
+
+	\textbf{Programm:} Wir haben die Codezeile in das letzte Programm eingefügt.\\
+	\textbf{Beobachtung:}\\
+	Das Programm lässt die LEDs wie im alten Programm richtig leuchten. Kommen wir bei gedrückter Taste an die Schleife, so blinkt die rote LED. Drücken wir 
+	die Taste zu lange, springt der Watchdog an und das System wird reseted.
+
+\subsubsection*{A 3.2.2}
+	Jetzt ändern Sie bitte die folgende Codezeile so, dass während der Taster gedrückt ist, kein RESET durch den Watchdog ausgelöst wird.
+	\begin{itemize}
+		\item while(P1IN \& 0x01){P4OUT \& =~0x01; wait(30000); P4OUT |= 0x01; wait(30000);};
+	\end{itemize}
+	Erläutern Sie die Änderung. Bei größeren Softwareprojekten mit unterschiedlichen Laufzeiten in Abhängigkeit von Programmverzweigungen, 
+	Funktionsaufrufen und anderen Sachverhalten wird der Umgang mit dem Watchdog komplizierter.\\
+
+	\textbf{Programmierung:} Wir fügen in die while Schleife ein WatchdogReset ein (\emph{WDTCTL = WDTPW + WDTCNTCL + WDTSSEL;}).\\
+	\textbf{Beobachtung:}\\
+	Nun können wir das Programm so lange in der Schleife lassen, wie wir wollen. Drücken wir den Taster zu lange, wird das Modul nicht reseted und wenn wir 
+	es loslassen, dann macht er mit dem normalen Programm weiter.
+
+\subsubsection*{A 3.2.3}
+	In realen Systemen kann es durchaus passieren, dass aufgrund von Speicherfehlern oder Softwareproblemen ein System sich ständig neu startet. Wie 
+	kann man programmtechnisch registrieren und speichern, wann und an welcher Programmstelle der Watchdog das System neu gestartet hat. Skizzieren Sie 
+	einen Lösungsansatz.\\
+	
+	\textbf{Lösung:}\\
+	Mit dem NMI Bit kann man dem Watchdog sagen, dass er nicht Reseten soll, sondern eine Benutzerspezifizierte ISR azuspringen. Der Pointer auf diese Routine kann in das WDTNMIES gespeichert werden. Sind wir in der ISR können wir auf dem Stack ermitteln, von welcher Stelle im Code wir aufgerufen wurden, da der Pointer auf die Rücksprungeaddresse über den Callparametern liegt. Danach müssten wir diese Addresse persitent speichern, entweder indem wir es auf ein externes Modul schreiben oder auf den internen Flashspeicher laden. Nachdem wir alles gespeichert haben, würden wir das RESET Bit des Moduls per Hand setzen und das System damit neu starten.

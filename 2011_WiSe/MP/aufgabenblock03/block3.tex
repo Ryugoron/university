@@ -1,0 +1,55 @@
+\documentclass[a4paper,ngerman]{article}
+
+\usepackage{babel}
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc} 
+\usepackage{tabularx}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{enumerate}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\usepackage{geometry} 
+
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[L]{Mikroprozessorpraktikum}
+\fancyhead[R]{Max Wisniewski \\ Paul Podlech}
+\fancyhead[C]{}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage$\,$ von \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\setlength{\parindent}{0pt} 
+\setlength{\headheight}{15pt}
+
+
+\author{Paul Podlech \\ 3910583 \and Max Wisniewski\\4370074}
+\title{Mikroprozessor Praktikum\\ Fr. HWP 2 \\ Aufgabenblock 3}
+\date{\today}
+
+\geometry{a4paper, left=3cm,right=3cm,top=3cm,bottom=3cm}
+
+\begin{document}
+
+\lstset{language=C, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2, mathescape=true, numbers=left}
+
+\maketitle
+
+\thispagestyle{fancy}
+
+\newpage
+
+
+\section*{Block 3: Watchdog}
+\input{aufgabe01}
+\input{aufgabe02}
+\input{aufgabe03}
+
+\label{LastPage}
+
+\end{document}
