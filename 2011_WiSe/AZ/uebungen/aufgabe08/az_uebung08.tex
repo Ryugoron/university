@@ -1,0 +1,105 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm]{geometry} 
+\usepackage{babel}
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc} 
+\usepackage{ae} 
+\usepackage{amssymb} 
+\usepackage{amsmath} 
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{paralist}
+\usepackage{fancyhdr}
+\usepackage{subfigure}
+\pagestyle{fancy}
+\fancyhead[C]{Alegbra und Zahlentheorie}
+\fancyhead[L]{Übung Nr. 8}
+\fancyhead[R]{WS 2011/12}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage\, von \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\setlength{\parindent}{0pt} 
+\setlength{\headheight}{15pt}
+
+%
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\NN}{\mathbb{N} \setminus \{0\}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\ggT}{\text{ggT}}
+\newcommand{\kgV}{\text{kgV}}
+\newcommand{\sign}{\text{Sign}}
+%
+
+\author{Tutor: David Müßig}
+\date{}
+\title{Max Wisniewski, Alexander Steen}
+
+\begin{document}
+
+\lstset{language=Java, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2}
+
+\maketitle
+\thispagestyle{fancy}
+
+%% -------------------------------------------
+%%                 AUFGABE 1
+%% -------------------------------------------
+
+\subsection*{Aufgabe 1 \mdseries (Vorzeichen und Ordnung eines Zykels)}
+\begin{enumerate}[\bfseries a)]
+%% ------------------a) -----------------------
+\item Es sei $c \in S_n$ ein Zykel der Länge $k$. Berechnen Sie das Vorzeichen $\sign(c)$. \\
+
+Sei $c = (c_1 \ldots c_k) \in S_n$, $k \in \N,k > 1$. Dann gilt nach VL:
+$$ c = (c_1 \ldots c_k) = (c_1 \; c_k) \cdot (c_1 \; c_{k-1}) \cdot \ldots \cdot (c_1 \; c_2)$$
+Also wird das Zykel $c$ durch $k-1$ Transpositionen erzeugt. Da für jede Transposition $\tau \in S_n$ gilt: $\sign(\tau) = -1$ und ferner
+$$ \sign((c_1 \; c_k) \cdot (c_1 \; c_{k-1}) \cdot \ldots \cdot (c_1 \; c_2)) = \sign(c_1 \; c_k) \cdot \sign(c_1 \; c_{k-1}) \cdot \ldots \cdot \sign(c_1 \; c_2)$$
+gilt, folgt:
+$$ \sign(c) = (-1)^{k-1} = \begin{cases}
+  1,  & \text{falls }k\text{ ungerade,}\\
+  -1, & \text{sonst.}
+\end{cases} $$
+%% ------------------b) -----------------------
+\item  Welche Ordnung hat ein Zykel $c \in S_n$ der Länge $k$? \\
+
+Sei $c = (c_1 \ldots c_k) \in S_n$, $k \in \N,k > 1$.
+Dann ist die Ordnung k. So! Kein Bock mehr!
+%% ------------------c) -----------------------
+\item Es seien $\sigma \in S_n$ eine Permutation und $n=(n_1,...,n_s)$ ihr Zykeltyp. Welche Ordnung hat $\sigma$? \\
+kgv(n1, n2, ..., ns) bitches!
+\end{enumerate}
+
+
+
+%% -------------------------------------------
+%%		AUFGABE 2
+%% ------------------------------------------
+
+\subsection*{Aufgabe 2 \mdseries (Links- vs. Rechtswirkungen)}
+
+\mbox{} \hfill $\square$\\
+
+
+%% -------------------------------------------
+%%		AUFGABE 3
+%% --------------------------------------------
+\subsection*{Aufgabe 3 \mdseries (Das Zentrum)}
+
+
+%% -------------------------------------
+%%		AUFGABE 4
+%% -------------------------------------
+\subsection*{Aufgabe 4 \mdseries (Ein Färbungsproblem)}
+
+
+\label{LastPage}
+
+\end{document}
