@@ -36,6 +36,7 @@
 \newcommand{\ggT}{\text{ggT}}
 \newcommand{\kgV}{\text{kgV}}
 \newcommand{\sign}{\text{Sign}}
+\newcommand{\ord}{\text{Ord}}
 %
 
 \author{Tutor: David Müßig}
@@ -70,11 +71,11 @@ $$ \sign(c) = (-1)^{k-1} = \begin{cases}
 %% ------------------b) -----------------------
 \item  Welche Ordnung hat ein Zykel $c \in S_n$ der Länge $k$? \\
 
-Sei $c = (c_1 \ldots c_k) \in S_n$, $k \in \N,k > 1$.
-Dann ist die Ordnung k. So! Kein Bock mehr!
+Sei $c = (c_1 \ldots c_k) \in S_n$, $k \in \N,k > 1$. \\
+Dann ist die $\ord(c) = k$. So! Kein Bock mehr!
 %% ------------------c) -----------------------
 \item Es seien $\sigma \in S_n$ eine Permutation und $n=(n_1,...,n_s)$ ihr Zykeltyp. Welche Ordnung hat $\sigma$? \\
-kgv(n1, n2, ..., ns) bitches!
+$\ord(\sigma)) = \kgV(n_1, n_2, ..., n_s)$ bitches!
 \end{enumerate}
 
 
@@ -84,8 +85,41 @@ kgv(n1, n2, ..., ns) bitches!
 %% ------------------------------------------
 
 \subsection*{Aufgabe 2 \mdseries (Links- vs. Rechtswirkungen)}
+Es seien $G$ eine Gruppe, $M$ eine Menge,
+$\sigma : G \times M \to M$ eine Linkswirkung von $G$ auf $M$ und
+$\rho : M \times G \to M$ eine Rechtswirkung. Es seien \\
+ $\sigma^{*}: M \times G \to M$, $(m,g) \mapsto \sigma(g^{-1},m)$ und 
+$\rho^{*}: G \times M \to M$, $(g,m) \mapsto \rho(m, g^{-1})$.
 
-\mbox{} \hfill $\square$\\
+\begin{enumerate}[\bfseries i)]
+\item Zu zeigen: $\sigma^{*}, \rho^{*}$ sind Wirkungen. \\
+Sei $m \in M, g_1, g_2 \in G$. Dann gilt
+\begin{enumerate}[\bfseries (1)]
+\item für $\sigma^{*}$: \\
+$$ \sigma^{*}(m,e) = \sigma(e^{-1},m) = \sigma(e,m) \stackrel{\sigma \text{ Wirking}}{=} m $$
+$$ \sigma^{*}(\sigma^{*}(m,g_1),g_2) = \sigma^{*}(\sigma(g_1^{-1},m),g_2) = \sigma(g_2^{-1},\sigma(g_1^{-1},m)) $$
+$$
+\stackrel{\sigma \text{ Wirking}}{=} \sigma(g_2^{-1}\cdot g_1^{-1},m) 
+= \sigma((g_1 \cdot g_2)^{-1},m) = \sigma^{*}(m,g_1 \cdot g_2)
+$$
+\mbox{} \hfill $\square$
+\item für $\rho^{*}$: \\
+$$ \rho^{*}(e,m) = \rho(m,e^{-1}) = \rho(m,e) \stackrel{\rho \text{ Wirking}}{=} m $$
+$$ \rho^{*}(g_2,\rho^{*}(g_1,m)) = \rho^{*}(g_2,\rho(m,g_1^{-1})) = \rho(\rho(m,g_1^{-1}),g_2^{-1}) $$
+$$
+\stackrel{\rho \text{ Wirking}}{=} \rho(m,g_1^{-1}\cdot g_2^{-1}) 
+= \rho(m,(g_2 \cdot g_1)^{-1}) = \rho^{*}(g_2 \cdot g_1,m)
+$$
+\mbox{} \hfill $\square$
+
+\end{enumerate}
+
+\item Vergleich der Bahnen und Standgruppen von $\sigma$ mit $\sigma^{*}$. \\
+
+Ganz tolle Bahnen!
+
+\end{enumerate}
+
 
 
 %% -------------------------------------------
@@ -93,7 +127,15 @@ kgv(n1, n2, ..., ns) bitches!
 %% --------------------------------------------
 \subsection*{Aufgabe 3 \mdseries (Das Zentrum)}
 
+\begin{enumerate}[\bfseries a)]
+\item Es seien $k$ ein Körper und $n \geq 1$. Bestimmen Sie das Zentrum von $GL_n(k)$. \\
 
+alle $k \cdot E_n, k \in \Z$.
+
+\item Geben Sie für $n \geq 1$ das Zentrum der symmetrischen Gruppe $S_n$ an. \\
+
+$\{ id \}$
+\end{enumerate}
 %% -------------------------------------
 %%		AUFGABE 4
 %% -------------------------------------
@@ -101,5 +143,6 @@ kgv(n1, n2, ..., ns) bitches!
 
 
 \label{LastPage}
+
 
 \end{document}
