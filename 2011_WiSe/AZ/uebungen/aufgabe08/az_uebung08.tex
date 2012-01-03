@@ -69,13 +69,31 @@ $$ \sign(c) = (-1)^{k-1} = \begin{cases}
   -1, & \text{sonst.}
 \end{cases} $$
 %% ------------------b) -----------------------
-\item  Welche Ordnung hat ein Zykel $c \in S_n$ der Länge $k$? \\
+\item  Welche Ordnung hat ein Zykel $c \in S_n$ der Länge $k$?
 
-Sei $c = (c_1 \ldots c_k) \in S_n$, $k \in \N,k > 1$. \\
-Dann ist die $\ord(c) = k$. So! Kein Bock mehr!
+Sei $c = (c_0 \ldots c_{k-1}) \in S_n$, $1 \leq k-1 < n$. \\
+Dann ist die $\ord(c) = k$, denn für ein $i < k$ gilt:\\
+$(c_0 \ldots c_{k-1})^k(c_i) = c_{(i+k \mod k)} = c_i$ und $(c_0 \ldots c_{k-1})^{k-1}(c_i) = c_{(i+k-1 \mod k)} \neq c_i$.\\
+Für alle $i \leq n, i \notin \{c_0, \ldots ,c_{k-1} \}$ gilt natürlich auch $(c_0 \ldots c_{k-1})^k(i) = i$.
+\mbox{} \hfill $\square$
+
+
+% \textbf{Beweis:}\\
+% \begin{description}
+% \item[IA] $k = 2$, dann gilt für $c = (c_1 \; c_2) \in S_n$: $c^2 = id \land c^1=c \neq id \Rightarrow \ord(c) = 2$.
+% \item[IV] Behauptung gilt für ein $k \in \N$.
+% \item[IS] $k \rightsquigarrow k+1$ \\
+% Es ist $c = (c_1 \; c_2 \; \ldots c_k \; c_{k+1})$. Dann gilt:
+% $$ c^{k+1} = (c_1 \; c_2 \; \ldots c_k \; c_{k+1})^{k+1} = ((c_1 \; c_{k+1}) \cdot (c_1 \; c_2 \; \ldots c_k))^{k+1} $$
+% \end{description}
+
 %% ------------------c) -----------------------
-\item Es seien $\sigma \in S_n$ eine Permutation und $n=(n_1,...,n_s)$ ihr Zykeltyp. Welche Ordnung hat $\sigma$? \\
-$\ord(\sigma)) = \kgV(n_1, n_2, ..., n_s)$ bitches!
+\item Es seien $\sigma \in S_n$ eine Permutation und $n=(n_1,...,n_s)$ ihr Zykeltyp. Welche Ordnung hat $\sigma$?
+
+Behauptung: $\ord(\sigma) = \kgV(n_1, n_2, ..., n_s)$. \\
+\textbf{Beweis:}\\
+Sei $\sigma = c_1 \cdot \ldots \cdot c_s, c_i \in S_n, 1 \leq i \leq s$. \\
+Dann gilt nach b): $\ord(c_i) = n_i, 1 \leq i \leq s$. Da die Ordnung die kleinste Zahl $j \geq 1$ ist, für die $\sigma^j = id$ ist, ist die kleinste Zahl, die allen Zykeln $c_i$ zugleich gerecht wird, eben das kleinste gemeinsame Vielfache, also $\ord(\sigma) = \kgV(n_1, n_2, ..., n_s)$.
 \end{enumerate}
 
 
@@ -115,11 +133,24 @@ $$
 \end{enumerate}
 
 \item Vergleich der Bahnen und Standgruppen von $\sigma$ mit $\sigma^{*}$. \\
-
-Ganz tolle Bahnen!
-
+Sei $x \in M$.
+\begin{enumerate}[\bfseries (1)]
+\item Bahnen: \\
+Dann ist $G \cdot_{\sigma} x = \{ g \cdot_{\sigma} x | \, g \in G \}$ die Bahn von $x$ bzgl. $\sigma$. \\
+Und $x \cdot_{\sigma^{*}} G  = \{ x \cdot_{\sigma^{*}} g | \, g \in G \}$ die Bahn von $x$ bzgl. $\sigma^{*}$. \\
+Dann ist 
+$$ x \cdot_{\sigma^{*}} G = \{ x \cdot_{\sigma^{*}} g | \, g \in G \} = \{ g^{-1} \cdot_{\sigma} x | \, g \in G \} $$
+$$ \stackrel{*}{=} \{ g  \cdot_{\sigma} x | \, g \in G \} =  G \cdot_{\sigma} x $$
+(*) gilt weil für jedes $g \in G$ auch $g^{-1}$ in $G$ enthalten ist.  \\
+\item Standgruppen: \\
+Es ist $G^{\sigma}_x = \{ g \in G | \; g \cdot_{\sigma} x = x \}$ die Standgruppe von x bzgl $\sigma$. \\
+Es ist $G^{\sigma^{*}}_x = \{ g \in G | \; x \cdot_{\sigma^{*}} g = x \}$ die Standgruppe von x bzgl $\sigma^{*}$. \\
+Dann ist
+$$ G^{\sigma^{*}}_x = \{ g \in G | \; x \cdot_{\sigma^{*}} g = x \} = \{ g \in G | \; g^{-1} \cdot_{\sigma} x = x \} $$
+$$ = \{ g^{-1} \in G | \; g \cdot_{\sigma} x = x \} = \{ g^{-1} | \; g \in G^{\sigma}_x \}$$
 \end{enumerate}
-
+\end{enumerate}
+Es folgt insbesondere, dass die Mächtigkeiten der Standgruppen und Bahnen gleich groß sind.
 
 
 %% -------------------------------------------
@@ -130,18 +161,55 @@ Ganz tolle Bahnen!
 \begin{enumerate}[\bfseries a)]
 \item Es seien $k$ ein Körper und $n \geq 1$. Bestimmen Sie das Zentrum von $GL_n(k)$. \\
 
-alle $k \cdot E_n, k \in \Z$.
+Es gilt: $Z(GL_n(k)) = \{ k \cdot E_n, k \neq 0 \}$. \\
+\textbf{Beweis:}\\
+"$\subseteq$": \\
+Für $M = (m_{ij}) \in Z(GL_n(k))$ kommutiert die Multiplikation mit allen Matrizen, insbesondere mit den Elemtarmatrizen $E_{kl}$, was einer elementaren Zeilen- bzw. Spaltentransformation entspricht. Daher muss $M$ diagonalgestalt haben.\\
+Für $M \cdot E_{kl} = E_{kl} \cdot M$ erhält man durch Koeffizientenvergleich, dass $m_{ii} = m_{jj}$ gelten muss, für alle $i,j$. $\Rightarrow M = c \cdot E_n, c \neq 0$. \\
+"$\supseteq$":\\
+Für $c \neq 0$ ist ersichtlich, dass $c E_n \cdot M = M \cdot c E_n,\; \forall M \in GL_n(k)$. 
+\mbox{} \hfill $\square$
 
 \item Geben Sie für $n \geq 1$ das Zentrum der symmetrischen Gruppe $S_n$ an. \\
-
-$\{ id \}$
+Für $n \in \{1,2 \}$ ist $Z(S_n) = S_n$ (kann man sehr leicht nachrechnen, da wenige Elemente). \\
+Für $n > 2$ ist $Z(S_n) = \{ id \}$: Sei $\sigma \in S_n, \sigma \neq id$.\\
+$ \Rightarrow \exists k,l \leq n: \; \sigma(k) = l \neq k$. Da nun aber $n > 2 \Rightarrow \exists m:\, m\neq k, m\neq l$. \\
+Dann gilt 
+$$ ((k \; m) \cdot \sigma)(k) = l = \sigma(k) \neq \sigma(m) = (\sigma \cdot (k \; m))(k) $$
+$$ \Rightarrow \sigma \notin Z(S_n) $$
+$$ \Rightarrow Z(S_n) = \{ id \} $$
+\mbox{} \hfill $\square$
 \end{enumerate}
 %% -------------------------------------
 %%		AUFGABE 4
 %% -------------------------------------
 \subsection*{Aufgabe 4 \mdseries (Ein Färbungsproblem)}
+\begin{enumerate}[\bfseries a)]
+\item Welche Symmetriegruppe benutzt man sinnvollerweise, um verschiedene Ketten zu identifizieren?
 
+Wir können eine sechsgliedrige Kette als regelmäßiges Sechseck auffassen, also bietet sich dessen Symmetriegruppe, also $D_6$ an.
 
+\item Bestimmen Sie die Anzahl der wesentlich verschiedenen Ketten, die man herstellen kann.
+
+Sei nun $G = D_6, \#G = 12$ und $M = \{f: \, \{1,2,3,4,5,6 \} \to \{1,2, \ldots , n \}\}, \#M = n^6$.\\
+Zählen der Fixpunkte für die Elemente in $G$:
+\begin{enumerate}[\bfseries i)]
+\item $g = e$: $\#M^e = n^6$.
+\item $g =$ Drehung der Ordnung 6: $\#M^g = n$ (davon gibt es zwei)
+\item $g =$ Drehung der Ordnung 3: $\#M^g = n^2$ (davon gibt es zwei)
+\item $g =$ Drehung der Ordnung 2: $\#M^g = n^3$ (davon gibt es eine)
+\item $g =$ Spiegelung: $\#M^g = n^3$ (davon gibt es 6).
+\end{enumerate}
+Dann gilt nach Formel für die Anzahl $s$ der wesentlich verschiedenen Färbungen: \\
+$$ s = \frac{1}{12} \cdot (n^6 + 7n^3 + 2n^2 + 2n)$$
+
+\item Geben Sie die Anzahl der wesentlich verschiedenen Ketten an, die aus drei weißen und drei schwarzen Perlen bestehen.
+
+Wie in b) bilden wir $M$ mit $n=2$. Nun wählen wir die Perlen aus, die weiß gefärbt werden, also haben wir 
+$$ P = \{ N \subset M | \, \#N = 3 \}, \#P = \binom{6}{3} = 20 $$
+verschiedene Färbungen dafür zur Verfügung.\\
+Das ergibt dann 5 verschiedene Färbungen.
+\end{enumerate}
 \label{LastPage}
 
 
