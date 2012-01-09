@@ -60,7 +60,38 @@ Geben Sie für jede Primzahl $p > 2$ endliche Gruppen $G$ und $H$ an, so dass $\
 
 \textbf{Lösung:}\\
 
-tbd
+Es sei $G = S_p$ und damit $\# G = \# S_p = p!$. Sei nun $H$ die Gruppe der Permutationen, die alle Elemente bis auf das erste Permutiert, also $H = \left\{  \sigma \in G \; | \; \sigma \; 1 = 1 \right\}$.\\
+
+$H$ erfüllt die Gruppenaxiome:
+\begin{description}
+\item{\bfseries Abgeschlossenheit:} \\ Seien $a,b \in H$, dann ist auch $a \cdot b \in H$, da $(a \cdot b)(1) = a(b(1)) \stackrel{b \in H} = a(1) = 1$
+
+\item{\bfseries Inverses Element:} \\ Sei $a \in H$, dann ist auch $a^{-1} \in H$, da
+$$
+\begin{array}{crcl}
+& a^{-1}(1) &=& 1\\
+\Leftrightarrow & a\cdot a^{-1} (1) &=& a(1)\\
+\Leftrightarrow & id(1) &=& a(1)\\
+\Leftrightarrow & 1 &=& 1
+\end{array}
+$$ 
+
+\item{\bfseries Neutrales Element:} \\ $id(1) = 1 \Rightarrow id \in H$.\\
+\mbox{} \hfill $\square$
+
+\end{description}
+
+$H \cong S_{p-1}$, da wir bis auf ein Element alle Elemente permutieren.\\
+
+Nun gilt nach dem Satz von Lagrange: $\# G = \# H \cdot \# (G / H)$. Das $\# (G / H ) = p$. Wir haben also eine Linksunterklasse gebildet, die genau $p$ Elemente enthält.\\
+
+$H \vartriangleleft G \Leftrightarrow \forall g\in G \forall h \in H \; : \; ghg^{-1} \in H$.\\
+Sei nun $g=g^{-1}=(1 \; 2) \in G$ und $h = (2 \; 3) \in H$.\\
+
+$ghg^{-1} (1) = gh (2) = g (3) = 3 \not \in H$.
+
+Damit kann $H$ nicht Normalteiler von $G$ sein.\\
+\mbox{} \hfill $\square$
 
 %% -------------------------------------------
 %%                 AUFGABE 2
