@@ -93,6 +93,7 @@ $ghg^{-1} (1) = gh (2) = g (3) = 3 \not \in H$.
 Damit kann $H$ nicht Normalteiler von $G$ sein.\\
 \mbox{} \hfill $\square$
 
+\pagebreak
 %% -------------------------------------------
 %%                 AUFGABE 2
 %% -------------------------------------------
@@ -107,7 +108,7 @@ Damit kann $H$ nicht Normalteiler von $G$ sein.\\
 
 \textbf{Lösung:}\\
 
-tbd
+Drehungen um den Winkel $\varphi$  in $O(2)$ haben die Form \\$\rho_{\varphi} = \begin{pmatrix} \cos (\varphi) & - \sin (\varphi) \\ \sin (\varphi) & \cos (\varphi) \end{pmatrix}$ und Spiegelungen an der Geraden $\varphi / 2 $ \\$\sigma_{\varphi / 2} = \begin{pmatrix} \cos (\varphi) & \sin (\varphi ) \\ \sin (\varphi ) & - \cos ( \varphi ) \end{pmatrix}$
 
 %% -------------------------------------------
 %%                 b)
@@ -151,7 +152,25 @@ $$
 
 \textbf{Bew.:}\\
 
-tbd
+Es gilt:
+$A_n = \{ \sigma \in S_n \; | \; \sign( \sigma ) = 1 \}$, $[S_n,S_n] = \{ aba^{-1}b^{-1} \; | \; a,b \in S_n\}$.\\
+
+$\subseteq :$\\
+Es gilt $\sign(a) \cdot \sign(a^{-1}) = 1$, da $\sign$ Gruppenhomomorphismus ist und \\
+$1 = \sign(e) = \sign(a a^{-1}) = \sign(a) \cdot \sign(a^{-1})$ gilt. (*)\\
+
+Seien $a,b \in S_n$, dann gilt\\
+$\sign (aba^{-1}b^{-1}) \stackrel{\sign Hom}{=} \sign(a) \cdot \sign(b) \cdot \sign(a^{-1}) \cdot \sign(b^{-1}) \stackrel{*}{=} 1$\\
+$\Rightarrow aba^{-1}b^{-1} \in A_n$.\\
+
+Da nun $K(G) \subset A_n$ ist, muss $<K(G)> \subseteq A_n$ sein. Da wir um die Gruppe zu bilden nur fehlende Elemente durch Verknüpfung dazunehmen (neutrales Element und inverses Element sind nach Überlegung im Tutorium schon drin). Da die Kombination von 2 Elementen mit positivem Vorzeichen das positive Vorzeichen bebehält, gilt die Behauptung.\\
+
+$\supseteq :$\\
+
+Die alternierende Gruppe von von Zykeln des Types $(1 \; i_1 \; i_2)$ erzeugt. Liegen alle Erzeuger in $[S_n, S_n]$, so muss auch die gesammte erzeugte Gruppe in $[S_n,S_n]$ liegen, da Gruppen abgeschlossen sind.\\
+
+Seinen $1 < i_1 < i_2 \leq n$.\\
+$(1 \; i_1 \; i_2) = (1 \; i_2) (1 \; i_1) \in A_n \Rightarrow (1 \; i_1 \; i_2) (1 \; i_1 \; i_2 ) (1 \; i_2) (1 \; i_1) (1 \; i_2) (1 \; i_1) \in A_n$
 
 %% -------------------------------------------
 %%                 AUFGABE 4
