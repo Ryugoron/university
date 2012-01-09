@@ -131,7 +131,7 @@ tbd
 %% -------------------------------------------
 %%                 d)
 %% -------------------------------------------
-\item Wann ist die untergruppe $G$ aus Teil $c)$ endlich?\\
+\item Wann ist die Untergruppe $G$ aus Teil $c)$ endlich?\\
 
 \textbf{Lösung:}\\
 
@@ -167,10 +167,9 @@ Da nun $K(G) \subset A_n$ ist, muss $<K(G)> \subseteq A_n$ sein. Da wir um die G
 
 $\supseteq :$\\
 
-Die alternierende Gruppe von von Zykeln des Types $(1 \; i_1 \; i_2)$ erzeugt. Liegen alle Erzeuger in $[S_n, S_n]$, so muss auch die gesammte erzeugte Gruppe in $[S_n,S_n]$ liegen, da Gruppen abgeschlossen sind.\\
+Die alternierende Gruppe von Zykeln des Types $(1 \; i_1 \; i_2)$ erzeugt. Liegen alle Erzeuger in $[S_n, S_n]$, so muss auch die gesammte erzeugte Gruppe in $[S_n,S_n]$ liegen, da Gruppen abgeschlossen sind.\\
 
-Seinen $1 < i_1 < i_2 \leq n$.\\
-$(1 \; i_1 \; i_2) = (1 \; i_2) (1 \; i_1) \in A_n \Rightarrow (1 \; i_1 \; i_2) (1 \; i_1 \; i_2 ) (1 \; i_2) (1 \; i_1) (1 \; i_2) (1 \; i_1) \in A_n$
+Seien $1 < i_2 \leq n$ und $1 < i_1 \leq n$, $i_1 \not= i_2$.\\
 
 %% -------------------------------------------
 %%                 AUFGABE 4
@@ -186,8 +185,15 @@ $(1 \; i_1 \; i_2) = (1 \; i_2) (1 \; i_1) \in A_n \Rightarrow (1 \; i_1 \; i_2)
 
 \textbf{Lösung:}\\
 
-tbd
+Sei $g \in A_4$ und $h \in H$, dabei besteht $h$ aus 2 disjunkten Zykeln $h = p_1p_2$.\\
 
+Nun hat $gHg^{-1}$ die Ordnung 2, da\\
+$ghg^{-1}ghg^{-1} = gp_1p_2g^{-1}gp_1p_2g^{-1} = g p_1 p_2 p_1 p_2 g^{-1}$.\\
+Auf dem 7. Zettel haben wir bewiesen, dass disjunkte Zykel (um die es sich handelt) kommutativ sind.\\
+
+$\Rightarrow ghg^{-1}ghg^{-1} = g p_1 p_1 p_2 p_2 g^{-1} = g e e g^{-1} = g g^{-1} = e$.\\
+
+Die einzige Permutation mit Ordnung 2 ist die Transposition, diese hat aber ein negatives Vorzeichen. Da in $A_4$ aber nur positive Permutationen sind, kann eine Untergruppe auch nur positive Permutationen enthalten. Damit gibt es entweder keine Transposition (e) oder es gibt 2 ( Typ (2,2) ). Mehr kann es nicht geben, da es nr 4 Elemente gibt.
 
 %% -------------------------------------------
 %%                 b)
