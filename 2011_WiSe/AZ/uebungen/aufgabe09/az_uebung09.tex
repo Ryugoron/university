@@ -108,7 +108,18 @@ Damit kann $H$ nicht Normalteiler von $G$ sein.\\
 
 \textbf{Lösung:}\\
 
-Drehungen um den Winkel $\varphi$  in $O(2)$ haben die Form \\$\rho_{\varphi} = \begin{pmatrix} \cos (\varphi) & - \sin (\varphi) \\ \sin (\varphi) & \cos (\varphi) \end{pmatrix}$ und Spiegelungen an der Geraden $\varphi / 2 $ \\$\sigma_{\varphi / 2} = \begin{pmatrix} \cos (\varphi) & \sin (\varphi ) \\ \sin (\varphi ) & - \cos ( \varphi ) \end{pmatrix}$
+Drehungen um den Winkel $\varphi$  in $O(2)$ haben die Form \\$\rho_{\varphi} = \begin{pmatrix} \cos (\varphi) & - \sin (\varphi) \\ \sin (\varphi) & \cos (\varphi) \end{pmatrix}$ und Spiegelungen an der Geraden $\varphi / 2 $ \\$\sigma_{\varphi / 2} = \begin{pmatrix} \cos (\varphi) & \sin (\varphi ) \\ \sin (\varphi ) & - \cos ( \varphi ) \end{pmatrix}$\\
+
+Nun behaupten wir, dass eine $\rho_\varphi = \sigma_{\varphi / 2} \circ \sigma_0$ ist.\\
+Dies können wir leicht nachrechnen:
+$$
+\begin{array}{rcl}
+\sigma_{\varphi / 2} \circ \sigma_0 &=& 
+\begin{pmatrix} \cos (\varphi) & \sin (\varphi ) \\ \sin (\varphi ) & - \cos ( \varphi ) \end{pmatrix} \circ \begin{pmatrix} 1 & 0 \\ 0 & -1 \end{pmatrix} \\
+&=&  \begin{pmatrix} \cos (\varphi) & - \sin (\varphi) \\ \sin (\varphi) & \cos (\varphi) \end{pmatrix}\\
+&=& \rho_\varphi
+\end{array}
+$$
 
 %% -------------------------------------------
 %%                 b)
@@ -116,8 +127,19 @@ Drehungen um den Winkel $\varphi$  in $O(2)$ haben die Form \\$\rho_{\varphi} = 
 \item Es sei $N \vartriangleleft O(2)$ eine normale Untergruppe, die eine Spiegelung enthält. Beweisen Sie $N = O(2)$.\\
 
 \textbf{Lösung:}\\
+$N = O(2)$\\
 
-tbd
+$\subseteq:$\\
+Trivial, da $N \vartriangleleft O(2) \Rightarrow N \subset O(2)$.
+
+$\supseteq:$\\
+Nehmen wir o.B.d.A an, dass die Spiegelung an der x-Achse geschieht.\\
+Nehmen wir uns eine Drehung $\varphi \in O(2)$ und Kombinieren es mit der Spiegelung um $\varphi_0 / 2 = 0$.\\
+Andere Spiegelungen verhalten sich Analog, wenn man das Koordinatensystem dreht, d.h. zunächst die Drehung so modifiziert, dass die Spiegelachse auf der x-Achse liegt.
+
+Das resultat ist eine Drehung, die nicht durch die ursprüngliche Drehung erreicht werden konnte. Damit muss jede Drehung aus $O(2)$ zu $N$ dazugenommen werden, sonst wäre würde $N$ nicht normal sein. Nun haben wir eine Spieglung und alle Drehungen. Damit können wir ganz $O(2)$ konstruieren.
+
+\pagebreak
 
 %% -------------------------------------------
 %%                 c)
@@ -126,7 +148,20 @@ tbd
 
 \textbf{Lösung:}\\
 
-tbd
+Zunächst ist der aufgespannte Unterraum $G = {k \cdot r \; | \; k \in \mathbb{Z}}$. Mit $k=0$ ist das neutrale Element drin und mit $-k$ das jeweilige Inverse Element. Da Drehungen die Determinante 1 haben und Spiegelungen die -1 und die Determinante ein Homomorphismus ist, kann durch Kombination von Drehungen keine Spiegelung entstehen. Dabei steht -kr für eine Drehung um den negativen Winkel.\\
+
+$SO(2)$ ist kommutativ, daher ist für Elemente aus $SO(2)$ die Normalteiler Eigenschaft trivialerweise erfüllt.\\
+
+Betrachten wir deshalb Spiegelungen $\sigma_{\varphi / 2} = \rho_{\varphi / 2} \sigma_0 \rho_{- \varphi / 2}$:\\
+
+Sei $g$ Spiegelung um $\varphi / 2$ und $h \in G$:\\
+$ghg^{-1} = \rho_{\varphi / 2} \sigma_0 \rho_{- \varphi / 2} h \rho_{\varphi / 2} \sigma_0 \rho_{-\varphi / 2}$\\
+$\stackrel{Kom.}{=}\rho_{\varphi / 2} \sigma_0 h \sigma_0 \rho_{-\varphi / 2}$\\
+
+Das interne Produkt stellt einfach die Rotation um $- \varphi$ dar, wie man durch einsetzen zeigen kann. Wir erhalten also $-k \cdot r$. Die äußeren beiden Drehungen eliminieren sich wieder zur Identität.\\
+
+$\Rightarrow gHg^{-1} = H \Rightarrow H \vartriangleleft O(2)$ \\
+\mbox{} \hfill $\square$
 
 %% -------------------------------------------
 %%                 d)
@@ -135,9 +170,15 @@ tbd
 
 \textbf{Lösung:}\\
 
-tbd
+Wenn die Drehung $\sigma_\varphi$ eine Drehung mit $\varphi = q \cdot \pi$ ist, wobei $q \in \mathbb{Q}$ liegt.\\
+
+Wenn $q \in \mathbb{Q}$ liegt, dann existieren $n,k \in \mathbb{N}, k \not= 0$, so dass $kq = 2n$ ist. Damit hat $<r>$ die Ordnung $k$ und auch genau so viele Elemente.\\
+
+Wenn $\varphi$ nicht rational ist, dann erreichen wir nie das neutrale Element und erzeugen damit immer neue Elemente. Dies gilt, da wir in dem Fall, dass wir einmal das selbe Element erzeugen auf dem Weg der erzeugung zwischen dem ersten und dem 2. Auftreten dieser Zahl ein neutrales Element durch Kombination erreichen. Da dieses aber die Formel von eben erfüllen muss, da es nach endlich vielen Schritten ein vielfaches von von 2 sein muss. Dies ist aber bei irrationalen Zahlen nicht möglich.
 
 \end{enumerate}
+
+\pagebreak
 
 %% -------------------------------------------
 %%                 AUFGABE 3
@@ -171,6 +212,29 @@ Die alternierende Gruppe von Zykeln des Types $(1 \; i_1 \; i_2)$ erzeugt. Liege
 
 Seien $1 < i_2 \leq n$ und $1 < i_1 \leq n$, $i_1 \not= i_2$.\\
 
+Wir versuchen $a,b \in S_n$ zu konstruieren, so dass es sich beim erzeugenden System um einen Kommutator handelt.
+
+$$
+(1 \; i_1 \; i_2) = aba^{-1}b^{-1} \Leftrightarrow ba (1 \; i_1 \; i_2) = ab \Leftrightarrow ba (1 \; i_2) = ab (1 \; i_1)
+$$
+
+Nun versuchen wir eine konkrete Belegung von a,b zu finden.\\
+
+$a = (1 \; i_1 \; i_2), \; b = (1 \; i_1)$
+
+Auswertung: Es interessieren nur $1, i_1, i_2$ da der Rest auf sich selbst abgebildet wird.\\
+1:\\
+$ab(1 \; i_1) (1) = ab (i_1) = a (1) = i_1$\\
+$ba(1 \; i_2) (1) = ba (i_2) = b (1) = i_1$\\
+\textbf{$i_1$}:\\
+$ab(1 \; i_1) (i_1) = ab (1) = a (i_1) = i_2$\\
+$ba(1 \; i_2) (i_1) = ba (i_1) = b (i_2) = i_2$\\
+$i_2$:\\
+$ab(1 \; i_1) (i_2) = ab (i_2) = a (i_2) = 1$\\
+$ba(1 \; i_2) (i_2) = ba (1) = b(i_1) = 1$\\
+Die beiden Seiten leifern die selben Ergebnisse. Also lässt sich jedes Element in $A_n$ durch $[S_n,S_n]$ darstellen.\
+\mbox{} \hfill $\square$  
+
 %% -------------------------------------------
 %%                 AUFGABE 4
 %% -------------------------------------------
@@ -202,7 +266,33 @@ Die einzige Permutation mit Ordnung 2 ist die Transposition, diese hat aber ein 
 
 \textbf{Lösung:}\\
 
-tbd
+$\varphi$ sehe folgendermaßen aus:
+$$
+\begin{array}{rcl}
+\varphi \; : \; A_4 & \longrightarrow & \mathbb{Z}_3\\
+x & \longmapsto & \left\{ 
+\begin{array}{lr}
+0&,x^2=e\\
+1&,x^3=e \; \land \; x^2 \not=e\\
+2&,x^4=e \; \land \; x^2 \not=e \; \land \; x^3 \not=e
+\end{array}
+\right.
+\end{array}
+$$
+
+\textbf{Aussage:} $\varphi$ ist ein Gruppenhomomorphismus.\\
+
+\textbf{Beweis:} 
+\begin{description}
+\item{\textbf{Neutrales Element}:} $\varphi(e) \stackrel{e^2=0}{=} 0$\\
+\item{\textbf{Homomorph:}} Seien $a,b \in A_4$, z.z.: $\varphi(ab) = \varphi(a) \varphi(b)$\\
+War leider schon zu spät.
+\end{description}
+
+\textbf{Aussage:} $Ker(\varphi) = H$.\\
+
+\textbf{Beweis:} Wurde so konstruiert.\\
+
 
 \end{enumerate}
 
