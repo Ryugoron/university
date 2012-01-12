@@ -1,0 +1,302 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm]{geometry} 
+\usepackage{babel}
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc} 
+\usepackage{ae} 
+\usepackage{amssymb} 
+\usepackage{amsmath} 
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{paralist}
+\usepackage{fancyhdr}
+\usepackage{subfigure}
+\pagestyle{fancy}
+\fancyhead[C]{Alegbra und Zahlentheorie}
+\fancyhead[L]{Übung Nr. 9}
+\fancyhead[R]{WS 2011/12}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage\, von \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\setlength{\parindent}{0pt} 
+\setlength{\headheight}{15pt}
+
+%
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\NN}{\mathbb{N} \setminus \{0\}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\ggT}{\text{ggT}}
+\newcommand{\kgV}{\text{kgV}}
+\newcommand{\sign}{\text{Sign}}
+\newcommand{\ord}{\text{Ord}}
+%
+
+\author{Tutor: David Müßig}
+\date{}
+\title{Max Wisniewski, Alexander Steen}
+
+\begin{document}
+
+\lstset{language=Java, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2}
+
+\maketitle
+\thispagestyle{fancy}
+
+%% -------------------------------------------
+%%                 AUFGABE 1
+%% -------------------------------------------
+
+\subsection*{Aufgabe 1 \mdseries (Untergruppen von Primzahlindex)}
+
+Geben Sie für jede Primzahl $p > 2$ endliche Gruppen $G$ und $H$ an, so dass $\# (G / H) = p$ und $H$ kein Normalteiler von $G$ ist.\\
+
+\textbf{Lösung:}\\
+
+Es sei $G = S_p$ und damit $\# G = \# S_p = p!$. Sei nun $H$ die Gruppe der Permutationen, die alle Elemente bis auf das erste Permutiert, also $H = \left\{  \sigma \in G \; | \; \sigma \; 1 = 1 \right\}$.\\
+
+$H$ erfüllt die Gruppenaxiome:
+\begin{description}
+\item{\bfseries Abgeschlossenheit:} \\ Seien $a,b \in H$, dann ist auch $a \cdot b \in H$, da $(a \cdot b)(1) = a(b(1)) \stackrel{b \in H} = a(1) = 1$
+
+\item{\bfseries Inverses Element:} \\ Sei $a \in H$, dann ist auch $a^{-1} \in H$, da
+$$
+\begin{array}{crcl}
+& a^{-1}(1) &=& 1\\
+\Leftrightarrow & a\cdot a^{-1} (1) &=& a(1)\\
+\Leftrightarrow & id(1) &=& a(1)\\
+\Leftrightarrow & 1 &=& 1
+\end{array}
+$$ 
+
+\item{\bfseries Neutrales Element:} \\ $id(1) = 1 \Rightarrow id \in H$.\\
+\mbox{} \hfill $\square$
+
+\end{description}
+
+$H \cong S_{p-1}$, da wir bis auf ein Element alle Elemente permutieren.\\
+
+Nun gilt nach dem Satz von Lagrange: $\# G = \# H \cdot \# (G / H)$. Das $\# (G / H ) = p$. Wir haben also eine Linksunterklasse gebildet, die genau $p$ Elemente enthält.\\
+
+$H \vartriangleleft G \Leftrightarrow \forall g\in G \forall h \in H \; : \; ghg^{-1} \in H$.\\
+Sei nun $g=g^{-1}=(1 \; 2) \in G$ und $h = (2 \; 3) \in H$.\\
+
+$ghg^{-1} (1) = gh (2) = g (3) = 3 \not \in H$.
+
+Damit kann $H$ nicht Normalteiler von $G$ sein.\\
+\mbox{} \hfill $\square$
+
+\pagebreak
+%% -------------------------------------------
+%%                 AUFGABE 2
+%% -------------------------------------------
+
+\subsection*{Aufgabe 2 \mdseries (Die orthogonale Gruppe)}
+
+\begin{enumerate}[\bfseries a)]
+%% -------------------------------------------
+%%                 a)
+%% -------------------------------------------
+\item Zeigen Sie, dass die orthogonale Gruppe $O(2)$ von Spiegelungen erzeugt wird.\\
+
+\textbf{Lösung:}\\
+
+Drehungen um den Winkel $\varphi$  in $O(2)$ haben die Form \\$\rho_{\varphi} = \begin{pmatrix} \cos (\varphi) & - \sin (\varphi) \\ \sin (\varphi) & \cos (\varphi) \end{pmatrix}$ und Spiegelungen an der Geraden $\varphi / 2 $ \\$\sigma_{\varphi / 2} = \begin{pmatrix} \cos (\varphi) & \sin (\varphi ) \\ \sin (\varphi ) & - \cos ( \varphi ) \end{pmatrix}$\\
+
+Nun behaupten wir, dass eine $\rho_\varphi = \sigma_{\varphi / 2} \circ \sigma_0$ ist.\\
+Dies können wir leicht nachrechnen:
+$$
+\begin{array}{rcl}
+\sigma_{\varphi / 2} \circ \sigma_0 &=& 
+\begin{pmatrix} \cos (\varphi) & \sin (\varphi ) \\ \sin (\varphi ) & - \cos ( \varphi ) \end{pmatrix} \circ \begin{pmatrix} 1 & 0 \\ 0 & -1 \end{pmatrix} \\
+&=&  \begin{pmatrix} \cos (\varphi) & - \sin (\varphi) \\ \sin (\varphi) & \cos (\varphi) \end{pmatrix}\\
+&=& \rho_\varphi
+\end{array}
+$$
+
+%% -------------------------------------------
+%%                 b)
+%% -------------------------------------------
+\item Es sei $N \vartriangleleft O(2)$ eine normale Untergruppe, die eine Spiegelung enthält. Beweisen Sie $N = O(2)$.\\
+
+\textbf{Lösung:}\\
+$N = O(2)$\\
+
+$\subseteq:$\\
+Trivial, da $N \vartriangleleft O(2) \Rightarrow N \subset O(2)$.
+
+$\supseteq:$\\
+Nehmen wir o.B.d.A an, dass die Spiegelung an der x-Achse geschieht.\\
+Nehmen wir uns eine Drehung $\varphi \in O(2)$ und Kombinieren es mit der Spiegelung um $\varphi_0 / 2 = 0$.\\
+Andere Spiegelungen verhalten sich Analog, wenn man das Koordinatensystem dreht, d.h. zunächst die Drehung so modifiziert, dass die Spiegelachse auf der x-Achse liegt.
+
+Das resultat ist eine Drehung, die nicht durch die ursprüngliche Drehung erreicht werden konnte. Damit muss jede Drehung aus $O(2)$ zu $N$ dazugenommen werden, sonst wäre würde $N$ nicht normal sein. Nun haben wir eine Spieglung und alle Drehungen. Damit können wir ganz $O(2)$ konstruieren.
+
+\pagebreak
+
+%% -------------------------------------------
+%%                 c)
+%% -------------------------------------------
+\item Es seien $r \in O(2)$ eine Drehung und $G = \left< r \right>$. Weise Sie nach, dass $N$ eine normale Untergruppe ist.\\
+
+\textbf{Lösung:}\\
+
+Zunächst ist der aufgespannte Unterraum $G = {k \cdot r \; | \; k \in \mathbb{Z}}$. Mit $k=0$ ist das neutrale Element drin und mit $-k$ das jeweilige Inverse Element. Da Drehungen die Determinante 1 haben und Spiegelungen die -1 und die Determinante ein Homomorphismus ist, kann durch Kombination von Drehungen keine Spiegelung entstehen. Dabei steht -kr für eine Drehung um den negativen Winkel.\\
+
+$SO(2)$ ist kommutativ, daher ist für Elemente aus $SO(2)$ die Normalteiler Eigenschaft trivialerweise erfüllt.\\
+
+Betrachten wir deshalb Spiegelungen $\sigma_{\varphi / 2} = \rho_{\varphi / 2} \sigma_0 \rho_{- \varphi / 2}$:\\
+
+Sei $g$ Spiegelung um $\varphi / 2$ und $h \in G$:\\
+$ghg^{-1} = \rho_{\varphi / 2} \sigma_0 \rho_{- \varphi / 2} h \rho_{\varphi / 2} \sigma_0 \rho_{-\varphi / 2}$\\
+$\stackrel{Kom.}{=}\rho_{\varphi / 2} \sigma_0 h \sigma_0 \rho_{-\varphi / 2}$\\
+
+Das interne Produkt stellt einfach die Rotation um $- \varphi$ dar, wie man durch einsetzen zeigen kann. Wir erhalten also $-k \cdot r$. Die äußeren beiden Drehungen eliminieren sich wieder zur Identität.\\
+
+$\Rightarrow gHg^{-1} = H \Rightarrow H \vartriangleleft O(2)$ \\
+\mbox{} \hfill $\square$
+
+%% -------------------------------------------
+%%                 d)
+%% -------------------------------------------
+\item Wann ist die Untergruppe $G$ aus Teil $c)$ endlich?\\
+
+\textbf{Lösung:}\\
+
+Wenn die Drehung $\sigma_\varphi$ eine Drehung mit $\varphi = q \cdot \pi$ ist, wobei $q \in \mathbb{Q}$ liegt.\\
+
+Wenn $q \in \mathbb{Q}$ liegt, dann existieren $n,k \in \mathbb{N}, k \not= 0$, so dass $kq = 2n$ ist. Damit hat $<r>$ die Ordnung $k$ und auch genau so viele Elemente.\\
+
+Wenn $\varphi$ nicht rational ist, dann erreichen wir nie das neutrale Element und erzeugen damit immer neue Elemente. Dies gilt, da wir in dem Fall, dass wir einmal das selbe Element erzeugen auf dem Weg der erzeugung zwischen dem ersten und dem 2. Auftreten dieser Zahl ein neutrales Element durch Kombination erreichen. Da dieses aber die Formel von eben erfüllen muss, da es nach endlich vielen Schritten ein vielfaches von von 2 sein muss. Dies ist aber bei irrationalen Zahlen nicht möglich.
+
+\end{enumerate}
+
+\pagebreak
+
+%% -------------------------------------------
+%%                 AUFGABE 3
+%% -------------------------------------------
+
+\subsection*{Aufgabe 3 \mdseries (Die Kommutatorenuntergruppe von $S_n$)}
+
+\textbf{Satz:} Für $n>2$ gilt:
+$$
+\left[ S_n , S_n \right] = A_n.
+$$
+
+\textbf{Bew.:}\\
+
+Es gilt:
+$A_n = \{ \sigma \in S_n \; | \; \sign( \sigma ) = 1 \}$, $[S_n,S_n] = \{ aba^{-1}b^{-1} \; | \; a,b \in S_n\}$.\\
+
+$\subseteq :$\\
+Es gilt $\sign(a) \cdot \sign(a^{-1}) = 1$, da $\sign$ Gruppenhomomorphismus ist und \\
+$1 = \sign(e) = \sign(a a^{-1}) = \sign(a) \cdot \sign(a^{-1})$ gilt. (*)\\
+
+Seien $a,b \in S_n$, dann gilt\\
+$\sign (aba^{-1}b^{-1}) \stackrel{\sign Hom}{=} \sign(a) \cdot \sign(b) \cdot \sign(a^{-1}) \cdot \sign(b^{-1}) \stackrel{*}{=} 1$\\
+$\Rightarrow aba^{-1}b^{-1} \in A_n$.\\
+
+Da nun $K(G) \subset A_n$ ist, muss $<K(G)> \subseteq A_n$ sein. Da wir um die Gruppe zu bilden nur fehlende Elemente durch Verknüpfung dazunehmen (neutrales Element und inverses Element sind nach Überlegung im Tutorium schon drin). Da die Kombination von 2 Elementen mit positivem Vorzeichen das positive Vorzeichen bebehält, gilt die Behauptung.\\
+
+$\supseteq :$\\
+
+Die alternierende Gruppe von Zykeln des Types $(1 \; i_1 \; i_2)$ erzeugt. Liegen alle Erzeuger in $[S_n, S_n]$, so muss auch die gesammte erzeugte Gruppe in $[S_n,S_n]$ liegen, da Gruppen abgeschlossen sind.\\
+
+Seien $1 < i_2 \leq n$ und $1 < i_1 \leq n$, $i_1 \not= i_2$.\\
+
+Wir versuchen $a,b \in S_n$ zu konstruieren, so dass es sich beim erzeugenden System um einen Kommutator handelt.
+
+$$
+(1 \; i_1 \; i_2) = aba^{-1}b^{-1} \Leftrightarrow ba (1 \; i_1 \; i_2) = ab \Leftrightarrow ba (1 \; i_2) = ab (1 \; i_1)
+$$
+
+Nun versuchen wir eine konkrete Belegung von a,b zu finden.\\
+
+$a = (1 \; i_1 \; i_2), \; b = (1 \; i_1)$
+
+Auswertung: Es interessieren nur $1, i_1, i_2$ da der Rest auf sich selbst abgebildet wird.\\
+1:\\
+$ab(1 \; i_1) (1) = ab (i_1) = a (1) = i_1$\\
+$ba(1 \; i_2) (1) = ba (i_2) = b (1) = i_1$\\
+\textbf{$i_1$}:\\
+$ab(1 \; i_1) (i_1) = ab (1) = a (i_1) = i_2$\\
+$ba(1 \; i_2) (i_1) = ba (i_1) = b (i_2) = i_2$\\
+$i_2$:\\
+$ab(1 \; i_1) (i_2) = ab (i_2) = a (i_2) = 1$\\
+$ba(1 \; i_2) (i_2) = ba (1) = b(i_1) = 1$\\
+Die beiden Seiten leifern die selben Ergebnisse. Also lässt sich jedes Element in $A_n$ durch $[S_n,S_n]$ darstellen.\
+\mbox{} \hfill $\square$  
+
+%% -------------------------------------------
+%%                 AUFGABE 4
+%% -------------------------------------------
+
+\subsection*{Aufgabe 4 \mdseries (Die alternierende Gruppe $A_4$)}
+
+\begin{enumerate}[\bfseries a)]
+%% -------------------------------------------
+%%                 a)
+%% -------------------------------------------
+\item Zeigen Sie, dass $e$ zusammen mit den Permutationen vom Zykeltyp $(2,2)$ eine normale Untergruppe $H \vartriangleleft A_4$ bildet.\\
+
+\textbf{Lösung:}\\
+
+Sei $g \in A_4$ und $h \in H$, dabei besteht $h$ aus 2 disjunkten Zykeln $h = p_1p_2$.\\
+
+Nun hat $gHg^{-1}$ die Ordnung 2, da\\
+$ghg^{-1}ghg^{-1} = gp_1p_2g^{-1}gp_1p_2g^{-1} = g p_1 p_2 p_1 p_2 g^{-1}$.\\
+Auf dem 7. Zettel haben wir bewiesen, dass disjunkte Zykel (um die es sich handelt) kommutativ sind.\\
+
+$\Rightarrow ghg^{-1}ghg^{-1} = g p_1 p_1 p_2 p_2 g^{-1} = g e e g^{-1} = g g^{-1} = e$.\\
+
+Die einzige Permutation mit Ordnung 2 ist die Transposition, diese hat aber ein negatives Vorzeichen. Da in $A_4$ aber nur positive Permutationen sind, kann eine Untergruppe auch nur positive Permutationen enthalten. Damit gibt es entweder keine Transposition (e) oder es gibt 2 ( Typ (2,2) ). Mehr kann es nicht geben, da es nr 4 Elemente gibt.
+
+%% -------------------------------------------
+%%                 b)
+%% -------------------------------------------
+\item Geben Sie einen Homomorphismus $\varphi \; : \; A_4 \rightarrow \mathbb{Z}_3$ mit $Ker(\varphi ) = H$ an, $H$ die Untergruppe aus Teil a).\\
+
+\textbf{Lösung:}\\
+
+$\varphi$ sehe folgendermaßen aus:
+$$
+\begin{array}{rcl}
+\varphi \; : \; A_4 & \longrightarrow & \mathbb{Z}_3\\
+x & \longmapsto & \left\{ 
+\begin{array}{lr}
+0&,x^2=e\\
+1&,x^3=e \; \land \; x^2 \not=e\\
+2&,x^4=e \; \land \; x^2 \not=e \; \land \; x^3 \not=e
+\end{array}
+\right.
+\end{array}
+$$
+
+\textbf{Aussage:} $\varphi$ ist ein Gruppenhomomorphismus.\\
+
+\textbf{Beweis:} 
+\begin{description}
+\item{\textbf{Neutrales Element}:} $\varphi(e) \stackrel{e^2=0}{=} 0$\\
+\item{\textbf{Homomorph:}} Seien $a,b \in A_4$, z.z.: $\varphi(ab) = \varphi(a) \varphi(b)$\\
+War leider schon zu spät.
+\end{description}
+
+\textbf{Aussage:} $Ker(\varphi) = H$.\\
+
+\textbf{Beweis:} Wurde so konstruiert.\\
+
+
+\end{enumerate}
+
+\label{LastPage}
+
+
+\end{document}
