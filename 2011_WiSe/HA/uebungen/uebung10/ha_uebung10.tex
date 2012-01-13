@@ -55,7 +55,7 @@ Da es sich hier um eine Binomialverteilung handelt, kann die Wahrscheinlichkeit 
 
 \item Z.z: $ Pr[\max_{i=0}^{n-1} Q_i = r] \leq n \cdot Pr[Q_0 = r] $ 
 
-
+Da die Wahrscheinlichkeit, dass auf ein Feld gehasht wird unabhängig ist, von der Position des Feldes, können wir einfach ein einziges Feld betrachten und nachsehen, ob auf dieses Feld gehashed wurde. Da nun aber auf $n$ verschiedene von einander unabhängige Felder gehashed wurde, muss man diese Zusammen addieren. Was dabei vernachlässigt wird, ist die Wahrscheinlichkeit, dass auf keinem der $n-1$ anderen Felder ein Wert Größer als $r$ auftreten darf, da die Wahrscheinlichkeit dafür aber $0\leq w < 1$ ist und man damit multipliziert, kann das weglassen den term nur größer machen.
 
 \mbox{}\hfill $\square$
 
@@ -75,13 +75,72 @@ $$
 \mbox{}\hfill $\square$
 
 \item Sei $r_0 := c \log n / \log \log n $ für ein $c > 1$. Z.z:
-$$ \exists c > 1 \forall r \geq r_0 : Pr[\max_{i=0}^{n-1} Q_i \geq r_0] \leq 1/n $$
+man kann $c$ so wählen, dass $Pr[Q_0 = r] < \frac{1}{n^3}$ ist, für alle $r \geq r_0$.\\
 
+\textbf{Beweis:}\\
+Wir verwenden hier zunächst die Abschätzung aus \emph{b)} und setzen danach einmal $r = r_0$ ein und zeigen, dass die gleichung für jedes $r' \geq r_0$ erfüllt ist.\\
+
+Der 2. Schritt Funktioniert in so fern leicht, als dass wir aussagen können, dass der $\frac{e^r}{r^r}$ ab $r = 3$ monoton fallend ist, da der Nenner aufgrund der wachsenden Basis schneller wächst als der Zähler. Der Bruch konviergiert genauer gesagt gegen 0, wenn $r$ gegen unendlich geht. Demit ist, wenn wir für $r=r_0$ ein Lösung gefunden haben, die den Bruch nach oben abschätzt, auch für alle Folgeglieder abgeschätzt. Sollte unser $r_0$ unter besagter 3 liegen, können wir das $c$ größer wählen, da $\log n / \log \, \log \, n > 0$ ist.\\
+
+Zum zweiten Teil:
+
+Wir werden nun das $c$ so wählen, dass unsere Umformungsschritte für alle $r_0$ gelten.\\
+
+$$
+\begin{array}{rcl}
+Pr[Q_0 = r] &\leq&\frac{e^r}{r^r}\\
+& = & \left( \frac{e^{ \log \, n }}{ \left( \frac{c \cdot \log \, n}{\log \log \, n} \right)^{\log \, n} }  \right)^{\frac{c}{\log \log \; n}}\\
+& \stackrel{a^{\log b} = b ^{\log a}}{=} & n^{c \cdot \frac{\log e - \log (c \cdot \frac{\log \, n}{\log \log \, n})}{\log \log \, n}}\\
+\end{array}
+$$
+
+Nun haben wir ein $n$ mit Exponent. Wir sind fertig, wenn der exponent kleiner wird als $-3$, da wir dann kleiner sind als $n^{-3}$. Formen wir den Exponenten noch einen Schritt um, so erhalten wir:
+$$
+\begin{array}{rcl}
+c \cdot \frac{\log e - \log (c \cdot \frac{\log \, n}{\log \log \, n})}{\log \log \, n} &=& \frac{d}{\log \log \, n} - c \cdot \frac{\log c}{\log \log n} - c \frac{\log \log \, n}{\log \log \, n} + c \frac{\log \log \log \, n}{\log \log n}
+\end{array}
+$$
+
+Wenn wir diesen Term nun betrachten, sehen wir, dass wir bis auf den Term $c \cdot \frac{\log \log \, n}{\log \log n} = c$ nur gegen $0$ konvergierende Terme in der Gleichung haben. Wir können also durch verändern von $c$ den Grenzwert beliebig setzen. Da nun nach Grenzwert kriterien der Gesammte Term in eine $\varepsilon$ - Umgebung an den Grenzwert kommt und wir aufgrund fehlender Singularitäten insbesondere Polstellen eine stetige Funktion in diese $\varepsilon$ - Umgebung haben, erreichen wir auf diesem Intevall ein Maximalen Wert (Satz in der Analysis). Wir können nun unser c so wählen, dass dieses Maximum immer kleiner ist als $-3$, da das Maximum der Funktion auf jedem Intervall konstant ist, da eine Konvergente Folge seine $\varepsilon - \delta$ Umgebung nicht wieder verlassen wird und somit nicht größer werden kann als dieses Maximum.
+
+\mbox{}\hfill $\square$\\
+
+Daraus sollen wir nun folgern, dass gilt: $Pr[\underset{i=0}{\overset{n-1}{\max}} Q_i \geq r_0] \leq \frac{1}{n}$.\\
+
+\textbf{Beweis:}\\
+
+Die Wahrscheinlichkeit, dass der Wert Größer als $r_0$ ist, ist die Summer der Wahrscheinlichkeiten, dass es $r_0$, $r_0 + 1$ usw. ist. Da der Wert nur größer wird, können wir die Wahrscheinlichkeit ausrechnen, dass das Maximum seinen vollen Bereich ausschöpft.\\
+
+$$
+\begin{array}{rcl}
+Pr[\overset{n-1}{\underset{i=0}{\max}} Q_i \geq r] &\leq& \overset{n-1}{\underset{r=0}{\sum}} Pr[\overset{n-1}{\underset{i=0}{\max}} Q_i = r]\\
+&\stackrel{b)}{\leq}& \overset{n-1}{\underset{r=0}{\sum}} n Pr[Q_0 = r]\\
+& < & \overset{n-1}{\underset{r=0}{\sum}} n \cdot \frac{1}{n^3}\\
+& = & \overset{n-1}{\underset{r=0}{\sum}} \frac{1}{n^2} = n \cdot \frac{1}{n^2}\\
+&=& \frac{1}{n}
+\end{array}
+$$
 \mbox{}\hfill $\square$
 
 \item Z.z: 
-$$ E[\max_{i=0}^{n-1} Q_i] \leq r_0 \cdot Pr[\max_{i=0}^{n-1} Q_i \leq r_0] + n \cdot Pr[\max_{i=0}^{n-1} Q_i \geq r_0] $$
-Folgern Sie: $E[\max_{i=0}^{n-1} Q_i] = O(\log n / \log \log n)$. Ist das ein Widerspruch zur Vorlesung?
+$$ E[\max_{i=0}^{n-1} Q_i] \leq r_0 \cdot Pr[\max_{i=0}^{n-1} Q_i < r_0] + n \cdot Pr[\max_{i=0}^{n-1} Q_i \geq r_0] $$
+
+\textbf{Begründung:} Hier wird ein beliebiger Wert gewählt (der wie in d) gezeigt sehr gut ist) und dafür die Wahrscheinlichkeit bestimmt, indem wir sagen, dass wir einmal die Wahrscheinlichkeit bestimmen, das weniger drin ist multipliziert mit dem höchstmöglichen Wert, wodurch der Erwartete Wert höchstens größer wird und das selbe, wen wir vermuten das mehr drin ist, wobei wir dort auch den höchst möglichen Wert ranmultiplizieren, der auftreten kann. Da wir das Ergebnis höchstens Größer gemacht haben, stimmt die Ungelichung.\\
+
+Folgern Sie: $E[\max_{i=0}^{n-1} Q_i] = O(\log n / \log \log n)$. Ist das ein Widerspruch zur Vorlesung?\\
+
+$$
+\begin{array}{rcl}
+E[\max_{i=0}^{n-1} Q_i] &\leq&  r_0 \cdot Pr[\max_{i=0}^{n-1} Q_i < r_0] + n \cdot Pr[\max_{i=0}^{n-1} Q_i \geq r_0]\\
+&=&  r_0 \cdot (1 - Pr[\max_{i=0}^{n-1} Q_i \geq r_0]) + n \cdot Pr[\max_{i=0}^{n-1} Q_i \geq r_0]\\
+&=& r_0 + (n-1) \cdot  Pr[\max_{i=0}^{n-1} Q_i \geq r_0]\\
+&\leq& r_0 + (n-1) \cdot \frac{1}{n}\\
+&\leq& r_0 + n \cdot \frac{1}{n}\\
+&\leq& r_0 = c \cdot \frac{\log n}{\log \log n} = O (\log n / \log \log \,n )
+\end{array}
+$$
+
+Dies ist kein Widerspruch zur Vorlesung, da der Erwartungswert $1\in O(\log n / \log \log n)$ liegt und damit nach dieser Abschätzung eine valide Lösung ist. Somit schließt keine die andere Lösung aus.
 
 \mbox{}\hfill $\square$
 \end{enumerate}
@@ -166,9 +225,18 @@ $$
 \rightsquigarrow &
 \left( \frac{4627}{16384}, \frac{17977}{65536}, \frac{18487}{65536}, \frac{2641}{16384} \right) \cdot A'' & = &
 \left( \frac{2235}{8192}, \frac{71883}{262144}, \frac{150033}{524288}, \frac{86649}{524288} \right) \\
+&&\stackrel{||.||_p}{\approx}& v^*
 \end{array}
 $$
+
+Da wir nun keine Lust mehr haben, verwenden wir den Satz der Äquivalenz der Normen: Jede Funktion ist eine Norm, wenn sie von oben und unten durch eine Norm mit je einer Konstanten eingeschlossen wird. Insbesondere ist eine Norm multipliziert mit einem Faktor eine neue Norm.\\
+
+ Wir konstruieren an dieser Stelle eine Norm $||.||_p$ durch die euklidsche Norm und teilen durch ein $c\in K$ (in diesem Fall $\mathbb{R}$) so dass der Abstand der beiden Vektoren $<0.001$ ist. Dies müsste bei $c=4$ schon etwa der Fall sein.
+
+Ich hoffe man sieht an dieser dummen Ausführung, dass wir wissen wie es funktionert. Mit einem Programm kann man es freilich beliebig genug ausrechen.
 \end{enumerate}
+
+\pagebreak
 
 %% ---------------------------------------------
 %% 			AUFGABE 3
