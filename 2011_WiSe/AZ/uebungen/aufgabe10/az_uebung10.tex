@@ -85,12 +85,39 @@ $$
 \mbox{} \hfill $\square$
 \item  Nun sei $G$ eine endliche Gruppe mit $\#G = \#H \cdot \#J$. Zeigen Sie $G \cong H \times J$. \\
 
-Da ... gilt, folgt ... q.e.d.
+Wir konstruieren $\varphi : H \times J \rightarrow G$, mit $(h,j) \mapsto h \cdot j$.\\
+z.z.: $\varphi$ ist Isomorphismus.\\
+
+$\varphi$ ist homomorph:\\
+$$
+\begin{array}{rcl}
+\varphi(e,e) &=& e \cdot e\\
+&=& e\\
+\\
+\forall h\in H, j \in J \;:\;\varphi((h , j) \cdot (h' , j')) &=& \varphi \left((h \cdot h') , (j \cdot j')\right) \\
+&=& h \cdot h' \cdot j \cdot j'\\
+&\stackrel{a)}{=}& h \cdot j \cdot h' \cdot j'\\
+&=& \varphi(h,j) \cdot \varphi(h',j') 
+\end{array}
+$$
+
+Nun gilt zu zeigen, dass $\varphi$ bijektiv ist. Da wir schon wissen, dass $\# G = \# (H \times J)$ gilt, müssen wir nur noch zeigen, dass $\varphi$ injektiv ist und sind damit fertig.\\
+
+Seien $(h,j), (h',j') \in H \times J$ und $\varphi(h,j) = \varphi(h', j')$.\\
+$$
+\begin{array}{crcl}
+& \varphi(h,j) &=& \varphi(h',j')\\
+\Leftrightarrow & h \cdot j &=& h' \cdot j'\\
+\Leftrightarrow & h'^{-1} h &=& j' \cdot j^{-1}
+\end{array}
+$$
+
+Da aber die Bedingung an $H,J$ war, dass $H \cap J = \{ e \}$ gilt. Muss gelten, dass $h'^{-1}h = e \Leftrightarrow h' = h$ und $j'j^{-1} = e \Leftrightarrow j = j'$, da sonst im Schnitt mehr als das neutrale Element liegen würde.\\
+
+$\Rightarrow \varphi$ ist Isomorphismus zwischen $(G, \cdot )$ und $(H \times J, \cdot) \Rightarrow G \cong H \times J$
 
 \mbox{} \hfill $\square$
 \end{enumerate}
-
-\pagebreak
 
 %% -------------------------------------------
 %%                 AUFGABE 3
