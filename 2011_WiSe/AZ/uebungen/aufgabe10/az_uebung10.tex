@@ -1,0 +1,123 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm]{geometry} 
+\usepackage{babel}
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc} 
+\usepackage{ae} 
+\usepackage{amssymb} 
+\usepackage{amsmath} 
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{paralist}
+\usepackage{fancyhdr}
+\usepackage{subfigure}
+\pagestyle{fancy}
+\fancyhead[C]{Alegbra und Zahlentheorie}
+\fancyhead[L]{Übung Nr. 10}
+\fancyhead[R]{WS 2011/12}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage\, von \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\setlength{\parindent}{0pt} 
+\setlength{\headheight}{15pt}
+
+%
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\NN}{\mathbb{N} \setminus \{0\}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\ggT}{\text{ggT}}
+\newcommand{\kgV}{\text{kgV}}
+\newcommand{\sign}{\text{Sign}}
+\newcommand{\ord}{\text{Ord}}
+%
+
+\author{Tutor: David Müßig}
+\date{}
+\title{Max Wisniewski, Alexander Steen}
+
+\begin{document}
+
+\lstset{language=Java, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2}
+
+\maketitle
+\thispagestyle{fancy}
+
+%% -------------------------------------------
+%%                 AUFGABE 1
+%% -------------------------------------------
+
+\subsection*{Aufgabe 1 \mdseries (Gruppen der Ordnung 10)}
+Beweisen Sie, dass eine endliche Gruppe $G$ der Ordnung 1000 einen Normalteiler $H$
+mit $\{e\} \subsetneq H \subsetneq G$ besitzt. \\
+
+Die Ordnun von G ist $\#G = 1000 = 2^3 \cdot 5^3$. \\
+$\stackrel{\text{1. Sylowsatz}}{\Rightarrow}$ existieren $h$ 5-Sylow-Untergruppen.  Für $h$ muss gelten: $h \equiv 1 \mod 5$ und $h \, | \, 2^3 = 8$. Die Teiler von 8 sind 1,2,4. Da aber nur $1 \equiv 1 \mod 5$ gilt, gibt es genau eine 5-Sylow-Untergruppe. \\
+Wegen der Eindeutigkeit der Sylow-Untergruppe folgt aus dem zweiten Sylowsatz, dass diese ein Normalteiler von $G$ ist.
+\mbox{} \hfill $\square$
+
+
+%% -------------------------------------------
+%%                 AUFGABE 2
+%% -------------------------------------------
+
+\subsection*{Aufgabe 2 \mdseries (Kommutierende Normalteiler)}
+Es seien $G$ eine Gruppe und $H,J$ Normalteiler von $G$, so dass $H \cap J = \{e\}$.
+\begin{enumerate}[\bfseries a)]
+\item  Beweisen Sie $\forall h \in H\forall j \in J :\; h \cdot j = j \cdot h$.
+
+Sei $h \in H, j \in J$. Betrachte $g = h \cdot j \cdot h^{-1} \cdot j^{-1} \in G$. \\
+(1) Es gilt: $H \lhd G \Rightarrow j \cdot h^{-1} \cdot j^{-1} \in H \Rightarrow h \cdot (j \cdot h^{-1} \cdot j^{-1}) \in H$. \\
+(2) Es gilt: $J \lhd G \Rightarrow h \cdot j \cdot h^{-1} \in J \Rightarrow (h \cdot j \cdot h^{-1}) \cdot j^{-1} \in J$. \\
+$\Rightarrow g \in H \cap J \Rightarrow g = e$.
+Also gilt nun:
+$$
+h \cdot j \cdot h^{-1} \cdot j^{-1} = e \Leftrightarrow h \cdot j = j \cdot h
+$$
+\mbox{} \hfill $\square$
+\item  Nun sei $G$ eine endliche Gruppe mit $\#G = \#H \cdot \#J$. Zeigen Sie $G \cong H \times J$.
+\end{enumerate}
+
+
+%% -------------------------------------------
+%%                 AUFGABE 3
+%% -------------------------------------------
+
+\subsection*{Aufgabe 3 \mdseries (Zyklische Gruppen)}
+Es seien $p < q$ Primzahlen, so dass $q \not\equiv 1 \mod p$, und $G$ eine endliche Gruppe der Ordnung $p \cdot q$.
+\begin{enumerate}[\bfseries a)]
+\item Geben Sie mindestens vier Beispiele für Paare $(p,q)$ mit den obigen Eigenschaften an.
+
+$$ (3, 5), (5, 7), (7, 11), (11, 13) $$
+
+\item Beweisen Sie, dass $G$ einen Normalteiler der Ordnung $p$ und einen Normalteiler der Ordnung $q$ hat.
+
+Nach dem ersten Sylow-Satz existieren sowohl $p$-Sylow-Untergruppen als auch $q$-Sylow-Untergruppen.\\
+Da $q \not\equiv 1 \mod p$ und $q$ Primzahl $\Rightarrow$ ex. genau eine $p$-Sylow-Untergruppe. Damit ist diese ein Normalteiler. \\
+Da $p < q$ ist nur die 1 Teiler von $q$ mit Restklasse 1. $\Rightarrow$ ex. genau eine $q$-Sylow-Untergruppe. Damit ist diese ein Normalteiler.
+
+\item  Zeigen Sie, dass $G$ isomorph zu $\Z_p \times \Z_q$ ist, und folgern Sie, dass $G$ zyklisch ist.
+
+Sei $A$ die $p$-Sylow-Gruppe und $B$ die $q$-Sylow-Gruppe aus b).\\
+Da $\#A$ und $\#B$ Primzahl ist, sind $A, B$ zyklisch und damit gilt: $A \cong \Z_p$ und $B \cong \Z_q$.
+\end{enumerate}
+
+%% -------------------------------------------
+%%                 AUFGABE 4
+%% -------------------------------------------
+
+\subsection*{Aufgabe 4 \mdseries (Endliche abelsche Gruppen)}
+Listen Sie alle Isomorphieklassen von endlichen abelschen Gruppen der Ordnung 36
+auf.
+
+\label{LastPage}
+
+
+\end{document}
