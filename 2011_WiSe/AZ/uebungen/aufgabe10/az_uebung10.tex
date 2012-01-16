@@ -71,7 +71,7 @@ Wegen der Eindeutigkeit der Sylow-Untergruppe folgt aus dem zweiten Sylowsatz, d
 \subsection*{Aufgabe 2 \mdseries (Kommutierende Normalteiler)}
 Es seien $G$ eine Gruppe und $H,J$ Normalteiler von $G$, so dass $H \cap J = \{e\}$.
 \begin{enumerate}[\bfseries a)]
-\item  Beweisen Sie $\forall h \in H\forall j \in J :\; h \cdot j = j \cdot h$.
+\item  Beweisen Sie $\forall h \in H\forall j \in J :\; h \cdot j = j \cdot h$. \\
 
 Sei $h \in H, j \in J$. Betrachte $g = h \cdot j \cdot h^{-1} \cdot j^{-1} \in G$. \\
 (1) Es gilt: $H \lhd G \Rightarrow j \cdot h^{-1} \cdot j^{-1} \in H \Rightarrow h \cdot (j \cdot h^{-1} \cdot j^{-1}) \in H$. \\
@@ -82,7 +82,11 @@ $$
 h \cdot j \cdot h^{-1} \cdot j^{-1} = e \Leftrightarrow h \cdot j = j \cdot h
 $$
 \mbox{} \hfill $\square$
-\item  Nun sei $G$ eine endliche Gruppe mit $\#G = \#H \cdot \#J$. Zeigen Sie $G \cong H \times J$.
+\item  Nun sei $G$ eine endliche Gruppe mit $\#G = \#H \cdot \#J$. Zeigen Sie $G \cong H \times J$. \\
+
+Da 
+
+\mbox{} \hfill $\square$
 \end{enumerate}
 
 
@@ -92,21 +96,29 @@ $$
 
 \subsection*{Aufgabe 3 \mdseries (Zyklische Gruppen)}
 Es seien $p < q$ Primzahlen, so dass $q \not\equiv 1 \mod p$, und $G$ eine endliche Gruppe der Ordnung $p \cdot q$.
+
 \begin{enumerate}[\bfseries a)]
-\item Geben Sie mindestens vier Beispiele für Paare $(p,q)$ mit den obigen Eigenschaften an.
+\item Geben Sie mindestens vier Beispiele für Paare $(p,q)$ mit den obigen Eigenschaften an. \\
 
 $$ (3, 5), (5, 7), (7, 11), (11, 13) $$
 
-\item Beweisen Sie, dass $G$ einen Normalteiler der Ordnung $p$ und einen Normalteiler der Ordnung $q$ hat.
+\item Beweisen Sie, dass $G$ einen Normalteiler der Ordnung $p$ und einen Normalteiler der Ordnung $q$ hat. \\
 
 Nach dem ersten Sylow-Satz existieren sowohl $p$-Sylow-Untergruppen als auch $q$-Sylow-Untergruppen.\\
 Da $q \not\equiv 1 \mod p$ und $q$ Primzahl $\Rightarrow$ ex. genau eine $p$-Sylow-Untergruppe. Damit ist diese ein Normalteiler. \\
 Da $p < q$ ist nur die 1 Teiler von $q$ mit Restklasse 1. $\Rightarrow$ ex. genau eine $q$-Sylow-Untergruppe. Damit ist diese ein Normalteiler.
+\mbox{} \hfill $\square$
 
-\item  Zeigen Sie, dass $G$ isomorph zu $\Z_p \times \Z_q$ ist, und folgern Sie, dass $G$ zyklisch ist.
+\item  Zeigen Sie, dass $G$ isomorph zu $\Z_p \times \Z_q$ ist, und folgern Sie, dass $G$ zyklisch ist. \\
 
 Sei $A$ die $p$-Sylow-Gruppe und $B$ die $q$-Sylow-Gruppe aus b).\\
-Da $\#A$ und $\#B$ Primzahl ist, sind $A, B$ zyklisch und damit gilt: $A \cong \Z_p$ und $B \cong \Z_q$.
+Da $\#A$ und $\#B$ Primzahl ist, sind $A, B$ zyklisch. \\
+Für ein $g \in A \cap B, g \neq e$ gilt, dass $\ord(g) = p \land \ord(g) = q$ und weil $p < q \Rightarrow g = e$. Also ist $ A \cap B = \{ e \}$. Dann gilt nach Aufgabe 2b), dass $G \cong A \times B$ (Hier könnte man auch einfach einen Isomorphismus zwischen Potenzen der Erzeuger von A bzw. B und G aufstellen).\\
+Da $A,B$ zyklisch gilt: $A \cong \Z_p$ und $B \cong \Z_q$ und damit 
+$$
+G \cong A \times B \cong \Z_p \times \Z_q
+$$
+\mbox{} \hfill $\square$
 \end{enumerate}
 
 %% -------------------------------------------
@@ -114,9 +126,20 @@ Da $\#A$ und $\#B$ Primzahl ist, sind $A, B$ zyklisch und damit gilt: $A \cong \
 %% -------------------------------------------
 
 \subsection*{Aufgabe 4 \mdseries (Endliche abelsche Gruppen)}
-Listen Sie alle Isomorphieklassen von endlichen abelschen Gruppen der Ordnung 36
-auf.
+Listen Sie alle Isomorphieklassen von endlichen abelschen Gruppen $A$ der Ordnung 36
+auf. \\
 
+Die Ordnung von A ist $\#A = 36 = 2^2 \cdot 3^2$.\\
+Dann gilt einer der folgenden Isomorphien (wie man durch Sylow-Untergruppen-Betrachtung herausfinden kann):
+
+$$
+\begin{array}{l}	
+A \cong \Z_4 \times \Z_9 \\
+A \cong (\Z_2 \times \Z_2) \times \Z_9  \\
+A \cong (\Z_2 \times \Z_2) \times (\Z_3 \times \Z_3)  \\
+A \cong \Z_4 \times (\Z_3 \times \Z_3)  \\
+\end{array}
+$$
 \label{LastPage}
 
 
