@@ -1,0 +1,192 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm]{geometry} 
+\usepackage{babel}
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc} 
+\usepackage{ae} 
+\usepackage{amssymb} 
+\usepackage{amsmath} 
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{paralist}
+\usepackage{fancyhdr}
+\usepackage{subfigure}
+\pagestyle{fancy}
+\fancyhead[C]{Mikroprozessorpraktikum}
+\fancyhead[L]{Protokoll 3}
+\fancyhead[R]{WS 2011/12}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage / \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\setlength{\parindent}{0pt} 
+\setlength{\headheight}{15pt}
+
+
+\author{Teilnehmer:\\ \\Marco Träger, Matr. 4130515\\Alexander Steen, Matr. 4357549}
+\date{Gruppe: Freitag, Arbeitsplatz: HWP 1}
+\title{Mikroprozessorpraktikum WS 2011/12\\ Aufgabenkomplex: 3}
+
+\begin{document}
+
+\lstset{language=c, basicstyle=\ttfamily\fontsize{9pt}{9pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2}
+
+\maketitle
+\thispagestyle{fancy}
+\newpage
+\section*{A 3.1 Programmierung}
+
+\begin{description}
+	\item[A 3.1.1] Ermitteln Sie für den Watchdog alle möglichen Zeiten, die sich auf Basis der \texttt{ACLK}-Taktquelle mit dem \texttt{WDTCTL}-Register einstellen lassen. \\
+	
+	Wie man dem Schaltbild entnehmen kann, führen nur die Bits \texttt{WDTIS1} und \texttt{WDTIS0} zu einer Veränderung der Watchdogzeiten (diese beiden Registerwerte dienen zum Multiplexen der Counter-Selektoren \texttt{Q6}, \texttt{Q9}, \texttt{Q13} bzw. \texttt{Q15}).
+	\\ \\
+	Dabei bedeutet der Counter-Selektor Qx, dass jeweils nur der Flip des (x+1)-niedrigwertigsten Bits vom Counter gezählt wird.
+	Also können wir die Zeit bis zum Reset $t_{reset}$ bei Selektion von \texttt{Qx} durch die Formel
+	$$ 
+		t_{reset} = 2^{x+1} \cdot  \frac{1}{\text{Takt}} \cdot \frac{1000}{2}
+		=  2^{x+1} \cdot  \frac{500}{\text{Takt}}
+	$$
+	berechnen. Der Zähler des Terms $\frac{1000}{2}$ rechnet die Zeit in Millisekunden um, der Nenner teilt das Ergebnis durch zwei, da nur Flanken von 0 nach 1 gezählt werden. \\ \\
+	
+	Bei einem Takt von 32,768 kHz ergeben sich dann folgende Zeiten:
+	
+	\begin{tabular}{c|c|c|r}
+	\texttt{WDTIS0} & \texttt{WDTIS1} & \texttt{Qx} selektiert & $t_{reset} = 2^{x+1} \cdot \frac{500}{32768 \; Hz}$ \\ 
+	\hline \hline
+	0 & 0 & \texttt{Q15} & 1000 ms \\
+	0 & 1 & \texttt{Q13} & 250 ms \\
+	1 & 0 & \texttt{Q9} & 15,625 ms \\
+	1 & 1 & \texttt{Q6} & ca. 1,953 ms \\
+	\end{tabular}
+	
+	\item[A 3.1.2] Wie verändern sich die in \texttt{A 3.1.1} bestimmten Zeiten wenn man mit den \texttt{DIVAx}-Bits im \texttt{BCSCTL1}-Register die \texttt{ACLK} Vorteiler auf 1, 2, 4, und 8 setzt?  \\
+	
+	Der Takt wird zum Zähler hin geteilt, also wird die Zeit bis zum Reset um den reziproken Wert vervielfacht. 	
+	
+	\item[A 3.1.3] Entwickeln Sie eine eigenständige Endlosschleife die in der Aufgabenstellung beschriebenen Schritte zyklisch ausführt.  \\
+	
+	Das nachfolgende Programm schaltet die LEDs in der vorgegebenen Form an bzw. aus.
+\begin{lstlisting}[numbers=left]
+// simuliert eine Sekunde Wartezeit
+void waitOneSec() {
+	wait(50000); wait(50000);
+}
+
+void aufgabe313() {
+	//LEDs einrichten
+	P4DIR |= (0x07);
+	P4SEL &= ~(0x07);
+	
+	// LEDs wie im vorgegebenen Schema
+	LED1OFF; LED2OFF; LED3OFF; waitOneSec();
+	
+	LED1ON; waitOneSec(); LED1OFF;
+	LED2ON; waitOneSec(); LED2OFF;
+	LED3ON; waitOneSec(); LED3OFF;
+
+	LED1ON; LED2ON; LED3ON;
+	waitOneSec();
+	LED1OFF; LED2OFF; LED3OFF;
+}
+\end{lstlisting}
+	
+		 
+	\item[A 3.1.4]  Im nächsten Schritt aktivieren Sie vor der Endlosschleife den Watchdog ohne weitere Einstellungen. Wie verhält sich das Programm jetzt? Erläutern Sie die gemachten Beobachtungen.   \\
+	
+	Der Aufruf in dem Hauptprogramm wird nun entsprechend geändert, sodass der Watchdof aktiviert wird. Dies können wir durch setzen des Passworts erreichen, da dabei das \texttt{WDTHOLD}-Register auf 0 gesetzt wird.
+	
+	\begin{lstlisting}[numbers=left]
+	WDTCTL = WDTPW;
+	while(1) {aufgabe313();}
+	\end{lstlisting}
+	
+	Beobachtung: \\
+Die LEDs gehen alle an, das Modul führt direkt nach Aktivieren des Watchdogs ein \texttt{RESET} durch. Die Funktion aufgabe313 wird nicht ausgeführt (via Breakpoint getestet). Das kommt wohl daher, dass bereits durch das Initialisieren des Moduls der Zähler des watchdogs so groß wurde, sodass direkt nach dem aktivieren ein \texttt{RESET}-Befehl ausgelöst wird.
+	
+	\item[A 3.1.5] Nun wird der Watchdog wie in der Aufgabenstellung beschrieben aktiviert. Berechnen Sie für diese Einstellung die Zeit bis der Watchdog einen \texttt{RESET} auslöst. Wie lange dauert ein Durchlauf der Schleife mit den oben beschriebenen fünf Schritten? Zu welchem Zeitpunkt löst der Watchdog einen \texttt{RESET} aus? Testen das Programm und diskutieren Sie das erkennbare Verhalten.  \\ 
+	
+	Das Programm wird nun folgendermaßen angepasst:
+	
+	\begin{lstlisting}[numbers=left]
+	BCSCTL1 |= DIVA0 + DIVA1;
+	WDTCTL = (WDTPW + WDTSSEL)
+	while(1) {aufgabe313();}
+	\end{lstlisting}
+	
+	Da sowohl das \texttt{WDTIS0}-Bit und das  \texttt{WDTIS1}-Bit nicht gesetzt sind, ergibt sich (nach Aufgabe 3.1.1) eine Zeit von einer Sekunde bis zum \texttt{RESET}. Da wir nun aber den Vorteiler 8 dazugeschaltet haben, sollte der Watchdog nach acht Sekunden ein \texttt{RESET} auslösen. \\
+	Die ungefähre Schleifendauer kann man durch Zählen der Warteoperationen abschätzen: Es wird fünf mal für eine Sekunde gewartet, also wird ein Schleifendurchlauf ca. fünf Sekunden dauern. \\
+	Ebenfalls durch Zählen können wir schätzen, dass der Watchdog im zweiten Schleifendurchlauf kurz vor dem Einschalten der gelben LED ein \texttt{RESET} auslösen sollte.\\
+	Nach Beobachtung des Ablaufs bestätigen sich unsere Überlegungen: Der Watchdog löst nach ca. acht Sekunden ein \texttt{RESET} aus.
+	
+	
+	\item[A 3.1.6] Einen \texttt{RESET} durch den Watchdog innerhalb der Endlosschleife kann verhindert werden, wenn man innerhalb der Endlosschleife den Watchdog neu programmiert. Fügen Sie dazu einfach nach dem 5.Schritt eine entsprechende Codezeile ein. Testen und dokumentieren Sie das.   \\
+	
+	Da ein Schleifendurchlauf nur ca. fünf Sekunden dauert, können wir am Ende der Schleife eine Codezeile hinzufügen, die den Watchdog-Counter zurücksetzt. Dies können wir durch hinzufügen des folgenden Codes erreichen:
+	
+	\begin{lstlisting}
+	WDTCTL = (WDTPW + WDTCNTCL + WDTSSEL);
+	\end{lstlisting}
+	
+	Mit dieser Codezeile wurde das Modul auch nach fünf Schleifendurchläufen nicht zurückgesetzt, also gehen wir davon aus, dass es funktioniert und das Modul nicht mehr neugestartet werden sollte.
+	
+\end{description}
+
+\newpage
+\section*{A 3.2 Verteilung}
+%% Ab hier noch nicht formatiert %%
+\begin{description}
+	\item[A 3.2.1] Wie in der Aufgabenstellung erwähnt wird längere Arbeit durch den nachfolgenden Code simuliert:
+		\begin{lstlisting}
+	while(P1IN & 0x01){
+		P4OUT & =~0x01; wait(30000); P4OUT |= 0x01; wait(30000);
+	};
+        \end{lstlisting}
+Erklären Sie was in der Codezeile ausgeführt wird. Welche Beobachtung machen Sie, wenn der Taster länger als 6 Sekunden gedrückt wird oder einfach dauerhaft gedrückt bleibt. Erklären Sie die Beobachtung. \\
+
+	In der Schleife wird zuerst die LED P4.0 eingeschaltet, dann 300 Millisekunden gewartet, die LED P4.0 wieder ausgeschaltet und wieder 300 Millisekunden gewartet.\\
+	Wird die Taste lang genug gedrückt (mindestens ca. 6 Sekunden), so wird durch den Watchdog ein \texttt{RESET} ausgelöst. Dies können wir uns damit erklären, dass durch die Schleifendurchläufe, die von dem Tastendruck ausgelöst werden, der Watchdog-Counter so weit hochgezählt wird, bis es schließlich zum \texttt{RESET} kommt. Ein Zurücksetzen des Zählers kann nicht stattfinden, da das Programm die Schleife nicht verlassen kann und somit die Zeile aus Aufgabe A.3.1.6 nicht erreicht.
+
+	\item[A 3.2.2] Jetzt ändern Sie bitte die Codezeile so, dass während der Taster gedrückt ist, kein \texttt{RESET} durch den Watchdog ausgelöst wird. Erläutern Sie die Änderung. \\
+	
+	Die Codeänderung schaltet den Watchdog zu Beginn der Tastendruck-Schleife einfach aus und schaltet ihn am Ende wieder an. Dies wird im nachfolgenden Code umgesetzt:
+	\begin{lstlisting}
+	while(P1IN&0x01){
+		WDTCTL = WDTPW + WDTHOLD;
+		P4OUT &=~0x01; wait(30000);P4OUT |= 0x01; wait(30000);
+		WDTCTL = (WDTPW + WDTSSEL);
+	};
+	\end{lstlisting}
+	
+	\item[A 3.2.3] In realen Systemen kann es durchaus passieren, dass aufgrund von Speicherfehlern oder Softwareproblemen ein System sich ständig neu startet. Wie kann man programmtechnisch registrieren und speichern, wann und an welcher Programmstelle der Watchdog das System neu gestartet hat. Skizzieren Sie einen Lösungsansatz. Als Hilfestellung hier folgende Stichwörter: \\
+	
+blablabla
+\end{description}
+
+\newpage
+\section*{A 3.3 Software-Reset} 
+
+\begin{description}
+	\item[A 3.3.1] Vervollständigen Sie das \texttt{MCU \_ RESET;} Macro. Schreiben Sie ein kleines Programm, mit dem Sie die Funktion testen können. Das Programm soll bei Tastendruck einen RESET auslösen und über die LED ein Neustart des Controllers in geeigneter Weise signalisieren. Nutzen Sie dazu den Watchdog. \\
+	
+	Wir können einen Neustart erzwingen, in dem wir ohne Passwort auf das Watchdogregister zugreifen, also lässt sich das Macro folgendermaßen schreiben:
+	\begin{lstlisting}
+	#define MCU_RESET 		(WDTCTL = 0x0000)
+	\end{lstlisting}
+	
+	Unter Nutzung dieses Macros verwenden wir nun den Code aus den vorherigen Aufgaben um bei einem Tastendruck das Modul neuzustarten.
+	\begin{lstlisting}
+	while(P1IN&0x01){
+		P4OUT &=~0x01; wait(30000);P4OUT |= 0x01;
+		MCU_RESET;
+	};
+	\end{lstlisting}
+	Dabei wird bei einem Tastendruck für eine kurze Zeit die LED4.0 angeschaltet. Sobald sie erlischt, wird ein Neustart ausgelöst.
+	
+\end{description}
+\label{LastPage}
+\end{document}
