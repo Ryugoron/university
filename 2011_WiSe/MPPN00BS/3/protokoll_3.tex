@@ -14,6 +14,7 @@
 \usepackage{paralist}
 \usepackage{fancyhdr}
 \usepackage{subfigure}
+\usepackage{hyperref} % @added (traeger 28.02.12)
 \pagestyle{fancy}
 \fancyhead[C]{Mikroprozessorpraktikum}
 \fancyhead[L]{Protokoll 3}
@@ -163,8 +164,34 @@ Erklären Sie was in der Codezeile ausgeführt wird. Welche Beobachtung machen S
 	\end{lstlisting}
 	
 	\item[A 3.2.3] In realen Systemen kann es durchaus passieren, dass aufgrund von Speicherfehlern oder Softwareproblemen ein System sich ständig neu startet. Wie kann man programmtechnisch registrieren und speichern, wann und an welcher Programmstelle der Watchdog das System neu gestartet hat. Skizzieren Sie einen Lösungsansatz. Als Hilfestellung hier folgende Stichwörter: \\
-	
-blablabla
+
+%% @change 28.02.12 (traeger) %%
+
+\begin{samepage}
+Ein System-Reset kann aus drei verschiedenen Gründen ausgel"ost werden
+\begin{enumerate}
+\item Reset über den $\overline{RST}/{\text{NMI}}$ Pin
+\item ein Oszillator-Fehler
+\item eine Zugriffsverletzung auf den Flash-Speicher
+\end{enumerate}
+\end{samepage}
+\begin{samepage}
+Es ist m"oglich programmatisch auf diese Ereignisse mit Hilfe einer Interrupt-Service-Routine vor dem Reset zu reagieren. Dazu wird die NMI-Interrupt-Service-Routine (\href{http://hwp.mi.fu-berlin.de/intern/19606-P-MPP/Dokumentation/slau049f.pdf}{Figure $2-6.$ NMI Interrupt Handler}) verwendet, die f"ur die einzelnen Ereignisse aktiviert werden kann, indem
+\begin{enumerate}
+\item das $\overline{RST}/{\text{NMI}}$ Pin in NMI-Modus gesetzt wird
+\item das $\text{ACCVIE}$ Register gesetzt wird
+\item das $\text{OFIE}$ Register gesetzt wird
+\end{enumerate}
+\end{samepage}
+
+In der NMI-Interrupt-Service-Routine kann nun der gesamte Stack ab dem \href{http://hwp.mi.fu-berlin.de/intern/19606-P-MPP/Dokumentation/slau049f.pdf}{Stack Pointer (3.2.2)} ausgelesen und in den Information-Memory-Teil des Flashspeichers gespeichter werden, damit kann die gesamte Aufruf-Hierarchie zur"uck verfolgt werden um den Programm-Ablauf zu rekonstruieren.
+Die ist m"oglich da auf dem Stack s"amtliche R"ucksprung-Adressen (jeweils "uber den Programm-Counter) gespeichert sind. 
+
+Eine Speicherung in den Information-Memory-Teil des Flashspeichers ist sinnvoll, da dieser Teil des Flash-Speichers nicht als Zwischenspeicher von Programmen genutzt wird und damit nicht sofort nach Neustart des Controllers neu beschrieben wird. Damit sind die darin gespeicherten Information nach einen Soft-Resets immer noch in Speicher verf"ugbar und k"onnen verarbeitet werden (zB. zur Fehleranalyse).
+
+%% original %%
+% blablabla
+%% %%
 \end{description}
 
 \newpage
