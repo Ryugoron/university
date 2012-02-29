@@ -14,7 +14,7 @@
 \usepackage{paralist}
 \usepackage{fancyhdr}
 \usepackage{subfigure}
-\usepackage{hyperref} % @added (traeger 28.02.12)
+%\usepackage{hyperref} % @added (traeger 28.02.12) @removed (steen 29.02.12)
 \pagestyle{fancy}
 \fancyhead[C]{Mikroprozessorpraktikum}
 \fancyhead[L]{Protokoll 3}
@@ -45,16 +45,15 @@
 	\item[A 3.1.1] Ermitteln Sie für den Watchdog alle möglichen Zeiten, die sich auf Basis der \texttt{ACLK}-Taktquelle mit dem \texttt{WDTCTL}-Register einstellen lassen. \\
 	
 	Wie man dem Schaltbild entnehmen kann, führen nur die Bits \texttt{WDTIS1} und \texttt{WDTIS0} zu einer Veränderung der Watchdogzeiten (diese beiden Registerwerte dienen zum Multiplexen der Counter-Selektoren \texttt{Q6}, \texttt{Q9}, \texttt{Q13} bzw. \texttt{Q15}).
-	\\ \\
+	\\
 	Dabei bedeutet der Counter-Selektor Qx, dass jeweils nur der Flip des (x+1)-niedrigwertigsten Bits vom Counter gezählt wird.
 	Also können wir die Zeit bis zum Reset $t_{reset}$ bei Selektion von \texttt{Qx} durch die Formel
 	$$ 
 		t_{reset} = 2^{x+1} \cdot  \frac{1}{\text{Takt}} \cdot \frac{1000}{2}
 		=  2^{x+1} \cdot  \frac{500}{\text{Takt}}
 	$$
-	berechnen. Der Zähler des Terms $\frac{1000}{2}$ rechnet die Zeit in Millisekunden um, der Nenner teilt das Ergebnis durch zwei, da nur Flanken von 0 nach 1 gezählt werden. \\ \\
-	
-	Bei einem Takt von 32,768 kHz ergeben sich dann folgende Zeiten:
+	berechnen. Der Zähler des Terms $\frac{1000}{2}$ rechnet die Zeit in Millisekunden um, der Nenner teilt das Ergebnis durch zwei, da nur Flanken von 0 nach 1 gezählt werden. \\
+	Bei einem Takt von 32,768 kHz ergeben sich dann folgende Zeiten: \\
 	
 	\begin{tabular}{c|c|c|r}
 	\texttt{WDTIS0} & \texttt{WDTIS1} & \texttt{Qx} selektiert & $t_{reset} = 2^{x+1} \cdot \frac{500}{32768 \; Hz}$ \\ 
@@ -64,14 +63,17 @@
 	1 & 0 & \texttt{Q9} & 15,625 ms \\
 	1 & 1 & \texttt{Q6} & ca. 1,953 ms \\
 	\end{tabular}
+	\\
+	
+	 Zwar können noch weitere Vorteiler angegeben werden, diese befinden sich aber nicht in dem \texttt{WDTCTL}-Register (siehe nächste Aufgabe).
 	
 	\item[A 3.1.2] Wie verändern sich die in \texttt{A 3.1.1} bestimmten Zeiten wenn man mit den \texttt{DIVAx}-Bits im \texttt{BCSCTL1}-Register die \texttt{ACLK} Vorteiler auf 1, 2, 4, und 8 setzt?  \\
 	
-	Der Takt wird zum Zähler hin geteilt, also wird die Zeit bis zum Reset um den reziproken Wert vervielfacht. 	
+	Der gezählte Takt (also damit die Häufigkeiten des Zählens) wird durch den gegebenen Vorteiler geteilt; also wird die Zeit bis zum Reset um den reziproken Wert des Bruches (also um 1, 2, 4 oder 8) vervielfacht. 	
 	
-	\item[A 3.1.3] Entwickeln Sie eine eigenständige Endlosschleife die in der Aufgabenstellung beschriebenen Schritte zyklisch ausführt.  \\
+	\item[A 3.1.3] Entwickeln Sie eine Endlosschleife, die die in der Aufgabenstellung beschriebenen Schritte zyklisch ausführt.  \\
 	
-	Das nachfolgende Programm schaltet die LEDs in der vorgegebenen Form an bzw. aus.
+	Dieses Programm schaltet die LEDs in der vorgegebenen Form an bzw. aus.
 \begin{lstlisting}[numbers=left]
 // simuliert eine Sekunde Wartezeit
 void waitOneSec() {
@@ -106,16 +108,17 @@ void aufgabe313() {
 	while(1) {aufgabe313();}
 	\end{lstlisting}
 	
-	Beobachtung: \\
-Die LEDs gehen alle an, das Modul führt direkt nach Aktivieren des Watchdogs ein \texttt{RESET} durch. Die Funktion aufgabe313 wird nicht ausgeführt (via Breakpoint getestet). Das kommt wohl daher, dass bereits durch das Initialisieren des Moduls der Zähler des watchdogs so groß wurde, sodass direkt nach dem aktivieren ein \texttt{RESET}-Befehl ausgelöst wird.
+	\textbf{Beobachtung und Erklärung}: \\
+Die LEDs gehen alle an, das Modul führt direkt nach Aktivieren des Watchdogs ein \texttt{RESET} durch. Die Funktion \texttt{aufgabe313} wird nicht ausgeführt (via Breakpoint getestet).\\
+Das kommt wohl daher, dass bereits durch das Initialisieren des Moduls der Zähler des Watchdogs so groß wurde, dass direkt nach dem Aktivieren ein \texttt{RESET}-Befehl ausgelöst wird.
 	
-	\item[A 3.1.5] Nun wird der Watchdog wie in der Aufgabenstellung beschrieben aktiviert. Berechnen Sie für diese Einstellung die Zeit bis der Watchdog einen \texttt{RESET} auslöst. Wie lange dauert ein Durchlauf der Schleife mit den oben beschriebenen fünf Schritten? Zu welchem Zeitpunkt löst der Watchdog einen \texttt{RESET} aus? Testen das Programm und diskutieren Sie das erkennbare Verhalten.  \\ 
+	\item[A 3.1.5] Nun wird der Watchdog wie in der Aufgabenstellung beschrieben aktiviert. Berechnen Sie für diese Einstellung die Zeit bis der Watchdog einen \texttt{RESET} auslöst. Wie lange dauert ein Durchlauf der Schleife mit den oben beschriebenen fünf Schritten? Zu welchem Zeitpunkt löst der Watchdog einen \texttt{RESET} aus? \\
 	
 	Das Programm wird nun folgendermaßen angepasst:
 	
 	\begin{lstlisting}[numbers=left]
-	BCSCTL1 |= DIVA0 + DIVA1;
-	WDTCTL = (WDTPW + WDTSSEL)
+	BCSCTL1 |= DIVA0 + DIVA1; // Vorteiler 8
+	WDTCTL = (WDTPW + WDTSSEL) //Watchdog starten, ACLK selektiert
 	while(1) {aufgabe313();}
 	\end{lstlisting}
 	
@@ -125,14 +128,14 @@ Die LEDs gehen alle an, das Modul führt direkt nach Aktivieren des Watchdogs ei
 	Nach Beobachtung des Ablaufs bestätigen sich unsere Überlegungen: Der Watchdog löst nach ca. acht Sekunden ein \texttt{RESET} aus.
 	
 	
-	\item[A 3.1.6] Einen \texttt{RESET} durch den Watchdog innerhalb der Endlosschleife kann verhindert werden, wenn man innerhalb der Endlosschleife den Watchdog neu programmiert. Fügen Sie dazu einfach nach dem 5.Schritt eine entsprechende Codezeile ein. Testen und dokumentieren Sie das.   \\
+	\item[A 3.1.6] Einen \texttt{RESET} durch den Watchdog innerhalb der Endlosschleife kann verhindert werden, wenn man innerhalb der Endlosschleife den Watchdog neu programmiert. Fügen Sie dazu einfach nach dem 5.Schritt eine entsprechende Codezeile ein. \\
 	
-	Da ein Schleifendurchlauf nur ca. fünf Sekunden dauert, können wir am Ende der Schleife eine Codezeile hinzufügen, die den Watchdog-Counter zurücksetzt. Dies können wir durch hinzufügen des folgenden Codes erreichen:
+	Da ein Schleifendurchlauf nur ca. fünf Sekunden dauert, können wir am Ende der Schleife eine Codezeile hinzufügen, die den Watchdog-Counter zurücksetzt. Dies können wir durch Hinzufügen des folgenden Codes erreichen:
 	
 	\begin{lstlisting}
 	WDTCTL = (WDTPW + WDTCNTCL + WDTSSEL);
 	\end{lstlisting}
-	
+	Das Bitmuster \texttt{WDTCNTCL} löscht den aktuellen Watchdog-Zähler.
 	Mit dieser Codezeile wurde das Modul auch nach fünf Schleifendurchläufen nicht zurückgesetzt, also gehen wir davon aus, dass es funktioniert und das Modul nicht mehr neugestartet werden sollte.
 	
 \end{description}
@@ -141,13 +144,7 @@ Die LEDs gehen alle an, das Modul führt direkt nach Aktivieren des Watchdogs ei
 \section*{A 3.2 Verteilung}
 %% Ab hier noch nicht formatiert %%
 \begin{description}
-	\item[A 3.2.1] Wie in der Aufgabenstellung erwähnt wird längere Arbeit durch den nachfolgenden Code simuliert:
-		\begin{lstlisting}
-	while(P1IN & 0x01){
-		P4OUT & =~0x01; wait(30000); P4OUT |= 0x01; wait(30000);
-	};
-        \end{lstlisting}
-Erklären Sie was in der Codezeile ausgeführt wird. Welche Beobachtung machen Sie, wenn der Taster länger als 6 Sekunden gedrückt wird oder einfach dauerhaft gedrückt bleibt. Erklären Sie die Beobachtung. \\
+	\item[A 3.2.1] Wie in der Aufgabenstellung erwähnt wird längere Arbeit durch einen Code simuliert. Erklären Sie diesen. Welche Beobachtung machen Sie, wenn der Taster länger als 6 Sekunden gedrückt wird oder einfach dauerhaft gedrückt bleibt? \\
 
 	In der Schleife wird zuerst die LED P4.0 eingeschaltet, dann 300 Millisekunden gewartet, die LED P4.0 wieder ausgeschaltet und wieder 300 Millisekunden gewartet.\\
 	Wird die Taste lang genug gedrückt (mindestens ca. 6 Sekunden), so wird durch den Watchdog ein \texttt{RESET} ausgelöst. Dies können wir uns damit erklären, dass durch die Schleifendurchläufe, die von dem Tastendruck ausgelöst werden, der Watchdog-Counter so weit hochgezählt wird, bis es schließlich zum \texttt{RESET} kommt. Ein Zurücksetzen des Zählers kann nicht stattfinden, da das Programm die Schleife nicht verlassen kann und somit die Zeile aus Aufgabe A.3.1.6 nicht erreicht.
@@ -163,42 +160,40 @@ Erklären Sie was in der Codezeile ausgeführt wird. Welche Beobachtung machen S
 	};
 	\end{lstlisting}
 	
-	\item[A 3.2.3] In realen Systemen kann es durchaus passieren, dass aufgrund von Speicherfehlern oder Softwareproblemen ein System sich ständig neu startet. Wie kann man programmtechnisch registrieren und speichern, wann und an welcher Programmstelle der Watchdog das System neu gestartet hat. Skizzieren Sie einen Lösungsansatz. Als Hilfestellung hier folgende Stichwörter: \\
+	\item[A 3.2.3] In realen Systemen kann es durchaus passieren, dass aufgrund von Speicherfehlern oder Softwareproblemen ein System sich ständig neu startet. Wie kann man programmtechnisch registrieren und speichern, wann und an welcher Programmstelle der Watchdog das System neu gestartet hat. Skizzieren Sie einen Lösungsansatz. \\
 
 %% @change 28.02.12 (traeger) %%
 
 \begin{samepage}
-Ein System-Reset kann aus drei verschiedenen Gründen ausgel"ost werden
+Ein System-Reset kann aus drei verschiedenen Gründen ausgel"ost werden:
 \begin{enumerate}
-\item Reset über den $\overline{RST}/{\text{NMI}}$ Pin
+\item Reset über den $\overline{\texttt{RST}}$/\texttt{NMI}-Pin
 \item ein Oszillator-Fehler
 \item eine Zugriffsverletzung auf den Flash-Speicher
 \end{enumerate}
 \end{samepage}
 \begin{samepage}
-Es ist m"oglich programmatisch auf diese Ereignisse mit Hilfe einer Interrupt-Service-Routine vor dem Reset zu reagieren. Dazu wird die NMI-Interrupt-Service-Routine (\href{http://hwp.mi.fu-berlin.de/intern/19606-P-MPP/Dokumentation/slau049f.pdf}{Figure $2-6.$ NMI Interrupt Handler}) verwendet, die f"ur die einzelnen Ereignisse aktiviert werden kann, indem
+Es ist m"oglich, programmatisch auf diese Ereignisse mit Hilfe einer Interrupt-Service-Routine vor dem Reset zu reagieren. Dazu wird die NMI-Interrupt-Service-Routine verwendet, die f"ur die einzelnen Ereignisse aktiviert werden kann. Aktiviert wird sie, indem
 \begin{enumerate}
-\item das $\overline{RST}/{\text{NMI}}$ Pin in NMI-Modus gesetzt wird
-\item das $\text{ACCVIE}$ Register gesetzt wird
-\item das $\text{OFIE}$ Register gesetzt wird
+\item das $\overline{\texttt{RST}}$/\texttt{NMI}-Pin in NMI-Modus gesetzt wird
+\item das \texttt{ACCVIE}-Register gesetzt wird
+\item das \texttt{OFIE}-Register gesetzt wird
 \end{enumerate}
 \end{samepage}
 
-In der NMI-Interrupt-Service-Routine kann nun der gesamte Stack ab dem \href{http://hwp.mi.fu-berlin.de/intern/19606-P-MPP/Dokumentation/slau049f.pdf}{Stack Pointer (3.2.2)} ausgelesen und in den Information-Memory-Teil des Flashspeichers gespeichter werden, damit kann die gesamte Aufruf-Hierarchie zur"uck verfolgt werden um den Programm-Ablauf zu rekonstruieren.
-Die ist m"oglich da auf dem Stack s"amtliche R"ucksprung-Adressen (jeweils "uber den Programm-Counter) gespeichert sind. 
+\newpage
 
-Eine Speicherung in den Information-Memory-Teil des Flashspeichers ist sinnvoll, da dieser Teil des Flash-Speichers nicht als Zwischenspeicher von Programmen genutzt wird und damit nicht sofort nach Neustart des Controllers neu beschrieben wird. Damit sind die darin gespeicherten Information nach einen Soft-Resets immer noch in Speicher verf"ugbar und k"onnen verarbeitet werden (zB. zur Fehleranalyse).
+In der NMI-Interrupt-Service-Routine kann nun der gesamte Stack ab dem Stack Pointer (Manual Sektion 3.2.2) ausgelesen und in den Information-Memory-Teil des Flashspeichers gespeichtert werden. Damit kann dann die gesamte Aufrufhierarchie zur"uckverfolgt und der Programmablauf rekonstruiert werden.
+Dies ist m"oglich, da auf dem Stack s"amtliche R"ucksprungadressen (jeweils "uber den Program-Counter) gespeichert sind. 
 
-%% original %%
-% blablabla
-%% %%
+Eine Speicherung in den Information-Memory-Teil des Flashspeichers ist sinnvoll, da dieser Teil des Flash-Speichers nicht als Zwischenspeicher von Programmen genutzt wird und damit nicht sofort nach Neustart des Controllers neu beschrieben wird. Damit sind die darin gespeicherten Information nach einem Soft-Reset immer noch  verf"ugbar und k"onnen (z.B. zur Fehleranalyse) verarbeitet werden.
 \end{description}
 
-\newpage
+
 \section*{A 3.3 Software-Reset} 
 
 \begin{description}
-	\item[A 3.3.1] Vervollständigen Sie das \texttt{MCU \_ RESET;} Macro. Schreiben Sie ein kleines Programm, mit dem Sie die Funktion testen können. Das Programm soll bei Tastendruck einen RESET auslösen und über die LED ein Neustart des Controllers in geeigneter Weise signalisieren. Nutzen Sie dazu den Watchdog. \\
+	\item[A 3.3.1] Vervollständigen Sie das \texttt{MCU\_ RESET;}-Macro. Schreiben Sie ein kleines Programm, mit dem Sie die Funktion testen können. Das Programm soll bei Tastendruck einen \texttt{RESET} auslösen und über die LED ein Neustart des Controllers in geeigneter Weise signalisieren. Nutzen Sie dazu den Watchdog. \\
 	
 	Wir können einen Neustart erzwingen, in dem wir ohne Passwort auf das Watchdogregister zugreifen, also lässt sich das Macro folgendermaßen schreiben:
 	\begin{lstlisting}
@@ -207,12 +202,16 @@ Eine Speicherung in den Information-Memory-Teil des Flashspeichers ist sinnvoll,
 	
 	Unter Nutzung dieses Macros verwenden wir nun den Code aus den vorherigen Aufgaben um bei einem Tastendruck das Modul neuzustarten.
 	\begin{lstlisting}
-	while(P1IN&0x01){
-		P4OUT &=~0x01; wait(30000);P4OUT |= 0x01;
-		MCU_RESET;
+	while (P1IN & 0x01) {
+		P4OUT &= ~0x01; // LED anschalten
+		wait(30000);    // warten
+		P4OUT |= 0x01;  // LED ausschalten
+		MCU_RESET;      // Neustarten
 	};
 	\end{lstlisting}
-	Dabei wird bei einem Tastendruck für eine kurze Zeit die LED4.0 angeschaltet. Sobald sie erlischt, wird ein Neustart ausgelöst.
+	Dabei wird bei einem Tastendruck für eine kurze Zeit die LED 1 angeschaltet. Sobald sie erlischt, wird ein Neustart ausgelöst.
+	
+	Dieses Programm wurde erfolgreich getestet.
 	
 \end{description}
 \label{LastPage}
