@@ -1,0 +1,128 @@
+\section{Aufgabe 5.2 : Auto Shutdown mit einer ON / OFF Logik}
+
+\subsection{A 5.2.1}
+
+In dieser Aufgabe soll ein Programm mit der folgenden Verhaltensweise umgesetzt werden:\\
+Wenn das Gerät nicht benutzt wird, soll es in den LowPowerMode LPM4 versetzt werden. Auf Tastendruck soll das Gerät aufgeweckt werden und eine Zeit lang rechnen.\\
+
+Das Hauptprogram sieht wie folgt aus:
+
+\begin{itemize}
+	\item Statusvariable auf LPM4 Mode setzen
+	\item Tickvariable auf Null setzen
+	\item Tastaturport (P1.0) interruptfähig initialisieren
+	\item Eintreten in eine Endlosschleife
+	\item Abfrage ob aktiver Mode aktuell ist, oder in LPM4 versetzt werden soll:
+		\begin{itemize}
+			\item Wenn aktiver Mode, dann schalte LED (P4.1) ein
+			\item Wenn LPM4 Mode, dann alle LED aus und LPM4 an
+			\item Wenn Taste (P1.0) gedrückt in einer Schleife Taste lesen, bis die Taste nicht mehr gedrück ist. Nach der Schleife testen, ob die Tick 	
+				Variable > 2 ist. Ist dies der Fall den Mode auf LPM4 setzen.
+		\end{itemize}
+\end{itemize}	
+
+Die ISR für den Taster soll das folgende realisieren:
+
+\begin{itemize}
+	\item Status der LP-Mode abfragen.
+	\item Wenn Status auf LPM gesetzt ist:
+		\begin{itemize}
+			\item  Statusvariable auf aktiven Mode setzen
+			\item Watchdog Timer programieren
+		\end{itemize}
+	\item Wenn der Status aktiv ist:
+		\begin{itemize}
+			\item Tickvariable auf Null setzen
+		\end{itemize}
+\end{itemize}
+
+Die ISR für den Watchdog soll folgendes tun:
+
+\begin{itemize}
+	\item Zeittickvariable inkrementieren und LED (P4.2) toggeln
+	\item Wenn der Status auf aktiven Mode ist, abtesten ob Timer > 60
+	\item Ist dies der Fall, soll der LPM gesetzt und die LEDs deaktiviert werden.
+\end{itemize}
+
+\textbf{Programm}:\\
+
+Zunächst haben wir die beiden Variablen angelegt, dabei soll das highest Bit für den Modus stehen und die verbleibenden Bits darunter für die Zeit.\\
+0 steht an höchster Stelle für LPM und 1 für aktiven Mode.
+
+\begin{lstlisting}
+char state;
+\end{lstlisting}
+
+Danach bieten wir eine Initialisierungsmethode an:
+
+\begin{lstlisting}
+void init52(void){
+	state = 0;
+	IE1 |= 0x01;	// Interrupt für den Taster aktivieren
+	IE1 |= WDT_IE; // Interrupt für den Watchdog aktivieren;
+
+	P4SEL &= ~(0x07);
+	P4DIR |= 0x07;
+	P4OUT |= 0x07;
+
+	BSCTL! |= DIVA_2;
+	P1IES &= ~(0x01);
+	P1SEL &= ~(0x01);
+	P1DIR &= ~(0x01);
+	P1OUT &= ~(0x01);
+}
+\end{lstlisting}
+
+Nun legen wir die beiden ISRs an:
+
+\begin{lstlisting}
+#pragma vector = WDT_VECTOR
+__interrupt void do_wdt52(void){
+	state++;
+	if(state & (1<<8) && (state | ((1<<8)-1)) > 60){
+		state |= 1<<8;
+		LED1OFF;
+		LED2OFF;
+		WDTCTL = WDTPW + WDTHOLD;
+	} else {
+		WDTCTL  = WDTPW + WDTCNTCL + WDTSSEL + WDTTMSEL;
+	}
+}
+
+#pragma vector = PORT1_VECOTR
+__interrupt void do_port152(void){
+	if(state & (1<<8)){
+		state &= (1<<8) - 1;
+		WDTCTL  = DWTPW + WDTCNTCL + WDTSSEL + WDTTMSEL;
+	} else {
+		state = (1<<8);
+	}
+}
+\end{lstlisting}
+
+Und zuletzt das Hauptprogramm:
+
+\begin{lstlisting}
+void aufgabe52(void){
+	if(state_aufgabe52 & (1<<8)){
+		LED1ON;
+	} else {
+		LED1OFF;
+		LED2OFF;
+		LPM4;
+	}
+	while(P1IN & 0x01) {}
+
+	if((state | ((1<<8)-1)) > 2) {
+		state |= 1<<8;
+	}
+}
+\end{lstlisting}
+
+\textbf{Beobachtung}:\\
+
+tada
+
+\textbf{Erklärung}:\\
+
+blub
