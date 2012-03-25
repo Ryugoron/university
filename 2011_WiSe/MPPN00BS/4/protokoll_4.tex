@@ -1,0 +1,186 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm]{geometry} 
+\usepackage{babel}
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc} 
+\usepackage{ae} 
+\usepackage{amssymb} 
+\usepackage{amsmath} 
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{paralist}
+\usepackage{fancyhdr}
+\usepackage{subfigure}
+%\usepackage{hyperref} % @added (traeger 28.02.12) @removed (steen 29.02.12)
+\pagestyle{fancy}
+\fancyhead[C]{Mikroprozessorpraktikum}
+\fancyhead[L]{Protokoll 4}
+\fancyhead[R]{WS 2011/12}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage / \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\setlength{\parindent}{0pt} 
+\setlength{\headheight}{15pt}
+
+
+\author{Teilnehmer:\\ \\Marco Träger, Matr. 4130515\\Alexander Steen, Matr. 4357549}
+\date{Gruppe: Freitag, Arbeitsplatz: HWP 1}
+\title{Mikroprozessorpraktikum WS 2011/12\\ Aufgabenkomplex: 4}
+
+\begin{document}
+
+\lstset{language=c, basicstyle=\ttfamily\fontsize{9pt}{9pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2}
+
+\maketitle
+\thispagestyle{fancy}
+\newpage
+\section*{A 4.1 Taster als Interruptquelle}
+
+\begin{description}
+	\item[A 4.1.1] Beide Taster an Port1 (P1.0 und P1.1) sollen interruptfähig sein und auf eine LH-Flanke den Interrupt auslösen. Zunächst soll die Toggle-Funktionalität implementiert werden. \\
+
+Zunächst definieren wir uns einige Variablen: \texttt{counter} wird im folgenden Code (weiter unten) die Anzahl der Tastendrücke am Taster P1.0 zählen. \texttt{waittime} wird ebenfalls weiter unten im Code genutzt, um in dem Interrupt mittels \texttt{wait()} eine Abarbeitungszeit zu simulieren; damit minimieren wir das Prellen der Tasterkontakte und verhindern, dass mehrfach in den Interrupt gesprungen wird.
+\begin{lstlisting}[numbers=left]
+int counter = 0;
+int waittime = 15000;
+
+void init411() {
+	// LEDs vorbereiten
+	P4DIR |= (0x07);
+	P4SEL &= ~(0x07);
+	P4OUT |= 0x07;
+	
+	// Taster vorbereiten
+	P1DIR &= ~(0x03);
+	P1SEL &= ~(0x03);
+	// Interrupt einschalten 
+	P1IE |= (0x03);
+	// Auf LH-Flanke stellen
+	P1IES &= ~(0x03);
+}
+
+void aufgabe411() {
+	wait(50000);
+	P4OUT ^= 0x04; //LED4.2 toggeln
+}
+\end{lstlisting}
+Von der \texttt{main.c}-Datei wird die \texttt{init411}-Funktion vor der Endlosschleife und dem darin enthaltenen Funktionsaufruf von \texttt{aufgabe411} ausgeführt. Es werden zunächst alle notwendigen Einstellungen für die LEDs und die Taster vorgenommen. Danach wird in einer Endlosscheife die LED 4.2 getoggelt.
+
+Als nächstes wird ein Interrupt für den Port 1 definiert. Die Vorgehensweise wurde aus der Datei \texttt{interrupt.c} aus dem Startprojekt übernommen.
+\begin{lstlisting}[numbers=left,firstnumber=23]
+#pragma vector = PORT1_VECTOR
+__interrupt void PORT1 (void) {
+	// P1.0 wurde gedrueckt
+	if((P1IN & 0x01)) {
+		counter++;
+		// Zehnte Mal gedrueckt
+		if(counter == 10) {
+			counter = 0;
+			P4OUT ^= 0x01; //toggle
+		}
+		wait(waittime);
+	}
+	// P1.1 wurde gedrueckt
+	if((P1IN & 0x02)) {
+		P4OUT ^= 0x02; //toggle
+		wait(waittime);
+	}
+	
+	// Interrupt-Flag zuruecksetzen
+	CLEAR(P1IFG, 0xFF);
+}
+\end{lstlisting}
+\newpage
+In dem Interrupt wird überprüft, welche der beiden Taster gedrückt wurde und danach entschieden, ob entweder die LED 4.1 sofort oder die LED 4.0, falls der zehnte Druck in Folge, getoggelt wird. Zusätzlich wird in beiden Fällen mittels \texttt{wait(waittime)} ein wenig Arbeitslast simuliert, sodass ein Prellen der Tastkontakte vermieden wird. Am Ende der ISR wird die Interrupt-Flag zurückgesetzt und somit der Interrupt als abgearbeitet markiert.
+\\
+Um nun nur bei leuchtender LED 4.1 den Taster P1.0 interruptfähig zu schalten, wird zwischen Zeile 37 und 38 die Anweisung \texttt{P1IE  \^{}= 0x01;} eingefügt. Damit wird bei jedem Druck auf die Taste P1.1 ebenfalls die Interruptfägifkeit von P1.0 getoggelt. Da wir mit ausgeschalteten LEDs starten, müssen wir nur noch die Initialisierung von P1IE in Zeile 14 von \texttt{P1IE |= (0x03);} auf \texttt{P1IE |= (0x02);} ändern. Damit startet das Programm ohne Interruptfähigkeit für P1.0.
+\end{description}
+
+\section*{A 4.2 Totmannschaltung}
+\begin{description}
+	\item[A 4.2.1] Der Watchdog und ein Tasten-Interrupt sollen in dieser Aufgabe gleichzeitig genutzt werden. In der Technik kommt so etwas in Form einer sogenannten Totmannschaltung vor. Betätigt der Fahrer eines Fahrzeugs innerhalb eines festgelegten Zeitraumes nicht eine Taste, erfolgt eine Notbremsung. \\
+
+Die Initialisierung erfolgt analog zu \texttt{A 4.1.1}. Allerdings wird hier nur Taster P1.0 interruptfähig geschaltet und zusätzlich der Watchdog eingerichtet. Aus Aufgabe \texttt{A 3.1.1} wissen wir, dass bei einem Takt von 32768 Hz auf Basis der \texttt{ACLK}-Taktquelle der Watchdog nach einer Sekunde auslöst, falls \texttt{WDTIS1} = 0 und \texttt{WDTIS0} = 0. Da wir vier Sekunden Zeit vor dem Watchdog-Interrupt haben wollen, müssen wir den Takt-Vorteiler im \texttt{BCSCTL1}-Register auf 4 stellen. Zusätzlich wird der Watchdog mit dem \texttt{WDTTMSEL}-Bit gestartet, damit wir den Watchdog-Timer nutzen. Die Funktion \texttt{aufgabe421} wird in einer Endlosschleife ausgeführt und toggelt die LED 4.0.
+
+\begin{lstlisting}[numbers=left]
+void init421() {
+	// LEDs vorbereiten
+	P4DIR |= (0x07);
+	P4SEL &= ~(0x07);
+	P4OUT |= 0x07; LEDs aus
+	LEDOFF;
+	
+	// Watchdog einrichten
+	BCSCTL1 |= DIVA1;	// Divisor /4
+	WDTCTL = WDTPW + WDTTMSEL + WDTSSEL; //PW, Timer Interval, ACLK
+	IE1 = WDTIE; // Watchdog interrupt enable
+	
+	LED2ON;
+	
+	// taster vorbereiten
+	P1DIR &= ~(0x01);
+	P1SEL &= ~(0x01);
+	P1IE |= (0x01);
+	P1IES &= ~(0x01);
+}
+
+void aufgabe421() {
+	wait(50000);
+	P4OUT ^= 0x01;
+}
+\end{lstlisting}
+	
+Des Weiteren brauchen wir nicht nur eine ISR auf dem Taster, sondern auch für den Watchdog-Timer-Interrupt. Das Schlüsselwort \texttt{WDT\_ VECTOR} wurde der Interrupttabelle in der Datei \texttt{interrupt.c} entnommen.
+\newpage
+\begin{lstlisting}
+#pragma vector = PORT1_VECTOR
+__interrupt void PORT1 (void) {
+	// Pin gedrueckt
+	if((P1IN & 0x01)) {
+		// Watchdog zuruecksetzen
+		WDTCTL = WDTPW + WDTSSEL + WDTCNTCL;
+		LED2OFF;
+		wait(1500);
+	}
+	CLEAR(P1IFG, 0xFF);
+}
+
+
+#pragma vector = WDT_VECTOR
+__interrupt void WDT (void) {
+	if(P4OUT & 0x02) {	// LED4.1 ist aus
+		P4OUT &= ~(0x02); // LED anschalten
+	} else {
+		//Watchdog ausschalten
+		WDTCTL = WDTPW + WDTHOLD;
+		IE1 &= ~WDTIE;
+		// Ampelsequenz
+		while(1) {
+			P4OUT = ROT;
+			wait(WAITTIME);
+			P4OUT = ROTGELB;
+			wait(WAITTIME);
+			P4OUT = GRUEN;
+			wait(WAITTIME);
+			P4OUT = GELB;
+			wait(WAITTIME);
+			P4OUT = ROT;
+			wait(WAITTIME);
+		}
+	}
+	//WDTIFG is reset automatically by servicing the interrupt
+}
+\end{lstlisting}
+Die ISR für den Taster setzt den Watchdog-Zähler zurück und schaltet die LED 4.1 aus. In der Watchdog-Timer-ISR wird anhand der LED 4.1 entschieden, was gemacht wird: Ist die LED aus, so wird sie eingeschaltet. Ist sie allerdings bereits eingeschaltet, wird der Watchdog ausgeschaltet und in eine endlose Ampelsequenz übergegangen.\\
+Die groß geschriebenen Konstanten beziehen sich auf die Defintionen aus Aufgabe A 1.1.6.
+\end{description}
+
+
+
+\label{LastPage}
+\end{document}
