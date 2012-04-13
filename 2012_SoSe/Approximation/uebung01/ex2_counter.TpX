@@ -1,0 +1,30 @@
+%<TpX v="5" ArrowsSize="0.7" StarsSize="1" DefaultFontHeight="5" DefaultSymbolSize="30" ApproximationPrecision="0.01" PicScale="1" Border="2" BitmapRes="20000" HatchingStep="2" DottedSize="0.5" DashSize="1" LineWidth="0.3">
+%  <circle x="69.7216" y="26.9505" d="25.6971"/>
+%  <circle x="149.54" y="48.7336" d="25.6971"/>
+%  <circle x="70.3576" y="86.7346" d="25.6971"/>
+%  <text x="147.314" y="46.5076" t="c" h="10"/>
+%  <text x="67.0186" y="83.0776" t="1" h="10"/>
+%  <text x="68.6086" y="23.6115" t="1" h="10"/>
+%  <line x1="83.0776" y1="86.8936" x2="136.661" y2="48.8926"/>
+%  <line x1="82.7596" y1="26.6325" x2="136.661" y2="48.7336" arrs="2"/>
+%</TpX>
+\begin{figure}
+\centering
+\ifpdf
+  \setlength{\unitlength}{1bp}%
+  \begin{picture}(310.44, 253.65)(0,0)
+  \put(0,0){\includegraphics{ex2_counter.pdf}}
+  \put(262.04,97.53){\fontsize{28.45}{34.14}\selectfont c}
+  \put(34.43,201.19){\fontsize{28.45}{34.14}\selectfont 1}
+  \put(38.94,32.63){\fontsize{28.45}{34.14}\selectfont 1}
+  \end{picture}%
+\else
+  \setlength{\unitlength}{1bp}%
+  \begin{picture}(310.44, 253.65)(0,0)
+  \put(0,0){\includegraphics{ex2_counter}}
+  \put(262.04,97.53){\fontsize{28.45}{34.14}\selectfont c}
+  \put(34.43,201.19){\fontsize{28.45}{34.14}\selectfont 1}
+  \put(38.94,32.63){\fontsize{28.45}{34.14}\selectfont 1}
+  \end{picture}%
+\fi
+\end{figure}
