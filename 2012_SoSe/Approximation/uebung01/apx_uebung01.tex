@@ -111,14 +111,13 @@ Consider the following greedy algorithm for carinality Vertex Cover:
 Is this a constant-factor approximation algorithm?\\
 
 \textbf{Solution}\\
-This is not a constant-factor approximation algorithm. If we look at the figure~\ref{fig:2counter} we can see, that in the first execution of the \emph{while loop} the vertex with that is not contained in the set $C$ an has the most uncovered edges is the one on the right with the value $c$. If we assume, that $c$ is greater than two, the OPT is exactly two. The $\delta$ in our factory approximation now depends on the value of $c$. Therefore it is not constant but linear dependend of $c$.
+\begin{description}
+	\item{\claim} The algorithm is not a constant-factor approximation algorithm.
+	\item{\proof}
 
-\begin{figure}[!h]
-	\centering
-	\includegraphics[width=2.5in]{ex2_counter}
-	\caption{Counterexample for exercise 2}
-	\label{fig:2counter}
-\end{figure}
+tbd
+
+\end{descriptio}
 
 %% -------------------------------------------------------
 %%			Exercise 3
