@@ -144,18 +144,9 @@ Let $i$ be the vertex visited first from the DFS algorithm w.l.o.g.. Then $j$ ha
 One can conclude, there is no edge, that has no vertex in the set $C$ and that implies, $C$ is a Vertex Cover.\\
 \mbox{} \hfill $\square$  
 
-	\item{\claim} $\mathfrak{D}$ is a $(| V | - 1)$-approximation algorithm.
-	\item{\proof} 
-
-A finite tree has at least one leaf. If the tree is a single Path, then at most $|V| - 1$ nodes are taken. This is an upper bound because there can't be an more nodes, that could be taken.
-
-	\item{\claim} $\left( |V| - 1 \right) \cdot OPT$ is a tight upper bound.
-	\item{\proof} 
-
-Let $K_n$ be the family of complete graphs with $n$ vertices.\\
-As easy to see, we only need one node to have a Vertex Cover for this graph und therefore it is the minimum.\\
-
-The algorithm $\mathfrak{D}$ will build a DFS tree out of the complete graph. Because every node has an edge to every node the resulting tree $T$ will be a single path with all nodes on it. This path has one leaf, because it is finite on $n$ vertices. The output of $\mathfrak{D}$ would contain exactly $n-1$ vertices. This result is $n-1$ times as large as the optimum.
+	\item{\claim} $\mathfrak{D}$ is a 2-approximation-algorithm.
+	\item{\proof}
+tbd
 \end{description}
 
 \label{LastPage}
