@@ -94,8 +94,6 @@ $$
 %%		Exercise 2
 %% -------------------------------------------------
 
-\pagebreak
-
 \section*{Exercise 2}
 Consider the following greedy algorithm for carinality Vertex Cover:
 \begin{itemize}
@@ -108,6 +106,13 @@ Consider the following greedy algorithm for carinality Vertex Cover:
 		\end{itemize}
 	\item return $C$
 \end{itemize}
+\begin{figure}[!b]
+	\centering
+	\includegraphics[width=1.75in]{ex2_anchor}
+	\caption{Anchor of the graph familiy ($G_1$)}
+	\label{fig:ex2:anchor}
+\end{figure}
+
 Is this a constant-factor approximation algorithm?\\
 
 \textbf{Solution}\\
@@ -115,9 +120,86 @@ Is this a constant-factor approximation algorithm?\\
 	\item{\claim} The algorithm is not a constant-factor approximation algorithm.
 	\item{\proof}
 
-tbd
 
-\end{descriptio}
+We construct a family of graphs that have a factor, dependend in the amount of vertices.\\
+Let $G_n(V_n,E_n)$ be a family of graphs constructed as inductiv as followed:\\
+$G_1(V_1,E_1)$ is a graph of the pairwise connected vertices and one vertex, that has a edge to one vertex of each pair. In figure \ref{fig:ex2:anchor} the graph is visualized.\\
+
+Now for the Induction $G_i$ we take three graph of $G_{i-1}$. Further we add a number of new vertices to the graph and connect each of these vertices with each vertex in every baselayer in the three $G_{i-1}$ graphs, therefore the degree of these vertices will be $3^i$. The constructed graph looks like the example in figure \ref{fig:ex2:example} for the $G_2$.\\
+
+The number of new vertices we will add must be as large as possible, but only that much, that our $3^i$ vertices in the baselevel will have at most the degree $3^i - 1$. From this we construct two formulas $\eta$ for the amount of vertices on level $k$ and $\Psi$ for all nodes (the pairs in the baselevel count as 1 per pair).
+
+
+\begin{figure}[!b]
+	\centering
+	\includegraphics[width=\textwidth]{ex2_counter}
+	\caption{Example for the graph $G_2$ of the family in exercise 2}
+	\label{fig:ex2:example}
+\end{figure}
+
+$$
+\begin{array}{rcl}
+\eta & \; : \; & \mathbb{N}  \longrightarrow  \mathbb{N}\\
+0 & \mapsto & 1\\
+i & \mapsto & 3^i - \left( \underset{k=0}{\overset{i-1}{\sum}} \eta (k) \right) - 1 \quad , i>0 
+\vspace{12pt}\\
+\Psi & \; : \;&  \mathbb{N} \longrightarrow \mathbb{N}\\
+i & \mapsto & 3^i + \underset{k=1}{\overset{i-1}{\sum}} 3^{k-1} \times \eta (i - k - 1)
+\end{array}
+$$
+
+As one can easily see, the Vertex Cover must contain one vertex of each pair in the base level at least. Because every other edge is connected to the baselevel, the Minimum Vertex Cover will contain exactly one vertex (the one every edge is connected to) from each pair. So the OPT is $3^n$ for $G_n$.\\
+
+The algorithm instead will take $\Psi (n)$ for $G_n$. This is, because we constructed the graph the way, that the vertices with the most uncovered edges are the one in the highest level. The base level will have at most one degree less, then the ones in the top level. After alle the toplevel vertices are taken for the Vertex Cover, the resulting graph will be three times $G_{n-1}$, because we could erase all taken nodes and edges connected to them, because the algorithm will no longer concern them as they all are covered.\\
+The vertices we need for the vertex cover therefore will only be taken, after we took alle extra vertices from every level.\\
+
+To proof this is not a constant-factor approximation we have to show, that $\frac{\Psi (n)}{ 3^n }$ is unbounded.
+$$
+\begin{array}{rcl}
+\frac{\Psi(n)}{3^n} &=& 3^n + \underset{k=1}{\overset{n-1}{\sum}} 3^{k-1} \times \eta (n - k - 1) \cdot \frac{1}{3^n}\\
+&=& 1 + \underset{k=1}{\overset{n-1}{\sum}} 3^{k - 1 - n} \times \eta (n - k - 1)
+\end{array}
+$$
+
+For the result we must only concern ourselves with the sum. As we now through simple analysis these row diverge if the inner sequence does not converge against zero. Because we only sum up positive values the row would diverge against positive infinity.\\
+
+\begin{description}
+	\item{\claim} $\forall n > 0 : \eta (n) = 3^n - 3^{n-1}$
+	\item{\proof} Induction over $n$\\
+	\begin{description}
+		\item{\bfseries I.A.} $n=1$\\
+			$\eta (1) = 3^1 - 1 = 3^1 - 3^0$
+		\item{\bfseries I.S.} $n \rightarrow n+1$\\
+			$$
+				\begin{array}{rcl}
+					\eta(n+1) &=& 3^{n+1} - \left( \underset{k=0}{\overset{n}{\sum}} \eta (k) \right) - 1\\
+						&\overset{\text{I.P.}}{=} 3^{n+1} -  \left( \underset{k=0}{\overset{n}{\sum}} 3^k - 3^{k-1} \right) - 1\\
+						&=& 3^{n+1} - 3^n - \left( \underset{k=1}{\overset{n-1}{\sum}} 3^k - 3^k \right)\\
+						&=& 3^{n+1} - 3^n
+				\end{array}
+			$$
+\mbox{}\hfill $\square$
+	\end{description}
+\end{description}
+
+If we take this claim into consideration
+$$
+\begin{array}{rcl}
+\frac{\Psi(n)}{3^n} &=& 1 + \underset{k=1}{\overset{n-1}{\sum}} 3^{k - 1 - n} \cdot ( (3^{n-k-1} - 3^{n-k-2})\\
+	&=& 1 + \underset{k=1}{\overset{n-1}{\sum}} 3^{k-1-n + n - k -1} - 3^{k - 1 - n + n - k -2}\\
+	&=& 1 + \underset{k=1}{\overset{n-1}{\sum}} 3^{-2} - 3^{-3}\\
+	&=& 1 + \underset{k=1}{\overset{n-1}{\sum}} \frac{2}{27}
+\end{array}
+$$
+holds.
+
+The inner sequence is a constant sequence and is never zero. Therefore the row does in fact diverge against positive infinity.\\
+
+We proofed, that the approximation is not constant. \mbox{} \hfill $\square$
+
+\end{description}
+
+
 
 %% -------------------------------------------------------
 %%			Exercise 3
@@ -129,7 +211,6 @@ Consider the following approximation algorithm for the cardinality Vertex Cover 
 \textbf{Solution}\\
 Let $\mathfrak{D}$ be the Algorithm described above. I assume the Graph $G$ is connected. Otherwise we can find a simple counterexample.
 
-\pagebreak
 \begin{description}
 	\item{\claim} The set $C$ returned by $\mathfrak{D}$ is a vertex cover.
 	\item{\proof}
@@ -138,7 +219,7 @@ Let $G(V,E)$ be a valid instance for this problem and $T$ the DFS tree generated
 
 We now assume, there exists an edge $e=(i,j)\in E$ with $\{i , j\} \cap C = \emptyset$.\\
 Every node, as stated above is visited, so $i,j$ may be either nonleaf vertices or leafs of the tree. If either of them would be a nonleaf vertex it would be in $C$. The only left possibility is, that both $i,j$ are leafs.\\
-Let $i$ be the vertex visited first from the DFS algorithm w.l.o.g.. Then $j$ has to be a child of $i$, because the algorithm expects first all direct childs of $i$ before it returns to the parent of $i$. Because there exist an edge from $i$ to $j$ this edge is either taken in the DFS or there exists an edge from one of $i$ children to $J$. Either way $i$ can't be a leaf.\\
+Let $i$ be the vertex visited first from the DFS algorithm w.l.o.g.. Then $j$ has to be a child of $i$, because the algorithm expects first all direct childs of $i$ before it returns to the parent of $i$. Because there exist an edge from $i$ to $j$ this edge is either taken in the DFS or there exists an edge from one of $i$ children to $j$. Either way $i$ can't be a leaf.\\
 
 One can conclude, there is no edge, that has no vertex in the set $C$ and that implies, $C$ is a Vertex Cover.\\
 \mbox{} \hfill $\square$  

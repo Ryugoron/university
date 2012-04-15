@@ -1,0 +1,41 @@
+%<TpX v="5" ArrowsSize="0.7" StarsSize="1" DefaultFontHeight="5" DefaultSymbolSize="30" ApproximationPrecision="0.01" PicScale="1" Border="2" BitmapRes="20000" HatchingStep="2" DottedSize="0.5" DashSize="1" LineWidth="0.3">
+%  <circle x="87.6881" y="94.7199" d="4.87038"/>
+%  <circle x="97.5046" y="94.7199" d="4.87038"/>
+%  <circle x="107.483" y="94.801" d="4.87038"/>
+%  <circle x="87.7692" y="102.526" d="4.87038"/>
+%  <circle x="97.5857" y="102.526" d="4.87038"/>
+%  <circle x="107.564" y="102.607" d="4.87038"/>
+%  <line x1="87.607" y1="100.092" x2="87.6099" y2="97.2332"/>
+%  <line x1="97.4235" y1="100.092" x2="97.4172" y2="97.1541"/>
+%  <line x1="107.727" y1="99.9295" x2="107.739" y2="97.1146"/>
+%  <circle x="97.4275" y="87.5885" d="4.87038"/>
+%  <line x1="97.4235" y1="92.458" x2="97.4172" y2="89.7986"/>
+%  <line x1="107.58" y1="92.29" x2="97.3423" y2="89.8363"/>
+%  <text x="74.6265" y="100.634" t="Base" h="3"/>
+%  <text x="74.5809" y="95.5973" t="Level 0" h="2"/>
+%  <text x="74.3122" y="86.953" t="Level 1" h="2"/>
+%  <line x1="88.905" y1="92.3704" x2="97.4963" y2="89.8777"/>
+%  <text x="76.7745" y="97.8659" t="=" h="2"/>
+%</TpX>
+\begin{figure}
+\centering
+\ifpdf
+  \setlength{\unitlength}{1bp}%
+  \begin{picture}(112.50, 67.72)(0,0)
+  \put(0,0){\includegraphics{ex2_anchor.pdf}}
+  \put(6.56,49.55){\fontsize{8.54}{10.24}\selectfont Base}
+  \put(6.43,35.27){\fontsize{5.69}{6.83}\selectfont Level 0}
+  \put(5.67,10.77){\fontsize{5.69}{6.83}\selectfont Level 1}
+  \put(12.65,41.71){\fontsize{5.69}{6.83}\selectfont =}
+  \end{picture}%
+\else
+  \setlength{\unitlength}{1bp}%
+  \begin{picture}(112.50, 67.72)(0,0)
+  \put(0,0){\includegraphics{ex2_anchor}}
+  \put(6.56,49.55){\fontsize{8.54}{10.24}\selectfont Base}
+  \put(6.43,35.27){\fontsize{5.69}{6.83}\selectfont Level 0}
+  \put(5.67,10.77){\fontsize{5.69}{6.83}\selectfont Level 1}
+  \put(12.65,41.71){\fontsize{5.69}{6.83}\selectfont =}
+  \end{picture}%
+\fi
+\end{figure}
