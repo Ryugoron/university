@@ -13,7 +13,7 @@
 \usepackage{xcolor}
 \usepackage{paralist}
 
-\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
+%\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
 \usepackage{fancyhdr}
 \pagestyle{fancy}
 \fancyhead[C]{Semantik von Programmiersprachen}
@@ -48,15 +48,30 @@
 Ändern Sie die Syntax von \emph{WHILE}, indem Sie \emph{INTEGER} und \emph{REAL} Zahlen unterscheiden.\\
 
 \textbf{Lösung:}\\
-
 Wir müssen zunächst die Menge \emph{ZAHL} in die Mengen \emph{INTEGER} und \emph{REAL} aufteilen. Haben wir dies erledigt, muss man noch alle Operationen so aufteilen, dass man nicht einfach REAL und INTEGER Zahlen mischen kann. Will man dies, geben wir noch eine explizite konversion von INTEGER nach REAL dazu.\\
 
-\textbf{Syntax:}\\
-Elementare Einheiten
+\textbf{Syntax}\\
+Elementare Einheiten:
 \begin{description}
-\item{Z} ::= \underline{0} \| \underline
+	\item[\mdseries \underline{INTEGER}] ::= \underline{0} | \underline{1}
+		| 	\underline{-1} | \underline{2} | \underline{-2} | ...
+	\item[\mdseries\underline{ZIFFERNFOLGE}] ::=  0\underline{ZIFFERNFOLGE}
+		| ... | 9\underline{ZIFFERNFOLGE} | $\varepsilon$
+	\item[\mdseries\underline{REAL}] ::= 
+		\underline{INTEGER}.\underline{ZIFFERNFOLGE}
+	\item[\mdseries Z] ::= \underline{INTEGER} | \underline{REAL}
 \end{description}
+An den restlichen elementaren Definitionen muss nichts geändert werden.
 
+Induktiv aufgebaute Einheiten:
+\begin{description}
+	\item[\mdseries \underline{$\text{T}_{\text{INTEGER}}$}] := \underline{INTEGER} | I
+		| \underline{$\text{T}_{\text{INTEGER}}$} \underline{OP} \underline{$\text{T}_{\text{INTEGER}}$}
+		| \textbf{read}
+	\item[\mdseries \underline{$\text{T}_{\text{REAL}}$}] := \underline{REAL} | I
+		| \underline{$\text{T}_{\text{REAL}}$} \underline{OP} \underline{$\text{T}_{\text{REAL}}$}
+		| \textbf{read}
+\end{description}
 \label{LastPage}
 
 \end{document}
