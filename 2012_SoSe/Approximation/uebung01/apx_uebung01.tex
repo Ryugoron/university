@@ -34,6 +34,7 @@
 \newcommand{\claim}{\addtocounter{claims}{1} \bfseries Claim \arabic{claims}}
 \newcommand{\proof}{\bfseries Proof}
 
+
 \begin{document}
 
 \lstset{language=Pascal, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2}
@@ -182,6 +183,8 @@ For the result we must only concern ourselves with the sum. As we now through si
 	\end{description}
 \end{description}
 
+\pagebreak
+
 If we take this claim into consideration
 $$
 \begin{array}{rcl}
@@ -224,9 +227,27 @@ Let $i$ be the vertex visited first from the DFS algorithm w.l.o.g.. Then $j$ ha
 One can conclude, there is no edge, that has no vertex in the set $C$ and that implies, $C$ is a Vertex Cover.\\
 \mbox{} \hfill $\square$  
 
+\pagebreak
+
 	\item{\claim} $\mathfrak{D}$ is a 2-approximation-algorithm.
 	\item{\proof}
-tbd
+
+Let $n =|V|$ the amount of vertices, $i = \{ v \in V \; | \; \deg (v) \geq 2 \}$ the inner amount of inner vertices.\\
+
+Because every vertex excpet for the root in the tree has exactly one parent. So the amount of tree edges is $n-1$ and the amount of edges in between the nonleaf vertices is $i-1$.\\
+
+Because of that fact the Vertex Cover has to be at least $\frac{i-1}{2}$ large as the amount of inner vertices $i$. So the optimal solution $OPT \geq \frac{i-1}{2}$.
+Considering that
+$$i \leq 2 \cdot i \leq 2 \cdot \frac{i - 1}{2} + \frac{1}{2} \leq 2 \cdot OPT + \frac{1}{2}$$ holds, 
+but both the optimal and the feasible solution of $\mathfrak{D}$ are natural Numbers, so the equation
+$$
+i \leq 2 \times OPT
+$$
+holds. Now we can conclude that
+$$
+|C| \leq 2 \times OPT
+$$
+holds. \mbox{} \hfill $\square$
 \end{description}
 
 \label{LastPage}
