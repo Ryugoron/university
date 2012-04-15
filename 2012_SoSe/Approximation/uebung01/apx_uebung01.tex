@@ -174,7 +174,7 @@ For the result we must only concern ourselves with the sum. As we now through si
 			$$
 				\begin{array}{rcl}
 					\eta(n+1) &=& 3^{n+1} - \left( \underset{k=0}{\overset{n}{\sum}} \eta (k) \right) - 1\\
-						&\overset{\text{I.P.}}{=} 3^{n+1} -  \left( \underset{k=0}{\overset{n}{\sum}} 3^k - 3^{k-1} \right) - 1\\
+						&\overset{\text{I.P.}}{=}& 3^{n+1} -  \left( \underset{k=0}{\overset{n}{\sum}} 3^k - 3^{k-1} \right) - 1\\
 						&=& 3^{n+1} - 3^n - \left( \underset{k=1}{\overset{n-1}{\sum}} 3^k - 3^k \right)\\
 						&=& 3^{n+1} - 3^n
 				\end{array}
@@ -229,12 +229,13 @@ One can conclude, there is no edge, that has no vertex in the set $C$ and that i
 
 \pagebreak
 
-	\item{\claim} $\mathfrak{D}$ is a 2-approximation-algorithm.
+	\item{\claim} Let $G(V,E)$ be a graph and $T(V,E')$ be a spanning tree of $G$. \\If $I = \{v \in V \; | \; \deg_T (v) \geq 2\}$ is a Vertex Cover, then 
+			$|I| \leq 2 \times OPT$ holds.
 	\item{\proof}
 
-Let $n =|V|$ the amount of vertices, $i = \{ v \in V \; | \; \deg (v) \geq 2 \}$ the inner amount of inner vertices.\\
+Let $n =|V|$ the amount of vertices, $i = |I| = \left| \{ v \in V \; | \; \deg_T(v) \geq 2 \} \right|$ the amount of inner vertices.\\
 
-Because every vertex excpet for the root in the tree has exactly one parent. So the amount of tree edges is $n-1$ and the amount of edges in between the nonleaf vertices is $i-1$.\\
+Because every vertex except for the root in the tree has exactly one parent. So the amount of tree edges is $n-1$ and the amount of edges in between the nonleaf vertices is $i-1$.\\
 
 Because of that fact the Vertex Cover has to be at least $\frac{i-1}{2}$ large as the amount of inner vertices $i$. So the optimal solution $OPT \geq \frac{i-1}{2}$.
 Considering that
@@ -243,11 +244,16 @@ but both the optimal and the feasible solution of $\mathfrak{D}$ are natural Num
 $$
 i \leq 2 \times OPT
 $$
-holds. Now we can conclude that
+holds.\mbox{} \hfill $\square$
+
+	\item{\claim} $\mathfrak{D}$ is a 2-approximation-algorithm.
+	\item{\proof}
+
+In claim 5 we had shown, that the DFS tree's inner vertices are a Vertex Cover. The DFS tree is a Spanning Tree, because it connects every vertex and is itself a tree. Together with claim 6 we now conclude, that the output $C$ of $\mathfrak{D}$ must assert
 $$
-|C| \leq 2 \times OPT
+|C| \leq 2 \times OPT.
 $$
-holds. \mbox{} \hfill $\square$
+\mbox{}\hfill $\square$
 \end{description}
 
 \label{LastPage}
