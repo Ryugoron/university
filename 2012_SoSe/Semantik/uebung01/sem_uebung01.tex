@@ -61,17 +61,22 @@ Elementare Einheiten:
 		\underline{INTEGER}.\underline{ZIFFERNFOLGE}
 	\item[\mdseries Z] ::= \underline{INTEGER} | \underline{REAL}
 \end{description}
-An den restlichen elementaren Definitionen muss nichts geändert werden.
+An den restlichen Definitionen muss nichts geändert werden, damit wir syntaktisch \mbox{REAL} und INTEGER unterscheiden können. Nun ist allerdings auch syntaktisch korrekt, die beiden Zahlenarten miteinander zu verrechnen. Dies könnte man zwar auch syntaktisch verbieten, in dem man z.B. die Terme T und die Operationen BOP und OP in zwei verschiedene Ausprägungen (je eine für REAL und INTEGER) unterteilt. Dann müsste man aber noch künstlichen Einschränkungen an die Variablenbezeichner anlegen, sodass hier ebenfalls unterschieden werden kann. Da dies allerdings nicht wirklich sinnvoll erscheint, müsste man gemischte Terme auf semantischer Ebene überprüfen und dort entscheiden, welches Verhalten gewünscht ist.
 
-Induktiv aufgebaute Einheiten:
-\begin{description}
-	\item[\mdseries \underline{$\text{T}_{\text{INTEGER}}$}] := \underline{INTEGER} | I
-		| \underline{$\text{T}_{\text{INTEGER}}$} \underline{OP} \underline{$\text{T}_{\text{INTEGER}}$}
-		| \textbf{read}
-	\item[\mdseries \underline{$\text{T}_{\text{REAL}}$}] := \underline{REAL} | I
-		| \underline{$\text{T}_{\text{REAL}}$} \underline{OP} \underline{$\text{T}_{\text{REAL}}$}
-		| \textbf{read}
-\end{description}
+
+%% ------------------------------------------------------
+%%                     AUFGABE 2
+%% ------------------------------------------------------
+
+\section*{Aufgabe 1}
+
+Definieren Sie eine konkrete Syntax, die eindeutig ist. \\
+
+\textbf{Lösung:}\\
+
+
+
+
 \label{LastPage}
 
 \end{document}
