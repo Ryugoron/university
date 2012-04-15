@@ -13,7 +13,7 @@
 \usepackage{xcolor}
 \usepackage{paralist}
 
-\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
+%\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
 \usepackage{fancyhdr}
 \pagestyle{fancy}
 \fancyhead[C]{Semantik von Programmiersprachen}
@@ -48,14 +48,34 @@
 Ändern Sie die Syntax von \emph{WHILE}, indem Sie \emph{INTEGER} und \emph{REAL} Zahlen unterscheiden.\\
 
 \textbf{Lösung:}\\
-
 Wir müssen zunächst die Menge \emph{ZAHL} in die Mengen \emph{INTEGER} und \emph{REAL} aufteilen. Haben wir dies erledigt, muss man noch alle Operationen so aufteilen, dass man nicht einfach REAL und INTEGER Zahlen mischen kann. Will man dies, geben wir noch eine explizite konversion von INTEGER nach REAL dazu.\\
 
-\textbf{Syntax:}\\
-Elementare Einheiten
+\textbf{Syntax}\\
+Elementare Einheiten:
 \begin{description}
-\item{Z} ::= \underline{0} \| \underline
+	\item[\mdseries \underline{INTEGER}] ::= \underline{0} | \underline{1}
+		| 	\underline{-1} | \underline{2} | \underline{-2} | ...
+	\item[\mdseries\underline{ZIFFERNFOLGE}] ::=  0\underline{ZIFFERNFOLGE}
+		| ... | 9\underline{ZIFFERNFOLGE} | $\varepsilon$
+	\item[\mdseries\underline{REAL}] ::= 
+		\underline{INTEGER}.\underline{ZIFFERNFOLGE}
+	\item[\mdseries Z] ::= \underline{INTEGER} | \underline{REAL}
 \end{description}
+An den restlichen Definitionen muss nichts geändert werden, damit wir syntaktisch \mbox{REAL} und INTEGER unterscheiden können. Nun ist allerdings auch syntaktisch korrekt, die beiden Zahlenarten miteinander zu verrechnen. Dies könnte man zwar auch syntaktisch verbieten, in dem man z.B. die Terme T und die Operationen BOP und OP in zwei verschiedene Ausprägungen (je eine für REAL und INTEGER) unterteilt. Dann müsste man aber noch künstlichen Einschränkungen an die Variablenbezeichner anlegen, sodass hier ebenfalls unterschieden werden kann. Da dies allerdings nicht wirklich sinnvoll erscheint, müsste man gemischte Terme auf semantischer Ebene überprüfen und dort entscheiden, welches Verhalten gewünscht ist.
+
+
+%% ------------------------------------------------------
+%%                     AUFGABE 2
+%% ------------------------------------------------------
+
+\section*{Aufgabe 1}
+
+Definieren Sie eine konkrete Syntax, die eindeutig ist. \\
+
+\textbf{Lösung:}\\
+
+
+
 
 \label{LastPage}
 
