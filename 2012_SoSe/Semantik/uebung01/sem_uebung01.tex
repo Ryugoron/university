@@ -25,7 +25,7 @@
 \renewcommand{\footrulewidth}{0.5pt}
 \renewcommand{\headrulewidth}{0.5pt}
 \setlength{\parindent}{0pt} 
-\setlength{\headheight}{15pt}
+\setlength{\headheight}{0pt}
 
 \author{Tutor: Ansgar Schneider}
 \date{}
@@ -73,9 +73,7 @@ An den restlichen Definitionen muss nichts geändert werden, damit wir syntaktis
 Definieren Sie eine konkrete Syntax, die eindeutig ist. \\
 
 \textbf{Lösung:}\\
-
 Die elementaren Einheiten können diesmal unverändert bleiben.\\
-
 Induktive Einheiten:\\
 \begin{tabular}{rcl}
 T &::=& Z | I | ($T_1$ \underline{OP} $T_2$) | \emph{read}\\
@@ -85,8 +83,8 @@ C &::=& \emph{skip} | I := T | ($C_1$; $C_2$) | if B then $C_1$ else $C_2$ fi | 
 P &::=& C
 \end{tabular}
 
-Wir haben nun jede Produktion, die aus mehr als einem Nicht-Terminal Symbol besteht, entweder mit Klammern oder mit einem Abschlussschlüsselwort versehen. So werden arithmetische Operationen nun auf jedenfall durch eine Klammer abgeschlossen. Dies ist etwas übertrieben, da wir auf semantischer Ebene Bindungsstärken vereinbaren können, aber damit die Grammatik syntaktisch eindeutig ist, muss alles geklammert werden. Das \emph{if} wird nach dem else durch ein Abschließendes \emph{fi} ersetzt. Bei \emph{while} wird das \emph{do} durch ein \emph{od} geschlossen. Da man den Gültigkeitsbereich nun explizit angeben muss, wird die konkrete Syntax eindeutig.\\
-Die boolschen Operationen müssen nicht abgeschlossen werden, da wir in unserer Syntax boolsche Werte nicht weiter kombinieren können. So schließt eine boolsche Operation den Ausdruck an sich ab. Die Komposition sieht im ersten Moment komisch aus, wenn wir diese erzeugen, da wir nun viele unnütze Klammern haben, aber nur auf diese Weise können wir verhindern, dass $c_1;c_2;c_3$ auf 2 Arten interpretiert werden kann.
+Wir müssen nur jede Produktion, die aus mehr als einem Nicht-Terminal Symbol besteht, entweder mit Klammern oder mit einem Abschlussschlüsselwort versehen, sollte dies nötig sein. So werden arithmetische Operationen nun auf jedenfall durch eine Klammer abgeschlossen. Das \emph{if} wird nach dem \emph{else} durch ein Abschließendes \emph{fi} ersetzt. Bei \emph{while} wird das \emph{do} durch ein \emph{od} geschlossen. Da man den Gültigkeitsbereich nun explizit angeben muss, wird die konkrete Syntax eindeutig.\\
+Die boolschen Operationen müssen nicht abgeschlossen werden, da wir in unserer Syntax boolsche Werte nicht weiter kombinieren können. So schließt eine boolsche Operation den Ausdruck an sich ab. Die Komposition sieht im ersten Moment komisch aus, wenn wir diese erzeugen, da wir nun viele unnütze Klammern haben, aber nur auf diese Weise können wir verhindern, dass $c_1;c_2;c_3$ auf 2 Arten interpretiert werden kann.  Bei arithmetischen Ausdrücken und der Komposition ist dies in den meisten Fällen nicht die gewünscht Lösung. Dort sollte eher auf Semantikebene eine Bindungsstärke, bzw. Ausfürhungsreihenfolge angegeben werden, aber in der Syntax ist dies nicht anders eindeutig machbar.
 
 
 % -----------------------------------------------------------
@@ -105,9 +103,7 @@ Formulieren Sie informell eine Präzisierung der angegebenen WHILE-Semantik, die
 behandelt.\\
 
 \textbf{Lösung:}\\
-Beschreibung:\\
-
-Anmerkung: Manche meiner Ideen haben eine Syntaxänderung zur folge. Keine Ahnung was wir hier machen sollen, da keine Fehlerbehandlung möglich ist, wäre wohl Termination das einzig mögliche.
+Da wir der Aufgabe nach nichts weiter erfüllen müssen könnten wir uns für die Praxis unsinnige Ergebnisse ausdenken. So könnte in einem Fehlerfall z.B. immer das literal \underline{7} zurückgegeben werden, oder wir verlangen, dass nach einem Fehler im Programm heiloses Chaos herrschen soll (wie ein Programmierer in realer Semantik einmal spezifiert hat). Wir haben uns für ein etwas handhabbares Model entscheiden, bei dem man noch die Variable \emph{errno} braucht und REAL die Werte \emph{NaN, INFTY, -INFTY} annehmen kann.
 
 \begin{description}
 	\item{\bfseries Bereichsüberlauf:} Wir könnten an dieser Stelle in \emph{errno} z.B. \underline{1} schreiben. Dies wird für alle Anweisungen, die nach 
