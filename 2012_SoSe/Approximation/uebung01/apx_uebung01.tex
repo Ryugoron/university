@@ -55,7 +55,7 @@ Consider the 2-approximation algorithm for the cardinality (i.e. unweighted) Ver
 
 \textbf{Solution:}\\
 Because $\delta$ is a function which domain is the set of instances for the problem we might take any information from the graph we need. The general idea to estimate the approximation factor is, that on each edge from the Maximal Matching, there might stand the maximal value of all nodes.\\
-Because at least one of these nodes has to be part of the Minimum Vertex Cover we consider the worst case. One of these nodes contains the smallest possible value, the other one has the biggest on.\\
+Because at least one of these nodes has to be part of the Minimum Vertex Cover we consider the worst case. One of these nodes contains the smallest possible value, the other one has the biggest one.\\
 Now the weight of the two nodes on the edges we took is $\frac{max+min}{min} = \frac{max}{min}+1$ times as large as the smallest posibility might be.\\
 We sum up every node in the Maximal Matching and because we know we know each pair of the matching is at most $\frac{max}{min}+1$ times as large, we can use the destribution law to extract the factor 
 $$
