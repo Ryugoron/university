@@ -13,6 +13,27 @@
 \usepackage{xcolor}
 \usepackage{paralist}
 
+\lstloadlanguages{Haskell}
+\lstnewenvironment{code}
+    {\lstset{}%
+      \csname lst@SetFirstLabel\endcsname}
+    {\csname lst@SaveFirstLabel\endcsname}
+    \lstset{
+      basicstyle=\small\ttfamily,
+      flexiblecolumns=false,
+      basewidth={0.5em,0.45em},
+      literate={+}{{$+$}}1 {/}{{$/$}}1 {*}{{$*$}}1 {=}{{$=$}}1
+               {>}{{$>$}}1 {<}{{$<$}}1 {\\}{{$\lambda$}}1
+               {\\\\}{{\char`\\\char`\\}}1
+               {->}{{$\rightarrow$}}2 {>=}{{$\geq$}}2 {<-}{{$\leftarrow$}}2
+               {<=}{{$\leq$}}2 {=>}{{$\Rightarrow$}}2 
+               {\ .}{{$\circ$}}2 {\ .\ }{{$\circ$}}2
+               {>>}{{>>}}2 {>>=}{{>>=}}2
+               {|}{{$\mid$}}1               
+    }
+
+\long\def\ignore#1{}
+
 %\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
 \usepackage{fancyhdr}
 \pagestyle{fancy}
@@ -38,13 +59,14 @@
 \maketitle
 \thispagestyle{fancy}
 
+\ignore{
 \begin{code}
 module WhileParse where
 
 import Data.Map (Map)
 import qualified Data.Map as Map
 \end{code}
-
+}
 %% ------------------------------------------------------
 %%                     AUFGABE 1
 %% ------------------------------------------------------
@@ -87,7 +109,10 @@ data C = Skip
         deriving Show
 
 type P = C
+\end{code}
 
+\ignore{
+\begin{code}
 instance Show K where
     show (LiteralInteger i) = show i
     show (LiteralBool b)    = show b
@@ -126,7 +151,7 @@ nameBop Lte   = "<="
 nameBop Gte   = ">="
 nameBop Neq   = "/="
 \end{code}
-
+}
 
 %% ------------------------------------------------------
 %%                     AUFGABE 2
@@ -165,7 +190,7 @@ Zurück kommt der Wert, den der Term ergeben sollte und die Restliste von Eingab
 evalT :: T                       -- arithmetischer Term
         -> Map I Z               -- Variablenbelegung
 		-> [K]                   -- Liste von Eingaben
-		-> (Z, [K])              -- Tupel (Rückgabewert (Zahl), Input)
+		-> (Z, [K])              -- Tupel (Rueckgabewert (Zahl), Input)
 evalT (Z v) _ e       = (v,e)
 evalT (I v) m e       =
 	let mvalue = Map.lookup v m in
@@ -183,7 +208,7 @@ evalT _ _ _			   = error "Not enough or wrong  Input"
 evalB :: B                       -- boolscher Term
          -> Map I Z              -- Variablenbelegung
 		 -> [K]                  -- List von Eingaben
-		 -> (W, [K])             -- Rückgabewert (Bool)
+		 -> (W, [K])             -- Rueckgabewert (Bool)
 evalB (Literal b) _ e       = (b,e)
 evalB (Not b) m e           = 
     let (rBool, e1) = evalB b m e in
@@ -233,7 +258,7 @@ test5 = BApp TRead Lte (TApp TRead Plus (Z 1))
 
 \section*{Aufgabe 4}
 Schreiben Sie einen Ubersetzer für T und B, für eine einfache Kellermaschine.
-
+\ignore{
 \begin{code}
 
 showParse :: [String] -> IO()
@@ -247,6 +272,11 @@ showParse xs = do
                 putStrLn x
                 showParseH xs
 
+
+\end{code}
+}
+
+\begin{code}
 parseT :: T -> [String]
 parseT (Z v)         		= ["push "++(show v)]
 parseT (I v)         		= ["load "++(show v)]
