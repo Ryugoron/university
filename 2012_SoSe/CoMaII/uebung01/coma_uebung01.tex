@@ -1,0 +1,76 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm]{geometry} 
+\usepackage{babel}
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc} 
+\usepackage{ae} 
+\usepackage{amssymb} 
+\usepackage{amsmath} 
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{paralist}
+
+%\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[C]{CoMa II}
+\fancyhead[L]{Übung Nr. 1}
+\fancyhead[R]{SoSe 2012}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage / \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\setlength{\parindent}{0pt} 
+\setlength{\headheight}{0pt}
+
+\author{Tutor: XY}
+\date{}
+\title{Max Wisniewski , Alexander Steen}
+
+\begin{document}
+
+\lstset{language=Pascal, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2}
+
+\maketitle
+\thispagestyle{fancy}
+
+
+%% ------------------------------------------------------
+%%                     AUFGABE 1
+%% ------------------------------------------------------
+
+\section*{Aufgabe 1}
+
+Seien $A = \left(
+                \begin{array}{cc}
+                    1 & 1 \\
+                    0 & \varepsilon
+                \end{array}
+           \right),
+      b_1 = \left(
+                \begin{array}{c}
+                    2 \\
+                    \varepsilon
+                \end{array}
+           \right),
+      b_2 = \left(
+                \begin{array}{c}
+                    0 \\
+                    1 
+                \end{array}
+           \right)$
+mit $0 < \varepsilon \ll 1$.
+
+\begin{description}
+\item[a)] Berechne die Kondition $\kappa(A) = \|A \|_{\infty} \|A^{-1} \|_{\infty} $
+\item[b)] asdasd
+\end{description}
+
+
+\label{LastPage}
+
+\end{document}
