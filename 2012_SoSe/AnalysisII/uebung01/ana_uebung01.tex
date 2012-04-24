@@ -52,13 +52,22 @@ $$
 gilt. Ist $\alpha = 1$ so nennt man $f$ \emph{Lipschitzstetig}
 
 \begin{enumerate}[\bfseries a)]
-    \item Sei $A=\left\{ z \in \mathbb{R} \; | \; z \geq 0 \right\}$ und $F \; : \; A \rightarrow \mathbb {R}$ gegeben durch $f(z) = \sqrt{z}$. Zeigen Sie dass $f$ Hölderstetig mit $\alpha = \frac{1}{2}$ ist.\\
+    \item Sei $A=\left\{ z \in \mathbb{R} \; | \; z \geq 0 \right\}$ und $f \; : \; A \rightarrow \mathbb {R}$ gegeben durch $f(z) = \sqrt{z}$. Zeigen Sie dass $f$ Hölderstetig mit $\alpha = \frac{1}{2}$ ist.\\
 
 \textbf{Lösung:}\\
 
-tbd
+Sei $x,y \in [a,b]$, dann gilt
+$$
+\begin{array}{lrcl}
+&| \sqrt{x} - \sqrt{y} | & \leq & | \sqrt{x} | - | \sqrt{y} | \leq C \cdot \sqrt{| x - y |}\\
+\Leftrightarrow & \left( \sqrt{x} - \sqrt{y} \right)^2 & \leq & C^2 \cdot |x - y|\\
+\Leftrightarrow & x - 2\sqrt{x}\sqrt{y} + y &\leq& C^2 \cdot | x - y | \leq C^2 \cdot \left( |x| + |-y| \right)\\
+\Leftrightarrow & - 2 \sqrt{x}\sqrt{y} &\leq& (C^2-1) (x + y),
+\end{array}
+$$
+Für $C>1$, da $\sqrt{x}$ und $\sqrt{y}$ beide größer Null sind, ist die linke Seite der Gleichung kleiner Null. Da wir rechts $x+y$ rechnen und beide größer null sind, gilt $x+y > 0$. Wenn nun $C>1$ belibt die rechte Seite positiv. Für ein $C>1$ ist die Gleichung erfüllt und damit ist $f$ Hölderstetig mit $\alpha = \frac{1}{2}$
 
-    \item Sei $A=\mathbb{R}$ und $f=\arctan$. Zeigen Sie, dass $f$ Lipschitz stetig ist.\\
+    \item Sei $A=\mathbb{R}$ und $f=\arctan$ (eingeschränkt auf $\left( -\frac{\pi}{2},\frac{\pi}{2} \right)$. Zeigen Sie, dass $f$ Lipschitz stetig ist.\\
 
 \textbf{Lösung:}\\
 
@@ -69,6 +78,7 @@ tbd
 \textbf{Lösung:}\\
 
 tbd
+
 \end{enumerate}
 
 %%-----------------------------------------------
