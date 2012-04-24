@@ -1,0 +1,181 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm]{geometry} 
+\usepackage{babel}
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc} 
+\usepackage{ae} 
+\usepackage{amssymb} 
+\usepackage{amsmath} 
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{paralist}
+
+\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[C]{Analysis II}
+\fancyhead[L]{Aufgabenblatt 1}
+\fancyhead[R]{SoSe 2012}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage \hspace{1px} of \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\setlength{\parindent}{0pt} 
+\setlength{\headheight}{0pt}
+
+\date{}
+\title{Max Wisniewski , Alexander Steen}
+\author{Tutor : not known}
+
+\begin{document}
+
+\lstset{language=Pascal, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2}
+
+\maketitle
+\thispagestyle{fancy}
+
+%% ------------------------------------------------------
+%%                     Aufgabe 1
+%% ------------------------------------------------------
+
+\section*{Aufgabe 1: \mdseries Spezielle gleichmäßige Funktionen}
+
+Sei $A \subset \mathbb{R}$. Eine Funktion $f \; : \; A \rightarrow \mathbb{R}$ heißt \emph{Hölder stetig} mit Exponent $\alpha \in \left( 0,1 \right]$ wenn es eine Konstante $C > 0$ gibt, so dass für alle $x,y \in A$ die Ungleichung
+$$
+    \left| f(x) - f(y)\right| \leq C \left| x - y \right|^\alpha
+$$
+
+gilt. Ist $\alpha = 1$ so nennt man $f$ \emph{Lipschitzstetig}
+
+\begin{enumerate}[\bfseries a)]
+    \item Sei $A=\left\{ z \in \mathbb{R} \; | \; z \geq 0 \right\}$ und $F \; : \; A \rightarrow \mathbb {R}$ gegeben durch $f(z) = \sqrt{z}$. Zeigen Sie dass $f$ Hölderstetig mit $\alpha = \frac{1}{2}$ ist.\\
+
+\textbf{Lösung:}\\
+
+tbd
+
+    \item Sei $A=\mathbb{R}$ und $f=\arctan$. Zeigen Sie, dass $f$ Lipschitz stetig ist.\\
+
+\textbf{Lösung:}\\
+
+tbd
+
+    \item Sei $f \; : \; A \rightarrow \mathbb{R}$ Hölderstetig. Zeigen Sie, dass $f$ gleichmäßig stetig ist.\\
+
+\textbf{Lösung:}\\
+
+tbd
+\end{enumerate}
+
+%%-----------------------------------------------
+%%              Aufgabe 2
+%%-----------------------------------------------
+
+\section*{Aufgabe 2 : \mdseries Hauptsatz der Differential- und Integralrechnung}
+
+Finden Sie die Ableitung der Funktion $f \; : \; \mathbb{R} \rightarrow \mathbb{R}$ definiert durch die folgenden Ausdrücke.
+
+\begin{enumerate}[i)]
+    \item $F(x) = \int_{0}^{x^2} \sin \, t \; dt$.\\
+
+\textbf{Lösung:}\\
+tbd
+    
+    \item $F(x) = \exp \left( \int_{0}^{x} p(t)\; dt\right)$, wobei $p \, : \, \mathbb{R} \rightarrow \mathbb{R}$\\
+
+\textbf{Lösung:}\\
+
+tbd
+
+    \item Es sei $h \, : \, \mathbb{R} \rightarrow \mathbb{R}$ stetig und $f$ und $g$ auf ganz $\mathbb{R}$ differenzierbar. Setzten Sie dann
+$$
+    F(x) = \int_{f(x)}^{g(x)} h(t) \; dt
+$$
+und berechnen die Ableitung von $F$.\\
+
+\textbf{Lösung:}\\
+
+tbd
+
+\end{enumerate}
+%% ---------------------------------------------
+%%              Aufgabe 3
+%% ---------------------------------------------
+
+\section*{Aufgabe 3 : \mdseries Mittelwertsatz der Integralrechnung}
+
+\begin{enumerate}[i)]
+    \item Es sei $f$ eine auf dem Interval $[a,b]$ integirebare Funktion mit $m \leq f(x) \leq M$ für alle $x\in[a,b]$. Dann gibt es ein $\mu \in [m,M]$ mit Eigenschaft
+$$
+    \int_{a}^{b} f(x) \, dx = (b - a) \mu.
+$$
+
+\textbf{Lösung:}\\
+
+tbd
+
+    \item Es sei $f$ stetig auf $[a,b]$. Zeigen Sie, dass gilt 
+$$
+    \int_{a}^{b} f(x)\, dx = (b-a) f(\Xi)
+$$
+für ein $\Xi\in [a,b]$. Begründen Sie anhand eins Gegenbeispiels, dass die Stetigkeit von $f$ notwendig ist.\\
+
+\textbf{Lösung:}\\
+
+tbd
+
+    \item Sei nun $f$ stetig auf $[a,b]$, und $g$ integrierbar und positiv (bzw. negativ) auf $[a,b]$. Zeigen Sie dass 
+$$
+    \int_{a}^{b} g(x)f(x)\, dx = f(\Xi) \int_{a}^{b} g(x) \, dx
+$$ 
+für ein $\xi \in [a,b]$ gilt. Man nennt dies den Mittelwertsatz der Intergralrechnung   . Begründen Sie anhand eines Gegenbeispiels, dass die Vorzeichenbedingung an $g$ notwendig ist. 
+\end{enumerate}
+
+%% ---------------------------------------------------
+%%                  Aufgabe 4
+%% ---------------------------------------------------
+
+\section*{Aufgabe 4 : \mdseries Positivitätseigenschaft des Integrals}
+
+\begin{enumerate}[i)]
+    \item Sei $f$ integrierbar auf $[a,b]$ und $f\geq 0$ für alle $x \in [a,b]$. Zeigen Sie, dass dann gilt
+$$
+    \int_{a}^{b} f(x) \, dx \geq 0.
+$$
+
+\textbf{Lösung:}\\
+
+tbd
+
+    \item Geben Sie ein Beispiel einer Funktion $f$ mit folgenden Eigenschaften:
+$$
+    f(x) \geq 0 \text{ für alle } x\in [a,b], \, f(x_0) > 0\text { für ein } x_0 \in [a,b], \int_{a}^{b} f(x) \, dx = 0.
+$$
+
+\textbf{Lösung}\\
+
+tbd
+
+    \item Sei $f(x) \geq 0$ für alle $x \in [a,b]$ und $f$ stetig int $x_0 \in [a,b]$ mit $f(x_0) > 0$. Zeigen Sie, dass dann auch gilt
+$$
+    \int_{a}^{b} f(x) \, dx > 0.
+$$
+
+\textbf{Lösung:}\\
+
+tbd
+
+    \item Sei $f$ stetig auf $[a,b]$. Es gelte
+$$
+\int_{a}^{b} f(x)g(x) \, dx = 0
+$$
+für alle stetigen Funktionen $g$ auf $[a,b]$. Zeigen Sie, dass $f\equiv 0$
+\end{enumerate}
+\label{LastPage}
+\end{document}
+
+
