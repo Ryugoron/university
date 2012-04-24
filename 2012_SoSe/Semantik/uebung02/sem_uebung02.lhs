@@ -73,8 +73,9 @@ import qualified Data.Map as Map
 
 \section*{Aufgabe 1}
 Spezifizieren Sie einen geeigneten Datentyp in Haskell oder Java, zur Be-
-handlung der abstrakten Syntax der Sprache WHILE.
+handlung der abstrakten Syntax der Sprache WHILE.\\
 
+\textbf{Lösung:}\\
 Elementare Einheiten:
 \begin{code}
 type Z = Int
@@ -111,7 +112,7 @@ data C = Skip
 type P = C
 \end{code}
 
-Die Formulierung von algebraischen Datentypen findet in Haskell schon in einer grammatikartgen Form statt. Für die einzelnen Terme müssen nur noch eindeutige Konstruktoren vergeben werden, sonst kann alles genau so übernommen werden.
+Die Formulierung von algebraischen Datentypen findet in Haskell schon in einer grammatikartgen Form statt. Für die einzelnen Terme müssen nur noch eindeutige Konstruktoren vergeben werden, sonst kann alles genau so übernommen werden, wie in der Vorlesung definiert.
 
 \ignore{
 \begin{code}
@@ -149,7 +150,7 @@ showC = showCH 0    where
     showCH n (TOut t)              = [(nSpace n)++"output "++(show t)]
 
 nSpace :: Int -> String
-nSpace n = (take n).repeat $ ' '
+nSpace n = (take n).repeat $ ' ' ---$ auskommentiert, damit die formatierung von vim stimmt.
 
 nameOp :: OP -> String
 nameOp Plus	  = "+"
@@ -172,10 +173,13 @@ nameBop Neq   = "/="
 %%                     AUFGABE 2
 %% ------------------------------------------------------
 
+\newpage
+
 \section*{Aufgabe 2}
 Vereinbaren Sie das Divisionsbeispiel aus der Vorlesung als Konstante divprog
-unter Verwendung der in Aufgabe 1 vereinbarten Datentypen.
+unter Verwendung der in Aufgabe 1 vereinbarten Datentypen.\\
 
+\textbf{Lösung:}
 \begin{code}
 divprog :: P
 divprog = Seq 
@@ -200,7 +204,7 @@ divTest = Seq
 \end{code}
 }
 
-Die Konstante sollte sich von selbst erklären. Zunächst brauchen wir eine Sequenz, der erste Teil ist die Berechnung, der zweite die Asugabe. Im While machen wir den vergleich, ob x größer als y ist. Innerhalb der Schleife incrementieren wir g einmal und ziehen von x y ab.
+Die Konstante sollte sich von selbst erklären. Zunächst brauchen wir eine Sequenz, der erste Teil ist die Berechnung, der zweite die Ausgabe. Im While machen wir den Vergleich, ob x größer als y ist. Innerhalb der Schleife incrementieren wir g einmal und ziehen von x y ab. Der Term kann mittels 'showNice.showC \$ divprog' angezeigt werden.
 
 % -----------------------------------------------------------
 %			AUFGABE 3
@@ -211,6 +215,7 @@ Definieren Sie je eine Funktion zur Berechnung der Werte von Termen,
 bzw. booleschen Termen, die die aktuelle Speicherbelegung und die aktuelle
 Eingabe als Parameter erhält.\\
 
+\textbf{Lösung:}\\
 Zur Auswertung bekommt von T bekomt evalT ein Wörterbuch von Identifier nach Zahl.
 Dazu bekommt er eine List von Eingabewerten. Das selbe gilt für den boolschen Term.
 Zurück kommt der Wert, den der Term ergeben sollte und die Restliste von Eingaben.
@@ -234,7 +239,9 @@ evalT (TRead) _ ((LiteralInteger e):es) = (e,es)
 evalT _ _ _			   = error "Not enough or wrong  Input"
 \end{code}
 
-Bei beiden geben wir im einfachen (Z, Literate) Fall den Wert infach zurück. Beim Identifier suchen wir in der Variablenbelegung nach dem Wert und geben diesen, sofern vorhanden, zurück. Bei der Anwandung der Operatoren werten wir ersten linken Term aus, geben die neue Eingabeliste in die rechte Berechnung und setzten danach den Wert zusammen.
+Bei beiden geben wir im einfachen (Z, Literal) Fall den Wert einfach zurück. Beim Identifier suchen wir in der Variablenbelegung nach dem Wert und geben diesen, sofern vorhanden, zurück. Bei der Anwandung der Operatoren werten wir ersten linken Term aus, geben die neue Eingabeliste in die rechte Berechnung und setzten danach den Wert zusammen.
+
+\pagebreak
 
 \begin{code}
 evalB :: B                       -- boolscher Term
@@ -293,7 +300,7 @@ evalCH (TOut t) m e a            =
 \end{code}
 }
 
-Die folgende Operation sorgt dafür, dass die boolschen und arithmetischen Operationen korrekt umgesetzt werden. Falls es von intresse ist, was darin steht, wird empfohlen in das Programm zu sehen. Wir habe darüber hinaus fünf Testfälle (test1, ... , test5) und die Konstante (var), die schon 3 Variablen vorbelegt enthält damit man das ganze einmal testen kann.
+Die folgende Operation sorgt dafür, dass die boolschen und arithmetischen Operationen korrekt umgesetzt werden. Falls es von intresse ist, was darin steht, wird empfohlen in das Programm zu sehen. Wir habe darüber hinaus fünf Testfälle (test1, ... , test5) und die Konstante (var), die schon 3 Variablen vorbelegt enthält damit man das ganze einmal testen kann. Man kann das ganze auch mit 'showErg.evalC divTest \$ [LiteralInteger 5, LiteralInteger 2]' an einem richtigen Programm testen. (divTest ist divprog, nur dass die Variablenbelegung vorher von der eingabe gelesen wird. Analog zu Aufgabe 2 kann das Programm auch formatiert ausgegeben werden.)
 
 \begin{code}		 
 decodeOP :: OP -> Z -> Z -> Z
@@ -424,7 +431,7 @@ parseC = fst.parseCH 0
 
 Diese Operation übersetzt die Operationen des Konstruktorterms in die Befehle des Stackautomaten. Hier findet nur ein Namensmapping statt, kann aber wahlwiese wiederum im Dokument nachgelesen werden.
 
-Testen kann man das ganze an den selben Fälle, wie Aufgabe 3. Wenn man das ganze mit 'showNice.parseT \$ test1' startet, wird die Ausgabe auch noch schön formatiert.
+Testen kann man das ganze an den selben Fälle, wie Aufgabe 3. Wenn man das ganze mit 'showNice.parseT \$ test1' startet, wird die Ausgabe auch noch schön formatiert. Man kann auch wieder ein ganzes Programm testen z.B. 'showNice.parseC \$ divprog'.
 \begin{code}
 nameOP :: OP -> String
 nameBOP :: BOP -> String
