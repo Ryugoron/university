@@ -156,8 +156,16 @@ $.
           $y = \left( \begin{array}{c} -\infty \\ \infty \end{array} \right)$.
 
 \item[b)] Erklären Sie ihre Beobachtungen. \\
+          
+          >> 1/sqrt(2) - sqrt(1/2)
+
+ans =
+
+  -1.1102e-16
               
-          asdasdasd
+          Determinante Null -> Matrix singulär -> Inverse nicht berechenbar.
+          Da sqrt(2) approximiert wird, ist bei der Berechnung die matrix nur "nahe"-singulär, da nicht ganz null durch rundung.
+         1/sqrt(2) und sqrt(1/2) werden verschieden approximiert (wie? ich glaube sqrt(1/2) wird nicht approximiert), sodass bei beiden verschiedene ergebnisse rauskommen.
 
 \end{description}
 %% Raw matlab output:
