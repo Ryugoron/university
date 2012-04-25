@@ -66,11 +66,126 @@ Seien $A = \left(
 mit $0 < \varepsilon \ll 1$.
 
 \begin{description}
-\item[a)] Berechne die Kondition $\kappa(A) = \|A \|_{\infty} \|A^{-1} \|_{\infty} $
-\item[b)] asdasd
+\item[a)] Berechne die Kondition $\kappa(A) = \|A \|_{\infty} \|A^{-1} \|_{\infty} $ \\
+
+Wegen $\|A \|_{\infty} = 2$ und
+$\|A^ {-1} \|_{\infty} =
+            \left|\left| \left(
+                \begin{array}{cc}
+                    1 & -\frac{1}{\varepsilon} \\
+                    0 & \frac{1}{\varepsilon}
+                \end{array}
+           \right) \right|\right|_{\infty}
+            = \frac{1}{\varepsilon}$
+folgt
+$$ \kappa(A) = 2 \cdot \frac{1}{\varepsilon} = \frac{2}{\varepsilon}$$.
+
+\item[b)] Löse die Gleichungssysteme $Ax_1 = b_1$ und $Ax_2 = b_2$ und interpretiere die Ergebnisse im Bezug auf $\kappa(A)$. \\
+
+Beide LGS sind bereits in Zeilenstufenform, sodass wir einfach rückwarts substituieren können. \\
+Für das LGS $\left(
+      \begin{array}{cc|c}
+         1 & 1           & 2\\
+         0 & \varepsilon & \varepsilon
+      \end{array}
+    \right)$: \\
+
+(I) $\varepsilon x_{1_2} = \varepsilon \Leftrightarrow x_{1_2} = 1$ \\
+(II) $x_{1_1} + x_{1_2} = 2 \Leftrightarrow x_{1_1} + 1 = 2 \Leftrightarrow x_{1_1} = 1$ \\
+$ \Rightarrow x_1 = \left(\begin{array}{c} 1 \\ 1 \end{array} \right)$.
+
+
+Für das LGS $\left(
+      \begin{array}{cc|c}
+         1 & 1           & 0\\
+         0 & \varepsilon & 1
+      \end{array}
+    \right)$: \\
+
+(I) $\varepsilon x_{2_2} = 1 \Leftrightarrow x_{2_2} = \frac{1}{\varepsilon}$ \\
+(II) $x_{2_1} + x_{2_2} = 0 \Leftrightarrow x_{2_1} + \frac{1}{\varepsilon} = 0 \Leftrightarrow x_{2_1} = -\frac{1}{\varepsilon}$ \\
+$ \Rightarrow x_2 = \left(\begin{array}{c} -\frac{1}{\varepsilon} \\ \frac{1}{\varepsilon} \end{array} \right)$.
+
+yada yada, kommentare!!
 \end{description}
 
 
+%% ------------------------------------------------------
+%%                     AUFGABE 2
+%% ------------------------------------------------------
+
+\section*{Ausgabe 2}
+>> A = [1, 1/2; sqrt(2), 1/sqrt(2)]
+
+A =
+
+    1.0000    0.5000
+    1.4142    0.7071
+
+>> B = [1, 1/2; sqrt(2), sqrt(1/2)]
+
+B =
+
+    1.0000    0.5000
+    1.4142    0.7071
+
+>> A \ [1;1]
+Warning: Matrix is close to singular or badly scaled.
+         Results may be inaccurate. RCOND = 7.850462e-17. 
+
+ans =
+
+   1.0e+15 *
+
+   -1.3191
+    2.6381
+
+>> B \ [1;1]
+Warning: Matrix is singular to working precision. 
+
+ans =
+
+  -Inf
+   Inf
+
+
+%% ------------------------------------------------------
+%%                     AUFGABE 3
+%% ------------------------------------------------------
+
+\section*{Aufgabe 3}
+Zeigen Sie, dass die von der $1$-Norm induzierte Matrixnorm der Spaltensummennorm entspricht. \\
+
+Sei $A \in \mathbb{R}^{n \times n}$, zu zeigen:
+$$ \|A \|_1 := \sup_{x \neq 0}{\frac{\|Ax\|_{1}}{\|x\|_{1}}}
+                  =\max_{1 \leq j \leq n}{\sum_{i=1}^{n}{|a_{ij}|}} $$
+
+Wie in CoMa I gezeigt, gilt
+(*) $\sup_{x \neq 0}{\frac{\|Ax\|_{1}}{\|x\|_{1}}} = \sup_{\|x\|_{1} = 1}{\|Ax\|_{1}}$. \\ \\
+Sei nun $x \in \mathbb{R}^{n}$, mit $\|x\|_{1} = 1$.\\
+
+(1) $\|A \|_1 \leq \max_{1 \leq j \leq n}{\sum_{i=1}^{n}{|a_{ij}|}}$ 
+
+$$
+\|Ax\|_{1} \stackrel{\text{Def.}\|.\|_{1}}{=}
+     \sum_{i=1}^{n}{\left| \sum_{j=1}^{n}{a_{ij}x_j} \right|}
+\leq \sum_{i=1}^{n}{\sum_{j=1}^{n}{\left|a_{ij}x_j\right|} }
+=    \sum_{i=1}^{n}{\sum_{j=1}^{n}{|a_{ij}||x_j|} }
+$$
+$$
+=    \sum_{j=1}^{n}{\sum_{i=1}^{n}{|a_{ij}||x_j|} }
+=    \sum_{j=1}^{n}{|x_j| \sum_{i=1}^{n}{|a_{ij}|} }
+\leq \sum_{j=1}^{n}{|x_j| \max_{1\leq j \leq n}{\sum_{i=1}^{n}{|a_{ij}|}} }
+$$
+$$
+\stackrel{(**)}{=} \max_{1\leq j \leq n}{\sum_{i=1}^{n}{|a_{ij}|}} \quad \text{(**) gilt, da} \sum_{j=1}^{n}{|x_j|} = 1
+$$
+
+Wegen (*) $\Rightarrow \|A\|_{1} \leq \sum_{i=1}^{n}{|a_{ij}|}$. \\ \\
+
+(2) $\|A \|_1 \geq \max_{1 \leq j \leq n}{\sum_{i=1}^{n}{|a_{ij}|}}$ 
+
+%\left( \sum_{i=1}^{m}{\sum_{j=1}^{n}{|a_{ij}|}} \right)
 \label{LastPage}
 
 \end{document}
