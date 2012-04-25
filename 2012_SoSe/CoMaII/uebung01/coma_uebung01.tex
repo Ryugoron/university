@@ -115,39 +115,85 @@ yada yada, kommentare!!
 %% ------------------------------------------------------
 
 \section*{Ausgabe 2}
->> A = [1, 1/2; sqrt(2), 1/sqrt(2)]
 
-A =
+Seien $A,B \in \mathbb{R}^{2,2}$, mit
+$ A = \left(
+        \begin{array}{cc}
+          1         & \frac{1}{2} \\
+          \sqrt(2)  & \frac{1}{\sqrt(2)}
+        \end{array}
+      \right),
+ B = \left(
+        \begin{array}{cc}
+          1         & \frac{1}{2} \\
+          \sqrt(2)  & \sqrt(\frac{1}{2})
+        \end{array}
+      \right)
+$.
 
-    1.0000    0.5000
-    1.4142    0.7071
+\begin{description}
 
->> B = [1, 1/2; sqrt(2), sqrt(1/2)]
+\item[a)] Berechnen Sie in matlab mittels \textbackslash -Operator die Lösungen der LGS \\
+          $Ax = \left( \begin{array}{c} 1 \\ 1\end{array}\right), 
+           By = \left( \begin{array}{c} 1 \\ 1\end{array}\right)$. \\
+            
+          Die Matrizen werden mittels der folgenden Kommandos in matlab definiert:          
+          \begin{lstlisting}
+  >> A = [1, 1/2; sqrt(2), 1/sqrt(2)]
+  >> B = [1, 1/2; sqrt(2), sqrt(1/2)]
+          \end{lstlisting}
+          
+          Wir berechnen die Lösungen für $x$ und $y$ mittels \textbackslash -Operator wie folgt:
 
-B =
+          \begin{lstlisting}
+  >> x =  A \ [1;1]
+  >> y =  B \ [1;1]
+          \end{lstlisting}
 
-    1.0000    0.5000
-    1.4142    0.7071
+          Dabei kommt bei der ersten Berechnung der Hinweis "Matrix is close to singular or badly scaled. Results may be inaccurate. RCOND = 7.850462e-17.", bei der zweiten Berechnung die Fehlermeldung "Matrix is singular to working precision.".
+          Als Lösung erhalten wir
+          $x = 10^{15} \cdot \left( \begin{array}{c} -1.3191 \\ 2.6381 \end{array} \right)$ und
+          $y = \left( \begin{array}{c} -\infty \\ \infty \end{array} \right)$.
 
->> A \ [1;1]
-Warning: Matrix is close to singular or badly scaled.
-         Results may be inaccurate. RCOND = 7.850462e-17. 
+\item[b)] Erklären Sie ihre Beobachtungen. \\
+              
+          asdasdasd
 
-ans =
-
-   1.0e+15 *
-
-   -1.3191
-    2.6381
-
->> B \ [1;1]
-Warning: Matrix is singular to working precision. 
-
-ans =
-
-  -Inf
-   Inf
-
+\end{description}
+%% Raw matlab output:
+%%>> A = [1, 1/2; sqrt(2), 1/sqrt(2)]
+%%
+%%A =
+%%
+%%    1.0000    0.5000
+%%    1.4142    0.7071
+%%
+%%>> B = [1, 1/2; sqrt(2), sqrt(1/2)]
+%%
+%%B =
+%%
+%%    1.0000    0.5000
+%%    1.4142    0.7071
+%%
+%%>> A \ [1;1]
+%%Warning: Matrix is close to singular or badly scaled.
+%%         Results may be inaccurate. RCOND = 7.850462e-17. 
+%%
+%%ans =
+%%
+%%   1.0e+15 *
+%%
+%%   -1.3191
+%%    2.6381
+%%
+%%>> B \ [1;1]
+%%Warning: Matrix is singular to working precision. 
+%%
+%%ans =
+%%
+%%  -Inf
+%%   Inf
+%%
 
 %% ------------------------------------------------------
 %%                     AUFGABE 3
@@ -185,7 +231,10 @@ Wegen (*) $\Rightarrow \|A\|_{1} \leq \sum_{i=1}^{n}{|a_{ij}|}$. \\ \\
 
 (2) $\|A \|_1 \geq \max_{1 \leq j \leq n}{\sum_{i=1}^{n}{|a_{ij}|}}$ 
 
-%\left( \sum_{i=1}^{m}{\sum_{j=1}^{n}{|a_{ij}|}} \right)
+
+Sei $e_j$ der $j$-te Einheitsvektor.\\
+ yadayada
+
 \label{LastPage}
 
 \end{document}
