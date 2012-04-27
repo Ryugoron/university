@@ -150,7 +150,7 @@ showC = showCH 0    where
     showCH n (TOut t)              = [(nSpace n)++"output "++(show t)]
 
 nSpace :: Int -> String
-nSpace n = (take n).repeat $ ' ' ---$ auskommentiert, damit die formatierung von vim stimmt.
+nSpace n = (take n).repeat $ ' '  -- $
 
 nameOp :: OP -> String
 nameOp Plus	  = "+"
