@@ -156,16 +156,20 @@ $.
           $y = \left( \begin{array}{c} -\infty \\ \infty \end{array} \right)$.
 
 \item[b)] Erklären Sie ihre Beobachtungen. \\
+
+          In matlab werden die Terme $1/sqrt(2)$ und $sqrt(1/2)$ verschieden gerundet.
+          Dies kann man z.B. daran sehen, dass ihre Differenz von Null verschieden ist:
+
+          \begin{lstlisting}          
+  >> 1/sqrt(2) - sqrt(1/2)
+  ans = -1.1102e-16
+          \end{lstlisting}
           
-          >> 1/sqrt(2) - sqrt(1/2)
-
-ans =
-
-  -1.1102e-16
-              
-          Determinante Null -> Matrix singulär -> Inverse nicht berechenbar.
-          Da sqrt(2) approximiert wird, ist bei der Berechnung die matrix nur "nahe"-singulär, da nicht ganz null durch rundung.
-         1/sqrt(2) und sqrt(1/2) werden verschieden approximiert (wie? ich glaube sqrt(1/2) wird nicht approximiert), sodass bei beiden verschiedene ergebnisse rauskommen.
+          Aus diesem Grund entstehen bei der Berechnung verschiedene Rundungsfehler. \\
+          Schauen wir uns die Matrizen $A$ und $B$ an, so sehen wir, dass diese singulär sind,
+          da $det(A)=det(B)=0$ gilt. Aus diesem Grund können wir das LGS nicht mit 
+          "\textbackslash " lösen, da hier die Matrizen invertiert werden.
+          TODO:Warum klappt (B) und (A) nicht?
 
 \end{description}
 %% Raw matlab output:
@@ -210,15 +214,15 @@ ans =
 \section*{Aufgabe 3}
 Zeigen Sie, dass die von der $1$-Norm induzierte Matrixnorm der Spaltensummennorm entspricht. \\
 
-Sei $A \in \mathbb{R}^{n \times n}$, zu zeigen:
+Sei $A \in \mathbb{R}^{n \times n}, A \neq 0$, zu zeigen:
 $$ \|A \|_1 := \sup_{x \neq 0}{\frac{\|Ax\|_{1}}{\|x\|_{1}}}
                   =\max_{1 \leq j \leq n}{\sum_{i=1}^{n}{|a_{ij}|}} $$
 
 Wie in CoMa I gezeigt, gilt
-(*) $\sup_{x \neq 0}{\frac{\|Ax\|_{1}}{\|x\|_{1}}} = \sup_{\|x\|_{1} = 1}{\|Ax\|_{1}}$. \\ \\
+$\sup_{x \neq 0}{\frac{\|Ax\|_{1}}{\|x\|_{1}}} = \sup_{\|x\|_{1} = 1}{\|Ax\|_{1}}$. \\ \\
 Sei nun $x \in \mathbb{R}^{n}$, mit $\|x\|_{1} = 1$.\\
 
-(1) $\|A \|_1 \leq \max_{1 \leq j \leq n}{\sum_{i=1}^{n}{|a_{ij}|}}$ 
+(1) z.z. $\|A \|_1 \leq \max_{1 \leq j \leq n}{\sum_{i=1}^{n}{|a_{ij}|}}$ 
 
 $$
 \|Ax\|_{1} \stackrel{\text{Def.}\|.\|_{1}}{=}
@@ -235,13 +239,22 @@ $$
 \stackrel{(**)}{=} \max_{1\leq j \leq n}{\sum_{i=1}^{n}{|a_{ij}|}} \quad \text{(**) gilt, da} \sum_{j=1}^{n}{|x_j|} = 1
 $$
 
-Wegen (*) $\Rightarrow \|A\|_{1} \leq \sum_{i=1}^{n}{|a_{ij}|}$. \\ \\
+$\Rightarrow \|A\|_{1} \leq \max_{1 \leq j \leq n}{\sum_{i=1}^{n}{|a_{ij}|}}$. \\ \\
 
-(2) $\|A \|_1 \geq \max_{1 \leq j \leq n}{\sum_{i=1}^{n}{|a_{ij}|}}$ 
+(2) z.z. $\|A \|_1 \geq \max_{1 \leq j \leq n}{\sum_{i=1}^{n}{|a_{ij}|}}$ 
 
 
 Sei $e_j$ der $j$-te Einheitsvektor.\\
- yadayada
+$$    \max_{1 \leq j \leq n}{\| Ae_j \|_{1}} 
+\stackrel{\text{Def.}}{=}     \max_{1 \leq j \leq n}{\sum_{i=1}^{n}{|a_{ij}|}}
+\stackrel{(***)}{\leq}  \sup_{\|x\|_{1} = 1}{\|Ax\|_{1}}
+=     \| A \|_1
+$$
+(***) gilt, da das Supremum natürlich nicht kleiner werden kann.\\
+$\Rightarrow \|A\|_{1} \geq \max_{1 \leq j \leq n}{\sum_{i=1}^{n}{|a_{ij}|}}$.\\ \\
+$\Longrightarrow \|A\|_{1} = \max_{1 \leq j \leq n}{\sum_{i=1}^{n}{|a_{ij}|}}$.
+
+\mbox{}\hfill $\square$
 
 \label{LastPage}
 
