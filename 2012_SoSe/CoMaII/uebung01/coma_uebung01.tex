@@ -27,7 +27,7 @@
 \setlength{\parindent}{0pt} 
 \setlength{\headheight}{0pt}
 
-\author{Tutor: XY}
+\author{Tutor: Sebastian Scherer}
 \date{}
 \title{Max Wisniewski , Alexander Steen}
 
@@ -106,9 +106,10 @@ Für das LGS $\left(
 (II) $x_{2_1} + x_{2_2} = 0 \Leftrightarrow x_{2_1} + \frac{1}{\varepsilon} = 0 \Leftrightarrow x_{2_1} = -\frac{1}{\varepsilon}$ \\
 $ \Rightarrow x_2 = \left(\begin{array}{c} -\frac{1}{\varepsilon} \\ \frac{1}{\varepsilon} \end{array} \right)$.
 
-yada yada, kommentare!!
+Aus den Ergebnissen können wir sehen, dass der Fehler für kleine $\varepsilon$ bei $b_1$ absolut stark wächst. Bei $b_2$ streben allerdings der Fehler und der Ergebniswert gegen unendlich. Daher ist der Fehler für kleine $\varepsilon$ bei $b_2$ nicht so gravierenend, wie bei $b_1$. Für große $\varepsilon$ geht der relative Fehler beider Ergebnisse gegen 0.
 \end{description}
 
+\pagebreak
 
 %% ------------------------------------------------------
 %%                     AUFGABE 2
@@ -168,8 +169,10 @@ $.
           Aus diesem Grund entstehen bei der Berechnung verschiedene Rundungsfehler. \\
           Schauen wir uns die Matrizen $A$ und $B$ an, so sehen wir, dass diese singulär sind,
           da $det(A)=det(B)=0$ gilt. Aus diesem Grund können wir das LGS nicht mit 
-          "\textbackslash " lösen, da hier die Matrizen invertiert werden.
-          TODO:Warum klappt (B) und (A) nicht?
+          "\textbackslash " lösen, da hier die Matrizen invertiert werden. Bei $\sqrt{2}$ handelt es sich um sich um eine irrationale Zahl, die der PC  nur gerundet 
+	darstellen kann. In Matrix B kann matlab den abstrakten Zwischenwert $\sqrt{\frac{1}{2}}$ zwischenspeichern und korrekt auflösen.
+	Bei Matrix A wird allerdings zuerst geteilt. Bei dieser Operation verstärkt sich der Rundungsfehler der Darstellung der irrationalen Zahl.
+	Dadurch wird die Matrix nicht mehr singulär und es kann ein Ergebniss berechnet werden.
 
 \end{description}
 %% Raw matlab output:
@@ -206,6 +209,9 @@ $.
 %%  -Inf
 %%   Inf
 %%
+
+
+\pagebreak 
 
 %% ------------------------------------------------------
 %%                     AUFGABE 3
