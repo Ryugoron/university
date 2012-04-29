@@ -93,13 +93,30 @@ Finden Sie die Ableitung der Funktion $f \; : \; \mathbb{R} \rightarrow \mathbb{
     \item $F(x) = \int_{0}^{x^2} \sin \, t \; dt$.\\
 
 \textbf{Lösung:}\\
-tbd
+
+Nach dem Hauptsatz der Differential- und Integralrechnung ist die Ableitung die Umkehrung des Integrals. Die Grenzen werden nach Substitutionsmethode abgeleitet und als Faktor übernommen.
+$$
+\begin{array}{rcl}
+F'(x)	&=& \left( \int_0^{x^2} \sin \, t \; dt\right)'\\
+	&=& (x^2)' \cdot \sin x^2\\
+	&=& 2x \cdot \sin x^2
+\end{array}
+$$
+
     
     \item $F(x) = \exp \left( \int_{0}^{x} p(t)\; dt\right)$, wobei $p \, : \, \mathbb{R} \rightarrow \mathbb{R}$\\
 
 \textbf{Lösung:}\\
 
-tbd
+ACHTUNG : KÖNNTE EINE FALLSE SEIN, DA $p$ NICHT STETIG ODER INTEGRIERBAR IST.
+
+$$
+\begin{array}{rcl}
+F'(x)	&=& \left( \exp \left( \int_0^x p(t) \; dt \right) \right)'\\
+	&\stackrel{\text{Subst.}}{=}& \left( \int_0^x p(t) \; dt\right)' \cdot \exp \left( \int_0^x p(t) \; dt\right)\\
+	&=& p(x) \cdot F(x)
+\end{array}
+$$
 
     \item Es sei $h \, : \, \mathbb{R} \rightarrow \mathbb{R}$ stetig und $f$ und $g$ auf ganz $\mathbb{R}$ differenzierbar. Setzten Sie dann
 $$
@@ -109,7 +126,14 @@ und berechnen die Ableitung von $F$.\\
 
 \textbf{Lösung:}\\
 
-tbd
+$$
+\begin{array}{rcl}
+F'(x)	&=& \left( \int_{f(x)}^{g(x)} h(t) \; dt \right)'\\
+	&\stackrel{\text{Haupt.}}{=}& g'(x) h(g(x)) - f'(x) h (f(x))
+\end{array}
+$$
+
+Die Ableitung existiert, da $g$ und $f$ differenzierbar sind. Da $h$ stetig ist, kann der Hauptsatz der Differential- und Integralrechnung verwendet werden.
 
 \end{enumerate}
 %% ---------------------------------------------
