@@ -186,7 +186,8 @@ $$
 
 \textbf{Lösung:}\\
 
-tbd
+Sei $P=a=x_0<...<x_n=b$ Partitionsfolge über n von $[a,b]$, sodass $U_n$ und $O_n$ Unter- und Obersummen konvergieren. Diese Partitonsfolge muss existieren, da die Funktion integrierbar ist (nach der bisher angenommenen definition von integrierbar). Dann gilt für alle $S_i = \sup \{ f(y) \; | \; x_i < y < x_{i+1} \}$, $S_i \geq 0$, da jeder Funktionswert des Supremums größer gleich $0$.\\
+ Nun ist $\int_a^b f(x) \, dx = \underset{n \rightarrow \infty}{\lim} O_n = \underset{n \rightarrow \infty}{\lim} \underset{i=0}{\overset{n-1}{\sum}} S_i \geq 0$, da jeder Summand, wie gezeigt größer oder gleich 0 ist.
 
     \item Geben Sie ein Beispiel einer Funktion $f$ mit folgenden Eigenschaften:
 $$
@@ -197,7 +198,7 @@ $$
 
 tbd
 
-    \item Sei $f(x) \geq 0$ für alle $x \in [a,b]$ und $f$ stetig int $x_0 \in [a,b]$ mit $f(x_0) > 0$. Zeigen Sie, dass dann auch gilt
+    \item Sei $f(x) \geq 0$ für alle $x \in [a,b]$ und $f$ stetig mit $x_0 \in [a,b]$ mit $f(x_0) > 0$. Zeigen Sie, dass dann auch gilt
 $$
     \int_{a}^{b} f(x) \, dx > 0.
 $$
