@@ -69,15 +69,26 @@ Für $C>1$, da $\sqrt{x}$ und $\sqrt{y}$ beide größer Null sind, ist die linke
 
     \item Sei $A=\mathbb{R}$ und $f=\arctan$ (eingeschränkt auf $\left( -\frac{\pi}{2},\frac{\pi}{2} \right)$. Zeigen Sie, dass $f$ Lipschitz stetig ist.\\
 
-\textbf{Lösung:}\\
+\textbf{Lösung:}
 
 tbd
 
     \item Sei $f \; : \; A \rightarrow \mathbb{R}$ Hölderstetig. Zeigen Sie, dass $f$ gleichmäßig stetig ist.\\
 
-\textbf{Lösung:}\\
+\textbf{Lösung:}
 
-tbd
+Sei $f \; : \; A \rightarrow \mathbb{R}$ Hölderstetig \\
+$\Rightarrow \exists \alpha \in (0,1] \exists C > 0 \forall x,y \in A: \left| f(x) - f(y)\right| \leq C \left| x - y \right|^\alpha$ \\
+Es sei $\varepsilon > 0$ und $ \left| x - y\right| < \delta$ für ein $\delta > 0$ $\forall x,y \in A$.\\
+
+Z.z. $\left| f(x) - f(y)\right| < \varepsilon$.\\
+Wähle $\delta = \left( \frac{\varepsilon}{C} \right)^{\frac{1}{\alpha}}$.\\
+Also gilt:
+$$
+  \left| f(x) - f(y)\right| \leq C \left| x - y \right|^\alpha
+< C \delta^\alpha = C \left( \left( \frac{\varepsilon}{C} \right)^{\frac{1}{\alpha}}\right)^\alpha
+= \varepsilon
+$$
 
 \end{enumerate}
 
