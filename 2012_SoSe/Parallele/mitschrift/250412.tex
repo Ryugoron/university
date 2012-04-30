@@ -86,6 +86,12 @@ MIMD beinhaltet den Aufbau von Rechnernetzen bzw. verteilten Systemen, in denen 
 
 In der Vorlesung werden wir ein MIMD-artiges theoretisches Modell für parallele Algorithmen, die \textbf{PRAM}, nutzen. Die \textbf{PRAM} (\textbf{P}arallel \textbf{R}andom \textbf{A}ccess \textbf{M}achine) besitzt beliebig viele Prozessoren, die jeweils auf einen unendlich großen Speicher zugreifen (lesen und schreiben) können. Dabei benötigt jeder Schritt genau eine Zeiteinheit, explizite Synchonisierung wird nicht benötigt.
 
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.6]{bilder/pram.pdf}
+\caption{Schematische Darstellung einer PRAM}
+\end{figure}
+
 Der Befehlssatz ist analog zu denen der "normalen" Registermaschine, beinhaltet also lesen, schreiben, verschiede arithmetische und Vergleichsoperationen.
 
 \section{Lese- und Schreibzugriff}
@@ -112,7 +118,7 @@ Bei der Abstraktion CRCW unterscheidet man drei Verhaltensweisen bei gleichzeiti
 \item[vorrangig] (engl. \emph{priority}): Prozessor mit kleinerem Index schreibt.
 \end{description}
 
-
+\newpage
 \section{Ressourcen/Komplexitätsmaße}
 Im Gegensatz zur sequentiellen Registermaschine können bei der \textbf{PRAM} zusätzliche Ressourcen gemessen werden.\\
 Man unterscheidet:
