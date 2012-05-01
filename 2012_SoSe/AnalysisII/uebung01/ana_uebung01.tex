@@ -67,12 +67,20 @@ $$
 $$
 Für $C>1$, da $\sqrt{x}$ und $\sqrt{y}$ beide größer Null sind, ist die linke Seite der Gleichung kleiner Null. Da wir rechts $x+y$ rechnen und beide größer null sind, gilt $x+y > 0$. Wenn nun $C>1$ belibt die rechte Seite positiv. Für ein $C>1$ ist die Gleichung erfüllt und damit ist $f$ Hölderstetig mit $\alpha = \frac{1}{2}$
 
-    \item Sei $A=\mathbb{R}$ und $f=\arctan$ (eingeschränkt auf $\left( -\frac{\pi}{2},\frac{\pi}{2} \right)$. Zeigen Sie, dass $f$ Lipschitz stetig ist.\\
+    \item Sei $A=\mathbb{R}$ und $f=\arctan$ eingeschränkt auf $\left( -\frac{\pi}{2},\frac{\pi}{2} \right)$. Zeigen Sie, dass $f$ Lipschitzstetig ist.\\
 
 \textbf{Lösung:}
 
-tbd
+Es seien $x,y \in \left( -\frac{\pi}{2},\frac{\pi}{2} \right)$. Da $f=\arctan$ stetig auf Einschränkung, folgt aus dem Mittelwertsatz:\\
+$$
+\exists \mu \in \left[x,y\right]:\; \left| f(x) - f(y) \right| = f'(\mu) \left| x - y \right|
+$$
+$$
+= \frac{1}{\mu^2 + 1} \left| x - y \right| \leq 1 \cdot \left| x - y \right|
+$$
+Also ist $f=\arctan$ eingeschränkt auf $\left( -\frac{\pi}{2},\frac{\pi}{2} \right)$ Lipschitzstetig mit Konstante $C = 1$.
 
+\pagebreak
     \item Sei $f \; : \; A \rightarrow \mathbb{R}$ Hölderstetig. Zeigen Sie, dass $f$ gleichmäßig stetig ist.\\
 
 \textbf{Lösung:}
@@ -154,14 +162,20 @@ Die Ableitung existiert, da $g$ und $f$ differenzierbar sind. Da $h$ stetig ist,
 \section*{Aufgabe 3 : \mdseries Mittelwertsatz der Integralrechnung}
 
 \begin{enumerate}[i)]
-    \item Es sei $f$ eine auf dem Interval $[a,b]$ integirebare Funktion mit $m \leq f(x) \leq M$ für alle $x\in[a,b]$. Dann gibt es ein $\mu \in [m,M]$ mit Eigenschaft
+    \item Es sei $f$ eine auf dem Interval $[a,b]$ integrierbare Funktion mit $m \leq f(x) \leq M$ für alle $x\in[a,b]$. Dann gibt es ein $\mu \in [m,M]$ mit Eigenschaft
 $$
     \int_{a}^{b} f(x) \, dx = (b - a) \mu.
 $$
 
 \textbf{Lösung:}\\
-
-tbd
+Da $m \leq f(x) \leq M$ für alle $x\in[a,b]$ gilt die Abschätzung:
+$$
+    (b-a)\cdot m = \int_{a}^{b} m \, dx \leq \int_{a}^{b} f(x) \, dx \leq \int_{a}^{b} M \, dx = (b-a) \cdot M
+$$
+$\Rightarrow \exists \mu \in \left[m,M\right]$ sodass
+$$
+    \int_{a}^{b} f(x) \, dx = (b - a) \mu
+$$
 
     \item Es sei $f$ stetig auf $[a,b]$. Zeigen Sie, dass gilt 
 $$
@@ -169,12 +183,18 @@ $$
 $$
 für ein $\xi\in [a,b]$. Begründen Sie anhand eins Gegenbeispiels, dass die Stetigkeit von $f$ notwendig ist.\\
 
-\textbf{Lösung:}\\
+\textbf{Lösung:}
 
+Es seien $m,M$ wie aus Aufgabe 3 a). Aus Aufgabe 3 a) wissen wir, dass ein $\mu \in \left[m,M\right]$ existiert, mit
+$$
+    \int_{a}^{b} f(x) \, dx = (b - a) \mu
+$$
+Da $\mu \in \left[m,M\right] = \left[f(\alpha),f(\beta)\right]$ für ein $\alpha,\beta \in [a,b]$ und $f$ auf $\left[a,b\right]$ stetig, folgt aus dem Zwischenwertsatz: $f(\xi) = \mu$ für ein $\xi \in \left[a,b\right]$.
+$$
+    \Rightarrow \int_{a}^{b} f(x)\, dx = (b-a) f(\xi)
+$$
 
-Aus Aufgabe 2 a) wissen wir, dass ein $\mu$ existiert, dass den Flächeninhalt ergibt. Es bleibt zu zeigen, dass es innerhalb der maximums, minimums Grenze im Interval liegt.
-
-
+HIER FEHLT GEGENBEISPIEL BZGL. STETIGKEIT
 
     \item Sei nun $f$ stetig auf $[a,b]$, und $g$ integrierbar und positiv (bzw. negativ) auf $[a,b]$. Zeigen Sie dass 
 $$
