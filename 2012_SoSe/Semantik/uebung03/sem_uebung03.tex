@@ -46,6 +46,8 @@
 \section*{Aufgabe 1}
 Definieren Sie die WSKEA-Maschine derart um, dass bei arithmetischen Ausdrücken rechte Unterausdrücke vor linken ausgewertet werden. Konstruieren Sie ein Beispiel, für das ein abweichendes Ergebnis erzielt wird. \\
 
+\textbf{Lösung:}
+
 Dafür müssen lediglich zwei Zustandübergänge geändert werden, der Rest kann gleich bleiben:
 
 (i) Zuerst müssen die rechten Ausdrücke einer Operation zuerst auf den Keller gelegt werden, damit diese zuerst ausgewertet werden: \\
@@ -60,24 +62,56 @@ $ \Delta<n_1.n_2.W | S | +.K | E | A> :=
 
 Diese Regel kann analog auf alle anderen arithmetische Operationen angewendet werden.
 
-ABWEICHENDES ERGEBNIS KONSTRUIEREN
+\textbf{Abweichendes Beispiel:}\\
+\begin{description}
+	\item{\bfseries Links-vor-Rechts:} 
+
+$$
+\begin{array}{rcl}
+\Delta<()|()| \underline{read} - \underline{read} | (3,2) | A> &:=& \Delta<()|()| \underline{read}, \underline{read} , -| (3,2) | A>\\
+	&:=& \Delta<(3)|()|\underline{read}, - | (2) | A>\\
+	&:=& \Delta<(2,3)|()| - | () | A>\\
+	&:=& \Delta<(3-2)|()| - | () | A>\\
+\end{array}
+$$
+
+	\item{\bfseries Rechts-vor-Links:}
+
+$$
+\begin{array}{rcl}
+\Delta<()|()| \underline{read} - \underline{read} | (3,2) | A> &:=& \Delta<()|()| \underline{read}, \underline{read} , -| (3,2) | A>\\
+	&:=& \Delta<(3)|()|\underline{read}, - | (2) | A>\\
+	&:=& \Delta<(2,3)|()| - | () | A>\\
+	&:=& \Delta<(2-3)|()| - | () | A>\\
+\end{array}
+$$
+
+Im ersten Fall wird im linken Ausdruck die $3$ zuerst gelesen und im rechten die $2$. Wir rechnen vollglich $3-2$ und erhalten eine $1$.
+Im zweitenn Fall gehen wir erst in den rechten Ausdruck, lesen dort die $3$ und gehen danach in den linken zweig und lesen dort als nächstes die $2$. Wir rechnen also $2-3$ und erhalten eine $-1$.
+
+\end{description}
+
 
 %% ------------------------------------------------------
 %%                     AUFGABE 2
 %% ------------------------------------------------------
 
 \section*{Aufgabe 2}
-Erweitern Sie die WSKEA-Maschine um eine Komponente \texttt{N} für Nachrichten (Texte), in der kurze sinnvolle Meldungen eingetragen werden, wenn es keinen Folgezustand gibt oder wenn die Ausführung korrekt terminiert.
+Erweitern Sie die WSKEA-Maschine um eine Komponente \texttt{N} für Nachrichten (Texte), in der kurze sinnvolle Meldungen eingetragen werden, wenn es keinen Folgezustand gibt oder wenn die Ausführung korrekt terminiert.\\
 
-tba
+\textbf{Lösung:}\\
+
+tbd
 
 % -----------------------------------------------------------
 %			AUFGABE 3
 % -----------------------------------------------------------
 \section*{Aufgabe 3}
-Die Syntax von WHILE sei um das repeat-until-Konstrukt erweitert, wie in der Aufgabe. Ergänzen Sie die operationelle Semantik.
+Die Syntax von WHILE sei um das repeat-until-Konstrukt erweitert, wie in der Aufgabe. Ergänzen Sie die operationelle Semantik.\\
 
-tba
+\textbf{Lösung:}\\
+
+tbd
 
 % -----------------------------------------------------------
 %			AUFGABE 4
