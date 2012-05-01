@@ -1,0 +1,3 @@
+([],fromList [],[WhileProgramm (Seq (Assign "x" 'read') (Seq (Assign "y" 'read') (Seq (Assign "g" 0) (Seq (While (x>=y) (Seq (Assign "g" (g+1)) (Assign "x" (x-y)))) (TOut g)))))],[10,2],[])
+([],fromList [("g",5),("x",2),("y",2)],[ControlT x,ControlT y,ControlOp -,ControlC (AssignC "x"),ControlB (x>=y),ControlC WhileC,ControlB (x>=y),WhileProgramm (Seq (Assign "g" (g+1)) (Assign "x" (x-y))),WhileProgramm (TOut g)],[],[])
+([],fromList [("g",5),("x",0),("y",2)],[],[],[5])

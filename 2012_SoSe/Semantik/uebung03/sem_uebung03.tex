@@ -142,7 +142,103 @@ Nach dieser Umformung wird zunächst einmal C ausgeführt. Nach dieser Ausführu
 % -----------------------------------------------------------
 \section*{Aufgabe 4}
 
-tba
+Implementieren Sie WSKEA in einer Sprache Ihrer Wahl.\\
+
+\textbf{Lösung:}\\
+
+Unsere Wahl war Haskell, da wir hier schon vorher die Datentypen implementiert haben.\\
+
+Zunächst haben wir wieder die Datentypen für T,B,C,P und die Grundtypen importiert. Danach haben wir einen neuen Datentyp gebraucht, da Haskell stark getypt ist, damit wir sowohl die Kontrollstrukturen, als auch die While-Struckturen auf den Programmstack legen wollten.
+\begin{lstlisting}[language=haskell]
+data Con = WhileC | IfC | NotC | AssignC I | BOutC | TOutC deriving Show
+
+data PK = WhileProgramm C | ControlOp OP | ControlBop BOP | ControlC Con | ControlB B | ControlT T deriving Show
+
+type WSKEA = ([K],Map I Z, [PK], [K], [K])
+\end{lstlisting}
+
+Mit diesen Datentypen konnten wir WSKEA analog zur Definition in der Vorlesung als 5-Tupel anlegen.\\
+Die Funktion anfang, nimmt ein While Programm und eine Liste von Eingaben und gibt des Starttupel zurück. Dabei ist der Wertekeller zu beginn leer und im Wörterbuch steht kein Eintrag. Dies Ausgabe hat auch noch keinen Wert ausgegeben.
+
+\begin{lstlisting}[language=haskell]
+anfang :: P ->  [K] -> WSKEA
+anfang program eingabe = ([], Map.empty , [(WhileProgramm program)], eingabe, [])
+\end{lstlisting}
+
+Die Überführungsfunktion $\Delta$ ist nicht schwer zu Implementieren nur aufwendig. Da Haskell funktional ist und die Überführungsfunktion dies auch ist, kann man prinzipiell die Definition aus der Vorlesung und dem Buch abschreiben und auf Haskellsyntax umarbeiten. (Die Funktion wird einmal am Ende angefügt.)
+
+Bevor die Funktion einmal zur gänze herunter geleiert wird einmal ein Test am divprog vom letzten mal einfach in ghci eingegeben:
+\begin{lstlisting}[language=haskell]
+let wska0 = anfang divTest [(LiteralInteger 10), (LiteralInteger 2)]
+> ([],fromList [],[WhileProgramm (Seq (Assign "x" 'read') (Seq (Assign "y" 'read') (Seq (Assign "g" 0) (Seq (While (x>=y) (Seq (Assign "g" (g+1)) (Assign "x" (x-y)))) (TOut g)))))],[10,2],[])
+
+(iterate delta wska0) !! 100
+> ([],fromList [("g",5),("x",2),("y",2)],[ControlT x,ControlT y,ControlOp -,ControlC (AssignC "x"),ControlB (x>=y),ControlC WhileC,ControlB (x>=y),WhileProgramm (Seq (Assign "g" (g+1)) (Assign "x" (x-y))),WhileProgramm (TOut g)],[],[])
+
+(iterate delta wska0) !! 500
+> ([],fromList [("g",5),("x",0),("y",2)],[],[],[5])
+\end{lstlisting}
+
+Die Erste Abgabe zeigt den Startwert der WSKA Maschine, bei Eingabe von 'divTest', der zweite zeigt den Zustand der Maschine nach 100 iterationen von delta. An dieser Stelle sind wir noch in der Berechnung, haben von gearbeitet und in den Variablen stehen schon Werte drin, die nicht vom laden kommen. Nach 500 Schritten sind wir fertig, dies wird schon vorher eingetreten sein, aber der Zustand ändert sich nicht mehr.\\
+
+Delta:
+\begin{lstlisting}[language=haskell]
+delta :: WSKEA -> WSKEA
+delta (w,s,[],e,a) = (w,s,[],e,a)
+-- ControlC
+delta (((LiteralBool True):w), s, ((ControlC WhileC):b:p:k),e, a) 		= (w, s, (p:b:(ControlC WhileC):b:p:k), e, a)
+delta (((LiteralBool False):w), s, ((ControlC WhileC):_:_:k), e, a)		= (w, s, k, e, a)
+delta (((LiteralBool True):w), s, ((ControlC IfC):p1:_:k), e, a)		= (w, s, (p1:k), e, a)
+delta (((LiteralBool False):w), s, ((ControlC IfC):_:p2:k), e, a)		= (w, s, (p2:k), e ,a)
+delta (((LiteralBool b):w), s, ((ControlC NotC):k), e, a)				= (((LiteralBool (not b)):w), s, k, e, a)
+delta (((LiteralInteger v):w), s, ((ControlC (AssignC id)):k), e, a)	= (w, Map.insert id v s, k, e, a)
+delta (((LiteralInteger v):w), s, ((ControlC TOutC):k), e, a)			= (w, s, k, e, ((LiteralInteger v):a))
+delta (((LiteralBool b):w), s, ((ControlC BOutC):k), e, a)				= (w, s, k, e, ((LiteralBool b):a))
+-- ControlBop und Op
+delta (((LiteralInteger i1):(LiteralInteger i2):w), s, ((ControlBop bop):k), e, a)
+	= (((LiteralBool (decodeBOP bop i2 i1)):w), s, k, e, a)
+delta (((LiteralInteger i1):(LiteralInteger i2):w), s, ((ControlOp op):k), e, a)
+	= (((LiteralInteger (decodeOP op i2 i1)):w), s, k, e, a)
+-- ControlB Boolauswertung
+delta (w,s,((ControlB (Literal b)):k),e,a)
+	= (((LiteralBool b):w),s,k,e,a)
+delta (w,s,((ControlB (Not b)):k), e, a)
+	= (w, s, ((ControlB b):(ControlC NotC):k), e, a)
+delta (w,s,((ControlB (BApp t1 bop t2)):k),e,a)
+	= (w, s, ((ControlT t1):(ControlT t2):(ControlBop bop):k), e, a)
+delta (w, s, ((ControlB BRead):k), ((LiteralBool b):e), a)
+	= (((LiteralBool b):e), s, k, e, a)
+-- ControlT Termauswertung
+delta (w, s, ((ControlT (Z z)):k), e, a)
+	= (((LiteralInteger z):w), s, k ,e ,a)
+delta (w, s, ((ControlT (Id i)):k), e, a) =
+	let v = Map.lookup i s in
+		case v of
+			(Just value)	-> (((LiteralInteger value):w), s, k, e, a)
+			_				-> error "No transition defined"
+delta (w, s, ((ControlT (TApp t1 op t2)):k), e, a)
+	= (w, s, ((ControlT t1):(ControlT t2):(ControlOp op):k), e, a)
+delta (w, s, ((ControlT (TRead)):k), ((LiteralInteger i):e), a)
+	= (((LiteralInteger i):w), s , k, e, a)
+-- WhileProgramm
+delta (w, s, ((WhileProgramm Skip):k), e, a)
+	= (w, s, k, e, a)
+delta (w, s, ((WhileProgramm (Assign i t)):k), e, a)
+	= (w, s, ((ControlT t):(ControlC (AssignC i)):k), e, a)
+delta (w, s, ((WhileProgramm (Seq c1 c2)):k), e, a)
+	= (w, s, ((WhileProgramm c1):(WhileProgramm c2):k), e, a)
+delta (w, s, ((WhileProgramm (While b c)):k), e, a)
+	= (w, s, ((ControlB b):(ControlC WhileC):(ControlB b):(WhileProgramm c):k), e, a)
+delta (w, s, ((WhileProgramm (If b c1 c2)):k), e, a)
+	= (w, s, ((ControlB b):(ControlC IfC):(WhileProgramm c1):(WhileProgramm c2):k), e, a)
+delta (w, s, ((WhileProgramm (BOut b)):k), e, a)
+	= (w, s, ((ControlB b):(ControlC BOutC):k), e, a)
+delta (w, s, ((WhileProgramm (TOut t)):k), e, a)
+	= (w, s, ((ControlT t):(ControlC TOutC):k), e, a)
+-- undefined stuff
+delta _ = error "No transition defined"
+
+\end{lstlisting}
 
 \label{LastPage}
 
