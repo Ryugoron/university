@@ -220,20 +220,18 @@ $$
 \stackrel{3ii)}{\Rightarrow} & \exists \xi \in [a,b] &:& f(\xi) \cdot \int_a^b g(x) \, dx &=& \int_a^b f(x)g(x) \, dx
 \end{array}
 $$
-Die Vorzeichenbedingung an $g$ ist notwendig. Betrachten wir die Funktion
-$$
-g(x) = \left\{
-\begin{array}{lr}
-1&,x>0\\
--1&,x\leq0
-\end{array}
-\right. .
-$$
-Bla und kein Plan
 
 Damit das ganze funktionieren kann, sollten wir zunächst zeigen, dass gilt:
 Seien $f$ und $g$ integrierbar über $[a,b]$.  Dann ist $f\cdot g$ eine integrierbar Funktion über $[a,b]$. Da sowohl $f$ als auch $g$ integrierbar sind, existieren 2 Partitionsfolgen bezüglich dieser die Ober- und Untersummen von $f$ und $g$ konvergieren. Daraus können wir folgern, dass eine einzige Partitionsfolge $P_n$ existiert, bezüglich dieser die Ober- und Untersumme für beide Funktionen konvergieren (gegen den selben Grenzewert). Dies liegt daran, dass wir durch die Verfeinerung einer Partitionsfolge, die konvergiert und neue Punkte innerhalb des Intervals, die konvergenz Eigenschaft nicht verändern können.
 
+Die Vorzeichenbedingung an $g$ ist notwendig. Betrachten wir das Integral
+$$
+    \int_{-\pi}^{\pi}{x \cdot x \; dx} = \frac{2 \pi^3}{3}
+$$
+also $f(x) = g(x) = 0$. Hier gilt dann
+$$
+    \int_{-\pi}^{\pi}{x \; dx} = 0 \Rightarrow a \cdot \int_{-\pi}^{\pi}{x} = 0 \; \forall a \in \mathbb{R}
+$$
 
 \end{enumerate}
 
