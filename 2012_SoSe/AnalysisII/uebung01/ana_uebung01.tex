@@ -118,7 +118,7 @@ $$
 \begin{array}{rcl}
 F'(x)	&=& \left( \int_0^{x^2} \sin \, t \; dt\right)'\\
 	&=& (x^2)' \cdot \sin x^2\\
-	&=& 2x \cdot \sin x^2
+	&=& 2x \cdot \sin x^2 + C
 \end{array}
 $$
 
@@ -187,18 +187,52 @@ Es seien $m,M$ wie aus Aufgabe 3 a). Aus Aufgabe 3 a) wissen wir, dass ein $\mu 
 $$
     \int_{a}^{b} f(x) \, dx = (b - a) \mu
 $$
-Da $\mu \in \left[m,M\right] = \left[f(\alpha),f(\beta)\right]$ für ein $\alpha,\beta \in [a,b]$ (eine Funktion nimmt auf einem abgeschlossenem Intervall sein Minimum und Maximum an) und $f$ auf $\left[a,b\right]$ stetig, folgt aus dem Zwischenwertsatz: $f(\xi) = \mu$ für ein $\xi \in \left[a,b\right]$.
+Da $\mu \in \left[m,M\right] = \left[f(\alpha),f(\beta)\right]$ für ein $\alpha,\beta \in [a,b]$ (eine stetige Funktion nimmt auf einem abgeschlossenem Intervall sein Minimum und Maximum an) und $f$ auf $\left[a,b\right]$ stetig, folgt aus dem Zwischenwertsatz: $f(\xi) = \mu$ für ein $\xi \in \left[a,b\right]$.
 $$
     \Rightarrow \int_{a}^{b} f(x)\, dx = (b-a) f(\xi)
 $$
 
-HIER FEHLT GEGENBEISPIEL BZGL. STETIGKEIT
+Dass $f$ stetig ist, ist eine notwendige Bedingung. Sehen wir uns dazu das  $\int_0^1 f(x)\;dx$ für die Funktion
+$$
+f(x) = \left\{ 
+\begin{array}{rl}
+1 & ,x > \frac{1}{2} \\
+0 &, sonst 
+\end{array}
+\right. \text{ an.}
+$$
+
+Dass Integral $\int_0^1 f(x) dx = \frac{1}{2}$. Doch wie wir sehen, kann dieser Wert an keiner Stelle auf der Gesammten Funktion, insbesondere des Intervals angenommen werden.
 
     \item Sei nun $f$ stetig auf $[a,b]$, und $g$ integrierbar und positiv (bzw. negativ) auf $[a,b]$. Zeigen Sie dass 
 $$
     \int_{a}^{b} g(x)f(x)\, dx = f(\xi) \int_{a}^{b} g(x) \, dx
 $$ 
-für ein $\xi \in [a,b]$ gilt. Man nennt dies den Mittelwertsatz der Intergralrechnung   . Begründen Sie anhand eines Gegenbeispiels, dass die Vorzeichenbedingung an $g$ notwendig ist. 
+für ein $\xi \in [a,b]$ gilt. Man nennt dies den Mittelwertsatz der Intergralrechnung   . Begründen Sie anhand eines Gegenbeispiels, dass die Vorzeichenbedingung an $g$ notwendig ist. \\
+
+\textbf{Lösung:}\\
+Sei $m \leq f(x) \leq M$ für alle $x \in [a,b]$, wie in Aufgabenteil i). Diese Gleichung setzen wir nun in unsere Bedingung ein. An dieser Stelle benutzen wir, dass $g\geq0$ gelten soll. Sollte $g\leq 0$ gelten, würde sich die Relation umdrehen, \\da $x\geq y \land z<0 \Rightarrow zx \leq zy$. Sollte der zweite Fall eintreten, müssten wir $m$ und $M$ vertauschen.\\
+$$
+\begin{array}{crcccl}
+\Rightarrow& \int_a^b m\cdot g(x) \, dx& \leq & \int_a^b f(x) \cdot g(x) \, dx & \leq & \int_a^b M g(x) \, dx\\
+\Leftrightarrow & m \cdot \int_a^b g(x) \, dx & \leq & \int_a^b f(x) \cdot g(x) \, dx & \leq & M \cdot \int_a^b g(x) \, dx\\
+\stackrel{3i)}{\Rightarrow} & \exists \mu \in [m,M]&:& \mu \cdot \int_a^b g(x) \, dx & = & \int_a^b f(x)g(x) \, dx \\
+\stackrel{3ii)}{\Rightarrow} & \exists \xi \in [a,b] &:& f(\xi) \cdot \int_a^b g(x) \, dx &=& \int_a^b f(x)g(x) \, dx
+\end{array}
+$$
+Die Vorzeichenbedingung an $g$ ist notwendig. Betrachten wir die Funktion
+$$
+g(x) = \left\{
+\begin{array}{lr}
+1&,x>0\\
+-1&,x\leq0
+\end{array}
+\right. .
+$$
+Bla und kein Plan
+
+Damit das ganze funktionieren kann, sollten wir zunächst zeigen, dass gilt:
+Seien $f$ eine stetige Funktion und $g$ integrierbar über $[a,b]$.  Dann ist $f\cdot g$ eine integrierbar über $[a,b]$.
 \end{enumerate}
 
 %% ---------------------------------------------------
@@ -258,6 +292,14 @@ $$
 \int_{a}^{b} f(x)g(x) \, dx = 0
 $$
 für alle stetigen Funktionen $g$ auf $[a,b]$. Zeigen Sie, dass $f\equiv 0$
+
+\textbf{Lösung:}\\
+Wie in 3 iii) gezeigt, existiert das Integral des Produktes der beiden Funktionen. Wahlweise kann hier gezeigt werden, dass das Produkt zweier stetigen Funktionen wieder stetig ist. Und damit muss das Integral auch existieren.
+Da die Aussage bezüglich $f$ für alle stetigen Funktionen $g$ gelten soll, muss die Aussage insbesondere für $f$ selber gelten. Das Integral $\int_a^b f^2 (x) dx$ muss also 0 sein. Da wir nun aber wissen, dass $\forall x \in [a,b] \; : \; f^2(x) \geq 0$ gilt, da das quadrieren nur in die positiven reellen zahlen geht. Nehmen wir nun an, dass ein Wert $x_0$ existiert, mit $f(x_0) \not=0$, dann gilt bezüglich unserer neuen Funktion $f^2(x_0) > 0$. Nach Aufgabe 4.iii) muss dann aber gelten, dass $\int_a^b f^2(x) dx > 0$ ist.\\
+
+Demnach kann kein Wert $x_0$ existieren mit $f(x_0) \not= 0$.\\ Damit gilt $\forall x \in [a,b] \; : \; f(x) = 0 \Rightarrow f \equiv 0$.
+
+
 \end{enumerate}
 \label{LastPage}
 \end{document}
