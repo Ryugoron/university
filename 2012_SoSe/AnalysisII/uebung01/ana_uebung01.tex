@@ -189,7 +189,7 @@ Es seien $m,M$ wie aus Aufgabe 3 a). Aus Aufgabe 3 a) wissen wir, dass ein $\mu 
 $$
     \int_{a}^{b} f(x) \, dx = (b - a) \mu
 $$
-Da $\mu \in \left[m,M\right] = \left[f(\alpha),f(\beta)\right]$ für ein $\alpha,\beta \in [a,b]$ und $f$ auf $\left[a,b\right]$ stetig, folgt aus dem Zwischenwertsatz: $f(\xi) = \mu$ für ein $\xi \in \left[a,b\right]$.
+Da $\mu \in \left[m,M\right] = \left[f(\alpha),f(\beta)\right]$ für ein $\alpha,\beta \in [a,b]$ (eine Funktion nimmt auf einem abgeschlossenem Intervall sein Minimum und Maximum an) und $f$ auf $\left[a,b\right]$ stetig, folgt aus dem Zwischenwertsatz: $f(\xi) = \mu$ für ein $\xi \in \left[a,b\right]$.
 $$
     \Rightarrow \int_{a}^{b} f(x)\, dx = (b-a) f(\xi)
 $$
@@ -225,9 +225,26 @@ $$
     f(x) \geq 0 \text{ für alle } x\in [a,b], \, f(x_0) > 0\text { für ein } x_0 \in [a,b], \int_{a}^{b} f(x) \, dx = 0.
 $$
 
-\textbf{Lösung}\\
+\textbf{Lösung}
 
-tbd
+Sei $a < b \in \mathbb{R}, \psi = a + \frac{b-a}{2}$ und $f:\; [a,b] \to \mathbb{R},\; x \mapsto \begin{cases}  
+                                                    1, &\text{ wenn } x = \psi\\
+                                                    0, &\text{ sonst}
+                                                 \end{cases}$.\\
+
+Wir wählen als Partitionsfolge $\{a,\psi - \frac{b-a}{2^{i+2}},\psi + \frac{b-a}{2^{i+2}},b\}$, wobei $i \in \mathbb{N}$ der Index der Folge ist.
+
+Für die Untersumme $U_n$ gilt $U_n = 0$ für alle $n \in \mathbb{N}$. \\
+Für die Obersumme $O_n$ gilt $O_n = \psi + \frac{b-a}{2^{n+2}} - \left(\psi - \frac{b-a}{2^{n+2}}\right)
+ = \frac{b-a}{2^{n+1}}$. \\
+
+Nun betrachten wir den Grenzwert der Obersumme:
+$$
+\lim_{n \to \infty}{O_n} = \lim_{n \to \infty}{\frac{b-a}{2^{n+1}}} = 0 = \lim_{n \to \infty}{U_n}
+$$
+Da der Grenzwert existiert und die Differenz von Unter- und Obersumme Null ist, ist das Integral von $f$ definiert und es gilt:
+$$ \int_{a}^{b}{f(x) \; dx} = \lim_{n \to \infty}{O_n} = \lim_{n \to \infty}{U_n} = 0 $$
+
 
     \item Sei $f(x) \geq 0$ für alle $x \in [a,b]$ und $f$ stetig mit $x_0 \in [a,b]$ mit $f(x_0) > 0$. Zeigen Sie, dass dann auch gilt
 $$
