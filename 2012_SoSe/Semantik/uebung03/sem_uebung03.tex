@@ -101,7 +101,25 @@ Erweitern Sie die WSKEA-Maschine um eine Komponente \texttt{N} für Nachrichten 
 
 \textbf{Lösung:}\\
 
-tbd
+Wir erweitern Zunächst unseren Zustand $z$ um eine Nachricht. Da wir nur Nachrichten zurückgeben, wenn wir abstürzen oder fertig sind, brauchen wir keinen Stack und keine Queue. Es muss einfach ein Text gespeichert werden.
+$<W | S | K | E | A | N >$, dabei sind $W,S,L,E,A$ wie in der ursprünglichen WSKEA Maschine und $N$ ist das eben erwähnt Feld für die einzelne Nachricht. Der Startzustand $z_{P,E} = < \varepsilon | S_0 | P.\varepsilon | E | \varepsilon | \varepsilon >$ ist äquivalent zum ursprünglichen Startzustand. Der letzte Eintrag für die Nachricht $N$ ist einfach leer. Da wir nun auch im Fehlerfall eine Überführung haben wollen und nicht einfach abbrechen, definieren wir eine Funktion, die die unendliche Ausführung ermöglicht und bei Beendigung Idempotent sein sollte:
+$$
+\Delta < W | S | K | E | A | n > = <W | S | K | E | A | n >, \quad \text{für }n \not= \varepsilon
+$$
+Dies bedeutet, sollten wir eine Nachricht empfangen haben, lassen wir den Zustand unverändert, da es sich um einen Fehler handelt oder das Programm schon fertig ist. Damit wir nicht so viel schreiben müssen übernehmen wir alle anderen Überführungsfunktionen, wie gehabt, wenn die nachricht $\varepsilon$ ist. Nun müssen wir nur noch Fälle betrachten in denen das Programm beendet wird oder ein Fehler auftritt.
+$$
+\Delta < W | S | \varepsilon | E | A | \varepsilon> = < W | S | \varepsilon | E | A | \text{ Programm erfolgreich beendet }>
+$$
+Einen Fehler können vielfällitg auftreten, wie wir auf dem ersten Übungsblatt gesehen haben, wir werden es hier exemplarisch für \emph{IF} und \emph{+} zeigen
+$$
+\Delta <n1.n2.W | S | +.K | E | A | \varepsilon > = < W | S | K | E | A | \text{falsche Typ bei +} >, \quad n1,n2\text{ keine Zahl}
+$$
+$$
+\Delta <n1.\varepsilon | S | +.K | E | A | \varepsilon> = < W | S | K | E | A |\text{Zu wenig Zahlen für +}>
+$$
+$$
+\Delta <b.W | S | if.p1.p2.K | E | A | \varepsilon > = < W | S | K | E | A |\text{Bedingung ist keine Zahl}>, \quad b\text{ kein Bool}
+$$
 
 % -----------------------------------------------------------
 %			AUFGABE 3
@@ -111,7 +129,13 @@ Die Syntax von WHILE sei um das repeat-until-Konstrukt erweitert, wie in der Auf
 
 \textbf{Lösung:}\\
 
-tbd
+Die übliche Semantik von REPEAT C UNTIL B ist, dass man C solange ausführt, wie B gilt. Der unterschied zu While ist, dass man C zunächst einmal ausführt, bevor man die Bedingung prüft. Um es un leicht zu machen, formen wir REPEAT deshalb auf WHILE um. Die Berechnung wird dadurch nicht verändert.
+
+$$
+\Delta < W | S | \underline{REPEAT}\, C \, \underline{UNTIL}\, B . K | E | A> = <W | S | C . \underline{WHILE} \, \underline{NOT} \, (B)\,  \underline{DO} \, C \, \underline{OD} . K | E | A >
+$$
+
+Nach dieser Umformung wird zunächst einmal C ausgeführt. Nach dieser Ausführung wird B geprüft. Ist es wahr, wird die Schleife abgebrochen. Wenn nicht geht es in einen neuen Durchlauf über.
 
 % -----------------------------------------------------------
 %			AUFGABE 4
