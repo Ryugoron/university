@@ -62,7 +62,9 @@ Angenommen, dass eine abstrakte Maschine und ihre Überführungsfunktion \emph{d
 %% -----------------------------------------------------
 
 \section*{Aufgabe 2}
-
+%%
+%%  Alles fertig. Muss nur gepastet werden und kommentiert.
+%%
 \begin{enumerate}[a)]
     \item   Implementieren Sie die Reduktionsfunktion von WHILE in einer Programmiersprache
             Ihrer Wahl.
@@ -92,19 +94,102 @@ Gegeben sei folgende Syntax
 \begin{tabular}{lcl}
 W   & := &  True | False\\
 LOP & := &  AND | OR\\
-LA  & := &  W | $LA_1$ LOP $LA_2$ | Not LA 
+LA  & := &  W | $LA_1$ LOP $LA_2$ | NOT LA 
 \end{tabular}
+
+\textbf{Anmerkung:} Uns war es freigestellt uns eine Semantik zu überlegen.
+                    Der einfachste Weg wäre es, jeden Ausdruck, den wir bekommen
+                    auf True abzubilden. Damit wäre es semantisch völlig
+                    spezifiziert. Wir haben uns aber an eine etwas sinnvollere
+                    doch nicht zu komplizierte Semantik gesetzt. Da wir uns
+                    wörtlich an die Befehle halten, haben wir daher keine Ausgabe.
+                    Man könnte sich aber überlegen die Zwischenschritte in die
+                    Ausgabe zu schreiben. Dies werden wir im Programmier part auch tun
+                    um nachzuvollziehen, ob das richtige passiert.
 
 \begin{enumerate}[a)]
     \item   Definieren Sie eine geeignete operationelle Semantik.\\
             \textbf{Lösung:}\\
-            tbd
+            
+            Wir führen eine weitere Menge von Kontroll-Symbolen für die abstrakte Maschiene ein
+            $CON = \left\{ \underline{CAND}, \underline{COR}, \underline{CNOT} \right\}$. Damit
+            ist der Zustandsraum unserer Abstrakten Maschiene $S = CON \cup W \cup LOP \cup LA$.
+            Nun definieren wir die Semantikfunktion $\Delta$. Der Speicher ist die leere 
+            Funktion $WK = \emptyset $, da wir keine Werte speichern können. Der Wertekeller $S$
+            ist eine Liste von Weten $W$ und $E, A$ sind Listen von Werten $W$. Wobei diese nicht
+            gebaucht werden.
+
+            $$
+            \begin{array}{rcl}
+                \Delta \; : \; WK \times S \times K \times E \times A & \Longrightarrow & W \times S \times K \times E \times A
+            \end{array}
+                \Delta \left< w | s | \varepsilon | e | a \right>
+                    & \equiv & \left< w | s | \varepsilon | e | a \right>\\
+
+                \Delta \left< w | s | True.k | e | a \right>
+                    & \equiv & \left< w | True.s | k | e | a \right>\\
+
+                \Delta \left< w | s | False.k | e | a \right>
+                    & \equiv & \left< w | False.s | k | e | a \right>\\
+
+                \Delta \left< w | s | (t1 AND t2).k | e | a \right>
+                    & \equiv & \left< w | s | t1.t2.CAND.k | e | a \right>\\
+
+                \Delta \left< w | s | (t1 OR t2).k | e | a \right>
+                    & \equiv & \left< w | s | t1.t2.COR.k | e | a\right>\\
+
+                \Delta \left< w | s | (NOT t1).k | e | a \right>
+                    & \equiv & \left< w | s | t1.CNOT.k | e | a\right>\\
+
+                \Delta \left< w | v1.v2.s | CAND.k | e | a \right>
+                    & \equiv & \left< w | (v1 \land v2 ) . s | k | e | a \right>\\
+
+                \Delta \left< w | v1.v2.s | COR.k | e | a \right>
+                    & \equiv & \left< w | (v1 \lor v2).s | k | e | a \right>\\
+
+                \Delta \left< w | v.s | CNOT.k | e | a \right>
+                    & \equiv & \left< w | (\neg v).s | k | e | a \right>
+
+            $$
+
+            Dies sind alle Überführung die wir benötigen. Da die Syntax und die Semantik keine Ausgabe 
+            vorsieht , ist die Semantikfunktion einfach eine Funktion, die alles auf das leere Wort schickt.\\
+            $O \; : \; LA \times W \Rightarrow W, \; (prog,eing) \mapsto \varepsilon$.
 
     \item   Definieren Sie eine geeignete Reduktionssemantik.\\
             \textbf{Lösung:}\\
-            tbd
+            
+            Wir übernehmen den Speicher, Ein- und Ausgabe aus Aufgabenteil a).
+
+            $$
+            \begin{array}{rcl}
+                (True, (s,e,a)) & \Longrightarrow & (True, (s,e,a))\\
+                (False, (s,e,a)) & \Longrightarrow & (False, (s,e,a))\\
+                (t1 AND t2, (s,e,a)) & \Longrightarrow & (v1 \land v2, (s'',e'',a''))\\
+                                    & \text{where} & (t1, (s,e,a)) \stackrel{*}{\Longrightarrow} (v1, (s',e',a'))\\
+                                    &&  (t2, (s',e',a')) \stackrel{*}{\Longrightarrow} (v2,(s'',e'',a''))\\
+                
+                (t1 OR t2, (s,e,a)) & \Longrightarrow & (v1 \lor v2, (s'',e'',a''))\\
+                                    & \text{where} & (t1, (s,e,a)) \stackrel{*}{\Longrightarrow} (v1, (s',e',a'))\\
+                                    &&  (t2, (s',e',a')) \Longrightarrow (v2,(s'',e'',a''))\\
+                (NOT t, (s,e,a))    & \Longrightarrow & (\neg v, (s',e',a'))\\
+                                    & \text{where} & (t, (s,e,a)) \stackrel{*}{\Longrightarrow} (v, (s',e',a'))
+            \end{array}
+            $$
+
+            Wie in a) macht die Ausgabe bei uns nichts. Daher wird die Semantikfunktion \emph{eval} auch
+            $\varepsilon$ ausgeben.
+            
     \item   Beweisen Sie die Äquivalenz der Lösungen von 3 a) und b).\\
             \textbf{Lösung:}\\
+
+            Wir haben hier Zwei Teile zu zeigen:
+            \begin{enumerate}[I]
+                \item   Auswertung von Konstanten $W$:
+                        $$
+                            
+                        $$
+            \end{enumerate}
 \end{enumerate}
 
 %% ------------------------------------------------------------
@@ -117,10 +202,13 @@ LA  & := &  W | $LA_1$ LOP $LA_2$ | Not LA
             \textbf{Lösung:}\\
             tbd
 
+
     \item   Implementieren Sie die operationelle und die Reduktionssemantik
             gemäß Ihrer Lösungen zu 3 a) und b).\\
             \textbf{Lösung:}\\
             tbd
+
+
 \end{enumerate}
 \label{LastPage}
 
