@@ -2,8 +2,8 @@ module OpSem where
 
 import Data.Map
 import qualified Data.Map as Map
-import wskea
-import qualified wskea as Wskea
+import WhileParse
+import qualified WhileParse as Wskea
 
 class Operation m n where
     delta :: m -> m

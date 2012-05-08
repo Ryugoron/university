@@ -55,7 +55,9 @@ Angenommen, dass eine abstrakte Maschine und ihre Überführungsfunktion \emph{d
             tbd
 
     \item   Testen Sie Ihre Semantikfunktion \emph{O} am Beispiel der WSKEA Maschine und $\Delta$.
-
+    
+            \textbf{Lösung:}\\
+            tbd
 \end{enumerate}
 %% ------------------------------------------------------
 %%                  AUFGABE 2
@@ -70,18 +72,113 @@ Angenommen, dass eine abstrakte Maschine und ihre Überführungsfunktion \emph{d
             Ihrer Wahl.
 
             \textbf{Lösung:}\\
-            tbd
+            \begin{lstlisting}
+redT :: (T, (Map I Z, [K], [K])) -> (T, (Map I Z, [K], [K]))
+redT ((Z z), t)           = ((Z z), t)
+redT ((Id i), (s,e,a))     = 
+    case Map.lookup i s of
+        Just (z)  -> ((Z z), (s,e,a))
+        Nothing     -> ((Id i), (s,e,a))
+redT ((TApp v1 op v2), t) =
+    let (r1, t')                = redT (v1, t)
+        (r2, t'')               = redT (v2, t') in
+            case (r1,r2) of
+                (Z z1, Z z2)    -> ((Z (decodeOP op z1 z2)), t'')
+                (lE, rE)        -> ((TApp lE op rE), t'')
+redT (TRead, (s,((LiteralInteger z):e), a))  = ((Z z), (s,e,a))
+redT (TRead, t)           = (TRead, t)
+        
+
+redB ((Literal b), t)           = ((Literal b), t)
+redB ((Not b), t)               = 
+    case redB (b, t) of
+        ((Literal b'), t')   -> ((Literal (not b')), t')
+        (b', t')             -> (b', t')
+redB ((BApp b1 bop b2), t)      =
+    let (r1, t')                = redT (b1, t)
+        (r2, t'')               = redT (b2, t') in
+            case (r1,r2) of
+                (Z z1, Z z2)    -> ((Literal (decodeBOP bop z1 z2)), t'')
+                (lE, rE)        -> ((BApp lE bop rE), t'')
+redB (BRead, (s, ((LiteralBool b):e), a)) = ((Literal b), (s,e,a))
+redB (BRead , t)                = (BRead, t)
+
+red :: (C, (Map I Z, [K], [K])) -> (C, (Map I Z, [K], [K]))
+red (Skip, t)                   = (Skip, t)
+red ((Assign i t), (s,e,a))     = 
+    let (v,(s',e',a')) = redT (t,(s,e,a)) in
+        case v of
+            (Z z)               -> (Skip, (Map.insert i z s', e', a'))
+            _                   -> error ("Couldn't match " ++ (show t) ++" with Integer in "++(show i)++":="++(show t))
+red ((Seq c1 c2), t)            =
+    let (cr, t') = red (c1, t)      -- In our implementation could only be Skip
+        (cr', t'') = red (c2, t')   -- Same again
+    in
+        case (cr,cr') of
+            (Skip, Skip)         -> (Skip, t'')
+            _                   -> error ("Couldn't match"++(show c1)++"; "++(show c2)++"to a real execution")
+red ((If b c1 c2), t)            =
+    case redB (b, t) of
+        ((Literal True), t')    -> red (c1, t')
+        ((Literal False), t')   -> red (c2, t')
+        _                       -> error ((show b)++" in the expression "++(show (If b c1 c2))++"was no boolean")
+red ((While b c), t)            =
+    case redB (b,t) of
+        ((Literal True), t')    -> 
+            let (res, t'') = red (c, t') in
+                case res of
+                    (Skip)      -> red ((While b c), t'')
+                    _           -> error ("Couldn't evaluate ("++(show c)++") in ("++(show (While b c))++")")
+        ((Literal False), t'')   -> red (Skip, t'')
+        _                       -> error ("Couldn't evaluate ("++(show b)++") in ("++(show (While b c))++")")
+red ((BOut b), t)               =
+    let (r, (s,e,a)) = redB (b,t) in
+        case r of
+            (Literal bool)  -> (Skip, (s,e,((LiteralBool bool):a)))
+            _               -> error ("Type missmatch, expected bool in ("++(show b)++"), in ("++(show (BOut b))++")")
+red ((TOut v), t)               =
+    let (r, (s,e,a)) = redT (v,t) in
+        case r of
+            (Z z)           -> (Skip, (s,e,((LiteralInteger z):a)))
+            _               -> error ("Type missmatch, expected bool in ("++(show v)++"), in ("++(show (TOut v))++")")
+            \end{lstlisting}
+
+            Wir haben uns dafür entschieden, da es nicht anders gebraucht wurde die transitive Hülle
+            in die Reduktion einzubauen. Die Reihenfolge der Ausführung bliebt dadurch erhalten.
+            Desweiteren geben wir in einem Fehlerfall halbwegs detailiert zurück, wo der Fehler
+            aufgetreten ist. Wir könnten zur Sicherheit auch noch einmal den Halbausgewerteten Ausdruck
+            zurückgeben.\\
+            Bei redT und redB, werten wir die Terme aus, so wie wir es können. Treffen wir einmal
+            als Rückgabe auf keinen Grundtyp, so bauen wir unser Statement wieder zusammen und geben
+            es zurück. Im Hauptprogramm nun wird immer wenn so etwas passiert ein Fehler geworfen.
 
     \item   Implementieren Sie die Semantikfunktion \emph{eval}, die jeder Programm-Daten-Kombination
             die entsprechende Ausgabe zuordnet.
 
-            \texbt{Lösung:}\\
-            tbd
+            \textbf{Lösung:}\\
+            \begin{lstlisting}
+eval :: C -> [K] -> [K]
+eval prog eing  = 
+    case red (prog, (Map.empty, eing, [])) of
+        (Skip, (_,_,aus))   -> aus
+        _                   -> error ("The programm wasn't evaluated complete")
+            \end{lstlisting}
+
+            Da wir in der Reduktion schon die transitive Hülle gebildet haben, müssen wir an dieser
+            Stelle nur prüfen, ob das Programm wirklich fertig reduziert wurde und können dann
+            die ausgabe zurückgeben.
 
     \item   Testen Sie Ihre Funktion \emph{eval} am Beispiel der ganzzahligen Division.
 
             \textbf{Ergebnis:}\\
-            tbd
+            \begin{lstlisting}
+RedSem> eval divTest [(LiteralInteger 10),(LiteralInteger 2)]
+[5]
+RedSem> eval divTest [(LiteralInteger 200),(LiteralInteger 13)]
+[15]
+            \end{lstlisting}
+            Die beiden kurzen Testfälle ergben genau das, was wir erwarten, solange wir uns nicht
+            selbst verrechnet haben sollten.
 \end{enumerate}
 
 %% ------------------------------------------------------------
@@ -120,9 +217,9 @@ LA  & := &  W | $LA_1$ LOP $LA_2$ | NOT LA
             gebaucht werden.
 
             $$
-            \begin{array}{rcl}
-                \Delta \; : \; WK \times S \times K \times E \times A & \Longrightarrow & W \times S \times K \times E \times A
-            \end{array}
+            \begin{array}{lcl}
+                \Delta \; : \; WK \times S \times K \times E \times A 
+                    & \Longrightarrow & W \times S \times K \times E \times A\\
                 \Delta \left< w | s | \varepsilon | e | a \right>
                     & \equiv & \left< w | s | \varepsilon | e | a \right>\\
 
@@ -142,15 +239,15 @@ LA  & := &  W | $LA_1$ LOP $LA_2$ | NOT LA
                     & \equiv & \left< w | s | t1.CNOT.k | e | a\right>\\
 
                 \Delta \left< w | v1.v2.s | CAND.k | e | a \right>
-                    & \equiv & \left< w | (v1 \land v2 ) . s | k | e | a \right>\\
+                    & \equiv & \left< w | (v2 \land v1 ) . s | k | e | a \right>\\
 
                 \Delta \left< w | v1.v2.s | COR.k | e | a \right>
-                    & \equiv & \left< w | (v1 \lor v2).s | k | e | a \right>\\
+                    & \equiv & \left< w | (v2 \lor v1).s | k | e | a \right>\\
 
                 \Delta \left< w | v.s | CNOT.k | e | a \right>
                     & \equiv & \left< w | (\neg v).s | k | e | a \right>
 
-            $$
+            \end{array}$$
 
             Dies sind alle Überführung die wir benötigen. Da die Syntax und die Semantik keine Ausgabe 
             vorsieht , ist die Semantikfunktion einfach eine Funktion, die alles auf das leere Wort schickt.\\
@@ -159,7 +256,9 @@ LA  & := &  W | $LA_1$ LOP $LA_2$ | NOT LA
     \item   Definieren Sie eine geeignete Reduktionssemantik.\\
             \textbf{Lösung:}\\
             
-            Wir übernehmen den Speicher, Ein- und Ausgabe aus Aufgabenteil a).
+            Wir übernehmen den Speicher, Ein- und Ausgabe aus Aufgabenteil a). Es bleibt zu erwähnen,
+            dass wir uns, wie in Aufgabe 2 dafür entschieden haben, den transitiven Abschluss (transitive
+            Hülle) gleich mit in die Definition aufzunehmen. Die Auswertung ist hier wieder links vor rechts.
 
             $$
             \begin{array}{rcl}
@@ -183,13 +282,63 @@ LA  & := &  W | $LA_1$ LOP $LA_2$ | NOT LA
     \item   Beweisen Sie die Äquivalenz der Lösungen von 3 a) und b).\\
             \textbf{Lösung:}\\
 
-            Wir haben hier Zwei Teile zu zeigen:
-            \begin{enumerate}[I]
-                \item   Auswertung von Konstanten $W$:
-                        $$
-                            
-                        $$
-            \end{enumerate}
+            Wir zeigen Induktiv, dass der erste Fixpunkt von $\Delta$ und der transitive
+            Abschluss von $\Longrightarrow$, die selbe Variablenbelegung, die selbe Ausgabe
+            und die selbe restliche Eingabe hat. Die Spitze des Wertekellers muss dabei
+            den selben Wert haben, wie der Zustand des Programms nach der Ausführung ist.\\
+            \begin{description}
+                \item{I.A.}   Auswertung von Konstanten $W$:
+                        $$\begin{array}{rcl}
+                            \Delta \left< w | s | True.\varepsilon | e | a \right> 
+                                &=& \left< w | True. s | \varepsilon | e | a \right>\\
+                            (True, (w,e,a)) & \Longrightarrow & (True, (w,e,a)) 
+                        \end{array}$$
+                        Wir sind im selben Zustand gestartet mit dem selben Programm. Zurück kam
+                        beide male der selbe Wert.\\
+                        $$\begin{array}{rcl}
+                            \Delta \left< w | s | False.\varepsilon | e | a \right> 
+                                &=& \left< w | False. s | \varepsilon | e | a \right>\\
+                            (False, (w,e,a)) & \Longrightarrow & (False, (w,e,a)) 
+                        \end{array}$$
+                        Hier, wie im anderen Fall, bekommen wir den selben Rückgabewert. Eingabe, Ausgabe
+                        und Wörterbuch unterscheiden sich nicht.
+                \item{I.V.} Wir können Ausdrücke $LA$ der Tiefe (Abstrakte Syntax) $n-1$ auswerten.
+                \item{I.S.} $n \leadsto n+1$ 
+                        $\Delta \left< w | s | (t1 op t2).k | e | a \right> = \left< w | s | t1.t2.op'.k 
+                        | e | a\right>$, da $t1$, nun ein Syntaxbaum maximal die Tiefe $n-1$ hat, 
+                        wissen wir, dass es eine Funktionsfolge, der länge $l1$ gibt, so dass 
+                        $\Delta^{(l1)} \left< w | s | t1.t2.op'.k | e | a \right> = 
+                        \left<w' | v1.s | t2.op'.k | e' | a' \right>$ äquivalent zu einer Reduktion
+                        $(t1, (w,e,a)) \Longrightarrow (v1, (w',e',a'))$ ist. Da auch $t2$ maximal $n-1$
+                        tief ist, existiert ebenso eine Funktionfolge
+                        $\Delta^{(l2)} \left< w' | v1.s | t2.op'.k | e' | a' \right> =
+                        \left< w'' | v2.v1.s | op'.k | e'' | a'' \right>$, die äquivalent zu einer
+                        Reduktion $(t2, (w',e',a')) \Longrightarrow (v2, (w'',e'',a''))$ ist.
+                        Nun können wir auf der Seite von $\Delta$ noch einen Schritt ausführen und
+                        wir erhalten $\Delta^{(l1+l2+2)} \left< w | s | (t1 op t2).k | e | a \right>
+                        = \left< w | (t1 \underline{op} t2).s | k | e | a \right>$. Auf der Seite der Reduktion
+                        haben wir aus der Reduktion der Teilschritte die nötige Vorraussetzung,
+                        um $t1 op t2$ reduzieren zu können.
+                        $(t1 op t2, (w,e,a)) \Longrightarrow (v1 \underline{op} v2, (w'',e'',a''))$. Aller
+                        Vorraussetzungen sind erfüllt. Wir wissen nun, dass wir nach $l1+l2+2$ Schritten der
+                        $\Delta$ Funktion den selben Wert, wie die Reduktion erreichen.\\
+
+                        $\Delta \left< w | s | (NOT t).k | e | a \right> = \left<w | s | t.NOT.k | e 
+                        | a \right>$. In diesem Ausdruck, ist $t1$ wiederum ein Syntaxbaum, mit maximaler
+                        Tiefe $n-1$. Daher wissen wir, dass es eine Reduktion 
+                        $(t, (w,e,a)) \Longrightarrow (v, (w',e',a')$ gibt, die äquivalent zu 
+                        $\Delta^{(l)} \left< w | s | t.k | e | a \right> 
+                        = \left< w' | v | NOT.k | e' | a' \right>$ ist mit $l \geq 0$. Nach $\Delta$ Funktion,
+                        können wir es noch einen Schritt ableiten zu
+                        $\Delta^{(l+1)} \left< w | s | (Not t).k | e | a \right> =
+                        \left< w' | (Not v).s | k | e' | a' \right>$. Bei der Reduktion haben wir die
+                        Vorraussetzungen erfüllt und können nun nach der Regel folgern, dass folgende
+                        Reduktion gilt $(Not v, (w',e',a'))$.
+            \end{description}
+            Nach Struktureller Induktion kann das eine auf das andere Abgebildet werden. Wenn wir eine
+            Semantikfunktion hätten, könnten wir an dieser Stelle auch sehen, dass die Ausgaben
+            von beiden Spezifikationen identisch ist. Allderdings bilden beide ohnehin auf das leere
+            Wort ab.
 \end{enumerate}
 
 %% ------------------------------------------------------------
@@ -200,15 +349,119 @@ LA  & := &  W | $LA_1$ LOP $LA_2$ | NOT LA
     \item   Vereinbaren Sie einen geeigneten Datentyp LA zur Darstellung 
             von logischen Ausrücken.\\
             \textbf{Lösung:}\\
-            tbd
+            
+            Wie immer ist die Definition der Datentypen in Haskell reine Abschreibe arbeit.
+            \begin{lstlisting}
+                type W      = Bool
+                data LOP    = AND | OR | NOT deriving (Show,Eq)
+                data LA     = Value W | App LA LOP LA | Not LA  deriving Eq
+                data M      = MLA LA | FUN LOP deriving (Eq,Show)
+            \end{lstlisting}
+            Damit wir später nichts zu tun haben, ist NOT schon Teil von LOP. Bei der
+            AUswertung in Termen wird es später einen Fehler werfen, aber so
+            sparen wir uns extra Kontrollwörter für den Stack der WSKEA Maschine.
 
 
     \item   Implementieren Sie die operationelle und die Reduktionssemantik
             gemäß Ihrer Lösungen zu 3 a) und b).\\
             \textbf{Lösung:}\\
-            tbd
+           
+            Schauen wir uns zuerst die delta Funktion an:
+            \begin{lstlisting}
+delta :: ([W],[M],[String]) -> ([W],[M],[String])
+delta (s,((MLA (Value b)):k), a)        = ((b:s),k,a)
+delta (s,((MLA (App t1 op t2)):k),a)    = (s, ((MLA t1):(MLA t2):(FUN op):k),a)
+delta (s,((MLA (Not t)):k),a)           = (s, ((MLA t):(FUN NOT):k),a)
+delta ((b:s),((FUN NOT):k),a)       
+    = (((not b):s),k,(("not ("++(show b)++") = "++(show.not $ b)):a))
+delta ((b2:b1:s),((FUN AND):k),a)   
+    = (((b1 && b2):s),k,(((show b1)++" && "++(show b2)++" = "++(show (b1&&b2))):a))
+delta ((b2:b1:s),((FUN OR):k),a)   
+    = (((b1 || b2):s),k,(((show b1)++" || "++(show b2)++" = "++(show (b1||b2))):a))
+delta k                                 = k
+            \end{lstlisting} 
+            Prinzipiell ist es wie in Aufgabe 3a) gezeigt. Wir schreiben blos bei
+            konkreten Operationen, die Operation samt Ergebniss zur Kontrolle
+            für später in die Ausgabe.\\
 
+            Die Reduktionsfunktion ist auch nicht viel spannender:
+            \begin{lstlisting}
+red :: (LA, [String]) -> (LA, [String])   -- Programm und Ausgabe
+red (Value b, a)    = (Value b, a)
+red (App t1 AND t2, a')  =
+    let (v1,a'')    = red (t1,a')
+        (v2,a)      = red (t2,a'')
+    in
+        case (v1,v2) of
+            (Value w1, Value w2)    
+                -> (Value (w1 && w2), (((show w1)++" && "++(show w2)++" = "++(show (w1&&w2))):a))
+            _   -> error "no value returned"
+red (App t1 OR t2, a')   =
+    let (v1,a'')    = red (t1,a')
+        (v2,a)      = red (t2,a'')
+    in
+        case (v1,v2) of
+            (Value w1, Value w2)
+                -> (Value (w1 || w2), (((show w1)++" || "++(show w2)++" = "++(show (w1||w2))):a))
+            _   -> error "no value returned"
+red (Not t1, a')    =
+    let (v1,a)  = red (t1,a') in
+        case v1 of
+            (Value w)   -> (Value (not w),(("not ("++(show w)++") = "++(show.not $ w)):a))
+            _           -> error "no value returned"
+            \end{lstlisting}
+            Die Fehler sollten nie auftreten, da wir wie man sich überzeugen kann, immer einen
+            Value zurückgeben.\\
 
+            Beide Implementierungen sind analog zur Aufgabe 3. Danach haben wir noch 2 einfache
+            tests geschrieben, sowie die Semantikfunktionen eval und O.
+
+            \begin{lstlisting}
+eval :: LA -> [String]
+eval z = snd.red $ (z,[])
+
+anfang :: LA -> ([W],[M],[String])
+anfang prog = ([],[(MLA prog)],[])
+
+fix :: ([W],[M],[String]) -> ([W],[M],[String])
+fix z   =
+    case delta z of
+        z   -> z
+        z'  -> fix z'
+
+o :: ([W],[M],[String]) -> [String]
+o z = 
+    let (_,_,aus) = fix z in
+        aus
+
+test1, test2 :: LA
+test1   = App (Value True) AND (App (Value False) OR (Value True))
+test2   = Not (App (Value True) AND (App (Value True) AND (App (Value False) OR (Value False))))
+            \end{lstlisting}
+
+            Und zu guter letzt die beiden Tests ausgeführt.
+            \begin{lstlisting}
+LA> o.anfang $ test1
+["True && True = True","False || True = True"]
+LA> eval test1
+["True && True = True","False || True = True"]
+LA> fix.anfang $ test1
+([True],[],["True && True = True","False || True = True"])
+LA> red (test1,[])
+(True,["True && True = True","False || True = True"])
+LA> o.anfang $ test2
+["not (False) = True","True && False = False","True && False = False","False || False = False"]
+LA> eval.anfang $ test2
+["not (False) = True","True && False = False","True && False = False","False || False = False"]
+LA> fix.anfang $ test2
+([True],[],["not (False) = True","True && False = False","True && False = False","False || False = False"])
+LA> red (test2,[])
+(True,["not (False) = True","True && False = False","True && False = False","False || False = False"])
+            \end{lstlisting}
+
+            Wie wir in Aufgabe 3 bewiesen haben, bestätigt sich hier, dass zumindest diese einfachen
+            Tests, das selbe Ergebnis liefern.
+ 
 \end{enumerate}
 \label{LastPage}
 
