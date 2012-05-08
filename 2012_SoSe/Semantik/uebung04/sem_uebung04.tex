@@ -17,7 +17,7 @@
 \usepackage{fancyhdr}
 \pagestyle{fancy}
 \fancyhead[C]{Semantik von Programmiersprachen}
-\fancyhead[L]{Übung Nr. 3}
+\fancyhead[L]{Übung Nr. 4}
 \fancyhead[R]{SoSe 2012}
 \fancyfoot{}
 \fancyfoot[L]{}
@@ -52,12 +52,59 @@ Angenommen, dass eine abstrakte Maschine und ihre Überführungsfunktion \emph{d
             die entsprechende Ausgabe zuordnet.
 
             \textbf{Lösung:}\\
-            tbd
+            \begin{lstlisting}
+class (Eq m) => Maschine m where
+    delta :: m -> m
+    fix :: m -> m
+    fix z   =
+        let z' = delta z in
+            if z == z' then z else fix z'
+    o :: m -> String
+            \end{lstlisting}
+
+            Wir waren bis zuletzt nicht in der lage vernünftig über einen zweiten Parameter zu
+            parametrisieren. Daher ist die Ausgabe nicht getypt sondern gibt einfach einen String
+            zurück. Ansonsten können wir eine abstrakte Maschine über eine $\Delta$ Funktion
+            vorranschreiten lassen, uns den ersten Fixpunkt der Maschine über die $\Delta$ Funktion
+            errechnen und uns zu guter letzt die Ausgabe des Programmes geben lassen.
+
+            Für den ersten Fixpunkt haben wir eine Standardimplementierung angegeben, die
+            prüft ob nach einer Iteration von $\Delta$ der Zustand gleich bleibt. Ist dies
+            der Fall, so ist dies ein Fixpunkt.
 
     \item   Testen Sie Ihre Semantikfunktion \emph{O} am Beispiel der WSKEA Maschine und $\Delta$.
     
             \textbf{Lösung:}\\
-            tbd
+            
+            \begin{lstlisting}
+data WM = W Wskea.WSKEA deriving (Eq, Show)
+
+instance Maschine WM where
+    delta (W w) = W (Wskea.delta w)
+    o w =
+        case fix w of
+            (W (w,s,k,e,a)) -> show a
+            \end{lstlisting}
+            Hier haben wir eine neue Klasse erschaffen, um Ihn zum Mitglied von Maschine zu machen.
+            Dafür müssen wir nur noch die $\Delta$ Funktion, die er schon hat auf die der Typklasse
+            mappen und uns die Ausgabe besorgen, nachdem wir den Fixpunkt erreicht haben.
+
+            \pagebreak
+
+            Wieder ein paar Testfälle:
+            \begin{lstlisting}
+
+OpSem> o (W (Wskea.anfang Wskea.divTest [(Wskea.LiteralInteger 10),(Wskea.LiteralInteger 2)]))
+"[5]"
+OpSem> o (W (Wskea.anfang Wskea.divTest [(Wskea.LiteralInteger 200),(Wskea.LiteralInteger 13)]))
+"[15]"
+OpSem> o (W (Wskea.anfang Wskea.divTest [(Wskea.LiteralInteger 10),(Wskea.LiteralInteger 20)]))
+"[0]"
+OpSem> o (W (Wskea.anfang Wskea.divTest [(Wskea.LiteralInteger 1000),(Wskea.LiteralInteger 29)]))
+"[34]"
+
+            \end{lstlisting}
+            Für unsere WSKEA Maschine ist die Berechnung noch genau so korrekt wie letzte Woche. 
 \end{enumerate}
 %% ------------------------------------------------------
 %%                  AUFGABE 2
@@ -345,6 +392,8 @@ LA  & := &  W | $LA_1$ LOP $LA_2$ | NOT LA
 %%                  AUFGABE 4
 %% ------------------------------------------------------------
 
+\section*{Aufgabe 4}
+
 \begin{enumerate}[a)]
     \item   Vereinbaren Sie einen geeigneten Datentyp LA zur Darstellung 
             von logischen Ausrücken.\\
@@ -352,10 +401,10 @@ LA  & := &  W | $LA_1$ LOP $LA_2$ | NOT LA
             
             Wie immer ist die Definition der Datentypen in Haskell reine Abschreibe arbeit.
             \begin{lstlisting}
-                type W      = Bool
-                data LOP    = AND | OR | NOT deriving (Show,Eq)
-                data LA     = Value W | App LA LOP LA | Not LA  deriving Eq
-                data M      = MLA LA | FUN LOP deriving (Eq,Show)
+type W      = Bool
+data LOP    = AND | OR | NOT deriving (Show,Eq)
+data LA     = Value W | App LA LOP LA | Not LA  deriving Eq
+data M      = MLA LA | FUN LOP deriving (Eq,Show)
             \end{lstlisting}
             Damit wir später nichts zu tun haben, ist NOT schon Teil von LOP. Bei der
             AUswertung in Termen wird es später einen Fehler werfen, aber so
@@ -412,7 +461,9 @@ red (Not t1, a')    =
             \end{lstlisting}
             Die Fehler sollten nie auftreten, da wir wie man sich überzeugen kann, immer einen
             Value zurückgeben.\\
-
+    
+            \pagebreak
+    
             Beide Implementierungen sind analog zur Aufgabe 3. Danach haben wir noch 2 einfache
             tests geschrieben, sowie die Semantikfunktionen eval und O.
 

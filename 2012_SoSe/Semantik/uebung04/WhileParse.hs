@@ -7,12 +7,14 @@ data T = Z Z
        | Id I
        | TApp T OP T
        | TRead
+        deriving Eq
         
 
 data B = Literal W
        | Not B
        | BApp T BOP T
        | BRead
+        deriving Eq
         
 
 data C = Skip
@@ -22,16 +24,16 @@ data C = Skip
        | While B C
        | BOut B
        | TOut T
-        deriving Show
+        deriving (Show, Eq)
 
 type P = C
 
 type Z = Int
 type W = Bool
 type I = String
-data K = LiteralInteger Z | LiteralBool W 
-data OP = Plus | Minus | Mult | Div | Mod 
-data BOP = Eq | Lt | Gt | Lte | Gte | Neq 
+data K = LiteralInteger Z | LiteralBool W deriving Eq
+data OP = Plus | Minus | Mult | Div | Mod deriving Eq
+data BOP = Eq | Lt | Gt | Lte | Gte | Neq deriving Eq
 
 instance Show K where
     show (LiteralInteger i) = show i
@@ -55,9 +57,9 @@ instance Show B where
     show (BApp t1 bop t2)   = '(':(show t1) ++ (nameBop bop) ++ (show t2)++")"
     show BRead              = "'read'"
 
-data Con = WhileC | IfC | NotC | AssignC I | BOutC | TOutC deriving Show
+data Con = WhileC | IfC | NotC | AssignC I | BOutC | TOutC deriving (Show, Eq)
 
-data PK = WhileProgramm C | ControlOp OP | ControlBop BOP | ControlC Con | ControlB B | ControlT T deriving Show
+data PK = WhileProgramm C | ControlOp OP | ControlBop BOP | ControlC Con | ControlB B | ControlT T deriving (Show, Eq)
 
 type WSKEA = ([K],Map I Z, [PK], [K], [K])
 
