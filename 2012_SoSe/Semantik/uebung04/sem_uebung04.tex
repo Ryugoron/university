@@ -1,0 +1,127 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm]{geometry} 
+\usepackage{babel}
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc} 
+\usepackage{ae} 
+\usepackage{amssymb} 
+\usepackage{amsmath} 
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{paralist}
+
+%\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[C]{Semantik von Programmiersprachen}
+\fancyhead[L]{Übung Nr. 3}
+\fancyhead[R]{SoSe 2012}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage / \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\setlength{\parindent}{0pt} 
+\setlength{\headheight}{0pt}
+
+\author{Tutor: Ansgar Schneider}
+\date{}
+\title{Max Wisniewski , Alexander Steen}
+
+\begin{document}
+
+\lstset{language=Haskell, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2}
+
+\maketitle
+\thispagestyle{fancy}
+
+
+%% ------------------------------------------------------
+%%                     AUFGABE 1
+%% ------------------------------------------------------
+
+\section*{Aufgabe 1}
+
+Angenommen, dass eine abstrakte Maschine und ihre Überführungsfunktion \emph{delta} gegeben sind.
+
+\begin{enumerate}[a)]
+    \item   Implementieren Sie die Semantikfunktion \emph{O}, die jeder Programm-Daten-Kombination
+            die entsprechende Ausgabe zuordnet.
+
+            \textbf{Lösung:}\\
+            tbd
+
+    \item   Testen Sie Ihre Semantikfunktion \emph{O} am Beispiel der WSKEA Maschine und $\Delta$.
+
+\end{enumerate}
+%% ------------------------------------------------------
+%%                  AUFGABE 2
+%% -----------------------------------------------------
+
+\section*{Aufgabe 2}
+
+\begin{enumerate}[a)]
+    \item   Implementieren Sie die Reduktionsfunktion von WHILE in einer Programmiersprache
+            Ihrer Wahl.
+
+            \textbf{Lösung:}\\
+            tbd
+
+    \item   Implementieren Sie die Semantikfunktion \emph{eval}, die jeder Programm-Daten-Kombination
+            die entsprechende Ausgabe zuordnet.
+
+            \texbt{Lösung:}\\
+            tbd
+
+    \item   Testen Sie Ihre Funktion \emph{eval} am Beispiel der ganzzahligen Division.
+
+            \textbf{Ergebnis:}\\
+            tbd
+\end{enumerate}
+
+%% ------------------------------------------------------------
+%%                  AUFGABE 3
+%% ------------------------------------------------------------
+
+\section*{Aufgabe 3}
+
+Gegeben sei folgende Syntax
+\begin{tabular}{lcl}
+W   & := &  True | False\\
+LOP & := &  AND | OR\\
+LA  & := &  W | $LA_1$ LOP $LA_2$ | Not LA 
+\end{tabular}
+
+\begin{enumerate}[a)]
+    \item   Definieren Sie eine geeignete operationelle Semantik.\\
+            \textbf{Lösung:}\\
+            tbd
+
+    \item   Definieren Sie eine geeignete Reduktionssemantik.\\
+            \textbf{Lösung:}\\
+            tbd
+    \item   Beweisen Sie die Äquivalenz der Lösungen von 3 a) und b).\\
+            \textbf{Lösung:}\\
+\end{enumerate}
+
+%% ------------------------------------------------------------
+%%                  AUFGABE 4
+%% ------------------------------------------------------------
+
+\begin{enumerate}[a)]
+    \item   Vereinbaren Sie einen geeigneten Datentyp LA zur Darstellung 
+            von logischen Ausrücken.\\
+            \textbf{Lösung:}\\
+            tbd
+
+    \item   Implementieren Sie die operationelle und die Reduktionssemantik
+            gemäß Ihrer Lösungen zu 3 a) und b).\\
+            \textbf{Lösung:}\\
+            tbd
+\end{enumerate}
+\label{LastPage}
+
+\end{document}
