@@ -17,7 +17,7 @@
 \usepackage{fancyhdr}
 \pagestyle{fancy}
 \fancyhead[C]{Analysis II}
-\fancyhead[L]{Aufgabenblatt 1}
+\fancyhead[L]{Aufgabenblatt 2}
 \fancyhead[R]{SoSe 2012}
 \fancyfoot{}
 \fancyfoot[L]{}
@@ -130,14 +130,14 @@ falls dieser Grenzwert existiert.
 		Wir formen das ganze wie gehabt um und untersuchen, wie sich der Grenzwert verhätl.:
 		$$\begin{array}{rcl}
 			\int_0^1 \frac{1}{x^p} \, dx &=& \underset{\varepsilon \rightarrow 0^+}{\lim} \int_\varepsilon^1 x^{-p} \, dx\\
-				&\stackrel{p\not=1}{=}& \underset{\varepsilon \rightarrow 0^+}{\lim} \left[ (1-p)x^{1-p}\right]_\varepsilon^1\\
-				&=& (1-p)\cdot 1^{1-p} - \underset{\varepsilon \rightarrow 0^+}{\lim} (1-p) \cdot \varepsilon^{1-p}
+				&\stackrel{p\not=1}{=}& \underset{\varepsilon \rightarrow 0^+}{\lim} \left[ \frac{1}{1-p} x^{1-p}\right]_\varepsilon^1\\
+				&=& \frac{1}{1-p}\cdot 1^{1-p} - \underset{\varepsilon \rightarrow 0^+}{\lim} \frac{1}{1-p} \cdot \varepsilon^{1-p} \\
+                &=& \frac{1}{1-p} - \frac{1}{1-p} \cdot \underset{\varepsilon \rightarrow 0^+}{\lim} \varepsilon^{1-p} 
 		\end{array}$$
 		Nun können wissen wir, dass für $q>0$ gilt, dass $\underset{\varepsilon \rightarrow 0^+}{\lim} \varepsilon^q = 0$.
-		Daraus können wir zum einen schließen, dass für $p<1$ der Grenzwert definiert ist und $(1-p)$ ist.\\
-		Auf der anderen Seite, wissen wir, dass für $p>1$ durch Null geteilt wird, und damit der Grenzwert nicht definiert ist.\\
-		Für den vorhin ausgenommen Fall $p=1$ gilt $\int \frac{1}{x} \, dx = \log |x|$ und diese Funktion ist für $x \rightarrow 0$ auch nicht
-		definiert.\\
+		Daraus können wir zum einen schließen, dass für $p<1$ der Grenzwert definiert ist und $\frac{1}{1-p}$ ist.\\
+		Für $p>1$ divergiert es bestimmt gegen unendlich.\\
+		Für den vorhin ausgenommen Fall $p=1$ gilt $\int \frac{1}{x} \, dx = \log |x|$ und diese Funktion ist für $x \rightarrow 0$ nicht definiert.\\
 		Es ist also nur für $p<1$ uneigentlich integrierbar.
 \end{enumerate}
 
@@ -162,12 +162,13 @@ falls dieser Grenzwert existiert.
 	
 	$$\begin{array}{rcl}
 		\int_1^\infty \frac{1}{x^4} dx &=& \underset{{N\rightarrow \infty}}{\lim} \int_1^N \frac{1}{x^4} \, dx\\
-			&=& \underset{{N\rightarrow \infty}}{\lim} \left[ -3 \cdot x^{-3} \right]_1^N\\
-			&=& -3 \cdot 1^{-3} - \underset{{N\rightarrow \infty}}{\lim} - 3 \cdot N^{-3}\\
-			&=& -3 - 0  
+			&=& \underset{{N\rightarrow \infty}}{\lim} \left[ \frac{1}{-3} \cdot x^{-3} \right]_1^N\\
+			&=& \underset{{N\rightarrow \infty}}{\lim} - \frac{1}{3} \cdot N^{-3} - (-\frac{1}{3} \cdot 1^{-3})\\
+			&=& 0 - (-\frac{1}{3})  \\
+            &=& \frac{1}{3}
 	\end{array}$$
 
-	Der Grenzwert von $\frac{1}{x^p}, p>1$ ist Null, wie in AnaI bewiesen. Damit ist der Grenzwert definiert und $\int_1^\infty \frac{1}{x^4} dx = -3$
+	Der Grenzwert von $\frac{1}{x^p}, p>1$ ist Null, wie in Ana I bewiesen. Damit ist der Grenzwert definiert und $\int_1^\infty \frac{1}{x^4} dx = \frac{1}{3}$
 
 	\item Für welche $p\in\mathbb{R}$ existiert
 		$$
@@ -177,12 +178,15 @@ falls dieser Grenzwert existiert.
 	\textbf{Lösung:}\\
 		$$\begin{array}{rcl}
 			\int_1^\infty \frac{1}{x^p}dx &=& \underset{{N\rightarrow \infty}}{\lim} \int_1^N \frac{1}{x^p}dx\\
-				&\stackrel{p\not=1}{=}& \underset{{N\rightarrow \infty}}{\lim} \left[ (1-p)x^{1-p}\right]_1^N\\
-				&=& (1-p)\cdot1^{1-p} -\underset{{N\rightarrow \infty}}{\lim} (1-p)N^{1-p}\\
+				&\stackrel{p\not=1}{=}& \underset{{N\rightarrow \infty}}{\lim} \left[ \frac{1}{1-p} x^{1-p}\right]_1^N\\
+				&=& \frac{1}{1-p} 1^{1-p} -\underset{{N\rightarrow \infty}}{\lim} \frac{1}{1-p} N^{1-p}\\
+                &=& \frac{1}{1-p} - \frac{1}{1-p} \cdot \underset{{N\rightarrow \infty}}{\lim} N^{1-p}
 		\end{array}$$
-		Nach AnaI wissen wir nun, dass $\underset{{N\rightarrow \infty}}{\lim} N^q, \; q\leq0$ gegen Null strebt. Damit existiert der Grenzwert für 			$p \geq 1$ und ist $(1-p)$. Für $p=1$ gilt wieder, dass das unbestimmte Integral $\log |x|$ ist und divergiert bestimmt gegen unendlich. Dies gilt 
-		insbesondere für alle Werte $q>0$, da sowohl Wurzeln als auch Polynome divergieren.\\
-		Also ist das Inegral nur für $p\geq1$ definiert.
+		Nach Ana I wissen wir nun, dass $\underset{{N\rightarrow \infty}}{\lim} N^q, \; q < 0$ gegen Null strebt. Damit existiert der Grenzwert für $p > 1$ und ist $\frac{1}{(1-p)}$. 
+
+%%Für $p=1$ gilt wieder, dass das unbestimmte Integral $\log |x|$ ist und divergiert bestimmt gegen unendlich. Dies gilt  
+%%insbesondere für alle Werte $q>0$, da sowohl Wurzeln als auch Polynome divergieren.\\
+		Also ist das Integral nur für $p > 1$ definiert.
 \end{enumerate}
 
 %% ------------------------------------------------------
@@ -219,8 +223,30 @@ $$
 	\item Zeigen Sei, dass für alle $x > 0$ das uneigentliche Integral $\Gamma (x)$ wohldefiniert ist.\\
 		\textbf{Lösung:}\\
 		
-		Sei $x>0$.
+		Sei $x>0$. Es ist 
+        $$
+          \Gamma(x) = \int_{0}^{\infty}{e^{-t} t^{x-1} \; dt} = \lim_{a \to 0^{+}}{\int_{a}^{1}{e^{-t} t^{x-1} \; dt}} + \lim_{b \to \infty}{\int_{1}^{b}{e^{-t} t^{x-1} \; dt}}
+        $$
+    Es muss also gezeigt werden, dass beide uneigentlichen Integrale  konvergieren.\\
 
+    (i) Erster Term\\
+    Wegen $t > 0 \Rightarrow e^{-t} t^{x-1} < t^{x-1}$. Also gilt:
+    $$
+      \lim_{a \to 0^{+}}{\int_{a}^{1}{e^{-t} t^{x-1} \; dt}}
+    < \lim_{a \to 0^{+}}{\int_{a}^{1}{t^{x-1} \; dt}}
+    = \frac{1}{x} 1^x -  \lim_{a \to 0^{+}}{\frac{1}{x} a^x}
+    = \frac{1}{x} < \infty
+    $$
+    Also konvergiert $\lim_{a \to 0^{+}}{\int_{a}^{1}{e^{-t} t^{x-1} \; dt}}$.
+    
+    (ii) Zweiter Term\\
+    Da $t \geq 1$ ex. für $a > 0$ ein $c > 0$, s.d. für $0 < x \leq a$ gilt: $t^{x-1} < c \cdot e^{\frac{t}{2}}$. Also gilt:\\
+    $$
+     \lim_{b \to \infty}{\int_{1}^{b}{e^{-t} t^{x-1} \; dt}} \leq \lim_{b \to \infty}{c \int_{1}^{b}{e^{-\frac{t}{2}} \; dt}} < \infty
+    $$
+    Also konvergiert $\lim_{b \to \infty}{\int_{1}^{b}{e^{-t} t^{x-1} \; dt}}$.
+    
+    
 	\item Zeigen Sie, dass
 		$$
 			\Gamma (x+1) = x \cdot \Gamma (x)
@@ -232,7 +258,51 @@ $$
 		gilt.\\
 
 		\textbf{Lösung:}\\
-		tbd
+        (i) Funktionalgleichung: \\ 
+
+		Sei $x > 0$.
+        \begin{eqnarray*}
+        x \cdot \Gamma(x) & = & x \cdot \int_{0}^{\infty}{e^{-t} t^{x-1} \; dt} \\
+        &\stackrel{a)}{=}& x \cdot \left( \left. \frac{t^x}{x} e^{-t} \right|_{0}^{\infty} 
+                           - \int_{0}^{\infty}{\frac{1}{x} t^x -e^{-t} \; dt} \right) \\
+        &=& x \cdot \left( \left. \frac{t^x}{x} e^{-t} \right|_{0}^{\infty} 
+                           + \frac{1}{x} \int_{0}^{\infty}{e^{-t} t^x \; dt} \right) \\
+        &\stackrel{(*)}{=}& x \cdot \left( \frac{1}{x} \int_{0}^{\infty}{e^{-t} t^x \; dt} \right)  \\
+        &=& \int_{0}^{\infty}{e^{-t} t^x \; dt} \\
+        &=& \Gamma(x+1)
+        \end{eqnarray*}
+
+        (*) gilt, da $ \left. \frac{t^x}{x} e^{-t} \right|_{0}^{\infty} = 0 $, denn:
+        
+        $$
+          \left. \frac{t^x}{x} e^{-t} \right|_{0}^{\infty}
+        = \lim_{t \to \infty}{\frac{t^x}{x} e^{-t}} - (\frac{0^x}{x} e^{-0}) 
+        = \lim_{t \to \infty}{\frac{t^x}{x} \frac{1}{e^t}}
+        = \frac{1}{x} \lim_{t \to \infty}{\frac{t^x}{e^t}}
+        $$
+        Da $x^t = o(e^t)$, also der Nenner echt schneller wächst als der Zähler (vgl. Regel von L'Hopital), gilt
+        $$
+          \frac{1}{x} \lim_{t \to \infty}{\frac{t^x}{e^t}}
+        = \frac{1}{x} \cdot 0 = 0
+        $$
+
+        (ii) Beziehung zur Fakuktät: \\
+        
+        Sei $n \in \mathbb{N}$. Dann folgt aus der Funktionalgleichung:
+        $$
+          \Gamma(n+1) = n \cdot \Gamma(n) = n \cdot (n-1) \cdot \Gamma(n-1)
+        =  n \cdot (n-1) \cdot (n-2) \cdot \ldots \cdot 1 \cdot \Gamma(1)
+        $$
+        Zusätzlich gilt
+        \begin{eqnarray*}
+        \Gamma(1) &=& \int_{0}^{\infty}{e^{-t} t^{1-1} \; dt} \\
+        &=& \int_{0}^{\infty}{e^{-t} \; dt} \\
+        &=& \left. -e^{-t} \right|_{0}^{\infty} \\
+        &=& \lim_{t \to \infty}{-e^{-t}} - -e^0 \\
+        &=& 0 - (-1) \\
+        &=& 1
+        \end{eqnarray*}
+        Daraus folgt die Behauptung.
 \end{enumerate}
 
 \label{LastPage}
