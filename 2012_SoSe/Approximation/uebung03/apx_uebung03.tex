@@ -1,0 +1,86 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm]{geometry} 
+\usepackage{babel}
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc} 
+\usepackage{ae} 
+\usepackage{amssymb} 
+\usepackage{amsmath} 
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{paralist}
+
+\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[C]{Approximation Algorithms}
+\fancyhead[L]{Exercise 3}
+\fancyhead[R]{SoSe 2012}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage \hspace{1px} of \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\setlength{\parindent}{0pt} 
+\setlength{\headheight}{0pt}
+
+\date{}
+\title{Max Wisniewski}
+\author{Dozent : Panos Giannopoulos}
+
+\newcommand{\claim}{\addtocounter{claims}{1} \bfseries Lemma \arabic{claims}}
+\newcommand{\proof}{\bfseries Proof}
+
+
+\begin{document}
+
+\lstset{language=Pascal, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2}
+
+\renewcommand{\figurename}{Figure}
+\newcounter{claims}
+
+\maketitle
+\thispagestyle{fancy}
+
+%% ------------------------------------------------------
+%%                     Exercise 1
+%% ------------------------------------------------------
+
+\section*{Task 3: \mdseries (Makespan - Problem)}
+
+In this exercise we should prove the following Lemma on the Makespan-Problem.
+
+\begin{description}
+    \item{\bfseries Lemma 2.8:} 
+        {\rmfamily\itshape
+            For any input to the problem of minimizing the makespan on
+            identical parallel maschines for which the processing
+            requirements of each job is more than one-third the 
+            optimal makespan, the longest processing time rule
+            computes an optimal schedule.
+        }
+    \item{\bfseries Proof:}\\
+        Let $m$ be the number of maschines, and 
+        $J = \left\{ 1,... ,n\right\}$ the jobs, where $p_i, i \in J$
+        is the processing-time. $c_i, \, i \in J$ is the time at which
+        Job $i$ is finished.
+        Let $C_{\max} = \underset{j\in J}{\max} \; c_j$ the value of the
+        optimal solution and $C_{\max}^*$ the computationtime of the longest
+        processing rule. 
+
+        First obeserve, that in the optimal solution each machine can
+        execute at most two jobs. Next we can assume, that the in the
+        optimal solution the machines that executes two jobs, the
+        longes one will allways be executed first.
+
+        Now we show, that we can modify the optimal solution
+        s.t. we have a solution, that satisfies the longest processing
+        time rule. 
+\end{description}
+
+\label{LastPage}
+
+\end{document}
