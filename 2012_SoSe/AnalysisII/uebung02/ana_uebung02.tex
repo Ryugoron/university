@@ -82,19 +82,75 @@ Finden Sie die folgenden unbestimmten Integrale.
 				&=& \frac{1}{x} \cdot \frac{1}{\log x}\\
 				&=& \frac{1}{x \cdot \log x}
 		\end{array}$$
+\pagebreak
 
 	\item $\int \frac{1+e^x}{1-e^x} \, dx$:\\
 
-		tbd
+		$$\begin{array}{rcl}
+            \int \frac{1+e^x}{1-e^x} \, dx
+                &=& \int \frac{1}{1-e^x} \, dx + \int \frac{e^x}{1-e^x} \, dx\\
+            &&\text{Wir verfahren mit den einzelintegralen fort}\\
+            \int \frac{1}{1-e^x} \, dx &\stackrel{y=e^x}{=}&
+                \int \frac{1}{(1-y)y} \, dy\\
+                &=& \int \frac{1}{y} - \frac{1}{1-y} \, dy\\
+                &=& \int \frac{1}{y} \, ds - \frac{1}{1-y} \, dy\\
+                &=& \ln y - \ln (1-y)\\
+                &\stackrel{resub.}{=}& x - \ln (1-e^x)\\
+           \int \frac{e^x}{1-e^x} \, dx &\stackrel{z=1-e^x}{=}&
+                \int \frac{e^x}{z} \cdot -e^x \, dz\\
+                &=& -\frac{1}{z} \, dz\\
+                &=& \ln (1- e^x)\\
+                &\stackrel{resub.}{=} x\\
+            \int \frac{1+e^x}{1-e^x} \, dx &=& x - 2\ln (1-e^x)
+        \end{array}$$
+
+        Einmal Ableiten zum gegenchecken:\\
+        $$\begin{array}{rcl}
+            \frac{d}{dx} x-2\ln(1-e^x)
+                &=& 1 - 2 \frac{1}{1-e^x} \cdot -e^x\\
+                &=& 1 + 2 \frac{e^x}{1-e^x}\\
+                &=& \frac{1-e^x +2e^x}{1-e^x}\\
+                &=& \frac{1+e^x}{1-e^x}
+        \end{array}$$
+
 
 	\item $\int \sqrt{1-x^2} \, dx$:\\
 
-		tbd
+		$$\begin{array}{rcl}
+            \int \sqrt{1-x^2} \, dx &\stackrel{x=\sin y}{=}&
+                \int \sqrt{1- \sin^2 y} \cdot \cos y \, dy\\
+            &\stackrel{Geo. Pyth}{=}& \int \sqrt{\cos^2 y} \cdot \cos y \, dy\\
+            &=& \int \cos^2 y \, dy\\
+            &\stackrel{Tip.}{=}& \int \frac{\cos (2 y) + 1}{2} \, dy\\
+            &=& \frac{1}{2} \int \cos (2y) \, dy + \int \frac{1}{2} \, dy\\
+            &\stackrel{z=2y}{=}&
+                \frac{1}{2} \int \frac{1}{2} \cos z + \int \frac{1}{2} \, dz\\
+            &=& \frac{1}{4} \int \cos z + \int \frac{1}{2} \, dy\\
+            &=& \frac{\sin z}{4} + \frac{y}{2}\\
+            &\stackrel{resub. z}{=}&
+                \frac{\sin 2y}{4} + \frac{y}{2}\\
+            &=&
+                \frac{1}{2} \sin y \cdot \cos y + \frac{y}{2}\\
+            &\stackrel{y=\arcsin x}{=}&
+                \frac{1}{2} \cdot \left( x \cdot \cos \arcsin x 
+                    + \arcsin x\right)\\
+            &=& \frac{1}{2} \left( \sqrt{1-x^2}x + \arcsin{x} \right)
+        \end{array}$$
+
+        Es bleibt der Tip zu zeigen:\\
+        $$\begin{array}{rcl}
+            \frac{1+\cos (2x)}{2} &=& \frac{1+\cos (x+x)}{2}\\
+                &\stackrel{Add.}{=}& \frac{1+\cos^2 (x) - \sin^2 (x)}{2}\\
+                &\stackrel{Geo.Pyt}{=}& \frac{2 \cos^2 (x)}{2}\\
+                &=& \cos^2 (x)
+        \end{array}$$
 \end{enumerate}
 
 %% ------------------------------------------------------
 %%                     Aufgabe 6
 %% ------------------------------------------------------
+
+\pagebreak
 
 \subsection*{Aufgabe 6: \mdseries\itshape Uneigentliche Integrale I}
 
