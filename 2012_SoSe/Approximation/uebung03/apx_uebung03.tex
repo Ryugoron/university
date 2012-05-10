@@ -40,7 +40,7 @@
 
 \begin{document}
 
-\lstset{language=Pascal, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2}
+\lstset{language=Pascal, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2, mathescape=true}
 
 \renewcommand{\figurename}{Figure}
 
@@ -113,9 +113,21 @@ WHILE ($\exists$ i,j : $p_{e(i)[1]}$ > $p_{e(j)[0]}$ DO
             $C_{\max}' \leq C_{\max}$
             }
         \end{lemma}
+        \begin{lemma} \label{apx:ueb3:lastreordering}
+            {\itshape
+                If you take the reordered schedule from lemma \ref{apx:ueb3:cmax}
+                you can exchange the following jobs on the machines and
+                the maximal computation time is not worsen.\\
+                If $i$ is the last job on one machine and $j$ is the last
+                job on another machine, and $p_i>p_j \, \land \, c_i-p_i > c_j-p_j$
+                holds, the two jobs are exchanged from one machine to
+                another.
+            }
+        \end{lemma}
         \begin{lemma} \label{apx:ueb3:latest}
             {\itshape
-            $C_{\max}'$ satisfies the longest processing time rule.
+            $C_{\max}'$ after lemma \ref{apx:ueb3:lastreordering} 
+            satisfies the longest processing time rule.
             }
         \end{lemma}
         \begin{description}
@@ -132,7 +144,12 @@ WHILE ($\exists$ i,j : $p_{e(i)[1]}$ > $p_{e(j)[0]}$ DO
                 $k_2+t_1 \leq k_1+t_2$.\\
 
                 We conclude, that after each iteration the solution gets better.
-
+            \item{\bfseries\rmfamily Proof \ref{apx:ueb3:lastreordering}. }
+                For the computation time holds $C_{\max}\geq c_i$ and $C_{\max} \geq c_j$.
+                Now we substitute the conditions for the change in the
+                formula $c_{\max} \geq c_i-p_i + p_i > c_i - p_i + p_j$. The time
+                on this machine is lessen. An for other machine
+                $C_{\max} \geq c_j-p_j + p_j> c_j - p_j + p_i $ holds, because $c_j-p_j < c_i-p_i$.
             \item{\bfseries\rmfamily Proof \ref{apx:ueb3:latest}. }
                 We assume there is a job $s$ that is longer than a job, that started
                 earlier we name $t$. Because every job starts either at point zero or as the second
@@ -142,9 +159,9 @@ WHILE ($\exists$ i,j : $p_{e(i)[1]}$ > $p_{e(j)[0]}$ DO
                 the jobs of these machines. Therefore there could not be two jobs as assumed
                 and the lemma holds.
         \end{description}
-        Considering these two lemmas, we conclude from lemma \ref{apx:ueb3:cmax}, that
-        the reordering will not change the schedule, because otherwise there would be
-        a smaller solution than the minimum.
+        Considering these three lemmas, we conclude from lemma \ref{apx:ueb3:cmax} and 
+        \ref{apx:ueb3:lastreordering} that the reordering will not change the schedule, because 
+        otherwise there would be a smaller solution than the minimum.
 
         With lemma \ref{apx:ueb3:latest} we conclude, that the longest processing time rule
         will infact delifer an optimal solution. That is because the longest processing 
