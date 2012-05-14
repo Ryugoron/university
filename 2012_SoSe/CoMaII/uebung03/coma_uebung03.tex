@@ -1,0 +1,98 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm]{geometry} 
+\usepackage{babel}
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc} 
+\usepackage{ae} 
+\usepackage{amssymb} 
+\usepackage{amsmath} 
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{paralist}
+
+%\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[C]{CoMa II}
+\fancyhead[L]{Übung Nr. 3}
+\fancyhead[R]{SoSe 2012}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage / \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\setlength{\parindent}{0pt} 
+\setlength{\headheight}{0pt}
+
+\author{Tutor: Sebastian Scherer}
+\date{}
+\title{Max Wisniewski , Alexander Steen}
+
+\begin{document}
+
+\lstset{language=Pascal, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\itshape\small, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2}
+
+\maketitle
+\thispagestyle{fancy}
+
+
+%% ------------------------------------------------------
+%%                     AUFGABE 1
+%% ------------------------------------------------------
+
+\section*{Aufgabe 1}
+
+%% ------------------------------------------------------
+%%                     AUFGABE 2
+%% ------------------------------------------------------
+
+\section*{Ausgabe 2}
+
+
+%% ------------------------------------------------------
+%%                     AUFGABE 3
+%% ------------------------------------------------------
+
+\section*{Ausgabe 3}
+Die Funktion $f: \, \mathbb{R} \to \mathbb{R}$ soll approximiert werden. Bekannt sind die Werte $f(0) = 0, f(1) = 0, f(1 + \varepsilon) = 1$, mit $\varepsilon > 0$. Also sind die Stützstellen $x_0 = 0, x_1 = 1, x_2 = 1 + \varepsilon$.\\
+
+(i) Lagrange-Interpolationspolynom $p_L$\\
+
+Für das Polynom $p_L$ gilt:
+$$ p_L(x) = \sum_{k=0}^{2}{p(x_k) \cdot L_k(x)} = L_2(x) $$.
+Berechne $L_2(x)$:
+
+\begin{eqnarray*}
+L_2(x) &=& \frac{x-0}{(1+\varepsilon)-0} \cdot \frac{x-1}{(1+\varepsilon) - 1} = \frac{x^2-x}{\varepsilon^2 + \varepsilon}
+\end{eqnarray*}
+
+Also gilt:
+$ p_L(x) = \frac{x^2-x}{\varepsilon^2 + \varepsilon} = \frac{1}{\varepsilon^2 + \varepsilon}x^2 - \frac{1}{\varepsilon^2 + \varepsilon}x$.
+\\
+(ii) Newtonsches Interpolationspolynom \\
+
+Berechne dividierte Differenzen:
+
+\begin{eqnarray*}
+f[x_0] &=& f(x_0) = 0 \\
+f[x_1] &=& f(x_1) = 0 \\
+f[x_2] &=& f(x_2) = 1 \\
+f[x_0,x_1] &=& \frac{f[x_1] - f[x_0]}{x_1 - x_0} = 0 \\
+f[x_1,x_2] &=& \frac{f[x_1] - f[x_2]}{x_2 - x_0} = \frac{1}{\varepsilon} \\
+f[x_0,x_1,x_2] &=& \frac{f[x_1,x_2] - f[x_0,x_1]}{x_2 - x_0} = \frac{1}{\varepsilon^2 + \varepsilon}
+\end{eqnarray*}
+
+Außerdem gilt:
+$$ p_N(x) = a_0 + \sum_{i=1}^{2}{a_i \prod_{k=0}^{i-1}{(x-x_k)}} $$
+mit $a_i = f[x_0,...,x_i]$.
+
+Also ist 
+$p_N(x) = 0 + 0 \prod_{k=0}^{0}{(x-x_k)} + \frac{1}{\varepsilon^2 + \varepsilon} \prod_{k=0}^{1}{(x-x_k)} = \frac{x^2-x}{\varepsilon^2 + \varepsilon}  = \frac{1}{\varepsilon^2 + \varepsilon}x^2 - \frac{1}{\varepsilon^2 + \varepsilon}x$.
+
+Wie also zu sehen ist, kommen bei beiden Interpolationsarten die gleichen Polynome heraus. Wie an dem Polynom zu sehen ist, wird der Funktionswert an jeder Stelle sehr groß werden, falls der dritte Punkt sehr nach am zweiten liegt.
+\label{LastPage}
+
+\end{document}
