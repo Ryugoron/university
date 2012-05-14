@@ -3,23 +3,21 @@ function [y] = aitken(x, fx, z)
 % fx Funktionswerte der Stuetzstellen
 % z Aussertungsstelle
 
+% n ist die Anzahl der Stuetzstellen
 n = size(x,2);
-%y = p0n(z)
 
+% Initialwerte fuer alle p_11
 for i = 1:n,
-    p(i:i) = fx(i)
+    p(i,i) = fx(i)
 end
+
+% Nach dem Schema von Aitken
+% Berechnung der restlichen Terme
 for i = 1:n,
     for j = 1:n-i,
-%        if (i == j)
- %           continue;
- %       else
-            p(j,j+i) = 1/(x(k)-x(i)) * ((z-x(i)*p(i+1,j) - (z-x(i))*p(i,j-1))
-  %      end
+      p(j,j+i) = 1/(x(j+i)-x(j)) * ((z-x(j))*p(j+1,j+i) - (z-x(j+i))*p(j,j+i-1))
     end
 end
-y= p(0,n);
 
-%pii(z) = fx(i)
-%pik(z) = 1/(x(k)-x(i)) * ((z-x(i))p(i+1,k)(x) - (z-x(k))p(i,k-1)(z))
-
+% Rueckgabe ist p0n(x)
+y= p(1,n);

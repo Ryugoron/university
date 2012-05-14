@@ -44,14 +44,50 @@
 %% ------------------------------------------------------
 
 \section*{Aufgabe 1}
+\begin{lstlisting}[language=matlab, numbers=left]
+function [y] = aitken(x, fx, z)
+% x Stuetzstellen
+% fx Funktionswerte der Stuetzstellen
+% z Aussertungsstelle
 
+% n ist die Anzahl der Stuetzstellen
+n = size(x,2);
+
+% Initialwerte fuer alle p_11
+for i = 1:n,
+    p(i,i) = fx(i)
+end
+
+% Nach dem Schema von Aitken
+% Berechnung der restlichen Terme
+for i = 1:n,
+    for j = 1:n-i,
+      p(j,j+i) = 1/(x(j+i)-x(j)) * ((z-x(j))*p(j+1,j+i) - (z-x(j+i))*p(j,j+i-1))
+    end
+end
+
+% Rueckgabe ist p0n(x)
+y= p(1,n);
+\end{lstlisting}
 %% ------------------------------------------------------
 %%                     AUFGABE 2
 %% ------------------------------------------------------
 
 \section*{Ausgabe 2}
+Sei $\sigma \in S_{n+1}$ eine Permutationen der Zahlen $0,...,n$. Z.z. $f[x_0,...,x_n] = f[x_{\sigma(0)},...,x_{\sigma(n)}]$. \\
 
+Wir können dividierte Differenzen auch als Summe schreiben:
+$$
+f[x_0,x_1,...,x_n] = \sum_{i=0}^{n}{\frac{f(x_i)}{\prod_{j=0,j\neq i}^{k}{x_i - x_j}}}
+$$
 
+Betrachten wir nun die Summe
+$$
+\sum_{i=0}^{n}{\frac{f(x_{\sigma(i)})}{\prod_{j=0,j\neq i}^{k}{x_{\sigma(i)} - x_{\sigma(j)}}}}
+$$
+so kann jeder Summand dieser Summe einem Summanden der oberen Summe zugeordnet werden. Also:
+$$\exists v,w \in {0,..,n}: \frac{f(x_{\sigma(i)})}{\prod_{j=0,j\neq i}^{k}{x_{\sigma(i)} - x_{\sigma(j)}}} = \frac{f(x_{v})}{\prod_{j=0,j\neq i}^{k}{x_{v} - x_{w}}}, i,j \in {0,...,n}  $$
+Da eine Permutation bijektiv ist, hat also jeder Summand genau einen von oben zugeordnet. Im Endeffekt erreicht wir also nur eine Umsortierung der Summe, der Wert bleibt also gleich.
 %% ------------------------------------------------------
 %%                     AUFGABE 3
 %% ------------------------------------------------------
