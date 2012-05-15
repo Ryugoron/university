@@ -1,0 +1,10 @@
+\begin{thebibliography}{1}
+
+\bibitem{satsolver:chaff}
+Matthew~W. Moskewicz, Conor~F. Madigan, Ying Zhao, Lintao Zhang, and Sharad
+  Malik.
+\newblock Chaff: engineering an efficient sat solver.
+\newblock In {\em Proceedings of the 38th annual Design Automation Conference},
+  DAC '01, pages 530--535, New York, NY, USA, 2001. ACM.
+
+\end{thebibliography}
