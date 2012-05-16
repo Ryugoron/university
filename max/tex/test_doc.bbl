@@ -1,6 +1,12 @@
 \begin{thebibliography}{1}
 
-\bibitem{satsolver:chaff}
+\bibitem{smt:dpllt:2004}
+Harald Ganzinger, George Hagen, Robert Nieuwenhuis, Albert Oliveras, and Cesare
+  Tinelli.
+\newblock Dpll(t): Fast decision procedures.
+\newblock pages 175--188. Springer, 2004.
+
+\bibitem{smt:chaff:2001}
 Matthew~W. Moskewicz, Conor~F. Madigan, Ying Zhao, Lintao Zhang, and Sharad
   Malik.
 \newblock Chaff: engineering an efficient sat solver.
