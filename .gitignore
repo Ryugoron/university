@@ -7,6 +7,8 @@
 *.toc
 *.div
 *.dvi
+*.bbl
+*.blg
 
 # Compiled source #
 ###################
