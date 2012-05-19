@@ -31,6 +31,8 @@
 \title{Max Wisniewski , Alexander Steen}
 \author{Tutor : Adrian Steffens}
 
+\newcommand{\limes}[2][n]{\underset{ #1 \rightarrow #2}{\lim}}
+
 \begin{document}
 
 \lstset{language=Pascal, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2}
@@ -57,7 +59,7 @@ $$
             $f^{(1)}(x) = f'(x) = (\frac{d}{dx} 1 + x) \cdot -1 \cdot \frac{1}{(1+x)^2}$\\
             $= (-1)^1 \cdot 1! \frac{1}{(1+x)^2}$\\
             $k=0$ ist die Funktion selber.\\
-        \textbf{I.S.:}i $k \follows k+1$\\
+        \textbf{I.S.:} $k \rightarrow: k+1$\\
             $$\begin{array}{rcl}
                 f^{(k+1)}(x)    &=& \frac{d}{dx} f^{(k)}\\
                         &\stackrel{I.V.}{=}&
@@ -70,10 +72,10 @@ $$
 
         Diese Ableitung benutzen wir nun, um das Taylorpolynom aufzuschreiben.\\
         $$\begin{array}{rcl}
-            T_n(x) &\ſtackrel{Def.}{=}& \underset{k=0}{\overset{n}{\sum}} \frac{f^{(k)}(a)}{k!}(x-a)^k.\\
+            T_n(x) &\stackrel{Def.}{=}& \underset{k=0}{\overset{n}{\sum}} \frac{f^{(k)}(a)}{k!}(x-a)^k.\\
                 &\stackrel{Abl.}{=}& \underset{k=0}{\overset{n}{\sum}} 
                     \frac{(-1)^k k! \frac{1}{(1+a)^{k+1}}}{k!}(x-a)^k.\\
-                &\stackrel{a=0}&\underset{k=0}{\overset{n}{\sum}} 
+                &\stackrel{a=0}{=}&\underset{k=0}{\overset{n}{\sum}} 
                     (-1)^k \frac{1}{(1+0)^{k+1}} \cdot (x-0)^k\\
                 &=& \underset{k=0}{\overset{n}{\sum}}
                     (-1)^k x^k 
@@ -81,20 +83,20 @@ $$
         Wir haben nun die Monomdarstellung erreicht, wobei die Koeffizienten $a_k = (-1)^k$ sind.
 
     \item $g(x) = \frac{1}{\sqrt{1-x}}$:\\
-        Sei $\Xi (z) = \underset{k=0}{\overset{z-1}{\prod}} 2k+1$, das Produkt aller ungeraden Zahlen
+        Sei $\xi (z) = \underset{k=0}{\overset{z-1}{\prod}} 2k+1$, das Produkt aller ungeraden Zahlen
         bis vor die $z$-te ungerade Zahl.
     
-        \textbf{Beh.:} $g^{(k)} = \frac{\Xi(k)}{2^k} (1-x)^{-\frac{1+2k}{2}}$ \\
+        \textbf{Beh.:} $g^{(k)} = \frac{\xi(k)}{2^k} (1-x)^{-\frac{1+2k}{2}}$ \\
         \textbf{I.A.:} \\
             $k=0$ $g^{(0)} = \frac{1}{2^0} (1-x)^{-\frac{1}{2}} = g(x)$\\
-        \textbf{I.S.:} $k \follows k+1$\\
-            $$\begin{array}
+        \textbf{I.S.:} $k \rightarrow k+1$\\
+            $$\begin{array}{rcl}
                 g^{(k+1)} &=& \frac{d}{dx} g^{(k)}\\
                         &\stackrel{I.V.}{=}&
-                            \frac{d}{dx} \left(\frac{\Xi(k)}{2^{k}} (1-x)^{-\frac{1+2k}{2}} \right)\\
-                        &=& \frac{\Xi(k)}{2^{k}} \cdot -1 \cdot -\frac{2k+1}{2} (1-x)^{1+\frac{1+2k}{2}}\\
-                        &=& \frac{\Xi(k) \cdot (2k+1)}{2^{k}\cdot 2} (1-x)^{\frac{2(k+1)}{2}}\\
-                        &=& \frac{\Xi(k+1)}{2^{k+1}} (1-x)^{\frac{1+2(k+1)}{2}}
+                            \frac{d}{dx} \left(\frac{\xi(k)}{2^{k}} (1-x)^{-\frac{1+2k}{2}} \right)\\
+                        &=& \frac{\xi(k)}{2^{k}} \cdot -1 \cdot -\frac{2k+1}{2} (1-x)^{1+\frac{1+2k}{2}}\\
+                        &=& \frac{\xi(k) \cdot (2k+1)}{2^{k}\cdot 2} (1-x)^{\frac{2(k+1)}{2}}\\
+                        &=& \frac{\xi(k+1)}{2^{k+1}} (1-x)^{\frac{1+2(k+1)}{2}}
             \end{array}$$
 
         Mit dieser Ableitung können wir nun das Taylorpolynom aufschreiben:\\
@@ -102,21 +104,21 @@ $$
             T_n(x) &=& \overset{n}{\underset{k=0}{\sum}} 
                     \frac{f^{(k)}(a)}{k!} (x-a)^k\\
                 &=& \overset{n}{\underset{k=0}{\sum}}
-                    \frac{1}{k!} \cdot \frac{\Xi(k)}{2^k} (1-a)^{-\frac{1+2k}{2}} (x-a)^k\\
+                    \frac{1}{k!} \cdot \frac{\xi(k)}{2^k} (1-a)^{-\frac{1+2k}{2}} (x-a)^k\\
                 &=& \overset{n}{\underset{k=0}{\sum}}
-                    \frac{1}{k!} \frac{\Xi(k)}{2^k} 1^{-\frac{1+2k}{2}} x^k\\
-                &=& \frac{\Xi(k)}{2^k k!} x^k\\
+                    \frac{1}{k!} \frac{\xi(k)}{2^k} 1^{-\frac{1+2k}{2}} x^k\\
+                &=& \frac{\xi(k)}{2^k k!} x^k\\
         \end{array}$$
         Wir lassen es an dieser Stelle so stehen. Wir haben einen Faktor, abhängig von $k$
         und sind in der Monomdarstellung.\\
         Man kann sich gerne davon überzeugen, dass 
-        $a_k = \frac{\Xi(k)}{2^k k!} = \frac{\Gamma(k + \frac{1}{2}}{\sqrt{\pi} k!}$ gilt.
+        $a_k = \frac{\xi(k)}{2^k k!} = \frac{\Gamma(k + \frac{1}{2})}{\sqrt{\pi} k!}$ gilt.
             
     \item $h(x) = xe^x$\\
         \textbf{Beh.:} $h^{(k)}(x) = (x + k)e^x$\\
         \textbf{I.A.:} $k=0$ $h^{(0)} = (x + 0)e^x = xe^x = h(x)$\\
-        \textbf{I.S.:} $k \follows k+1$\\
-            $$\begin{array}
+        \textbf{I.S.:} $k \rightarrow k+1$\\
+            $$\begin{array}{rcl}
                 h^{(k+1)}(x) &=& \frac{d}{dx} h^{(k)}(x)\\
                     &=& \frac{d}{dx} (x + k)e^x\\
                     &=& e^x + (x + k)e^x\\
@@ -127,8 +129,8 @@ $$
             T_n(x) &=& \overset{n}{\underset{k=0}{\sum}}
                \frac{h^{(k)}(a)}{k!} (x-a)^k\\
                     &=& \overset{n}{\underset{k=0}{\sum}} \frac{(a+k)e^a}{k!} (x-a)^k\\
-                    &=& \overset{n}{\underset{k=0}{\sum} \frac{k}{k!} x^k\\
-                    &=& \overset{n}{\underset{k=0}{\sum} \frac{1}{(k-1)!} x^k
+                    &=& \overset{n}{\underset{k=0}{\sum}} \frac{k}{k!} x^k\\
+                    &=& \overset{n}{\underset{k=0}{\sum}} \frac{1}{(k-1)!} x^k
         \end{array}$$
         Wir haben die Monomdarstellung mit den Koeffizienten $a_k = \frac{1}{(k-1)!}$.
 
@@ -145,14 +147,58 @@ $$
 
 \begin{enumerate}[(i)]
     \item $f_n(x) = e^{-nx^2}$ auf $[-1,1]$.\\ 
-        tbd
+        Zunächst bestimmen wir den Limes punktweise:\\
+        $$\begin{array}{rcl}
+            f(x) &=& \limes{\infty} f_n(x)\\
+                &=& \limes{\infty} e^{-nx^2}\\
+                &=& \limes{\infty} \left( e^{x^2}\right)^{-n}
+        \end{array}$$
+        Für $a \geq 1$ gilt $\limes{\infty}\frac{1}{a^n} = 0$,
+        Wir wissen, dass $e^x$ streng monoton steigt und bei $x=0$ eins
+        erreicht. Daher ist $e^x$ für alle $x>0$ größer als 1.
+        Daraus folgt, dass $f_n(x) = 0$ auf $[-1,0)$ und $(0,1]$.\\
+        Im Fall $x=0$ ergibt sich $e^{0 \cdot -n} = 1$ für alle $n$.
+        Daher ist $f(0) = 1$.\\
+
+        Gleichmäßige Konvergenz TBD.
 
     \item $g_n(x) = \sqrt{x^2 + \frac{1}{n}}$ auf $[0,\infty).$\\
-        tbd
+        Wir wissen, dass die Funktion $\sqrt{.}$ auf dem Interval stetig ist.
+        Wir können den Limes also in die Funktion ziehen.\\
+        $$\begin{array}{rcl}
+            g(x) &=& \limes{\infty} g_n(x)\\
+                &=& \limes{\infty} \sqrt{x^2 + \frac{1}{n}}\\
+                &=& \sqrt{(\limes{\infty} x^2) + (\limes{\infty} \frac{1}{n})}\\
+                &=& \sqrt{x^2 + 0}\\
+                &=& x
+        \end{array}$$
 
-    \item $h_n(x) = n\left( \sqrt{x + \frac{1}{n} - \sqrt{x}} \right)$\\
-        tbd
+        Gleichmäßige Konvergenz: TBD.
 
+    \item $h_n(x) = n\left( \sqrt{x + \frac{1}{n}} - \sqrt{x} \right)$\\
+        Wir wissen nach Umformung, dass gilt $n = \left(\frac{1}{n} \right)^{-1}$ die
+        als inverses Element bezüglich der Multiplikation.
+        Nun können wir auf.
+        $h_n(x) = \frac{\sqrt{x + \frac{1}{n}} - \sqrt{x}}{\frac{1}{n}}$ den Satz von l'Hopital
+        anwenden.
+        $$\begin{array}{rcl}
+            h(x) &=& \limes{\infty} h_n(x)\\
+                &=& \limes{\infty} \frac{\sqrt{x + \frac{1}{n}} - \sqrt{x}}{\frac{1}{n}}\\
+                &\stackrel{l'Hopital}{=}& 
+                    \limes{\infty} \frac{\frac{1}{2\sqrt{x+\frac{1}{n}}}\cdot-\frac{1}{n^2} 
+                    + \frac{1}{2\sqrt{x}}}{-\frac{1}{n^2}}\\
+                &=& \limes{\infty} -n^2 \left( - \frac{1}{2\sqrt{x}} 
+                    + \frac{1}{2\sqrt{x+\frac{1}{n}}} \cdot \frac{1}{n^2}\right)\\
+                &=& \limes{\infty} -n^2 \frac{2\sqrt{x} - 2\sqrt{x+\frac{1}{n} \cdot \frac{1}{n^2}}}
+                    {n^2 \cdot 2\sqrt{x} \cdot 2\sqrt{x + \frac{1}{n}}}\\
+                &=& \limes{\infty} \frac{2\sqrt{x} - 2\sqrt{x+\frac{1}{n}} \cdot \frac{1}{n^2}}
+                    {2\sqrt{x} \cdot 2\sqrt{x + \frac{1}{n}}}\\
+                && \text{Alles konergiert nun}\\
+                &=& \frac{2\sqrt{x} - 2\sqrt{x+0} \cdot 0}{2\sqrt{x} \cdot 2\sqrt{x+0}}\\
+                &=& \frac{1}{2\sqrt{x}}
+        \end{array}$$ 
+         
+        Gleichmäßige Konvergenz: TBD.
     \item $k_n(x) = \arctan(nx)$ auf $[-\infty, \infty]$.\\
         tbd
 \end{enumerate}
