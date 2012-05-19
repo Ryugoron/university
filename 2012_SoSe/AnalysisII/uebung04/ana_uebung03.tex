@@ -1,0 +1,180 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm]{geometry} 
+\usepackage{babel}
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc} 
+\usepackage{ae} 
+\usepackage{amssymb} 
+\usepackage{amsmath} 
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{paralist}
+
+\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[C]{Analysis II}
+\fancyhead[L]{Aufgabenblatt 3}
+\fancyhead[R]{SoSe 2012}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage \hspace{1px} of \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\setlength{\parindent}{0pt} 
+\setlength{\headheight}{15pt}
+
+\date{}
+\title{Max Wisniewski , Alexander Steen}
+\author{Tutor : Adrian Steffens}
+
+\begin{document}
+
+\lstset{language=Pascal, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2}
+
+\maketitle
+\thispagestyle{fancy}
+
+%% ------------------------------------------------------
+%%                     Aufgabe 5
+%% ------------------------------------------------------
+
+\subsection*{Aufgabe 10: \mdseries\itshape Berechnung von Taylorpolynomen}
+
+Bestimmen Sie die Taylorpolynome vom Grad $n$ um den Punkt $x_0 = 0$.
+Die Taylorformel um den Entwicklungspunkt $x_0$ sieht folgender Maßen aus
+$$
+T_n(x) = \sum_{k=0}^{n} \frac{f^{(k)}(a)}{k!}(x-a)^k.
+$$
+
+\begin{enumerate}[(i)]
+    \item $f(x) = \frac{1}{1+x}$:\\
+        \textbf{Beh.:} $\forall k \in \mathbb{N} : f^{(k)}(x) = (-1)^{k}\cdot k! \frac{1}{(1+x)^{k+1}}$\\
+        \textbf{I.A.:} $k=1$\\
+            $f^{(1)}(x) = f'(x) = (\frac{d}{dx} 1 + x) \cdot -1 \cdot \frac{1}{(1+x)^2}$\\
+            $= (-1)^1 \cdot 1! \frac{1}{(1+x)^2}$\\
+            $k=0$ ist die Funktion selber.\\
+        \textbf{I.S.:}i $k \follows k+1$\\
+            $$\begin{array}{rcl}
+                f^{(k+1)}(x)    &=& \frac{d}{dx} f^{(k)}\\
+                        &\stackrel{I.V.}{=}&
+                            \frac{d}{dx} \left( (-1)^{k}k! \frac{1}{(1+x)^{k+1}} \right)\\
+                        &=& (-1)^k k! \left(\frac{d}{dx} \frac{1}{(1+x)^{k+1}}\right)\\
+                        &=& (-1)^k k! \cdot 1 \cdot -(k+1) \frac{1}{(1+x)^{k+2}}\\
+                        &=& (-1)^{k+1} \cdot (k+1)! \frac{1}{(1+x)^{k+2}}
+            \end{array}$$
+        \mbox{} \hfill $\square$\\
+
+        Diese Ableitung benutzen wir nun, um das Taylorpolynom aufzuschreiben.\\
+        $$\begin{array}{rcl}
+            T_n(x) &\ſtackrel{Def.}{=}& \underset{k=0}{\overset{n}{\sum}} \frac{f^{(k)}(a)}{k!}(x-a)^k.\\
+                &\stackrel{Abl.}{=}& \underset{k=0}{\overset{n}{\sum}} 
+                    \frac{(-1)^k k! \frac{1}{(1+a)^{k+1}}}{k!}(x-a)^k.\\
+                &\stackrel{a=0}&\underset{k=0}{\overset{n}{\sum}} 
+                    (-1)^k \frac{1}{(1+0)^{k+1}} \cdot (x-0)^k\\
+                &=& \underset{k=0}{\overset{n}{\sum}}
+                    (-1)^k x^k 
+        \end{array}$$
+        Wir haben nun die Monomdarstellung erreicht, wobei die Koeffizienten $a_k = (-1)^k$ sind.
+
+    \item $g(x) = \frac{1}{\sqrt{1-x}}$:\\
+        Sei $\Xi (z) = \underset{k=0}{\overset{z-1}{\prod}} 2k+1$, das Produkt aller ungeraden Zahlen
+        bis vor die $z$-te ungerade Zahl.
+    
+        \textbf{Beh.:} $g^{(k)} = \frac{\Xi(k)}{2^k} (1-x)^{-\frac{1+2k}{2}}$ \\
+        \textbf{I.A.:} \\
+            $k=0$ $g^{(0)} = \frac{1}{2^0} (1-x)^{-\frac{1}{2}} = g(x)$\\
+        \textbf{I.S.:} $k \follows k+1$\\
+            $$\begin{array}
+                g^{(k+1)} &=& \frac{d}{dx} g^{(k)}\\
+                        &\stackrel{I.V.}{=}&
+                            \frac{d}{dx} \left(\frac{\Xi(k)}{2^{k}} (1-x)^{-\frac{1+2k}{2}} \right)\\
+                        &=& \frac{\Xi(k)}{2^{k}} \cdot -1 \cdot -\frac{2k+1}{2} (1-x)^{1+\frac{1+2k}{2}}\\
+                        &=& \frac{\Xi(k) \cdot (2k+1)}{2^{k}\cdot 2} (1-x)^{\frac{2(k+1)}{2}}\\
+                        &=& \frac{\Xi(k+1)}{2^{k+1}} (1-x)^{\frac{1+2(k+1)}{2}}
+            \end{array}$$
+
+        Mit dieser Ableitung können wir nun das Taylorpolynom aufschreiben:\\
+        $$\begin{array}{rcl}
+            T_n(x) &=& \overset{n}{\underset{k=0}{\sum}} 
+                    \frac{f^{(k)}(a)}{k!} (x-a)^k\\
+                &=& \overset{n}{\underset{k=0}{\sum}}
+                    \frac{1}{k!} \cdot \frac{\Xi(k)}{2^k} (1-a)^{-\frac{1+2k}{2}} (x-a)^k\\
+                &=& \overset{n}{\underset{k=0}{\sum}}
+                    \frac{1}{k!} \frac{\Xi(k)}{2^k} 1^{-\frac{1+2k}{2}} x^k\\
+                &=& \frac{\Xi(k)}{2^k k!} x^k\\
+        \end{array}$$
+        Wir lassen es an dieser Stelle so stehen. Wir haben einen Faktor, abhängig von $k$
+        und sind in der Monomdarstellung.\\
+        Man kann sich gerne davon überzeugen, dass 
+        $a_k = \frac{\Xi(k)}{2^k k!} = \frac{\Gamma(k + \frac{1}{2}}{\sqrt{\pi} k!}$ gilt.
+            
+    \item $h(x) = xe^x$\\
+        \textbf{Beh.:} $h^{(k)}(x) = (x + k)e^x$\\
+        \textbf{I.A.:} $k=0$ $h^{(0)} = (x + 0)e^x = xe^x = h(x)$\\
+        \textbf{I.S.:} $k \follows k+1$\\
+            $$\begin{array}
+                h^{(k+1)}(x) &=& \frac{d}{dx} h^{(k)}(x)\\
+                    &=& \frac{d}{dx} (x + k)e^x\\
+                    &=& e^x + (x + k)e^x\\
+                    &=& (x+(k+1))e^x
+            \end{array}$$
+        Nun können wir das Taylorpolynom vom Grad $n$ am Entwicklungspunkt $a=0$ aufstellen.
+        $$\begin{array}{rcl}
+            T_n(x) &=& \overset{n}{\underset{k=0}{\sum}}
+               \frac{h^{(k)}(a)}{k!} (x-a)^k\\
+                    &=& \overset{n}{\underset{k=0}{\sum}} \frac{(a+k)e^a}{k!} (x-a)^k\\
+                    &=& \overset{n}{\underset{k=0}{\sum} \frac{k}{k!} x^k\\
+                    &=& \overset{n}{\underset{k=0}{\sum} \frac{1}{(k-1)!} x^k
+        \end{array}$$
+        Wir haben die Monomdarstellung mit den Koeffizienten $a_k = \frac{1}{(k-1)!}$.
+
+ 
+\end{enumerate}
+
+\subsection*{Aufgabe 11: \mdseries\itshape Gleichmäßige Konvergenz von Funktionsfolgen}
+
+Bestimmen Sie für die folgenden Funktionsfolgen den punktweisen Limes
+$$
+    f(x) = \lim_{n \rightarrow \infty} f_n(x)
+$$
+(falls er existiert) und prüfen Sie, welche der Folgen gleichmäßig konvergiert.
+
+\begin{enumerate}[(i)]
+    \item $f_n(x) = e^{-nx^2}$ auf $[-1,1]$.\\ 
+        tbd
+
+    \item $g_n(x) = \sqrt{x^2 + \frac{1}{n}}$ auf $[0,\infty).$\\
+        tbd
+
+    \item $h_n(x) = n\left( \sqrt{x + \frac{1}{n} - \sqrt{x}} \right)$\\
+        tbd
+
+    \item $k_n(x) = \arctan(nx)$ auf $[-\infty, \infty]$.\\
+        tbd
+\end{enumerate}
+
+\subsection*{Aufgabe 12: \mdseries\itshape Gleichmäßige Konvergenz von Reihen}
+
+Untersuchen Sie folgende Funktionsreihen auf gleichmäßige Konvergenz.
+
+\begin{enumerate}[(i)]
+
+    \item $\overset{\infty}{\underset{n=1}{\sum}} \frac{\sin(nx)}{n^\alpha}$ für $x\in\mathbb{R}$ und festes $\alpha > 1$.\\
+        tbd
+
+    \item $\overset{\infty}{\underset{n=1}{\sum}} \frac{x}{n(1+nx^2)}$ für $x\in\mathbb{R}$.\\
+        tbd
+
+    \item $\overset{\infty}{\underset{n=1}{\sum}} (-1)^n \frac{x^2+n}{n^2}$ für $x\in\mathbb{R}$.\\
+        tbd
+
+\end{enumerate}
+
+\label{LastPage}
+\end{document}
+
+
