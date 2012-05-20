@@ -210,14 +210,44 @@ Untersuchen Sie folgende Funktionsreihen auf gleichmäßige Konvergenz.
 \begin{enumerate}[(i)]
 
     \item $\overset{\infty}{\underset{n=1}{\sum}} \frac{\sin(nx)}{n^\alpha}$ für $x\in\mathbb{R}$ und festes $\alpha > 1$.\\
-        tbd
+        Wir schätzen zunächst die einzelnen Folgeglieder ab
+        $$\begin{array}{rcl}
+            \left| \overset{\infty}{\underset{k=0}{\sum}} \frac{\sin(kx)}{k^\alpha}\right| \\
+                &\stackrel{\sin(a)\leq1}{\leq}&  
+                    \left| \overset{\infty}{\underset{k=0}{\sum}} \frac{1}{k^\alpha}\right| \\
+                &=& \overset{\infty}{\underset{k=0}{\sum}} \frac{1}{k^\alpha} 
+        \end{array}$$
+        Wir haben nun eine Folge von Zahlen gefunden $M_k = \frac{1}{k^\alpha}$ so dass
+        du Funktionen der Reihe alle kleiner sind. Nach dem Weierstrass M-Test, gilt
+        also, dass die urpsrüngliche Reihe gleichmäßig konvergiert, wenn 
+        $\overset{\infty}{\underset{k=0}{\sum}} M_n$ konvergiert\footnote{Diese Reihe 
+        konvergiert in der Tat gegen $\zeta(\alpha)$}.
 
     \item $\overset{\infty}{\underset{n=1}{\sum}} \frac{x}{n(1+nx^2)}$ für $x\in\mathbb{R}$.\\
-        tbd
-
+        Wir zeigen über eine Fallunterscheidung, dass die Reihe bis auf $x=0$ punktweise
+        divergiert. Damit ist klar, dass es nicht gleichmäßig konvergieren kann, da 
+        diesen implizieren würde, dass die Reihe punktweise konvergieren würde.\\
+        \textbf{Fall 1:} $x>0$\\
+        Jeder Summand ist größer als Null. Nun gilt
+        $$\begin{array}{crcl}
+            & \frac{x}{n(1+nx^2)} &>& \frac{1}{n}\\
+            \Leftrightarrow & \frac{x}{1+nx^2} &>& 1
+        \end{array}$$
     \item $\overset{\infty}{\underset{n=1}{\sum}} (-1)^n \frac{x^2+n}{n^2}$ für $x\in\mathbb{R}$.\\
-        tbd
-
+        Diese Reihe konvergiert Punktweise, daher kann der Trick von eben nicht angewandt werden.
+        Wir zeigen aber, dass die Reihe trotzdem nicht gleichmäßig konvergiert.\\
+        $$\begin{array}{rcl}
+            \overset{\infty}{\underset{n=1}{\sum}} (-1)^n \frac{x^2 + n}{n^2}
+                &=& \overset{\infty}{\underset{n=1}{\sum}} (-1)^n \left( \frac{1}{n} + \frac{x^2}{n^2} \right)\\
+                &=& \overset{\infty}{\underset{n=1}{\sum}} (-1)^n \frac{1}{n} +
+                    \overset{\infty}{\underset{n=1}{\sum}} (-1)^n \frac{x^2}{n}
+        \end{array}$$
+        Der erste Summand konvergiert und da er unabhängig von $x$ ist, passiert dies auch
+        gleichmäßig. Im zweiten Teil steht nun $x^2$ als Faktor drin. Wir können den
+        Wert jetzt also durch die Veränderung von $x$ beliebig groß oder klein machen.
+        Wir können also ein $x$ so wählen, dass jede $\varepsilon$ Schranke durchbrochen werden
+        kann.\\
+        Damit ist die Reihe nicht gleichmäßig stetig.
 \end{enumerate}
 
 \label{LastPage}
