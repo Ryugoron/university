@@ -13,7 +13,7 @@
 \usepackage{xcolor}
 \usepackage{paralist}
 
-\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
+%%\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
 \usepackage{fancyhdr}
 \pagestyle{fancy}
 \fancyhead[C]{Analysis II}
@@ -257,9 +257,9 @@ Untersuchen Sie folgende Funktionsreihen auf gleichmäßige Konvergenz.
     \item $\overset{\infty}{\underset{n=1}{\sum}} \frac{\sin(nx)}{n^\alpha}$ für $x\in\mathbb{R}$ und festes $\alpha > 1$.\\
         Wir schätzen zunächst die einzelnen Folgeglieder ab
         $$\begin{array}{rcl}
-            \left| \overset{\infty}{\underset{k=0}{\sum}} \frac{\sin(kx)}{k^\alpha}\right| \\
+            \overset{\infty}{\underset{k=0}{\sum}} \left| \frac{\sin(kx)}{k^\alpha}\right| \\
                 &\stackrel{\sin(a)\leq1}{\leq}&  
-                    \left| \overset{\infty}{\underset{k=0}{\sum}} \frac{1}{k^\alpha}\right| \\
+                    \overset{\infty}{\underset{k=0}{\sum}} \left| \frac{1}{k^\alpha}\right| \\
                 &=& \overset{\infty}{\underset{k=0}{\sum}} \frac{1}{k^\alpha} 
         \end{array}$$
         Wir haben nun eine Folge von Zahlen gefunden $M_k = \frac{1}{k^\alpha}$ so dass
@@ -269,15 +269,15 @@ Untersuchen Sie folgende Funktionsreihen auf gleichmäßige Konvergenz.
         konvergiert in der Tat gegen $\zeta(\alpha)$}.
 
     \item $\overset{\infty}{\underset{n=1}{\sum}} \frac{x}{n(1+nx^2)}$ für $x\in\mathbb{R}$.\\
-        Wir zeigen über eine Fallunterscheidung, dass die Reihe bis auf $x=0$ punktweise
-        divergiert. Damit ist klar, dass es nicht gleichmäßig konvergieren kann, da 
-        diesen implizieren würde, dass die Reihe punktweise konvergieren würde.\\
-        \textbf{Fall 1:} $x>0$\\
-        Jeder Summand ist größer als Null. Nun gilt
-        $$\begin{array}{crcl}
-            & \frac{x}{n(1+nx^2)} &>& \frac{1}{n}\\
-            \Leftrightarrow & \frac{x}{1+nx^2} &>& 1
-        \end{array}$$
+        Für die Reihe muss gelten, dass $|\overset{\infty}{\underset{k=1}{\sum}} \frac{x}{n(1+nx^2)} - \overset{n}{\underset{k=1}{\sum}} \frac{x}{n(1+nx^2)}| < \varepsilon$,
+        für die üblichen Bedingungen an $\varepsilon > 0, N \in \mathbb{N}, n > N , x \in A$. Nun gilt, dass auf dem Interval $[0,\infty)$ (und dem negativen
+        symmetrisch), dass du funktion mit $\limes{x}{\infty} f_n(x)$ und $\limes{x}{0} f_n(x)$ für jedes feste $n$ gegen 0 konvergiert. Dies liegt
+        daran, dass der Nenner quadratisch in $x$ wächst im Zähler allerdings nur linear. Der Fall gegen 0 konvergiert gegen 0, da der Nenner bei Konvergenz gegen 0
+        immer noch das Argument $(1+nx^2)$ besitzt und daher nicht kleiner werden kann als 1. Die Funkion in der Reihe ist darüber hinaus stetig, da der Nenner
+		keine Nullstelle hat, die gebrochen rationale Funktion daher keine Polstelle besitzt, die uns in die Berechnung schlägt.\\
+		Damit können wir also einen Maximalwert für $x$ errechnen, so dass wir schließlich ein $N$ entsprechend des Maximalwertes erreichen, so dass die Reihe immer 
+		innerhalb der $\varepsilon$ Beschränkung bleibt.
+        
     \item $\overset{\infty}{\underset{n=1}{\sum}} (-1)^n \frac{x^2+n}{n^2}$ für $x\in\mathbb{R}$.\\
         Diese Reihe konvergiert Punktweise, daher kann der Trick von eben nicht angewandt werden.
         Wir zeigen aber, dass die Reihe trotzdem nicht gleichmäßig konvergiert.\\
