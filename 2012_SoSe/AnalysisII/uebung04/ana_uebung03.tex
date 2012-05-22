@@ -17,7 +17,7 @@
 \usepackage{fancyhdr}
 \pagestyle{fancy}
 \fancyhead[C]{Analysis II}
-\fancyhead[L]{Aufgabenblatt 3}
+\fancyhead[L]{Aufgabenblatt 4}
 \fancyhead[R]{SoSe 2012}
 \fancyfoot{}
 \fancyfoot[L]{}
@@ -41,7 +41,7 @@
 \thispagestyle{fancy}
 
 %% ------------------------------------------------------
-%%                     Aufgabe 5
+%%                     Aufgabe 5 (epic fail, max!)
 %% ------------------------------------------------------
 
 \subsection*{Aufgabe 10: \mdseries\itshape Berechnung von Taylorpolynomen}
@@ -161,14 +161,17 @@ $$
         Daher ist $f(0) = 1$.\\
 
         Gleichmäßige Konvergenz:\\
-        Die Funktionsfolge nict gleichmäßig konvergiert. In der folgenden
-        Betrachtung lassen wir $x=0$ weg, da $f_n(0) = 1$ für alle $n\in\mathbb{N}$
-        und daher auch für ein groß genügendes $N$. Desweiteren ist der Fall
-        $x<0$ zu $x>0$ symmetrisch, da es nur quadriert in der Formel vorkommt. Des
-        weitern ist $e^a$ für alle $a$ größer null, daher falle ndie betragsstriche weg.\\
-        Wir zeigen also, 
-        $\exists \varepsilon \forall N \in \mathbb{N} \exists n > N \exists x\in(0,1] : 
-        \frac{1}{e^{nx^2}} < \varepsilon$
+        Da $e^x$ für jedes $x \in \mathbb{R}$ stetig ist und $f$ nicht stetig ist,
+        kann die Folge $f_n$ nicht gleichmäßig konvergieren (Der Grenzwert jeder gleichmäßig
+        konvergierenden Funktionsfolge stetiger Funktionen ist wieder stetig).
+        %Die Funktionsfolge nict gleichmäßig konvergiert. In der folgenden
+        %Betrachtung lassen wir $x=0$ weg, da $f_n(0) = 1$ für alle $n\in\mathbb{N}$
+        %und daher auch für ein groß genügendes $N$. Desweiteren ist der Fall
+        %$x<0$ zu $x>0$ symmetrisch, da es nur quadriert in der Formel vorkommt. Des
+        %weitern ist $e^a$ für alle $a$ größer null, daher falle ndie betragsstriche weg.\\
+        %Wir zeigen also, 
+        %$\exists \varepsilon \forall N \in \mathbb{N} \exists n > N \exists x\in(0,1] : 
+        %\frac{1}{e^{nx^2}} < \varepsilon$
 
     \item $g_n(x) = \sqrt{x^2 + \frac{1}{n}}$ auf $[0,\infty).$\\
         Wir wissen, dass die Funktion $\sqrt{.}$ auf dem Interval stetig ist.
@@ -181,7 +184,19 @@ $$
                 &=& x
         \end{array}$$
 
-        Gleichmäßige Konvergenz: TBD.
+        Gleichmäßige Konvergenz: \\
+        Sei $\varepsilon > 0$. Z.z. $\exists N > 0\forall n>N\forall x: |g_n(x) - g(x)|<\varepsilon$. \\
+        $\begin{array}[h!]{rrcl}
+          &\left|\sqrt{x^2+ \frac{1}{N}} - x \right| &<& \varepsilon \\
+          \stackrel{(*)}{\Leftrightarrow} &\sqrt{x^2+ \frac{1}{N}} - x  &<& \varepsilon \\
+          \Leftrightarrow &\sqrt{x^2+ \frac{1}{N}}  &<& \varepsilon+x \\
+          \Leftrightarrow &x^2+ \frac{1}{N}  &<& \varepsilon^2+2\varepsilon x + x^2 \\
+          \Leftrightarrow &\frac{1}{N}  &<& \varepsilon^2+2\varepsilon x \\
+        \end{array}$
+        \\
+        Und da $\frac{1}{N}  < \varepsilon^2 \leq \varepsilon^2+2\varepsilon x$ gilt die Ungleichung für alle $n > \frac{1}{\varepsilon^2}$. Also ist $g_n$ gleichmäßig konvergent ($N$ hängt nicht von $x$ ab). \\
+
+    (*) gilt, da der rechte Term der Differenz immer kleiner als der linke ist.
 
     \item $h_n(x) = n\left( \sqrt{x + \frac{1}{n}} - \sqrt{x} \right)$\\
         Wir wissen nach Umformung, dass gilt $n = \left(\frac{1}{n} \right)^{-1}$ die
@@ -201,14 +216,36 @@ $$
                     {n^2 \cdot 2\sqrt{x} \cdot 2\sqrt{x + \frac{1}{n}}}\\
                 &=& \limes{\infty} \frac{2\sqrt{x} - 2\sqrt{x+\frac{1}{n}} \cdot \frac{1}{n^2}}
                     {2\sqrt{x} \cdot 2\sqrt{x + \frac{1}{n}}}\\
-                && \text{Alles konergiert nun}\\
+                && \text{Alles konvergiert nun}\\
                 &=& \frac{2\sqrt{x} - 2\sqrt{x+0} \cdot 0}{2\sqrt{x} \cdot 2\sqrt{x+0}}\\
                 &=& \frac{1}{2\sqrt{x}}
         \end{array}$$ 
          
-        Gleichmäßige Konvergenz: TBD.
-    \item $k_n(x) = \arctan(nx)$ auf $[-\infty, \infty]$.\\
-        tbd
+        Gleichmäßige Konvergenz: \\
+        Die Folge konvergiert gleichmäßig, das kann man ganz schön auf einem Plot sehen. Aber irgendwie fällt uns dazu keine guter Beweis ein :(
+%        Sei $\varepsilon > 0$. Z.z. $\exists N > 0\forall n>N\forall x: |h_n(x) - h(x)|<\varepsilon%$. \\
+%        $\begin{array}[h!]{rrcl}
+%          &\left| \frac{1}{2\sqrt{x}} - n\left( \sqrt{x + \frac{1}{n}} - \sqrt{x} \right) \right| &<& \varepsilon \\
+%        \end{array}$
+        \\
+    \item $k_n(x) = \arctan(nx)$ auf $(-\infty, \infty)$.\\
+        Analysieren der Funktion durch Fallunterscheid: \\
+        Fall 1: $x = 0$. \\
+        Für $x=0$ gilt $\limes{\infty} k_n(x) = \limes{\infty} k_n(0) = \limes{\infty} \arctan(n \cdot 0) = \limes{\infty} \arctan(0) = 0$. \\ \\
+        Fall 2: $x > 0$. \\
+        Für $x>0$ ist $\limes{\infty} k_n(x) = \limes{\infty} \arctan(nx) = \limes{\infty} \arctan(n) \stackrel{(**)}{=} \frac{\pi}{2}$. \\ \\
+        Fall 3: $x < 0$. \\
+        Für $x<0$ ist $\limes{\infty} k_n(x) = \limes{\infty} \arctan(nx) = \limes{\infty} \arctan(-n) \stackrel{(**)}{=} -\frac{\pi}{2}$. \\ \\
+    
+        Also ist $k(x) = \begin{cases}
+                              -\frac{\pi}{2} &, \text{falls } x < 0 \\
+                              0 &, \text{falls } x = 0 \\
+                              \frac{\pi}{2} &, \text{falls } x > 0 \\
+                          \end{cases}$. \\
+        
+        Insbesondere ist $k$ nicht stetig auf $(-\infty, \infty)$, allerdings ist $\arctan(x)$ stetig für alle $x \in \mathbb{R}$. Also  kann die Folge $k_n(x)$ nicht gleichmäßig konvergieren (Der Grenzwert jeder gleichmäßig konvergierenden Funktionsfolge stetiger Funktionen ist wieder stetig). \\
+
+      (**) gilt, da für $\tan(x)$ für $x = \pm \frac{\pi}{2}$ Asymptoten sind (und $\arctan$ die Umkehrfunktion auf $(-\frac{\pi}{2},\frac{\pi}{2})$ ist).
 \end{enumerate}
 
 \subsection*{Aufgabe 12: \mdseries\itshape Gleichmäßige Konvergenz von Reihen}
