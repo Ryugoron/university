@@ -1,3 +1,131 @@
 \subsection*{Exercise 3 \mdseries (Max-Cut Local Search)}
 
-Nothing here yet.
+Consider the Local Search Algorithm for \emph{Max-Cut} from the lecture and consider the following variant: a vertex changes sides only when the improvement in the total weight of the resulting cut is at least $\frac{2n}{\varepsilon}w(A,B)$, when $w(A,B)$ was the weight of the original cut.\\
+
+Proof that this is a $(\frac{1}{2} - \varepsilon)$ approximation with $0 < \varepsilon < \frac{1}{2}$. How many iterations does this algorithm make?\\
+
+\textbf{Solution:}
+
+We didn't erased the part we concluded so far, but we believe there is a mistake in the question.\\
+
+If we consider the change should be at least $\frac{2n}{\varepsilon}$ like in in the exercise, for $\underset{\varepsilon \rightarrow 0}{\lim} \frac{2n}{\varepsilon}$ we would literaly allow no changes, so this algorithm would return any feasable solution in the first step.\\
+
+
+\textbf{Solution assumed $\frac{2\varepsilon}{n}$}\\
+
+\begin{lemma}\label{ueb3:maxcut:aapx}
+{\rmfamily\itshape
+The variant of Local Search Max - Cut is a $\frac{1}{2} - \varepsilon$ approximation.
+}
+\end{lemma}
+
+\textbf{Proof lemma \ref{ueb3:maxcut:aapx} : }\\
+After the algorithm terminated, we know taht for every vertix holds, if we swap the partition
+of the vertex, the result will have a new weight, less than $\frac{2\varepsilon}{n}w(A,B)$.\\
+
+
+$$\begin{array}{ccrcl}
+(I) & \forall a \in A \; : & w(A\setminus\{a\}, B \cup \{a\}) & \leq & \frac{2\varepsilon}{n}w(A,B)\\
+(II) & \forall b \in B \; : & w(A \cup \{b\} , B \setminus \{b\}) & \leq & \frac{2\varepsilon}{n}w(A,B)
+\end{array}$$
+
+We will now use the trick from the lecture and sum the equation up, for all $a\in A$ (afterwards in $B$).
+$$\begin{array}{crcl}
+&\underset{a \in A}{\sum} \underset{i\in A \setminus \{a \}}{\sum} \underset{j \in B \cup \{a \}}{\sum} w_{ij}&\leq& \underset{a \in A}{\sum} \frac{2\varepsilon}{n} w(A,B)\\
+\Leftrightarrow & \underset{a \in A}{\sum} \left( w(A,B) - \underset{i\in B}{\sum} w_{aj} + \underset{i\in A}{\sum} w_{ai}\right) &\leq & \underset{a \in A}{\sum} \frac{2\varepsilon}{n} w(A,B)\\
+\Leftrightarrow & |A| w (A,B) - \underset{a \in A}{\sum}\underset{i \in B}{\sum} w_{ti} + \underset{a\in A}{\sum}\underset{i \in A}{\sum} w_{ai} & \leq & |A| \frac{2\varepsilon}{n} w(A,B)
+\end{array}$$
+
+Now we sum both lines up.
+
+$$\begin{array}{crcl}
+\stackrel{+}{\Rightarrow} & n\cdot w(A,B) - \underset{a \in A}{\sum}\underset{i\in B}{\sum} w_{ai} - \underset{b \in B}{\sum}\underset{i\in A}{\sum} w_{bi} + \underset{a \in A}{\sum}\underset{i\in A}{\sum} w_{ai} + \underset{b \in B}{\sum}\underset{i\in B}{\sum} w_{bi} &\leq& \frac{2}{\varepsilon} w(A,B)\\
+\Leftrightarrow & (n-2) w(A,B) + \underset{\{i,j\} \in A}{\sum} w_{ij} + \underset{\{i,j\} \in B}{\sum} w_{ij} &\leq & \frac{2}{\varepsilon} w(A,B)\\
+\Leftrightarrow & (n-3)w(A,B) + W & \leq & \frac{2}{\varepsilon} w(A,B)\\
+\Leftrightarrow & W & \leq & \left( \frac{2}{\varepsilon} -n + 3 \right) w(A,B)
+\end{array}$$
+
+For $n>3$ now $OPT \leq W \leq (\frac{2}{\varepsilon} -n +3) w(A,B) \leq (\frac{2}{\varepsilon} + 1) w(A,B)$
+and we conclude $w(A,B) \geq (\frac{1}{2} - \varepsilon) OPT$
+
+\begin{lemma}\label{ueb3:maxcat:ait}
+{\rmfamily\itshape
+The number of iterations for this algorithm is $\frac{n}{\varepsilon} \log W$
+}
+\end{lemma}
+
+\textbf{Proof lemma \ref{ueb3:maxcat:ait} : }\\
+For our case we now, that in each step the algorithm will take the change is at least $\frac{2\varepsilon}{n}$. So for each step in the iteration $w(A_k,B_k) \geq \frac{2\varepsilon}{n} w(A_{k-1},B_{k-1})$. We can start with the initial Partition and get the result:
+$$
+w(A_k,B_k) =  \left( \frac{2\varepsilon}{n} \right)^k w(A_0,B_0)
+$$ 
+
+The algorithm will terminate, if we reach a point, were there is no such step possible:
+$$\begin{array}{crcl}
+& w(A_{k+1},B_{k+1} & \leq & \frac{2\varepsilon}{n} w(A_k,B_k)\\
+\Leftrightarrow & (\frac{2\varepsilon}{n} )^{k+1} w(A_0,B_0) &\leq & (\frac{2\varepsilon}{n})^k w(A_0,B_0)\\
+\Leftrightarrow & \left( \frac{2\varepsilon}{n}\right)^{k+1} & \leq & \left( \frac{2\varepsilon}{n}\right)^k W\\
+\Leftrightarrow & \left( \frac{2\varepsilon}{n} \right)^{k+1} & \leq & W\\
+\Leftrightarrow & (k+1) &\geq& \log_{\frac{2\varepsilon}{n}} W\\
+\Leftrightarrow & k+1 & \geq & \frac{\log W}{\log \frac{2\varepsilon}{n}}\\
+\Leftrightarrow & k & \geq & \frac{n}{\varepsilon} \log W
+\end{array}$$
+
+The last step for sure isn't right, but we saw the error in the exercise 2h before the tutorium, so there was no real time.
+
+\textbf{THIS SOLUTION WAS CREATED BEFORE WE SAW THE ERROR}\\
+Note that this is not a correct solution. This is the last revision of our work, but it doesn't look right.\\
+
+\begin{lemma}\label{ueb3:maxcut:apx}
+{\mdseries
+The variant of Local Search Max - Cut is a $\frac{1}{2} - \varepsilon$ approximation.
+}
+\end{lemma}
+\textbf{Proof Lemma \ref{ueb3:maxcut:apx}:}
+
+After the algorithm terminated, we know taht for every vertix holds, if we swap the partition the vertix is in, the resulting change of the weight of the cut is less than $\frac{2n}{\varepsilon}w(A,B)$.\\
+
+$$\begin{array}{ccrcl}
+(I) & \forall a \in A \; : & w(A\setminus\{a\}, B \cup \{a\}) & \leq & \frac{2n}{\varepsilon}w(A,B)\\
+(II) & \forall b \in B \; : & w(A \cup \{b\} , B \setminus \{b\}) & \leq & \frac{2n}{\varepsilon}w(A,B)
+\end{array}$$
+
+Next we will sum up this equotation for all $a \in A$ or $b \in B$.\\
+
+$$\begin{array}{crcl}
+&\underset{a \in A}{\sum} \underset{i\in A \setminus \{a \}}{\sum} \underset{j \in B \cup \{a \}}{\sum} w_{ij}&\leq& \underset{a \in A}{\sum} \frac{2n}{\varepsilon } w(A,B)\\
+\Leftrightarrow & \underset{a \in A}{\sum} \left( w(A,B) - \underset{i\in B}{\sum} w_{aj} + \underset{i\in A}{\sum} w_{ai}\right) &\leq & \underset{a \in A}{\sum} \frac{2n}{\varepsilon} w(A,B)\\
+\Leftrightarrow & |A| w (A,B) - \underset{a \in A}{\sum}\underset{i \in B}{\sum} w_{ti} + \underset{a\in A}{\sum}\underset{i \in A}{\sum} w_{ai} & \leq & |A| \frac{2n}{\varepsilon} w(A,B)
+\end{array}$$
+
+We will now apply the same transformation to $(II)$ and add the equations up.
+
+$$\begin{array}{crcl}
+\stackrel{+}{\Rightarrow} & n\cdot w(A,B) - \underset{a \in A}{\sum}\underset{i\in B}{\sum} w_{ai} - \underset{b \in B}{\sum}\underset{i\in A}{\sum} w_{bi} + \underset{a \in A}{\sum}\underset{i\in A}{\sum} w_{ai} + \underset{b \in B}{\sum}\underset{i\in B}{\sum} w_{bi} &\leq& \frac{2n^2}{\varepsilon} w(A,B)\\
+\Leftrightarrow & (n-2) w(A,B) + \underset{\{i,j\} \in A}{\sum} w_{ij} + \underset{\{i,j\} \in B}{\sum} w_{ij} &\leq & \frac{2n^2}{\varepsilon} w(A,B)\\
+\Leftrightarrow & (n-3)w(A,B) + W & \leq & \frac{2n^2}{\varepsilon} w(A,B)\\
+\Leftrightarrow & W & \leq & \left( \frac{2n^2}{\varepsilon} -n + 3 \right) w(A,B)
+\end{array}$$
+
+Further we know from the lecture, that $OPT \leq W$ holds.
+
+$$\begin{array}{crcl}
+& OPT \leq W & \leq \left(\frac{2n^2}{\varepsilon} - n + 3 \right) w(A,B)\\
+\Leftrightarrow & W & \geq & \frac{1}{\frac{2n^2}{\varepsilon} - n + 3} OPT\\
+&&=& \frac{varepsilon}{2n^2  \varepsilon n + 3\varepsilon} OPT\\
+&&=& \left( \frac{1}{2n^2 - \varepsilon n + 3\varepsilon} - \frac{1-\varepsilon}{2n^2 - \varepsilon n + 3 \varepsilon}\right) OPT\\
+&&\leq& \left( \frac{1}{2} - \frac{1-\varepsilon}{2+3\varepsilon} \right) OPT\\
+&&\leq& \left( \frac{1}{2} - \varepsilon \right) OPT
+\end{array}$$
+
+The step to the $\frac{1}{2}$ holds, because if we choose $n$ and $\varepsilon$ to be small, the result will be only greater than the other values. Hence we can drop them and the result will be only bigger. The last step will only hold for $\varepsilon < \frac{1}{4}$ approximatly. Therefore we are shure there is a mistake in our solution.\\
+
+\begin{lemma}\label{ueb3:maxcut:it}
+{\rmfamily\itshape
+The amount of iterations this algorithm will make is at most $\frac{n}{\varepsilon} \log W$.
+}
+\end{lemma}
+\textbf{Proof lemma \ref{ueb3:maxcut:it}:}\\
+
+
+
