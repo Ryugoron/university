@@ -1,3 +1,22 @@
-\subsection*{Exercise 2 \mdseries (Max-Cut-FPETAS)}
+\subsection*{Exercise 2 \mdseries (MAX-CUT greedy algorithm)}
 
-Done here
+In the tutorial we analyzed a randomized algorithm for MAX-CUT. The result was that $E[Z] \geq \frac{1}{2}OPT$ where $E[Z]$ was the expected weight of the result returned.
+For every $i \in V$ let $M_i \in \{A,B\}$ be the choice of the subset to put $i$ in. By the law of total expectation we know
+$$
+\begin{array}{rcl}
+E[Z] & = & E[Z | 1 \in A]Pr[M_1 = A] + E[Z | 1 \in B]Pr[M_1 = B] \\
+& = & \frac{1}{2}(E[Z | 1 \in A] + E[Z | 1 \in B])
+\end{array}
+$$
+and
+$$
+\begin{array}{rcl}
+E[Z | 1 \in M_1, \cdots, i - 1 \in M_{i-1}] & = & E[Z | 1 \in M_1, \cdots, i \in A]Pr[M_i = A] \\
+& + & E[Z | 1 \in M_1, \cdots, i \in B]Pr[M_i = B] \\
+& = & \frac{1}{2}(E[Z | 1 \in M_1, \cdots, i \in A] \\
+& + & E[Z | 1 \in M_1, \cdots, i \in B])
+\end{array}
+$$
+If we choose $M_i$ deterministically as $M_1 := A$ and $M_i$ (recursively) to maximize $E[Z | 1 \in M_1, \cdots, i \in M_{i}]$ we also know $E[Z] = E[Z | 1 \in M_1]$ and $E[Z | 1 \in M_1, \cdots, i \in M_{i}] \geq E[Z | 1 \in M_1, \cdots, i - 1 \in M_{i-1}]$. This implies $E[Z | 1 \in M_1, \cdots, n \in M_{n}] \geq E[Z]$ by induction.\\
+One can now easily observe that the described greedy algorithm chooses the $M_i$ exactly as described. In the $k$-th iteration the edges already in the cut and not yet in the cut (determined by previous choices), except those between $F$ and the vertex $k$, add to both considered expectations. Hence the choice is only dependant on the edges between $F$ and $k$.\\
+This concludes the greedy algorithm to be a $\frac{1}{2}$-approximation for MAX-CUT.
