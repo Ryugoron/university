@@ -1,0 +1,192 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm]{geometry} 
+\usepackage{babel}
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc} 
+\usepackage{ae} 
+\usepackage{amssymb} 
+\usepackage{amsmath} 
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{paralist}
+
+%%\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[C]{Analysis II}
+\fancyhead[L]{Aufgabenblatt 4}
+\fancyhead[R]{SoSe 2012}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage \hspace{1px} of \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\setlength{\parindent}{0pt} 
+\setlength{\headheight}{15pt}
+
+\date{}
+\title{Max Wisniewski , Alexander Steen}
+\author{Tutor : Adrian Steffens}
+
+\newcommand{\limes}[2][n]{\underset{ #1 \rightarrow #2}{\lim}}
+
+\begin{document}
+
+\lstset{language=Pascal, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2}
+
+\maketitle
+\thispagestyle{fancy}
+
+%% ------------------------------------------------------
+%%                     Aufgabe 5 (epic fail, max!)
+%% ------------------------------------------------------
+
+\subsection*{Aufgabe 13: \mdseries\itshape Fehlerrechnung}
+Berechnen Sie die folgenden Werte bis auf einen Fehler von $10^{-4}$.
+
+\begin{enumerate}[(i)]
+    \item $\sin (1)$:\\
+        Wir berechnen die Taylorformel an dieser Stelle, wie in der Vorlesung von $f$ im Entwicklungspunkt
+        $0$. Daher können wir gleichmäßige Konvergenz schon vorraus setzten.\\
+        $f^{(4n)} = \sin$, $f^{(4n+1)} = \cos$, $f^{(4n+2)} = -\sin$, $f^{(4n+3)} = -\cos$. Diese
+        setzen wir nun in die Taylorreihe ein:
+        $$\begin{array}{rcl}
+            p(x) &=& \overset{\infty}{\underset{n=0}{\sum}} \frac{f^{(n)}(a)}{n!}(x-a)\\
+                &=&  \overset{\infty}{\underset{n=0}{\sum}} \frac{f^{(n)}(0)}{n!}x\\
+                &=& \overset{\infty}{\underset{n=0}{\sum}} (-1)^{n}\frac{\cos(0)}{n!}x\\
+                &=& \overset{\infty}{\underset{n=0}{\sum}} (-1)^{n}\frac{1}{n!}x\\
+        \end{array}$$
+        Aus der Vorlesung wissen wir nun, dass diese Reihe für $|x|\leq1$ gleichmäßig konvergiert,
+        deshalb müssen wir nur noch das $n$ berechnen, so dass der Fehler klein genug wird,
+        daher schätzen wir den Fehler durch das Restglied ab.\\
+        $$\begin{array}{rcl}
+            R_n(x) &=& \int_{a}^{x} \frac{(x-t)^n}{n!}f^{(n+1)}(t) \, dt\\
+                &=&  \int_{a}^{x} \frac{(x-t)^n}{n!}f^{(n+1)}(t) \, dt\\
+        \end{array}$$
+    \item $e$::\\
+        Wir wählen den Entwicklungspunkt $a=0$ und erhalten so die übliche Darstellung der $e$-Funktion.
+        $e^{(n)}(x) = e^x$ und somit $e^0 = 1$.\\
+        $$
+            p(x) = \overset{\infty}{\underset{n=0}{\sum}} \frac{1}{n!}x^n
+        $$
+        Wie bereits bekannt ist, konvergiert diese Reihe gleichmäßig, wir müssen also nur den Fehler
+        abschätzen.
+        $$\begin{array}{rcl}
+            R_n(x) &=& \int_a^x \frac{(x-t)^n}{n!} f^{(n+1)}(t) \, dt \\
+                &=& \int_a^x \frac{(x-t)^n}{n!}e^t \, dt\\
+                &=& \left[\frac{(x-t)^{n}}{n!}e^t\right]_a^x - \int_a^x \frac{-(x-t)^{n-1}}{n!}e^t \, dt\\
+                &=& \left[\frac{(x-t)^{n}}{n!}e^t\right]_a^x + \left[\frac{(x+t)^{n-1}}{n!}e^t\right]_a^x
+                    - \int_a^x \frac{-(x-t)^{n-1}}{n!}e^t \, dt\\
+                && \text{Fortsetzen bis $(x-t)^0$ erreicht ist} \\
+                &=& \left[ \underset{m=1}{\overset{n}{\sum}} \frac{(x-t)^m}{n!} e^t \right]_a^x 
+                    - \int_a^x \frac{e^t}{n!} \, dt\\
+                &=& \underset{m=0}{\overset{n}{\sum}} \frac{(x-x)^m}{n!}e^x - \underset{m=0}{\overset{n}{\sum}} \frac{(x)^m}{n!}e^0 - \frac{e^x}{n!} + \frac{e^0}{n!}\\
+                &=& 0 - \frac{n+1}{n!} - \frac{e}{n!} + \frac{1}{n!}\\
+                &=& - \frac{n+e}{n!}\\
+        \end{array}$$
+        In unserem Fall landen wir bei $n=9$ bei einer Zahl, die um $10^4$ nah an der Eingabe dran ist.
+        Wir können $e = \frac{1}{1!} + \frac{1}{2!} + \frac{1}{3!} + \frac{1}{4!} + \frac{1}{5!}
+        + \frac{1}{5!}+ \frac{1}{6!} + \frac{1}{7!} + \frac{1}{8!} + \frac{1}{9!} = 1.7182815$ abschätzen
+        und sehen, dass der Fehler erst nach der 4. Nachkommastelle auftritt.
+\end{enumerate}
+
+\subsection*{Aufgabe 14: \mdseries\itshape Taylorentwicklung von arctan}
+
+\begin{enumerate}[(i)]
+    \item Begründen Sie zunächst, dass
+        $$
+            \frac{d}{dt} \arctan t = \frac{1}{1 + t^2} = \overset{\infty}{\underset{n=0}{\sum}} (-1)^nt^{2n}
+        $$
+        für $|t|<1$, für welche $t$ die Reihe gleichmäßig konvergiert.\\
+    \textbf{Lösung:}\\
+        Wir benutzen das (NAME FEHLT HIER) Kriterium, um zu zeigen, dass die Reihe auf $(-t,t)$ gleichmäßig
+        konvergiert. Da hier die Grenzen leider nicht konvergieren, sondern die Reihe 2 Häufungspunkte
+        für $t=1$ besitzt untersuchen wir eine $\varepsilon>0$ unter $t=1$.
+        $\overset{\infty}{\underset{n=0}{\sum}} (-1)^n(1-\varepsilon)^{2n}$. Wir untersuchen die Reihe
+        mit dem Leibnitz - Kriterium. $(1-\varepsilon)^{2n}$ ist ein streng monoton fallende Folge, die
+        gegen 0 konvergiert (Die geometrische Reihe mit $(a)_{n\in\mathbb{N}} = aq^n$ mit $0\leq q < 1$
+        konvergiert gegen 0).\\
+        Wir wissen nun, dass die Reihe für alle $0<t<1$ gleichmäßig konvergiert. Für den negativen Fall
+        setzten wir nun $-t$ ein. $\overset{\infty}{\underset{n=0}{\sum}} (-1)^n(-t)^{2n} =
+        \overset{\infty}{\underset{n=0}{\sum}} (-1)^n(t)^{2n}$ gilt, da das ganze Symmetrisch in $t$ ist.
+        Nun wissen wir, dass die Reihe auf $(-t,0)$ und $(0,t)$ gleichmäßig konvergiert.
+        Der letzte Fall ist $t=0$. Aber für $t=0$ ist die Reihe für alle $n$ 0. Somit können wir
+        das größte $N$ von allen 3 Bereichen nehmen und sagen, dass die Reihe auf $(-t,t)$ gleichmäßig
+        konvergiert.
+
+    \item Bestimmen Sie nun die Taylorreihe von $\arctan$ durch Integration. Zeigen Sie, dass die so
+        gefundene Reihe für alle $|x|\leq 1$ konvergiert.\\
+    \textbf{Lösung:}\\
+        Nach dem Hauptsatz der Differential und Integralrechnung ist
+        $$
+            \int (\frac{d}{dt} \arctan (t) ) \, dt = \arctan.
+        $$
+        Nun haben wir für die Ableitung die Reihendarstellung
+        $$
+            \int (\frac{d}{dt} \arctan (t) ) \, dt 
+                = \int \overset{\infty}{\underset{n=0}{\sum}} (-1)^nt^{2n} \, dt
+        $$
+        Wir wissen aus Aufgabenteil (i), dass die Reihe gleichmäßig konvergiert, also gilt:
+        $$\begin{array}{rcl}
+            \arctan (t) &=& \overset{\infty}{\underset{n=0}{\sum}} \int (-1)^nt^{2n} \, dt\\
+                &=& \overset{\infty}{\underset{n=0}{\sum}} \frac{(-1)^n}{2n+1}t^{2n+1} \\
+        \end{array}$$
+        Da in diesem letzten Ausdruck kein Integral mehr auftaucht und wir eine gültige
+        Reihendarstellung erreicht haben, befinden wir dies als fertige Auflösung des Tangenz.\\
+        
+        Im Gegensatz zur Ableitung konvergiert diese Darstellung nun auch für $t=1$ gleichmäßig.
+        Die gleichmäßige Stetigkeit Argumentiert sich genau, wie bei (i), nur sehen wir diesmal,
+        dass in $t=1$ immer noch die Reihe über die Folge $(-1)^n \frac{1}{2n+1}$ stehen bleibt,
+        die Nullkonvergent ist und streng monoton fällt. Dammit konvergiert $\arctan$ auf $[-1,1]$ stetig.
+        (Für -1 müssen wir dieses mal $(-1)^{n+1}$ bilden).
+
+    \item Begründen Sie abschließend
+        $$
+            \frac{\pi}{4} = 1 - \frac{1}{3} + \frac{1}{5} - \frac{1}{7} + ...
+        $$
+        Hierfür sollte man zunächst betrachten, dass $\tan(\frac{\pi}{4}) = 1$ ist. Da $\arctan$ die
+        Umkehrabbildung ist, setzten wir die 1 in unsere Reihe ein und erhalten
+        $$\begin{array}{rcl}
+            \arctan (1) &=& \frac{\pi}{4} \\
+                &=& \overset{\infty}{\underset{n=0}{\sum}} \frac{(-1)^n}{2n+1}1^2n\\
+                &=& \frac{1}{1} - \frac{1}{3} + \frac{1}{5} - \frac{1}{7} + ...
+        \end{array}$$
+\end{enumerate}
+
+\subsection*{Aufgabe 15: \mdseries\itshape Schwarz-Ableitung}
+Sei $f \; : \; (a - \varepsilon, a +\varepsilon) \longrightarrow \mathbb{R}$ differenzierbar.
+
+\begin{enumerate}[(i)]
+    \item Angenommen die zweite Ableitung von $f$ im Punkt $a$ existiert. Zeigen Sie, dass dann
+        $$
+            f''(a) = \underset{h \rightarrow \infty}{\lim} \frac{f(a+h) + f(a-h) - 2 f(a)}{h^2}
+        $$
+        gilt.\\
+    \textbf{Lösung:}\\
+        tbd
+
+    \item Es sei
+        $$
+            f(x) := \left\{ \begin{array}{lr} x^2 & für \, x\geq 0 \\ -x^2 & für \, x<0\end{array}\right. .
+        $$
+        Zeigen Sie, dass
+        $$
+            \underset{h \rightarrow \infty}{\lim} \frac{f(0+h) + f(0-h) - 2f(h)}{h^2}
+        $$
+        existiert, obwohl $f''(0)$ nicht existiert.\\
+    \textbf{Lösung:}\\
+        tbd
+
+    \item Angenommen $f$ habe ein lokales Maximum in $a$ und die zweite Schwarz'sche Ableitung von $f$
+        in $a$ exisitert. Zeigen Sie, dass diese dann kleiner oder gleich 0 sein muss.\\
+    \textbf{Lösung:}\\
+        tbd
+\end{enumerate}
+
+\label{LastPage}
+\end{document}
+
+
