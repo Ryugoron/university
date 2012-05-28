@@ -115,7 +115,8 @@ Berechnen Sie die folgenden Werte bis auf einen Fehler von $10^{-4}$.
         Nun wissen wir, dass die Reihe auf $(-t,0)$ und $(0,t)$ gleichmäßig konvergiert.
         Der letzte Fall ist $t=0$. Aber für $t=0$ ist die Reihe für alle $n$ 0. Somit können wir
         das größte $N$ von allen 3 Bereichen nehmen und sagen, dass die Reihe auf $(-t,t)$ gleichmäßig
-        konvergiert.
+        konvergiert.\\
+        \mbox{} \hfill $\square$
 
     \item Bestimmen Sie nun die Taylorreihe von $\arctan$ durch Integration. Zeigen Sie, dass die so
         gefundene Reihe für alle $|x|\leq 1$ konvergiert.\\
@@ -141,7 +142,8 @@ Berechnen Sie die folgenden Werte bis auf einen Fehler von $10^{-4}$.
         Die gleichmäßige Stetigkeit Argumentiert sich genau, wie bei (i), nur sehen wir diesmal,
         dass in $t=1$ immer noch die Reihe über die Folge $(-1)^n \frac{1}{2n+1}$ stehen bleibt,
         die Nullkonvergent ist und streng monoton fällt. Dammit konvergiert $\arctan$ auf $[-1,1]$ stetig.
-        (Für -1 müssen wir dieses mal $(-1)^{n+1}$ bilden).
+        (Für -1 müssen wir dieses mal $(-1)^{n+1}$ bilden).\\
+        \mbox{} \hfill $\square$
 
     \item Begründen Sie abschließend
         $$
@@ -154,6 +156,7 @@ Berechnen Sie die folgenden Werte bis auf einen Fehler von $10^{-4}$.
                 &=& \overset{\infty}{\underset{n=0}{\sum}} \frac{(-1)^n}{2n+1}1^2n\\
                 &=& \frac{1}{1} - \frac{1}{3} + \frac{1}{5} - \frac{1}{7} + ...
         \end{array}$$
+        \mbox{} \hfill $\square$
 \end{enumerate}
 
 \subsection*{Aufgabe 15: \mdseries\itshape Schwarz-Ableitung}
@@ -198,6 +201,7 @@ Sei $f \; : \; (a - \varepsilon, a +\varepsilon) \longrightarrow \mathbb{R}$ dif
         dass eine differenzierbare Funktion stetig ist um zu Schlussfolgern, dass die Wert über den
         Bruchstrich den selben Wert ergeben, da wir den Grenzwert in die Funktion ziehen können und
         damit den selben Wert erhalten.
+        \mbox{} \hfill $\square$
         
 
     \item Es sei
@@ -219,12 +223,28 @@ Sei $f \; : \; (a - \varepsilon, a +\varepsilon) \longrightarrow \mathbb{R}$ dif
                 &=& 1 - 1\\
                 &=& 0
         \end{array}$$
-        Die zweite schwarzsche Ableitung gibt uns also einen Grenzwert.
+        Die zweite schwarzsche Ableitung gibt uns also einen Grenzwert.\\
+        \mbox{} \hfill $\square$
 
     \item Angenommen $f$ habe ein lokales Maximum in $a$ und die zweite Schwarz'sche Ableitung von $f$
         in $a$ exisitert. Zeigen Sie, dass diese dann kleiner oder gleich 0 sein muss.\\
     \textbf{Lösung:}\\
-        tbd
+        Ein lokales Maximum haben wir, wenn alle Werte in der Umgebung um den Wert $a$ auf der Funktion $f$
+        kleiner sind als der Wert $f(a)$. Das bedeutet für uns
+        $Exists \varepsilon' > 0 \forall \varepsilon' \geq \varepsilon > 0 \; : \; f(a +\varepsilon) \leq f(a) \; \land f(a - \varepsilon) \leq f(a)$. Diese Aussage ist gleichbeutend mit $f(a+\varepsilon)-f(a) \leq 0$
+        und $f(a - \varepsilon) - f(a) \leq 0$.
+        Für uns bedeutet dass, dass wir unseren Grenzwert $\underset{h \rightarrow 0}{\lim}$ bilden, dass
+        heißt insbesondere, dass wir ab einem bestimmten Punkt in diese Umgebung um $a$ laufen,
+        so dass alle umgebenden Werte kleiner sein müssen.\\
+        $$\begin{array}{rcl}
+            f^S(a) &=& \underset{h \rightarrow 0}{\lim} \frac{f(a+h) + f(a-h) - 2f(a)}{h^2}\\
+                &=& \underset{h \rightarrow 0}{\lim} \frac{(f(a+h) - f(a)) + (f(a-h) - f(a))}{h^2}
+        \end{array}$$
+        Im Zähler steht nun eine Summe von 2 Zahlen, die nach Definition des lokalen Maximums kleiner
+        gleich als $0$ sein müssen, damit steht im Zähler eine Zahl, die kleiner gleich 0 ist.
+        Im Nenner steht eine quadratische Zahl, damit ist der Nenner bei jeder Folge, die wir angeben
+        positiv. Damit gilt $f^S(a) \leq 0$.
+        \mbox{}\hfill $\square$
 \end{enumerate}
 
 \label{LastPage}
