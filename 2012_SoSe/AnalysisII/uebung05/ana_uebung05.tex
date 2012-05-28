@@ -54,43 +54,44 @@ Berechnen Sie die folgenden Werte bis auf einen Fehler von $10^{-4}$.
         $f^{(4n)} = \sin$, $f^{(4n+1)} = \cos$, $f^{(4n+2)} = -\sin$, $f^{(4n+3)} = -\cos$. Diese
         setzen wir nun in die Taylorreihe ein:
         $$\begin{array}{rcl}
-            p(x) &=& \overset{\infty}{\underset{n=0}{\sum}} \frac{f^{(n)}(a)}{n!}(x-a)\\
-                &=&  \overset{\infty}{\underset{n=0}{\sum}} \frac{f^{(n)}(0)}{n!}x\\
-                &=& \overset{\infty}{\underset{n=0}{\sum}} (-1)^{n}\frac{\cos(0)}{n!}x\\
-                &=& \overset{\infty}{\underset{n=0}{\sum}} (-1)^{n}\frac{1}{n!}x\\
+            p(x) &=& \overset{\infty}{\underset{n=0}{\sum}} \frac{f^{(n)}(a)}{n!}(x-a)^n\\
+                &=&  \overset{\infty}{\underset{n=0}{\sum}} \frac{f^{(n)}(0)}{n!}x^n\\
+                &=& \overset{\infty}{\underset{n=0}{\sum}} (-1)^{n}\frac{\cos(0)}{n!}x^n\\
+                &=& \overset{\infty}{\underset{n=0}{\sum}} (-1)^{n}\frac{1}{n!}x^n\\
         \end{array}$$
         Aus der Vorlesung wissen wir nun, dass diese Reihe für $|x|\leq1$ gleichmäßig konvergiert,
         deshalb müssen wir nur noch das $n$ berechnen, so dass der Fehler klein genug wird,
         daher schätzen wir den Fehler durch das Restglied ab.\\
         $$\begin{array}{rcl}
-            R_n(x) &=& \int_{a}^{x} \frac{(x-t)^n}{n!}f^{(n+1)}(t) \, dt\\
-                &=&  \int_{a}^{x} \frac{(x-t)^n}{n!}f^{(n+1)}(t) \, dt\\
+            R_n(x) &=& \int_a^x \frac{(x-t)^n}{n!}f^{(n+1)}(t) \, dt\\
+                &=&  \int_0^1 \frac{(x-t)^n}{n!}f^{(n+1)}(t) \, dt\\
+                &=& \left[ \overset{n}{\underset{m=0}{\sum}} \frac{(1-t)^m}{m!}f^{(m)}(t)\right]_0^1\\
+                &=& \sin(1) - \overset{m}{\underset{n=0}{\sum}} \frac{1}{m!} f^{(m)}(t)
         \end{array}$$
-    \item $e$::\\
+        Wie in der nächsten Aufgabe, haben wir nun den trivialen absoluten Fehler erreicht beim
+        ausrechnen stoßen wir darauf, dass wir bei $n=5$ noch knapp unter $10^{-4}$ liegen und
+        erst bei $n=7$ einen Wert erreichen, der mit $\approx 2.730 \cdot 10^{-6}$ endlich klein genug ist.
+    \item $e$:\\
         Wir wählen den Entwicklungspunkt $a=0$ und erhalten so die übliche Darstellung der $e$-Funktion.
         $e^{(n)}(x) = e^x$ und somit $e^0 = 1$.\\
         $$
             p(x) = \overset{\infty}{\underset{n=0}{\sum}} \frac{1}{n!}x^n
         $$
         Wie bereits bekannt ist, konvergiert diese Reihe gleichmäßig, wir müssen also nur den Fehler
-        abschätzen.
+        abschätzen $R_n(x) < 10^{-4}$.
         $$\begin{array}{rcl}
             R_n(x) &=& \int_a^x \frac{(x-t)^n}{n!} f^{(n+1)}(t) \, dt \\
-                &=& \int_a^x \frac{(x-t)^n}{n!}e^t \, dt\\
-                &=& \left[\frac{(x-t)^{n}}{n!}e^t\right]_a^x - \int_a^x \frac{-(x-t)^{n-1}}{n!}e^t \, dt\\
-                &=& \left[\frac{(x-t)^{n}}{n!}e^t\right]_a^x + \left[\frac{(x+t)^{n-1}}{n!}e^t\right]_a^x
-                    - \int_a^x \frac{-(x-t)^{n-1}}{n!}e^t \, dt\\
-                && \text{Fortsetzen bis $(x-t)^0$ erreicht ist} \\
-                &=& \left[ \underset{m=1}{\overset{n}{\sum}} \frac{(x-t)^m}{n!} e^t \right]_a^x 
-                    - \int_a^x \frac{e^t}{n!} \, dt\\
-                &=& \underset{m=0}{\overset{n}{\sum}} \frac{(x-x)^m}{n!}e^x - \underset{m=0}{\overset{n}{\sum}} \frac{(x)^m}{n!}e^0 - \frac{e^x}{n!} + \frac{e^0}{n!}\\
-                &=& 0 - \frac{n+1}{n!} - \frac{e}{n!} + \frac{1}{n!}\\
-                &=& - \frac{n+e}{n!}\\
+                &=& \int_a^x \frac{(x-t)^n}{n!} e^t \, dt\\
+                &=& \left[ \frac{(x-t)^n}{n!}e^t \right]_a^x +  \int_a^x \frac{(x-t)^{n-1}}{(n-1)!}e^t \, dt\\
+                &=& \left[ e^t \cdot \overset{n}{\underset{m=0}{\sum}} \frac{(x-t)^m}{m!} \right]_a^x\\
+                &=& e^x \overset{n}{\underset{m=0}{\sum}} \frac{(x-x)^m}{m!} + 
+                    e^a \overset{n}{\underset{m=0}{\sum}} \frac{(x-a)^m}{m!}\\
+                &=& e - \overset{n}{\underset{m=0}{\sum}} \frac{1}{m!}
         \end{array}$$
-        In unserem Fall landen wir bei $n=9$ bei einer Zahl, die um $10^4$ nah an der Eingabe dran ist.
-        Wir können $e = \frac{1}{1!} + \frac{1}{2!} + \frac{1}{3!} + \frac{1}{4!} + \frac{1}{5!}
-        + \frac{1}{5!}+ \frac{1}{6!} + \frac{1}{7!} + \frac{1}{8!} + \frac{1}{9!} = 1.7182815$ abschätzen
-        und sehen, dass der Fehler erst nach der 4. Nachkommastelle auftritt.
+        Dieses Ergebniss sollte uns nicht verwundern, da es sich quasi nur um die Definition
+        des absoluten Fehlers handelt. Da wir nun aber soweit sind, dass wir es auf den
+        Fehler gebracht haben, können wir berechnen, dass ab $n=7$ der Wert näher als $10^{-4}$
+        am gesuchten Wert dran ist.
 \end{enumerate}
 
 \subsection*{Aufgabe 14: \mdseries\itshape Taylorentwicklung von arctan}
