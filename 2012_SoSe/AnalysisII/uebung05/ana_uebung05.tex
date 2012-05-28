@@ -166,7 +166,39 @@ Sei $f \; : \; (a - \varepsilon, a +\varepsilon) \longrightarrow \mathbb{R}$ dif
         $$
         gilt.\\
     \textbf{Lösung:}\\
-        tbd
+        Um den Satz zu beweisen stellen wir die zweite Ableitung über den Differentialquotient
+        der Funktion auf. Dieser existiert nach Vorraussetzung.
+        $$
+            f'(x) = \underset{h_1 \rightarrow 0}{\lim} \frac{f(x + h_1) - f(x)}{h_1}
+        $$
+        und
+        $$
+            f''(x) = \underset{h_2 \rightarrow 0}{\lim} \frac{f'(x + h_2) - f'(x)}{h_2}.
+        $$
+        Nun setzten wir die erste in die zweite Formel ein
+        $$\begin{array}{rcl}
+            f''(x) &=& \underset{h_2 \rightarrow 0}{\lim} \frac{f'(x + h_2) - f'(x)}{h_2}\\
+                &=& \underset{h_2 \rightarrow 0}{\lim} \underset{h_1 \rightarrow 0}{\lim} 
+                \frac{\frac{f(x + h_1 + h_2) - f(x + h_2)}{h_1} - \frac{f(x+h_1) - f(x)}{h_1}}{h_2}\\
+                &=& \underset{\underset{h_2 \rightarrow 0}{h_1 \rightarrow 0}}{\lim}
+                \frac{f(x + h_1 + h_2) - f(x + h_2) - f(x+h_1) + f(x)}{h_1 \cdot h_2}
+        \end{array}$$
+        Nun wenden wir unser Wissen über den Differentialquotient an, dass uns sagt, dass wenn die
+        Folge konvergiert, dann muss es für jede Nullkonvergente Folge den selben Wert ergeben.
+        Daher können wir für $h_1,h_2$ insbesondere die selbe Folge verwenden, eben die Folge,
+        die wir in der Schwarzschen Ableitung verwenden werden.
+        $$
+            f''(x) = \underset{n \rightarrow \infty}{\lim} \frac{f(x + 2h_n) - 2f(x+h_n) + f(x)}{h_n^2}
+        $$
+        Nun sehen wir uns dagegen die schwarzsche Ableitung an.
+        $$
+            f^S(x) = \underset{n \rightarrow \infty}{\lim} \frac{f(x+h_n) + f(x-h_n) - 2f(x)}{h_n^2}
+        $$
+        Die beiden Terme sehen an dieser Stelle schon fast identisch aus. Wir verwenden nun unser Wissen
+        dass eine differenzierbare Funktion stetig ist um zu Schlussfolgern, dass die Wert über den
+        Bruchstrich den selben Wert ergeben, da wir den Grenzwert in die Funktion ziehen können und
+        damit den selben Wert erhalten.
+        
 
     \item Es sei
         $$
@@ -174,11 +206,20 @@ Sei $f \; : \; (a - \varepsilon, a +\varepsilon) \longrightarrow \mathbb{R}$ dif
         $$
         Zeigen Sie, dass
         $$
-            \underset{h \rightarrow \infty}{\lim} \frac{f(0+h) + f(0-h) - 2f(h)}{h^2}
+            \underset{h \rightarrow \infty}{\lim} \frac{f(0+h) + f(0-h) - 2f(0)}{h^2}
         $$
         existiert, obwohl $f''(0)$ nicht existiert.\\
     \textbf{Lösung:}\\
-        tbd
+        Einfache Umformung aufgrund der Grenzwertrechenregeln. Der zweite Schritt ist unabhängig
+        davon, ob $h<0$ ist oder nicht, da wir ohnehin beide Fälle aufsummieren werden.
+        $$\begin{array}{rcl}
+            f^S(x) &=& \underset{h \rightarrow \infty}{\lim} \frac{f(h) + f(-h) - 2f(0)}{h^2}\\
+                &=& \underset{h \rightarrow \infty}{\lim} \frac{h^2 - h^2 -2\cdot 0^2}{h^2}\\
+                &=& \underset{h \rightarrow \infty}{\lim} \frac{h^2}{h^2} - \frac{h^2}{h^2}\\
+                &=& 1 - 1\\
+                &=& 0
+        \end{array}$$
+        Die zweite schwarzsche Ableitung gibt uns also einen Grenzwert.
 
     \item Angenommen $f$ habe ein lokales Maximum in $a$ und die zweite Schwarz'sche Ableitung von $f$
         in $a$ exisitert. Zeigen Sie, dass diese dann kleiner oder gleich 0 sein muss.\\
