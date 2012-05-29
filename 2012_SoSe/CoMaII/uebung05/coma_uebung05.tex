@@ -187,8 +187,8 @@ Dies kann man machen, da das exakte Integral $\int_0^{\pi} \sin(x) \, dx = 2$.
 }
 \caption{Newton-Cotes-Formel nach Weddle-Regel}
 \end{figure}
-
-Schaut man sich die Integrale an, so stellt man fest, dass die erste Funktion eine glatten Bogen beschreibt und die zweite Funktion extrem springt.
+\newpage
+Schaut man sich die Integrale an, so stellt man fest, dass die erste Funktion eine glatten Bogen beschreibt und die zweite Funktion extrem springt, also viele starke Variationen enthält.
 
 \begin{figure}[ht]
 \centering
@@ -200,18 +200,15 @@ Schaut man sich die Integrale an, so stellt man fest, dass die erste Funktion ei
 }
 \caption{Graphische Darstellung der beiden Integrale (von: Wolframalpha.com)}
 \end{figure}
-
-Hier fehlt noch eine Erklärung warum das irgendwie alles so ist, wie es ist. XXX
-
 \end{description}
+Der lineare Verlauf (auf der log-Skala) der Fehler über die Teilintervalle zeigt ein akzeptables Verhältnis und ist bei allen drei Formeln (nahezu) gleich. Dadurch, dass die Variationen des ersten Integrals sehr begrenzt sind, haben wir kleine Fehler. Auch der Aufwand steht in einem guten Verhältnis zum Fehler und ist bei allen drei Verfahren (bis auf die Konstante) gleich.
+\\
+\\
+Bei der zweiten Integration fallen die starken Variationen bzw. die geringe Glattheit eine extreme Rolle bei den entstehenden Fehlern. Je nach Anzahl der Teilintervalle variiert die Genauigkeit der numerischen Integration sehr stark, erreicht aber bei allen drei Formeln bei ungefähr $10^2$ Teilintervallen ein relativ gutes Ergebnis. Dabei ist aber auch zu erkennen, dass der Aufwand nicht sehr gleichmäßig auf die Fehler aufgeteilt ist. Hier ähneln sich die drei Formeln wieder bis auf Konstanten.
+\\
+\\
+Zusammenfassend kann man sagen, dass bei einer sehr sprunghaften Funktion (wie der zweiten) bei äquidistanten Stützstellen ein großer Fehler auftreten kann, falls diese Stützstellen ungünstig liegen. 
 
-
-\newpage
-%% ------------------------------------------------------
-%%                     AUFGABE 2
-%% ------------------------------------------------------
-
-\section*{Aufgabe 2}
 
 \label{LastPage}
 
