@@ -64,8 +64,8 @@ C[read I](s,e,a) := \left\{
 \right.
 $$
 
-Sollte nun oben auf der Eingabe kein richtiger Wert liegen oder die Eingabe nicht den Richtigen Wert haben
-wird ein Fehler ausgegeben. Sollte aber ein Wert oben in der Eingabe liegen, wird dieer in das Wörterbuch
+Sollte nun oben auf der Eingabe kein richtiger Wert liegen oder die Eingabe nicht den richtigen Wert haben
+wird ein Fehler ausgegeben. Sollte aber ein Wert oben in der Eingabe liegen, wird dieser in das Wörterbuch
 substituiert.
 
 %% ------------------------------------------------------
@@ -140,23 +140,22 @@ Problematik beim Fehlen von \emph{eof}.\\
 
 \textbf{Lösung:}\\
 
-Wir erweitern zunächst den Datentyp B um \emph{eof}
-\begin{lstlisting}
-data B = Literal W | BApp T BOP T | NOT B | EOF
-\end{lstlisting}
-Als Implementierung haben wir die Reduktionssemantik vom letzten
-mal gewählt, da durch ein einfaches $uncurry.red$ das ganze die Form
-der denotationellen Semantik annimmt. Die Regel für \emph{eof} sieht dann
-ähnlich zu der oben spezifizierten aus.
-\begin{lstlisting}
-redB(EOF, (s,[],a)) = (Literal False, (s,[],a))
-redB(EOF, z)        = (Literal True, z)
-\end{lstlisting}
-Da in Haskell von oben nach unten das pattern matching statt findet, wird
-der zweite Fall genommen, wenn die Liste nicht leer ist.\\
+%Wir erweitern zunächst den Datentyp B um \emph{eof}
+%\begin{lstlisting}
+%data B = Literal W | BApp T BOP T | NOT B | EOF
+%\end{lstlisting}
+%Als Implementierung haben wir die Reduktionssemantik vom letzten
+%mal gewählt, da durch ein einfaches $uncurry.red$ das ganze die Form
+%der denotationellen Semantik annimmt. Die Regel für \emph{eof} sieht dann
+%ähnlich zu der oben spezifizierten aus.
+%\begin{lstlisting}
+%redB(EOF, (s,[],a)) = (Literal False, (s,[],a))
+%redB(EOF, z)        = (Literal True, z)
+%\end{lstlisting}
+%Da in Haskell von oben nach unten das pattern matching statt findet, wird
+%der zweite Fall genommen, wenn die Liste nicht leer ist.\\
 
-Nun können wir das Programm schreiben, dass die Summe der Eingabe liefert.
-Zunächst einmal konkreter Syntax
+Zunächst einmal konkreter Syntax:
 \begin{lstlisting}[language=Pascal]
 SUM := 0
 WHILE ( not eof )
@@ -164,7 +163,7 @@ WHILE ( not eof )
     SUM := SUM + X
 output SUM
 \end{lstlisting}
-und nun in abstrakter Syntax aus unserem Haskell Programm
+und nun in abstrakter Syntax aus unserem While-Programm
 \begin{lstlisting}
 allSum :: P
 allSum = Seq init (Seq sumPart fin)

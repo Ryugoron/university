@@ -82,11 +82,11 @@ im Bezug auf die denotationelle Semantik von WHILE.\\
 \textbf{Beweis:}\\
 Um die Gültigkeit des Axioms bezglich der denotationellen Semantik zu zeigen, muss
 bewiesen werden, dass
-$\forall z \in ZUSTAND \; : \; z \models Q[output.T/output] \Rightarrow C[\![output \, T ]\!] \models Q$
+$\forall z \in ZUSTAND \; : \; z \models Q[output.T/output] \Rightarrow C[\![output \, T ]\!] z \models Q$
 gilt.\\
 Wir beginnen also mit einer Skolemisierung des Quantors. Sei also $z\in ZUSTAND$ ein beliebiger
 aber fester Zustand mit $z=(s,input,output)$ dann ist nach denotationeller Semantik 
-$z' = C[\![ output \, T ]\!] = (s,input,output')$, wobei $output' = output.T[\![T]\!]$\\
+$z' = C[\![ output \, T ]\!] z = (s,input,output')$, wobei $output' = output.T[\![T]\!] z^{*}$ für gültiges $z^{*} \in ZUSTAND$. \\
 
 Wenn wir das Predikat unter dem Zustand nun auswerten gilt
 $$
@@ -133,7 +133,7 @@ beweisen ist. Wir könnten uns also überlegen, dass wir zeigen wollen, dass nac
 
 Wir nehmen aber zum lernen hier an dieser Stelle einfach an, dass wir zeigen sollen, dass das folgende Hoaretripel gülitg ist:
 $
-\{ \underline{output} = a',  \underline{output} = e_1,e_2,...e_t.0.y, \forall i \leq t \; : \; e_i \in ZAHL \setminus \{0\}\}
+\{ \underline{output} = a',  \underline{input} = e_1,e_2,...e_t.0.y, \forall i \leq t \; : \; e_i \in ZAHL \setminus \{0\}\}
 $\\
 C\\
 $
