@@ -1,0 +1,101 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm,left=2cm,right=2cm]{geometry} 
+\usepackage{babel}
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc} 
+\usepackage{ae} 
+\usepackage{amssymb} 
+\usepackage{amsmath} 
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{paralist}
+\usepackage{bussproofs}
+\usepackage{stmaryrd}
+
+%\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[C]{Semantik von Programmiersprachen}
+\fancyhead[L]{Übung Nr. 7}
+\fancyhead[R]{SoSe 2012}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage / \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\setlength{\parindent}{0pt} 
+\setlength{\headheight}{0pt}
+
+\author{Tutor: Ansgar Schneider}
+\date{}
+\title{Max Wisniewski , Alexander Steen}
+
+\begin{document}
+
+\lstset{language=Haskell, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2, mathescape=true}
+
+\maketitle
+\thispagestyle{fancy}
+\newcommand{\A}{\mathbb{A}}
+
+%% ------------------------------------------------------
+%%                     AUFGABE 1
+%% ------------------------------------------------------
+
+\section*{Aufgabe 1} Sei $A = (\A, \sqsubseteq)$ eine Struktur mit $\sqsubseteq \subseteq A \times A$ Halbordnung und minimalem Element $\perp \in \mathbb{A}$ bzgl. $\sqsubseteq$. \\
+Zu zeigen: $\A$ endlich $\Rightarrow A$ ist cpo. \\
+
+Da nach Voraussetzung bereits eine Halbordnung und ein minimales Element existiert, reicht es zu zeigen, dass für jede Kette $K \subseteq \A$ ein Supremum $\sup K \in A$ existiert. \\
+\textbf{Beweis:}\\
+Sei $A$ wie oben, $\A$ endlich und $K \subseteq \A$ Kette. Da $K$ ebenfalls endlich sein muss, gelte o.B.d.A. $K = \{ k_1, k_2, \ldots, k_n \}$, $n \in \mathbb{N}$, mit $k_1 \sqsubseteq k_2 \sqsubseteq \ldots \sqsubseteq k_n$. \\
+
+(1) $k_n$ ist obere Schranke von $K$, da $\forall 1 \leq i \leq n: \, k_i \sqsubseteq k_n$, da $\sqsubseteq$ transitiv. \\
+(2) $k_n$ ist kleinste obere Schranke von $K$: \\
+Annahme: $\exists j < n \forall 1 \leq i \leq n: \, k_i \sqsubseteq k_j$ und $k_j \neq k_n$ (es gibt eine kleinere Schranke). \\
+$\Rightarrow k_n \sqsubseteq k_j \; \lightning$ Widerspruch,\\
+da bereits $k_j \sqsubseteq k_n$ nach Voraussetzung gilt und $\sqsubseteq$ antisymmetrisch ist.
+\mbox{} \hfill $\square$
+%% ------------------------------------------------------
+%%                     AUFGABE 2
+%% ------------------------------------------------------
+
+\section*{Aufgabe 2}
+O.B.d.A. sei $A = \{ \emptyset, \{ a \}, \{ b \}, \{ c \}, \{ a,b \}, \{ b,c \} \}$ mit Halbordnung $\subseteq$. Dabei ist $\emptyset$ der Knoten ganz unten, die einelementigen Mengen in der Mitte (v.l.n.r.) und die zweielementigen Mengen oben links bzw. oben rechts.
+
+\begin{description}
+\item[a)] Ist $A$ ein cpo? \\
+Ja, $A$ ist ein cpo, da ein Minimum existiert (hier: $\emptyset$), eine Halbordnung existiert (hier: $\subseteq$) und $A$ endlich ist. Aus Aufgabe 1 folgt, dass $A$ ein cpo ist.
+\item[b)] Ist $A$ eine Kette?\\
+Nein, da z.B. weder $\{ a,b \} \subseteq \{ b,c \}$ noch $\{ b,c \} \subseteq \{ a,b \}$ gilt.
+\item[c)] Existiert $\sup A$ in A?\\
+Nein, da kein Element $k \in A$ existiert, für das $\{ a,b \} \subseteq k$ und $\{ b,c \} \subseteq k$ gilt.
+\end{description}
+
+%% ------------------------------------------------------
+%%                     AUFGABE 3
+%% ------------------------------------------------------
+
+\section*{Aufgabe 3}
+Gesucht: Zwei Halbordnungen mit minimalem Element, die kein cpo sind.
+
+\begin{enumerate}
+\item $(\mathbb{N}, \leq)$ hat kleinstes Element $0$ aber z.B. die Kette $K = \mathbb{N}$ hat kein Supremum in $\mathbb{N}$.
+\item weiteres Beispiel
+\end{enumerate}
+
+%% ------------------------------------------------------
+%%                     AUFGABE 4
+%% ------------------------------------------------------
+
+\section*{Aufgabe 4}
+Die Funktion
+$$ f(x) = \begin{cases}0 & \text{, falls } x = 1 \lor x = 3\\
+                       f(x-2) & \text{, sonst} \end{cases}$$
+hat die Lösungen $\{ x \mapsto n \cdot (-1)^x + n | \, n \geq 1 \}$ und damit unendlich viele.
+
+\label{LastPage}
+
+\end{document}
