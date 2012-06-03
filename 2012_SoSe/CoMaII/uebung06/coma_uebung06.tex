@@ -47,7 +47,11 @@
 \section*{Aufgabe 1}
 
 \begin{description}
-\item[a)]
+\item[a)] Da $s_n(x)$ auf jedem Intervall $[x_i,x_{i+1}), 0 \leq i \leq n-2$ konstant gleich $f\left(\frac{x_{i} + x_{i+1}}{2}\right)$ ist (für das letzte Intervall analog als geschlossenes Intervall), können wir die Quadraturformel erhalten, in dem wir den Inhalt jedes Intervallrechtecks einzeln aufsummieren. Also ergibt sich die Formel
+
+$$ \int_a^b s_n \, dx = h \cdot \sum_{i=0}^{n-1}{f\left( \frac{x_{i} + x_{i+1}}{2} \right)}$$
+mit $h = \frac{b-a}{n}$ als konstante Breite der Streifen.
+
 \item[b)] Testweise wurde $f = \sin$ gewählt und auf dem Intervall $[0,2 \pi]$ geplottet. Vergleichend wurde ebenfalls $s_{20}$ geplottet. 
 
 
@@ -56,7 +60,31 @@
 	\includegraphics[scale=0.8]{quadneubeispiel}
 \caption{Plot von $sin$ bzw. $s_{20}$.}
 \end{figure}
-\item[c)]
+\newpage
+\item[c)] Die folgende Funktion berechnet numerisch das Integral nach obiger Defintion: \\
+
+\begin{lstlisting}
+function y = gauss(f, n, a, b)
+% Diese Funktion berechnet die Integral
+% von f von a bis b mittels
+% Gauss-Quadratur und
+% sog. Mittelpunktregel
+% f Funktion
+% n Anzahl der Stuetzstellen
+% a, b Grenzen
+
+% Breite des Gitters
+h = (b-a)/n;
+% Schritte im Intervall
+xi = a:h:b;
+% Berechne Funktionswerte an den geg. Stellen
+for i = 1:n,
+   fx(i) = f((xi(i)+xi(i+1))/2);
+end
+% Aufsummieren
+y = h * sum(fx);
+\end{lstlisting}
+
 \item[d)] "[...] die Quadraturformeln heissen Gauss-Formeln bzw. man spricht von Gauss-Quadratur." (Wensch, Jörg: Computerorientiertes Rechnen Skript, Seite 38).
 \end{description}
 
@@ -84,7 +112,7 @@ Für Lösungen $f,g$ gilt: $(f + g)' = f' + g' = 4f^2 + f + 4g^2 + g = 4(f^2 + g
 Die Differentialgleichung ist nicht 1. Ordnung, da Ableitungen der 2. Ordnung auftreten.
 \end{description}
 
-
+\newpage
 %% ------------------------------------------------------
 %%                     AUFGABE 3
 %% ------------------------------------------------------
