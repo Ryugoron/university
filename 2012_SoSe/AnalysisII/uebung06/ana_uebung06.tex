@@ -281,7 +281,52 @@ Seien $x_1,...,x_n$ und $y_1,...,y_n$ reelle Zahlen.
 		genau eine Kugel $K = \overline{B_R(a)}$ mit kleinstmöglichem Radius $R > 0$ gibt, die $M$ enthält. Man nennt diese Kugel 
 		$K$ die Umkugel von M und den Radius R den Umkugelradius von M.\\
 		\textbf{Beweis:}\\
-            tbd
+            Zunächst wissen wir, da die Menge beschränkt ist, dass wir auf jedenfall eine Kugel
+            existiert, die alle Elemente enthält. Wähle $x \in M$ 
+            und nimm den Kreis $B_{diam \, M}(x)$, dieser enhält alle Elemente der Menge.
+            Wir müssen also nur zeigen, dass es einen kleinstmöglichen
+            Radius gibt und das der Mittelpunkt eindeutig ist.\\
+
+            Es existiert eine Kugel mit kleinst möglichem Radius.\\
+            \textbf{Beweis:}\\
+                Nehmen wir an, es gebe keine Kugel mit kleinst möglichem Radius.
+                Das bedeutet, dass es um einen Mittelpunkt $a$ eine folge von Kugel
+                gibt, mit $(r)_{n\in \mathbb{N}}$ eine konvergente Folge von Radien.
+                Die Folge ist nach unten beschränkt (da die Menge mindestens 2 Punkte hat)
+                und da es keinen kleinst möglichen Radius gibt, muss es eine 
+                Folge geben, so dass die Radien immer kleiner werden.\\
+                Sei $r = \underset{n \rightarrow \infty}{\lim} r_n$.\\
+
+                Was diese Folge erfüllen muss, ist, dass um den Mittelpunkt
+                für jedes $k \in \mathbb{N}$ $M \subset \overline{B_{r_k}(a)}$ gelten
+                muss. Was wir nun aussagen können ist, dass $\overset{\circ}{M} \subset B_{r}$.
+                Dies gilt, da alle inneren Punkte in einer $\varepsilon$ Umgebung noch Punkte
+                in der Menge hat und daher kein Folgeglied in diese Umgebung eindringen kann.\\
+
+                Nun müssen wir nur noch zeigen, dass $\delta M \subset \overline{B_{r}(a)}$ ist.\\
+                Wie wir aber schon gesehen haben, ist $\overset{\circ}{M} \subset B_{r}(a)$.
+                Wenn wir jetzt auf beiden seiten den Abschluss bilden, bleibt die Beziehung erhalten.\\
+                Nun gilt, dass $M \subset \overline{M} \subset \overline{B_{r}(a)}$.\\
+
+                Dies ist ein Widerspruch zur Annahme das keine solche Kugel existieren kann.\\
+
+            Eindeutigkeit des Mittelpunktes.\\
+            \textbf{Beweis:}\\
+                Nehmen wir an, dass $r$ der minimale Umradius von $M$ ist
+                und dass es Punte $x,y \in M$ gibt, mit $x \not= y$, $M \subset B_r(x)$
+                und $M \subset B_r(c)$.\\
+
+                Wissen wir, $|x - y | = d > 0$ gilt. Wir betrachten nun den Punkt
+                $a = x + (x - y)/2$ der genau zwischen $x$ und $y$ liegt. Seien $E_y,E_x$ die
+                Menge der Punkte, die in einer $\varepsilon >0$ Kugel um einen Randpunkt 
+                um die Umkugel um $x$, bzw. $y$ liegen.\\
+                Wir wissen, dass diese Punkte einen Abstand von maximal $r-\varepsilon$ von $x$, bzw. $y$
+                haben. Im Grenzwert können wir sagen, dass es Punkte mit Abstand $r$ von $x,y$ gibt.\\
+
+                Nun wissen wir nach Dreiecksungleichung, dass der kleinste Umkreis der Kugel um $a$
+                bezeichnet mit $r_a$ die Gleichung $r_a \leq r + d/2$. Das $d>0$ ist
+                ist dies ein Widerspruch zu unserer Annahme, dass $r$ der kleinste Radius ist.\\
+            \mbox{} \hfill $\square$
 
 		\item Sie $M \subset \mathbb{R}^n$ symmetrisch um den Ursprung, dass heißt
 			$$
@@ -289,15 +334,28 @@ Seien $x_1,...,x_n$ und $y_1,...,y_n$ reelle Zahlen.
 			$$
 			Zeigen Sie, dass $M \subset \overline{B_{(diam \, M )/ 2}(0)}$
 		\textbf{Beweis:}\\
-           tbd 
+            Was wir an dieser Stelle sehen können ist, dass der Radius das Kreises nicht
+            kleiner sein kann, als $diam \, M / 2$. Da sowohl $x$ als auch $-x$ in der Menge
+            $M$ sind, können wir annehmen, dass der Radius diese Größe hat. Wäre
+            er nicht so, müsste der Mittelpunkt nicht im Nullpunkt liegen (dieser Punkt sichert
+            uns $diam \, M$ zu wie in (i) gezeigt). Nun wissen wir aber das dieser auch nicht
+            auf der Verbindungslinie von $x, -x$ liegen kann, da sonst der Abstand zu einem
+            dieser Punkte größer werden würde.\\
+            Liegt der Mittelpunkt aber nicht auf der Linie, so können wir nach Dreiecksungleichung
+            schließen, dass es zu mindestens einem Punkt $x$ oder $-x$ einen Abstand gibt,
+            der Größer als $diam \, M$ ist. Daher muss der Radius $diam \, M$ sein.\\
+            Es dem selben Gedankengang, sehen wir, dass der Mittelpunkt auf der Verbindungslinie
+            liegen muss und das er im Nullpunkt liegt.\\
 
-		\item Man zeige, dass zwischen dem UmkugelRadius $R$ und dem Durchmesser $\delta := diam \, M$ einer beschränkten Menge
+            \mbox{} \hfill $\square$
+
+		\item Man zeige, dass zwischen dem Umkugelradius $R$ und dem Durchmesser $\delta := diam \, M$ einer beschränkten Menge
 		 $M \subset \mathbb{R}^2$ mit mindestens zwei Elementen die Beziehung
 			$$
 				R \leq \frac{\delta}{\sqrt{3}}
 			$$
 		besteht. Geben Sie ein Beispiel für eine dreipunktige Menge $M$, für die Gleichheit richtig ist an.\\
-		textbf{Lösung:}\\
+		\textbf{Lösung:}\\
 			
 	\end{enumerate}
 
