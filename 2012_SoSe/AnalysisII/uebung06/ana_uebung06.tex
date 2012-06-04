@@ -69,13 +69,49 @@ Seien $x_1,...,x_n$ und $y_1,...,y_n$ reelle Zahlen.
 \subsection*{Aufgabe 17: \mdseries\itshape Durchschnitt und Vereinigung von Mengen}
 	Sie $M \subset \mathbb{R}^n$. Zeigen Sie
 	\begin{enumerate}[(i)]
-		\item $\overline{M} = \bigcap \{ A \subset \mathbb{R^n} \; | \; A \text{ abgeschlossen, } M \subset A \}$\\
+		\item $\overline{M} = \bigcap \{ A \subset \mathbb{R}^n \; | \; A \text{ abgeschlossen, } M \subset A \}$\\
 		\textbf{Beweis:}\\
-			tbd
+            Sei $T = \bigcap \{ A \subset \mathbb{R}^n \; | \; A \text{ abgeschlossen, } M \subset A \}$\\
+		    Wir müssen die beiden Fälle $\overline{M} \subset T$ und $T \subset \overline{M}$ zeigen.\\
+
+            Fangen wir mit $T \subset \overline{M}$ an.\\
+            Wir wissen, dass $A \cap B \subset A$ für alle Mengen $A$ und $B$ gilt. 
+            Da nun $M \subset \overline{M}$ gilt, ist $\overline{M}$ eine abgeschlossene Menge, die
+            wir in $T$ vereinigt haben. Also ist $T \subset \overline{M}$.\\
+
+            Als nächstes zeigen wir $\overline{M} \subset T$.\\
+            Nehmen wir an, dass es nicht so wäre, dann gebe es mindestens einen Punkt $x \in \overline{M}$,
+            mit $x \not \in T$. Da alle Mengen, die in $T$ geschnitten werden $M$ enthalten, wissen wir,
+            dass $x\in M$ liegen muss.\\
+            Daraus ergibt sich, dass $x \in \delta M$ liegen muss.\\
+
+            \textbf{
+            (TODO FORMULIERUNG: Weil der Rand in jeder epsilon Umgebung in der Menge liegen muss,
+            kann es keine kleinere abgeschlossene Menge als $\overline{M}$ geben, da sonst
+            nicht jeder Punkt von $M$ in dieser Menge liegen kann)
+            }\\
+            \mbox{} \hfill $\square$
 
 		\item $\overset{\circ}{M} = \bigcup \{ \Omega \subset \mathbb{R}^n \; | \; \Omega \text{ offen, } \Omega \subset M \}$\\
 		\textbf{Beweis:}\\
-			tbd
+		    Sei $T = \bigcup \{ \Omega \subset \mathbb{R}^n \; | 
+                \; \Omega \text{ offen, } \Omega \subset M \}$.\\
+            Wir müssen erneut zeigen, dass $\overset{\circ}{M} \subset T$ und 
+            $T \subset \overset{\circ}{M}$ gilt. Fangen wir mit
+            $\overset{\circ}{M} \subset T$ an.\\
+            
+            Nach der Definition von inneren Punkten, liegt jeder dieser Punkte auch in $M$.
+            Da $\overset{\circ}{M}$ eine offene Menge ist, wird diese mit in der Vereinigung von
+            allen offenen Mengen sein. Daher gilt auch $\overset{\circ}{M} \subset T$.\\
+
+            Als nächstes zeigen wir $T \subset \overset{\circ}{M}$.\\
+            Wir wissen, dass die Vereinigung in diesem Fall eine offene Menge sein muss. Für jedes
+            $x \in T$ muss also ein $\varepsilon > 0$ exsistieren, so dass $B_\varepsilon(x) \subset T$
+            liegen muss. Dies bedeutet aber, da alle Mengen, die wir vereinigt haben, die Bedingung
+            $\Omega \subset M$ erfüllen. Daher muss insbesondere $B_\varepsilon(x) \subset M$ für jedes
+            $x \in T$ erfüllt sein. Dies ist nun allerdings genau die Definition von $\overset{\circ}{M}$.\\
+            \mbox{}\hfill $\square$
+            
 	\end{enumerate}
 
 \subsection*{Aufgabe 18: \mdseries\itshape Durchmesser und Abstand von Mengen}
@@ -90,25 +126,93 @@ Seien $x_1,...,x_n$ und $y_1,...,y_n$ reelle Zahlen.
 	\begin{enumerate}[(i)]
 		\item Zeigen Sie, dass $diam \; M = diam \overline{M}$.\\
 		\textbf{Beweis:}\\
-			tbd
+			Wir unterscheiden zunächst 3 Fälle.\\
+            Zunächst kann der Punkt, zum einen können die entferntesten Punkte
+            beide auf dem Rand liegen, dann könnte einer auf dem Rand und der andere
+            im inneren liegen und zuletzt können beide im innere liegen.\\
+
+            Liegen beide entferntesten Punkte auf dem Rand $\delta M$, so liegen
+            sie insbesondere im Abschluss auch auf dem Rand $\delta M$. Damit ist
+            die Gleichheit erfüllt.
+
+            Liegt einer der Punkte nicht auf dem Rand, so können wir uns in der Umgebung
+            einen beliebigen Punkt inneren Suchen. Wir wissen, dass um einen inneren Punkt
+            $x \in \overset{\circ}{M}$ eine offene Kugel gibt, mit $\varepsilon > 0$ und
+            $B_\varepsilon ( x ) \subset M$. Wir können nun parallel zum anderen Punkt
+            unseren Punkt nach außen schieben. Damit wird der Abstand um $\varepsilon > 0$
+            größer. Nun wissen wir, dass durch Grenzwertbildung ein Punkt auf dem Rand
+            erreicht wird (definition der Vorlesung). Damit konvergiert auch
+            der Durchmesser des Objektes gegen den Durchmesser des Abschlusses.\\
+
+            Das gleiche gilt auch, wenn beide Punkte im inneren liegen. Hier müssen
+            nur beide Punkte im limes nach außen geschoben werden und erreichen so
+            einen Punkt auf dem Rand. Der Durchmesser wird im Grenzwert dann auch gleich sein.\\
+
+            Da der Durchmesser über das supremum definiert ist, ist der Grenzwert im
+            falle der offenen Kugel der genommene Wert und damit gleich dem Abstand auf dem Rand.\\
+            \mbox{}\hfill $\square$
 
 		\item Beweisen Sie die folgenden Äquivalenzen
 			\begin{enumerate}[a)]
 				\item $x \in \overline{M} \Longleftrightarrow dist(x,M) = 0$\\
 				\textbf{Beweis:}\\
-					tbd
+				    $\Rightarrow$:\\
+                        Sei $x \in \overline{M}$. Dann ist
+                        $|x - x| = 0$, da $x$ insbesondere in $M$ lag.\\
+                        Nach Dreiecksungleichung kann kein Wert kleiner als
+                        0 erreicht werden, somit ist das Infimum auch gleich 0.\\
+
+                    $\Leftarrow$:\\
+                        $\exists y \in M \; : \; |x - y | = 0$. Da wir uns 
+                        durch den Betrag in einem Metrischen Raum befinden müssen,
+                        gilt in diesem per Definiton $|x - y| = 0 \Leftrightarrow x = y$.
+                        Deshalb muss $x \in M$ gelten.\\
+                    \mbox{} \hfill $\square$	
 
 				\item $x \in \overset{\circ}{M} \Longleftrightarrow dist(x,M^c) > 0$\\
 				\textbf{Beweis:}\\
-					tbd
+				    $\Rightarrow$:\\
+                        Da $x \in \overset{\circ}{M}$ gilt, muss nach Definition eine
+                        muss nach Definition eine offene Kugel existieren mit $\varepsilon > 0$
+                        $B_\varepsilon(x) \subset M$. Wir wissen nun also, dass
+                        $\forall y \in M^c \; : \; |x - y | \geq \varepsilon > 0$, da in
+                        der unmittelbaren Umgebung um $x$ nur Punkte aus $M$ liegen können.\\
 
-				\item $x$ Randpunkt von $M$ $\Longleftrightarrow dist(x,M) = dist(x,M^x) = 0$\\
+                    $\Leftarrow$:\\
+                        Nach Vorraussetzung existiert ein $\varepsilon > 0$, mit
+                        $dist(x,M^c) \geq \varepsilon > 0$. Nun folgt daraus, dass
+                        $B_\varepsilon(x) \subset M$ gilt. Wäre dies nicht so,
+                        würde ein Punkt in der Kugel existieren, der im nicht in der Menge
+                        liegt. Dies würde aber bedeuten, dass der Abstand von $x$ zu einem
+                        Punkt aus dem Komplement kleiner als $\varepsilon$ sein muss.
+                        Damit ist das Infimum von allen kleiner als $\varepsilon$ und damit
+                        auch $dist(x,M^c)$. Dies ist nun allerdings ein Widerspruch zur Annahme.\\
+                    \mbox{} \hfill $\square$
+
+				\item $x$ Randpunkt von $M$ $\Longleftrightarrow dist(x,M) = dist(x,M^c) = 0$\\
 				textbf{Beweis:}\\
-					tbd
+					$\Rightarrow$:\\
+                        Sei $x$ Randpunkt von $M$.\\
+                        Das bedeutet, zum einen, dass $\forall \varepsilon > 0 \; : \; B_\varepsilon(x)
+                        \cap M \not= \empty$ ist, aber $\forall \varepsilon > 0 \; : \; \neg (B_\varepsilon(x)
+                        \subset M )$.\\
+                        Die zweite Aussage bedeutet insbesondere, dass $\forall \varepsilon > 0 \; : \;
+                        B_\varepsilon(x) \cap M^c$.\\
+                        Nun gilt, dass $dist (x,M) < \varepsilon$ für alle $\varepsilon > 0$, da in
+                        den Kugeln Punkte liegen. Nun ist $\inf \{ \varepsilon \; | \; \varepsilon > 0 \} = 0$
+                        . Und dieses Spiel gilt im Umkehrschluss auch für den Abstand zum komlement.\\
 
+                    $\Leftarrow$:\\ 
+                        Wir wissen, dass in jeder $\varepsilon > 0$ Umgebung um $x$ ein Punkt $y \in M$ und
+                        ein Punkt $z \in M^c$ existieren muss, mit $y \in B_\varepsilon(x)$ und
+                        $z \in B_\varepsilon(x)$. Das Infimum ist, wie oben gezeigt, genau 0.\\
+                        Nun sind aber 2 solche Punkte in $M$ und $M^c$ in jeder offenen Kugel vorhanden,
+                        daher kann der Schnitt nie leer sein (zu $M$ und $M^c$).\\
+                        Dies ist genau die Definition eines Randpunktes.\\
+                        \mbox{} \hfill $\square$
 			\end{enumerate}
 		
-		\item Für $\varepsilon > 0$ definieren die $\varepsilon$-Umgebung einer Menge M durch
+		\item Für $\varepsilon > 0$ definiert die $\varepsilon$-Umgebung einer Menge M durch
 			$$
 				M_\varepsilon := \{ x \in \mathbb{R}^N \; | \; dist(x,M) < \varepsilon \}.
 			$$
@@ -117,7 +221,58 @@ Seien $x_1,...,x_n$ und $y_1,...,y_n$ reelle Zahlen.
 				\underset{\varepsilon > 0}{\bigcap} M_\varepsilon
 			$$
 			\textbf{Lösung:}\\
-				tbd
+			    Sei $\varepsilon > 0$ beliebig aber fest.\\
+                Sei nun $x_0 \in M_\varepsilon$ ein beliebiger Punkt. Nach Definition
+                von $M_\varepsilon$ ist $dist(x_0,M) = d_0 < \varepsilon$.
+                Wir wählen uns nun einen Radius um diesen Punkt, um so zu zeigen, dass
+                die offene Kugel mit diesem Radius in $M_\varepsilon$ liegt.\\
+                Wir können zunächst beobachten, dass wenn $x \in M$ gilt, dass der
+                Radius dann trivialerweise $\varepsilon$ sein kann, da alle Punkte
+                in diesem Radius in $M_\varepsilon$ liegen. Wir betrachten also nur
+                Punkte mit $dist(x_0,M) > 0$. Bei der Konstrution des Radius müssen wir nun
+                zum einen Beachten, dass wir nicht über den $\varepsilon$ Abstand zu Menge lappen,
+                aber auch nicht zur Seite herrausfallen, wenn wir uns zu nah in einer Spitze befinden.\\
+                
+                Wir wählen also den Radius $r_0 = \min \{\varepsilon - d_0, \varepsilon^2-d_0^2 \}$.
+                Der erste ist der Abstand in Verlängerung das Abstandes zum Punkt in der Menge,
+                von dem wir $d_0$ entfernt sind, das andere ist mit dem Satz des Pythagoras umgeformt
+                und gibt den Abstand senkrecht zur Verlängerung an.\\
+                Nun wissen wir, dass alle Punkte im Kreis $B_{r_0}(x_0)$ vom Ursprünglichen Punkt
+                $x$ zu dem $|x - x_0 | < \varepsilon$ war auch weniger als $\varepsilon$ entfernt sind.
+                Daher muss $B_{r_0}(x_0) \subset M_\varepsilon$ sein.\\
+                \mbox{} \hfill $\square$\\
+            
+                Nun bestimmen wir $T = \underset{\varepsilon > 0}{\bigcap} M_\varepsilon$.\\
+                Wir zeigen, dass $\overline{M} = T$ gilt.\\
+                
+                $\subset$:\\
+                Wir können als erstes leicht sehen, dass $M \subset T$ gilt, da wir schon
+                bewiesen haben, dass $dist(x,M) = 0 \Leftrightarrow  x \in M$ gilt.
+                Also liegt $x$ insbesondere für jedes $\varepsilon$ in $M_\varepsilon$.\\
+
+                Als nächstes müssen wir nur noch zeigen, dass der Rand $\delta M \subset T$
+                enthalten ist.\\
+                Für den Rand gilt nun die Definition $x \in \delta M \Leftrightarrow \forall \varepsilon
+                > 0 \; : \; B_\varepsilon (x) \cap M \not = \emptyset$.\\
+                Wir wissen nun aber, dass nach dem Schnitt für alle $\varepsilon$ $\exists y \in M \; : \;
+                | x - y | < \varepsilon$ existieren muss. Dann muss allerdings nach dem Schnitt
+                genau so ein $y$ existieren.\\
+
+                $\supset$:\\
+                Sei $x \in T$.
+                Wir machen prinzipiell die selbe Unterscheidung, wie eben. Entweder ist
+                $x \in M$ oder $x \in \delta M$.\\
+            
+                Wir eben schon erwähnt, gilt für jedes $\varepsilon > 0$ $M \subset M_\varepsilon$.
+                Also auch insbesondere $M \in \underset{\varepsilon > 0}{\bigcap} M_\varepsilon$.\\
+
+                Nehmen wir nun einmal an, dass $x \not \in \delta M$ liegt. Das bedeutet, dass es ein
+                $\varepsilon ' > 0$ gibt, so dass $B_{\varepsilon '}(x) \cap M = \emptyset$. Dies
+                bedeutet aber insbesondere, dass $x \not\in M_\varepsilon$ liegen, kann da es keinen
+                Punkt in $M$ gibt, der einen Abstand hat, der Nah genug an $x$ liegt.\\
+                Daraus folgt, dass im Schnitt von allen $M_\varepsilon$ der Punt nicht drin liegen kann.\\
+
+                \mbox{} \hfill $\square$
 	\end{enumerate}
 
 \subsection*{Aufgabe 19: \mdseries\itshape Umfang von Mengen}
