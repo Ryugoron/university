@@ -54,7 +54,28 @@ Seien $x_1,...,x_n$ und $y_1,...,y_n$ reelle Zahlen.
 		$$
 		richtig ist.\\
 	\textbf{Beweis:}\\
-		tbd
+		Wir formen, wie in der Aufgabe vorgeschlagen ersteinmal die Gleichung um ($x \geq 0$):
+        $$\begin{array}{crcl}
+            & x^{\frac{1}{p}} y^{\frac{1}{q}} &\leq& \frac{1}{p} x + \frac{1}{q} y\\
+            \Leftrightarrow & \frac{x^{\frac{1}{p}}}{x} y^{\frac{1}{p}} & \leq & \frac{1}{p} + \frac{1}{q} \frac{y}{z}\\
+            \Leftrightarrow & \frac{1}{x^{\frac{1}{q}}} & \leq & \frac{1}{p} + \frac{1}{q} \frac{1}{q} \frac{y}{z}\\
+            \Leftrightarrow & 0 \leq \frac{1}{p} + \frac{1}{q} \frac{y}{x} - \frac{y}{x}^{\frac{1}{q}}\\
+            \Leftrightarrow & 0 \leq \frac{1}{p} + \frac{1}{q} z - z^{\frac{1}{q}}
+        \end{array}$$
+
+        Nun zeigen wir, dass diese Funktion immer größer als 0 sein muss und zeigen damit die ursprüngliche
+        Ungleichung (für $x>0$).
+        Wir sehen, dass die Funktion in $z=0$ den Funktionwert $\frac{1}{q} > 0$ annimmt.\\
+        Betrachten wir die Ableitung dieser Funktion $f'(z) = \frac{1}{q} \left( 1 - z^{\frac{1}{q} -1 } \right)$, dann sehen wir, dass diese Funktion auf $(0,1)$ negativ ist, dass heißt der Funktionswert fällt.\\
+        Bei $z=1$ ist die Ableitung $0$ und auf $(1,\infty)$ ist der Wert der Ableitung positiv.\\
+        
+        Dies bedeutet für unsere Kurven diskusion, dass die stetige Funktion auf dem Intervall $(0,1)$ fällt
+        und danach wieder steigt. Da die Funktion $f(1) = 0$ ist, sehen wir, dass $f(z) \geq 0$ gelten muss.\\
+
+        Nun können wir noch den Fall $x=0$ betrachten. Hier fällt die urprüngliche Gleichung auf
+        $0 \leq \frac{1}{q} y$ zusammen, die mit $q>1, y\geq 0$ immer erfüllt ist.\\
+
+        \mbox{} \hfill $\square$
 
 	\item Zeigen Sie nun unter Verwendung der Youngschen Ungleichung die Höldersche Ungliechung
 		$$
