@@ -1,0 +1,301 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm]{geometry} 
+\usepackage{babel}
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc} 
+\usepackage{ae} 
+\usepackage{amssymb} 
+\usepackage{amsmath} 
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{paralist}
+
+%%\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[C]{Analysis II}
+\fancyhead[L]{Aufgabenblatt 4}
+\fancyhead[R]{SoSe 2012}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage \hspace{1px} of \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\setlength{\parindent}{0pt} 
+\setlength{\headheight}{15pt}
+
+\date{}
+\title{Max Wisniewski , Alexander Steen}
+\author{Tutor : Adrian Steffens}
+
+\newcommand{\limes}[2][n]{\underset{ #1 \rightarrow #2}{\lim}}
+
+\begin{document}
+
+\lstset{language=Pascal, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2}
+
+\maketitle
+\thispagestyle{fancy}
+
+%% ------------------------------------------------------
+%%                     Aufgabe 5 (epic fail, max!)
+%% ------------------------------------------------------
+
+\subsection*{Aufgabe 10: \mdseries\itshape Berechnung von Taylorpolynomen}
+
+Bestimmen Sie die Taylorpolynome vom Grad $n$ um den Punkt $x_0 = 0$.
+Die Taylorformel um den Entwicklungspunkt $x_0$ sieht folgender Maßen aus
+$$
+T_n(x) = \sum_{k=0}^{n} \frac{f^{(k)}(a)}{k!}(x-a)^k.
+$$
+
+\begin{enumerate}[(i)]
+    \item $f(x) = \frac{1}{1+x}$:\\
+        \textbf{Beh.:} $\forall k \in \mathbb{N} : f^{(k)}(x) = (-1)^{k}\cdot k! \frac{1}{(1+x)^{k+1}}$\\
+        \textbf{I.A.:} $k=1$\\
+            $f^{(1)}(x) = f'(x) = (\frac{d}{dx} 1 + x) \cdot -1 \cdot \frac{1}{(1+x)^2}$\\
+            $= (-1)^1 \cdot 1! \frac{1}{(1+x)^2}$\\
+            $k=0$ ist die Funktion selber.\\
+        \textbf{I.S.:} $k \rightarrow: k+1$\\
+            $$\begin{array}{rcl}
+                f^{(k+1)}(x)    &=& \frac{d}{dx} f^{(k)}\\
+                        &\stackrel{I.V.}{=}&
+                            \frac{d}{dx} \left( (-1)^{k}k! \frac{1}{(1+x)^{k+1}} \right)\\
+                        &=& (-1)^k k! \left(\frac{d}{dx} \frac{1}{(1+x)^{k+1}}\right)\\
+                        &=& (-1)^k k! \cdot 1 \cdot -(k+1) \frac{1}{(1+x)^{k+2}}\\
+                        &=& (-1)^{k+1} \cdot (k+1)! \frac{1}{(1+x)^{k+2}}
+            \end{array}$$
+        \mbox{} \hfill $\square$\\
+
+        Diese Ableitung benutzen wir nun, um das Taylorpolynom aufzuschreiben.\\
+        $$\begin{array}{rcl}
+            T_n(x) &\stackrel{Def.}{=}& \underset{k=0}{\overset{n}{\sum}} \frac{f^{(k)}(a)}{k!}(x-a)^k.\\
+                &\stackrel{Abl.}{=}& \underset{k=0}{\overset{n}{\sum}} 
+                    \frac{(-1)^k k! \frac{1}{(1+a)^{k+1}}}{k!}(x-a)^k.\\
+                &\stackrel{a=0}{=}&\underset{k=0}{\overset{n}{\sum}} 
+                    (-1)^k \frac{1}{(1+0)^{k+1}} \cdot (x-0)^k\\
+                &=& \underset{k=0}{\overset{n}{\sum}}
+                    (-1)^k x^k 
+        \end{array}$$
+        Wir haben nun die Monomdarstellung erreicht, wobei die Koeffizienten $a_k = (-1)^k$ sind.
+
+    \item $g(x) = \frac{1}{\sqrt{1-x}}$:\\
+        Sei $\xi (z) = \underset{k=0}{\overset{z-1}{\prod}} 2k+1$, das Produkt aller ungeraden Zahlen
+        bis vor die $z$-te ungerade Zahl.
+    
+        \textbf{Beh.:} $g^{(k)} = \frac{\xi(k)}{2^k} (1-x)^{-\frac{1+2k}{2}}$ \\
+        \textbf{I.A.:} \\
+            $k=0$ $g^{(0)} = \frac{1}{2^0} (1-x)^{-\frac{1}{2}} = g(x)$\\
+        \textbf{I.S.:} $k \rightarrow k+1$\\
+            $$\begin{array}{rcl}
+                g^{(k+1)} &=& \frac{d}{dx} g^{(k)}\\
+                        &\stackrel{I.V.}{=}&
+                            \frac{d}{dx} \left(\frac{\xi(k)}{2^{k}} (1-x)^{-\frac{1+2k}{2}} \right)\\
+                        &=& \frac{\xi(k)}{2^{k}} \cdot -1 \cdot -\frac{2k+1}{2} (1-x)^{1+\frac{1+2k}{2}}\\
+                        &=& \frac{\xi(k) \cdot (2k+1)}{2^{k}\cdot 2} (1-x)^{\frac{2(k+1)}{2}}\\
+                        &=& \frac{\xi(k+1)}{2^{k+1}} (1-x)^{\frac{1+2(k+1)}{2}}
+            \end{array}$$
+
+        Mit dieser Ableitung können wir nun das Taylorpolynom aufschreiben:\\
+        $$\begin{array}{rcl}
+            T_n(x) &=& \overset{n}{\underset{k=0}{\sum}} 
+                    \frac{f^{(k)}(a)}{k!} (x-a)^k\\
+                &=& \overset{n}{\underset{k=0}{\sum}}
+                    \frac{1}{k!} \cdot \frac{\xi(k)}{2^k} (1-a)^{-\frac{1+2k}{2}} (x-a)^k\\
+                &=& \overset{n}{\underset{k=0}{\sum}}
+                    \frac{1}{k!} \frac{\xi(k)}{2^k} 1^{-\frac{1+2k}{2}} x^k\\
+                &=& \frac{\xi(k)}{2^k k!} x^k\\
+        \end{array}$$
+        Wir lassen es an dieser Stelle so stehen. Wir haben einen Faktor, abhängig von $k$
+        und sind in der Monomdarstellung.\\
+        Man kann sich gerne davon überzeugen, dass 
+        $a_k = \frac{\xi(k)}{2^k k!} = \frac{\Gamma(k + \frac{1}{2})}{\sqrt{\pi} k!}$ gilt.
+            
+    \item $h(x) = xe^x$\\
+        \textbf{Beh.:} $h^{(k)}(x) = (x + k)e^x$\\
+        \textbf{I.A.:} $k=0$ $h^{(0)} = (x + 0)e^x = xe^x = h(x)$\\
+        \textbf{I.S.:} $k \rightarrow k+1$\\
+            $$\begin{array}{rcl}
+                h^{(k+1)}(x) &=& \frac{d}{dx} h^{(k)}(x)\\
+                    &=& \frac{d}{dx} (x + k)e^x\\
+                    &=& e^x + (x + k)e^x\\
+                    &=& (x+(k+1))e^x
+            \end{array}$$
+        Nun können wir das Taylorpolynom vom Grad $n$ am Entwicklungspunkt $a=0$ aufstellen.
+        $$\begin{array}{rcl}
+            T_n(x) &=& \overset{n}{\underset{k=0}{\sum}}
+               \frac{h^{(k)}(a)}{k!} (x-a)^k\\
+                    &=& \overset{n}{\underset{k=0}{\sum}} \frac{(a+k)e^a}{k!} (x-a)^k\\
+                    &=& \overset{n}{\underset{k=0}{\sum}} \frac{k}{k!} x^k\\
+                    &=& \overset{n}{\underset{k=0}{\sum}} \frac{1}{(k-1)!} x^k
+        \end{array}$$
+        Wir haben die Monomdarstellung mit den Koeffizienten $a_k = \frac{1}{(k-1)!}$.
+
+ 
+\end{enumerate}
+
+\subsection*{Aufgabe 11: \mdseries\itshape Gleichmäßige Konvergenz von Funktionsfolgen}
+
+Bestimmen Sie für die folgenden Funktionsfolgen den punktweisen Limes
+$$
+    f(x) = \lim_{n \rightarrow \infty} f_n(x)
+$$
+(falls er existiert) und prüfen Sie, welche der Folgen gleichmäßig konvergiert.
+
+\begin{enumerate}[(i)]
+    \item $f_n(x) = e^{-nx^2}$ auf $[-1,1]$.\\ 
+        Zunächst bestimmen wir den Limes punktweise:\\
+        $$\begin{array}{rcl}
+            f(x) &=& \limes{\infty} f_n(x)\\
+                &=& \limes{\infty} e^{-nx^2}\\
+                &=& \limes{\infty} \left( e^{x^2}\right)^{-n}
+        \end{array}$$
+        Für $a \geq 1$ gilt $\limes{\infty}\frac{1}{a^n} = 0$,
+        Wir wissen, dass $e^x$ streng monoton steigt und bei $x=0$ eins
+        erreicht. Daher ist $e^x$ für alle $x>0$ größer als 1.
+        Daraus folgt, dass $f_n(x) = 0$ auf $[-1,0)$ und $(0,1]$.\\
+        Im Fall $x=0$ ergibt sich $e^{0 \cdot -n} = 1$ für alle $n$.
+        Daher ist $f(0) = 1$.\\
+
+        Gleichmäßige Konvergenz:\\
+        Da $e^x$ für jedes $x \in \mathbb{R}$ stetig ist und $f$ nicht stetig ist,
+        kann die Folge $f_n$ nicht gleichmäßig konvergieren (Der Grenzwert jeder gleichmäßig
+        konvergierenden Funktionsfolge stetiger Funktionen ist wieder stetig).
+        %Die Funktionsfolge nict gleichmäßig konvergiert. In der folgenden
+        %Betrachtung lassen wir $x=0$ weg, da $f_n(0) = 1$ für alle $n\in\mathbb{N}$
+        %und daher auch für ein groß genügendes $N$. Desweiteren ist der Fall
+        %$x<0$ zu $x>0$ symmetrisch, da es nur quadriert in der Formel vorkommt. Des
+        %weitern ist $e^a$ für alle $a$ größer null, daher falle ndie betragsstriche weg.\\
+        %Wir zeigen also, 
+        %$\exists \varepsilon \forall N \in \mathbb{N} \exists n > N \exists x\in(0,1] : 
+        %\frac{1}{e^{nx^2}} < \varepsilon$
+
+    \item $g_n(x) = \sqrt{x^2 + \frac{1}{n}}$ auf $[0,\infty).$\\
+        Wir wissen, dass die Funktion $\sqrt{.}$ auf dem Interval stetig ist.
+        Wir können den Limes also in die Funktion ziehen.\\
+        $$\begin{array}{rcl}
+            g(x) &=& \limes{\infty} g_n(x)\\
+                &=& \limes{\infty} \sqrt{x^2 + \frac{1}{n}}\\
+                &=& \sqrt{(\limes{\infty} x^2) + (\limes{\infty} \frac{1}{n})}\\
+                &=& \sqrt{x^2 + 0}\\
+                &=& x
+        \end{array}$$
+
+        Gleichmäßige Konvergenz: \\
+        Sei $\varepsilon > 0$. Z.z. $\exists N > 0\forall n>N\forall x: |g_n(x) - g(x)|<\varepsilon$. \\
+        $\begin{array}[h!]{rrcl}
+          &\left|\sqrt{x^2+ \frac{1}{N}} - x \right| &<& \varepsilon \\
+          \stackrel{(*)}{\Leftrightarrow} &\sqrt{x^2+ \frac{1}{N}} - x  &<& \varepsilon \\
+          \Leftrightarrow &\sqrt{x^2+ \frac{1}{N}}  &<& \varepsilon+x \\
+          \Leftrightarrow &x^2+ \frac{1}{N}  &<& \varepsilon^2+2\varepsilon x + x^2 \\
+          \Leftrightarrow &\frac{1}{N}  &<& \varepsilon^2+2\varepsilon x \\
+        \end{array}$
+        \\
+        Und da $\frac{1}{N}  < \varepsilon^2 \leq \varepsilon^2+2\varepsilon x$ gilt die Ungleichung für alle $n > \frac{1}{\varepsilon^2}$. Also ist $g_n$ gleichmäßig konvergent ($N$ hängt nicht von $x$ ab). \\
+
+    (*) gilt, da der rechte Term der Differenz immer kleiner als der linke ist.
+
+    \item $h_n(x) = n\left( \sqrt{x + \frac{1}{n}} - \sqrt{x} \right)$\\
+        Wir wissen nach Umformung, dass gilt $n = \left(\frac{1}{n} \right)^{-1}$ die
+        als inverses Element bezüglich der Multiplikation.
+        Nun können wir auf.
+        $h_n(x) = \frac{\sqrt{x + \frac{1}{n}} - \sqrt{x}}{\frac{1}{n}}$ den Satz von l'Hopital
+        anwenden.
+        $$\begin{array}{rcl}
+            h(x) &=& \limes{\infty} h_n(x)\\
+                &=& \limes{\infty} \frac{\sqrt{x + \frac{1}{n}} - \sqrt{x}}{\frac{1}{n}}\\
+                &\stackrel{l'Hopital}{=}& 
+                    \limes{\infty} \frac{\frac{1}{2\sqrt{x+\frac{1}{n}}}\cdot-\frac{1}{n^2} 
+                    + \frac{1}{2\sqrt{x}}}{-\frac{1}{n^2}}\\
+                &=& \limes{\infty} -n^2 \left( - \frac{1}{2\sqrt{x}} 
+                    + \frac{1}{2\sqrt{x+\frac{1}{n}}} \cdot \frac{1}{n^2}\right)\\
+                &=& \limes{\infty} -n^2 \frac{2\sqrt{x} - 2\sqrt{x+\frac{1}{n} \cdot \frac{1}{n^2}}}
+                    {n^2 \cdot 2\sqrt{x} \cdot 2\sqrt{x + \frac{1}{n}}}\\
+                &=& \limes{\infty} \frac{2\sqrt{x} - 2\sqrt{x+\frac{1}{n}} \cdot \frac{1}{n^2}}
+                    {2\sqrt{x} \cdot 2\sqrt{x + \frac{1}{n}}}\\
+                && \text{Alles konvergiert nun}\\
+                &=& \frac{2\sqrt{x} - 2\sqrt{x+0} \cdot 0}{2\sqrt{x} \cdot 2\sqrt{x+0}}\\
+                &=& \frac{1}{2\sqrt{x}}
+        \end{array}$$ 
+         
+        Gleichmäßige Konvergenz: \\
+        Die Folge konvergiert gleichmäßig, das kann man ganz schön auf einem Plot sehen. Aber irgendwie fällt uns dazu keine guter Beweis ein :(
+%        Sei $\varepsilon > 0$. Z.z. $\exists N > 0\forall n>N\forall x: |h_n(x) - h(x)|<\varepsilon%$. \\
+%        $\begin{array}[h!]{rrcl}
+%          &\left| \frac{1}{2\sqrt{x}} - n\left( \sqrt{x + \frac{1}{n}} - \sqrt{x} \right) \right| &<& \varepsilon \\
+%        \end{array}$
+        \\
+    \item $k_n(x) = \arctan(nx)$ auf $(-\infty, \infty)$.\\
+        Analysieren der Funktion durch Fallunterscheid: \\
+        Fall 1: $x = 0$. \\
+        Für $x=0$ gilt $\limes{\infty} k_n(x) = \limes{\infty} k_n(0) = \limes{\infty} \arctan(n \cdot 0) = \limes{\infty} \arctan(0) = 0$. \\ \\
+        Fall 2: $x > 0$. \\
+        Für $x>0$ ist $\limes{\infty} k_n(x) = \limes{\infty} \arctan(nx) = \limes{\infty} \arctan(n) \stackrel{(**)}{=} \frac{\pi}{2}$. \\ \\
+        Fall 3: $x < 0$. \\
+        Für $x<0$ ist $\limes{\infty} k_n(x) = \limes{\infty} \arctan(nx) = \limes{\infty} \arctan(-n) \stackrel{(**)}{=} -\frac{\pi}{2}$. \\ \\
+    
+        Also ist $k(x) = \begin{cases}
+                              -\frac{\pi}{2} &, \text{falls } x < 0 \\
+                              0 &, \text{falls } x = 0 \\
+                              \frac{\pi}{2} &, \text{falls } x > 0 \\
+                          \end{cases}$. \\
+        
+        Insbesondere ist $k$ nicht stetig auf $(-\infty, \infty)$, allerdings ist $\arctan(x)$ stetig für alle $x \in \mathbb{R}$. Also  kann die Folge $k_n(x)$ nicht gleichmäßig konvergieren (Der Grenzwert jeder gleichmäßig konvergierenden Funktionsfolge stetiger Funktionen ist wieder stetig). \\
+
+      (**) gilt, da für $\tan(x)$ für $x = \pm \frac{\pi}{2}$ Asymptoten sind (und $\arctan$ die Umkehrfunktion auf $(-\frac{\pi}{2},\frac{\pi}{2})$ ist).
+\end{enumerate}
+
+\subsection*{Aufgabe 12: \mdseries\itshape Gleichmäßige Konvergenz von Reihen}
+
+Untersuchen Sie folgende Funktionsreihen auf gleichmäßige Konvergenz.
+
+\begin{enumerate}[(i)]
+
+    \item $\overset{\infty}{\underset{n=1}{\sum}} \frac{\sin(nx)}{n^\alpha}$ für $x\in\mathbb{R}$ und festes $\alpha > 1$.\\
+        Wir schätzen zunächst die einzelnen Folgeglieder ab
+        $$\begin{array}{rcl}
+            \overset{\infty}{\underset{k=0}{\sum}} \left| \frac{\sin(kx)}{k^\alpha}\right| \\
+                &\stackrel{\sin(a)\leq1}{\leq}&  
+                    \overset{\infty}{\underset{k=0}{\sum}} \left| \frac{1}{k^\alpha}\right| \\
+                &=& \overset{\infty}{\underset{k=0}{\sum}} \frac{1}{k^\alpha} 
+        \end{array}$$
+        Wir haben nun eine Folge von Zahlen gefunden $M_k = \frac{1}{k^\alpha}$ so dass
+        du Funktionen der Reihe alle kleiner sind. Nach dem Weierstrass M-Test, gilt
+        also, dass die urpsrüngliche Reihe gleichmäßig konvergiert, wenn 
+        $\overset{\infty}{\underset{k=0}{\sum}} M_n$ konvergiert\footnote{Diese Reihe 
+        konvergiert in der Tat gegen $\zeta(\alpha)$}.
+
+    \item $\overset{\infty}{\underset{n=1}{\sum}} \frac{x}{n(1+nx^2)}$ für $x\in\mathbb{R}$.\\
+        Für die Reihe muss gelten, dass $|\overset{\infty}{\underset{k=1}{\sum}} \frac{x}{n(1+nx^2)} - \overset{n}{\underset{k=1}{\sum}} \frac{x}{n(1+nx^2)}| < \varepsilon$,
+        für die üblichen Bedingungen an $\varepsilon > 0, N \in \mathbb{N}, n > N , x \in A$. Nun gilt, dass auf dem Interval $[0,\infty)$ (und dem negativen
+        symmetrisch), dass du funktion mit $\limes{x}{\infty} f_n(x)$ und $\limes{x}{0} f_n(x)$ für jedes feste $n$ gegen 0 konvergiert. Dies liegt
+        daran, dass der Nenner quadratisch in $x$ wächst im Zähler allerdings nur linear. Der Fall gegen 0 konvergiert gegen 0, da der Nenner bei Konvergenz gegen 0
+        immer noch das Argument $(1+nx^2)$ besitzt und daher nicht kleiner werden kann als 1. Die Funkion in der Reihe ist darüber hinaus stetig, da der Nenner
+		keine Nullstelle hat, die gebrochen rationale Funktion daher keine Polstelle besitzt, die uns in die Berechnung schlägt.\\
+		Damit können wir also einen Maximalwert für $x$ errechnen, so dass wir schließlich ein $N$ entsprechend des Maximalwertes erreichen, so dass die Reihe immer 
+		innerhalb der $\varepsilon$ Beschränkung bleibt.
+        
+    \item $\overset{\infty}{\underset{n=1}{\sum}} (-1)^n \frac{x^2+n}{n^2}$ für $x\in\mathbb{R}$.\\
+        Diese Reihe konvergiert Punktweise, daher kann der Trick von eben nicht angewandt werden.
+        Wir zeigen aber, dass die Reihe trotzdem nicht gleichmäßig konvergiert.\\
+        $$\begin{array}{rcl}
+            \overset{\infty}{\underset{n=1}{\sum}} (-1)^n \frac{x^2 + n}{n^2}
+                &=& \overset{\infty}{\underset{n=1}{\sum}} (-1)^n \left( \frac{1}{n} + \frac{x^2}{n^2} \right)\\
+                &=& \overset{\infty}{\underset{n=1}{\sum}} (-1)^n \frac{1}{n} +
+                    \overset{\infty}{\underset{n=1}{\sum}} (-1)^n \frac{x^2}{n}
+        \end{array}$$
+        Der erste Summand konvergiert und da er unabhängig von $x$ ist, passiert dies auch
+        gleichmäßig. Im zweiten Teil steht nun $x^2$ als Faktor drin. Wir können den
+        Wert jetzt also durch die Veränderung von $x$ beliebig groß oder klein machen.
+        Wir können also ein $x$ so wählen, dass jede $\varepsilon$ Schranke durchbrochen werden
+        kann.\\
+        Damit ist die Reihe nicht gleichmäßig stetig.
+\end{enumerate}
+
+\label{LastPage}
+\end{document}
+
+

@@ -1,0 +1,39 @@
+\section{Aufgabe 5.1 : LPM und Interrupt}
+
+\subsection{A 5.1.1}
+
+In dieser Aufgabe soll der Strom und der Takt im Normalen Betrieb und im Lowpower Mode gemessen werden.\\
+
+Dazu soll im Grundprojekt gestartet werden, die Messung von Strom und MCLK-Takt durchgeführt wrden. Danach soll in der \emph{main()} der Controller in den LPM4 versetzt werden und das Verhalten, Strom und Takt aufgeschrieben werden.\\
+
+Als nächstes soll auf Tastendruck (P1.0) ein Interrupt ausgelöst werden, der den Cotroller 10s in einer While-Schleife arbeiten lässt. Analysieren Sie das Verhalten.\\
+
+\textbf{Beobachtung:}\\
+
+\begin{description}
+
+\item{Normal}\\
+	Strom : 5.65 mA\\
+	Takt : $7,35$ MHz\\
+	Beobachtung : Analog zu Aufgabe 2 
+
+\item{LPM4}\\
+	Strom : 0.32 mA\\
+	Takt : 0 Hz\\
+	Beobachtung : Sehr geringer Verbrauch und kein Takt
+
+\item{Interrupt}\\
+	Strom : 4.1 mA - 0.36 mA\\
+	Takt :  7.35 MHz - 0 Hz\\
+	Beobachtung : Wurde auf den Taster gedrückt, schnellt der Verbrauch für geschätzte 10s auf 4.1 mA bei 7.35 MHz. Danach fällt er wieder
+			in den LPM zurück und hat dort den etwa selben Verbrauch.
+
+\end{description}
+
+\textbf{Erklärung:}\\
+
+Das Programm zum ausgeben das Taktes wurde schon in Aufgabe 2 beschrieben und die konkreten Anweisungen stehen in der Aufgabe, daher wird hier auf die Erläuterung verzichtet.\\
+
+Wie zu erwarten war, messen wir innerhalb der 10 Sekunden, nachdem wir den Interrupt bekommen haben, den selben Verbrauch und Takt, wie im Normalen Modus.
+
+Im LowPower Modus ist der Verbrauch drastisch viel kleiner. Nach unseren Messung in Aufgabe 2, kann der Controller über eine sehr lange Zeit laufen, wenn man eine Batterie einsetzt.

@@ -1,0 +1,123 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm]{geometry} 
+\usepackage{babel}
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc} 
+\usepackage{ae} 
+\usepackage{amssymb} 
+\usepackage{amsmath} 
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{paralist}
+
+%\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[C]{Semantik von Programmiersprachen}
+\fancyhead[L]{Übung Nr. 1}
+\fancyhead[R]{SoSe 2012}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage / \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\setlength{\parindent}{0pt} 
+\setlength{\headheight}{0pt}
+
+\author{Tutor: Ansgar Schneider}
+\date{}
+\title{Max Wisniewski , Alexander Steen}
+
+\begin{document}
+
+\lstset{language=Pascal, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2}
+
+\maketitle
+\thispagestyle{fancy}
+
+
+%% ------------------------------------------------------
+%%                     AUFGABE 1
+%% ------------------------------------------------------
+
+\section*{Aufgabe 1}
+
+Ändern Sie die Syntax von \emph{WHILE}, indem Sie \emph{INTEGER} und \emph{REAL} Zahlen unterscheiden.\\
+
+\textbf{Lösung:}\\
+Wir müssen zunächst die Menge \emph{ZAHL} in die Mengen \emph{INTEGER} und \emph{REAL} aufteilen. Haben wir dies erledigt, muss man noch alle Operationen so aufteilen, dass man nicht einfach REAL und INTEGER Zahlen mischen kann. Will man dies, geben wir noch eine explizite konversion von INTEGER nach REAL dazu.\\
+
+\textbf{Syntax}\\
+Elementare Einheiten:\\
+\begin{tabular}{rcl}
+	\underline{INTEGER} &::=& \underline{0} | \underline{1}
+		| 	\underline{-1} | \underline{2} | \underline{-2} | ... \\
+	\underline{ZIFFERNFOLGE}] &::=&  0\underline{ZIFFERNFOLGE}
+		| ... | 9\underline{ZIFFERNFOLGE} | $\varepsilon$ \\
+	\underline{REAL} &::=& 
+		\underline{INTEGER}.\underline{ZIFFERNFOLGE}\\
+	Z &::=& \underline{INTEGER} | \underline{REAL}
+\end{tabular}\\
+An den restlichen Definitionen muss nichts geändert werden, damit wir syntaktisch \mbox{REAL} und INTEGER unterscheiden können. Nun ist allerdings auch syntaktisch korrekt, die beiden Zahlenarten miteinander zu verrechnen. Dies könnte man zwar auch syntaktisch verbieten, in dem man z.B. die Terme T und die Operationen BOP und OP in zwei verschiedene Ausprägungen (je eine für REAL und INTEGER) unterteilt. Dann müsste man aber noch künstlichen Einschränkungen an die Variablenbezeichner anlegen, sodass hier ebenfalls unterschieden werden kann. Da dies allerdings nicht wirklich sinnvoll erscheint, müsste man gemischte Terme auf semantischer Ebene überprüfen und dort entscheiden, welches Verhalten gewünscht ist.
+
+
+%% ------------------------------------------------------
+%%                     AUFGABE 2
+%% ------------------------------------------------------
+
+\section*{Aufgabe 2}
+
+Definieren Sie eine konkrete Syntax, die eindeutig ist. \\
+
+\textbf{Lösung:}\\
+Die elementaren Einheiten können diesmal unverändert bleiben.\\
+Induktive Einheiten:\\
+\begin{tabular}{rcl}
+T &::=& Z | I | ($T_1$ \underline{OP} $T_2$) | \emph{read}\\
+B &::=& W | \emph{not} B | $T_1$ \underline{BOP} $T_2$  | \emph{read}\\
+C &::=& \emph{skip} | I := T | ($C_1$; $C_2$) | if B then $C_1$ else $C_2$ fi | \\
+    &     &  while B do C od | \emph{output} T | \emph{output} B\\
+P &::=& C
+\end{tabular}
+
+Wir müssen nur jede Produktion, die aus mehr als einem Nicht-Terminal Symbol besteht, entweder mit Klammern oder mit einem Abschlussschlüsselwort versehen, sollte dies nötig sein. So werden arithmetische Operationen nun auf jedenfall durch eine Klammer abgeschlossen. Das \emph{if} wird nach dem \emph{else} durch ein Abschließendes \emph{fi} ersetzt. Bei \emph{while} wird das \emph{do} durch ein \emph{od} geschlossen. Da man den Gültigkeitsbereich nun explizit angeben muss, wird die konkrete Syntax eindeutig.\\
+Die boolschen Operationen müssen nicht abgeschlossen werden, da wir in unserer Syntax boolsche Werte nicht weiter kombinieren können. So schließt eine boolsche Operation den Ausdruck an sich ab. Die Komposition sieht im ersten Moment komisch aus, wenn wir diese erzeugen, da wir nun viele unnütze Klammern haben, aber nur auf diese Weise können wir verhindern, dass $c_1;c_2;c_3$ auf 2 Arten interpretiert werden kann.  Bei arithmetischen Ausdrücken und der Komposition ist dies in den meisten Fällen nicht die gewünscht Lösung. Dort sollte eher auf Semantikebene eine Bindungsstärke, bzw. Ausfürhungsreihenfolge angegeben werden, aber in der Syntax ist dies nicht anders eindeutig machbar.
+
+
+% -----------------------------------------------------------
+%			AUFGABE 3
+% -----------------------------------------------------------
+
+\section*{Aufgabe 3}
+
+Formulieren Sie informell eine Präzisierung der angegebenen WHILE-Semantik, die die genannte Fehlerquellen:
+\begin{enumerate}
+	\item Bereichsüberschreitungen
+	\item Division durch Null
+	\item Berechnung von \emph{read} bei leerer Eingabedatei
+	\item Typkonflikte
+\end{enumerate}
+behandelt.\\
+
+\textbf{Lösung:}\\
+Da wir der Aufgabe nach nichts weiter erfüllen müssen könnten wir uns für die Praxis unsinnige Ergebnisse ausdenken. So könnte in einem Fehlerfall z.B. immer das literal \underline{7} zurückgegeben werden, oder wir verlangen, dass nach einem Fehler im Programm heiloses Chaos herrschen soll (wie ein Programmierer in realer Semantik einmal spezifiert hat). Wir haben uns für ein etwas handhabbares Model entscheiden, bei dem man noch die Variable \emph{errno} braucht und REAL die Werte \emph{NaN, INFTY, -INFTY} annehmen kann.
+
+\begin{description}
+	\item{\bfseries Bereichsüberlauf:} Wir könnten an dieser Stelle in \emph{errno} z.B. \underline{1} schreiben. Dies wird für alle Anweisungen, die nach 
+		dieser ausgeführt werden bedeuten, dass wir einen Overflow hatten. Im Falle von Integer, werden wir bei einem Überlauf bei MinValue starten
+		und von dort aus den Rest addieren, bei einem Unterlauf, werden wir von MaxValue den Rest abziehen. Bei REAL Zahlen werden wir bei einem
+		Überlauf INFTY und bei einem Unterlauf -INFTY ausgeben.
+	\item{\bfseries Division by zero:} Wir werden hier in \emph{errno} die Zahl \emph{0} schreiben. Diese kann als Identifier benutzt werden um zu testen,
+		ob durch 0 geteilt wurde. Als Wert werden wir die REAL Zahl NaN zurückgeben.
+	\item{\bfseries \emph{read} bei leerer Datei:} Wir vergeben den Fehlercode \emph{2} und schreiben bei Typ T eine 0 und bei B ein false. An dieser 
+		Stelle ist das erste mal wirklich notwendig auf den \emph{errno} zurückzugreifen um den Fehler konkret zu verarbeiten.
+	\item{\bfseries Typkonflikte:} Wir geben wie beim leeren lesen vor und schreiben diesmal \emph{3} in \emph{errno}. Konflikte können nur bei T und B 			auftreten, daher können wir so verfahren. Bei C in der Zuweisung kann es keine Probleme geben, da es keine statisch getypten Variablen gibt
+		und es so zu keinem Konflikt kommen kann.
+\end{description}
+
+\label{LastPage}
+
+\end{document}

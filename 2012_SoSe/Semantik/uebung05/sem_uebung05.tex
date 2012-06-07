@@ -1,0 +1,230 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm]{geometry} 
+\usepackage{babel}
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc} 
+\usepackage{ae} 
+\usepackage{amssymb} 
+\usepackage{amsmath} 
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{paralist}
+
+%\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[C]{Semantik von Programmiersprachen}
+\fancyhead[L]{Übung Nr. 5}
+\fancyhead[R]{SoSe 2012}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage / \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\setlength{\parindent}{0pt} 
+\setlength{\headheight}{0pt}
+
+\author{Tutor: Ansgar Schneider}
+\date{}
+\title{Max Wisniewski , Alexander Steen}
+
+\begin{document}
+
+\lstset{language=Haskell, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2, mathescape=true}
+
+\maketitle
+\thispagestyle{fancy}
+
+
+%% ------------------------------------------------------
+%%                     AUFGABE 1
+%% ------------------------------------------------------
+
+\section*{Aufgabe 1}
+
+Ändern Sie die Sprache \emph{WHILE} ab, indem Sie anstelle des atomaren Ausdruckes \emph{read} Anweisungen
+der Form \emph{read I} zulassen. Die Semantik dieser Anweisung lautet informell: Die Ausführung von \emph{read I} bewirkt eine Zuweisung des nächsten Eingabewertes an die Variable I und eine Verkürzung der Eingabedatei um ein Element.\\
+
+Formalisieren Sie die Semantik von \emph{read I} denotationell.\\
+
+\textbf{Lösung:}\\
+Das erste Problem, das uns auffällt, ist das uns die \emph{WHILE} Semantik nicht erlaubt boolsche
+Werte in Variablen zu speichern. Daher nehmen wir uns entweder die Möglichkeit boolean zu lesen
+oder aber wir nehmen den Ausdruck nicht anstelle des alten sondern nur zusätzlich.\\
+
+$$
+C[read I](s,e,a) := \left\{
+\begin{array}{lr}
+\underline{Fehler} \;\;&,falls \, e\not= ((x.e')\, \land \, x \in W\\
+(s[x/I],e',a) &\, e=(x.e') \, \land \, x \in W
+\end{array}
+\right.
+$$
+
+Sollte nun oben auf der Eingabe kein richtiger Wert liegen oder die Eingabe nicht den richtigen Wert haben
+wird ein Fehler ausgegeben. Sollte aber ein Wert oben in der Eingabe liegen, wird dieser in das Wörterbuch
+substituiert.
+
+%% ------------------------------------------------------
+%%                     AUFGABE 2
+%% ------------------------------------------------------
+
+\section*{Aufgabe 2}
+
+Erweitern Sie die Sprache \emph{WHILE} um eine Anweisung der Form
+{\ttfamily FOR I:= T TO N DO C}. Formalisieren Sie die Semantik 
+dieser Form denotationell.\\
+
+\textbf{Lösung:}\\
+
+Wir führen eine neue Regel ein, die C so oft ausführt, wie T kleiner als N ist. Als weiteres
+feature werden wir einen Fehler werfen, falls $T>N$ gilt.\\
+
+$$
+C[FOR \, I \, := \, T \; TO \; N \, DO \, C]z
+:= \left\{\begin{array}{ll}
+\underline{Fehler}&, falls \; T>N\\
+\underline{Fehler} &, falls C[C]z = \underline{Fehler}\\
+z' &, falls T=N \land z'=C[C]z\\
+C[C;FOR\, I \, := \, T+1 \; TO N \, DO \, C]]z &, sonst
+\end{array}\right.
+$$
+
+Im ersten Fall sehen wir, dass die Schleife niemals terminieren kann und daher geben wir einen 
+Fehler aus. Im zweiten Fall hat die Ausführung von von C einen Fehler ergeben. Der dritte Fall
+ist der Anker für die Rekursion, da dort T=N gilt, muss C nur noch einmal ausgeführt werden.\\
+Wenn wir noch mehr zu tun haben, führen wir C einmal aus und fahren danach mit der Schleife fort,
+wobei T um eins inkrementiert ist.
+
+%% ------------------------------------------------------
+%%                     AUFGABE 3
+%% ------------------------------------------------------
+
+\section*{Aufgabe 3}
+
+Erweitern Sie die Sprache \emph{WHILE} um einen atomaren boolschen Term \emph{eof}.
+Die informelle Semantik von \emph{eof} lautet: \emph{eof} ist wahr gdw. die Eingabe
+leer ist.\\
+Formalisieren Sie die Semantik von \emph{eof} denotationell.\\
+
+\textbf{Lösung:}\\
+
+Der Term \emph{eof} kommt nur in den Boolschen Termen vor, daher muss nur an dieser 
+Stelle eine Veränderung vorgenommen werden.\\
+
+$$
+B[eof]z :=
+\left\{\begin{array}{lr}
+(false,z) \;\;\;&,falls z=(s,\varepsilon,a)\\
+(true,z) &, sonst
+\end{array}\right.
+$$
+
+Enthält der Zustand eine leere Eingabe, so gibt \emph{eof} false zurück.
+Ist dies nicht der Fall so ist der Stack nicht leer und das ganze gibt true zurück.
+
+%% ------------------------------------------------------
+%%                     AUFGABE 4
+%% ------------------------------------------------------
+
+\section*{Aufgabe 4}
+
+
+Programmieren Sie in \emph{WHILE} (einschließlich eof) einen Algorithmus
+zur Berechnung der Summe aller Eingabewerte. Beweisen Sie die Korrektheit
+Ihres Programmes anhand der denotationellen Semantik. Diskutieren Sie die
+Problematik beim Fehlen von \emph{eof}.\\
+
+\textbf{Lösung:}\\
+
+%Wir erweitern zunächst den Datentyp B um \emph{eof}
+%\begin{lstlisting}
+%data B = Literal W | BApp T BOP T | NOT B | EOF
+%\end{lstlisting}
+%Als Implementierung haben wir die Reduktionssemantik vom letzten
+%mal gewählt, da durch ein einfaches $uncurry.red$ das ganze die Form
+%der denotationellen Semantik annimmt. Die Regel für \emph{eof} sieht dann
+%ähnlich zu der oben spezifizierten aus.
+%\begin{lstlisting}
+%redB(EOF, (s,[],a)) = (Literal False, (s,[],a))
+%redB(EOF, z)        = (Literal True, z)
+%\end{lstlisting}
+%Da in Haskell von oben nach unten das pattern matching statt findet, wird
+%der zweite Fall genommen, wenn die Liste nicht leer ist.\\
+
+Zunächst einmal konkreter Syntax:
+\begin{lstlisting}[language=Pascal]
+SUM := 0
+WHILE ( not eof )
+    X := read
+    SUM := SUM + X
+output SUM
+\end{lstlisting}
+und nun in abstrakter Syntax aus unserem While-Programm
+\begin{lstlisting}
+allSum :: P
+allSum = Seq init (Seq sumPart fin)
+sumPart = 
+    (WHILE eof
+        (Seq (Assign X read)
+        (Assign SUM (TApp SUM Plus X)))
+    )
+init = Assign SUM 0
+fin = output SUM
+\end{lstlisting}
+
+Nun können wir als nächstes Beweisen, dass
+$P[allSum](s,[b_1,..,b_n].[],\varepsilon) = (s[SUM/\overset{n}{\underset{k=1}{\sum}}b_k],[],(\underset{k=1}{\overset{n}{\sum}} b_k).\varepsilon)$
+gilt. Dafür zeigen wir, dass folgendes gilt
+$s'(SUM) = x \Rightarrow P[sumPart](s',[b_1,..,b_n],a) = (s*, [], a)$, wobei $s*(SUM) = x + \overset{n}{\underset{k=1}{\sum}} b_i$ ist.
+per Induktion.\\
+\textbf{I.A.} $n=0$ (Keine Eingabe)
+Sei $s'(SUM) = sum$.
+$$\begin{array}{rcl}
+    P[allSum](s',\varepsilon,a) &=& C[allSum](s',\varepsilon,a)\\
+    &=& (s',\varepsilon,a)\\
+&&\text{da gilt}\\
+B[NOT EOF](s',\varepsilon,a) &=& (false,(s',\varepsilon,a)) 
+\end{array}$$
+Nun gilt das sich der Wert von Sum nicht geändert hat, also $s'(SUM) = x$, und da wir $n=0$ haben ist
+$s'(SUM) = x + overset{0}{\underset{k=1}{\sum}} b_i$.\\
+
+\textbf{I.S.} $n \rightarrow n+1$\\
+Sei $s'(SUM) = x$,
+$C' = (Seq (Assign X read) (Assign SUM (TApp SUM Plus X)$
+$W' = (While (not eof) C')$
+$$\begin{array}{rcl}
+    &&P[allSum](s',[b_{n+1},b_n,...,b_1],a) \\
+    &=& C[W'](s',[b_{n+1},...,b_1],a)\\
+    &=& C[W'](s',[b_{n+1},...,b_1],a)\\
+    &=& C[C';W'](s',[b_{n+1},...,b_1],a) (*)\\
+    &=& C[Seq (Assign SUM (TApp SUM Plus X)) W'](C[Assign X read](s',[b_{n+1},...,b_1],a))\\
+    &=& C[Seq (Assign SUM (TApp SUM Plus X)) W'](s'[X/b_{n+1}],[b_n,...,b_1],a)\\
+    &=& C[W'] (C[Assign SUM (Tapp SUM Plus X))](s'[X/b_{n+1}],[b_n,...,b_1],a)) (**)\\
+    &=& C[W'] (s'[X/b_{n+1}][SUM/(x+b_{n+1}),[b_n,...,b_1],a)\\
+    &\stackrel{I.V.}{=}& (s*,[],a), \text{ mit }s*(SUM) = (x+b_{n+1} + \overset{n}{\underset{k=1}{\sum}} b_1)
+\end{array}$$
+
+$(*) gilt, da B[NOT EOF](s',[b_{n+1},...,b_1],a) = (true, (s',[b_{n+1},...,b_1],a))$\\
+$(**)$ gilt da $T[SUM Plus X](s'[X/b_{n+1},e,a) = (x+b_{n+1},s'[X/b_{n+1},e,a)$, da $s'(SUM) = x$ und $s'[X/b_{n+1}(X) = b_{n+1}$.\\
+\mbox{} \hfill $\square$
+
+Nun sehen wir, dass durch $C[Seq (Assign SUM 0) (Seq W' fin)](s,[b_{n},...,b_1],[])$\\ 
+$= C[Seq W' fin](s'[SUM/0],[b_n,...,b_1],[])$ 
+gilt und nach unserer gezeigten Behauptung, wissen wir nun, dass gilt:
+$C[Seq W' fin](s'[SUM/0],[b_n,...,b_1],[]) $\\
+$= C[fin](s'[SUM/0][SUM/0+\overset{n}{\underset{k=1}{\sum}} b_k],[],[])$. Gehen wir also mit output in die letzte anweisung, gilt.
+$C[output SUM](s'[SUM/\overset{n}{\underset{k=1}{\sum}} b_k],[],[]) = (s'[SUM/\overset{n}{\underset{k=1}{\sum}} b_k], [], [\overset{n}{\underset{k=1}{\sum} b_k}])$
+
+Wir haben gezeigt, dass sowohl in der Ausgabe, als auch im Wörterbuch am Ende der Methode die Summe aller Eingaben stehen wird.\\
+
+Zum letzten Teil können wir sagen, dass diese Methode nicht ohne \emph{eof} funktionieren kann, da wir uns nicht sicher ein können, wie lange die Eingabe ist. Wir könnten genau so vorgehen, allerdings würde dann im letzten Schritt der Schleife ein Fehler fliegen, da wir mit read auf ein nicht existentes Datum zugreifen.\\
+
+Eine Möglichkeit wäre es, dass man von der Eingabe verlangt, dass die erste Stelle der Eingabe immer die Länge der gesammten Liste ist. Dies wäre allerdings eine schlechte Abstraktion, da es Diesziplin vom Programmierer bedürfte. Es würde so aber wenigstens laufen. In diesem Fall würde sich die Forschleife aus Aufgabe 3 benutzen.
+
+\label{LastPage}
+
+\end{document}

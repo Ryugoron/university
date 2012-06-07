@@ -1,0 +1,107 @@
+\subsection*{Aufgabe 4.2 : Totmann}
+
+\subsubsection*{A 4.1.1}
+
+In dieser Aufgabe soll eine Totmanschaltung realisiert werden. Wird ein Taster innerhalb eines gewissen Zeitraumes nicht gedrückt, so erfolgt eine spezifizierte Reaktion darauf. Zum Beispiel eine Notbremsung, Explosion von Sprengstoff und viele spaßige Dinge mehr.\\
+
+Dabei soll das folgende Passieren:\\
+
+\begin{enumerate}[1.]
+	\item Taste (P1.0) als Interruptquelle programmieren
+	\item alle LED ausschalten
+	\item Wathcdog als Timer Interruptquelle programmieren
+	\item LED (P4.1) einschalten
+	\item Endlosschleife mit 0.5 Sekundentakt blinkender LED (P4.0)
+	\item Bei Tastendruck (P1.0) Watchdogteimer neu Starten und (P4.1) auschalten.
+\end{enumerate}
+
+Springt der Watchdog an, soll das folgende Passieren:
+
+\begin{itemize}
+	\item Ist LED (P4.1) aus, wird sie wieder eingeschaltet
+	\item Ist LED (P4.1) an, wird der Watchdog Timer Interrupt ausgeschaltet und eine Ampelsequenz dauerhaft angeschaltet.
+\end{itemize}
+
+\textbf{Programm}:\\
+
+\begin{lstlisting}
+
+//Entscheidet in welcher Phase wir sind	
+char flag42 = 0;
+
+void aufgabe42init(){
+	// Uebliche Initialisierung
+	P4SEL &= ~(0x07);
+	P4DIR |= 0x07;
+	P4OUT |= 0x07;
+
+	BSCTL! |= DIVA_2;	// Basetakt ist 1s, DIVA_2 bedeute x4
+	// Startet den Watchdog, mit dem TimerMode
+	WDTCTL = DWTPW + WDTCNTCL + WDTSSEL + WDTTMSEL;
+	IE1 |= WDT_IE;
+	IE1 |= 0x01;
+	P1IES &= ~(0x01);
+}
+
+#pragma vector = WDT_VECTOR
+__interrupt void do_wdt(void){
+	if(P4IN & 0x02){
+		LED2ON;
+		WDTCTL = WDTPW + WDTCNTCL + WDTSSEL + WDTTMSEL;
+	} else {
+		WDTCTL = WDTPW + WTHOLD;
+		flag42 = 1;
+	}
+}
+
+#pragma vector = PORT1_VECTOR
+__interrupt void PORT1_a42(void){
+	if(P1IN & 0x01){
+		dosmth();
+	}
+	P1IFG &= ~(0xFF);
+}
+
+void dosmth(){
+	if(!flag42){
+		P1IE &= ~(0x01);
+		LED2OFF;
+		WDTCTL = WDTPW + WDTCNTCL + WDTSSEL + WDTTMSEL;
+		wait(50000);
+		P1IE = |= 0x01;
+	}
+}
+
+void aufgabe42(){
+	if(flag42){
+		ampel();
+	}else{
+		if(P4IN & 0x01){
+			P4IN &= ~(0x01);
+		} else {
+			P4IN |= 0x01;
+		}
+	}
+}
+
+void ampel(){
+	//Vgl Aufgabe 1
+}
+
+\end{lstlisting}
+
+\textbf{Erklärung}:\\
+
+In der Init aktivieren wir wie gewöhnlich den Taster zum lesen und die LED zum schreiben. Nun aktivieren wir noch die Interrupts und legen das InterruptEnabled Bit für den Taster und für den Watchdog an. Den Watchdog starten wir mit WDTTMSEL, wodurch bei auslösen nicht der Reset ausgeführt wird, sondern die ISR angesprungen wird.\\
+
+Die ISR für den Watchdog scannt, ob die LED2 an ist. Ist sie an, reseten wir den Watchdog. Ist sie aus, schalten wir den Watchdog aus und ändern den Programmzustand (flag42), so dass danach die ampel ausgeführt wird.\\
+
+Drücken wir den Taster, reseten wir den Watchdog, schalten die LED2 an.\\
+
+In der Main, führen wir nun immer eine Ampel aus, wenn der Watchdoginterrupt die \emph{flag42} gesetzt hat. Ist dies nicht der Fall, so Toggeln wir die LED1 immer.
+
+Die flag42 wird nie zurückgesetzt. Dies soll dazu führen, dass nachträgliches drücken des Tasters die Bremsung nicht aufhalten kann. Darüber hinaus, wird der Watchdog auf hold gesetzt und sollte nicht mehr anspringen.\\
+
+\textbf{Beobachtung}:\\
+
+Wir beobachten, dass die LED1 erste getoggelt wird. Wenn wir zu diesem Zeit der Taster gedrückt wird, leuchtet für geschätzte 4s die LED2. Drücken wir den Taster nachdem die Ampel gestartet wurde, so passiert nichts mehr.

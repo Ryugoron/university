@@ -1,0 +1,29 @@
+LA> o.anfang $ test1
+["True && True = True","False || True = True"]
+
+LA> eval test1
+["True && True = True","False || True = True"]
+
+LA> fix.anfang $ test1
+([True],[],["True && True = True","False || True = True"])
+
+LA> red (test1,[])
+(True,["True && True = True","False || True = True"])
+
+LA> o.anfang $ test2
+["not (False) = True","True && False = False","True && False = False","False || False = False"]
+
+LA> eval.anfang $ test2
+["not (False) = True","True && False = False","True && False = False","False || False = False"]
+
+LA> fix.anfang $ test2
+([True],[],["not (False) = True","True && False = False","True && False = False","False || False = False"])
+
+LA> red (test2,[])
+(True,["not (False) = True","True && False = False","True && False = False","False || False = False"])
+
+RedSem> eval divTest [(LiteralInteger 10),(LiteralInteger 2)]
+[5]
+
+RedSem> eval divTest [(LiteralInteger 200),(LiteralInteger 13)]
+[15]

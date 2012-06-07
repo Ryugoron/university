@@ -1,0 +1,267 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm]{geometry} 
+\usepackage{babel}
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc} 
+\usepackage{ae} 
+\usepackage{amssymb} 
+\usepackage{amsmath} 
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{paralist}
+
+%\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[C]{CoMa II}
+\fancyhead[L]{Übung Nr. 1}
+\fancyhead[R]{SoSe 2012}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage / \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\setlength{\parindent}{0pt} 
+\setlength{\headheight}{0pt}
+
+\author{Tutor: Sebastian Scherer}
+\date{}
+\title{Max Wisniewski , Alexander Steen}
+
+\begin{document}
+
+\lstset{language=Pascal, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2}
+
+\maketitle
+\thispagestyle{fancy}
+
+
+%% ------------------------------------------------------
+%%                     AUFGABE 1
+%% ------------------------------------------------------
+
+\section*{Aufgabe 1}
+
+Seien $A = \left(
+                \begin{array}{cc}
+                    1 & 1 \\
+                    0 & \varepsilon
+                \end{array}
+           \right),
+      b_1 = \left(
+                \begin{array}{c}
+                    2 \\
+                    \varepsilon
+                \end{array}
+           \right),
+      b_2 = \left(
+                \begin{array}{c}
+                    0 \\
+                    1 
+                \end{array}
+           \right)$
+mit $0 < \varepsilon \ll 1$.
+
+\begin{description}
+\item[a)] Berechne die Kondition $\kappa(A) = \|A \|_{\infty} \|A^{-1} \|_{\infty} $ \\
+
+Wegen $\|A \|_{\infty} = 2$ und
+$\|A^ {-1} \|_{\infty} =
+            \left|\left| \left(
+                \begin{array}{cc}
+                    1 & -\frac{1}{\varepsilon} \\
+                    0 & \frac{1}{\varepsilon}
+                \end{array}
+           \right) \right|\right|_{\infty}
+            = \frac{1}{\varepsilon}$
+folgt
+$$ \kappa(A) = 2 \cdot \frac{1}{\varepsilon} = \frac{2}{\varepsilon}$$.
+
+\item[b)] Löse die Gleichungssysteme $Ax_1 = b_1$ und $Ax_2 = b_2$ und interpretiere die Ergebnisse im Bezug auf $\kappa(A)$. \\
+
+Beide LGS sind bereits in Zeilenstufenform, sodass wir einfach rückwarts substituieren können. \\
+Für das LGS $\left(
+      \begin{array}{cc|c}
+         1 & 1           & 2\\
+         0 & \varepsilon & \varepsilon
+      \end{array}
+    \right)$: \\
+
+(I) $\varepsilon x_{1_2} = \varepsilon \Leftrightarrow x_{1_2} = 1$ \\
+(II) $x_{1_1} + x_{1_2} = 2 \Leftrightarrow x_{1_1} + 1 = 2 \Leftrightarrow x_{1_1} = 1$ \\
+$ \Rightarrow x_1 = \left(\begin{array}{c} 1 \\ 1 \end{array} \right)$.
+
+
+Für das LGS $\left(
+      \begin{array}{cc|c}
+         1 & 1           & 0\\
+         0 & \varepsilon & 1
+      \end{array}
+    \right)$: \\
+
+(I) $\varepsilon x_{2_2} = 1 \Leftrightarrow x_{2_2} = \frac{1}{\varepsilon}$ \\
+(II) $x_{2_1} + x_{2_2} = 0 \Leftrightarrow x_{2_1} + \frac{1}{\varepsilon} = 0 \Leftrightarrow x_{2_1} = -\frac{1}{\varepsilon}$ \\
+$ \Rightarrow x_2 = \left(\begin{array}{c} -\frac{1}{\varepsilon} \\ \frac{1}{\varepsilon} \end{array} \right)$.
+
+Aus den Ergebnissen können wir sehen, dass der Fehler für kleine $\varepsilon$ bei $b_1$ absolut stark wächst. Bei $b_2$ streben allerdings der Fehler und der Ergebniswert gegen unendlich. Daher ist der Fehler für kleine $\varepsilon$ bei $b_2$ nicht so gravierenend, wie bei $b_1$. Für große $\varepsilon$ geht der relative Fehler beider Ergebnisse gegen 0.
+\end{description}
+
+\pagebreak
+
+%% ------------------------------------------------------
+%%                     AUFGABE 2
+%% ------------------------------------------------------
+
+\section*{Ausgabe 2}
+
+Seien $A,B \in \mathbb{R}^{2,2}$, mit
+$ A = \left(
+        \begin{array}{cc}
+          1         & \frac{1}{2} \\
+          \sqrt(2)  & \frac{1}{\sqrt(2)}
+        \end{array}
+      \right),
+ B = \left(
+        \begin{array}{cc}
+          1         & \frac{1}{2} \\
+          \sqrt(2)  & \sqrt(\frac{1}{2})
+        \end{array}
+      \right)
+$.
+
+\begin{description}
+
+\item[a)] Berechnen Sie in matlab mittels \textbackslash -Operator die Lösungen der LGS \\
+          $Ax = \left( \begin{array}{c} 1 \\ 1\end{array}\right), 
+           By = \left( \begin{array}{c} 1 \\ 1\end{array}\right)$. \\
+            
+          Die Matrizen werden mittels der folgenden Kommandos in matlab definiert:          
+          \begin{lstlisting}
+  >> A = [1, 1/2; sqrt(2), 1/sqrt(2)]
+  >> B = [1, 1/2; sqrt(2), sqrt(1/2)]
+          \end{lstlisting}
+          
+          Wir berechnen die Lösungen für $x$ und $y$ mittels \textbackslash -Operator wie folgt:
+
+          \begin{lstlisting}
+  >> x =  A \ [1;1]
+  >> y =  B \ [1;1]
+          \end{lstlisting}
+
+          Dabei kommt bei der ersten Berechnung der Hinweis "Matrix is close to singular or badly scaled. Results may be inaccurate. RCOND = 7.850462e-17.", bei der zweiten Berechnung die Fehlermeldung "Matrix is singular to working precision.".
+          Als Lösung erhalten wir
+          $x = 10^{15} \cdot \left( \begin{array}{c} -1.3191 \\ 2.6381 \end{array} \right)$ und
+          $y = \left( \begin{array}{c} -\infty \\ \infty \end{array} \right)$.
+
+\item[b)] Erklären Sie ihre Beobachtungen. \\
+
+          In matlab werden die Terme $1/sqrt(2)$ und $sqrt(1/2)$ verschieden gerundet.
+          Dies kann man z.B. daran sehen, dass ihre Differenz von Null verschieden ist:
+
+          \begin{lstlisting}          
+  >> 1/sqrt(2) - sqrt(1/2)
+  ans = -1.1102e-16
+          \end{lstlisting}
+          
+          Aus diesem Grund entstehen bei der Berechnung verschiedene Rundungsfehler. \\
+          Schauen wir uns die Matrizen $A$ und $B$ an, so sehen wir, dass diese singulär sind,
+          da $det(A)=det(B)=0$ gilt. Aus diesem Grund können wir das LGS nicht mit 
+          "\textbackslash " lösen, da hier die Matrizen invertiert werden. Bei $\sqrt{2}$ handelt es sich um sich um eine irrationale Zahl, die der PC  nur gerundet 
+	darstellen kann. In Matrix B kann matlab den abstrakten Zwischenwert $\sqrt{\frac{1}{2}}$ zwischenspeichern und korrekt auflösen.
+	Bei Matrix A wird allerdings zuerst geteilt. Bei dieser Operation verstärkt sich der Rundungsfehler der Darstellung der irrationalen Zahl.
+	Dadurch wird die Matrix nicht mehr singulär und es kann ein Ergebniss berechnet werden.
+
+\end{description}
+%% Raw matlab output:
+%%>> A = [1, 1/2; sqrt(2), 1/sqrt(2)]
+%%
+%%A =
+%%
+%%    1.0000    0.5000
+%%    1.4142    0.7071
+%%
+%%>> B = [1, 1/2; sqrt(2), sqrt(1/2)]
+%%
+%%B =
+%%
+%%    1.0000    0.5000
+%%    1.4142    0.7071
+%%
+%%>> A \ [1;1]
+%%Warning: Matrix is close to singular or badly scaled.
+%%         Results may be inaccurate. RCOND = 7.850462e-17. 
+%%
+%%ans =
+%%
+%%   1.0e+15 *
+%%
+%%   -1.3191
+%%    2.6381
+%%
+%%>> B \ [1;1]
+%%Warning: Matrix is singular to working precision. 
+%%
+%%ans =
+%%
+%%  -Inf
+%%   Inf
+%%
+
+
+\pagebreak 
+
+%% ------------------------------------------------------
+%%                     AUFGABE 3
+%% ------------------------------------------------------
+
+\section*{Aufgabe 3}
+Zeigen Sie, dass die von der $1$-Norm induzierte Matrixnorm der Spaltensummennorm entspricht. \\
+
+Sei $A \in \mathbb{R}^{n \times n}, A \neq 0$, zu zeigen:
+$$ \|A \|_1 := \sup_{x \neq 0}{\frac{\|Ax\|_{1}}{\|x\|_{1}}}
+                  =\max_{1 \leq j \leq n}{\sum_{i=1}^{n}{|a_{ij}|}} $$
+
+Wie in CoMa I gezeigt, gilt
+$\sup_{x \neq 0}{\frac{\|Ax\|_{1}}{\|x\|_{1}}} = \sup_{\|x\|_{1} = 1}{\|Ax\|_{1}}$. \\ \\
+Sei nun $x \in \mathbb{R}^{n}$, mit $\|x\|_{1} = 1$.\\
+
+(1) z.z. $\|A \|_1 \leq \max_{1 \leq j \leq n}{\sum_{i=1}^{n}{|a_{ij}|}}$ 
+
+$$
+\|Ax\|_{1} \stackrel{\text{Def.}\|.\|_{1}}{=}
+     \sum_{i=1}^{n}{\left| \sum_{j=1}^{n}{a_{ij}x_j} \right|}
+\leq \sum_{i=1}^{n}{\sum_{j=1}^{n}{\left|a_{ij}x_j\right|} }
+=    \sum_{i=1}^{n}{\sum_{j=1}^{n}{|a_{ij}||x_j|} }
+$$
+$$
+=    \sum_{j=1}^{n}{\sum_{i=1}^{n}{|a_{ij}||x_j|} }
+=    \sum_{j=1}^{n}{|x_j| \sum_{i=1}^{n}{|a_{ij}|} }
+\leq \sum_{j=1}^{n}{|x_j| \max_{1\leq j \leq n}{\sum_{i=1}^{n}{|a_{ij}|}} }
+$$
+$$
+\stackrel{(**)}{=} \max_{1\leq j \leq n}{\sum_{i=1}^{n}{|a_{ij}|}} \quad \text{(**) gilt, da} \sum_{j=1}^{n}{|x_j|} = 1
+$$
+
+$\Rightarrow \|A\|_{1} \leq \max_{1 \leq j \leq n}{\sum_{i=1}^{n}{|a_{ij}|}}$. \\ \\
+
+(2) z.z. $\|A \|_1 \geq \max_{1 \leq j \leq n}{\sum_{i=1}^{n}{|a_{ij}|}}$ 
+
+
+Sei $e_j$ der $j$-te Einheitsvektor.\\
+$$    \max_{1 \leq j \leq n}{\| Ae_j \|_{1}} 
+\stackrel{\text{Def.}}{=}     \max_{1 \leq j \leq n}{\sum_{i=1}^{n}{|a_{ij}|}}
+\stackrel{(***)}{\leq}  \sup_{\|x\|_{1} = 1}{\|Ax\|_{1}}
+=     \| A \|_1
+$$
+(***) gilt, da das Supremum natürlich nicht kleiner werden kann.\\
+$\Rightarrow \|A\|_{1} \geq \max_{1 \leq j \leq n}{\sum_{i=1}^{n}{|a_{ij}|}}$.\\ \\
+$\Longrightarrow \|A\|_{1} = \max_{1 \leq j \leq n}{\sum_{i=1}^{n}{|a_{ij}|}}$.
+
+\mbox{}\hfill $\square$
+
+\label{LastPage}
+
+\end{document}

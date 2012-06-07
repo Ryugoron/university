@@ -1,0 +1,313 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm]{geometry} 
+\usepackage{babel}
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc} 
+\usepackage{ae} 
+\usepackage{amssymb} 
+\usepackage{amsmath} 
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{paralist}
+
+\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[C]{Analysis II}
+\fancyhead[L]{Aufgabenblatt 1}
+\fancyhead[R]{SoSe 2012}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage \hspace{1px} of \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\setlength{\parindent}{0pt} 
+\setlength{\headheight}{0pt}
+
+\date{}
+\title{Max Wisniewski , Alexander Steen}
+\author{Tutor : Adrian Steffens}
+
+\begin{document}
+
+\lstset{language=Pascal, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2}
+
+\maketitle
+\thispagestyle{fancy}
+
+%% ------------------------------------------------------
+%%                     Aufgabe 1
+%% ------------------------------------------------------
+
+\section*{Aufgabe 1: \mdseries Spezielle gleichmäßige Funktionen}
+
+Sei $A \subset \mathbb{R}$. Eine Funktion $f \; : \; A \rightarrow \mathbb{R}$ heißt \emph{Hölder stetig} mit Exponent $\alpha \in \left( 0,1 \right]$ wenn es eine Konstante $C > 0$ gibt, so dass für alle $x,y \in A$ die Ungleichung
+$$
+    \left| f(x) - f(y)\right| \leq C \left| x - y \right|^\alpha
+$$
+
+gilt. Ist $\alpha = 1$ so nennt man $f$ \emph{Lipschitzstetig}
+
+\begin{enumerate}[\bfseries a)]
+    \item Sei $A=\left\{ z \in \mathbb{R} \; | \; z \geq 0 \right\}$ und $f \; : \; A \rightarrow \mathbb {R}$ gegeben durch $f(z) = \sqrt{z}$. Zeigen Sie dass $f$ Hölderstetig mit $\alpha = \frac{1}{2}$ ist.\\
+
+\textbf{Lösung:}\\
+
+Sei $x,y \in [a,b]$, dann gilt
+$$
+\begin{array}{lrcl}
+&| \sqrt{x} - \sqrt{y} | & \leq & | \sqrt{x} | - | \sqrt{y} | \leq C \cdot \sqrt{| x - y |}\\
+\Leftrightarrow & \left( \sqrt{x} - \sqrt{y} \right)^2 & \leq & C^2 \cdot |x - y|\\
+\Leftrightarrow & x - 2\sqrt{x}\sqrt{y} + y &\leq& C^2 \cdot | x - y | \leq C^2 \cdot \left( |x| + |-y| \right)\\
+\Leftrightarrow & - 2 \sqrt{x}\sqrt{y} &\leq& (C^2-1) (x + y),
+\end{array}
+$$
+Für $C>1$, da $\sqrt{x}$ und $\sqrt{y}$ beide größer Null sind, ist die linke Seite der Gleichung kleiner Null. Da wir rechts $x+y$ rechnen und beide größer null sind, gilt $x+y > 0$. Wenn nun $C>1$ belibt die rechte Seite positiv. Für ein $C>1$ ist die Gleichung erfüllt und damit ist $f$ Hölderstetig mit $\alpha = \frac{1}{2}$
+
+    \item Sei $A=\mathbb{R}$ und $f=\arctan$ eingeschränkt auf $\left( -\frac{\pi}{2},\frac{\pi}{2} \right)$. Zeigen Sie, dass $f$ Lipschitzstetig ist.\\
+
+\textbf{Lösung:}
+
+Es seien $x,y \in \left( -\frac{\pi}{2},\frac{\pi}{2} \right)$. Da $f=\arctan$ stetig auf Einschränkung, folgt aus dem Mittelwertsatz:\\
+$$
+\exists \mu \in \left[x,y\right]:\; \left| f(x) - f(y) \right| = f'(\mu) \left| x - y \right|
+$$
+$$
+= \frac{1}{\mu^2 + 1} \left| x - y \right| \leq 1 \cdot \left| x - y \right|
+$$
+Also ist $f=\arctan$ eingeschränkt auf $\left( -\frac{\pi}{2},\frac{\pi}{2} \right)$ Lipschitzstetig mit Konstante $C = 1$.
+
+\pagebreak
+    \item Sei $f \; : \; A \rightarrow \mathbb{R}$ Hölderstetig. Zeigen Sie, dass $f$ gleichmäßig stetig ist.\\
+
+\textbf{Lösung:}
+
+Sei $f \; : \; A \rightarrow \mathbb{R}$ Hölderstetig \\
+$\Rightarrow \exists \alpha \in (0,1] \exists C > 0 \forall x,y \in A: \left| f(x) - f(y)\right| \leq C \left| x - y \right|^\alpha$ \\
+Es sei $\varepsilon > 0$ und $ \left| x - y\right| < \delta$ für ein $\delta > 0$ $\forall x,y \in A$.\\
+
+Z.z. $\left| f(x) - f(y)\right| < \varepsilon$.\\
+Wähle $\delta = \left( \frac{\varepsilon}{C} \right)^{\frac{1}{\alpha}}$.\\
+Also gilt:
+$$
+  \left| f(x) - f(y)\right| \leq C \left| x - y \right|^\alpha
+< C \delta^\alpha = C \left( \left( \frac{\varepsilon}{C} \right)^{\frac{1}{\alpha}}\right)^\alpha
+= \varepsilon
+$$
+
+\end{enumerate}
+
+%%-----------------------------------------------
+%%              Aufgabe 2
+%%-----------------------------------------------
+
+\section*{Aufgabe 2 : \mdseries Hauptsatz der Differential- und Integralrechnung}
+
+Finden Sie die Ableitung der Funktion $f \; : \; \mathbb{R} \rightarrow \mathbb{R}$ definiert durch die folgenden Ausdrücke.
+
+\begin{enumerate}[i)]
+    \item $F(x) = \int_{0}^{x^2} \sin \, t \; dt$.\\
+
+\textbf{Lösung:}\\
+
+Nach dem Hauptsatz der Differential- und Integralrechnung ist die Ableitung die Umkehrung des Integrals. Die Grenzen werden nach Substitutionsmethode abgeleitet und als Faktor übernommen.
+$$
+\begin{array}{rcl}
+F'(x)	&=& \left( \int_0^{x^2} \sin \, t \; dt\right)'\\
+	&=& (x^2)' \cdot \sin x^2\\
+	&=& 2x \cdot \sin x^2 + C
+\end{array}
+$$
+
+    
+    \item $F(x) = \exp \left( \int_{0}^{x} p(t)\; dt\right)$, wobei $p \, : \, \mathbb{R} \rightarrow \mathbb{R}$ stetig \\
+
+\textbf{Lösung:}\\
+
+$$
+\begin{array}{rcl}
+F'(x)	&=& \left( \exp \left( \int_0^x p(t) \; dt \right) \right)'\\
+	&\stackrel{\text{Subst.}}{=}& \left( \int_0^x p(t) \; dt\right)' \cdot \exp \left( \int_0^x p(t) \; dt\right)\\
+	&=& p(x) \cdot F(x)
+\end{array}
+$$
+
+    \item Es sei $h \, : \, \mathbb{R} \rightarrow \mathbb{R}$ stetig und $f$ und $g$ auf ganz $\mathbb{R}$ differenzierbar. Setzten Sie dann
+$$
+    F(x) = \int_{f(x)}^{g(x)} h(t) \; dt
+$$
+und berechnen die Ableitung von $F$.\\
+
+\pagebreak
+
+\textbf{Lösung:}\\
+
+$$
+\begin{array}{rcl}
+F'(x)	&=& \left( \int_{f(x)}^{g(x)} h(t) \; dt \right)'\\
+	&\stackrel{\text{Haupt.}}{=}& g'(x) h(g(x)) - f'(x) h (f(x))
+\end{array}
+$$
+
+Die Ableitung existiert, da $g$ und $f$ differenzierbar sind. Da $h$ stetig ist, kann der Hauptsatz der Differential- und Integralrechnung verwendet werden.
+
+\end{enumerate}
+%% ---------------------------------------------
+%%              Aufgabe 3
+%% ---------------------------------------------
+
+\section*{Aufgabe 3 : \mdseries Mittelwertsatz der Integralrechnung}
+
+\begin{enumerate}[i)]
+    \item Es sei $f$ eine auf dem Interval $[a,b]$ integrierbare Funktion mit $m \leq f(x) \leq M$ für alle $x\in[a,b]$. Dann gibt es ein $\mu \in [m,M]$ mit Eigenschaft
+$$
+    \int_{a}^{b} f(x) \, dx = (b - a) \mu.
+$$
+
+\textbf{Lösung:}\\
+Da $m \leq f(x) \leq M$ für alle $x\in[a,b]$ gilt die Abschätzung:
+$$
+    (b-a)\cdot m = \int_{a}^{b} m \, dx \leq \int_{a}^{b} f(x) \, dx \leq \int_{a}^{b} M \, dx = (b-a) \cdot M
+$$
+$\Rightarrow \exists \mu \in \left[m,M\right]$ sodass
+$$
+    \int_{a}^{b} f(x) \, dx = (b - a) \mu
+$$
+
+    \item Es sei $f$ stetig auf $[a,b]$. Zeigen Sie, dass gilt 
+$$
+    \int_{a}^{b} f(x)\, dx = (b-a) f(\xi)
+$$
+für ein $\xi\in [a,b]$. Begründen Sie anhand eins Gegenbeispiels, dass die Stetigkeit von $f$ notwendig ist.\\
+
+\textbf{Lösung:}
+
+Es seien $m,M$ wie aus Aufgabe 3 a). Aus Aufgabe 3 a) wissen wir, dass ein $\mu \in \left[m,M\right]$ existiert, mit
+$$
+    \int_{a}^{b} f(x) \, dx = (b - a) \mu
+$$
+Da $\mu \in \left[m,M\right] = \left[f(\alpha),f(\beta)\right]$ für ein $\alpha,\beta \in [a,b]$ (eine stetige Funktion nimmt auf einem abgeschlossenem Intervall sein Minimum und Maximum an) und $f$ auf $\left[a,b\right]$ stetig, folgt aus dem Zwischenwertsatz: $f(\xi) = \mu$ für ein $\xi \in \left[a,b\right]$.
+$$
+    \Rightarrow \int_{a}^{b} f(x)\, dx = (b-a) f(\xi)
+$$
+
+Dass $f$ stetig ist, ist eine notwendige Bedingung. Sehen wir uns dazu das  $\int_0^1 f(x)\;dx$ für die Funktion
+$$
+f(x) = \left\{ 
+\begin{array}{rl}
+1 & ,x > \frac{1}{2} \\
+0 &, sonst 
+\end{array}
+\right. \text{ an.}
+$$
+
+Dass Integral $\int_0^1 f(x) dx = \frac{1}{2}$. Doch wie wir sehen, kann dieser Wert an keiner Stelle auf der Gesammten Funktion, insbesondere des Intervals angenommen werden.
+
+    \item Sei nun $f$ stetig auf $[a,b]$, und $g$ integrierbar und positiv (bzw. negativ) auf $[a,b]$. Zeigen Sie dass 
+$$
+    \int_{a}^{b} g(x)f(x)\, dx = f(\xi) \int_{a}^{b} g(x) \, dx
+$$ 
+für ein $\xi \in [a,b]$ gilt. Man nennt dies den Mittelwertsatz der Intergralrechnung   . Begründen Sie anhand eines Gegenbeispiels, dass die Vorzeichenbedingung an $g$ notwendig ist. \\
+
+\textbf{Lösung:}\\
+Sei $m \leq f(x) \leq M$ für alle $x \in [a,b]$, wie in Aufgabenteil i). Diese Gleichung setzen wir nun in unsere Bedingung ein. An dieser Stelle benutzen wir, dass $g\geq0$ gelten soll. Sollte $g\leq 0$ gelten, würde sich die Relation umdrehen, \\da $x\geq y \land z<0 \Rightarrow zx \leq zy$. Sollte der zweite Fall eintreten, müssten wir $m$ und $M$ vertauschen.\\
+$$
+\begin{array}{crcccl}
+\Rightarrow& \int_a^b m\cdot g(x) \, dx& \leq & \int_a^b f(x) \cdot g(x) \, dx & \leq & \int_a^b M g(x) \, dx\\
+\Leftrightarrow & m \cdot \int_a^b g(x) \, dx & \leq & \int_a^b f(x) \cdot g(x) \, dx & \leq & M \cdot \int_a^b g(x) \, dx\\
+\stackrel{3i)}{\Rightarrow} & \exists \mu \in [m,M]&:& \mu \cdot \int_a^b g(x) \, dx & = & \int_a^b f(x)g(x) \, dx \\
+\stackrel{3ii)}{\Rightarrow} & \exists \xi \in [a,b] &:& f(\xi) \cdot \int_a^b g(x) \, dx &=& \int_a^b f(x)g(x) \, dx
+\end{array}
+$$
+
+Damit das ganze funktionieren kann, sollten wir zunächst zeigen, dass gilt:
+Seien $f$ und $g$ integrierbar über $[a,b]$.  Dann ist $f\cdot g$ eine integrierbar Funktion über $[a,b]$. Da sowohl $f$ als auch $g$ integrierbar sind, existieren 2 Partitionsfolgen bezüglich dieser die Ober- und Untersummen von $f$ und $g$ konvergieren. Daraus können wir folgern, dass eine einzige Partitionsfolge $P_n$ existiert, bezüglich dieser die Ober- und Untersumme für beide Funktionen konvergieren (gegen den selben Grenzewert). Dies liegt daran, dass wir durch die Verfeinerung einer Partitionsfolge, die konvergiert und neue Punkte innerhalb des Intervals, die konvergenz Eigenschaft nicht verändern können. Weiter zu beweisen hatten wir keine Lust mehr.
+
+Die Vorzeichenbedingung an $g$ ist notwendig. Betrachten wir das Integral
+$$
+    \int_{-\pi}^{\pi}{x \cdot x \; dx} = \frac{2 \pi^3}{3}
+$$
+also $f(x) = g(x) = 0$. Hier gilt dann
+$$
+    \int_{-\pi}^{\pi}{x \; dx} = 0 \Rightarrow a \cdot \int_{-\pi}^{\pi}{x} = 0 \; \forall a \in \mathbb{R}
+$$
+
+\end{enumerate}
+
+\pagebreak
+
+%% ---------------------------------------------------
+%%                  Aufgabe 4
+%% ---------------------------------------------------
+
+\section*{Aufgabe 4 : \mdseries Positivitätseigenschaft des Integrals}
+
+\begin{enumerate}[i)]
+    \item Sei $f$ integrierbar auf $[a,b]$ und $f\geq 0$ für alle $x \in [a,b]$. Zeigen Sie, dass dann gilt
+$$
+    \int_{a}^{b} f(x) \, dx \geq 0.
+$$
+
+\textbf{Lösung:}\\
+
+Sei $P=a=x_0<...<x_n=b$ Partitionsfolge über n von $[a,b]$, sodass $U_n$ und $O_n$ Unter- und Obersummen konvergieren. Diese Partitonsfolge muss existieren, da die Funktion integrierbar ist (nach der bisher angenommenen definition von integrierbar). Dann gilt für alle $S_i = \sup \{ f(y) \; | \; x_i < y < x_{i+1} \}$, $S_i \geq 0$, da jeder Funktionswert des Supremums größer gleich $0$.\\
+ Nun ist $\int_a^b f(x) \, dx = \underset{n \rightarrow \infty}{\lim} O_n = \underset{n \rightarrow \infty}{\lim} \underset{i=0}{\overset{n-1}{\sum}} S_i \geq 0$, da jeder Summand, wie gezeigt größer oder gleich 0 ist.
+
+    \item Geben Sie ein Beispiel einer Funktion $f$ mit folgenden Eigenschaften:
+$$
+    f(x) \geq 0 \text{ für alle } x\in [a,b], \, f(x_0) > 0\text { für ein } x_0 \in [a,b], \int_{a}^{b} f(x) \, dx = 0.
+$$
+
+\textbf{Lösung}
+
+Sei $a < b \in \mathbb{R}, \psi = a + \frac{b-a}{2}$ und $f:\; [a,b] \to \mathbb{R},\; x \mapsto \begin{cases}  
+                                                    1, &\text{ wenn } x = \psi\\
+                                                    0, &\text{ sonst}
+                                                 \end{cases}$.\\
+
+Wir wählen als Partitionsfolge $\{a,\psi - \frac{b-a}{2^{i+2}},\psi + \frac{b-a}{2^{i+2}},b\}$, wobei $i \in \mathbb{N}$ der Index der Folge ist.
+
+Für die Untersumme $U_n$ gilt $U_n = 0$ für alle $n \in \mathbb{N}$. \\
+Für die Obersumme $O_n$ gilt $O_n = \psi + \frac{b-a}{2^{n+2}} - \left(\psi - \frac{b-a}{2^{n+2}}\right)
+ = \frac{b-a}{2^{n+1}}$. \\
+
+Nun betrachten wir den Grenzwert der Obersumme:
+$$
+\lim_{n \to \infty}{O_n} = \lim_{n \to \infty}{\frac{b-a}{2^{n+1}}} = 0 = \lim_{n \to \infty}{U_n}
+$$
+Da der Grenzwert existiert und die Differenz von Unter- und Obersumme Null ist, ist das Integral von $f$ definiert und es gilt:
+$$ \int_{a}^{b}{f(x) \; dx} = \lim_{n \to \infty}{O_n} = \lim_{n \to \infty}{U_n} = 0 $$
+
+
+    \item Sei $f(x) \geq 0$ für alle $x \in [a,b]$ und $f$ stetig mit $x_0 \in [a,b]$ mit $f(x_0) > 0$. Zeigen Sie, dass dann auch gilt
+$$
+    \int_{a}^{b} f(x) \, dx > 0.
+$$
+
+\pagebreak
+
+\textbf{Lösung:}\\
+
+Sei $f(x_0) = c > 0$ wie in der Aufgabe. Da $f$ stetig ist, gilt $\forall \varepsilon > 0 \exists \delta > 0 \; : \; |x - x_0| < \delta \Rightarrow | c - f(x) | < \varepsilon$. Wir suchen uns ein $\varepsilon$, so dass $f(x) - \varepsilon > 0$ und $\varepsilon > 0$. Dazu existiert nach Satz ein $ \delta > 0$, so dass die Eigenschaft erfüllt ist. Wir haben nun ein Intervall auf dem gilt $\forall x \in [x_0 - \delta, x_0 + \delta] \; : \; f(x) > 0$. Nach Konstruktion, ist jeder Wert der Funktion über dem Interval mindest $\varepsilon$ über einem Interval der länge $\delta$. Das heißt die Untersumme ist durch $2\delta \cdot \varepsilon > 0$ nach unten beschränkt. Damit ist das Integral $\int_{x_0 - \delta}^{x_0+\delta} f(x) \, dx > 0$. Da die Funktion an jeder Stelle größer als Null ist, finden wir im restlichen Intervall kein Inverses Element zu Addition, so dass wir wieder ein Integral von 0 erhalten können. 
+
+    \item Sei $f$ stetig auf $[a,b]$. Es gelte
+$$
+\int_{a}^{b} f(x)g(x) \, dx = 0
+$$
+für alle stetigen Funktionen $g$ auf $[a,b]$. Zeigen Sie, dass $f\equiv 0$
+
+\textbf{Lösung:}\\
+Wie in 3 iii) gezeigt, existiert das Integral des Produktes der beiden Funktionen. Wahlweise kann hier gezeigt werden, dass das Produkt zweier stetigen Funktionen wieder stetig ist. Und damit muss das Integral auch existieren.
+Da die Aussage bezüglich $f$ für alle stetigen Funktionen $g$ gelten soll, muss die Aussage insbesondere für $f$ selber gelten. Das Integral $\int_a^b f^2 (x) dx$ muss also 0 sein. Da wir nun aber wissen, dass $\forall x \in [a,b] \; : \; f^2(x) \geq 0$ gilt, da das quadrieren nur in die positiven reellen zahlen geht. Nehmen wir nun an, dass ein Wert $x_0$ existiert, mit $f(x_0) \not=0$, dann gilt bezüglich unserer neuen Funktion $f^2(x_0) > 0$. Nach Aufgabe 4.iii) muss dann aber gelten, dass $\int_a^b f^2(x) dx > 0$ ist.\\
+
+Demnach kann kein Wert $x_0$ existieren mit $f(x_0) \not= 0$.\\ Damit gilt $\forall x \in [a,b] \; : \; f(x) = 0 \Rightarrow f \equiv 0$.
+
+
+\end{enumerate}
+\label{LastPage}
+\end{document}
+
+

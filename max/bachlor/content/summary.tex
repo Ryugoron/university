@@ -1,0 +1,4 @@
+\section{Introduction}
+
+The SMT-Solver that I wrote and will be discused in this bachlor thesis was initially designed to solve expressions in the programm \emph{conch}. This program is a will be used for the education to teach concurrent programming. In this programm it should be possible to state non trivial expressions, e.g. if process $i$ is in the critical section every other process should have a ticket with a number greater than $i$. Therefore we must be able to make assumptions over quantified terms.\\
+Two solve this problem I implemented an algorithm based on dpll~\cite{smt:dpllt:2004} and the algroithm of Shostak~\cite{smt:shostak:1984}

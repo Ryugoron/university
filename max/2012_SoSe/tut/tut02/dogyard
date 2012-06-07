@@ -1,0 +1,167 @@
+Mutual Exclusion
+
+process Alice{
+    //dog_in_yard
+}
+
+process Bob{
+    //dog_in_yard
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Deadlock
+
+process Alice(){
+    alice_flag = true
+    
+    await !bob_flag
+
+    //dog_in_yard
+
+    alice_flag = false
+}
+
+process Bob(){
+    bob_flag = true
+
+    await !alice_flag
+
+    bob_flag = false
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Lifelock (Progress)
+
+process Alice(){
+    alice_flag = true
+
+    while(bob_flag){
+        alice_flag = false
+        await !bob_flag
+        alice_flag = true
+    }
+
+    //dog_in_yard
+
+    alice_flag = false
+}
+
+process Bob(){
+    bob_flag = true
+
+    while(bob_flag){
+        bob_flag = false
+        await !alice_flag
+        bob_flag = true
+    }
+
+    //dog_in_yard
+
+    bob_flag = false
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+Starvation (Fairness)
+
+pocess Alice(){
+    alice_flag = true
+
+    await !bob_flag
+
+    //dog_in_yard
+
+    alice_flag = false
+}
+
+process Bob(){
+    bob_flag = true
+    
+    while(alice_flag){
+        bob_flag = false
+        await !alice_flag
+        bob_flag = true
+    }
+
+    //dog_in_yard
+
+    bob_flag = false
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+All Properties
+
+process Alice{
+    alice_flag = true
+    alice_turn = !bob_turn
+
+    await !bob_flag || alice_turn == bob_turn
+
+    //dog_in_yard
+    
+    alice_flag = false
+}
+
+process Bob{
+    bob_flag = false
+    bob_turn = alice_turn
+
+    await !alice_flag || alice_turn != bob_turn
+
+    //dog_in_yard
+
+    bob_flag = false
+}

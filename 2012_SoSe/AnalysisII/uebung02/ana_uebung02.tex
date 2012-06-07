@@ -1,0 +1,367 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm]{geometry} 
+\usepackage{babel}
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc} 
+\usepackage{ae} 
+\usepackage{amssymb} 
+\usepackage{amsmath} 
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{paralist}
+
+\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[C]{Analysis II}
+\fancyhead[L]{Aufgabenblatt 2}
+\fancyhead[R]{SoSe 2012}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage \hspace{1px} of \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\setlength{\parindent}{0pt} 
+\setlength{\headheight}{0pt}
+
+\date{}
+\title{Max Wisniewski , Alexander Steen}
+\author{Tutor : Adrian Steffens}
+
+\begin{document}
+
+\lstset{language=Pascal, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2}
+
+\maketitle
+\thispagestyle{fancy}
+
+%% ------------------------------------------------------
+%%                     Aufgabe 5
+%% ------------------------------------------------------
+
+\subsection*{Aufgabe 5: \mdseries\itshape Unbestimmte Integrale}
+
+Finden Sie die folgenden unbestimmten Integrale.
+
+\begin{enumerate}[(i)]
+	\item $\int (\log x)^2 \, dx$:\\
+		Wir benutzen das Substitutionsverfahren und wählen $y = \log x$ als neue Basis. Damit ist $x = e^y$ und $dx = e^y \, dy$. 
+		Eingesetzt in die Gleichung erhalten wir
+		$$\begin{array}{rcl}
+			\int (log x)^2 \, dx 	&\stackrel{sub. \, y}{=}& \int y^2 \cdot e^y \, dx\\
+						&\stackrel{part.}{=}&  y^2\cdot e^y - \int 2ye^x \, dy\\
+						&\stackrel{part.}{=}& y^2e^y  - 2ye^y + 2e^y\\
+						&=& e^y \cdot (y^2 - 2y + 1) + e^y\\
+						&=& e^y \cdot (y-1)^2 + e^y\\
+						&\stackrel{resub. \, y}{=}& x \cdot ((\log x) - 1)^2 + x.
+		\end{array}$$
+		Dies können wir nun noch einmal ableiten um die Lösung zu verifizieren.
+		$$\begin{array}{rcl}
+			\frac{d}{dx} x \cdot ((\log x) - 1)^2 +x
+							&=& (\frac{d}{dx} x \cdot (\log x - 1))^2 + 1\\
+							&=& (\log x - 1)^2 + x \cdot 2 (\log x - 1) \frac {1}{x} + 1\\
+							&=& ((\log x - 1) + 1)^2 = (\log x)^2.
+		\end{array}$$
+		\mbox{}\hfill $\square$
+
+	\item $\int \frac{1}{x \log x} \, dx$:\\
+		Wir substituiren wieder druch $y=\log x$ und bekommen $x=e^y$ und $dx = e^y \, dy$.
+		$$\begin{array}{rcl}
+			\int \frac{1}{x \log x} \, dx 
+					&\stackrel{sub. \, y}{=}&	\int \frac{1}{e^y \cdot y} \cdot e^y \, dy\\
+					&=& \int \frac{1}{y} \, dy\\
+					&=& \log y \, dy\\
+					&\stackrel{resub. \, y}{=}& \log (\log x).
+		\end{array}$$
+		Wir testen das Ergebnis nocheinmal, indem wir ableiten.
+		$$\begin{array}{rcl}
+			\frac{d}{dx} \log \log x &=& (\frac{d}{dx} \log x) \frac{1}{\log x}\\
+				&=& \frac{1}{x} \cdot \frac{1}{\log x}\\
+				&=& \frac{1}{x \cdot \log x}
+		\end{array}$$
+\pagebreak
+
+	\item $\int \frac{1+e^x}{1-e^x} \, dx$:\\
+
+		$$\begin{array}{rcl}
+            \int \frac{1+e^x}{1-e^x} \, dx
+                &=& \int \frac{1}{1-e^x} \, dx + \int \frac{e^x}{1-e^x} \, dx\\
+            &&\text{Wir verfahren mit den einzelintegralen fort}\\
+            \int \frac{1}{1-e^x} \, dx &\stackrel{y=e^x}{=}&
+                \int \frac{1}{(1-y)y} \, dy\\
+                &=& \int \frac{1}{y} - \frac{1}{1-y} \, dy\\
+                &=& \int \frac{1}{y} \, ds - \frac{1}{1-y} \, dy\\
+                &=& \ln y - \ln (1-y)\\
+                &\stackrel{resub.}{=}& x - \ln (1-e^x)\\
+           \int \frac{e^x}{1-e^x} \, dx &\stackrel{z=1-e^x}{=}&
+                \int \frac{e^x}{z} \cdot -e^x \, dz\\
+                &=& -\frac{1}{z} \, dz\\
+                &=& \ln (1- e^x)\\
+                &\stackrel{resub.}{=} x\\
+            \int \frac{1+e^x}{1-e^x} \, dx &=& x - 2\ln (1-e^x)
+        \end{array}$$
+
+        Einmal Ableiten zum gegenchecken:\\
+        $$\begin{array}{rcl}
+            \frac{d}{dx} x-2\ln(1-e^x)
+                &=& 1 - 2 \frac{1}{1-e^x} \cdot -e^x\\
+                &=& 1 + 2 \frac{e^x}{1-e^x}\\
+                &=& \frac{1-e^x +2e^x}{1-e^x}\\
+                &=& \frac{1+e^x}{1-e^x}
+        \end{array}$$
+
+
+	\item $\int \sqrt{1-x^2} \, dx$:\\
+
+		$$\begin{array}{rcl}
+            \int \sqrt{1-x^2} \, dx &\stackrel{x=\sin y}{=}&
+                \int \sqrt{1- \sin^2 y} \cdot \cos y \, dy\\
+            &\stackrel{Geo. Pyth}{=}& \int \sqrt{\cos^2 y} \cdot \cos y \, dy\\
+            &=& \int \cos^2 y \, dy\\
+            &\stackrel{Tip.}{=}& \int \frac{\cos (2 y) + 1}{2} \, dy\\
+            &=& \frac{1}{2} \int \cos (2y) \, dy + \int \frac{1}{2} \, dy\\
+            &\stackrel{z=2y}{=}&
+                \frac{1}{2} \int \frac{1}{2} \cos z + \int \frac{1}{2} \, dz\\
+            &=& \frac{1}{4} \int \cos z + \int \frac{1}{2} \, dy\\
+            &=& \frac{\sin z}{4} + \frac{y}{2}\\
+            &\stackrel{resub. z}{=}&
+                \frac{\sin 2y}{4} + \frac{y}{2}\\
+            &=&
+                \frac{1}{2} \sin y \cdot \cos y + \frac{y}{2}\\
+            &\stackrel{y=\arcsin x}{=}&
+                \frac{1}{2} \cdot \left( x \cdot \cos \arcsin x 
+                    + \arcsin x\right)\\
+            &=& \frac{1}{2} \left( \sqrt{1-x^2}x + \arcsin{x} \right)
+        \end{array}$$
+
+        Es bleibt der Tip zu zeigen:\\
+        $$\begin{array}{rcl}
+            \frac{1+\cos (2x)}{2} &=& \frac{1+\cos (x+x)}{2}\\
+                &\stackrel{Add.}{=}& \frac{1+\cos^2 (x) - \sin^2 (x)}{2}\\
+                &\stackrel{Geo.Pyt}{=}& \frac{2 \cos^2 (x)}{2}\\
+                &=& \cos^2 (x)
+        \end{array}$$
+\end{enumerate}
+
+%% ------------------------------------------------------
+%%                     Aufgabe 6
+%% ------------------------------------------------------
+
+\pagebreak
+
+\subsection*{Aufgabe 6: \mdseries\itshape Uneigentliche Integrale I}
+
+Für eine Funktion $f \; . \; (0,b) \rightarrow \mathbb{R}$ definiert man das \emph{uneigentliche Integral} durch
+$$
+\int_0^b f(x)dx = \lim_{\varepsilon \rightarrow 0^+} \int _\varepsilon^b f(x)dx,
+$$
+falls dieser Grenzwert existiert.
+\begin{enumerate}[(i)]
+	\item Bestimmen Sie
+		$$
+			\int_0^1 \frac{1}{\sqrt{x}} dx.
+		$$
+
+		\textbf{Lösung:}\\
+		Wir integrieren zunächst und untersuchen danach das Verhalten im Grenzwert:
+		$$\begin{array}{rcl}
+			\int_0^1 \frac{1}{\sqrt{x}} \, dx &=& \underset{\varepsilon \rightarrow 0^+}{\lim} \int_\varepsilon^1 x^{-\frac{1}{2}} \, dx\\
+				&=&\underset{\varepsilon \rightarrow 0^+}{\lim} \left[ 2 \cdot x^{\frac{1}{2}} \right]_\varepsilon^1\\
+				&=& \underset{\varepsilon \rightarrow 0^+}{\lim} (2\sqrt{1} - 2\sqrt{\varepsilon})\\
+				&=& 2 \sqrt{1} - \underset{\varepsilon \rightarrow 0^+}{\lim} 2 \sqrt{\varepsilon}\\
+				&=& 2 \sqrt{1} - 0\\
+				&=& 2
+		\end{array}$$
+
+		Der Grenzwert existiert und $\int_0^1 \frac{1}{\sqrt{x}} \, dx= 2$ gilt.
+	\item Für welche $p \in \mathbb{R}$ existiert
+		$$
+			\int_0^1 \frac{1}{x^p}dx \; ?
+		$$
+
+		\textbf{Lösung:}\\
+		Wir formen das ganze wie gehabt um und untersuchen, wie sich der Grenzwert verhätl.:
+		$$\begin{array}{rcl}
+			\int_0^1 \frac{1}{x^p} \, dx &=& \underset{\varepsilon \rightarrow 0^+}{\lim} \int_\varepsilon^1 x^{-p} \, dx\\
+				&\stackrel{p\not=1}{=}& \underset{\varepsilon \rightarrow 0^+}{\lim} \left[ \frac{1}{1-p} x^{1-p}\right]_\varepsilon^1\\
+				&=& \frac{1}{1-p}\cdot 1^{1-p} - \underset{\varepsilon \rightarrow 0^+}{\lim} \frac{1}{1-p} \cdot \varepsilon^{1-p} \\
+                &=& \frac{1}{1-p} - \frac{1}{1-p} \cdot \underset{\varepsilon \rightarrow 0^+}{\lim} \varepsilon^{1-p} 
+		\end{array}$$
+		Nun können wissen wir, dass für $q>0$ gilt, dass $\underset{\varepsilon \rightarrow 0^+}{\lim} \varepsilon^q = 0$.
+		Daraus können wir zum einen schließen, dass für $p<1$ der Grenzwert definiert ist und $\frac{1}{1-p}$ ist.\\
+		Für $p>1$ divergiert es bestimmt gegen unendlich.\\
+		Für den vorhin ausgenommen Fall $p=1$ gilt $\int \frac{1}{x} \, dx = \log |x|$ und diese Funktion ist für $x \rightarrow 0$ nicht definiert.\\
+		Es ist also nur für $p<1$ uneigentlich integrierbar.
+\end{enumerate}
+
+%% ------------------------------------------------------
+%%                     Aufgabe 7
+%% ------------------------------------------------------
+
+\subsection*{Aufgabe 7: \mdseries\itshape Uneigentliche Integrale II}
+
+Man definiert das \emph{uneigentliche Integral} einer Funktion $f \; . \; [a,\infty) \rightarrow \mathbb{R}$ als
+$$
+\int_a^\infty f(x)dx = \lim_{N\rightarrow \infty} \int_a^N f(x)dx,
+$$
+falls dieser Grenzwert existiert.
+\begin{enumerate}[(i)]
+	\item Bestimmen Sei
+		$$
+			\int_1^\infty \frac{1}{x^4} dx
+		$$
+	
+	\textbf{Lösung:}\\
+	
+	$$\begin{array}{rcl}
+		\int_1^\infty \frac{1}{x^4} dx &=& \underset{{N\rightarrow \infty}}{\lim} \int_1^N \frac{1}{x^4} \, dx\\
+			&=& \underset{{N\rightarrow \infty}}{\lim} \left[ \frac{1}{-3} \cdot x^{-3} \right]_1^N\\
+			&=& \underset{{N\rightarrow \infty}}{\lim} - \frac{1}{3} \cdot N^{-3} - (-\frac{1}{3} \cdot 1^{-3})\\
+			&=& 0 - (-\frac{1}{3})  \\
+            &=& \frac{1}{3}
+	\end{array}$$
+
+	Der Grenzwert von $\frac{1}{x^p}, p>1$ ist Null, wie in Ana I bewiesen. Damit ist der Grenzwert definiert und $\int_1^\infty \frac{1}{x^4} dx = \frac{1}{3}$
+
+	\item Für welche $p\in\mathbb{R}$ existiert
+		$$
+			\int_1^\infty \frac{1}{x^p}dx \; ?
+		$$
+
+	\textbf{Lösung:}\\
+		$$\begin{array}{rcl}
+			\int_1^\infty \frac{1}{x^p}dx &=& \underset{{N\rightarrow \infty}}{\lim} \int_1^N \frac{1}{x^p}dx\\
+				&\stackrel{p\not=1}{=}& \underset{{N\rightarrow \infty}}{\lim} \left[ \frac{1}{1-p} x^{1-p}\right]_1^N\\
+				&=& \frac{1}{1-p} 1^{1-p} -\underset{{N\rightarrow \infty}}{\lim} \frac{1}{1-p} N^{1-p}\\
+                &=& \frac{1}{1-p} - \frac{1}{1-p} \cdot \underset{{N\rightarrow \infty}}{\lim} N^{1-p}
+		\end{array}$$
+		Nach Ana I wissen wir nun, dass $\underset{{N\rightarrow \infty}}{\lim} N^q, \; q < 0$ gegen Null strebt. Damit existiert der Grenzwert für $p > 1$ und ist $\frac{1}{(1-p)}$. 
+
+%%Für $p=1$ gilt wieder, dass das unbestimmte Integral $\log |x|$ ist und divergiert bestimmt gegen unendlich. Dies gilt  
+%%insbesondere für alle Werte $q>0$, da sowohl Wurzeln als auch Polynome divergieren.\\
+		Also ist das Integral nur für $p > 1$ definiert.
+\end{enumerate}
+
+%% ------------------------------------------------------
+%%                     Aufgabe 8
+%% ------------------------------------------------------
+
+\subsection*{Aufgabe 8: \mdseries\itshape Uneigentliche Integrale III}
+
+Die Gamma-Funktion ist wie folgt definiert:
+$$
+	\Gamma (x) = \int_0^\infty e^{-t}t^{x-1} \, dt.
+$$
+
+\begin{enumerate}[(i)]
+	\item Zeigen Sie die folgende Version der partiellen Integration:
+		$$
+			\int_a^\infty u'(x)v(x) \; dx = \left[ u(x)v(x) \right]_a^\infty - \int_a^\infty u(x)v'(x) \; dx,
+		$$
+		wobei mit dem ersten Ausdruck auf der rechten Seite der Grenzwert \\$\underset{x \rightarrow \infty}{\lim} u(x)v(x) - u(a)v(a)$ gemeint ist. 
+		Weiter sei vorausgesetzt, dass all diese Grenzwerte existieren.\\
+		
+		\textbf{Lösung:}\\
+		
+		
+		$$\begin{array}{rcl}
+			\int_a^\infty u'(x)v(x) \; dx &\stackrel{Def.}{=} \underset{N \rightarrow \infty}{\lim} \int_a^N u'(x)v(x) \, dx\\
+				&\stackrel{Parts.}{=}& \underset{N \rightarrow \infty}{\lim} \left( \left[ u(x)v(x) \right]_a^N  \int_a^N u(x)v'(x) \, dx \right)\\
+				&\stackrel{Def.}{=}& \left[ u(x)v(x) \right]_a^\infty - \int_a^\infty u(x)v'(x) \, dx
+		\end{array}$$
+
+		Das integral ist nun genau dann definiert, wenn die Grenzwerte der einzel Ausdrücke definiert sind. Dies ist aber nach Aufgabe vorrausgesetzt. 
+		Damit gilt die Formel.
+	
+	\item Zeigen Sei, dass für alle $x > 0$ das uneigentliche Integral $\Gamma (x)$ wohldefiniert ist.\\
+		\textbf{Lösung:}\\
+		
+		Sei $x>0$. Es ist 
+        $$
+          \Gamma(x) = \int_{0}^{\infty}{e^{-t} t^{x-1} \; dt} = \lim_{a \to 0^{+}}{\int_{a}^{1}{e^{-t} t^{x-1} \; dt}} + \lim_{b \to \infty}{\int_{1}^{b}{e^{-t} t^{x-1} \; dt}}
+        $$
+    Es muss also gezeigt werden, dass beide uneigentlichen Integrale  konvergieren.\\
+
+    (i) Erster Term\\
+    Wegen $t > 0 \Rightarrow e^{-t} t^{x-1} < t^{x-1}$. Also gilt:
+    $$
+      \lim_{a \to 0^{+}}{\int_{a}^{1}{e^{-t} t^{x-1} \; dt}}
+    < \lim_{a \to 0^{+}}{\int_{a}^{1}{t^{x-1} \; dt}}
+    = \frac{1}{x} 1^x -  \lim_{a \to 0^{+}}{\frac{1}{x} a^x}
+    = \frac{1}{x} < \infty
+    $$
+    Also konvergiert $\lim_{a \to 0^{+}}{\int_{a}^{1}{e^{-t} t^{x-1} \; dt}}$.
+    
+    (ii) Zweiter Term\\
+    Da $t \geq 1$ ex. für $a > 0$ ein $c > 0$, s.d. für $0 < x \leq a$ gilt: $t^{x-1} < c \cdot e^{\frac{t}{2}}$. Also gilt:\\
+    $$
+     \lim_{b \to \infty}{\int_{1}^{b}{e^{-t} t^{x-1} \; dt}} \leq \lim_{b \to \infty}{c \int_{1}^{b}{e^{-\frac{t}{2}} \; dt}} < \infty
+    $$
+    Also konvergiert $\lim_{b \to \infty}{\int_{1}^{b}{e^{-t} t^{x-1} \; dt}}$.
+    
+    
+	\item Zeigen Sie, dass
+		$$
+			\Gamma (x+1) = x \cdot \Gamma (x)
+		$$
+		gilt und daraus folgt, dass
+		$$
+			\forall n \in \mathbb{N} \; : \;\Gamma (n+1) = n!
+		$$
+		gilt.\\
+
+		\textbf{Lösung:}\\
+        (i) Funktionalgleichung: \\ 
+
+		Sei $x > 0$.
+        \begin{eqnarray*}
+        x \cdot \Gamma(x) & = & x \cdot \int_{0}^{\infty}{e^{-t} t^{x-1} \; dt} \\
+        &\stackrel{a)}{=}& x \cdot \left( \left. \frac{t^x}{x} e^{-t} \right|_{0}^{\infty} 
+                           - \int_{0}^{\infty}{\frac{1}{x} t^x -e^{-t} \; dt} \right) \\
+        &=& x \cdot \left( \left. \frac{t^x}{x} e^{-t} \right|_{0}^{\infty} 
+                           + \frac{1}{x} \int_{0}^{\infty}{e^{-t} t^x \; dt} \right) \\
+        &\stackrel{(*)}{=}& x \cdot \left( \frac{1}{x} \int_{0}^{\infty}{e^{-t} t^x \; dt} \right)  \\
+        &=& \int_{0}^{\infty}{e^{-t} t^x \; dt} \\
+        &=& \Gamma(x+1)
+        \end{eqnarray*}
+
+        (*) gilt, da $ \left. \frac{t^x}{x} e^{-t} \right|_{0}^{\infty} = 0 $, denn:
+        
+        $$
+          \left. \frac{t^x}{x} e^{-t} \right|_{0}^{\infty}
+        = \lim_{t \to \infty}{\frac{t^x}{x} e^{-t}} - (\frac{0^x}{x} e^{-0}) 
+        = \lim_{t \to \infty}{\frac{t^x}{x} \frac{1}{e^t}}
+        = \frac{1}{x} \lim_{t \to \infty}{\frac{t^x}{e^t}}
+        $$
+        Da $x^t = o(e^t)$, also der Nenner echt schneller wächst als der Zähler (vgl. Regel von L'Hopital), gilt
+        $$
+          \frac{1}{x} \lim_{t \to \infty}{\frac{t^x}{e^t}}
+        = \frac{1}{x} \cdot 0 = 0
+        $$
+
+        (ii) Beziehung zur Fakuktät: \\
+        
+        Sei $n \in \mathbb{N}$. Dann folgt aus der Funktionalgleichung:
+        $$
+          \Gamma(n+1) = n \cdot \Gamma(n) = n \cdot (n-1) \cdot \Gamma(n-1)
+        =  n \cdot (n-1) \cdot (n-2) \cdot \ldots \cdot 1 \cdot \Gamma(1)
+        $$
+        Zusätzlich gilt
+        \begin{eqnarray*}
+        \Gamma(1) &=& \int_{0}^{\infty}{e^{-t} t^{1-1} \; dt} \\
+        &=& \int_{0}^{\infty}{e^{-t} \; dt} \\
+        &=& \left. -e^{-t} \right|_{0}^{\infty} \\
+        &=& \lim_{t \to \infty}{-e^{-t}} - -e^0 \\
+        &=& 0 - (-1) \\
+        &=& 1
+        \end{eqnarray*}
+        Daraus folgt die Behauptung.
+\end{enumerate}
+
+\label{LastPage}
+\end{document}
+
+

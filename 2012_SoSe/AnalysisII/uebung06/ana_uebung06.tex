@@ -1,0 +1,376 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm]{geometry} 
+\usepackage{babel}
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc} 
+\usepackage{ae} 
+\usepackage{amssymb} 
+\usepackage{amsmath} 
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{paralist}
+
+%%\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[C]{Analysis II}
+\fancyhead[L]{Aufgabenblatt 6}
+\fancyhead[R]{SoSe 2012}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage \hspace{1px} of \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\setlength{\parindent}{0pt} 
+\setlength{\headheight}{15pt}
+
+\date{}
+\title{Max Wisniewski , Alexander Steen}
+\author{Tutor : Adrian Steffens}
+
+\newcommand{\limes}[2][n]{\underset{ #1 \rightarrow #2}{\lim}}
+
+\begin{document}
+
+\lstset{language=Pascal, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2}
+
+\maketitle
+\thispagestyle{fancy}
+
+\subsection*{Aufgabe 16: \mdseries\itshape Die Ungleichungen von Hölder und Young}
+Seien $x_1,...,x_n$ und $y_1,...,y_n$ reelle Zahlen.
+
+\begin{enumerate}[(i)]
+	\item Zeigen Sie, dass für
+		$$
+			\frac{1}{p} + \frac{1}{q} = 1, \; p,q>1,
+		$$
+		und für alle $x,y\geq 0$ die \emph{Youngsche Ungleichung}
+		$$
+			x^{\frac{1}{p}} y^{\frac{1}{q}} \leq \frac{1}{p} x + \frac{1}{q} y
+		$$
+		richtig ist.\\
+	\textbf{Beweis:}\\
+		Wir formen, wie in der Aufgabe vorgeschlagen ersteinmal die Gleichung um ($x \geq 0$):
+        $$\begin{array}{crcl}
+            & x^{\frac{1}{p}} y^{\frac{1}{q}} &\leq& \frac{1}{p} x + \frac{1}{q} y\\
+            \Leftrightarrow & \frac{x^{\frac{1}{p}}}{x} y^{\frac{1}{p}} & \leq & \frac{1}{p} + \frac{1}{q} \frac{y}{z}\\
+            \Leftrightarrow & \frac{1}{x^{\frac{1}{q}}} & \leq & \frac{1}{p} + \frac{1}{q} \frac{1}{q} \frac{y}{z}\\
+            \Leftrightarrow & 0 \leq \frac{1}{p} + \frac{1}{q} \frac{y}{x} - \frac{y}{x}^{\frac{1}{q}}\\
+            \Leftrightarrow & 0 \leq \frac{1}{p} + \frac{1}{q} z - z^{\frac{1}{q}}
+        \end{array}$$
+
+        Nun zeigen wir, dass diese Funktion immer größer als 0 sein muss und zeigen damit die ursprüngliche
+        Ungleichung (für $x>0$).
+        Wir sehen, dass die Funktion in $z=0$ den Funktionwert $\frac{1}{q} > 0$ annimmt.\\
+        Betrachten wir die Ableitung dieser Funktion $f'(z) = \frac{1}{q} \left( 1 - z^{\frac{1}{q} -1 } \right)$, dann sehen wir, dass diese Funktion auf $(0,1)$ negativ ist, dass heißt der Funktionswert fällt.\\
+        Bei $z=1$ ist die Ableitung $0$ und auf $(1,\infty)$ ist der Wert der Ableitung positiv.\\
+        
+        Dies bedeutet für unsere Kurven diskusion, dass die stetige Funktion auf dem Intervall $(0,1)$ fällt
+        und danach wieder steigt. Da die Funktion $f(1) = 0$ ist, sehen wir, dass $f(z) \geq 0$ gelten muss.\\
+
+        Nun können wir noch den Fall $x=0$ betrachten. Hier fällt die urprüngliche Gleichung auf
+        $0 \leq \frac{1}{q} y$ zusammen, die mit $q>1, y\geq 0$ immer erfüllt ist.\\
+
+        \mbox{} \hfill $\square$
+
+	\item Zeigen Sie nun unter Verwendung der Youngschen Ungleichung die Höldersche Ungliechung
+		$$
+			\left| \overset{n}{\underset{i=1}{\sum}} x_i y_i \right| \leq \left( \overset{n}{\underset{i=1}{\sum}} |x_i|^p \right)^{\frac{1}{p}}
+				\left( \overset{n}{\underset{i=1}{\sum}} | y_i |^q \right) ^{\frac{1}{q}}.
+		$$
+		Für welche $p$ und $q$ gewinnen Sie die Cauchy-Schwarz-Ungleichung?
+	\textbf{Lösung:}\\
+		tbd
+\end{enumerate}
+
+\subsection*{Aufgabe 17: \mdseries\itshape Durchschnitt und Vereinigung von Mengen}
+	Sie $M \subset \mathbb{R}^n$. Zeigen Sie
+	\begin{enumerate}[(i)]
+		\item $\overline{M} = \bigcap \{ A \subset \mathbb{R}^n \; | \; A \text{ abgeschlossen, } M \subset A \}$\\
+		\textbf{Beweis:}\\
+            Sei $T = \bigcap \{ A \subset \mathbb{R}^n \; | \; A \text{ abgeschlossen, } M \subset A \}$\\
+		    Wir müssen die beiden Fälle $\overline{M} \subset T$ und $T \subset \overline{M}$ zeigen.\\
+
+            Fangen wir mit $T \subset \overline{M}$ an.\\
+            Wir wissen, dass $A \cap B \subset A$ für alle Mengen $A$ und $B$ gilt. 
+            Da nun $M \subset \overline{M}$ gilt, ist $\overline{M}$ eine abgeschlossene Menge, die
+            wir in $T$ vereinigt haben. Also ist $T \subset \overline{M}$.\\
+
+            Als nächstes zeigen wir $\overline{M} \subset T$.\\
+            Nehmen wir an, dass es nicht so wäre, dann gebe es mindestens einen Punkt $x \in \overline{M}$,
+            mit $x \not \in T$. Da alle Mengen, die in $T$ geschnitten werden $M$ enthalten, wissen wir,
+            dass $x\in M$ liegen muss.\\
+            Daraus ergibt sich, dass $x \in \delta M$ liegen muss.
+
+            Weil der Rand in jeder epsilon Umgebung geschnitten mit der Menge nicht $\empty$ sein darf,
+            kann es keine kleinere abgeschlossene Menge als $\overline{M}$ geben, da sonst
+            nicht jeder Punkt von $M$ in dieser Menge liegen kann\\
+            \mbox{} \hfill $\square$
+
+		\item $\overset{\circ}{M} = \bigcup \{ \Omega \subset \mathbb{R}^n \; | \; \Omega \text{ offen, } \Omega \subset M \}$\\
+		\textbf{Beweis:}\\
+		    Sei $T = \bigcup \{ \Omega \subset \mathbb{R}^n \; | 
+                \; \Omega \text{ offen, } \Omega \subset M \}$.\\
+            Wir müssen erneut zeigen, dass $\overset{\circ}{M} \subset T$ und 
+            $T \subset \overset{\circ}{M}$ gilt. Fangen wir mit
+            $\overset{\circ}{M} \subset T$ an.\\
+            
+            Nach der Definition von inneren Punkten, liegt jeder dieser Punkte auch in $M$.
+            Da $\overset{\circ}{M}$ eine offene Menge ist, wird diese mit in der Vereinigung von
+            allen offenen Mengen sein. Daher gilt auch $\overset{\circ}{M} \subset T$.\\
+
+            Als nächstes zeigen wir $T \subset \overset{\circ}{M}$.\\
+            Wir wissen, dass die Vereinigung in diesem Fall eine offene Menge sein muss. Für jedes
+            $x \in T$ muss also ein $\varepsilon > 0$ exsistieren, so dass $B_\varepsilon(x) \subset T$
+            liegen muss. Dies bedeutet aber, da alle Mengen, die wir vereinigt haben, die Bedingung
+            $\Omega \subset M$ erfüllen. Daher muss insbesondere $B_\varepsilon(x) \subset M$ für jedes
+            $x \in T$ erfüllt sein. Dies ist nun allerdings genau die Definition von $\overset{\circ}{M}$.\\
+            \mbox{}\hfill $\square$
+            
+	\end{enumerate}
+
+\subsection*{Aufgabe 18: \mdseries\itshape Durchmesser und Abstand von Mengen}
+	Sei $M \subset \mathbb{R}^n$. Man definiert
+	$$
+		diam \; M := \sup \{ |x-y| \; | \; x,y \in M \}
+	$$
+	Für $x \in M$ und $M \subset \mathbb{R}^n$ definiert man den Abstand von x zu M durch
+	$$
+		dist (x,M) := \inf \{|x-y| \; | \; y \in M \}.
+	$$
+	\begin{enumerate}[(i)]
+		\item Zeigen Sie, dass $diam \; M = diam \overline{M}$.\\
+		\textbf{Beweis:}\\
+			Wir unterscheiden zunächst 3 Fälle.\\
+            Zunächst kann der Punkt, zum einen können die entferntesten Punkte
+            beide auf dem Rand liegen, dann könnte einer auf dem Rand und der andere
+            im inneren liegen und zuletzt können beide im innere liegen.\\
+
+            Liegen beide entferntesten Punkte auf dem Rand $\delta M$, so liegen
+            sie insbesondere im Abschluss auch auf dem Rand $\delta M$. Damit ist
+            die Gleichheit erfüllt.
+
+            Liegt einer der Punkte nicht auf dem Rand, so können wir uns in der Umgebung
+            einen beliebigen Punkt inneren Suchen. Wir wissen, dass um einen inneren Punkt
+            $x \in \overset{\circ}{M}$ eine offene Kugel gibt, mit $\varepsilon > 0$ und
+            $B_\varepsilon ( x ) \subset M$. Wir können nun parallel zum anderen Punkt
+            unseren Punkt nach außen schieben. Damit wird der Abstand um $\varepsilon > 0$
+            größer. Nun wissen wir, dass durch Grenzwertbildung ein Punkt auf dem Rand
+            erreicht wird (definition der Vorlesung). Damit konvergiert auch
+            der Durchmesser des Objektes gegen den Durchmesser des Abschlusses.\\
+
+            Das gleiche gilt auch, wenn beide Punkte im inneren liegen. Hier müssen
+            nur beide Punkte im limes nach außen geschoben werden und erreichen so
+            einen Punkt auf dem Rand. Der Durchmesser wird im Grenzwert dann auch gleich sein.\\
+
+            Da der Durchmesser über das supremum definiert ist, ist der Grenzwert im
+            falle der offenen Kugel der genommene Wert und damit gleich dem Abstand auf dem Rand.\\
+            \mbox{}\hfill $\square$
+
+		\item Beweisen Sie die folgenden Äquivalenzen
+			\begin{enumerate}[a)]
+				\item $x \in \overline{M} \Longleftrightarrow dist(x,M) = 0$\\
+				\textbf{Beweis:}\\
+				    $\Rightarrow$:\\
+                        Sei $x \in \overline{M}$. Dann ist
+                        $|x - x| = 0$, da $x$ insbesondere in $M$ lag.\\
+                        Nach Dreiecksungleichung kann kein Wert kleiner als
+                        0 erreicht werden, somit ist das Infimum auch gleich 0.\\
+
+                    $\Leftarrow$:\\
+                        $\exists y \in M \; : \; |x - y | = 0$. Da wir uns 
+                        durch den Betrag in einem Metrischen Raum befinden müssen,
+                        gilt in diesem per Definiton $|x - y| = 0 \Leftrightarrow x = y$.
+                        Deshalb muss $x \in M$ gelten.\\
+                    \mbox{} \hfill $\square$	
+
+				\item $x \in \overset{\circ}{M} \Longleftrightarrow dist(x,M^c) > 0$\\
+				\textbf{Beweis:}\\
+				    $\Rightarrow$:\\
+                        Da $x \in \overset{\circ}{M}$ gilt, muss nach Definition eine
+                        muss nach Definition eine offene Kugel existieren mit $\varepsilon > 0$
+                        $B_\varepsilon(x) \subset M$. Wir wissen nun also, dass
+                        $\forall y \in M^c \; : \; |x - y | \geq \varepsilon > 0$, da in
+                        der unmittelbaren Umgebung um $x$ nur Punkte aus $M$ liegen können.\\
+
+                    $\Leftarrow$:\\
+                        Nach Vorraussetzung existiert ein $\varepsilon > 0$, mit
+                        $dist(x,M^c) \geq \varepsilon > 0$. Nun folgt daraus, dass
+                        $B_\varepsilon(x) \subset M$ gilt. Wäre dies nicht so,
+                        würde ein Punkt in der Kugel existieren, der im nicht in der Menge
+                        liegt. Dies würde aber bedeuten, dass der Abstand von $x$ zu einem
+                        Punkt aus dem Komplement kleiner als $\varepsilon$ sein muss.
+                        Damit ist das Infimum von allen kleiner als $\varepsilon$ und damit
+                        auch $dist(x,M^c)$. Dies ist nun allerdings ein Widerspruch zur Annahme.\\
+                    \mbox{} \hfill $\square$
+
+				\item $x$ Randpunkt von $M$ $\Longleftrightarrow dist(x,M) = dist(x,M^c) = 0$\\
+				textbf{Beweis:}\\
+					$\Rightarrow$:\\
+                        Sei $x$ Randpunkt von $M$.\\
+                        Das bedeutet, zum einen, dass $\forall \varepsilon > 0 \; : \; B_\varepsilon(x)
+                        \cap M \not= \empty$ ist, aber $\forall \varepsilon > 0 \; : \; \neg (B_\varepsilon(x)
+                        \subset M )$.\\
+                        Die zweite Aussage bedeutet insbesondere, dass $\forall \varepsilon > 0 \; : \;
+                        B_\varepsilon(x) \cap M^c$.\\
+                        Nun gilt, dass $dist (x,M) < \varepsilon$ für alle $\varepsilon > 0$, da in
+                        den Kugeln Punkte liegen. Nun ist $\inf \{ \varepsilon \; | \; \varepsilon > 0 \} = 0$
+                        . Und dieses Spiel gilt im Umkehrschluss auch für den Abstand zum komlement.\\
+
+                    $\Leftarrow$:\\ 
+                        Wir wissen, dass in jeder $\varepsilon > 0$ Umgebung um $x$ ein Punkt $y \in M$ und
+                        ein Punkt $z \in M^c$ existieren muss, mit $y \in B_\varepsilon(x)$ und
+                        $z \in B_\varepsilon(x)$. Das Infimum ist, wie oben gezeigt, genau 0.\\
+                        Nun sind aber 2 solche Punkte in $M$ und $M^c$ in jeder offenen Kugel vorhanden,
+                        daher kann der Schnitt nie leer sein (zu $M$ und $M^c$).\\
+                        Dies ist genau die Definition eines Randpunktes.\\
+                        \mbox{} \hfill $\square$
+			\end{enumerate}
+		
+		\item Für $\varepsilon > 0$ definiert die $\varepsilon$-Umgebung einer Menge M durch
+			$$
+				M_\varepsilon := \{ x \in \mathbb{R}^N \; | \; dist(x,M) < \varepsilon \}.
+			$$
+			Zeigen Sie, dass für alle $\varepsilon > 0$ die Menge $M_\varepsilon$ offen ist, und bestimmen Sie
+			$$
+				\underset{\varepsilon > 0}{\bigcap} M_\varepsilon
+			$$
+			\textbf{Lösung:}\\
+			    Sei $\varepsilon > 0$ beliebig aber fest.\\
+                Sei nun $x_0 \in M_\varepsilon$ ein beliebiger Punkt. Nach Definition
+                von $M_\varepsilon$ ist $dist(x_0,M) = d_0 < \varepsilon$.
+                Wir wählen uns nun einen Radius um diesen Punkt, um so zu zeigen, dass
+                die offene Kugel mit diesem Radius in $M_\varepsilon$ liegt.\\
+                Wir können zunächst beobachten, dass wenn $x \in M$ gilt, dass der
+                Radius dann trivialerweise $\varepsilon$ sein kann, da alle Punkte
+                in diesem Radius in $M_\varepsilon$ liegen. Wir betrachten also nur
+                Punkte mit $dist(x_0,M) > 0$. Bei der Konstrution des Radius müssen wir nun
+                zum einen Beachten, dass wir nicht über den $\varepsilon$ Abstand zu Menge lappen,
+                aber auch nicht zur Seite herrausfallen, wenn wir uns zu nah in einer Spitze befinden.\\
+                
+                Wir wählen also den Radius $r_0 = \min \{\varepsilon - d_0, \varepsilon^2-d_0^2 \}$.
+                Der erste ist der Abstand in Verlängerung das Abstandes zum Punkt in der Menge,
+                von dem wir $d_0$ entfernt sind, das andere ist mit dem Satz des Pythagoras umgeformt
+                und gibt den Abstand senkrecht zur Verlängerung an.\\
+                Nun wissen wir, dass alle Punkte im Kreis $B_{r_0}(x_0)$ vom Ursprünglichen Punkt
+                $x$ zu dem $|x - x_0 | < \varepsilon$ war auch weniger als $\varepsilon$ entfernt sind.
+                Daher muss $B_{r_0}(x_0) \subset M_\varepsilon$ sein.\\
+                \mbox{} \hfill $\square$\\
+            
+                Nun bestimmen wir $T = \underset{\varepsilon > 0}{\bigcap} M_\varepsilon$.\\
+                Wir zeigen, dass $\overline{M} = T$ gilt.\\
+                
+                $\subset$:\\
+                Wir können als erstes leicht sehen, dass $M \subset T$ gilt, da wir schon
+                bewiesen haben, dass $dist(x,M) = 0 \Leftrightarrow  x \in M$ gilt.
+                Also liegt $x$ insbesondere für jedes $\varepsilon$ in $M_\varepsilon$.\\
+
+                Als nächstes müssen wir nur noch zeigen, dass der Rand $\delta M \subset T$
+                enthalten ist.\\
+                Für den Rand gilt nun die Definition $x \in \delta M \Leftrightarrow \forall \varepsilon
+                > 0 \; : \; B_\varepsilon (x) \cap M \not = \emptyset$.\\
+                Wir wissen nun aber, dass nach dem Schnitt für alle $\varepsilon$ $\exists y \in M \; : \;
+                | x - y | < \varepsilon$ existieren muss. Dann muss allerdings nach dem Schnitt
+                genau so ein $y$ existieren.\\
+
+                $\supset$:\\
+                Sei $x \in T$.
+                Wir machen prinzipiell die selbe Unterscheidung, wie eben. Entweder ist
+                $x \in M$ oder $x \in \delta M$.\\
+            
+                Wir eben schon erwähnt, gilt für jedes $\varepsilon > 0$ $M \subset M_\varepsilon$.
+                Also auch insbesondere $M \in \underset{\varepsilon > 0}{\bigcap} M_\varepsilon$.\\
+
+                Nehmen wir nun einmal an, dass $x \not \in \delta M$ liegt. Das bedeutet, dass es ein
+                $\varepsilon ' > 0$ gibt, so dass $B_{\varepsilon '}(x) \cap M = \emptyset$. Dies
+                bedeutet aber insbesondere, dass $x \not\in M_\varepsilon$ liegen, kann da es keinen
+                Punkt in $M$ gibt, der einen Abstand hat, der Nah genug an $x$ liegt.\\
+                Daraus folgt, dass im Schnitt von allen $M_\varepsilon$ der Punt nicht drin liegen kann.\\
+
+                \mbox{} \hfill $\square$
+	\end{enumerate}
+
+\subsection*{Aufgabe 19: \mdseries\itshape Umfang von Mengen}
+	\begin{enumerate}[(i)]
+		\item Man zeige, dass es für jede beschränkte Menge $M \subset \mathbb{R}^n$, die aus mindestens zwei Punkten besteht,
+		genau eine Kugel $K = \overline{B_R(a)}$ mit kleinstmöglichem Radius $R > 0$ gibt, die $M$ enthält. Man nennt diese Kugel 
+		$K$ die Umkugel von M und den Radius R den Umkugelradius von M.\\
+		\textbf{Beweis:}\\
+            Zunächst wissen wir, da die Menge beschränkt ist, dass wir auf jedenfall eine Kugel
+            existiert, die alle Elemente enthält. Wähle $x \in M$ 
+            und nimm den Kreis $B_{diam \, M}(x)$, dieser enhält alle Elemente der Menge.
+            Wir müssen also nur zeigen, dass es einen kleinstmöglichen
+            Radius gibt und das der Mittelpunkt eindeutig ist.\\
+
+            Es existiert eine Kugel mit kleinst möglichem Radius.\\
+            \textbf{Beweis:}\\
+                Nehmen wir an, es gebe keine Kugel mit kleinst möglichem Radius.
+                Das bedeutet, dass es um einen Mittelpunkt $a$ eine folge von Kugel
+                gibt, mit $(r)_{n\in \mathbb{N}}$ eine konvergente Folge von Radien.
+                Die Folge ist nach unten beschränkt (da die Menge mindestens 2 Punkte hat)
+                und da es keinen kleinst möglichen Radius gibt, muss es eine 
+                Folge geben, so dass die Radien immer kleiner werden.\\
+                Sei $r = \underset{n \rightarrow \infty}{\lim} r_n$.\\
+
+                Was diese Folge erfüllen muss, ist, dass um den Mittelpunkt
+                für jedes $k \in \mathbb{N}$ $M \subset \overline{B_{r_k}(a)}$ gelten
+                muss. Was wir nun aussagen können ist, dass $\overset{\circ}{M} \subset B_{r}$.
+                Dies gilt, da alle inneren Punkte in einer $\varepsilon$ Umgebung noch Punkte
+                in der Menge hat und daher kein Folgeglied in diese Umgebung eindringen kann.\\
+
+                Nun müssen wir nur noch zeigen, dass $\delta M \subset \overline{B_{r}(a)}$ ist.\\
+                Wie wir aber schon gesehen haben, ist $\overset{\circ}{M} \subset B_{r}(a)$.
+                Wenn wir jetzt auf beiden seiten den Abschluss bilden, bleibt die Beziehung erhalten.\\
+                Nun gilt, dass $M \subset \overline{M} \subset \overline{B_{r}(a)}$.\\
+
+                Dies ist ein Widerspruch zur Annahme das keine solche Kugel existieren kann.\\
+
+            Eindeutigkeit des Mittelpunktes.\\
+            \textbf{Beweis:}\\
+                Nehmen wir an, dass $r$ der minimale Umradius von $M$ ist
+                und dass es Punte $x,y \in M$ gibt, mit $x \not= y$, $M \subset B_r(x)$
+                und $M \subset B_r(c)$.\\
+
+                Wissen wir, $|x - y | = d > 0$ gilt. Wir betrachten nun den Punkt
+                $a = x + (x - y)/2$ der genau zwischen $x$ und $y$ liegt. Seien $E_y,E_x$ die
+                Menge der Punkte, die in einer $\varepsilon >0$ Kugel um einen Randpunkt 
+                um die Umkugel um $x$, bzw. $y$ liegen.\\
+                Wir wissen, dass diese Punkte einen Abstand von maximal $r-\varepsilon$ von $x$, bzw. $y$
+                haben. Im Grenzwert können wir sagen, dass es Punkte mit Abstand $r$ von $x,y$ gibt.\\
+
+                Nun wissen wir nach Dreiecksungleichung, dass der kleinste Umkreis der Kugel um $a$
+                bezeichnet mit $r_a$ die Gleichung $r_a \leq r + d/2$. Das $d>0$ ist
+                ist dies ein Widerspruch zu unserer Annahme, dass $r$ der kleinste Radius ist.\\
+            \mbox{} \hfill $\square$
+
+		\item Sie $M \subset \mathbb{R}^n$ symmetrisch um den Ursprung, dass heißt
+			$$
+				x \in M \Longleftrightarrow -x \in M.
+			$$
+			Zeigen Sie, dass $M \subset \overline{B_{(diam \, M )/ 2}(0)}$
+		\textbf{Beweis:}\\
+            Was wir an dieser Stelle sehen können ist, dass der Radius das Kreises nicht
+            kleiner sein kann, als $diam \, M / 2$. Da sowohl $x$ als auch $-x$ in der Menge
+            $M$ sind, können wir annehmen, dass der Radius diese Größe hat. Wäre
+            er nicht so, müsste der Mittelpunkt nicht im Nullpunkt liegen (dieser Punkt sichert
+            uns $diam \, M$ zu wie in (i) gezeigt). Nun wissen wir aber das dieser auch nicht
+            auf der Verbindungslinie von $x, -x$ liegen kann, da sonst der Abstand zu einem
+            dieser Punkte größer werden würde.\\
+            Liegt der Mittelpunkt aber nicht auf der Linie, so können wir nach Dreiecksungleichung
+            schließen, dass es zu mindestens einem Punkt $x$ oder $-x$ einen Abstand gibt,
+            der Größer als $diam \, M$ ist. Daher muss der Radius $diam \, M$ sein.\\
+            Es dem selben Gedankengang, sehen wir, dass der Mittelpunkt auf der Verbindungslinie
+            liegen muss und das er im Nullpunkt liegt.\\
+
+            \mbox{} \hfill $\square$
+			
+	\end{enumerate}
+
+\label{LastPage}
+\end{document}
+
+

@@ -1,0 +1,232 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm,left=2cm,right=2cm]{geometry} 
+\usepackage{babel}
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc} 
+\usepackage{ae} 
+\usepackage{amssymb} 
+\usepackage{amsmath} 
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{paralist}
+\usepackage{bussproofs}
+
+%\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[C]{Semantik von Programmiersprachen}
+\fancyhead[L]{Übung Nr. 5}
+\fancyhead[R]{SoSe 2012}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage / \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\setlength{\parindent}{0pt} 
+\setlength{\headheight}{0pt}
+
+\author{Tutor: Ansgar Schneider}
+\date{}
+\title{Max Wisniewski , Alexander Steen}
+
+\begin{document}
+
+\lstset{language=Haskell, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2, mathescape=true}
+
+\maketitle
+\thispagestyle{fancy}
+
+
+%% ------------------------------------------------------
+%%                     AUFGABE 1
+%% ------------------------------------------------------
+
+\section*{Aufgabe 1}
+Beweisen Sie die Formel
+$$
+    \{true\} \; x \, := \,7; \; y \, := x + 3; \;\{y=10\}
+$$
+im Hoare- Kalkül.\\
+\textbf{Lösung:}\\
+\begin{prooftree}
+\AxiomC{$\{true\} \Rightarrow \{7=7\}$}
+\RightLabel{\scriptsize(1),(2)}
+\UnaryInfC{$\{7=7\} \; x \; := \,7; \; \{x=7\}$}
+\AxiomC{$\{x=7\} \Rightarrow \{x+3=10\} \land \{true\}$}
+\RightLabel{\scriptsize(2)}
+\UnaryInfC{$\{x=7\} \Rightarrow \{y=10_{y\leftarrow x+3}\}\land
+                 \{y=10_{y\leftarrow x+3} \, y \, := x+3; \; \{y=10\}$}
+\RightLabel{\scriptsize(1)}
+\UnaryInfC{$\{x=7\} y := x+3 \{y=10\}$}
+\RightLabel{\scriptsize(3)}
+\BinaryInfC{$\{true\} \; x \, := \, 7; \; y \, := x+3; \; \{ y = 10\} $}
+\end{prooftree}
+
+\textbf{Legende:}
+\begin{enumerate}[(1)]
+    \item Zuweisung
+    \item Konsequenz
+    \item Komposition
+\end{enumerate}
+\section*{Aufgabe 2}
+Beweisen Sie die Gültigkeit des Axioms (A.4), d.h. zeigen Sie die Gültigkeit
+der Formel:
+$$
+    \{Q[output.T/output]\} \; output \; T \; \{Q\}
+$$
+im Bezug auf die denotationelle Semantik von WHILE.\\
+
+\textbf{Beweis:}\\
+Um die Gültigkeit des Axioms bezglich der denotationellen Semantik zu zeigen, muss
+bewiesen werden, dass
+$\forall z \in ZUSTAND \; : \; z \models Q[output.T/output] \Rightarrow C[\![output \, T ]\!] z \models Q$
+gilt.\\
+Wir beginnen also mit einer Skolemisierung des Quantors. Sei also $z\in ZUSTAND$ ein beliebiger
+aber fester Zustand mit $z=(s,input,output)$ dann ist nach denotationeller Semantik 
+$z' = C[\![ output \, T ]\!] z = (s,input,output')$, wobei $output' = output.T[\![T]\!] z^{*}$ für gültiges $z^{*} \in ZUSTAND$. \\
+
+Wenn wir das Predikat unter dem Zustand nun auswerten gilt
+$$
+Q[(\forall x\in s \; : \; x <- s(x)), output / \underline{output}, input / \underline{input}].
+$$
+Nun betrachten wir also Doppelsubstitutionen
+$$
+(1) \;\; Q[output.T/output][(\forall \, x \in s \; : \; x / s(x), output / \underline{output}, input / \underline{input}]
+$$
+und
+$$
+(2) \;\; Q[(\forall \, x \in S \; : \; x / s(x), output / \underline{output'}, input / \underline{input}].
+$$
+
+Wir betrachten nun alle vorkommen vom ehemaligen $\{\underline{output} \}$ im Predikat $Q$.
+Kam in $(1)$ $\{\underline{output}\}$ vor, so wurde der Term erst subsituiert und dann eingesetzt\\
+$\Rightarrow \{\underline{output}\}[output.T/output][if T \in S then T / s(T) , output / \underline{output}]$
+\\$= \{output.T\}[if T \in S then T / s(T), output / \underline{output}]]$. Wenn $T$ keine Variable ist,
+so wird beim substituieren vollständig ersetzt und wir setzen an dieser Stelle vorraus, dass die
+Auswertung von Termen in der axiomatischen Semantik äquivalent zur denotationellen Semantik ist.\\
+
+Für $(2)$ gilt nun $\{output\}[output / \underline{output'}] = \{output\} [ output / output.T[\![T]\!]$, da nun
+$T$ in beiden Fällen den selben Wert ergibt (vorrausgesetzt Termauswertung funktioniert korrekt), sehen wir,
+dass in jedem $output$ nun der selbe Wert steht.\\
+
+Da in simultanen Substitutionen kein Wert doppelt geschrieben darf (definition), kann der Wert nicht an anderer Stelle wieder verändert werden.
+
+\section*{Aufgabe 3}
+Führen Sei einen Korrektheitsbeweis unter Verwendung der axiomatischen Semantik zu
+folgendem Programm:\\
+\begin{lstlisting}[language=Pascal]
+sum := 0; read x;
+while not (x=0) do
+    sum ;= sum + x;
+    read x;
+output sum
+\end{lstlisting}
+
+\textbf{Beweis:}\\
+
+Wäre wir sehr diabolisch und äußerst faul, könnten wir sagen, dass diese Aufgabenstellung unvollständig ist,
+da zu einem Korrektheitsbeweis von einem Programm immer eine Aussage gehört, die anhand des Programmes zu
+beweisen ist. Wir könnten uns also überlegen, dass wir zeigen wollen, dass nach der Ausfürhung $\{true\}$ gilt, d.h. das Programm terminiert korrekt und das einzige, was wir erhalten ist, dass die eingabe am Anfang nicht leer ist und mindestens eine 0 enthält.\\
+
+Wir nehmen aber zum lernen hier an dieser Stelle einfach an, dass wir zeigen sollen, dass das folgende Hoaretripel gülitg ist:
+$
+\{ \underline{output} = a',  \underline{input} = e_1,e_2,...e_t.0.y, \forall i \leq t \; : \; e_i \in ZAHL \setminus \{0\}\}
+$\\
+C\\
+$
+\{ \underline{output} = a'.sum, \underline{input} = y , sum = \underset{k=1}{\overset{t}{\sum}} e_k \}.
+$\\
+Wir verändern das Programm geringfügig, da es uns unmögich ist, eine Invariante zu finden, die alle Bedingungen erfüllt, ohne wirklich etwas über den Zustand der Grenze auszusagen:\\
+\begin{lstlisting}[language=Pascal]
+i := t; sum := 0; read x;
+while not (x=0) do
+    i := i - 1;
+    sum ;= sum + x;
+    read x;
+output sum
+\end{lstlisting}
+
+Die Invariante für die While-Schleife die wir wählen ist
+$I \equiv \{ sum =  \underset{k=1}{\overset{t-i}{\sum}} e_k,  x = e_{t-i+1} , \underline{input} = e_{t-i+2},..,e_{t}.0.y , t - i \geq 0
+, \forall r \leq i \; : \; e_r \in ZAHL \setminus \{ 0 \}\}$
+
+\begin{lstlisting}[language=Pascal]
+$\{ \underline{output} = a', \underline{output} = e_1,...,e_t.0.y , \forall i \leq t \; : \; e_i \in ZAHL \setminus \{ 0 \}\} $
+$
+\Rightarrow
+$
+$
+\{0 = \underset{k=1}{\overset{0}{\sum}} e_k, \underline{input} = e_{1},...,e_t.0.y, 0 \geq 0,
+\forall r \leq t \; : \; e_r \in ZAHL \setminus \{ 0 \} \}
+$
+
+i := t;
+
+$
+\{0 = \underset{k=1}{\overset{t-i}{\sum}} e_k, \underline{input} = e_{t-i+1},...,e_{t}.0.y, t-i \geq 0,
+\forall r \leq i \; : \; e_r \in ZAHL \setminus \{ 0 \} \}
+$
+
+sum := 0;
+
+$\{ sum =  \underset{k=1}{\overset{t-i}{\sum}} e_k, \underline{input} = e_{t-i+1},..,e_{t}.0.y , t-i \geq 0
+, \forall r \leq i \; : \; e_r \in ZAHL \setminus \{ 0 \}\}$
+
+read x;
+
+$I = \{ sum =  \underset{k=1}{\overset{t-i}{\sum}} e_k,  x = e_{t-i+1} , \underline{input} = e_{t-i+2},..,e_{t}.0.y , t-i \geq 0
+, \forall r \leq i \; : \; e_r \in ZAHL \setminus \{ 0 \}\}$
+
+while not (x=0) do
+    $\textbf{Da } x \not= 0 \text {kann, muss} t-i > 0 \text{gelten, daher gilt die Nachstehende Bedingung.}$     
+   
+    $ 
+    \{ sum = \underset{k=1}{\overset{t-i}{\sum}} e_k, x=e_{t-i+1}, \underline{input} = e_{t-i+2},...,e_{t}.0.y, t - i > 0, \forall r \leq i \; : \; ZAHL \setminus \{ 0 \} \}
+    $
+
+    i := i - 1;    
+ 
+    $
+    \{ sum = \underset{k=1}{\overset{t-i-1}{\sum}} e_k, x=e_{t-i}, \underline{input} = e_{t-i+1},...,e_{t}.0.y, t - i \geq 0, \forall r \leq i \; : \; ZAHL \setminus \{ 0 \} \}
+    $
+
+    sum := sum + x;
+
+    $
+    \{ sum = \underset{k=1}{\overset{t-i}{\sum}} e_k, x=e_{t-i}, \underline{input} = e_{t-i+1},...,e_{t}.0.y, t-i\geq 0, \forall r \leq i-1 \; : \; ZAHL \setminus \{ 0 \} \}
+    $
+
+    read x;
+    
+    
+    $I = \{ sum =  \underset{k=1}{\overset{t-i}{\sum}} e_k,  x = e_{t-i+1} , \underline{input} = e_{t-i+2},..,e_{t}.0.y , t-i \geq 0,  \forall r \leq i \; : \; e_r \in ZAHL \setminus \{ 0 \}\}$
+
+od
+
+$
+I \land \neg b = \{  sum =  \underset{k=1}{\overset{t-i}{\sum}} e_k,  x = e_{t-i+1}, \underline{input} = e_{t-i+2},..,e_{t}.0.y , i = 0, \forall r \leq i \; : \; e_r \in ZAHL \setminus \{ 0 \} , x = 0\}
+$
+$
+\stackrel{e_i=0}{\Rightarrow} sum = \underset{k=1}{\overset{t}{\sum}} e_k , x = e_{i-1} = 0, 
+\underline{input} = y \forall r \leq 0 \; : \; e_r \in ZAHL \setminus \{ 0 \}, i = 0\}
+$
+
+$
+\underline{output} = a', \underline{input} = y, sum = \underset{k=1}{\overset{t}{\sum}} e_k \}
+$
+output sum
+
+$\{ \underline{output} = a'.sum, \underline{input} = y , sum = \underset{k=1}{\overset{t}{\sum}} e_k \}$
+\end{lstlisting}
+
+Wir haben hier etwas getrickst um eine sinnvolle Invarinte zu erhalten, aber so lief der Beweis anstandslos durch. Es fehlt nur noch zu zeigen, dass die Rankingfunktion existiert um die Terminierung des Programmes zu zeigen.\\
+Sei $r(i) = i$. Wie wir gesehen haben, ist $i>0$ zu beginn jedes Schleifen durchlaufes (Argument im Hoarebeweis) und die Folge fällt streng monoton ($i := i-1$). Daraus können wir schlussfolgern, dass unser Programm immer terminiert.\\
+
+Unser Hoaretripel, das wir aufgestellt haben, ist also gültig.
+
+\label{LastPage}
+
+\end{document}

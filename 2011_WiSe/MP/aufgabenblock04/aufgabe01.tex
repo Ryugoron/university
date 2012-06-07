@@ -27,9 +27,63 @@
 			bei jedem Tastendruck soll die LED (P4.1) getoggelt werden
 
 	Testen und dokumentieren Sie ihre Lösung.\\
+	\end{itemize}
 
 \textbf{Programm:}\\
 
+\begin{lstlisting}
+#pragma vector = PORT2_VECTOR
+__interrupt void PORT1 (void) {
+	if(P1IN & 0x01){
+		dosmth1();
+	}
+	if(P1IN & 0x02){
+		dosmth2();
+	}
+	P1IFG &= ~(0xFF);
+}
+
+char counter1 = 0;
+char counter2 = 0;
+
+void dosmth1(){
+	P1IE &= ~(0x01);
+	if(counter1%20 == 9){
+		LED1ON;
+	}
+	if(counter1%20 == 19){
+		LED1OFF;
+	}
+	counter1 = (counter1 + 1) %20;
+	wait(10000);
+	P1IE |= 0x01;
+}
+
+void dosmth2(){
+	P1IE &= ~(0x02);
+	if(counter2 == 1){
+		P1IE &= ~(0x01);
+		LED2OFF;
+		counter2 = 0;
+	}
+	else{
+		P1IE |= 0x01;
+		LED2ON;
+		counter2 = 1;
+	}
+	wait(10000);
+	P1IC |= 0x02;
+}
+\end{lstlisting}
+
 \textbf{Erklärung:}\\
 
-\textbf{Beobachtung:}
+In Zeile 1-2 haben wir eine neue ISR angelegt, die über den Compiler für den zweiten Port in die Interruptvektortabelle gelegt wird. Innerhalb dieser Testen wir zunächst, welcher Taster nun wirklich gedrückt wurde. Danach entscheiden wir, wie wir weiter verfahren. Am ende setzen wir die Interruptfalg auf 0 zurück, womit der Interrupt als erledigt gesetzt wird.\\
+
+Wurde Taster 1 gedrückt, deaktivieren wir für diesen Taster zunächst die Interrupts. Ist der Counter nun im 10. Schritt, schalten wir die LED1 an und sind wir im 20. Schritt ist die LED1 aus. Danach aktivieren wir die Interrupts für diese Taste wieder.\\
+
+Haben wir die zweite Taste gedrückt, testen wir, ob unsere LED an sein müsste. Ist sie an, deaktivieren wir den Interrupt für die erste Taste (zweiter Aufgabenteil, will man dies nicht, so muss man nur Zeile 31 und 36 auskommentieren) schalten die LED aus. Ist die LED aus, aktivieren wir sie und schalten den Interrupt für den Taster 1 weider an.\\
+
+\textbf{Beobachtung:}\\
+
+Das Programm verhaltet sich wie gewünscht. Wir haben uns diesmal allerdings nicht weiter um das Prellen gekümmert. Dadurch gestaltete sich das Testen manchmal schwierig. Der Taster 1 funktionierte aber nur, wenn die LED 2 an ist.
