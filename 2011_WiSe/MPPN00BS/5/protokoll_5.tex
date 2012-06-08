@@ -41,19 +41,21 @@
 \section*{A 5.1 LPM und Interrupt}
 
 \begin{description}
-	\item[A 5.1.1] Starten Sie den Controller und überprüfen Sie messtechnisch den Stromverbrauch und die MCLK-Taktfrequenz. \\
+	\item[A 5.1.1] Starten Sie den Controller und überprüfen Sie messtechnisch den Stromverbrauch und die \texttt{MCLK}-Taktfrequenz. \\
 	
-	7.36 $\cdot 10^6$ Hz, 5.83 mA
+	Ohne weitere Programme einzufügen, d.h. mit leerer \texttt{while(1)}-Schleife, wird nun der Stromverbrauch und die Taktfrequenz gemessen. Um letzteres zu messen, legen wir das Taktsignal mittels folgendem Code an den Pin \texttt{P5.4}:
 	
 	\begin{lstlisting}[numbers=left]
 	init511() {
-		P5SEL |= (1 << 4);
-		P5DIR |= (1 << 4);
+		P5SEL |= (1 << 4); //MCLK-Takt anlegen
+		P5DIR |= (1 << 4); //Als Ausgang nutzen
 	}
 	\end{lstlisting}
 	
-	Fügen Sie in der while(1) Schleife der main() Funktion einen Befehl ein, der den Mikrocontroller in den LPM4 Mode setzt. Starten Sie das Programm. 
-	Was bewirkt der Befehl? Wie verhalten sich die Taktfrequenz und der Stromverbrauch? \\
+	Diese Funktion wird vor der \texttt{while(1)}-Schleife aufgerufen und damit nur einmal ausgeführt (also wird damit die Messung nicht verfälscht). Eine genauere Erklärung des Codesegments findet sich in Protokoll 2, Sektion A 2.1. Der Stromverbrauch wird wie üblich mit dem Multimeter extern gemessen.\\
+	Die Messungen ergeben für das oben erklärte Szenario einen Stromverbrauch von $5.83$ mA bei einer Taktfrequenz von ca. 7.36 $\cdot 10^6$ Hz $= 7.36$ MHz. \\
+	
+	Nun wird in die \texttt{while(1)}-Schleife der main-Funktion der Befehl \texttt{LPM4} eingefügt. Dieser Befehl bewirkt, dass der Mikrocontroller in den \texttt{LPM4}-Mode versetzt wird. Der Code sieht nun also folgendermaßen aus:
 	
 	\begin{lstlisting}[numbers=left]
 	while(1) {
@@ -61,55 +63,205 @@
 	}
 	\end{lstlisting}
 	
-	0 Hz, 0.43 mA
+	Nach dem Start des Programmes werden nun, wie oben, Taktfrequenz und Stromverbrauch gemessen. Auffällig ist, dass die Messung eine Taktfrequenz von $0$ Hz ergibt, also im \texttt{LPM4}-Mode scheinbar kein Taktzyklus mehr ausgeführt wird. Der Stromverbrauch ist dabei um $5.4$ mA auf $0.43$ mA gesunken.\\
+
 	
-	Programmieren Sie den Port1 in der Form, dass bei einem Druck auf die Taste (P1.0) ein Interrupt ausgelöst wird. Die while(1) Schleife bleibt unverändert, es 
-	befindet sich nur die LPM4 Anweisung in der Schleife. Realisieren Sie in der ISR des PORT1 eine 10 Sekunden dauernde Warteschleife.
-	Dokumentieren Sie die Beobachtungen (Stromverbrauch und Taktfrequenz) zum Zeitpunkt des Tastendruckes. 
-	
+	Als nächstes fügen wir auf Port 1 eine ISR ein, die bei einem Tastendruck auf \texttt{P1.0} eine zehn Sekunden dauernde Warteschleife ausführt. Die \texttt{main}-Funktion bleibt dabei unverändert. Der Code, der diese Anforderungen realisiert, sieht folgendermaßen aus:
+%%Habe hier wait(.) rausgenommen, wird wohl nicht benötigt.
 	\begin{lstlisting}[numbers=left]
-	#define waitingTillWeDontWegThatFlippsingThing 1000
-	
 	#pragma vector = PORT1_VECTOR
 	__interrupt void PORT1 (void) {
 		CLEAR(P1IFG, 0xFF);
 
-		if((P1IN & 0x01)) {
+		if((P1IN & 0x01)) { //Taster gedrueckt
 			int i = 0;
-			while(i < 20) {
-				wait(50000);	// wait 0.5 seconds
-				i++;
+			while(i < 20) { // 20*0.5 Sekunden = 10 Sekunden
+				wait(50000); // Warte 0.5 Sekunden
+				++i;
 			}
 		}
-		wait(waitingTillWeDontWegThatFlippsingThing)
 	}
 	
 	init511() {
+		// Initialisierung zur Taktmessung
 		P5SEL |= (1 << 4);
 		P5DIR |= (1 << 4);
-		
+		// Taster-Initialisierung
 		P1DIR &= ~(0x01);
 		P1SEL &= ~(0x01);
-		P1IE |= (0x01);
+		P1IE |= (0x01); //Interrupts anschalten
 		P1IES &= ~(0x01);
 	}
 	\end{lstlisting}
 	
-	Leerlauf: 0 Hz, 0.44mA \\
-	Taster: 7.38 $\cdot 10^6$ Hz, 4.08mA
+	Die ISR führt eine einfache Schleife aus, in der pro Durchlauf $0.5$ Sekunden gewartet wird. Da die Schleife 20 mal durchläuft, erhalten wir eine insgesamte Wartezeit von zehn Sekunden. Der Parameter von \texttt{wait} wurde nicht direkt als zehn Sekunden gewählt, da wir sonst die zulässigen Bereich des Parameters überschreiten. Die Funktion \texttt{init511} setzt alle benötigten Register. \\
+	Die Messung ergibt nach dem Start des Programmes eine Taktfrequenz von $0$ Hz bei einem Stromverbrauch von ca. $0.44$ mA. Dies deckt sich mit unseren vorigen Messungen. Bei einem Tastendruck erhöhen sich die Messergebnisse für einen Zeitraum von knapp zehn Sekunden auf eine Taktfrequenz von $7.38$ MHz bei einem Stromverbrauch von $4.08$ mA.
 \end{description}
 
-\section*{A 5.1 Auto Shutdown mit einer ON/OFF Logik}
+\section*{A 5.2 Auto Shutdown mit einer ON/OFF Logik}
 \begin{description}
-	\item[A 5.1.2] Für die Umsetzung der oben beschriebenen Verhaltensweise, werden der Watchdog in einer Timer Anwendung und parallel dazu zwei Interruptquellen genutzt. Der Taster (P1.0) soll als Bedienelement genutzt werden. Die unten erwähnten Variablen Status und Tick sind globale Variablen. \\
+	\item[A 5.2.1] Für die Umsetzung der in der Aufgabe beschriebenen Verhaltensweise, werden (1) Watchdog-Timer samt zugehöriger ISR und (2) Taster-ISR genutzt. \\
+
+	Die \texttt{main}-Funktion ruft im Folgenden die Funktion \texttt{aufgabe512} in einer Endlosschleife auf. Diese ist wie in der Aufgabe gefordert implementiert.
 	
 	\begin{lstlisting}[numbers=left]
-	
-	int status = LPM4_bits;
-	int tick = 0;
-	
+// Die Variable status bezeichnet den Modus, in dem wir
+// uns befinden. Dabei ist status = 1, falls wir im LPM4-Modus
+// sind. Sonst ungleich 1.
+int status = 1;
+// Zaehlen der Ticks
+int tick = 0;
+
+void init512() {
+	// Initialisieren aller noetigen Register,
+	// alle LEDs aus.
+	LED1ON;LED2ON;LED3ON;LEDON;
+	P5SEL |= (1 << 4);
+	P5DIR |= (1 << 4);
+	// Taster
+	P1DIR &= ~(0x01);
+    P1SEL &= ~(0x01);
+    P1IE |= (0x01);
+    P1IES &= ~(0x01);
+	// LEDs
+    P4DIR |= (0x07);
+    P4SEL &= ~(0x07);
+    P4OUT |= 0x07;
+}
+
+void aufgabe512() {
+	if (status == 1) { // LPM4-Modus
+		LED2OFF; LED3OFF;
+		LPM4;
+	} else { // aktiver Modus
+		LED2ON;
+	}
+	// Solange die Taste abfragen, wie sie
+	// gedrueckt wird.
+	while ((P1IN & 0x01)) {
+		if (tick > 2) {
+			// LPM4-Modus anfordern,
+			// Schleife verlassen
+			status = 1;
+			break;
+		}
+	}
+}
 	\end{lstlisting}
-\end{description}
 	
+	Die Funktion \texttt{init512} wird dabei, wie immer, vor dem Aufruf von \texttt{aufgabe512} ausgeführt. Die Funktion \texttt{aufgabe512} tut exakt das, was in der Aufgabe gefordert ist: Falls wir im \texttt{LPM4}-Modus sein sollen (gdw. \texttt{status == 1}), werden die LEDs ausgeschaltet und der Mikrocontroller in den \texttt{LPM4}-Modus versetzt. Ist dies nicht der Fall, so wird die LED \texttt{P4.1} eingeschaltet. Danach wird der Taster abgefragt und überprüft, ob dieser länger als zwei Ticks gedrückt wurde. Ist dies der Fall, so wird dies als Abschaltvorgang interpretiert und die \texttt{status}-Variable auf eins gesetzt um in nächsten Schleifenzyklus (der \texttt{main}-Funktion) den \texttt{LPM4}-Modus zu aktivieren. \\
+	Die \texttt{tick}-Variable wird dabei sowohl von der ISR des Tasters als auch der ISR vom Watchdog-Timer beeinflusst:
+	\begin{lstlisting}[numbers=left]
+#pragma vector = PORT1_VECTOR
+__interrupt void PORT1 (void) {
+  P1IFG &= ~0xFF;
+
+  if((P1IN & 0x01)) { //Taste gedrueckt
+  	if (status == 1) { // Waren/Sind wir gerade in LPM4-Mode?
+  		status = 0; //Mode auf aktiv setzen: aufwachen
+  		
+  		//Watchdog-Timer aktivieren, Ein-Sekunden-Timeout
+  		WDTCTL = (WDTPW + WDTSSEL + WDTCNTCL);
+  		// Interrupt auf Watchdog-Zimer-Intervall schalten
+  		IE1 = WDTIE;
+  	} else { //sind im aktiven Mode
+  		// Es wurde etwas gemacht: tick zuruecksetzen
+  		tick = 0;
+  	}
+  }
+}
+
+#pragma vector = WDT_VECTOR
+__interrupt void watchdog (void) {
+  IFG1 &= ~WDTIFG;
+  // Sekunde ist vergangen: tick inkrementieren
+  tick++;
+  // Blink-LED toggeln
+  P4OUT ^= 0x04;
+  
+  // Sind wir im aktivem Modus und seit mehr als
+  // 60 Sekunden wurde die Taste nicht gedrueckt?
+  if ((status == 0) && (tick > 60)) {
+    // Dann LPM4-Mode anfordern
+  	status = 1;
+  	LED3OFF;
+  }
+}
+
+	\end{lstlisting}
+	
+	Die ISR des Watchdog-Timers hat zwei Aufgaben: Sie simuliert eine Uhr, in dem sie jede Sekunde die \texttt{tick}-Variable erhöht. Außerdem wird überprüft, ob seit 60 Sekunden (60 ticks) keine Aktion (Tastendruck) ausgeführt wurde. Ist dies der Fall so wird angenommen, dass das Modul gerade nicht aktiv benutzt wird und der Wechsel in den \texttt{LPM4}-Mode eingeleitet.\\
+	Die ISR des Tasters verhält sich, je nach Modus des Moduls, unterschiedlich: Wurde der Taster während des aktiven Modus gedrückt, so wird \texttt{tick} auf Null zurückgesetzt (um Aktivität kenntlich zu machen). Wird der Taster gedrückt, während man in \texttt{LPM4}-Modus ist, so wird das Modul aufgeweckt, status entsprechend gesetzt und der Watchdog-Timer eingeschaltet. \\
+	Damit ist ein Mechanismus zum automatischen ausschalten nach Inaktivität bzw. zum Ein- und Ausschalten via Tastendruck implementiert.\\
+	
+	Der Test des Programmes zeigt korrektes Verhalten und bestätigt damit die Erklärungen. Auch Messungen der Taktfrequenz und damit Beobachtungen über das Ein- und Austretens aus dem \texttt{LPM4}-Mode, belegen die Funktion des Programmes.
+\end{description}
+
+\section*{A 5.3 Wake Up binär gesteuert}
+\begin{description}
+	\item[A 5.3.1] Unter Benutzung des Tasters als Sensor, soll ein Wake-Up-Mechanismus umgesetzt werden, der auf Zustandsänderungen des Sensors entsprechend reagiert. \\
+	
+	Das nachfolgende Programm setzt das gewünschte Verhalten um. Die Initialisierung der Register und das Erlauben von Interrupt passiert in der Funktion \texttt{init513}, die wie immer vor der Funktion \texttt{aufgabe513} aufgerufen wird. Die \texttt{main}-Funktion enthält dann eine Endlos-Schleife, in der \texttt{aufgabe513} aufgerufen wird.
+	
+	\begin{lstlisting}[numbers=left]
+// Diese Variable codiert den aktuellen Status:
+// status == 1 bedeutet, dass wir in den aktiven Modus wechseln
+// status == 0 bedeutet, dass wir in den LPM4-Modus wechseln 
+unsigned char status = 1;
+
+void init513() {
+	// Alle LEDs aus, Register initialisieren
+	LED1OFF;LED2OFF;LED3OFF;LEDOFF;
+	P5SEL |= (1 << 4);
+	P5DIR |= (1 << 4);
+	//Taster interruptfaehig
+	P1DIR &= ~(0x01);
+    P1SEL &= ~(0x01);
+    P1IE |= (0x01);
+	// LED-Register einrichten
+    P4DIR |= (0x07);
+    P4SEL &= ~(0x07);
+    P4OUT |= 0x07;
+	// Interrupt-Flanke auf low-hi
+    P1IES &= ~(0x01); //LH
+}
+
+#pragma vector = PORT1_VECTOR
+__interrupt void PORT1 (void) {
+	P1IFG &= ~0xFF;
+
+	if ((P1IES & 0x01) == 1) {//HL ist Interruptquelle
+  		status = 1; //aktiver Mode
+  		P1IES &= ~(0x01);  // LH  ist Interruptquelle
+  		LPM4_EXIT; // Aus LPM4-Mode austreten
+  	} else {
+  		status = 0; //LPM anfordern
+  		P1IES |= (0x01); //HL ist nun Interruptquelle
+  	}
+}
+
+void aufgabe513() {
+	if (status == 0) { //LPM angefordert
+		LED1OFF;LED2OFF;LED3OFF;
+		LPM4; 
+	} else {  //aktiver Mode
+		// Ampelsequenz
+		P4OUT = ROT;
+		wait(waittime);
+		P4OUT = ROTGELB;
+		wait(waittime);
+		P4OUT = GRUEN;
+		wait(waittime);
+		P4OUT = GELB;
+		wait(waittime);
+		P4OUT = ROT;
+		wait(waittime);
+	}
+}
+	\end{lstlisting}
+	
+	Die ISR des Tasters überprüft, ob der Interrupt durch eine LH- oder HL-Flanke ausgelöst wurde und entscheidet entsprechend, ob in den aktiven Modus oder in den \texttt{LPM4}-Modus gewechselt werden soll. Die Funktion \texttt{aufgabe513} setzt dann entsprechend der Belegung von \texttt{status} entweder den \texttt{LPM4}-Modus um oder schaltet eine Ampelsequenz. Die Variablen \texttt{waittime} und die Makros der Ampelsequenz wurden dabei aus Protokoll 1 übernommen.\\
+	Das Programm wurde erfolgreich getestet, das Wechseln in den Low-Power-Mode wurde durch Taktfrequenzmessungen bestätigt, ebenso liefen die Ampelsequenzen erfolgreich durch.
+\end{description}
 \label{LastPage}
 \end{document}
