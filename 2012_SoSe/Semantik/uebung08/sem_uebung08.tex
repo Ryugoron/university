@@ -1,0 +1,107 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm,left=2cm,right=2cm]{geometry} 
+\usepackage{babel}
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc} 
+\usepackage{ae} 
+\usepackage{amssymb} 
+\usepackage{amsmath} 
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{paralist}
+%\usepackage{bussproofs}
+\usepackage{stmaryrd}
+
+%\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[C]{Semantik von Programmiersprachen}
+\fancyhead[L]{Übung Nr. 8}
+\fancyhead[R]{SoSe 2012}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage / \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\setlength{\parindent}{0pt} 
+\setlength{\headheight}{0pt}
+
+\author{Tutor: Ansgar Schneider}
+\date{}
+\title{Max Wisniewski , Alexander Steen}
+
+\begin{document}
+
+\lstset{language=Haskell, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2, mathescape=true}
+
+\maketitle
+\thispagestyle{fancy}
+\newcommand{\A}{\mathbb{A}}
+
+%% ------------------------------------------------------
+%%                     AUFGABE 1
+%% ------------------------------------------------------
+
+\section*{Aufgabe 1} 
+\begin{description}
+\item[a)] Gesucht: Funktion $f : A \to B$, mit $A,B$ cpos, $f$ nicht stetig. \\
+
+Sei $f $....\\
+$f$ ist nicht stetig, denn für jede Kette $K \subseteq A$ gilt $\sup f(K) = ... $.
+\item[b)] Z.z. $f: B \to C, g: A \to B$ stetig $\Rightarrow f \circ g: A \to C$ stetig, mit $A,B,C$ cpo. 
+
+\textbf{Beweis}:\\
+Sei $f: B \to C, g: A \to B$ stetig, $A,B,C$ cpos und $K \subseteq A$ eine Kette. Dann ist $(f \circ g)(K) = f(g(K))$. \\
+(1) $g$ stetig $\Rightarrow$ $G := g(K) \subseteq B$ Kette. Da $f$ stetig $\Rightarrow$ $f(G) = f(g(K)) = (f \circ g)(K) \subseteq C$ Kette.\\
+
+(2) $f$ stetig $\Rightarrow \forall K' \subseteq  B \text{ Kette }: \, f(\sup K') = \sup f(K')$ und\\
+$g$ stetig $\Rightarrow \forall K' \subseteq  A \text{ Kette }: \, g(\sup K') = \sup g(K')$.\\
+Sei $G := g(K) \subseteq B $ Kette (nach (1)).\\
+$\Rightarrow (f \circ g)(\sup K) = f(g(\sup K)) =f(\sup g(K)) = f(\sup G) = \sup f(G) = \sup f(g(K)) = \sup (f \circ g)(K)$.
+\mbox{} \hfill $\square$
+\end{description}
+
+%% ------------------------------------------------------
+%%                     AUFGABE 2
+%% ------------------------------------------------------
+
+\section*{Aufgabe 2}
+
+
+%% ------------------------------------------------------
+%%                     AUFGABE 3
+%% ------------------------------------------------------
+
+\section*{Aufgabe 3}
+
+
+%% ------------------------------------------------------
+%%                     AUFGABE 4
+%% ------------------------------------------------------
+
+\section*{Aufgabe 4}
+Seien $D_1, D_2$ cpos und $f: D_1 \to D_2, g: D_2 \to D_1$ stetig.\\
+Z.z. $fix_{f\circ g} = f(fix_{g\circ f})$ und $fix_{g\circ f} = g(fix_{f\circ g})$.\\
+
+\textbf{Beweis}:\\
+Nach Aufgabe 1 gilt $f \circ g : D_2 \to D_2$ stetig und $g \circ f : D_1 \to D_1$ stetig. Dann gilt nach dem Fixpunktsatz: $fix_{f \circ g}$ und $fix_{g \circ f}$ existieren und
+$$fix_{f \circ g} = \sup_{n \in \mathbb{N}} \{(f \circ g)^n(\bot_{D_1}) \}, \quad fix_{g \circ f} = \sup_{n \in \mathbb{N}} \{(g \circ f)^n(\bot_{D_2}) \}$$
+
+Da sowohl $\{(f \circ g)^n(\bot_{D_1}) |\, n\in \mathbb{N}\}$ als auch $\{(g \circ f)^n(\bot_{D_2}) |\, n\in \mathbb{N}\}$ Ketten sind (siehe Beweis zu Satz 3.7), gilt:\\
+
+\begin{eqnarray*}
+f (fix_{g \circ f}) &=& f(\sup_{n \in \mathbb{N}} \{(g \circ f)^n(\bot_{D_2}) \}) \\
+&\stackrel{f \text{ stetig}}{=}& \sup_{n \in \mathbb{N}} \{f((g \circ f)^n(\bot_{D_2})) \}\\
+&\stackrel{\text{Umordnung}}{=}& \sup_{n \in \mathbb{N}} \{(f \circ g)^n(f(\bot_{D_2})) \}\\
+&\stackrel{(*)}{=}& \sup_{n \in \mathbb{N}} \{(f \circ g)^n(\bot_{D_1}) \}\\
+&=& fix_{f\circ g}
+\end{eqnarray*}
+
+
+
+\label{LastPage}
+
+\end{document}
