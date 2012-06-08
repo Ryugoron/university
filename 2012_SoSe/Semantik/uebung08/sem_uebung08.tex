@@ -48,9 +48,21 @@
 \section*{Aufgabe 1} 
 \begin{description}
 \item[a)] Gesucht: Funktion $f : A \to B$, mit $A,B$ cpos, $f$ nicht stetig. \\
+Sei $|A| \geq 2, |B| \geq 2$, sei $\alpha \neq \bot_A \in A$ und $\beta \neq \bot_B \in B$.\\
+Sei $f : A \to B$, mit $a \mapsto \begin{cases}
+\bot_B & \text{, falls } a \neq \bot_A \\
+\beta & \text{, sonst}
+\end{cases}$\\
+$f$ ist nicht stetig, da für die Kette $\{\bot_A, \alpha \}$ gilt: 
 
-Sei $f $....\\
-$f$ ist nicht stetig, denn für jede Kette $K \subseteq A$ gilt $\sup f(K) = ... $.
+\begin{eqnarray*}
+\sup f(\{\bot_A, \alpha \}) &=& \sup \{\beta, \bot_B\}\\
+&=& \beta \\
+&\neq & \bot_B \\
+&=& f(\alpha ) \\
+&=& f(\sup \{ \bot_A, \alpha\})
+\end{eqnarray*}
+
 \item[b)] Z.z. $f: B \to C, g: A \to B$ stetig $\Rightarrow f \circ g: A \to C$ stetig, mit $A,B,C$ cpo. 
 
 \textbf{Beweis}:\\
@@ -100,8 +112,16 @@ f (fix_{g \circ f}) &=& f(\sup_{n \in \mathbb{N}} \{(g \circ f)^n(\bot_{D_2}) \}
 &=& fix_{f\circ g}
 \end{eqnarray*}
 
+\begin{eqnarray*}
+g (fix_{f \circ g}) &=& g(\sup_{n \in \mathbb{N}} \{(f \circ g)^n(\bot_{D_1}) \}) \\
+&\stackrel{g \text{ stetig}}{=}& \sup_{n \in \mathbb{N}} \{g((f \circ g)^n(\bot_{D_1})) \}\\
+&\stackrel{\text{Umordnung}}{=}& \sup_{n \in \mathbb{N}} \{(g \circ f)^n(g(\bot_{D_1})) \}\\
+&\stackrel{(*)}{=}& \sup_{n \in \mathbb{N}} \{(g \circ f)^n(\bot_{D_2}) \}\\
+&=& fix_{g\circ f}
+\end{eqnarray*}
 
-
+(*) gilt, weil $f,g$ strikt sind....blabla
+\mbox{} \hfill $\square$
 \label{LastPage}
 
 \end{document}
