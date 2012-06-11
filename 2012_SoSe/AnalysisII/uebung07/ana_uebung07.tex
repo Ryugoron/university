@@ -118,7 +118,21 @@ richtig ist.\\
 			\end{array}\right.
 		$$
 	\textbf{Lösung:}\\
-		tbd
+		Sei $\varepsilon > 0$ beliebig, aber fest. Sei nun $\delta > 0$ und es gelte $|x - x_0| = |x| < \delta$.\\
+		Da $|x| < \delta$ gilt, wissen wir, dass insbesondere $x=(x_1,x_2)$ $|x_1| < \delta $ und $|x_2| < \delta$ gelten muss.\\
+		Wenn wir nun annehmen, dass wir $\delta < 1 $ gilt, dann gilt auch $x_1^2 < |x_1| < \delta$ und $x_2$ ebenso.\\
+
+		$$\begin{array}{rcl}
+			|f(x,y) - f(x_0)| &=& | f(x,y) - f((0,0)) |\\
+				&=& |f(x,y) - (0,0)| = |f(x,y)|\\
+				&=& | \frac{x^2y^2}{x^2 + y^2} |\\
+				&=& \frac{x^2 y^2}{x^2 + y^2}\\
+				&\stackrel{\delta}{<}& \frac{\delta^2}{2\delta}\\
+				&=& \frac{1}{2} \delta
+		\end{array}$$
+
+		Wählen wir nun ein $\delta ' = 2 \varepsilon$, dann ist $|f(x,y) - f(0,0)| < \varepsilon$.\\
+		\mbox{} \hfill $\square$
 
 	\item
 		$$
