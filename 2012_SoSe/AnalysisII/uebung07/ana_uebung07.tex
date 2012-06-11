@@ -50,14 +50,13 @@ $(x,M) \mapsto \inf \{ |x - y | \; | \; y \in M \}$.
 		\forall \, x,y \in \mathbb{R}^n \; : \; \left| dist(x,M) - dist(y,M) \right| \leq |x - y| 
 	$$
 	\textbf{Beweis:}\\
-		Seien $x,y \in \mathbb{R}^n$ und $z \in M$ beliebiger Punkt in $M$.
+		Seien $x,y \in \mathbb{R}^n$. Und $z^*,z' \in M$, so dass $|x-z'| = dist(x,M), \, |y-z^*| = dist(y,M)$.
 			$$\begin{array}{rcl}
 				| dist(x,M) - dist(y,M) | & \stackrel{Def.}{=} & | \inf \{ |x - z| \; | \; z \in M\} - \inf \{ | y - z | \; | \; z \in M \} |\\
-					&\stackrel{z',z^*}{=}& | \, | x - z'| \, - \, | y - z^* | \, |\\
-					&\leq& | \, | x - z'| \, | - | \, | y - z^* | \, |\\
-					&=& | x-z'| - | y - z^*|\\
-					&=& |x| + |z'| - |y| - |z^*|\\
-					&\leq& |x - y| + |z' - z^*|\\
+					&\stackrel{z',z^*}{=}& | \, | x - z'| \, - \, | z^* - y| \, |\\
+					&\leq& |\, | x - z' + z^* - y| \, |\\
+					&=& | x -y + z^* - z'|\\
+					&\leq& |x - y| + |z^* - z'|\\
 					&\leq& |x - y|
 			\end{array}$$
 		Gilt, da auf dem Metrischen Raum $\mathbb{R}^n$ die Dreicksungleichung gilt.
