@@ -166,7 +166,28 @@ Die Funktion $f \, : \, \mathbb{R}^n \rightarrow \mathbb{R}$ heißt \emph{unterh
 	\item Geben Sie jeweils ein Beispiel für eine nicht stetige, aber oberhalbstetige Funktion $f$ und für eine nicht stetige, aber unterhablstetige 
 		Funktion $g$ an. Skizzieren Sie!\\
 	\textbf{Lösung:}\\
-		tbd
+		Wir bilden die beiden Funktionen $f, g \; : \; \mathbb{R} \rightarrow \mathbb{R}$.\\
+		$$\begin{array}{rcl}
+			f(x) &:=& \left\{\begin{array}{lr}
+				\sin(x) + 1 &, x \geq 2\\
+				\sin(x) - 1 &, x < 2 
+			\end{array}\right.\\
+			g(x) &:=& \left\{\begin{array}{lr}
+				\sin(x) + 1 &, x > 2\\
+				\sin(x) - 1 &, x \leq 2 
+			\end{array}\right.
+		\end{array}$$
+		
+		$f$ ist nun oberhalbstetig und $g$ ist unterhalbstetig. Die Funktionen sind bekanntermaßen bis auf $x_0 = 2$ stetig.\\
+		Bei $f$ und $x_0$ haben wir in unmittelbarer Umgebung einen Sprung nach unten. Von $\sin(2)+1$ auf $\sin(2) -1$. 
+		Da dieser Sprung aber nach unten geht, ist das ganze nun in der Definition abgefangen. Nach Rechts ist die Funktion stetig,
+		daher können wir für jedes $\varepsilon > 0$ ein $\delta > 0$ finden, da die rechtsseitige Folge konvergiert.\\
+		In $x_0 = 2$ sind beide Funktionen nicht stetig, da zwischen den beiden Grenzwerten eine Differenz von 2 herrscht.\\
+
+		$g$ ist nun prinzipiell analog, da wir nu den Wert von $\sin(2)+1$ auf $\sin(2) - 1$ geändert haben. Damit ist es
+		oberhalbstetig, da wir den Sprung nur nach oben haben, und die linksseitige Folge konvergiert.\\
+	\textbf{Skizze:}\\
+		
 
 	\item Zeigen Sie, dass $f \, : \, \mathbb{R}^n \rightarrow \mathbb{R}$ genau dann unterhalbstetig ist, wenn die Menge
 	$$
@@ -188,10 +209,10 @@ Die Funktion $f \, : \, \mathbb{R}^n \rightarrow \mathbb{R}$ heißt \emph{unterh
 			Dies bedeutet, dass $f$ nicht unterhalbstetig ist.\\
 
 		$\Leftarrow$:\\
-			Wir bilden die Kontraposition. Wenn $f$ nicht unterhalbstetig ist (z.B. nicht stetig aber oberhalbstetig), dann ist
-			die Menge nicht offen.\\
+			Wir bilden die Kontraposition. Wenn $f$ nicht unterhalbstetig ist (z.B. nicht stetig aber oberhalbstetig), dann existiert
+			eine Menge $\Omega_a$ die nicht offen ist.\\
 
-			In der Teilaufgabe (ii), haben wir eine Funktion angegeben, die nicht unterhalbstetig war. In $x_0$ galt nun,
+			In der Teilaufgabe (ii), haben wir eine Funktion angegeben, die nicht unterhalbstetig war. In $x_0 = 2$ galt nun,
 			dass es keinen Wert links von diesem Wert gab, so dass der Funktionwert in jeder $\varepsilon > 0$ lag. Damit gab
 			es insbesondere keine $x \in \mathbb{R}$ werte, so dass $f(x) < f(x_0) + \varepsilon$ galt.\\
 
