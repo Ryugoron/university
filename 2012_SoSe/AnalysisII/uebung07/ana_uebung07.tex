@@ -1,0 +1,163 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm]{geometry} 
+\usepackage{babel}
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc} 
+\usepackage{ae} 
+\usepackage{amssymb} 
+\usepackage{amsmath} 
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{paralist}
+
+%%\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[C]{Analysis II}
+\fancyhead[L]{Aufgabenblatt 7}
+\fancyhead[R]{SoSe 2012}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage \hspace{1px} of \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\setlength{\parindent}{0pt} 
+\setlength{\headheight}{15pt}
+
+\date{}
+\title{Max Wisniewski , Alexander Steen}
+\author{Tutor : Adrian Steffens}
+
+\newcommand{\limes}[2][n]{\underset{ #1 \rightarrow #2}{\lim}}
+
+\begin{document}
+
+\lstset{language=Pascal, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2}
+
+\maketitle
+\thispagestyle{fancy}
+
+\subsection*{Aufgabe 20: \mdseries\itshape Stetigkeit der Abstandsfunktion}
+Für eine feste Menge $M \subset \mathbb{R}^n$ betrachten wir die  Abstandsfunktion $dist(x,M) \, : \, \mathbb{R}^n \rightarrow \mathbb{R}$, mit
+$(x,M) \mapsto \inf \{ |x - y | \; | \; y \in M \}$.
+
+\begin{enumerate}[(i)]
+	\item Zeigen Sie, dass gilt
+	$$
+		\forall \, x,y \in \mathbb{R}^n \; : \; \left| dist(x,M) - dist(y,M) \right| \leq |x - y| 
+	$$
+	\textbf{Beweis:}\\
+		Seien $x,y \in \mathbb{R}^n$ und $z \in M$ beliebiger Punkt in $M$.
+			$$\begin{array}{rcl}
+				| dist(x,M) - dist(y,M) | & \stackrel{Def.}{=} & | \inf \{ |x - z| \; | \; z \in M\} - \inf \{ | y - z | \; | \; z \in M \} |\\
+					&\stackrel{z',z^*}{=}& | \, | x - z'| \, - \, | y - z^* | \, |\\
+					&\leq& | \, | x - z'| \, | - | \, | y - z^* | \, |\\
+					&=& | x-z'| - | y - z^*|\\
+					&=& |x| + |z'| - |y| - |z^*|\\
+					&\leq& |x - y| + |z' - z^*|\\
+					&\leq& |x - y|
+			\end{array}$$
+		Gilt, da auf dem Metrischen Raum $\mathbb{R}^n$ die Dreicksungleichung gilt.
+		\mbox{} \hfill $\square$
+
+	\item Ist die Distanzfunktion gleichmäßig stetig?\\
+	\textbf{Lösung:}\\
+		Wir haben es hier prinzipiell mit eine Lipschitz stetigen Funktion zu tun, mit der Konstante 1. Da wir den Satz aber noch nicht
+		für metrische Räume gezeigt haben, werden wir wohl das ganze noch per Hand beweisen.\\
+
+		Sei $\varepsilon > 0$ beliebig, aber fest. Sei $\delta = \varepsilon$.\\
+		Nun wissen wir, nach Vorraussetzung gleichmäßigen Stetigkeit, dass $|x - y| < \delta = \varepsilon$ gelten soll.
+		Aus dem ersten Teil wissen wir aber auch, dass $| dist(x,M) - dist(y,M | \leq |x -y|| < \varepsilon$ gelten muss.\\
+
+		Damit ist $dist$ gleichmäßig stetig.\\
+		\mbox{} \hfill $\square$
+\end{enumerate}
+
+\subsection*{Aufgabe 21 \mdseries\itshape Stetige Funktionen auf dichten Teilmengen}
+
+Seien $g,f \, : \, \mathbb{R}^n \rightarrow \mathbb{R}^m$ stetige Funktionen. Sei fernen $S \subset \mathbb{R}^n$ eine \emph{dichte} Teilmenge des $\mathbb{R}$, d.h. es gilt $\overline{S} = \mathbb{R}^n$. Schließlich gelte 
+$$
+	\forall x \in S \; : \; f(x) = g(x).
+$$
+Zeigen Sie, dass dann auch
+$$
+	\forall x \in \mathbb{R}^n \; : \; f(x) = g(x)	
+$$	
+richtig ist.\\
+
+\textbf{Beweis:}\\
+	Für stetige Funktionen gilt auch bei $\mathbb{R}^n\rightarrow \mathbb{R}^m$, dass
+	$\underset{n \rightarrow a}{\lim} f(n) = f( \underset{n \rightarrow a}{\lim} n)$.\\
+
+	Nun wissen wir über den Abschluss, dass für jeden Punkt aus $x \in \overline{S}$ eine Folge $(t)_{n\in\mathbb{N}}$ in $S$ existiert,
+	so dass $\underset{n \rightarrow \infty}{\lim} t_n = x$.\\
+
+	Nun sei $x \in \mathbb{R}^n = \overline{S}$. Wir wissen nun, dass eine Folge $(t)_{n \in \mathbb{N}}$ existiert, mit
+	$\underset{n \rightarrow \infty}{\lim} t_n = x$.
+	$$\begin{array}{rcl}
+		f(x) &\stackrel{Def.: t}{=}& f(\underset{n \rightarrow \infty}{\lim} t_n)\\
+			&\stackrel{stetig}{=}& \underset{n \rightarrow \infty}{\lim} f(t_n)\\
+			&\stackrel{Vor.}{=}& \underset{n \rightarrow \infty}{\lim} g(t_n)\\
+			&\stackrel{stetig}{=}& g( \underset{n \rightarrow \infty}{\lim} t_n)\\
+			&\stackrel{Def.: t}{=}& g(x)
+	\end{array}$$
+
+\subsection*{Aufgabe 22 \mdseries\itshape Stetigkeit in höheren Dimensionen}
+
+Überprüfen Sie folgende Funktionen auf Stetigkeit im Punkt $(0,0)$.
+
+\begin{enumerate}[(i)]
+	\item
+		$$
+			f(x,y) := \left\{ 
+			\begin{array}{lr}
+				\frac{x^2y^2}{x^2+y^2} & \text{für }(x,y)\not= (0,0)\\
+				0& \text{für }(x,y) = (0,0)
+			\end{array}\right.
+		$$
+	\textbf{Lösung:}\\
+		tbd
+
+	\item
+		$$
+			g(x,y) := \left\{
+				\begin{array}{lr}
+					\frac{x^2 - y^2}{x^2 + y^2} & \text{für }(x,y) \not= (0,0) \\
+					0 & \text{für } (x,y) = (0,0)
+				\end{array}
+			\right.
+		$$
+	\textbf{Lösung:}\\
+		tbd
+\end{enumerate}
+
+\subsection*{Aufgabe 23 \mdseries\itshape Halbstetige Funktionen}
+
+Die Funktion $f \, : \, \mathbb{R}^n \rightarrow \mathbb{R}$ heißt \emph{unterhalbstetig} in $x_0 \in \mathbb{R}^n$, wenn für jedes $\varepsilon > 0$ ein $\delta > 0$ existiert, so dass gilt
+	$$
+		| x - x_0 | < \delta \Rightarrow f(x) > f(x_0) - \varepsilon
+	$$
+
+\begin{enumerate}[(i)]
+	\item Definieren Sie analog \emph{oberhalbstetig}.\\
+	\textbf{Def.:}\\
+		tbd
+
+	\item Geben Sie jeweils ein Beispiel für eine nicht stetige, aber oberhalbstetige Funktion $f$ und für eine nicht stetige, aber unterhablstetige 
+		Funktion $g$ an. Skizzieren Sie!\\
+	\textbf{Lösung:}\\
+		tbd
+
+	\item Zeigen Sie, dass $f \, : \, \mathbb{R}^n \rightarrow \mathbb{R}$ genau dann unterhalbstetig ist, wenn die Menge
+	$$
+		\Omega_a := \left\{ x \in \mathbb{R}^n \; | \; f(x) > a \right\}
+	$$
+	offen ist für alle $a \in \mathbb{R}$.\\
+	\textbf{Beweis:}\\
+		tbd
+\end{enumerate}
+\label{LastPage}
+\end{document}
