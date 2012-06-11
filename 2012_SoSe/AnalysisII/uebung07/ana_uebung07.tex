@@ -151,13 +151,17 @@ richtig ist.\\
 
 Die Funktion $f \, : \, \mathbb{R}^n \rightarrow \mathbb{R}$ heißt \emph{unterhalbstetig} in $x_0 \in \mathbb{R}^n$, wenn für jedes $\varepsilon > 0$ ein $\delta > 0$ existiert, so dass gilt
 	$$
-		| x - x_0 | < \delta \Rightarrow f(x) > f(x_0) - \varepsilon
+		| x - x_0 | < \delta \Rightarrow f(x) > f(x_0) - \varepsilon.
 	$$
 
 \begin{enumerate}[(i)]
 	\item Definieren Sie analog \emph{oberhalbstetig}.\\
 	\textbf{Def.:}\\
-		tbd
+		Eine Funktion $f \, : \, \mathbb{R}^n \rightarrow \mathbb{R}$ heißt \emph{oberhalbstetig} in $x_0 \in \mathbb{R}^n$, wenn für jedes
+		$\varepsilon > 0$ ein $\delta > 0$ existiert, so dass gilt
+		$$
+			| x - x_0 | < \delta \Rightarrow f(x) < f(x_0) + \varepsilon.
+		$$
 
 	\item Geben Sie jeweils ein Beispiel für eine nicht stetige, aber oberhalbstetige Funktion $f$ und für eine nicht stetige, aber unterhablstetige 
 		Funktion $g$ an. Skizzieren Sie!\\
@@ -170,7 +174,31 @@ Die Funktion $f \, : \, \mathbb{R}^n \rightarrow \mathbb{R}$ heißt \emph{unterh
 	$$
 	offen ist für alle $a \in \mathbb{R}$.\\
 	\textbf{Beweis:}\\
-		tbd
+		$\Rightarrow$:\\
+			Wir wollen zeigen, dass $f \; : \; \mathbb{R}^n \rightarrow$ unterhalbstetig impliziert, dass $\Omega_a$ offen ist.\\
+			Dazu nehmen wir an, dass $\Omega_a$ nicht offen ist.\\
+
+			Dies bedeutet, dass ein Punkt $x_0$ existiert, so dass für jedes $\varepsilon > 0$ die offene Kugel 
+			$B_\varepsilon(x_0) $ nicht komplett in $\Omega_a$ enthalten ist. Also existiert ein Punkt $y \in B_\varepsilon(x_0)$, für
+			den gilt $x_0 \not \in \Omega$.\\
+
+			Wir wissen nun also zum einen, dass $|x - y | < \varepsilon$ für jedes $\varepsilon > 0$ gilt. Darüber hinaus wissen wir auch,
+			dass $f(y) \leq \Omega_a$. Wir haben also ein $a$, so dass $f(x) \leq f(x_0) - a$ gilt.\\
+			
+			Dies bedeutet, dass $f$ nicht unterhalbstetig ist.\\
+
+		$\Leftarrow$:\\
+			Wir bilden die Kontraposition. Wenn $f$ nicht unterhalbstetig ist (z.B. nicht stetig aber oberhalbstetig), dann ist
+			die Menge nicht offen.\\
+
+			In der Teilaufgabe (ii), haben wir eine Funktion angegeben, die nicht unterhalbstetig war. In $x_0$ galt nun,
+			dass es keinen Wert links von diesem Wert gab, so dass der Funktionwert in jeder $\varepsilon > 0$ lag. Damit gab
+			es insbesondere keine $x \in \mathbb{R}$ werte, so dass $f(x) < f(x_0) + \varepsilon$ galt.\\
+
+			Aus diesem $\varepsilon$ können wir nun eine offene Kugel $B_\varepsilon(x_0)$ bilden. In der unmittelbaren Umgebung
+			lagen nun allerdings (nach links) keine Werte. Daher ist für alle $\varepsilon > 0$ nicht die ganze Kugel in der Menge.\\
+
+		\mbox{} \hfill $\square$
 \end{enumerate}
 \label{LastPage}
 \end{document}
