@@ -1,0 +1,37 @@
+\subsection*{Aufgabe 24: \mdseries\itshape Stetige Abbildungen auf Punktmengen}
+\begin{enumerate}[(i)]
+    \item Sei $f \; : \; \mathbb{R}^n \rightarrow \mathbb{R}^m$ stetig. Zeigen Sie, dass für jede
+        Menge $ A \subset \mathbb{R}^n$ gilt
+        $$
+            f(\overline{A}) \subset \overline{f(A)}.
+        $$
+    \textbf{Beweis:}\\
+        Wir benutzten für den Beweis das Folgenkonvergenz kriterium für Abgeschlossene Menge.\\
+        D.h. wenn $B$ eine abgeschlossene Menge ist muss
+        für jede Folge $(x)_{k\in \mathbb{N}}$ aus $B$,
+        $\left( \underset{n \rightarrow \infty}{\lim} x_k \right) \in B$ gelten.\\
+
+        Nun gilt, aber, für jeden Punkt $x_0 \in \overline{A}$, dass es eine Folge
+        $(x)_{n \in \mathbb{N}}$ gibt mit $\limes{n,\infty} x_k = x_0$.
+        $$\begin{array}{rcl}
+            f(x_0) &=& f(\underset{n \rightarrow \infty}{\lim} x_n)\\
+                &=& \underset{n \rightarrow \infty}{\lim} f(x_n)\\
+        \end{array}$$
+
+        Wir haben eine Folge von Bildern der Funktion. Wir wissen, dass in einer abgeschlossenen
+        Menge jede konvergente Folge gegen einen Punkt innerhalb der Menge konvergiert.
+        Da $f(x_0)$ eine konvergente Folge $f(x_k)$ besitzt, da die $x_k$ konvergieren und $f$ stetig
+        ist, muss das Bild des Abschluss des Quellbereiches  auch im Abschluss des Bild liegen.\\
+        \mbox{} \hfill $\square$
+
+    \item Ist das stetige Bild $f(M)$ einer beliebigen offenen bzw. abgeschlossenen Menge 
+        $M \subset \mathbb{R}^n$ wieder offen bzw. abgeschlossen? Geben Sie ein Beispiel an.\\
+    \textbf{Lösung:}\\
+        tbd
+
+    \item Sei $ f \; : \; \mathbb{R}^n \rightarrow \mathbb{R}^m$ stetig. Erfülle $M \subset \mathbb{R}^n$
+        die Heine - Borell - Eigenschaft. Dann erfüllt $f(M)$ diese Eigenschaft auch.\\
+    \textbf{Lösung:}\\
+        tbd
+\end{enumerate}
+
