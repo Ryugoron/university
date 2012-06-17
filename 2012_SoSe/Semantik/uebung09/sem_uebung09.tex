@@ -1,0 +1,238 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm,left=2cm,right=2cm]{geometry} 
+\usepackage{babel}
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc} 
+\usepackage{ae} 
+\usepackage{amssymb} 
+\usepackage{amsmath} 
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{paralist}
+%\usepackage{bussproofs}
+\usepackage{stmaryrd}
+
+%\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[C]{Semantik von Programmiersprachen}
+\fancyhead[L]{Übung Nr. 9}
+\fancyhead[R]{SoSe 2012}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage / \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\setlength{\parindent}{0pt} 
+\setlength{\headheight}{0pt}
+
+\author{Tutor: Ansgar Schneider}
+\date{}
+\title{Max Wisniewski , Alexander Steen}
+
+\begin{document}
+
+\lstset{language=Haskell, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2, mathescape=true}
+   
+\maketitle
+\thispagestyle{fancy}
+\newcommand{\A}{\mathbb{A}}
+
+\subsection*{Aufgabe 1 \mdseries\itshape $\alpha$ - Konversion}
+Wenn man für die $\alpha$ - Reduktion $\lambda x.t \underset{\alpha}{\rightarrow} \lambda y \$_y^x $ auf
+die Bedingung $y \not\in Var(t)$ verzichtet, kann eine solche Reduktion die Semantik verändern. Geben Sie
+dafür ein Beispiel an.\\
+
+\textbf{Lösung:}\\
+   Seien $y,a \in A_\lambda$ mit $y \not= a$ und $(\lambda x.y)a$ $\lambda$-Ausdruck.\\
+   Nun können wir die 2 folgenden Ausführungsreihenfolgen angeben:
+   \begin{enumerate}[1:]
+      \item $$\begin{array}{rcl}
+         (\lambda x.y)a & \overset{\beta}{\longrightarrow}& \$_a^x \; y\\
+            &\longrightarrow& y
+         \end{array}$$
+      \item $$\begin{array}{rcl}
+            (\lambda x.y)a &\overset{\alpha}{\longrightarrow}& (\lambda y.\$_y^x \; y)a\\
+               &\longrightarrow& (\lambda y.y)a\\
+               &\overset{\beta}{\longrightarrow}& \$_a^y y\\
+               &\longrightarrow& a
+         \end{array}$$ 
+   \end{enumerate}
+   Wir haben nun ein beiden Fällen eine Normalform erreicht. Wir können nicht einmal eine
+   $\alpha$ - Konversion anwenden, da es keine gebundenen Variablen mehr gibt.\\
+   Nun sagt uns aber das Church - Rosser - Theorem, dass wir durch 2 verschiedene Anwendungs von
+   Reduktionen, die Ergbnisse auf die gleiche Syntaktische Form bringen können müssen.\\
+   Da $a \not= y$ gilt, sind bei Ausdrücke nicht äquivalent.
+   
+\subsection*{Aufgabe 2 \mdseries\itshape $\beta$ - Konversion}
+Wenn man für die $\beta$ - Reduktion $ (\lambda x.t)s \rightarrow \$_s^ x t$
+auf die Forederung $Fr(s)\cap Geb(t) = \emptyset$ verzichtet, kann eine solche Reduktion die Semantik
+verändern.\\
+Geben Sie dafür ein Beispiel an.\\
+
+\textbf{Lösung:}\\
+   Seien $y,t \in A_\lambda$ mit $y \not= t$ und $(\lambda xy.x) \; y \; t$ $\lambda$-Ausdruck.
+   Nun können wir die folgenden beiden Reduktionen angeben:
+   \begin{enumerate}[1:]
+      \item $$\begin{array}{rcl}
+            (\lambda xy.x) \; y \; t &\overset{\alpha}{\longrightarrow}& (\lambda xa.x) \; y \; t\\
+               &\overset{\beta}{\longrightarrow}& (\lambda a . y) t\\
+               &\overset{\beta}{\longrightarrow}& y
+         \end{array}$$
+      \item $$\begin{array}{rcl}
+            (\lambda xy.x) \; y \; t &\overset{\beta}{\longrightarrow}& 
+               (\lambda y. \$_y^x x) t\\
+               &\longrightarrow& (\lambda y.y) t\\
+               &\overset{\beta}{\longrightarrow}& t
+         \end{array}$$
+   \end{enumerate}
+   Wie in der ersten Aufgabe haben wir 2 Ausdrücke in Normalform, deren freie Variablen nicht gleich sind.
+   Damit können sie nicht in einander überführt werden und die Semantik hat sich verändert.
+
+\subsection*{Aufgabe 3 \mdseries\itshape Nicht-endliche Reduktion}
+Konstruieren Sie einen $\lambda$-Ausdruck $t$, der keine Normalform besitzt und dessen Reduktion
+zu immer größeren Ausrücken führt.\\
+
+\textbf{Lösung:}\\
+   Wir benutzen die sich reproduzierenden Teil aus dem Fixpunktkombinator
+   $Y \equiv (\lambda f. (\lambda xy.y(xx)) (\lambda xy.y(xx)) f)$, nämlig den inneren
+   Teil $(\lambda x.a(xx)) (\lambda x.a(xx))$.
+   Wir führen hier ein paar Schritte der Reduktion aus:
+   $$\begin{array}{rcl}
+      (\lambda x.a(xx)) (\lambda x.a(xx)) &\overset{\beta}{\longrightarrow}&
+         a ((\lambda x.a(xx)) (\lambda x.a(xx)))\\
+         &\overset{\beta}{\longrightarrow}& a(a((\lambda x.a(xx)) (\lambda x.a(xx))))\\
+         ...
+   \end{array}$$
+   Wie wir sehen, reproduziert sich der Ursprüngliche Ausdruck immer wieder und wir schachteln
+   die Konstante $a$ immer weiter ineinander.
+\subsection*{Aufgabe 4 \mdseries\itshape Getypter $\lambda$ - Kalkül}
+Schreiben Sie je einen getypten $\lambda$ - Ausdruck für die folgenden Aufgaben:
+\begin{enumerate}[(a)]
+	\item Eine symmetrische Funktion soll dreifach auf ein Argument angewendet werden.\\
+   \textbf{Lösung:}\\
+      Wir konstruieren zunächst die allgemeine Version der Funktionen, die wir brauchen
+      und wenden sie im Spezialfall an.\\
+      \underline{iterate} : $\mathbb{N} \rightarrow [D \rightarrow D] \rightarrow [D \rightarrow D]$ um diese
+      Funktion zu bauen, beachte zunächst, das durch die Church - Notation der
+      Natürlichen Zahlen gilt: $n f x: D$ mit $n \in X^{\mathbb{N}}$, $f \in x^{[D->D]}$ und
+      $x \in X^D$.\\
+      (Iterativ gilt $0 f x = (\lambda xy.y) f x \overset{\beta}{rightarrow} x$,\\
+      $(n+1) f x = (\lambda xy.x(n x y)) f x \overset{\beta} f (n f x) \overset{I.V.}{\rightarrow}
+         f^{n+1} x$).\\
+      Nun bauen wir 
+      \underline{iterate} $= \lambda f n. n f \; : \mathbb{N} \rightarrow [D \rightarrow D]$,
+      das die Signatur nach konstruktion der anwendung von natürlichen Zahlen auf Funktionen erfüllt.\\
+
+      Wir betrachten nun eine symmetrische Addition, die als Ergebniss wieder einen Tupel liefern muss
+      die Zahl 2 mal wiederholt. Andernfalls könnten wir die Funktion nicht mehrmals anwenden.\\
+
+      $\underline{sym} = (\lambda x. \underline{tupel} (\underline{fst} x + \underline{snd} x) 
+         (\underline{fst}x + \underline{snd}x) : D_1 \times D_2 \rightarrow D_1 \times D_2$.\\
+
+      Ein Tupel hat die Form \\
+      $(\lambda x. x a b) : [D_1 \rightarrow D_2 \rightarrow D] \rightarrow D = D_1 \times D_2$\\
+      mit $x \in X^{[D_1 \rightarrow D_2 \rightarrow D]}$, $a \in X^{D_1}$ und $b \in X^{D_2}$.\\
+
+      Nun ist $(\lambda xy.x) : D_1 \rightarrow D_2 \rightarrow D_1$ eine Abbildung auf das erste Element
+      und \\$(\lambda xy.x) : D_1 \rightarrow D_2 \rightarrow D_2$ eine Abbildung auf das zweite Element.\\
+
+      Als nächstes betrachten wir die Addition, dass wir nicht aus dem Bereich heraus laufen, den
+      wir betrachten:
+      $\underline{+} = (\lambda mnxy. m x (n x y)) : \mathbb{N} \rightarrow \mathbb{N} \rightarrow \mathbb{N}$
+      Dieser Beweis funktioniert analog zur Iteration.\\
+
+      Nun ist die endgülitge Funktion\\
+      $\underline{sym} = (\lambda x. \lambda y ((\lambda mnab. m a (n a b)) ((\lambda ab.a)x) 
+         ((\lambda ab.b))) ((\lambda mnab. m a (n a b)) ((\lambda ab.a)x) ((\lambda ab.b)x)))$\\
+
+      Unsere Funktion $\lambda x.\underline{iterate} \; 3 \;  \underline{sym} \; x : \mathbb{N} \times \mathbb{N} 
+      \rightarrow \mathbb{N} \times \mathbb{N}$ ist eine Funkion, die eine symmetrische Funktion
+      3 mal auf ein Tupel von natürlichen Zahlen anwendet.
+         
+
+	\item Gebeben sei eine Liste der Länge 4 von Elementen des Typs $D$ und eine Funktion
+      vom Typ $[D \rightarrow D]$, berechnen Sie die Anwendung dieser Funktion auf alle
+      Listenelemente.\\
+   \textbf{Lösung:}\\
+      Wir konstruieren in diesem Fall zunächst die Funktion 
+      $\underline{map} \; : \; [D_1 \rightarrow D_2] \rightarrow D_1^* \rightarrow D_2^*$.\\
+      Was wir als erstes betrachten ist die Listen konstruktion im $\lambda$ - Kalkül:\\
+      $[] = (\lambda x. (\lambda yz.z))$ mit $x\in X^{D \times D^* \rightarrow D'}$\\
+      $(x:xs) = (\lambda y. y x xs)$ mit $y \in X^{D \times D^* \rightarrow D'}$, $x \in X^{D}$ 
+      und $xs \in X^{D^*}$.
+      Da wir eine Tupelkonstruktion haben, können wir $fst=head$ und $snd=tail$ benutzen.
+      $\underline{empty} = (\lambda a.a (\lambda bcde.d))$. Eine leere Liste schmeißt die
+      parameter weg und ist selber \underline{false} und jede andere Liste sorgt dafür, dass
+      head und tail weggeworfen werden und einzig und allein true stehen bleibt.\\
+
+      Nun machen wir uns an die übliche konstruktion der Map implementierung.
+      \begin{lstlisting}
+map f xs =
+   if !empty xs then
+      []
+   else
+      cons (f (head xs)) (map f (tail xs))
+      \end{lstlisting}.
+
+      Wir brauchen für die Implementierung nun nur noch das bekannt zu Übetragen:\\
+      \begin{tabular}{lr}
+         $\underline{map} =$ &\\
+         $ (\lambda f \; l.$& f : Funktion, l : list\\
+         $(\lambda i.(\lambda xy.y(xx)) (\lambda xy.y(xx)) i)$& Fixpunktkombinator\\   
+         $(\lambda rx.$&Map funktion\\
+         $(\lambda a.a(\lambda bcde.d))x$& if !empty(x)\\
+         $(\lambda a.a (f((\lambda bc.b)x)) (r((\lambda bc.c)x)))$& f(head(x)):map f tail x\\
+         $(\lambda a. \lambda yz.z))$& else []\\
+         $l)$& initial ganz $l$
+      \end{tabular}\\
+      
+      Wenn wir nun eine Liste vom Typ $D$ und der Länge 4 mit einer Funktion $f:[D\rightarrow D]$
+      an die Funktion \underline{map} geben, so wird das Ergebnis heraus kommen.\\
+
+      Sei $\underline{xs} : D$ eine solche Liste und $f : [D \rightarrow D]$ eine solche Funkion.\\
+      Dann erfüllt:\\
+      $map \;f\; \underline{xs} : D^*$ die Vorraussetzungen.
+
+\pagebreak
+
+	\item Beschreiben Sie den uncurry-Operator im getypten $\lambda$ - Kalkül, der angewandt
+      auf eine Funktion vom Typ $[D_1 \rightarrow [D_2 \rightarrow D_3]]$ eine Funktion des
+      Typs $[(D_1 \times D_2) \rightarrow D_3]$ liefert, wobei für alle $f, a$ und $b$
+      $$
+         (uncurry\; f) \;<a,b> = f \; a \; b 
+      $$
+      gelten soll.\\
+   \textbf{Lösung:}\\
+      Da wir uns nun schon zuvor mit Tupel beschäftigt haben, ist die Funktion nicht weiter
+      schwierig zu konstruieren:
+      $\underline{uncurry} : [D_1 \rightarrow [D_2 \rightarrow D_3]]$
+      nimmt im folgenden eine Funktion dieses Types entgegen und formatiert die eingabe,
+      die danach kommt um:
+      $\underline{uncurry} = (\lambda fx.f (x (\lambda ab.a)) (x (\lambda ab.b)))$,
+      mit $f \in X^{D_1 \rightarrow D_2 \rightarrow D_3}$, $x \in X^{D_1 \times D_2}$.\\
+
+      Wie schon zuvor gezeigt, ist $fst = (\lambda ab.a) : D_1 \times D_2 \rightarrow D_1$ und
+      $snd = D_1 \times D_2 \rightarrow D_2$.\\
+
+      Wir zeigen nun, dass für alle f,a und b gilt $(uncurry \; f) <a,b> = f \;a \; b$\\
+      $$\begin{array}{rcl}
+      (uncurry f) <a,b> &=& f (fst <a,b>) (snd <a,b>)\\
+         &=& f ( (\lambda x.x ab)(\lambda rs.r)) ( (\lambda x.x ab)(\lambda rs.s))\\
+         &\overset{\beta}{\rightarrow}&
+            f ((\lambda rs.r) ab) ((\lambda rs.s) ab)\\
+         &\overset{\beta}{\rightarrow}&
+            f ((\lambda s.a) b) ((\lambda s.s) b)\\
+         &\overset{\beta}{\rightarrow}&
+            f \; a \;  b\\
+      \end{array}$$
+      
+      Damit ist unser \emph{uncurry} erstens Typkorrekt und liefert zweitens das richtige Ergebnis.
+\end{enumerate}
+
+\label{LastPage}
+
+\end{document}

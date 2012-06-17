@@ -56,11 +56,11 @@ Sei $f : A \to B$, mit $a \mapsto \begin{cases}
 $f$ ist nicht stetig, da für die Kette $\{\bot_A, \alpha \}$ gilt: 
 
 \begin{eqnarray*}
-\sup f(\{\bot_A, \alpha \}) &=& \sup \{\beta, \bot_B\}\\
+\bigsqcup f(\{\bot_A, \alpha \}) &=& \bigsqcup \{\beta, \bot_B\}\\
 &=& \beta \\
 &\neq & \bot_B \\
 &=& f(\alpha ) \\
-&=& f(\sup \{ \bot_A, \alpha\})
+&=& f(\bigsqcup \{ \bot_A, \alpha\})
 \end{eqnarray*}
 
 \item[b)] Z.z. $f: B \to C, g: A \to B$ stetig $\Rightarrow f \circ g: A \to C$ stetig, mit $A,B,C$ cpo. 
@@ -69,12 +69,14 @@ $f$ ist nicht stetig, da für die Kette $\{\bot_A, \alpha \}$ gilt:
 Sei $f: B \to C, g: A \to B$ stetig, $A,B,C$ cpos und $K \subseteq A$ eine Kette. Dann ist $(f \circ g)(K) = f(g(K))$. \\
 (1) $g$ stetig $\Rightarrow$ $G := g(K) \subseteq B$ Kette. Da $f$ stetig $\Rightarrow$ $f(G) = f(g(K)) = (f \circ g)(K) \subseteq C$ Kette.\\
 
-(2) $f$ stetig $\Rightarrow \forall K' \subseteq  B \text{ Kette }: \, f(\sup K') = \sup f(K')$ und\\
-$g$ stetig $\Rightarrow \forall K' \subseteq  A \text{ Kette }: \, g(\sup K') = \sup g(K')$.\\
+(2) $f$ stetig $\Rightarrow \forall K' \subseteq  B \text{ Kette }: \, f(\bigsqcup K') = \bigsqcup f(K')$ und\\
+$g$ stetig $\Rightarrow \forall K' \subseteq  A \text{ Kette }: \, g(\bigsqcup K') = \bigsqcup g(K')$.\\
 Sei $G := g(K) \subseteq B $ Kette (nach (1)).\\
-$\Rightarrow (f \circ g)(\sup K) = f(g(\sup K)) =f(\sup g(K)) = f(\sup G) = \sup f(G) = \sup f(g(K)) = \sup (f \circ g)(K)$.
+$\Rightarrow (f \circ g)(\bigsqcup K) = f(g(\bigsqcup K)) =f(\bigsqcup g(K)) = f(\bigsqcup G) = \bigsqcup f(G) = \bigsqcup f(g(K)) = \bigsqcup (f \circ g)(K)$.
 \mbox{} \hfill $\square$
 \end{description}
+
+\pagebreak
 
 %% ------------------------------------------------------
 %%                     AUFGABE 2
@@ -82,13 +84,92 @@ $\Rightarrow (f \circ g)(\sup K) = f(g(\sup K)) =f(\sup g(K)) = f(\sup G) = \sup
 
 \section*{Aufgabe 2}
 
+\begin{enumerate}[(a)]
+	\item Zeigen Sie, wie Sie zu gegebene cpos $D_1,...,D_n$ mit $n \geq 2$ den Bereich der disjunkten Vereinigung 
+		$D = (D_1+...+D_n)$ erklären können.\\
+	\textbf{Lösung:}\\
+		Als erstes stellen wir fest, dass es sich um die selbe Notation handelt, wie bei den Summenbereichen. Daher sollte
+		die Lösung am Ende eine ähnliche Strucktur aufzeigen.\\
+
+		Als erstes bilden wir das $\bot$ Elemente von $D$. Da die Mengen alle disjunkt sind, d.h. es existiert kein eindeutiges Minimum
+		identifizieren wir wieder ale Minima mit einander. $\bot = \bot_i, \forall \bot_i \in D_i$.\\
+		Danach ist die Disjunkte Vereinigung einfach $D = D_1 \overset{\cdot}{\cup} ... \overset{\cdot}{\cup} D_n$.\\
+
+		Nun ist $(D, \sqsubseteq_D)$ ein cpo, mit $\sqsubseteq_D$:\\
+		$(\bot,a) \in \subseteq_D$, für alle $a \in D$.\\
+		$(a,b) \in \subseteq_D$, falls $\exists D_i \; : \; a,b \in D_i \, \land\, a \sqsubseteq_i b$.\\
+
+		Die Struktur ist ein cpo, weil wir ein eindeutiges $\bot$ Element haben, das kleiner als alle anderen ist.
+		Darüber hinaus, besitzt jede Kette ein Supremum, da nach Definition von $\sqsubseteq_D$ nur Ketten
+		existieren können, die vorher in einem der cpos $D_i$ existeirt haben. Da dies aber ein cpo war,
+		musste die Kette vorher ein supremum gehabt haben und damit auch in $D$.
+
+	\item Definieren Sie folgende Injektions-, Projektions- und Testfunktion in kanonischer Weise:\\
+		$$\begin{array}{rcl}
+			in_i \; : \; D_i &\longrightarrow& (D_1 + ... + D_n)\\
+				a & \longmapsto & \left\{ \begin{array}{lr} a &\text{, falls }a\not= \bot_{D_i} \\ \bot_D &, \text{sonst} \end{array} \right.\\
+			out_i \; : \; (D_1 + ... + D_n) &\longrightarrow& D_i\\
+				a & \longmapsto & \left\{ \begin{array}{lr} a &,\text{ falls } a \in D_i \\ \bot_{D_i} &, \text{ sonst }\end{array} \right.\\
+			is_i \; : \; (D_1 + ... D_n) &\longrightarrow& BOOL_\bot\\
+				a & \longmapsto& \left\{ \begin{array}{lr}
+					wahr &, \text{ falls }a \in D_i \; \land \; a \not= \bot_D\\
+					false &, \text{ falls }a \not\in D_i  \; \land \; a \not= \bot_D\\
+					\bot_{BOOL} &, \text{ falls } d = \bot_D
+				\end{array} \right.
+		\end{array}$$
+
+	Diese Definitionen sind analog zum Summenbereich gehalten. Da in unserem Fall aber die eindeutigekeit der Elemente gegeben ist,
+	kann man, wie im Buch erwähnt, auch einfach die Funktionen weglassen und die ursprünglichen Elemente als Stellvertreter nehmen.
+\end{enumerate}
+
+\pagebreak
 
 %% ------------------------------------------------------
 %%                     AUFGABE 3
 %% ------------------------------------------------------
 
 \section*{Aufgabe 3}
+Definieren Sie stetige Erweiterung der Addition und des Tests auf Gleichheit, so dass diese Operation total werden auf den cpo's $\mathbb{N}_\bot$ und $Bool_\bot$. Diskutieren Sie, ob es mehere solcher Erweiterungen gibt.\\
 
+\textbf{Lösung:}\\
+Bei den beiden cpo's, die vorgegeben wurden, handelt es sich um flache cpo's.\\
+
+Die erste Definition die wir daher wählen, ist eine strikte Erweiterung.
+$$\begin{array}{rcl}
+	+ \; \mathbb{N}_\bot \times \mathbb{N}_\bot & \longrightarrow & \mathbb{N}_\bot\\
+		(a,b) &\mapsto & \left\{\begin{array}{lr}
+			a+b &, \text{ falls } a\not= \bot \; \land \; b \not=\bot\\
+			\bot &, \text{ sonst }
+		\end{array}\right.\\
+	= \; \mathbb{N}_\bot \times \mathbb{N}_\bot &\longrightarrow& Bool_\bot\\
+		(a,b) &\mapsto & \left\{\begin{array}{lr}
+			wahr &, \text{ falls } a = b \; \land ;a \not= \bot \; \land \; b \not= \bot\\
+			false &, \text{ falls } a \not= b \; \land ;a \not= \bot \; \land \; b \not= \bot\\
+			\bot &, \text{ falls } a = \bot \; \lor \; b = \bot
+		\end{array}\right. \\
+	= \; Bool_\bot \times Bool_\bot & \longrightarrow & Bool_\bot\\
+		(a,b) &\mapsto & \left\{ \begin{array}{lr}
+			a \Leftrightarrow b &, \text{ fallse } a\not= \bot \; \land b \not= \bot\\
+			\bot &, \text{ sonst}
+		\end{array} \right.
+\end{array}$$
+
+In der Vorlesung haben wir gelernt, das eine strikte Erweiterung einer stetigen Funktion immer eine stetige Funktion ergibt. Daher sind diese Definierten Funktionen alle Erweiterungen, die die Aufgabe erfüllen.\\
+
+Darüber hinaus, konnten wir keine weiteren Erweiterungen ausmachen, die sich als stetig erwiesen hätten.\\
+Das Problem dabei ist immer, dass die Monotonie gewart bleiben muss.\\
+
+
+Bilden wir beim test auf Gleichheit z.B. $\bot = \bot \mapsto wahr$ ab, so muss nach monotonie jedes Urbild - Element, das größer ist,
+auf ein Bildelement abgebildet werden, das ebenfalls mindestens so groß ist. Damit ergebe die einzige alternative im Falle vom Test auf Gleichheit
+eine Konstante $wahr$ oder $falsch$ Funktion.\\
+Diese erschien uns aber nicht Sinnvoll\\
+
+Beim $+$ ergibt sich ein ähnliches Problem mit der Monotonie. Sollte man $a + \bot$ nicht auf $\bot$ zuweisen, dann hat man eine Zahl $b$ erreicht.\\
+Da nun aber $(a,\bot) \sqsubseteq (a,c)$ für ein beliebiges $c$ gilt, muss $b \sqsubseteq a+c$ gelten. Da in flachen cpo's die Zahlen aber nicht
+untereinander vergleichabr sind, kann $a+c$ nur auf $b$ abgebildet werden, also ebenfalls konstant sein.
+
+\pagebreak
 
 %% ------------------------------------------------------
 %%                     AUFGABE 4
@@ -100,27 +181,29 @@ Z.z. $fix_{f\circ g} = f(fix_{g\circ f})$ und $fix_{g\circ f} = g(fix_{f\circ g}
 
 \textbf{Beweis}:\\
 Nach Aufgabe 1 gilt $f \circ g : D_2 \to D_2$ stetig und $g \circ f : D_1 \to D_1$ stetig. Dann gilt nach dem Fixpunktsatz: $fix_{f \circ g}$ und $fix_{g \circ f}$ existieren und
-$$fix_{f \circ g} = \sup_{n \in \mathbb{N}} \{(f \circ g)^n(\bot_{D_1}) \}, \quad fix_{g \circ f} = \sup_{n \in \mathbb{N}} \{(g \circ f)^n(\bot_{D_2}) \}$$
+$$fix_{f \circ g} = \bigsqcup_{n \in \mathbb{N}} \{(f \circ g)^n(\bot_{D_1}) \}, \quad fix_{g \circ f} = \bigsqcup_{n \in \mathbb{N}} \{(g \circ f)^n(\bot_{D_2}) \}$$
 
 Da sowohl $\{(f \circ g)^n(\bot_{D_1}) |\, n\in \mathbb{N}\}$ als auch $\{(g \circ f)^n(\bot_{D_2}) |\, n\in \mathbb{N}\}$ Ketten sind (siehe Beweis zu Satz 3.7), gilt:\\
 
 \begin{eqnarray*}
-f (fix_{g \circ f}) &=& f(\sup_{n \in \mathbb{N}} \{(g \circ f)^n(\bot_{D_2}) \}) \\
-&\stackrel{f \text{ stetig}}{=}& \sup_{n \in \mathbb{N}} \{f((g \circ f)^n(\bot_{D_2})) \}\\
-&\stackrel{\text{Umordnung}}{=}& \sup_{n \in \mathbb{N}} \{(f \circ g)^n(f(\bot_{D_2})) \}\\
-&\stackrel{(*)}{=}& \sup_{n \in \mathbb{N}} \{(f \circ g)^n(\bot_{D_1}) \}\\
+f (fix_{g \circ f}) &=& f(\bigsqcup_{n \in \mathbb{N}} \{(g \circ f)^n(\bot) \}) \\
+&\stackrel{f \text{ stetig}}{=}& \bigsqcup_{n \in \mathbb{N}} \{f((g \circ f)^n(\bot)) \}\\
+&\stackrel{\text{Umordnung}}{=}& \bigsqcup_{n \in \mathbb{N}} \{(f \circ g)^n(f(\bot)) \}\\
+&\stackrel{(*)}{=}& \bigsqcup_{n \in \mathbb{N}} \{(f \circ g)^n(\bot) \}\\
 &=& fix_{f\circ g}
 \end{eqnarray*}
 
 \begin{eqnarray*}
-g (fix_{f \circ g}) &=& g(\sup_{n \in \mathbb{N}} \{(f \circ g)^n(\bot_{D_1}) \}) \\
-&\stackrel{g \text{ stetig}}{=}& \sup_{n \in \mathbb{N}} \{g((f \circ g)^n(\bot_{D_1})) \}\\
-&\stackrel{\text{Umordnung}}{=}& \sup_{n \in \mathbb{N}} \{(g \circ f)^n(g(\bot_{D_1})) \}\\
-&\stackrel{(*)}{=}& \sup_{n \in \mathbb{N}} \{(g \circ f)^n(\bot_{D_2}) \}\\
+g (fix_{f \circ g}) &=& g(\bigsqcup_{n \in \mathbb{N}} \{(f \circ g)^n(\bot) \}) \\
+&\stackrel{g \text{ stetig}}{=}& \bigsqcup_{n \in \mathbb{N}} \{g((f \circ g)^n(\bot)) \}\\
+&\stackrel{\text{Umordnung}}{=}& \bigsqcup_{n \in \mathbb{N}} \{(g \circ f)^n(g(\bot)) \}\\
+&\stackrel{(*)}{=}& \bigsqcup_{n \in \mathbb{N}} \{(g \circ f)^n(\bot) \}\\
 &=& fix_{g\circ f}
 \end{eqnarray*}
 
-(*) gilt, weil $f,g$ strikt sind....blabla
+(*) Da die Funktionen stetig sind, können wir die Resultierenden Ketten $(f\circ g)(a), \, (f \circ g)^2 (a), ...$ nach unten erweitern.
+Es gilt, da die Funktion auch monoton ist, dass $\bot \sqsubseteq a \Rightarrow f(\bot) \sqsubseteq f(a)$. Da wir nur am supremum
+interessiert sind, ersetzen wir also das kleinste Element der Kette durch $\bot$ und das Supremum der Folge bleibt immer noch gleich.
 \mbox{} \hfill $\square$
 \label{LastPage}
 
