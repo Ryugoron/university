@@ -1,0 +1,63 @@
+\subsection*{Aufgabe 24: \mdseries\itshape Stetige Abbildungen auf Punktmengen}
+\begin{enumerate}[(i)]
+    \item Sei $f \; : \; \mathbb{R}^n \rightarrow \mathbb{R}^m$ stetig. Zeigen Sie, dass für jede
+        Menge $ A \subset \mathbb{R}^n$ gilt
+        $$
+            f(\overline{A}) \subset \overline{f(A)}.
+        $$
+    \textbf{Beweis:}\\
+        Wir benutzten für den Beweis das Folgenkonvergenz kriterium für Abgeschlossene Menge.\\
+        D.h. wenn $B$ eine abgeschlossene Menge ist muss
+        für jede Folge $(x)_{k\in \mathbb{N}}$ aus $B$,
+        $\left( \underset{n \rightarrow \infty}{\lim} x_k \right) \in B$ gelten.\\
+
+        Nun gilt, aber, für jeden Punkt $x_0 \in \overline{A}$, dass es eine Folge
+        $(x)_{n \in \mathbb{N}}$ gibt mit $\limes{n,\infty} x_k = x_0$.
+        $$\begin{array}{rcl}
+            f(x_0) &=& f(\underset{n \rightarrow \infty}{\lim} x_n)\\
+                &=& \underset{n \rightarrow \infty}{\lim} f(x_n)\\
+        \end{array}$$
+
+        Wir haben eine Folge von Bildern der Funktion. Wir wissen, dass in einer abgeschlossenen
+        Menge jede konvergente Folge gegen einen Punkt innerhalb der Menge konvergiert.
+        Da $f(x_0)$ eine konvergente Folge $f(x_k)$ besitzt, da die $x_k$ konvergieren und $f$ stetig
+        ist, muss das Bild des Abschluss des Quellbereiches  auch im Abschluss des Bild liegen.\\
+        \mbox{} \hfill $\square$
+
+    \item Ist das stetige Bild $f(M)$ einer beliebigen offenen bzw. abgeschlossenen Menge 
+        $M \subset \mathbb{R}^n$ wieder offen bzw. abgeschlossen? Geben Sie ein Beispiel an.\\
+    \textbf{Lösung:}\\
+        (1) Sei $M \subset \mathbb{R}^n$ offen, und sei $f \equiv c \in \mathbb{R}^m$. \\
+            Dann ist $f$ stetig und $f(M) = \{c\}$. Die Menge $\{c\}$ ist aber nicht offen, da für alle $\varepsilon > 0$ die Kugel $B_\varepsilon(c)$ nicht Teilmenge von $\{c\}$ ist.
+\\
+        (2) Sei $M \subset \mathbb{R}$ mit $M = (-\infty, 0]$ und $f: \mathbb{R} \to \mathbb{R}$, mit $x \mapsto e^x$ (also hier: $n = 1, m = 1$). \\
+            Dann ist M abgeschlossen, da für alle konvergenten Folgen $(x_k)$, mit $x_k \in M$ gilt: $\lim_{k \to \infty} x_k = \alpha < \infty$ und $\alpha \geq 0$ und damit $\alpha \in M$.
+
+            Es gilt weiterhin: $f(M) = f((-\infty, 0]) = (0,1]$ wobei $(0,1]$ nicht abgeschlossen ist in $\mathbb{R}$.\\
+
+      $\Rightarrow$ stetiger Bilder von beliebigen offenen bzw. abgeschlossenen Mengen 
+      müssen nicht wieder offen bzw. abgeschlossen sein.
+    \newpage
+    \item Sei $ f \; : \; \mathbb{R}^n \rightarrow \mathbb{R}^m$ stetig. Erfülle $M \subset \mathbb{R}^n$
+        die Heine-Borell-Eigenschaft. Dann erfüllt $f(M)$ diese Eigenschaft auch.\\
+    \textbf{Lösung:}\\
+        Sei $\bigcup_{i \in I} U_i$ eine offene Überdeckungvon $f(M)$, mit $I$ Indexmenge. \\
+        Aus der Vorlesung wissen wir, dass für eine stetige Funktion 
+        $f: \mathbb{R}^n \to \mathbb{R}^m$ gilt: $f^{-1}(V)$ ist offen in $\mathbb{R}^n$,
+        für alle offenen Mengen $V \subseteq \mathbb{R}^m$. \\
+
+        Also folgt aus der Stetigkeit von $f$: 
+        $V_i := f^{-1}(U_i)$ ist offen, $i \in I$.
+
+        Da $M \subseteq \bigcup_{i \in I}V_i$ und $M$ die Heine-Borell-Eigenschaft erfüllt,
+        existieren $i_1, i_2, ..., i_k \in I, k \in \mathbb{N}$ mit
+        $M \subseteq \bigcup_{j = 1}^{k} V_{i_j}$.
+        Daraus folgt $f(M) \subseteq f(\bigcup_{j = 1}^{k} V_{i_j})
+        = \bigcup_{j = 1}^{k} f(V_{i_j})$. Durch Einsetzen erhalten wir dann
+        $ f(M) \subseteq \bigcup_{j = 1}^{k} f(f^{-1}(U_{i_j})) = \bigcup_{j = 1}^{k} U_{i_j} $.
+
+        Also existiert eine endliche offene Überdeckung von $f(M)$ \\
+        $\Rightarrow$ $f(M)$ erfüllt die Heine-Borell-Eigenschaft.
+        \mbox{} \hfill $\square$
+\end{enumerate}
+

@@ -1,0 +1,51 @@
+\subsection*{Aufgabe 27 \mdseries\itshape Stetigkeit der Umkehrfunktion}
+
+\begin{enumerate}[(i)]
+   \item Zeigen Sie, dass die Funktion 
+        $$\begin{array}{rcl}
+            f \; : \; (-1,1) &\longrightarrow& \mathbb{R}\\
+                x & \mapsto & \frac{x}{1 - x^2}
+        \end{array}$$
+        einen Homöomorphismus von $(0,1)$ nach $\mathbb{R}^+$ definiert, d.h. 
+        $f$ ist invertierbar zwischen den angegebenen Mengen und sowohl $f$ als auch
+        $f^{-1}$ ist stetig.\\
+
+    \textbf{Beweis.:}\\
+        Sei $g : (0,1) \to \mathbb{R}^+$, mit $x \mapsto \frac{x}{1 - x^2}$.\\
+        Z.z.: (1) $g$ bijektiv, (2) $g$ stetig, (3) $g^{-1}$ stetig. \\
+
+        (1) $g$ bijektiv \\
+            (1a) $g$ injektiv, also $g(a) = g(b) \Rightarrow a = b$, für alle $a,b \in (0,1)$. \\
+                Seien $a,b \in (0,1)$. Dann gilt:
+                \begin{eqnarray*}
+                  g(a) &=& g(b) \\
+                  \Leftrightarrow \frac{a}{1 - a^2} &=& \frac{b}{1 - b^2} \\
+                  \Leftrightarrow a - ab^2 &=& b - ba^2 \\
+                  \Leftrightarrow a &=& b
+                \end{eqnarray*}
+%                $\Rightarrow g$ injektiv. \\
+            (1b) $g$ surjektiv, also $\forall c \in \mathbb{R}^+ \exists x \in (0,1):\, g(x) = c$.\\
+                Sei $c \in \mathbb{R}^+$. Wähle $x := \frac{\sqrt{1+4c^2}-1}{2c}$. \\
+                Dann: $0 < x < 1$ und $g(x) = c$. ausführlicher! \\
+%                $\Rightarrow g$ surjektiv. \\
+                $\Rightarrow g$ bijektiv. \\
+
+        (2) $g$ stetig \\
+            irgendwie klar ... \\
+
+        (3) $g^{-1}$ stetig\\
+            blablabla
+    
+    \item Sei die Funktion $f \; : \; [0,1) \cup [2,3] \rightarrow [0,2]$ gegeben durch
+        $$
+            f(x) = \left\{ \begin{array}{lr}
+                x &, x\in [0,1)\\
+                x-1 &, x \in [2,3]
+            \end{array} \right. .
+        $$
+        Zeigen Sie, dass $f$ stetig und invertierbar ist, aber die Umkehrfunktion 
+        $f^{-1} \; : \; [0,2] \rightarrow [0,1) \cup [2,3]$ nicht stetig ist.\\
+
+    \textbf{Beweis:}\\
+        tbd
+\end{enumerate}

@@ -1,0 +1,36 @@
+\subsection*{Aufgabe 25: \mdseries\itshape Wachstum spezieller Funktionen}
+Sei $f \; : \; \mathbb{R}^n \rightarrow \mathbb{R}$ stetig mit folgenden Eigenschaften:
+    $$\begin{array}{rl}
+        f(x) > 0 & \text{ für alle } x\not= 0\\
+        f(cx) = c f(x) & \text{ für alle } x\in \mathbb{R}^n \text{ und alle }c > 0.
+    \end{array}$$
+    Zeigen Sie, dass es Konstanten $a,b > 0$ gibt, so dass
+    $$
+        a|x| \leq f(x) \leq b|x| \; \; \text{ für alle } x \in \mathbb{R}^n.
+    $$
+\textbf{Beweis:}\\
+    Für $x = 0$ gilt $f(x) = 0$, denn \\
+    $f(0) = f(c \cdot 0) = c \cdot f(0)$, für alle $c > 0$. \\
+    Und damit $f(0) = c \cdot f(0) \Leftrightarrow (1 - c) f(0) = 0 \Rightarrow f(0) = 0$, $c > 0$. \\
+
+    Da auch $|x| = 0$ ist, gilt die Ungleichung in diesem Fall für alle $a, b > 0$. \\
+
+
+    Für $x \neq 0$ gilt: \\
+    $a |x| \leq f(x) \leq b|x| \stackrel{|x| \neq 0}{\Leftrightarrow} a \leq \frac{f(x)}{|x|} \leq b$
+
+    Durch die Eigenschaften von $f$ können wir nun Umformen: \\
+    $\frac{f(x)}{|x|} = \frac{1}{|x|} f(x) \stackrel{\frac{1}{|x|} > 0}{=}
+    f(\frac{x}{|x|})$, wobei der Ausdruck $\frac{x}{|x|}$ einen normierten Vektor
+    aus dem $\mathbb{R}^n$ beschreibt, es gilt also $| \frac{x}{|x|} | = 1$. \\
+    
+    Sei nun $M := \{x \in \mathbb{R}^n | |x| = 1 \} \subseteq \mathbb{R}^n$ 
+    die Menge der normierten Vektoren.\\
+    Dann gilt: $M$ ist kompakt. \\
+    Beweis: $M \subset \mathbb{R}^n \Rightarrow (M$ kompakt 
+    $\Leftrightarrow M$ beschränkt und abgeschlossen$)$. \\
+    TBA: $M$ beschränkt und abgeschlossen. \\
+
+    Da $M$ kompakt und $f$ stetig, gilt: $f(M)$ nimmt in $M$ sein Maximum und Minimum an, es existieren also $p,q \in M$ mit $f(p) = \sup f(M)$ und $f(q) = \inf f(M)$. \\
+    Setze nun $a := f(q) > 0, b := f(q) > 0$, also folgt \\
+    $ a = f(q) = \inf f(M) \leq \frac{f(x)}{|x|} \leq \sup f(M) = f(q) = b $ und daraus die Behauptung.
