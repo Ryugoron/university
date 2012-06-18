@@ -26,12 +26,25 @@
 %                $\Rightarrow g$ injektiv. \\
             (1b) $g$ surjektiv, also $\forall c \in \mathbb{R}^+ \exists x \in (0,1):\, g(x) = c$.\\
                 Sei $c \in \mathbb{R}^+$. Wähle $x := \frac{\sqrt{1+4c^2}-1}{2c}$. \\
-                Dann: $0 < x < 1$ und $g(x) = c$. ausführlicher! \\
+                Dann gilt $x>0$, da $c>0$ ist steht im Zähler immer eine positive Zahl ($\sqrt{1 + x} \geq 1$ für $x > 0$),
+		und der Nenner $2c > 0$.\\
+
+		Es gilt darüber hinaus, dass $x < 1$, da
+		$$\begin{array}{crcl}
+			& \frac{\sqrt{1+4c^2} -1}{2c} &<& 1\\
+			\Leftrightarrow & \sqrt{1+4c^2} -1 &<& 2c\\
+			\Leftrightarrow & \sqrt{1+4c^2} &<& 2c +1\\
+			\stackrel{>0 (siehe \, eben)}\Leftrightarrow &
+				 1 + 4c^2 &<& 4c^2 + 4c + 1\\
+			\Leftrightarrow & 0 & < & 2c
+		\end{array}$$
+		Und dies gilt, da $c > 0$ ist.
 %                $\Rightarrow g$ surjektiv. \\
                 $\Rightarrow g$ bijektiv. \\
 
         (2) $g$ stetig \\
-            irgendwie klar ... \\
+            Da die Funktion im Nenner $1-x^2$ stetig ist und auf dem Intervall $(0,1)$ keine Nullstellen hat, sowie $x$ stetig ist,
+	ist nach Sätzen aus Ana I der Quotient aus den beiden wieder eine stetige Funktion.
 
         (3) $g^{-1}$ stetig\\
             blablabla
