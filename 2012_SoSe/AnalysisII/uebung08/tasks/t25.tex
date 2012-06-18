@@ -9,5 +9,21 @@ Sei $f \; : \; \mathbb{R}^n \rightarrow \mathbb{R}$ stetig mit folgenden Eigensc
         a|x| \leq f(x) \leq b|x| \; \; \text{ für alle } x \in \mathbb{R}^n.
     $$
 \textbf{Beweis:}\\
-    tbd
+    Für $x \neq 0$ gilt: \\
+    $a |x| \leq f(x) \leq b|x| \stackrel{|x| \neq 0}{\Leftrightarrow} a \leq \frac{f(x)}{|x|} \leq b$
 
+    Durch die Eigenschaften von $f$ können wir nun Umformen: \\
+    $\frac{f(x)}{|x|} = \frac{1}{|x|} f(x) \stackrel{\frac{1}{|x|} > 0}{=}
+    f(\frac{x}{|x|})$, wobei der Ausdruck $\frac{x}{|x|}$ einen normierten Vektor
+    aus dem $\mathbb{R}^n$ beschreibt, es gilt also $| \frac{x}{|x|} | = 1$. \\
+    
+    Sei nun $M := \{x \in \mathbb{R}^n | |x| = 1 \} \subseteq \mathbb{R}^n$ 
+    die Menge der normierten Vektoren.\\
+    Dann gilt: $M$ ist kompakt. \\
+    Beweis: $M \subset \mathbb{R}^n \Rightarrow (M$ kompakt 
+    $\Leftrightarrow M$ beschränkt und abgeschlossen$)$. \\
+    TBA: $M$ beschränkt und abgeschlossen. \\
+
+    Da $M$ kompakt und $f$ stetig, gilt: $f(M)$ nimmt in $M$ sein Maximum und Minimum an, es existieren also $p,q \in M$ mit $f(p) = \sup f(M)$ und $f(q) = \inf f(M)$. \\
+    Setze nun $a := f(q) > 0, b := f(q) > 0$, also folgt \\
+    $ a = f(q) = \inf f(M) \leq \frac{f(x)}{|x|} \leq \sup f(M) = f(q) = b $ und daraus die Behauptung.
