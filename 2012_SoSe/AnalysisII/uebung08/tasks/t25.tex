@@ -29,8 +29,10 @@ Sei $f \; : \; \mathbb{R}^n \rightarrow \mathbb{R}$ stetig mit folgenden Eigensc
     Dann gilt: $M$ ist kompakt. \\
     Beweis: $M \subset \mathbb{R}^n \Rightarrow (M$ kompakt 
     $\Leftrightarrow M$ beschränkt und abgeschlossen$)$. \\
-    TBA: $M$ beschränkt und abgeschlossen. \\
+    $M$ ist beschränkt, da die Norm nach konstruktion $= 1$ ist\\
+    und sie ist abgeshlossen, weil das Komplement offen ist. Wir können um jeden Punkt eine $\varepsilon>0$ $B_\varepsilon (x)$ legen,
+   so dass die Norm $<1$, bzw. $>1$ ist. \\
 
-    Da $M$ kompakt und $f$ stetig, gilt: $f(M)$ nimmt in $M$ sein Maximum und Minimum an, es existieren also $p,q \in M$ mit $f(p) = \sup f(M)$ und $f(q) = \inf f(M)$. \\
+    Da $M$ kompakt und $f$ stetig, gilt: $f(M)$ nimmt in $M$ sein Maximum und Minimum an (nach VL), es existieren also $p,q \in M$ mit $f(p) = \sup f(M)$ und $f(q) = \inf f(M)$. \\
     Setze nun $a := f(q) > 0, b := f(q) > 0$, also folgt \\
     $ a = f(q) = \inf f(M) \leq \frac{f(x)}{|x|} \leq \sup f(M) = f(q) = b $ und daraus die Behauptung.
