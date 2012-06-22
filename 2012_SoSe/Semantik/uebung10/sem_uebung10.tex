@@ -1,0 +1,132 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm,left=2cm,right=2cm]{geometry} 
+\usepackage{babel}
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc} 
+\usepackage{ae} 
+\usepackage{amssymb} 
+\usepackage{amsmath} 
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{paralist}
+%\usepackage{bussproofs}
+\usepackage{stmaryrd}
+
+%\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[C]{Semantik von Programmiersprachen}
+\fancyhead[L]{Übung Nr. 10}
+\fancyhead[R]{SoSe 2012}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage / \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\setlength{\parindent}{0pt} 
+\setlength{\headheight}{0pt}
+
+\author{Tutor: Ansgar Schneider}
+\date{}
+\title{Max Wisniewski , Alexander Steen}
+
+\begin{document}
+
+\lstset{language=Haskell, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2, mathescape=true}
+   
+\maketitle
+\thispagestyle{fancy}
+\newcommand{\A}{\mathbb{A}}
+
+\subsection*{Aufgabe 1 \mdseries\itshape Typüberprüfung}
+Bestimmen Sie die Typen der folgenden Funktionen.
+\begin{enumerate}[(i)]
+   \item $\lambda f \, x.(f \, x) + 1$\\
+      \textbf{Lösung:}\\
+         Die ersten beiden Hinweise, die wir haben, ist, dass 
+         wir eine Konstante $1 \; \in \; K^{\mathbb{N}_\bot}$ und
+         eine Funktion $+ \; : \; [\mathbb{N}_\bot \rightarrow \mathbb{N}_\bot \rightarrow \mathbb{N}_\bot]$.
+         Da wir $f$ in die $+$ Funktion stecken, muss der Rückgabetyp $\mathbb{N}_\bot$ sein.
+         Über die Eingabe müssen wir nicht mehr wissen nur, dass $f$ eine Variable nimmt und
+         das $x$ daher diesen Typ haben muss.\\
+         
+         $\lambda f \, x. (f \, x) + 1 \; : \; [ [D \rightarrow \mathbb{N}_\bot] 
+         \rightarrow \mathbb{N}_\bot \rightarrow \mathbb{N}_\bot  ]$\\
+
+         Nun setzten wir die Variablen ein und überprüfen.\\
+         Sei $f \in X^{[D \rightarrow \mathbb{N}_\bot]}$ und $x \in X^{D}$.\\
+         Dann ist das einsetzen Korrekt, da
+         $(\lambda f \, x. (f \, x) + 1) f x = (f \, x) + 1 \; : \; \mathbb{N}_\bot \rightarrow \mathbb{N}_\bot$\\
+         $1 \in K^{\mathbb{N}_\bot}$ das gilt also, nun überprüfen wir, ob
+         $f( \, x) \; : \; \mathbb{N}$ erfüllt.\\
+         $f \in X^{[D \rightarrow \mathbb{N}_\bot} x \in X^{D}$, daher ist $fx \; : \; \mathbb{N}_\bot$.\\
+         
+         Der Typ ist daher korrekt.
+
+   \item $\lambda (x , y) f \; . \; f \, x \, y$\\
+      \textbf{Lösung:}\\
+         Sei $x \in X^{D_1}$, $y \in X^{D_2}$ und $f \in X^{D_3}$.\\
+         Die Funktion $h = \lambda (x,y)f \; . \; f \, x \, y \; : \; D_1 
+         \times D_2 \rightarrow D_3 \rightarrow D_4$. Wir müssen also überprüfen,
+         was $D_1,D_2,D_3$ ist und welchen Rückgabetyp wir erhalten.\\
+
+         Setzten wir $h \, (x,y) f$ ein erhalten wir:\\
+         $f \, x \, y \; : \; D_4$.\\
+         Damit wir nun am Ende ein Element von einem Typ erhalten (hier hätten auch 3 Atome stehen können).\\
+         Daher muss $f$ eine Funktion sein, die beide Elemente $x,y$ aufnehmen kann.\\
+         $\Rightarrow D_3 = D_1 \rightarrow D_2 \rightarrow D_5$. Und da wir nichts anderes tun ist auch
+         $D_4 = D_5$.\\
+         Weiter können wir nun nichts mehr sagen, also gilt:\\
+         $h \; : \; D_1 \times D_2 \rightarrow [D_1 \rightarrow D_2 \rightarrow D_4] \rightarrow D_4$.
+
+   \item $\lambda f. (f \lambda y.y)$\\
+      \textbf{Lösung:}\\
+         Sei $f \in X^{D_1}$. Dann hat die Funktion den folgenden Typ
+         $h = \lambda f. (f \lambda y.y) \; : \; D_1 \rightarrow D_2$.\\
+
+         Nun setzten wir unser $f$ ein und erhalten\\
+         $(f \lambda y.y) \; : \; D_2$.\\
+         Nun muss nach selben Überlegungen wie oben das $f$ die Funktion 
+         $\lambda y.y \; : \; [D_3 \rightarrow D_3]$ schlucken können.\\
+         
+         Daher braucht ist der Typ $f \; : \; [ [D_3 \rightarrow D_3 ] \rightarrow D_4]$.\\
+         Da dies nun der letzte Schritt ist muss $D_4 = D_2$ sein, 
+         da $(f \lambda y.y) \; : \; D_2$ gelten muss.\\
+
+         Die FUnktion hat also den folgenden Typ (umbenennung der Typklassen):\\
+         $(h = \lambda f . (f \lambda y.y) \; : \; [[T \rightarrow T] \rightarrow S] \rightarrow S$
+
+\end{enumerate}
+
+\subsection*{Aufgabe 2 \mdseries\itshape Faltung}
+Der Faltungsoperator \underline{lit} sei informall bestimmt durch:\\
+\underline{lit} $= f(x_1,...x_n) x_{n+1} = f x_1 (f x_2 (... (f x_n x_{n+1}) ))$\\
+
+\begin{enumerate}[(i)]
+   \item Bestimmen Sie den Typ von \underline{lit}.\\
+   \textbf{Lösung:}\\
+      tbd
+
+   \item Definieren Sie den Operator \underline{lit} im getypten 
+      $\lambda$ - Kalkül unter Verwendung der Gleichungsschreibweise.\\
+
+   \item Definieren Sie eine Funktion $f$ im getpyten $\lambda$ - Kalkül, so
+      dass 
+      $$
+         f(x_1, ... , x_n) x = \left\{\begin{array}{lr}
+            wahr &, \text{ falls }\exists i \leq n \; : \; x=x_i\\
+            false &, \text{ sonst}
+         \end{array}\right.
+      $$
+
+   \item Bearbeiten Sie (i)-(iii) für \\
+      $\underline{lit'} f (x_1,...,x_{n+1}) = (f ((...(f x_1 x_2) ... x_{n+1})$
+
+\end{enumerate}
+
+\label{LastPage}
+
+\end{document}

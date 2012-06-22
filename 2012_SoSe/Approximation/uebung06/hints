@@ -1,0 +1,12 @@
+
+(From general Steiner Tree Problem)
+
+reverse deletion (cleaning up the solution)
+   (After the loop finished, we might want to
+   clean up the solution)
+   [Ex. Dijkstra delivers a shortest-path-tree, but we only need
+   a path] (May not be needed) But helps in the analysis.
+
+   Need in : 7.5 general Branching Tree
+
+
