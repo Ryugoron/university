@@ -9,4 +9,38 @@ reverse deletion (cleaning up the solution)
 
    Need in : 7.5 general Branching Tree
 
+[may be used: Increase more than one variable at a time]
 
+
+\section*{Generalized Steiner Tree Problem}
+
+\textbf{Given} $G(V,E)$ Graph, $c_e \ŋeq 0 \; \forall e \in E$, $k$ pairs of $s_i,t_i \in V$.\\
+
+\textbf{Goal:} Find a suset $F \subet E$ s.t. $\forall i$ $s_i$ and $t_i$ are connected in $(V,F)$.\\
+
+\textbf{observations:}\\
+\begin{itemize}
+   \item there are no cycles
+   \item $(V,F) \geq 1$ connected component $\Rightarrow$ forest.
+\end{itemize}
+
+We will construct $\mathfrak{S} = \{ S \subset V \; | \; |S\cap\{s_i,t_i\}| = 1 \} \; \forall i=1,...,k$.
+This Set will hold only sets, in which two components of the pairs are not connected.
+
+\textbf{A1}\\
+\begin{lstlisting}[language=Pascal]
+y $\leftarrow$ 0
+F $\lefarrow \emptyset$
+WHILE $\exists s_i,t_i$ not connectedin $(V,F)$ do
+   Let $C$ be a connected component of $(V;F)$
+   s.t. $|C \cap \{s_i,t_i\}| = 1$ fpr some $I$.
+
+   Increase $y_c$ until 
+      $\exits e' \in \delta(C) \; : \; \underset{S \in \mathfrak{S}_j : e' \in S}{\sum} ys = c_r$
+
+   F $\leftarrow F \cup \{ e' \}
+\end{lstlisting}
+
+$$
+\sum_{e \in F} c_e =  \sum_{e \in F} \sum_{s:e\in\delta(S)} y_e = \sum_S | \delta(S) \cap F ys
+$$
