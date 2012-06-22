@@ -6,15 +6,47 @@ und $\gamma (1) = y$. Man nennt $\gamma$ einen \emph{stetigen Weg von x nach y}.
     \item Seien $f \; : \; A \subset \mathbb{R}^n \rightarrow \mathbb{R}^m$ stetig und $A$ 
         wegzusammenhängend. Zeigen Sie, dass dann auch $f(A)$ wegzusammenhängend ist.\\
     \textbf{Beweis:}\\
-        tbd
+        Seien $x,y \in f(A)$. Nun wissen wir, dass es 2 Punkte $a,b \in A$ geben muss, mit $f(a) = x$ bzw. $f(b) = y$, da 
+	$x,y$ sonst nicht im Bild liegen würden.\\
+
+	Nach Vorraussetzung ist $A$ wegzusammenhängend, d.h. es gibt eine stetige Funktion $\gamma \; : \; [0,1] \rightarrow A$, mit
+	$\gamma (0) = a$ und $\gamma (1) = b$.\\
+
+	Da die Komposition  von 2 stetigen Funktionen wiederum stetig ist, wählen wir als Wegfunktion in $f(A)$ die Funktion $(f \circ \gamma )$.\\
+	Diese Funktion ist stetig und es gilt:\\
+	$(f \circ \gamma ) (0) = f( \gamma (0) ) = f(a) = x$ und\\
+	$(f \circ \gamma ) (1) = f(\gamma (1) ) = f(b) = y$.\\
+
+	Diese Funktion können wir also für 2 beliebige Punkte in $f(A)$ angeben. Damit existiert ein stetiger Weg von $x$ nach $y$ in $f(A)$ und
+	damit ist auch $f(A)$ \emph{wegzusammenhängend}.\\
+
+	\mbox{} \hfill $\square$
 
     \item Zeige Sie, dass genau dann $A \subset \mathbb{R}$ wegzusammenhängend ist, wenn $A$ 
         ein Intervall ist, d.h. wenn für alle $x,y \in A, \; x\leq y, \;[x,y] \subset A$.\\
     \textbf{Beweis:}\\
-        tbd
+        Nehmen wir an, dass $A$ kein Intervall ist, aber \emph{wegzusammenhängend}.\\
+	Da $A$ kein Interval ist gilt\\
+		$\exists x,y \in A \; x < y , [x,y] \not\subset A$, insbesondere muss also ein Wert $z \in [x,y]$ existieren,
+		mit $z \not\in A$.\\
+		Da $A$ aber \emph{wegzusammenhängend} sein soll, existiert eine stetige Funktion $\gamma$, mit
+		$\gamma (0) = x$ und $\gamma (1) = y$.\\
+
+		Nach dem Zwischenwertsatz, muss die Funktion $\gamma$ jeden Wert zwischen $x$ und $y$ einmal annehmen, da
+		$\gamma$ stetig ist.\\
+
+		Sei $\xi \in [0,1]$ der Wert mit $\gamma (\xi) = z$. Wir untersuchen $\gamma$ nun im Punkt $\xi$.\\
+
+		Da $[0,1]$ abgeschlossen ist, existiert eine Folge $(x)_{n \in \mathbb{N}}$ in $[0,1]$ mit $\limes{\infty} x_n = \xi$.\\
+
+		Da $f$ stetig ist, muss gelten $f(\xi) f( \limes{\infty} x_n ) = \limes{\infty} f(x_n) = z$. Da wir nun aber eine
+		konvergente Folge angeben konnten, muss $\xi$ im Bild liegen. Dies ist aber nach Vorraussetzung unmöglich.\\
+
+		\mbox{} \hfill $\square$ 
 
     \item Können Sie den bekannten Zwischenwertsatz aus der Analysis I auch auf Funktionen
         $f \; : \; A \subset \mathbb{R}^n \rightarrow \mathbb{R}$ verallgemeinern.\\
-    \textbf{Beweis:}
-        tbd
+    \textbf{Beweis:}\\
+       	Uns fiel keine Lösung ein.\\
+	Also konnten wir es nicht.
 \end{enumerate}

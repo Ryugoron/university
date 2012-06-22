@@ -11,8 +11,49 @@
         $f^{-1}$ ist stetig.\\
 
     \textbf{Beweis.:}\\
-        tbd
+        Sei $g : (0,1) \to \mathbb{R}^+$, mit $x \mapsto \frac{x}{1 - x^2}$.\\
+        Z.z.: (1) $g$ bijektiv, (2) $g$ stetig, (3) $g^{-1}$ stetig. \\
 
+        (1) $g$ bijektiv \\
+            (1a) $g$ injektiv, also $g(a) = g(b) \Rightarrow a = b$, für alle $a,b \in (0,1)$. \\
+                Seien $a,b \in (0,1)$. Dann gilt:
+                \begin{eqnarray*}
+                  g(a) &=& g(b) \\
+                  \Leftrightarrow \frac{a}{1 - a^2} &=& \frac{b}{1 - b^2} \\
+                  \Leftrightarrow a - ab^2 &=& b - ba^2 \\
+                  \Leftrightarrow a &=& b
+                \end{eqnarray*}
+%                $\Rightarrow g$ injektiv. \\
+            (1b) $g$ surjektiv, also $\forall c \in \mathbb{R}^+ \exists x \in (0,1):\, g(x) = c$.\\
+                Sei $c \in \mathbb{R}^+$. Wähle $x := \frac{\sqrt{1+4c^2}-1}{2c}$. \\
+                Dann gilt $x>0$, da $c>0$ ist steht im Zähler immer eine positive Zahl ($\sqrt{1 + x} \geq 1$ für $x > 0$),
+		und der Nenner $2c > 0$.\\
+
+		Es gilt darüber hinaus, dass $x < 1$, da
+		$$\begin{array}{crcl}
+			& \frac{\sqrt{1+4c^2} -1}{2c} &<& 1\\
+			\Leftrightarrow & \sqrt{1+4c^2} -1 &<& 2c\\
+			\Leftrightarrow & \sqrt{1+4c^2} &<& 2c +1\\
+			\stackrel{>0 (siehe \, eben)}\Leftrightarrow &
+				 1 + 4c^2 &<& 4c^2 + 4c + 1\\
+			\Leftrightarrow & 0 & < & 2c
+		\end{array}$$
+		Und dies gilt, da $c > 0$ ist.
+%                $\Rightarrow g$ surjektiv. \\
+                $\Rightarrow g$ bijektiv. \\
+
+\pagebreak
+
+        (2) $g$ stetig \\
+            Da die Funktion im Nenner $1-x^2$ stetig ist und auf dem Intervall $(0,1)$ keine Nullstellen hat, sowie $x$ stetig ist,
+	ist nach Sätzen aus Ana I der Quotient aus den beiden wieder eine stetige Funktion.
+
+        (3) $g^{-1}$ stetig\\
+            Wie schon gesagt, ist die Umkehrfunktion auf diesem Intervall definiert durch $g^{-1}(c) = \frac{\sqrt{1+4c^2}-1}{2c}$.
+	Nun ist sowohl der Zähler als auch der Nenner eine stetige Funktion. Die einzigen Stellen, an denen diese Funktion nun nicht per
+	se stetig ist, sind die Nullstellen des Neners. Die Nullstelle des Nenners liegt aber nun bei $c = 0 \not\in \mathbb{R}^+$. Damit
+	enthält die Funktion im Quellbereich keine Nullstelle und die Umkerhfunktion ist stetig.
+    
     \item Sei die Funktion $f \; : \; [0,1) \cup [2,3] \rightarrow [0,2]$ gegeben durch
         $$
             f(x) = \left\{ \begin{array}{lr}
@@ -24,5 +65,57 @@
         $f^{-1} \; : \; [0,2] \rightarrow [0,1) \cup [2,3]$ nicht stetig ist.\\
 
     \textbf{Beweis:}\\
-        tbd
+        \begin{enumerate}[a)]
+		\item $f$ ist stetig:\\
+			Die Funktion $f$ ist stetig. Nehmen wir an, es wäre nicht so, dann müsste es einen Punkt
+			$x_0$ geben, gegen den eine Folge von Urbildern konvergiert, aber die Folge der Bilder konvergiert
+			nicht gegen $f(x_0)$.\\
+			Nun sehen wir, dass eine Folge von Urbildern, ab einer gewissen $\varepsilon >0$ Umgebung, entweder in
+			$[0,1)$ oder in $[2,3]$ liegen müssen, da sonst das $\varepsilon > 1$ sein müsste. (Nach $\varepsilon-\delta$ unmöglich.)\\
+
+			Wir können also du beiden Bereiche $f_1 = f|_{[0,1)}$ und $f_2 = f|_{[2,3]}$ getrennt untersuchen.\\
+			Dabei handelt es sich nun aber um 2 stetige Funktionen, da $f_1(x) = x$ und $f_2(x) = x-1$ ist.\\
+
+			Damit kann es keinen Punkt geben, bei der die Folge der Bilder nicht gegen das Bild des Grenzwertes der Urbilder
+			konvergiert.
+
+\pagebreak
+
+		\item $f$ ist invertierbar:\\
+			Sei $g : [0,2] \rightarrow [0,1) \cup [2,3]$ definiert durch
+			$$
+				g(x) = \left\{\begin{array}{lr}
+					x &, x\in [0,1)\\
+					x+1 &, x \in [1,2]
+				\end{array} \right.
+			$$
+			Wir zeigen, dass $a = (f \circ g) = id_{[0,2]}$ ist und $b = (g \circ f) = id_{[0,1) \cup [2,3]}$.\\
+
+			Betrachten wir zunächst $a$.\\
+			Sei zunächst $x \in [0,1)$, dann ist $g(x) = x \in [0,1)$. Wenden wir nun $f$ an erhalten wir $f(g(x)) = x \in [0,1)$.
+			Dieser Fall geht also schonmal auf.\\
+
+			Sei als nächstes $x \in [1,2]$, dann ist $g(x) = x+1 \in [2,3]$. Wenden wir nun $f$ an erhalten wir $f(g(x)) = x + 1 - 1 = x \in [1,2]$.\\
+
+			Also ist $(f \circ g) = id_{[0,2]}$.\\
+
+			Betrachten wir nun $b$.\\
+			Sei zunächst $x \in [0,1)$, dann ist $f(x) = x \in [0,1)$ und $g(f(x)) = x \in [0,1)$.\\
+			Als nächstes ist $x \in [2,3]$, dann ist $f(x) = x-1 \in [1,2]$ und $g(f(x)) = x -1 + 1 = x \in [2,3]$.\\
+
+			Also ist auch $(f \circ g) = id_{[0,1) \cup [2,3]}$.\\
+
+			Diese beiden Bedingungen reichen aus, um zu zeigen, dass $g$ die Umkehrfunktion von $f$ ist. Also $f$ bijektiv
+			also insbesondere auch invertierbar.
+
+		\item $g$ ist nicht stetig:\\
+			Betrachten wir den Punkt $x = 1$. Der linksseitige Grenzwert, gebildet aus $x < 1$ ist, da es sich um die Identität handelt
+			$\underset{n \rightarrow \infty}{\lim} x_k = x \Rightarrow f ( \underset{n \rightarrow \infty}{\lim} ) = x$, da jedes $x \in [0,1)$ liegt.\\
+
+			Der rechtseitige Grenzwert, mit einer Folge von $x_k > 1$ für alle $k$, ist aber nun 
+			$f ( \underset{n \rightarrow \infty}{\lim} x_k ) = x +1$.\\
+
+			Der linksseitige und rechtseitige Grenzwert in $x=1$ ist unterschiedlich, existiert im allgemeinen als einfacher Grenzwert also nicht
+			daher ist die Funktion auch $[0,2]$ nicht stetig.
+	\end{enumerate}
 \end{enumerate}

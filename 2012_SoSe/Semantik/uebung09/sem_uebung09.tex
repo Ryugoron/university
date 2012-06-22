@@ -42,7 +42,7 @@
 \newcommand{\A}{\mathbb{A}}
 
 \subsection*{Aufgabe 1 \mdseries\itshape $\alpha$ - Konversion}
-Wenn man für die $\alpha$ - Reduktion $\lambda x.t \underset{\alpha}{\rightarrow} \lambda y \$_y^x $ auf
+Wenn man für die $\alpha$ - Reduktion $\lambda x.t \underset{\alpha}{\rightarrow} \lambda y. \$_y^x t $ auf
 die Bedingung $y \not\in Var(t)$ verzichtet, kann eine solche Reduktion die Semantik verändern. Geben Sie
 dafür ein Beispiel an.\\
 
@@ -63,13 +63,13 @@ dafür ein Beispiel an.\\
    \end{enumerate}
    Wir haben nun ein beiden Fällen eine Normalform erreicht. Wir können nicht einmal eine
    $\alpha$ - Konversion anwenden, da es keine gebundenen Variablen mehr gibt.\\
-   Nun sagt uns aber das Church - Rosser - Theorem, dass wir durch 2 verschiedene Anwendungs von
-   Reduktionen, die Ergbnisse auf die gleiche Syntaktische Form bringen können müssen.\\
+   Nun sagt uns aber das Church-Rosser-Theorem, dass wir durch zwei verschiedene Anwendungen von
+   Reduktionen, die Ergebnisse auf die gleiche syntaktische Form bringen können müssen.\\
    Da $a \not= y$ gilt, sind bei Ausdrücke nicht äquivalent.
    
 \subsection*{Aufgabe 2 \mdseries\itshape $\beta$ - Konversion}
 Wenn man für die $\beta$ - Reduktion $ (\lambda x.t)s \rightarrow \$_s^ x t$
-auf die Forederung $Fr(s)\cap Geb(t) = \emptyset$ verzichtet, kann eine solche Reduktion die Semantik
+auf die Forderung $Fr(s)\cap Geb(t) = \emptyset$ verzichtet, kann eine solche Reduktion die Semantik
 verändern.\\
 Geben Sie dafür ein Beispiel an.\\
 
@@ -90,15 +90,15 @@ Geben Sie dafür ein Beispiel an.\\
          \end{array}$$
    \end{enumerate}
    Wie in der ersten Aufgabe haben wir 2 Ausdrücke in Normalform, deren freie Variablen nicht gleich sind.
-   Damit können sie nicht in einander überführt werden und die Semantik hat sich verändert.
+   Damit können sie nicht ineinander überführt werden und die Semantik hat sich verändert.
 
 \subsection*{Aufgabe 3 \mdseries\itshape Nicht-endliche Reduktion}
 Konstruieren Sie einen $\lambda$-Ausdruck $t$, der keine Normalform besitzt und dessen Reduktion
-zu immer größeren Ausrücken führt.\\
+zu immer größeren Ausdrücken führt.\\
 
 \textbf{Lösung:}\\
-   Wir benutzen die sich reproduzierenden Teil aus dem Fixpunktkombinator
-   $Y \equiv (\lambda f. (\lambda xy.y(xx)) (\lambda xy.y(xx)) f)$, nämlig den inneren
+   Wir benutzen den sich reproduzierenden Teil aus dem Fixpunktkombinator
+   $Y \equiv (\lambda f. (\lambda x.f(xx)) (\lambda x.f(xx)))$, nämlich den inneren
    Teil $(\lambda x.a(xx)) (\lambda x.a(xx))$.
    Wir führen hier ein paar Schritte der Reduktion aus:
    $$\begin{array}{rcl}
@@ -107,7 +107,7 @@ zu immer größeren Ausrücken führt.\\
          &\overset{\beta}{\longrightarrow}& a(a((\lambda x.a(xx)) (\lambda x.a(xx))))\\
          ...
    \end{array}$$
-   Wie wir sehen, reproduziert sich der Ursprüngliche Ausdruck immer wieder und wir schachteln
+   Wie wir sehen, reproduziert sich der ursprüngliche Ausdruck immer wieder und wir schachteln
    die Konstante $a$ immer weiter ineinander.
 \subsection*{Aufgabe 4 \mdseries\itshape Getypter $\lambda$ - Kalkül}
 Schreiben Sie je einen getypten $\lambda$ - Ausdruck für die folgenden Aufgaben:
@@ -117,17 +117,17 @@ Schreiben Sie je einen getypten $\lambda$ - Ausdruck für die folgenden Aufgaben
       Wir konstruieren zunächst die allgemeine Version der Funktionen, die wir brauchen
       und wenden sie im Spezialfall an.\\
       \underline{iterate} : $\mathbb{N} \rightarrow [D \rightarrow D] \rightarrow [D \rightarrow D]$ um diese
-      Funktion zu bauen, beachte zunächst, das durch die Church - Notation der
+      Funktion zu bauen, beachte zunächst, das durch die Church-Notation der
       Natürlichen Zahlen gilt: $n f x: D$ mit $n \in X^{\mathbb{N}}$, $f \in x^{[D->D]}$ und
       $x \in X^D$.\\
-      (Iterativ gilt $0 f x = (\lambda xy.y) f x \overset{\beta}{rightarrow} x$,\\
-      $(n+1) f x = (\lambda xy.x(n x y)) f x \overset{\beta} f (n f x) \overset{I.V.}{\rightarrow}
+      (Iterativ gilt $0 f x = (\lambda xy.y) f x \overset{\beta}{\rightarrow} x$,\\
+      $(n+1) f x = (\lambda xy.x(n x y)) f x \overset{\beta}{\rightarrow} f (n f x) \overset{I.V.}{\rightarrow}
          f^{n+1} x$).\\
       Nun bauen wir 
       \underline{iterate} $= \lambda f n. n f \; : \mathbb{N} \rightarrow [D \rightarrow D]$,
-      das die Signatur nach konstruktion der anwendung von natürlichen Zahlen auf Funktionen erfüllt.\\
+      das die Signatur nach Konstruktion der Anwendung von natürlichen Zahlen auf Funktionen erfüllt.\\
 
-      Wir betrachten nun eine symmetrische Addition, die als Ergebniss wieder einen Tupel liefern muss
+      Wir betrachten nun eine symmetrische Addition, die als Ergebnis wieder einen Tupel liefern muss
       die Zahl 2 mal wiederholt. Andernfalls könnten wir die Funktion nicht mehrmals anwenden.\\
 
       $\underline{sym} = (\lambda x. \underline{tupel} (\underline{fst} x + \underline{snd} x) 
@@ -166,10 +166,10 @@ Schreiben Sie je einen getypten $\lambda$ - Ausdruck für die folgenden Aufgaben
       und $xs \in X^{D^*}$.
       Da wir eine Tupelkonstruktion haben, können wir $fst=head$ und $snd=tail$ benutzen.
       $\underline{empty} = (\lambda a.a (\lambda bcde.d))$. Eine leere Liste schmeißt die
-      parameter weg und ist selber \underline{false} und jede andere Liste sorgt dafür, dass
+      Parameter weg und ist selber \underline{false} und jede andere Liste sorgt dafür, dass
       head und tail weggeworfen werden und einzig und allein true stehen bleibt.\\
 
-      Nun machen wir uns an die übliche konstruktion der Map implementierung.
+      Nun machen wir uns an die übliche konstruktion der Map-Implementierung.
       \begin{lstlisting}
 map f xs =
    if !empty xs then
@@ -178,11 +178,11 @@ map f xs =
       cons (f (head xs)) (map f (tail xs))
       \end{lstlisting}.
 
-      Wir brauchen für die Implementierung nun nur noch das bekannt zu Übetragen:\\
+      Wir brauchen für die Implementierung nun nur noch das Bekannte zu Übetragen:\\
       \begin{tabular}{lr}
          $\underline{map} =$ &\\
          $ (\lambda f \; l.$& f : Funktion, l : list\\
-         $(\lambda i.(\lambda xy.y(xx)) (\lambda xy.y(xx)) i)$& Fixpunktkombinator\\   
+         $(\lambda i.(\lambda x.i(xx)) (\lambda x.i(xx)))$& Fixpunktkombinator\\   
          $(\lambda rx.$&Map funktion\\
          $(\lambda a.a(\lambda bcde.d))x$& if !empty(x)\\
          $(\lambda a.a (f((\lambda bc.b)x)) (r((\lambda bc.c)x)))$& f(head(x)):map f tail x\\
@@ -191,11 +191,11 @@ map f xs =
       \end{tabular}\\
       
       Wenn wir nun eine Liste vom Typ $D$ und der Länge 4 mit einer Funktion $f:[D\rightarrow D]$
-      an die Funktion \underline{map} geben, so wird das Ergebnis heraus kommen.\\
+      an die Funktion \underline{map} geben, so wird das Ergebnis herauskommen.\\
 
       Sei $\underline{xs} : D$ eine solche Liste und $f : [D \rightarrow D]$ eine solche Funkion.\\
       Dann erfüllt:\\
-      $map \;f\; \underline{xs} : D^*$ die Vorraussetzungen.
+      $map \;f\; \underline{xs} : D^*$ die Voraussetzungen.
 
 \pagebreak
 
