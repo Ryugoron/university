@@ -56,7 +56,7 @@ function [ x, t ] = theta_lin(theta, lambda,f, x0, T, tau )
 %theta_lin approximiert das AWP
 %AWP x' = lambda*x+f, x(0) = x0 mit einem
 %aequidistanten Gitter 0 = t0 < t1 < ... < tn = T
-%mit Hilfe des Theta-Verfahrens für Eingabe theta.
+%mit Hilfe des Theta-Verfahrens fuer Eingabe theta.
 
 x(1) = x0;
 t = 0:tau:T; %% Gitter mit Abstand tau
@@ -82,6 +82,62 @@ Funzt gut! :D
 %	\includegraphics[scale=0.44]{exeuler3.png}
 %}
 %\end{figure}
+
+\begin{description}
+\item[a)] Sei nun $f(t) = 4\pi \cos(4\pi t) - \lambda \sin(4\pi t), \lambda = -1, x_0 = 1$ und $T = 2$ und die Schrittweite $\tau = T/100 = 0.02$. \\
+
+(1) Exakte Lösung des AWP:
+\begin{eqnarray*}
+x(t) &=& e^{-t} + \int_0^t f(x) e^{-t+x} \; dx = e^{-t} + e^{-t} \int_0^t f(x)e^{x} \; dx
+\end{eqnarray*}
+
+Das Integral lösen wir nun durch partielle Integration, dazu bilden wir die ersten beiden Ableitungen von $f$, die wir in der partiellen Integration benutzen werden.
+Dann gilt für die erste Ableitung $f'$:
+\begin{eqnarray*}
+f'(t) &=& (4\pi \cos(4\pi t) - \lambda \sin(4\pi t))' \\
+&=& (4\pi \cos(4\pi t))' - (\lambda \sin(4\pi t))' \\
+&=& (-16 \pi^2 \sin(4 \pi t)) - (4 \pi \lambda \cos(4 \pi t)) \\
+&=& -16 \pi^2 \sin(4 \pi t) - 4 \pi \lambda \cos(4 \pi t)
+\end{eqnarray*}
+Und damit für die zweite Ableitung $f''$:
+\begin{eqnarray*}
+f''(t) &=& (-16 \pi^2 \sin(4 \pi t) - 4 \pi \lambda \cos(4 \pi t))' \\
+&=& (-16 \pi^2 \sin(4 \pi t))' - (4 \pi \lambda \cos(4 \pi t))' \\
+&=& (-16 \cdot 4 \pi^3 \cos(4 \pi t)) - (-16 \pi^2 \lambda \sin(4 \pi t)) \\
+&=& -16 \cdot 4 \pi^3 \cos(4 \pi t) + 16 \pi^2 \lambda \sin(4 \pi t) \\
+&=& -16 \pi^2 \left( 4 \pi \cos(4 \pi t) - \lambda \sin(4 \pi t)\right) \\
+&=& -16 \pi^2 f(t)
+\end{eqnarray*}
+Nun können wir partiell integrieren:
+\begin{eqnarray*}
+\int_0^t f(x)e^{x} \; dx &=& [e^{x} \cdot f(x)]_0^t - \int_0^t e^{x} f'(x) \; dx \\
+&=& [e^{x} \cdot f(x)]_0^t - \left([e^{x} \cdot f'(x)]_0^t - \int_0^t e^x f''(x) \; dx \right) \\
+&=& [e^{x} \cdot f(x)]_0^t - [e^{x} \cdot f'(x)]_0^t + \int_0^t e^x f''(x) \; dx \\
+&=& [e^{x} \cdot f(x)]_0^t - [e^{x} \cdot f'(x)]_0^t + \int_0^t e^x -16 \pi^2 f(x) \; dx \\
+&=& [e^{x} \cdot f(x)]_0^t - [e^{x} \cdot f'(x)]_0^t - 16 \pi^2 \int_0^t e^x f(x) \; dx \\
+\Rightarrow 17 \pi^2 \int_0^t f(x)e^{x} \; dx &=& [e^{x} \cdot f(x)]_0^t - [e^{x} \cdot f'(x)]_0^t \\
+&=& (e^t \cdot f(t) -  e^0 \cdot f(0)) - (e^t \cdot f'(t) -  e^0 \cdot f'(0)) \\
+%&=& e^t \cdot (4\pi \cos(4\pi t) - \lambda \sin(4\pi t)) -  e^0 \cdot (4\pi \cos(0) - \lambda \sin(0)) - e^t \cdot (-16 \pi^2 \sin(4 \pi t) - 4 \pi \lambda \cos(4 \pi t)) +  e^0 \cdot (-16 \pi^2 \sin(0) - 4 \pi \lambda \cos(0)) \\
+&=& e^t \cdot (4\pi \cos(4\pi t) - \lambda \sin(4\pi t)) - 4 \pi \\
+&-& e^t \cdot (-16 \pi^2 \sin(4 \pi t) - 4 \pi \lambda \cos(4 \pi t)) - 4\pi \lambda \\
+&=& e^t 4\pi \cos(4\pi t) - e^t \lambda \sin(4\pi t) - 4\pi \\
+&+& e^t 16 \pi^2 \sin(4 \pi t) + e^t 4 \pi \lambda \cos(4 \pi t) - 4\pi \lambda \\
+&\stackrel{\lambda = -1}{=}& e^t 4\pi \cos(4\pi t) + e^t \sin(4 \pi t) - 4\pi \\\
+&+& e^t 16 \pi^2 \sin(4 \pi t) - e^t 4 \pi \cos(4 \pi t) + 4 \pi \\
+&=& e^t \sin(4 \pi t) + e^t 16 \pi^2 \sin(4 \pi t)
+\end{eqnarray*}
+irgendwo kleine lücke...glaub ich.
+soll rauskommen: 
+$x(t) = e^{-t} + \sin(4\pi t)$
+also integral = $e^t * sin(4pi t)$
+TODO!
+
+
+(2) Approximative Lösung des AWP mit $\Theta = 0, 0.5, 1$. \\
+tda
+
+\item[b)]
+\end{description}
 
 %% ------------------------------------------------------
 %%                     AUFGABE 3
