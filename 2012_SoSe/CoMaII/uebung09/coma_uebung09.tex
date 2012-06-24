@@ -44,7 +44,7 @@
 %%                     AUFGABE 1
 %% ------------------------------------------------------
 
-\section*{Aufgabe 1}
+%\section*{Aufgabe 1}
 %% ------------------------------------------------------
 %%                     AUFGABE 2
 %% ------------------------------------------------------
@@ -61,14 +61,12 @@ function [ x, t ] = theta_lin(theta, lambda,f, x0, T, tau )
 x(1) = x0;
 t = 0:tau:T; %% Gitter mit Abstand tau
 
+% Formel umgestellt nach x_k+1
 for k = 1:size(t,2)-1,
-    x(k+1) = ((x(k)*lambda*tau)*(1 - theta) + x(k) + (f((k-1)*tau)*tau)*(1+theta)+ theta*tau*f(k*tau))/(1-tau*lambda*theta);
-% f(k*tau) ist f(t_k+1)...
+    x(k+1) = ((x(k)*lambda*tau)*(1 - theta) + x(k) + (f((k-1)*tau)*tau)*(1-theta)+ theta*tau*f(k*tau))/(1-tau*lambda*theta)
 end
 end
 \end{lstlisting}
-
-Funzt gut! :D
 
 \begin{description}
 \item[a)] Sei nun $f(t) = 4\pi \cos(4\pi t) - \lambda \sin(4\pi t), \lambda = -1, x_0 = 1$ und $T = 2$ und die Schrittweite $\tau = T/100 = 0.02$. \\
@@ -113,14 +111,12 @@ Nun können wir partiell integrieren:
 &+& e^t 16 \pi^2 \sin(4 \pi t) - e^t 4 \pi \cos(4 \pi t) + 4 \pi \\
 &=& e^t \sin(4 \pi t) + e^t 16 \pi^2 \sin(4 \pi t)
 \end{eqnarray*}
-irgendwo kleine lücke...glaub ich.
-soll rauskommen: 
-$x(t) = e^{-t} + \sin(4\pi t)$
-also integral = $e^t * sin(4pi t)$
-TODO!
+Irgendwo ist hier ein Rechenfehler, denn es soll herauskommen:
+$ \int_0^t f(x)e^{x} \; dx = e^{t} \sin(4\pi t) $ und damit als Lösung
+$$ x(t) = e^{-t} + \sin(4\pi t) $$
 
 (2) Approximative Lösung des AWP mit $\Theta = 0, 0.5, 1$. \\
-
+Die Lösung aus (1) wird nun als Vergleich mit den approximativen Lösungen geplottet.
 
 \begin{figure}[ht!]
 \center
@@ -139,8 +135,21 @@ Wie zu sehen ist, ist der Graph bei der $\theta = 0$-Approximation stets etwas z
 
 \item[b)] Um die Konvergenzordnung zu sehen, wählen wir eine doppelt logarithmische Skala, plotten der Fehler und können dann die Steigung der Geraden (der Plot ergibt eine Gerade) als Konvergenzordnung ansehen: \\
 
-blabla plot plot plot
+\begin{figure}[ht!]
+\center
+\subfigure[Diskretisierungsfehler über $\tau$ mit $\theta = 0$]{
+	\includegraphics[scale=0.33]{diskretfehlertheta0.png}
+}
+\subfigure[Diskretisierungsfehler über $\tau$ mit $\theta = 1$]{
+	\includegraphics[scale=0.33]{diskretfehlertheta1.png}
+}
+\subfigure[Diskretisierungsfehler über $\tau$ mit $\theta = 0.5$]{
+	\includegraphics[scale=0.45]{diskretfehlertheta05.png}
+}
+\end{figure}
 \end{description}
+
+Die Auswertung der Plots ergibt für $\theta = 0$ und für $\theta = 1$ eine Konvergenzordnung von 1, für $\theta = 0.5$ eine Konvergenzordnung von ca. 2.
 
 %% ------------------------------------------------------
 %%                     AUFGABE 3
