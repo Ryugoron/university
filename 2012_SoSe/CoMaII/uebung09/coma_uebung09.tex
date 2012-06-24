@@ -70,19 +70,6 @@ end
 
 Funzt gut! :D
 
-%\begin{figure}[ht!]
-%\center
-%\subfigure[Plot des expliziten Euler-Verfahrens mit $\tau = 0.1$]{
-%	\includegraphics[scale=0.44]{exeuler1.png}
-%}
-%\subfigure[Plot des expliziten Euler-Verfahrens mit $\tau = 0.01$]{
-%	\includegraphics[scale=0.44]{exeuler2.png}
-%}
-%\subfigure[Plot des expliziten Euler-Verfahrens mit $\tau = 0.001$]{
-%	\includegraphics[scale=0.44]{exeuler3.png}
-%}
-%\end{figure}
-
 \begin{description}
 \item[a)] Sei nun $f(t) = 4\pi \cos(4\pi t) - \lambda \sin(4\pi t), \lambda = -1, x_0 = 1$ und $T = 2$ und die Schrittweite $\tau = T/100 = 0.02$. \\
 
@@ -132,11 +119,27 @@ $x(t) = e^{-t} + \sin(4\pi t)$
 also integral = $e^t * sin(4pi t)$
 TODO!
 
-
 (2) Approximative Lösung des AWP mit $\Theta = 0, 0.5, 1$. \\
-tda
 
-\item[b)]
+
+\begin{figure}[ht!]
+\center
+\subfigure[Lösung des AWP gegen Approximation mit $\theta = 0$]{
+	\includegraphics[scale=0.33]{theta0.png}
+}
+\subfigure[Lösung des AWP gegen Approximation mit $\theta = 1$]{
+	\includegraphics[scale=0.33]{theta1.png}
+}
+\subfigure[Lösung des AWP gegen Approximation mit $\theta = 0.5$]{
+	\includegraphics[scale=0.45]{theta05.png}
+}
+\end{figure}
+
+Wie zu sehen ist, ist der Graph bei der $\theta = 0$-Approximation stets etwas zu groß (über der exakten Lösung), bei der $\theta = 1$-Approximation stets etwas zu klein (unter dem Graphen der exakten Lösung). Die $\theta = 0.5$-Approximation gleicht genau diese Schwäche aus, in dem der Mittelwert der beiden Approximationen benutzt wird. Der Graph liegt fast genau auf dem der exakten Lösung.
+
+\item[b)] Um die Konvergenzordnung zu sehen, wählen wir eine doppelt logarithmische Skala, plotten der Fehler und können dann die Steigung der Geraden (der Plot ergibt eine Gerade) als Konvergenzordnung ansehen: \\
+
+blabla plot plot plot
 \end{description}
 
 %% ------------------------------------------------------
