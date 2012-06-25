@@ -1,0 +1,59 @@
+\subsection*{Aufgabe 29: \mdseries\itshape Parametrisierung des Torus}
+
+\begin{enumerate}[(i)]
+	\item Welche Art von Kurve $\gamma$ im $\mathbb{R}^3$ wird durch die Abbildung
+	$$
+		\gamma \; : \; \mathbb{R} \rightarrow \mathbb{R}^3, \; \varphi \mapsto (a + b\cos \varphi,0,b\sin\varphi)
+	$$
+	für $a>b>0$ beschrieben.?\\
+
+	\textbf{Lösung:}\\
+		Die Kurve die hier beschrieben wird ist ein Kreis. Dieser befindet sich in der $x_1,x_3$ Ebene. Der Kreis
+		liegt vollständig rechts vom Ursprung $(0,0)$. Der Mittelpunkt des Kreises ist $(a,0,0)$ und der Radius ist
+		$b$. Das vollständige Rechts entsteht dadurch, das der Mittelpunkt $a$ vom Mittelpunkt entfernt ist,
+		aber der Radius nur $b<a$ beträgt.
+
+	\item Rotieren Sie diese Kurve entgegen dem Uhrzeigersinn um die $x_3$ Achse. Bezeichnen Sie den Rotationswinkel
+	mit $\vartheta$. Sei erhalten so eine Funktion $f \; : \; \mathbb{R}^2 \rightarrow \mathbb{R}^3$ mit
+	$(\varphi,\vartheta) \mapsto f (\varphi, \vartheta)$.\\
+
+	Die durch $f$ dargestellte Fläche $T$ im $\mathbb{R}^3$ nennt man einen \emph{Torus}.\\
+
+	\textbf{Lösung:}\\
+		Nachdem wir unser Vector auf den Kreis abgebildet haben mit dem Winkel $\varphi$ werden wir danach
+		noch auf das Ergebnis die Drehmatrix $D_\vartheta$ anwenden, um den Vecotr noch um den Winkel $\vartheta$ um
+		die $x_3$ - Achse zu drehen.\\
+
+		$$
+			D_\vartheta = \begin{pmatrix}
+				\cos \, \vartheta & - \sin \, \vartheta & 0\\
+				\sin \, \vartheta & \cos \, \vartheta  & 0\\
+				0 & 0 & 1
+			\end{pmatrix}
+		$$
+
+		Wir wenden für $f$ also erst den Ergebnisvektor auf die Drehung an:
+		$$\begin{array}{rcl}
+			f(\varphi,\vartheta) = D_\vartheta \circ \gamma(\varphi) &=&
+				D_\vartheta = \begin{pmatrix}
+				\cos \, \vartheta & - \sin \, \vartheta & 0\\
+				\sin \, \vartheta & \cos \, \vartheta & 0\\
+				0 & 0 & 1
+			\end{pmatrix} \times
+			(a+b \cos\, \varphi,0,b \sin \, \varphi)^t\\
+			&=& \begin{pmatrix}
+				(a + b \cos \, \varphi) \cdot \cos \, \vartheta\\
+				(a + b \cos \, \varphi) \cdot \sin \, \vartheta\\
+				b \sin \varphi
+			\end{pmatrix}
+		\end{array}$$
+
+		Dies ist der Ergebnisvektor (den wir an dieser Stelle gedreht dargestellt haben), die Funktion $f$ ist also\\
+		$f(\varphi,\vartheta) = \left( (a + b \cos \, \varphi) \cdot \cos \, \vartheta,   (a + b \cos \, \varphi) \cdot \sin \, \vartheta, b \sin \varphi \right)$
+
+	Da die beiden Drehungen linear unabhängig sind (der Kreis vollzieht eine Drehung um die verschobene $x_2$ Achse und der Torus durch
+	Rotation um die $x_3$ Achse). Damit ist es egal in welcher Reihenfolge die Drehungen ausgeführt werden.
+
+	\item Skizzieren Sie ...\\
+		Nicht bearbeitet.
+\end{enumerate}

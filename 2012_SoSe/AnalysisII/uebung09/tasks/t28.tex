@@ -1,0 +1,46 @@
+\subsection*{Aufgabe 28: \mdseries\itshape Stetigkeit und Existenz partieller Ableitungen}
+
+Zeigen Sie, dass die Funktion
+$$
+	f(x,y) := \left\{[ \begin{array}{lr}
+		\frac{xy}{x^2+y^2} &, \text{ für } x^2+y^2 > 0\\
+		0&, \text{ für } x^2+y^2=0
+	\end{array} \right.
+$$
+
+in jedem Punkt partielle Ableitungen erster Ordnung besitzt, jedoch im Ursprung $80,0)$ nicht stetig ist.\\
+
+\textbf{Lösung:}\\
+
+\textbf{Stetigkeit:}\
+Wir zeigen zunächst, dass die Funktion im Punkt $(0,0)$ nicht stetig ist.\\
+
+Wir nehmen die Folge $(x_k)_{k\in\mathbb{N}} = (z_k,z_k)$ wobei $z_k$ eine Nullfolge in $\mathbb{R}$ ist, also
+$\underset{n \rightarrow \infty}{\lim} z_k = 0$.\\
+
+Damit ist $\underset{n \rightarrow \infty}{\lim} x_k = (\underset{n \rightarrow \infty}{\lim} z_k, \underset{n \rightarrow \infty}{\lim} z_k) = (0,0)$,\\
+aber in der Funktion gilt
+$$
+\underset{n \rightarrow \infty}{\lim} f(x_k) = \underset{n \rightarrow \infty}{\lim} \frac{z_k^2}{2z_k^2} = \underset{n \rightarrow \infty}{\lim} \frac{1}{2} = \frac{1}{2}.
+$$
+
+\textbf{Partielle Ableitung:}\\
+Als nächstes bilden wir die partielle Ableitung.\\
+
+$$\begin{array}{rcl}
+	\frac{\delta \, f}{\delta \, x} (x) &=& \frac{\delta}{\delta \, x} \frac{xy}{x^2+y^2}\\
+		&\stackrel{Quot.}{=}& \frac{y \cdot (x^2+y^2) - xy \cdot (2x)}{(x^2+y^2)^2}\\
+		&=& \frac{x^2y + y^3 - 2x^2y}{(x^2+y^2)^2}\\
+		&=& \frac{y^3 - x^2y}{(x^2+y^2)^2}
+\end{array}$$
+
+Da wir $y$ nur als konstante betrachten, können wir leicht sehen, dass $x$ in jeder Folge, die gegen 0 konvergiert, gegen den Wert
+$\frac{1}{y}$ konvergiert. Und dieser ist von jeder Richtung aus fest.\\
+
+Bilden wir die Ableitung über $y$ erhalten wir das selbe, da die Funktion von $x,y$ aus gleich aus sieht:\\
+$$
+\frac{\delta \, f}{\delta \, y} = \frac{x^3 - y^2x}{(x^2 + y^2)^2}
+$$
+Und auch hier konvergieren Folgen über $y$ gegen den Wert $\frac{1}{x}$.
+
+

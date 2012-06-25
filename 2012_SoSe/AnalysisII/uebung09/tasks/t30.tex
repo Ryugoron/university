@@ -1,0 +1,83 @@
+\subsection*{Aufgabe 30: \mdseries\itshape Niveauflächen}
+Für $x_1 > 0$, sei
+$$
+	h(x_1,x_3) := (x_1 - a)^2 + x_3^2 -b^2
+$$
+die beschriebene Funktion eines Kreises in der $[x_1,x_3]$ - Ebene im $\mathbb{R}^3$ mit Radius $b > 0$
+und dem Mittelpunkt $(a,0,0)$, wobei $b<a$.
+
+\begin{enumerate}[(i)]
+	\item Setzen Sie diese Funktions rotationssymmetrisch um die $x_3$ - Achse auf den ganzen $\mathbb{R}^3$ fort,
+		und bezeichen Sie diese neue Funktion mit $g$.\\
+
+	\textbf{Lösung:}\\
+		Um die Punktmenge, die wir von $h$ bekommen, benutzen wir einfach um eine zweite Rotation zu vollführen,
+		die diesmal um die $x_3$ Achse geschieht und noch genauer um den Ursprung $(0,0,0)$ mit dem Radius
+		$a$, damit wir uns auf einem Radius um den Ursprünglichen Mittelpunkt bewegen.\\
+
+		Da wir zu diesem Zeitpunkt aber keine Ahnung hatten, wie wir das genau anstellen, haben wir
+		uns einfach die expandierte stadardt Darstelllung der algebraischen Form genommen um in der nächsten
+		Aufgabe damit weiter zu rechnen:\\
+		$g(x_1,x_2,x_3) = (x_1^2+x_2^2+x_3^2 + a^2 - b^2)^2 - 4a^2(x_1^2 + x_2^2)$\\
+
+		Der erste Teil bezeichnet hier die Berechnung des neuen Mittelpunktes, um den sich unser Kreis drehen
+		soll und der zweite Summand bezeichnet der Radius um den sich der Mittelpunkt drehen darf. Hierbei
+		darf sich der Mittelpunkt, wie gefordert nur auf der $x_1-x_2$ Ebene bewegen, da wir ja um die $x_3$ Achse drehen.\\
+
+		Was hier nicht gänzlich der Rotation des Kreieses genügt, ist dass wir eigentlich eine Kugel um den rotierten Mittelpunkt
+		bestimmen, aber da wir durch die Rotation des Kreises die Kugel übderdecken, ist diese Darstellung korrekt.
+
+	\item Sie $f$ die Funktion aus Aufgabe 29. Zeigen Sie, dass
+		$$
+			f(\mathbb{R}^2) = \{ x \in \mathbb{R}^3 \; | \; g(x) = 0\}.
+		$$
+		Dies besagt, dass $T$ die \emph{Niveaufläche der Funktion g für den Wert 0} ist.\\
+
+	\textbf{Beweis:}\\
+		Für den Beweis, setzten wir zunächst die Bildpunkt von $f$ in die Funktion $g$ ein, um so zu sehen, dass alle $0$ ergeben.\\
+		$$\begin{array}{rcl}
+			g(\cos \vartheta (a + b \cos \varphi), \sin \vartheta ( a + b \cos \varphi), b \sin \varphi)\\
+				&=& 0
+		\end{array}$$
+		Sagt uns eine Auflösung mit WolframAlpha.\\
+
+		In der anderen Richtung müssen wir nun zeigen, dass jeder Punkt, der $g(x) = 0$ erfüllt auch im Bild von $f$ liegt.\\
+		Wir haben allerdings keine Lust mehr wieter zu machen.
+	
+	\item Berechnen Sie den Gradienten $\nabla g(x)$ für alle $x \in \mathbb{R}^3 \setminus\{(0,0,0)\}$. Zeigen Sie
+		$$
+			\nabla g(x) \not= 0 \; \; \text{ für alle } x \in T
+		$$
+		sowie
+		$$
+			\nabla g(x) \cdot \frac{\delta f}{\delta \vartheta} (\varphi, \vartheta) = \nabla g(x) \cdot \frac{\delta f}{\delta \varphi} (\varphi, \vartheta
+				) = 0
+		$$
+		für alle $(\varphi, \vartheta) \in \mathbb{R}^2$ und $x = f(\varphi,\vartheta)$. Dies besagt, dass der Gradient von g senkrecht
+		zur Niveaufläche $T$ ist.\\
+	\textbf{Lösung:}\\
+		Wir berechnen zunächst den Gradienten:\\
+		$$\begin{array}{rcl}
+			\nabla g (x) &=& (\frac{\delta \, g}{\delta \, x_1} (x), \frac{\delta \, g}{\delta \, x_2} (x), \frac{\delta \, g}{\delta \, x_3} (x))\\
+				&=& ( 4x_1(x_1^2+x_2^2+x_3^2+a^2-b^2) -6a^2x_1,   \\
+			&& 4x_2(x_1^2+x_2^2+x_3^2+a^2-b^2) -6a^2x_2, 4x_1(x_1^2+x_2^2+x_3^2+a^2-b^2) -6a^2x_1,\\
+			&& 4x_3(x_1^2+x_2^2+x_3^2+a^2-b^2))
+		\end{array}$$
+
+		Als nächstes Berechnen wir berechnen nun noch die Partiellen Ableitungen $\frac{\delta \, f}{\delta \, \vartheta} (\varphi,\vartheta)$ und
+		$\frac{\delta \, f}{\delta \, \varphi} (\varphi,\vartheta)$.\\
+
+		$$\begin{array}{rcl}
+			\frac{\delta \, f}{\delta \, \vartheta} (\varphi,\vartheta) &=& (- \sin \vartheta, \cos \vartheta , 0)
+		\end{array}$$
+
+		und
+
+		$$\begin{array}{rcl}
+			\frac{\delta \, f}{\delta \, \varphi} (\varphi,\vartheta) &=&
+				( - b (\cos \vartheta ) \sin \varphi, -b (\sin \, \vartheta) \sin \varphi, b \cos \varphi )
+		\end{array}$$
+
+		Nun müssten wir noch in die Gleichungen einsetzen und überprüfen, ob es gleich 0 ist, aber wir haben an dieser Stelle auch keine Lust
+		mehr zu rechnen.
+\end{enumerate}
