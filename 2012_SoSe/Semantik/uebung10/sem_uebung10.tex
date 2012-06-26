@@ -208,16 +208,31 @@ Der Faltungsoperator \underline{lit} sei informall bestimmt durch:\\
 
 \end{enumerate}
 
+\pagebreak
+
 \subsection*{Aufgabe 3 \mdseries\itshape Repeat}
 
 Erweitern Sie die Syntax von WHILE um die Anweisung der Form
 $$
-   \underline{repeat} \; C \; \underline{until} \; B
+   \underline{REPEAT} \; C \; \underline{UNTIL} \; B
 $$
 und definieren Sie dazu eine geeignete denotationelle Semantik.\\
 
 \textbf{Lösung:}\\
-  Ich hab keine Ahnung, was der Sternoperator sein soll. 
+
+   Zunächst fügen wir wie schon einmal das Konstrukt von REPEAT zur
+   Syntax hinzu:\\
+   
+   $C' \; : \; C | \underline{REPEAT} \; C \; \underline{UNTIL} \; B$\\
+
+   Wir definieren die Semantik von REPEAT analog zur WHILE Schleife.\\
+
+   $$
+      C [\underline{REPEAT} \, C \, \underline{UNTIL} \,B] 
+         = C [C] \star B[B] \star \emph{cond} (C[\underline{REPEAT} \, C \, \underline{UNTIL} \, B],
+            \lambda z.z)
+   $$   
+
 
 \label{LastPage}
 
