@@ -108,10 +108,30 @@ Der Faltungsoperator \underline{lit} sei informall bestimmt durch:\\
 \begin{enumerate}[(i)]
    \item Bestimmen Sie den Typ von \underline{lit}.\\
    \textbf{Lösung:}\\
-      tbd
+      Wir sehen zunächst, dass $f$ 3 Eingaben erhält. Die zweite davon ist eine Liste.\\
+      Wir vergeben n $f$ den Typ $D_1$, an die Liste $(x_1,...,x_n) \; : \, D_2^*$ und
+      an $x_{n+1}$ den Typ $D_3$.\\
+
+      Setzen wir alle Parameter in die informelle Definition ein, sehen wir, dass es sich
+      bei $f$ um eine Funktion handelt, die 2 Parameter annimmt.\\
+      $\Rightarrow D_1 = [D_4 \rightarrow D_5 \rightarrow D_6]$.\\
+      
+      Der zweite Parameter ist in der ersten Iteration $x_{n+1}$ und danach ist der 
+      Rückgabewert von $f$ die zweite Eingabe. Daher muss gelten $D_6 = D_5 = D_2$.\\
+
+      Der erste Parameter ist immer ein Element der Liste $D_2 = D_4$ und damit endet
+      die Vorhersage, die wir treffen können.\\
+
+      $\underline{lit} \; : \; [A \rightarrow B \rightarrow B] \rightarrow A^* \rightarrow B \rightarrow B$.
 
    \item Definieren Sie den Operator \underline{lit} im getypten 
       $\lambda$ - Kalkül unter Verwendung der Gleichungsschreibweise.\\
+    \textbf{Lösung:}\\
+         $$
+            \underline{lit} = \underline{fix}\left(\lambda F.\lambda f \,l \,x. \underline{empty} \, l
+               \rightarrow x, f (\underline{hd} \,l) (F \, f \,(\underline{tail} \,l) \,x)\right)
+         $$
+      
 
    \item Definieren Sie eine Funktion $f$ im getpyten $\lambda$ - Kalkül, so
       dass 
@@ -121,11 +141,83 @@ Der Faltungsoperator \underline{lit} sei informall bestimmt durch:\\
             false &, \text{ sonst}
          \end{array}\right.
       $$
+   \textbf{Lösung:}\\
+     Wir verwenden die Funktionen $\underline{eq}$ für Gleichheit und $\underline{and}$
+      für die Verundung.\\
+      $$
+         f = \lambda x l. \, \underline{lit} (\lambda x_i \, a . \, a \underline{or} (eq x x_i)) l \underline{false}
+      $$
+
+      Werten wir das ganze nun aus, bekommen wir in der Faltung die Auswertung\\
+      $f x <x_1,..,x_n> = (x == x_1) \lor (x==x_2) \lor ... \lor (x==x_n) \lor false$.\\
+
+      Das letzte False ist überflüssig und wir wissen, dass sobald eines der Literale True ergibt,
+      muss das ganze True sein. Daher ist die Funktion vollständig.\\
+
+      Darüber hinaus ist sie \emph{sound}, da false zurück kommt, wenn keiner der Vergleiche gut geht,
+      oder die Methode im $eq$ einen Fehler wirft, wenn die Typen nicht stimmen.
 
    \item Bearbeiten Sie (i)-(iii) für \\
-      $\underline{lit'} f (x_1,...,x_{n+1}) = (f ((...(f x_1 x_2) ... x_{n+1})$
+      $\underline{lit'} f x_1\, (x_2,...,x_{n+1}) = (f ((...(f x_1 x_2) ... x_{n+1})$
+      
+   \textbf{Lösung:}\\
+      Die Definition machte wie in der Aufgabe gestellt kein Sinn, dher haben wir
+      die übliche $foldl$ Definition gewählt.
+
+      \begin{enumerate}[a.]
+         \item Wir vergeben an die Eingabeparameter wieder die Typen $f \; : \; D_1$,
+            $x_1 \; : \; D_2$ und $(x_2,...,x_{n+1}) \; : \; D_3^*$.\\
+
+            Immer innsersten wird $f$ zunächst auf $x_1 \; : \; D_2$ und $x_2 \; : \; D_3$ angwandt.
+            Daher muss $f$ den Typ $[D_2 \rightarrow D_3 \rightarrow D_4]$ besitzen.\\
+            Als in den folgenden Schritten, wird immer wieder der Rückgabewert als erstes in die FUnktion
+            gesteckt und als zweites ein weiteres Listenelement\\
+            $\Rightarrow D_2 = D_4$ und auf der obersten Ebene, wird nur einmal $f$ aufgerufen,
+            daher muss der Rückgabewert von $\underline{lit'}$ gleich $D_4$ sein.\\
+
+            $\underline{lit'} \; : \; [A \rightarrow B \rightarrow A] \rightarrow A 
+               \rightarrow B^* \rightarrow A$
+
+         \item Als nächstes Definieren wir das ganze:\\
+            $$
+               \underline{lit'} = \underline{fix} \left( \lambda F. \lambda f \, x \, y .\,
+                  \underline{empty} \, y \rightarrow x \, , \, f \, (F \, f \, x \, (\underline{init} \, y))
+                     (\underline{last} y)
+               \right)
+            $$
+            Dabei ist $\underline{init} <x_1,...,x_n> = <x_1,...,x_{n-1}>$ und
+            tail $\underline{tail} <x_1,...,x_n> = x_n$ wie üblich definiert.\\
+            Wenn die Liste die Länge 1 hat, dann geben wir $f (x_1 \, x_2)$.\\
+            Bei größerer Anzahl immer $f(f(f(..f(x_1 \, x_2) x_3) x_4) ....)$.
+  
+         \item Bei der Definition von $f$ ändert sich nichts, da die Operationen sowohl
+            kommutativ als auch assoziativ ist, ist $foldl$ und $foldr$ äquivalent. (ALP 1).
+            
+            $$
+               f = \lambda x l. \, \underline{lit}
+                  (\lambda a \, x_i. \, a \underline{or} (eq x x_i)) \underline{false} l
+            $$
+
+         Die Auswertung ist im Gegensatz zu (iii) mit\\
+            $f \, <x_1,...,x_n> \, x= x_1 == x \lor (x_2 == x \lor ( .... (x_n == n)))$\\
+         nur anders geklammert, also
+            $f \, x \, <x_1,..,x_n> = x_n == x \lor (x_{n-1} == x \lor ( ... (x_1 == x_i)))$.\\
+   
+         Da wir nun wie gesagt $\lor$ kommutativ und assoziativ ist, tut die Funktion das selbe.
+      \end{enumerate}
 
 \end{enumerate}
+
+\subsection*{Aufgabe 3 \mdseries\itshape Repeat}
+
+Erweitern Sie die Syntax von WHILE um die Anweisung der Form
+$$
+   \underline{repeat} \; C \; \underline{until} \; B
+$$
+und definieren Sie dazu eine geeignete denotationelle Semantik.\\
+
+\textbf{Lösung:}\\
+  Ich hab keine Ahnung, was der Sternoperator sein soll. 
 
 \label{LastPage}
 
