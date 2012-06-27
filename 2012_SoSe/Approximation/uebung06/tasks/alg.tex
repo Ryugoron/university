@@ -1,0 +1,31 @@
+\subsection*{\itshape~The Algorithm}
+
+We will solve this problem by applying the Primal-Dual-Methode.\\
+
+The algorithm will work as follows:\\
+We start with an empty set of edge. Next we will iterate over all $lca(s_i,t_i)$ for every $1 \leq i \leq k$
+from the one with the biggest depth to the smallest one. Next we try to increment the flow $y_i$
+of the given vertex $lca(s_i,ti)$ we took, until some constraint is met with equality. This edge
+we will than take into the solution set. In the last step we will remove this time from the root to the
+bottom, every edge, that will result in a still feasable solution.\\
+
+Let $\mathcal{A}$ be the following algorithm\\
+
+\begin{lstlisting}[language=Pascal]
+F $\leftarrow \emptyset$
+I $\leftarrow \{1,..,k\}$
+$y_i$ $\leftarrow 0 \quad \forall i \in I$
+k $\leftarrow$ 0
+WHILE $\exists i \; : \;s_i,t_i$ connected DO
+   k $\leftarrow$ k + 1
+   i $\leftarrow \underset{j \in I}{\text{argmax}}\; lca(s_j,t_j)$
+   $e_k$ $\leftarrow \underset{e_k \in P_i}{\text{argmin}} \{ c_{e_k}-\underset{j:e_k\in P_j}{\sum} y_j\}$
+   $\Delta$ $\leftarrow c_{e_k} - \underset{j : e_k \in P_j}{\sum} y_j$
+   $f_i$ $\leftarrow f_i + \Delta$
+   I $\leftarrow I \setminus \{i\}$
+   F $\leftarrow F \cup \{e_k\}$
+
+FOR z FROM k DOWNTO 1 DO
+   IF $F \setminus \{e_z\}$ is feasable THEN
+      F $\leftarrow F \setminus \{e_z\}$
+\end{lstlisting}

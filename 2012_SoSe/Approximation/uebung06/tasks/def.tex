@@ -1,0 +1,55 @@
+\subsection*{\itshape Problem and Definitions}
+\textbf{Problem}:\\
+In this exercise we will solve the follwing problem.\\
+Given a tree $T(V,E)$ and $k$ pairs of vertices $s_i,t_i$ and costs $c_e \geq 0$
+for each edge $e \in E$. The task is to find a minimum-cost set of Edges $F \subset E$
+such that for each pair $s_i,t_i$ $s_i$ is in a different component than
+$t_i$ in the graph $G(V,E \setminus F)$.\\
+
+To reformulate the last criterion, this means, there exist no path from $s_i$ to $t_i$,
+or even better, from every path from $s_i,t_i$ in $T$ there has to be at least one edge
+in $F$.\\
+
+With this we can formulate the IP
+$$\begin{array}{rrcl}
+   \text{min}&\underset{e\in E}{\sum} c_e x_e &&\\
+   \text{subject to} &
+      \underset{e \in P_i}{\sum} x_e & \geq & 1, \qquad 1\leq i \leq k\\
+      & x_e &\in & \{0,1\} \qquad e \in E.
+\end{array}$$
+This matches exactly our definition, as formulated above.\\
+In this IP $P_i$ is the set of edge on the way from $s_i$ to $t_i$ (In
+a tree there exists exactly one way from one node to another) and $x_e$ is
+the variable that denotes, whether $e$ is in $F$ or not.\\
+
+Next we will formulate the Primal and the Dual LP with which we than will work.\\
+
+\textbf{Primal LP}
+$$\begin{array}{rrcl}
+   \text{min}&\underset{e\in E}{\sum} c_e x_e &&\\
+   \text{subject to} &
+      \underset{e \in P_i}{\sum} x_e & \geq & 1, \qquad 1\leq i \leq k\\
+      & x_e &\geq & 0 \qquad e \in E.
+\end{array}$$
+
+\textbf{Dual LP}
+$$\begin{array}{rrcl}
+   \text{max}&\underset{i=1}{\overset{k}{\sum}} y_i &&\\
+   \text{subject to} &
+      \underset{i : e \in P_i}{\sum} y_i & \leq & c_e, \qquad e \in E\\
+      & y_i &\geq & 0 \qquad e \in E.
+\end{array}$$
+
+As one can see and assume from the simple Cut Problem, the dual is a Multiflow, such that
+on no edge there is more flow, than the capacity of the edge.\\
+
+\textbf{Root, Height and Ancestor}\\
+In the following we assume, that the tree is rooted at a arbitrary vertex $r$. From this
+root node we can define the $depth(v)$ of a node $v \in E$ by the number of edges from
+$r$ to $v$. The depth can be computed for every node by a simple iteration over the tree
+with the runtime of $O(n)$.\\
+
+Next we will donate the \emph{Lowest-Common-Ancestor} $lca(s_i,t_i)$ as the vertex
+$v = \underset{u \in P_i}{\text{argmin}} \{ depth(u) \}$. This is namly the vertex on
+the path that is nearest to the root. This nodes can be found will computing the
+depth without increasing the runtime.
