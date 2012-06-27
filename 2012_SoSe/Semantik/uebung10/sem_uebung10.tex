@@ -82,6 +82,8 @@ Bestimmen Sie die Typen der folgenden Funktionen.
          Weiter können wir nun nichts mehr sagen, also gilt:\\
          $h \; : \; D_1 \times D_2 \rightarrow [D_1 \rightarrow D_2 \rightarrow D_4] \rightarrow D_4$.
 
+\pagebreak
+
    \item $\lambda f. (f \lambda y.y)$\\
       \textbf{Lösung:}\\
          Sei $f \in X^{D_1}$. Dann hat die Funktion den folgenden Typ
@@ -132,6 +134,7 @@ Der Faltungsoperator \underline{lit} sei informall bestimmt durch:\\
                \rightarrow x, f (\underline{hd} \,l) (F \, f \,(\underline{tail} \,l) \,x)\right)
          $$
       
+\pagebreak
 
    \item Definieren Sie eine Funktion $f$ im getpyten $\lambda$ - Kalkül, so
       dass 
@@ -203,7 +206,7 @@ Der Faltungsoperator \underline{lit} sei informall bestimmt durch:\\
          nur anders geklammert, also
             $f \, x \, <x_1,..,x_n> = x_n == x \lor (x_{n-1} == x \lor ( ... (x_1 == x_i)))$.\\
    
-         Da wir nun wie gesagt $\lor$ kommutativ und assoziativ ist, tut die Funktion das selbe.
+         Da nun wie gesagt $\lor$ kommutativ und assoziativ ist, tut die Funktion die selbe.
       \end{enumerate}
 
 \end{enumerate}
@@ -223,7 +226,10 @@ und definieren Sie dazu eine geeignete denotationelle Semantik.\\
    Zunächst fügen wir wie schon einmal das Konstrukt von REPEAT zur
    Syntax hinzu:\\
    
-   $C' \; : \; C | \underline{REPEAT} \; C \; \underline{UNTIL} \; B$\\
+   $C' \; : \; C \; | \;  \underline{REPEAT} \; C \; \underline{UNTIL} \; B$\\
+
+   Wir haben einen neuen Ausdruck zu $C$ hinzugefügt, indem wir das alte $C$ nehmen
+   und das REPEAT hinzugefügt haben.\\
 
    Wir definieren die Semantik von REPEAT analog zur WHILE Schleife.\\
 
@@ -232,6 +238,10 @@ und definieren Sie dazu eine geeignete denotationelle Semantik.\\
          = C [C] \star B[B] \star \emph{cond} (C[\underline{REPEAT} \, C \, \underline{UNTIL} \, B],
             \lambda z.z)
    $$   
+
+   Wir führen zunächst $C$ aus und stecken den Folgezustand in die Berechnung von $B$ hinein.
+   sollte die Auswertung $True$ ergeben, machen wir das ganze nochmal, sonst geben wir
+   einfach den Zustand zurück.
 
 
 \label{LastPage}
