@@ -27,8 +27,10 @@ WHILE $I \not = \emptyset$ connected DO
    $f_i$ $\leftarrow f_i + \Delta$
    I $\leftarrow I \setminus \{ j \; | \; e_t \in P_j\}$
    F $\leftarrow F \cup \{e_t\}$
-
+   
+   R $\leftarrow F$
 FOR z FROM k DOWNTO 1 DO
-   IF $F \setminus \{e_z\}$ is feasable THEN
-      F $\leftarrow F \setminus \{e_z\}$
+   IF $R \setminus \{e_z\}$ is feasable THEN
+      R $\leftarrow R \setminus \{e_z\}$
+RETURN R
 \end{lstlisting}

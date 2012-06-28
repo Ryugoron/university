@@ -2,10 +2,10 @@
 
 In this part we will show, that the follwoing holds\\
 
-\begin{lemma}\label{multcut:runtime}
+\begin{lemma}\label{multcut:runtime}\mdseries\itshape
 The algorithm $\mathcal{A}$ has a runtime in $P$.
 \end{lemma}
-\begin{lemma}\label{multcut:apx}
+\begin{lemma}\label{multcut:apx}\mdseries\itshape
 The algorithm $\mathcal{A}$ is a 2-approximation-algorithm
 for the multicut problem in trees.
 \end{lemma}
@@ -41,8 +41,33 @@ for the multicut problem in trees.
       edge from the unique way from a the pair $i$.\\
       We conclude, that the set $F$ was feasable after the first loop.
       The seconde loop, will only remove an edge, if the set still remains feasable.\\
-      So the resulting set $F$ must be feasable.\\
+      So the resulting set $R$ must be feasable.\\
 
-     TODO: Flow $\leq 2 \cdot$ Multicut,\\
-          weg über Kanten, die man über einen $lca(s_i,t_i)$ laufen lässt.
+      To proof the approximation we will show the following
+      \begin{lemma}\label{multcut:lcaedge}\mdseries\itshape
+         For any pair $s_i,t_i$ $1\leq i \leq k$ there
+         exists at most one edge on paths $s_i - lca(s_i,t_i)$ and
+         $t_i - lca(s_i,t_i)$ that is in $F$.
+         $|(s_i - lca(s_i,t_i)) \cap F| \leq 1$ and
+         $|(t_i - lca(s_i,t_i)) \cap F| \leq 1$.
+      \end{lemma}
+
+      \begin{lemma}\label{multcut:deledge}\mdseries\itshape
+         The weights $w(F)$ $w(R)$ of the sum
+         of all edge weights in the sets
+         $w(R) \leq 2 \cdot w(F)$ holds.
+      \end{lemma}
+
+      \begin{lemma}\label{multcut:ipres}\mdseries\itshape
+         For $F$ it holds, that it is a feasable Dual IP solution
+         and therefore $F \leq OPT_{Dual}$ holds.
+      \end{lemma}
+
+      \begin{description}
+         \item{\bfseries Proof ~\ref{multcut:lcaedge}:}
+            
+         \item{\bfseries Proof ~\ref{multcut:deledge}:} tbd
+
+         \item{\bfseries Proof ~\ref{multcut:ipres}:} tbd
+      \end{description}
 \end{description}
