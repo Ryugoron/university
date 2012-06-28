@@ -6,7 +6,7 @@ for each edge $e \in E$. The task is to find a minimum-cost set of Edges $F \sub
 such that for each pair $s_i,t_i$ $s_i$ is in a different component than
 $t_i$ in the graph $G(V,E \setminus F)$.\\
 
-To reformulate the last criterion, this means, there exist no path from $s_i$ to $t_i$,
+To reformulate the last criterion, this means, there exists no path from $s_i$ to $t_i$,
 or even better, from every path from $s_i,t_i$ in $T$ there has to be at least one edge
 in $F$.\\
 
@@ -18,11 +18,11 @@ $$\begin{array}{rrcl}
       & x_e &\in & \{0,1\} \qquad e \in E.
 \end{array}$$
 This matches exactly our definition, as formulated above.\\
-In this IP $P_i$ is the set of edge on the way from $s_i$ to $t_i$ (In
-a tree there exists exactly one way from one node to another) and $x_e$ is
+In this IP $P_i$ is the set of edges on the path from $s_i$ to $t_i$ (In
+a tree there exists exactly one path from one vertex to another) and $x_e$ is
 the variable that denotes, whether $e$ is in $F$ or not.\\
 
-Next we will formulate the Primal and the Dual LP with which we than will work.\\
+Next we will formulate the Primal and the Dual LP with which we then will work.\\
 
 \textbf{Primal LP}
 $$\begin{array}{rrcl}

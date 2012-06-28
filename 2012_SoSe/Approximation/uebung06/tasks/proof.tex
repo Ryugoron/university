@@ -45,29 +45,29 @@ for the multicut problem in trees.
 
       To proof the approximation we will show the following
       \begin{lemma}\label{multcut:lcaedge}\mdseries\itshape
-         For any pair $s_i,t_i$ $1\leq i \leq k$ there
-         exists at most one edge on paths $s_i - lca(s_i,t_i)$ and
-         $t_i - lca(s_i,t_i)$ that is in $F$.
-         $|(s_i - lca(s_i,t_i)) \cap F| \leq 1$ and
-         $|(t_i - lca(s_i,t_i)) \cap F| \leq 1$.
-      \end{lemma}
-
-      \begin{lemma}\label{multcut:deledge}\mdseries\itshape
-         The weights $w(F)$ $w(R)$ of the sum
-         of all edge weights in the sets
-         $w(R) \leq 2 \cdot w(F)$ holds.
+         For any pair $y_i > 0$ $1\leq i \leq k$ $|F \cap P_i| \leq 2$
+         that is for any non-zero flow there are at most 2 edges in $F$ on the flow-path.
       \end{lemma}
 
       \begin{lemma}\label{multcut:ipres}\mdseries\itshape
-         For $F$ it holds, that it is a feasable Dual IP solution
-         and therefore $F \leq OPT_{Dual}$ holds.
+         For $F$  $\sum_{e \in F} c_e \leq 2OPT$ holds. 
       \end{lemma}
 
       \begin{description}
          \item{\bfseries Proof ~\ref{multcut:lcaedge}:}
-            
-         \item{\bfseries Proof ~\ref{multcut:deledge}:} tbd
+            Suppose $y_i$ set to nonzero while we consider 
+            $v := lca(s_i,t_i)$. Therefore no edge of $P_i$ has been cut before.
+	         Any $P_j$ $j \neq i$ considered afterwards has its $lca(s_j,t_j)$  
+            in the same depth or lower than $v$. 
+            Therefore if $P_j$ shares an edge with $P_i$ $lca(s_j,t_j)$ is an ancestor of $v$. 
+            Thus if we cut a new edge for $P_j$ which is on	$P_i$ the Algorithm removes the lower edges, 
+            since they are not neccessary for any previous $(s_k,t_k)$ the upper one
+            could not be removed, because it will leave the $P_j$ without a cut and 			
+            $(s_i,t_i)$ will be cut by the new edge too. Hence follows the claim.
 
-         \item{\bfseries Proof ~\ref{multcut:ipres}:} tbd
+         \item{\bfseries Proof ~\ref{multcut:ipres}:}
+	         $$ \sum_{e \in F} =\sum_{e \in F} \sum_{i : e \in P_i} 
+            y_i = \sum_{1 \leq i \leq k} |P_i \cap F| y_i \leq 2 \sum_{1 \leq i \leq k} y_i \leq 2OPT$$
+            This follows by construction, Claim ~\ref{multcut:lcaedge} and duality.
       \end{description}
 \end{description}
