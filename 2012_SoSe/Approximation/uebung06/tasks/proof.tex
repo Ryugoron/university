@@ -45,29 +45,25 @@ for the multicut problem in trees.
 
       To proof the approximation we will show the following
       \begin{lemma}\label{multcut:lcaedge}\mdseries\itshape
-         For any pair $y_i > 0$ $1\leq i \leq k$ $|F \cap P_i| \leq 2$
-         that is for any non-zero flow there are at most 2 edges in $F$ on the flow-path.
+         For any $y_i > 0$ ,$1\leq i \leq k$, $|R \cap P_i| \leq 2$ holds,
+         that is for any non-zero flow there are at most 2 edges in $F$ on the flow-path $P_i$.
       \end{lemma}
 
       \begin{lemma}\label{multcut:ipres}\mdseries\itshape
-         For $F$  $\sum_{e \in F} c_e \leq 2OPT$ holds. 
+         For $R \subset E$  $\sum_{e \in R} c_e \leq 2OPT$ holds.
       \end{lemma}
 
       \begin{description}
          \item{\bfseries Proof ~\ref{multcut:lcaedge}:}
             Suppose $y_i$ set to nonzero while we consider 
             $v := lca(s_i,t_i)$. Therefore no edge of $P_i$ has been cut before.
-	         Any $P_j$ $j \neq i$ considered afterwards has its $lca(s_j,t_j)$  
-            in the same depth or lower than $v$. 
-            Therefore if $P_j$ shares an edge with $P_i$ $lca(s_j,t_j)$ is an ancestor of $v$. 
-            Thus if we cut a new edge for $P_j$ which is on	$P_i$ the Algorithm removes the lower edges, 
-            since they are not neccessary for any previous $(s_k,t_k)$ the upper one
-            could not be removed, because it will leave the $P_j$ without a cut and 			
-            $(s_i,t_i)$ will be cut by the new edge too. Hence follows the claim.
+	Any $P_j$, $j \neq i$, considered afterwards has its $lca(s_j,t_j)$  
+            in the same depth or lower than $v$. If $P_j$ shares an edge with $P_i$, $v$ has to be contained in $P_j$. 
+            Thus if we cut a new edge $e$ for $P_j$ which is on $P_i$, any edge below $e$ on $P_i$ can be removed from the 		cut (this is done by the Algorithm in the end), since they are not neccessary for any previous Pair of vertices and $P_i$ will be obviously cut by $e$. This can 		happen on both sides of $v$ therefore there are at most 2 edges of $P_i$ in $R$.
 
          \item{\bfseries Proof ~\ref{multcut:ipres}:}
-	         $$ \sum_{e \in F} =\sum_{e \in F} \sum_{i : e \in P_i} 
-            y_i = \sum_{1 \leq i \leq k} |P_i \cap F| y_i \leq 2 \sum_{1 \leq i \leq k} y_i \leq 2OPT$$
+	         $$ \sum_{e \in R} c_e =\sum_{e \in R} \sum_{i : e \in P_i} 
+            y_i = \sum_{1 \leq i \leq k} |P_i \cap R| y_i \leq 2 \sum_{1 \leq i \leq k} y_i \leq 2OPT$$
             This follows by construction, Claim ~\ref{multcut:lcaedge} and duality.
       \end{description}
 \end{description}

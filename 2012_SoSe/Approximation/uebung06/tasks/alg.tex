@@ -17,14 +17,14 @@ I $\leftarrow \{1,..,k\}$
 $y_i$ $\leftarrow 0 \quad \forall i \in I$
 t $\leftarrow$ 0
 WHILE $I \not = \emptyset$ connected DO
-   t $\leftarrow$ k + 1
+   t $\leftarrow$ t + 1
    i $\leftarrow \underset{j \in I}{\text{argmax}}\; lca(s_j,t_j)$
 
-   $e_t$ $\leftarrow \underset{e_t \in P_i}{\text{argmin}} \{ c_{e_t}-\underset{j:e_t\in P_j}{\sum} y_j\}$
+   $e_t$ $\leftarrow \underset{e_ot \in P_i}{\text{argmin}} \{ c_{e_o}-\underset{j:e_o\in P_j}{\sum} y_j\}$
 
    $\Delta$ $\leftarrow c_{e_t} - \underset{j : e_t \in P_j}{\sum} y_j$
 
-   $f_i$ $\leftarrow f_i + \Delta$
+   $y_i$ $\leftarrow y_i + \Delta$
    I $\leftarrow I \setminus \{ j \; | \; e_t \in P_j\}$
    F $\leftarrow F \cup \{e_t\}$
    
