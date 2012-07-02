@@ -1,0 +1,62 @@
+\subsection*{Aufgabe 34 \mdseries\itshape Extremalwertaufgabe}
+
+   Ermitteln Sie, an welcher Stelle die Funktion
+   $$
+      z (x,y) = x^3 + 3xy + y^3, \qquad (x,y)\in \mathbb{R}^2
+   $$
+   Extrema besitzt.\\
+
+\textbf{Lösung:}\\
+   Für die Lösung bestimmen wir zunächst die kritischen Punkte $p_0 = (x_0,y_0)$, für die
+   gilt $\nabla f(p_0) = 0$.
+
+   $$
+      \nabla f(p_0) = \begin{pmatrix} 3x_0^2 + 3y_0 \\ 3x_0 + 3y_0^2 \end{pmatrix}\\
+   $$
+
+   Nun haben wir 2 Bedingungen:
+   $$\begin{array}{crcl}
+      I:&0&=& 3x_0^2 + 3y_0\\
+      II:&0&=& 3x_0 + 3y_0^2\\
+      \hline
+      I:&y_0&=& -x_0^2\\
+      \text{in }II:&0&=& 3x_0 + 3x_0^4\\
+         &&=&3 (x_0) (1+x_0^3)\\
+      &\Rightarrow&& x_0=0 \; \lor \; x_0=-1\\
+      \hline
+      0\text{ in }I:&y-0&=& -0^2\\
+         &&=&0\\
+      -1\text{ in }I:&y_0&=& -(-1)^2\\
+         &&=&-1
+   \end{array}$$
+   Die beiden kritischen Punkte sind also $p_0 = (0,0)$ und $p_1 = (-1,-1)$. Nun untersuchen wir die
+   Hesse Matrix bezüglich dieser Werte.\\
+
+   Hessematrix\\
+   $$ H(x,y) = 
+      \begin{pmatrix}
+         6x & 3\\
+         3 & 6y
+      \end{pmatrix}
+   $$
+
+   Die Matrix bezüglich $p_0$ ist also
+   $$H(x_0,y_0) = 
+      \begin{pmatrix}
+         0 & 3\\
+         3 & 0
+      \end{pmatrix}
+   $$
+   Diese Matrix ist nun leider nur semidefinit, daher handelt es sich hier um kein Extrempunkt,
+   sondern aller Wahrscheinlichkeit nach um einen Sattelpunkt.\\
+
+   Die Matrix bezüglich $p_1$ ist
+   $$H(x_1,y_1)=
+      \begin{pmatrix}
+         -6 & 3\\
+         3  & -6
+      \end{pmatrix}
+   $$
+
+   Nach dem Hauptminoren Kriterium haben wir die Determinanten $-6$ und $27$ also können wir wiederum
+   keine Aussage treffen.
