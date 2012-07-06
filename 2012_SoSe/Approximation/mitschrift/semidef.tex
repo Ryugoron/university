@@ -1,0 +1,161 @@
+\documentclass[ngerman,a4paper,11pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{babel}
+
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+
+\newtheorem{lemma}{\bfseries Theorem}
+
+\begin{document}
+
+\section{Semidefinite Programme}
+
+\subsection{Motivation}
+
+Bisher haben wir LPs gelöst um unsere Algorithmen zu Approximieren.
+Dies geschah indem man das Problem als IP formuliert hat. IPs können
+NP-schwere Probleme ausdrücken, daher werden die Bedingungen gelockert
+und wir erhalten das (relaxed) LP, welches wir in Polynomialzeit lösen können.
+
+Deshalb müssen wir zum Schluss das Ergebnis des LPs runden und erhalten so eine
+Lösung des IPs, von der wir beweisen müssen, dass sie nicht zu weit entfernt von
+der optimalen Lösung des IPs liegt.\\
+
+Nun stellen wir uns die Frage: Geht das auch für quadratische Programme?\\
+
+Dabei sehen quadratische Programme wie folgt aus:\\
+$QP: \; n$ Variablen $x_i$\\
+$$\begin{array}{rcl}
+   \max &\underset{i,j}{\sum} c_{ij} x_ix_j\\
+   s.t.& \sum a_{ij}^{(k)} x_i x_j &=& c^k \quad \text{ für }k=1,..,n
+\end{array}$$
+
+QPs können NP-schwere Probleme ausdrücken. Diese QPs wollen wir deshalb lockern,
+das Ergebnis des gelockerten Runden und daraus wieder ein Ergebnis des QPs erhalten.\\
+
+Wir hoffen nun darauf, dass die Lösung des gerundeten gelockerten QP näher am Optimum liegt
+als bei IPs.
+
+\subsection{Lineare Algebra -.-}
+
+Sei $A \in \mathbb{R}^{n\times n}$ quadratische Matrix.\\
+
+\textbf{Fakt:} Jede symmetrische Matrix ist diagonalisierbar mit einer Orthonormalbasis von Eigenvektoren.\\
+
+\textbf{Def.:}
+A symmetrische $n\times n$ Matrix heißt positiv semidifinit (psd), gdw.
+$\forall x \in \mathbb{R}^n \; : \; x^T A x \geq 0$\\
+
+\textbf{Fakt 2:} $A$ psd $\Rightarrow \exists B \; : \; A = B^T B$.\\
+
+Gegeben $A$ kann man $B$ effizient finden, durch eine geeignete Variante der Gaußelemination.
+   (Cholesky-Zerlegung).
+
+\subsection{Semidefinites Programm}
+
+\textbf{Def.:} Wir haben $n^2$ Variablen $x_{ij}$ mit $1\leq i,j \leq n$.
+   $$\begin{array}{rcr}
+      \max & \underset{i,j}{\sum} c_{ij} x_{ij}\\
+      s.t. & \underset{i,j}{\sum} a_{ij}^{(k)} x_{ij} = c_k & \text{wobei }k=1,..,m\\
+      & \begin{pmatrix} x_{11} &...& x_{1n} \\ & ... & \\ x_{n1} & ... & x_{nn} \end{pmatrix} & \text{ ist psd}.
+   \end{array}$$
+
+\textbf{Zweck:}\\
+$X$ ist psd $\Rightarrow \exists B$ mit $X = B^T B$.\\
+
+$$
+\begin{pmatrix}
+-& v_1 & -\\
+-& v_2 & -\\
+& ... & \\
+-& v_n & -
+\end{pmatrix}
+\begin{pmatrix}
+| & | & & |\\
+v_1 & v_2 & ... & v_n\\
+|& | && |
+\end{pmatrix}
+=
+\begin{pmatrix}
+x_{11} & ... & x_{1n}\\
+& ...& \\
+x_{n1} & ... & x_{nn}
+\end{pmatrix}
+$$
+
+Daher wissen wir nun, dass $x_{ij} = v_i^T v_j = v_i \cdot v_j (= < v_i, v_j >)$.\\
+
+\textbf{Folgerung:} $\exists n$ Vektoren $v_1,v_2, ... , v_n \in \mathbb{R}^n$ mit $ x_{ij} = v_i \cdot v_j$
+
+d.h. wir wir können SDP schreiben als
+$$\begin{rrclr}
+\max & \underset{i,j}{\sum} c_{ij} v_i v_j\\
+s.t. & \underset{i,j} a_{ij}^{(k)} v_i v_j &=& c_k & \text{für }k=1,...,m\\
+   & v_1,..,v_n & \in & \mathbb{R}^n
+\end{lcl}$$
+
+Wir haben also eine relaxierung für unsere QPs gefunden.\\
+
+\subsection{Lösung von SDP}
+SDP kann man auch mit dem Elispoid Algorithmus lösen, da Elipsoid nicht nur für LPs funktioniert,
+sondern für eine größere Klasse von optimierungs Problemen.\\
+
+Elipsoid benutzt ein "Trennungsorakel", dass gegeben ein Punkt sagen kann, ob ein Punkt feasable ist,
+und einen Beweis angibt, warum er nicht feasable ist. Sobald man so eine Funktion deklarieren kann
+funktioniert Elispoid.\\
+
+Dies gilt für LPs und SDPs. (In die Bedingungen einsetzen.)\\
+
+DIes bedeutet für uns, dass wir das ganze bis auf ein $\varepsilon$ genau lösen können.
+
+\subsection{Max - Cut}
+
+\textbf{Gegeben} $G(V,E)$ ungerichtet, ungewichtet (so einfach wie möglich).\\
+\textbf{Gesucht} $S \subset V$ mit $ # \delta(S)$ Maximum.\\
+
+Eine $\frac{1}{2}$ - apx haben wir in der VL schon gesehen (random, local search, greedy).\\
+
+\begin{enumerate}[Schritt 1]
+   \item Formuliere MAX-CUT als QP\\
+      1 Variale $x_v$ pro Knoten 
+      $x_v = \left\{ \begin{matrix} -1 &,\text{wenn } v \in S \\ 1 & , \text{sonst}\right.$\\
+      und also soll gelten $x_v^2 = 1$.\\
+
+      $$\begin{array}{rrclr}
+         \max & \underset{\{u,v \} \in E}{\sum} \frac{1-x_ux_v}{2}\\
+         s.t. & x^2_v &=& 1 & \text{ für alle }v\in V
+      \end{array}$$
+
+      Stellt nun MAXCUT dar.
+   
+   \item SDP Relaxierung\\
+      $$\begin{array}{rrclr}
+        \max & \underset{\{u,v\} \in E}{\sum} \frac{1-V_vV_u}{2}\\
+         s.t. & V_v \cdot V_v &=& 1 & \text{ für alle }v \in V\\
+         & V_v &\in & \mathbb{R}^n 
+      \end{array}$$
+
+   \item Löse SDP und erhalte Vektoren $V_{v_1}^*, ..., V_{v_n}^*$
+
+   \item Interpetiere $V_{v_i}^*$.\\
+      Was soll das Ergebnis eigentlich bedeuten?\\
+      Wir wissen, dass alle Vektoren $V_{v_i}$ Einheitsvektoren sind.\\
+      Wir betrachten nun in der Zielfunktion $\frac{1-V_{v_i}V_{v_j}}{2}$.
+      Da das Skalarprodukt ist negativer (bis zu -1) je weiter die beiden Vektoren
+      von einander Weg zeigen. (Wenn sie einen Winkel von $180^\circ$ Grad einschließen,
+      wollen wir die Kante unbedingt.\\
+
+      Dieses Ergebniss können wir nun runden.
+
+   \item Schnitt runden\\
+      Wir nehmen eine zufällige Hyperebene, schneiden so den Einheitskreis, der von
+      den Vektoren aufgespannt wird, und nehmen die Vektoren links der Ebene in den Schnitt.
+      
+\end{enumerate}
+
+
+\end{document}
