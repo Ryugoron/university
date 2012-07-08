@@ -1,0 +1,36 @@
+\subsection*{\itshape~The Algorithm}
+
+We will solve this problem by applying the Primal-Dual-Method.\\
+
+The algorithm will work as follows:\\
+We start with an empty set of edges. Next we will iterate over all $lca(s_i,t_i)$ for every $1 \leq i \leq k$
+from the one with the highest depth to the lowest one. Next we try to increment the flow $y_i$
+of the given vertex $lca(s_i,t_i)$ we took, until some constraint is met with equality. This edge
+we will then take into the solution set. In the last step we will remove, this time from the root to the
+bottom, every edge $e \in F$, such that $F \setminus \{e\}$ stays feasible.\\
+
+Let $\mathcal{A}$ be the following algorithm\\
+
+\begin{lstlisting}[language=Pascal]
+F $\leftarrow \emptyset$
+I $\leftarrow \{1,..,k\}$
+$y_i$ $\leftarrow 0 \quad \forall i \in I$
+t $\leftarrow$ 0
+WHILE $I \not = \emptyset$ connected DO
+   t $\leftarrow$ t + 1
+   i $\leftarrow \underset{j \in I}{\text{argmax}}\; lca(s_j,t_j)$
+
+   $e_t$ $\leftarrow \underset{e_ot \in P_i}{\text{argmin}} \{ c_{e_o}-\underset{j:e_o\in P_j}{\sum} y_j\}$
+
+   $\Delta$ $\leftarrow c_{e_t} - \underset{j : e_t \in P_j}{\sum} y_j$
+
+   $y_i$ $\leftarrow y_i + \Delta$
+   I $\leftarrow I \setminus \{ j \; | \; e_t \in P_j\}$
+   F $\leftarrow F \cup \{e_t\}$
+   
+   R $\leftarrow F$
+FOR z FROM k DOWNTO 1 DO
+   IF $R \setminus \{e_z\}$ is feasable THEN
+      R $\leftarrow R \setminus \{e_z\}$
+RETURN R
+\end{lstlisting}

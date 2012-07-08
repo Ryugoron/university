@@ -1,0 +1,69 @@
+\subsection*{The Proof}
+
+In this part we will show, that the follwoing holds\\
+
+\begin{lemma}\label{multcut:runtime}\mdseries\itshape
+The algorithm $\mathcal{A}$ has a runtime in $P$.
+\end{lemma}
+\begin{lemma}\label{multcut:apx}\mdseries\itshape
+The algorithm $\mathcal{A}$ is a 2-approximation-algorithm
+for the multicut problem in trees.
+\end{lemma}
+
+\begin{description}
+   \item{\bfseries\itshape~Proof ~\ref{multcut:runtime}:}\\
+      We see, that we have at most $k$ iterations of the while loop,
+      because we cut every iteration at least one pair.\\
+      In each iteration we first search the maximal depth, which we can
+      obtain in $k \log \, k$ overall iterations (MaxHeap).\\
+      We can optain the $e_t$ in P time. The path from $s_i$ to $t_i$
+      is for every pair at most $n = |V|$ (-1). This is the amount
+      of elements we have to search for the minimum next.\\
+      For each of these $n$ elements we have to find all Path $P_j$
+      that contains the observed edge. This can be done in ineffciently in
+      $k \cdot n$ for every edge (k Paths maximal and n elements in each).
+      So we find the $e_t$ in $O(n^2 k)$. $\Delta$ can be found in less
+      time as easily seen. The rest of the actions needs constant time,
+      or at least less than the given.\\
+      So the first loop has runtime $O(n^2k^2)$. The next loop checks, for
+      pair, whether we can delete one of the at most $k$ taken edges.\\
+      We can loop at each path in $O(n)$ of $k$ paths and this at most $k$ times
+      which leads us to $O(nk^2)$.\\
+      So this algorithm runs in $O(n^2k^2)$ which obviosly lays in P.
+
+   \item{\bfseries\itshape~Proof ~\ref{multcut:apx}:}\\
+      At first we observe, that $F$ is feasable.\\
+      In line 5 of the algorithm, the loop terminates, only
+      if there exists no pair of vertices in the set $I$.\\
+      In the loop body we remove an index only if we met one
+      edge with equality in the dual. Due to complemantry slagness rule
+      we know, that we have the edge in the Primal and so we removed an
+      edge from the unique way from a the pair $i$.\\
+      We conclude, that the set $F$ was feasable after the first loop.
+      The seconde loop, will only remove an edge, if the set still remains feasable.\\
+      So the resulting set $R$ must be feasable.\\
+
+      To proof the approximation we will show the following
+      \begin{lemma}\label{multcut:lcaedge}\mdseries\itshape
+         For any $y_i > 0$ ,$1\leq i \leq k$, $|R \cap P_i| \leq 2$ holds,
+         that is for any non-zero flow there are at most 2 edges in $F$ on the flow-path $P_i$.
+      \end{lemma}
+
+      \begin{lemma}\label{multcut:ipres}\mdseries\itshape
+         For $R \subset E$  $\sum_{e \in R} c_e \leq 2OPT$ holds.
+      \end{lemma}
+
+      \begin{description}
+         \item{\bfseries Proof ~\ref{multcut:lcaedge}:}
+            Suppose $y_i$ set to nonzero while we consider 
+            $v := lca(s_i,t_i)$. Therefore no edge of $P_i$ has been cut before.
+	Any $P_j$, $j \neq i$, considered afterwards has its $lca(s_j,t_j)$  
+            in the same depth or lower than $v$. If $P_j$ shares an edge with $P_i$, $v$ has to be contained in $P_j$. 
+            Thus if we cut a new edge $e$ for $P_j$ which is on $P_i$, any edge below $e$ on $P_i$ can be removed from the 		cut (this is done by the Algorithm in the end), since they are not neccessary for any previous Pair of vertices and $P_i$ will be obviously cut by $e$. This can 		happen on both sides of $v$ therefore there are at most 2 edges of $P_i$ in $R$.
+
+         \item{\bfseries Proof ~\ref{multcut:ipres}:}
+	         $$ \sum_{e \in R} c_e =\sum_{e \in R} \sum_{i : e \in P_i} 
+            y_i = \sum_{1 \leq i \leq k} |P_i \cap R| y_i \leq 2 \sum_{1 \leq i \leq k} y_i \leq 2OPT$$
+            This follows by construction, Claim ~\ref{multcut:lcaedge} and duality.
+      \end{description}
+\end{description}
