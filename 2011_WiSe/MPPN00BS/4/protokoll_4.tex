@@ -180,7 +180,101 @@ Die ISR für den Taster setzt den Watchdog-Zähler zurück und schaltet die LED 
 Die groß geschriebenen Konstanten beziehen sich auf die Defintionen aus Aufgabe A 1.1.6.
 \end{description}
 
+\section*{A 4.3 Touchscreen}
+\begin{description}
+\item[A 4.3.1] Der Touchscreen soll als Taste genutzt werden. Unter Nutzung eines Interrupts soll auf einen Druck auf das Touchscreen die Anzahl der bisherigen Betätigungen angezeigt werden. Genauer:
+\begin{itemize}
+\item Ist während des Drucks des TS der Taster P1.0 gedrückt, soll der Zähler heruntergezählt werden 
+\item Ist während des Drucks des TS der Taster P1.1 gedrückt, soll der Zähler hochgezählt werden
+\item Ist während des Drucks des TS kein Taster gedrückt, soll die LED P4.1 getoggelt werden.
+\end{itemize} 
+Außerdem soll für die Dauer des Drucks auf P1.0 bzw. P1.1 die LED P4.0 bzw. P4.2 eingeschaltet sein.
 
+Um die Anzahl der Betätigungen zu speichern, legen wir uns eine Zählvariable an. Hierbei soll auch negativ gezählt werden können. Für den Ausgabetext auf dem LCD wird ein Stringbuffer \texttt{ausgabe431} angelegt. \\
+Die \text{init}-Funktion ist ein wenig größer geworden, da wir vorbereitend für die Abfrage des Touchevents einige Register setzen müssen. Außerdem werden die Register für die Taster, die LEDs und den Interrupt für den TS gesetzt. Genaueres ist im Code in der jeweiligen Zuweisung erklärt:
+
+\begin{lstlisting}
+int counter431 = 0;
+char ausgabe431[4];
+
+void init431() {
+	// Taster init:
+	P1DIR &= ~(0x03);
+	P1SEL &= ~(0x03);
+	// LED init:
+	P4DIR |= (0x07);
+	P4SEL &= ~(0x07);
+	P4OUT |= 0x07;
+	// Touch init (siehe Beispielcode auf der Seite)
+	TS_TIP_DIR_IN;
+	TS_YP_DIR_IN; TS_YM_DIR_IN;
+	TS_XP_DIR_IN; TS_XM_DIR_IN; 
+	TS_TIP_1; // YP Y-Achse wird ueber einen PullUp Widerstand auf 1 gezogen
+	TS_XM_0; // XM X-Achse wird auf 0 gesetzt
+	// Die Ausgaenge jetzt freigeben
+	TS_TIP_DIR_OUT; // YP auf 1
+	TS_XM_DIR_OUT;  // XM auf 0
+	// Interrupts setzen
+	P1IE |= ((0x01) << 6); // Interrupts fuer P1.6
+	P1IES |= ((0x01) << 6); // HL-Flanke fuer P1.6
+	// LCD clearen
+	lcd_clear(WHITE);
+	lcd_paint();
+	// initial P4.1 an
+	P4OUT &= ~(0x02);
+}
+\end{lstlisting}
+
+Um während eines Tasterdrucks auf P1.0 bzw. P1.1 die jeweiligen LEDs anzuschalten, wird folgender Code in der \texttt{main}-loop ausgeführt:
+
+\begin{lstlisting}
+void aufgabe431() {
+	//Polling von P1.0 und P1.1
+	// Links gedrueckt?
+	if (P1IN & 0x01) {
+		P4OUT &= ~((0x01)<<2);
+	} else {
+		P4OUT |= 0x01<<2;
+	} 
+	// Rechts gedrueckt?
+	if (P1IN & 0x02) {
+		P4OUT &= ~(0x01);
+	} else {
+		P4OUT |= 0x01;
+	}
+}
+\end{lstlisting}
+
+Hier wird, wie üblich, je nach Tastendruck die richtige LED eingeschaltet bzw. ausgeschaltet, falls der Taster nicht mehr gedrückt wird.
+\newpage
+Die ISR für den Touchscreen fragt entsprechend nach einer ausgelösten HI-LO-Flanke, ob der linke bzw. der rechte Taster gedrückt ist und entscheidet damit, ob der Zähler hoch- oder runtergezählt wird, oder die LED P4.1 getoggelt werden soll (falls keine Taste gedrückt).
+\begin{lstlisting}
+#pragma vector = PORT1_VECTOR
+__interrupt void touch (void) {
+	if (P1IFG & 0x40) {
+		// Touchscreen gedrueckt
+		if (P1IN & 0x01) {
+			//P1.0 gedrueckt, counter runter
+  		--counter431;
+		} else if (P1IN & 0x02) {
+			//P1.1 gedrueckt, counter hoch
+			++counter431;
+		} else {
+			//P4.1 toggeln
+			P4OUT ^= (0x02);
+		}
+		sprintf(ausgabe431, "%i", counter431);
+		lcd_clear(WHITE);
+		lcd_string(BLACK, 10, 10, ausgabe431);
+		lcd_paint();
+	}
+	CLEAR(P1IFG, 0xFF);
+}
+\end{lstlisting}
+
+Die Funktionen zum Schreiben auf den Touchscreen wurden dem Rahmenwerk entnommen und können nach Import von \texttt{HW\textunderscore LCD.h} genutzt werden.
+Dabei löscht \texttt{lcd\textunderscore clear} den Displayinhalt, \texttt{lcd\textunderscore  string} schreibt eine Zeichenkette an eine bestimmte Position und \texttt{lcd\textunderscore paint} übernimmt die zuvor gemachten Änderungen.
+\end{description}
 
 \label{LastPage}
 \end{document}
