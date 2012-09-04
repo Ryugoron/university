@@ -53,7 +53,29 @@
 	
 	\textbf{Vervollständigung der Funktion \lstinline|init_UART1()| aus show: init.c}
 	
-	
+\begin{lstlisting}
+void init_UART1(void)
+{
+	P3SEL |= (0x03) << 6;				// USART RX und TX 
+															// dem Modul zuweise 
+	U1CTL |= SWRST; 						// Reset
+		// Char-Format 8N1
+	U1CTL &= ~PENA; 						// No Parity Bit
+	U1CTL |= CHAR; 							// 8 Datenbit
+	U1CTL &= ~SPB; 							// 1 Stoppbit
+		// Char-Format ende
+	U1TCTL |= (SSEL0 + SSEL1);	// Taktquelle SMCLK
+	U1BR0 = 64;  								// Teiler Low-Teil, da 7372800/64 
+															// da wir so ca die Baudrate von 
+															// 115200 Bit/s erreichen
+	U1BR1 = 0;									// Teiler High-Teil 
+	U1MCTL = 0; 								// Modulationskontrolle
+	ME2 |= (UTXE1 + URXE1);			// Enable USART1 TXD/RXD
+	U1CTL &= ~SWRST;	 					// Reset
+	IE2 |= (UTXIE1 + URXIE1);		// Enable Interrupt
+}
+
+\end{lstlisting}
 
 \item[7.1.2] Entwickeln Sie ein kleines Programm, welches aus Tastendruck P1.0 das Zeichen '?' über die UART zum PC schickt. Auf dem PC muß zum Empfang des Zeichens ein Terminalprogramm mit den entsprechenden Parametern gestartet werden.
 
