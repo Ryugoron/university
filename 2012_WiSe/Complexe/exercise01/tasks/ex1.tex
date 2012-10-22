@@ -1,0 +1,64 @@
+\section*{Exercise 1}
+
+Sei $n$ die Anzahl der verschiedenen Sammelbilder. Sei $X$ Zufallsvariable für die Anzahl der benötigten Packungen Müsli, bis wir alle $n$ Sammelbilder haben. Die Wahrscheinlichkeit für ein bestimmtes Bild ist gleichverteilt.
+
+%% ----------------------------------------------------
+%%                          1 a)
+%% ----------------------------------------------------
+
+\subsection*{(a)}
+
+$E[X]$ soll die Anzahl der Runden sein, bis man alle Bilder hat. $E[ X_i ]$ soll beschreiben, wie viele Runden man in Runde $i$ braucht, das heißt wie viele Runden wir von $i-1$ bis $i$ Bilder brauchen. Nun brauchen wir alle Bilderkarten $n = \overset{n}{\underset{i=1}{\sum}} i$.Die Zufallsvariable $X_i$ beschreibt die Anzahl der Runden, das heißt für alle Runden brauchen wir $X = \overset{n}{\underset{i=1}{\sum}} X_i$.\\
+Nach der Linearität des Erwartungswertes gilt:\\
+$$E[ X ] = E \left[ \sum_{i=1}^{n} X_i \right] = \sum_{i=1}^{n} E[ X_i ]$$
+
+
+%% ----------------------------------------------------
+%%                          1 b)
+%% ----------------------------------------------------
+
+
+\subsection*{(b)}
+
+Als erstes zeigen wir, dass wir für $E[X_i]$ eine geometrische Verteilung ist, d.h. das gilt:
+$Pr(X_i = k) = (1 - p_i)^{k-1}\cdot p_i$ \\
+
+Gehen wir unseren Wahrscheinlichkeitsbaum hinunter haben wir jedesmal die möglichkeit, dass wir eine Karte bekommen, die wir schon haben oder wir bekommen eine neue. Eine neue Karte erhalten wir mit $p_i$, dass heißt, wenn wir keine Karte bekommen, haben wir jedesmal den Zweig mit den $1-p_i$ genommen, der Gegenwahrscheinlichkeit. Erhalten wir nun in der $k$ten Runde eine neue Karte, so müssen wir in den $k-1$ Runden vorher keine erhalten haben. $\Rightarrow Pr(X_i = k) = (1-p_i)^{k-1} \cdot p_i$.\\
+Wir haben für $E[X_i]$ eine geometrische Verteilung.
+
+$E[X_{i}]=\frac{1}{p_{i}}$, mit $p_{i}$ Wahrscheinlichkeit ein neues
+Bild (das $i$-te Bild) zu erhalten.
+
+Für $p_{i}$ ergibt sich $p_{i}=\frac{n-i+1}{n}$, da wir in Runde
+1 eine Wahrscheinlichkeit von $p_{1}=\frac{n-1+1}{n}=1$, in Runde
+2 $p_{2}=\frac{n-2+1}{n}=\frac{n-1}{n}$, etc. haben, ein neues Bild
+zu erhalten.
+
+Dann ist
+
+\[
+E[X_{i}]=\frac{1}{p_{i}}=\frac{1}{\frac{n-i+1}{n}}=\frac{n}{n-i+1}
+\]
+
+
+%% ----------------------------------------------------
+%%                          1 c)
+%% ----------------------------------------------------
+
+
+\subsection*{(c)}
+
+
+z.z.: $E[X]=O(n\, log\, n)$
+
+\[
+E[X]\stackrel{(a)}{=}\sum_{i=1}^{n}E[X_{i}]\stackrel{(b)}{=}\sum_{i=1}^{n}\frac{n}{n-i+1}=n\sum_{i=1}^{n}\frac{1}{n-i+1}
+\]
+
+
+\[
+\stackrel{(*)}{=}n\sum_{i=1}^{n}\frac{1}{i}=n\cdot O(log\: n)=O(n\, log\, n)
+\]
+
+Nun ist $(*)$ eine einfache Umsortierung der Elemente der Summe, (die wir vornehmen können, weil die Summe endlich ist) indem
+wir die Elemente von unten nach oben aufsummieren anstatt anders herum.
