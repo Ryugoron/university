@@ -1,3 +1,120 @@
 \section*{Exercise 2}
 
-Blabla. Knapsack Problem.
+In the knapsack problem, we are given $n$ items. Each item has a \emph{weight} $g_i$ and a \emph{value} $w_i$.
+Furthermore , we have a maximum weight $G$. All inputs are positive integers.\\
+
+We would like to find a set $I \subseteq \{ 1,...,n \}$ of items, such that the total value
+$\underset{i \in I}{\sum} w_i$ is maximum, subject to the constraint that the total weight is at most
+$G$, meaning $\underset{i \in I}{\sum} g_i \leq G$.
+
+\begin{description}
+
+\item{(a)} Define an appropriate decision version for the knapsack problem and show that it is NP-complete.\\
+
+\textbf{Solution:}\\
+
+We choose the canonical extension of an optimisation problem to a decision problem. Let the defined variables
+be as the the optimisation problem. Than take an additional positive Integer $K$.\\
+
+The decision question is now, does there exist a set $I \subseteq \{ 1, ... , n \}$, such that
+$\underset{i \in I}{\sum} w_i \geq K$ and $\underset{ i \in I}{\sum} g_i \leq G$.
+
+\begin{lemma}\label{cmp:ex1:knap:np}
+The decision problem for the knapsack problem is NP-complete.
+\end{lemma}
+
+\textbf{proofsketch \ref{cmp:ex1:knap:np}.}\\
+
+The knapsack problem is in NP. To show that, suppose $I$ is an optimal solution to the problem. It is
+linear in the input size, therefore acceptable. We now may check in polynomial time, that the weight
+constraint is met, and that the summed value is bigger than $K$.\\
+
+To reduce subset-sum to knapsack we choose the following transformation. Let $S$ be the set of
+positive integers for subset-sum and $T$ a value. The question for knapsack is now, does there exist
+a subset $O \subseteq S$ such taht $\underset{i \in O}{\sum} i = T$.\\
+
+The reduction now sets $w_i = g_i = i$ for all $i \in S$ and $G = K = T$ for the goal values. One can
+easily see, that the reduction can be done in lineare time, thus it can be computed in polynomial time. \\
+
+Knapsack run on this input will now hold the following. If there exists a set $I$ that satisfies the constraints
+$\underset{ i \in I}{\sum} w_i = \underset{i \in I} i \geq K$ and $\underset{i \in I}{\sum} g_i = \underset{i \in I}{\sum} i \leq K$.
+Thus if we set $O = I$ $\underset{i \in O}{\sum} i = T$ holds.
+
+If no solution existed in the original problem, than we cannot find a solution in the reduction, because both sums
+will sum up to exactly the same. So one of the constraints cannot be true.
+
+\item{(b)}
+
+Let $W := \underset{i=1}{\overset{n}{\sum}} w_i$. Show that the knapsack problem can be solved in $O(nW)$ time. Why does this not
+contradict \emph{(a)}?\\
+
+\textbf{Solution:}\\
+
+We proof this by giving a dynamic program, we used in approximation algorithms.
+\footnote{Exercise 1 b) / c) are done with notes to Approximation algorithm (SoSe 2012) and the Book "Design of Approximation algorithms".}
+We construct an Array $A$ of sets of tupel. A tupel $(t,w) \in A(j)$ means. There exists a 
+subset $I \subseteq \{1,..,j \}$, such that $\underset{i \in I}{\sum} w_i = w$ and $\underset{i \in I}{\sum} g_i = t$.\\
+
+Furthermore we introduce a \emph{domination} relation. A tupel $(t,w)$ dominates another tupel $(t',w')$, iff $t \leq t'$ and $w \geq w'$.
+(Means we can get a bigger value with less weight).
+Observe, that we can have at most $G+1$ and $W+1$ tupels in $A(j)$ for any $j\leq n$, because otherwise there is a tupel $(t',w') \in A(j)$
+that is dominated by another tupel.
+Next we assume, that we can put any item in the bag itself. If not, we can throw them away.
+
+\begin{lstlisting}
+A(1) $\leftarrow$ {(0,0),($g_1$,$w_1$)}
+for j $\leftarrow$ 2 to n do
+    A(j) $\leftarrow$ A(j-1)
+    for each (t,w) $\in$ A(j-1) do
+        if t + $g_j$ $\leq$ G then
+            A(j) $\leftarrow$ A(j) $\cup$ {(t + $g_j$, w + $w_j$)}
+    Remove dominated pairs
+return $\underset{(t,w)\in A(n)}{\max}$ w
+\end{lstlisting}
+
+In each iteration we make a constant number of steps for each element of the previous set of tupels. We showed, that in any set $A(j)$ we can bound
+the number of tupels by $\min \{ G + 1, W + 1 \}$. We iterate in the outer loop for any element in our bag. \\
+
+Therefore we can write, that the runtime of our algorithm lies in $O(nW)$. (If $G$ is smaller than $W$ our estimation is to big, but still holds).\\
+
+This solution does not contradict with $(a)$ because $W$ is epxonantial in the inpu size (which is $log \, W$). The algorithm is pseudo-polynomial.
+
+\item{(c)}
+
+For the $(1 - \varepsilon)$ - approximation we also use a trick learned in approximation algorithms, based on the algorithm of $(b)$.\\
+
+The trick is to round the values of $w_i$, so we do not have to look at each single value.\\
+
+We assign new values by the following scheme
+
+\begin{lstlisting}
+M $\leftarrow$ $\max_{i\in I} w_i$
+$\mu$ $\leftarrow$ $\varepsilon \frac{M}{n}$
+w_i' $\leftarrow$ $\lfloor w_i / \mu \rfloor$ for all $i \in S$
+\end{lstlisting}
+
+and run the algorithm from $(b)$ on it.
+With the modified Values we now get
+$$
+W' = \underset{i=1}{\overset{n}{\sum}} w_i' = \underset{i=1}{\overset{n}{\sum}} \left\lfloor \frac{w_i}{\varepsilon M/n} \right\rfloor = O(\frac{n^2}{\varepsilon}).
+$$
+Because now $W'$ is polynomial in $n$ and $\varepsilon$ it is strictly smaller than $B$ which is exponantial in the input size. So the runtime of our algorithm
+is $O(n^3 \cdot \frac{1}{\varepsilon})$, which is in $poly(n,\frac{1}{\varepsilon})$.\\
+
+Leaves us to proof, that the algorithm is a $(1-\varepsilon)$ - approximation.
+Let $I$ be the set which gives us the optimal solution on $W$ and $O$ the set, that gives use the optimal solution on $W'$ the rounded values.\\
+
+First observe, that $M \leq OPT$, because we can always can take the most valueable item. The rounding of the values gives us the estimation 
+$ \mu w_i' \leq w_i \leq \mu (w_i' + 1)$ wich leads us to $\mu w_i'  \geq w_i - \mu$.
+
+$$\begin{array}{rcl}
+    \underset{i \in O}{\sum} w_i &\geq& \mu \underset{i \in O}{\sum} w_i'\\
+        &\geq& \mu \underset{i \in I}{\sum} w_i'\\
+        &\geq& (\underset{i \in I}{\sum} w_i) - |I|\mu\\
+        &\geq& (\underset{i \in I}{\sum} w_i) - n \mu\\
+        &=& (\underset{i \in I}{\sum} w_i) - \varepsilon M\\
+        &\geq& OPT - \varepsilon OPT = (1-\varepsilon) OPT
+\end{array}$$ 
+
+We can conclude, that our algorithm is an FPTAS for the knapsack problem.
+\end{description}
