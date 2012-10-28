@@ -1,0 +1,47 @@
+\subsection*{\itshape 2. Vollständigkeit von Funktionsräumen}
+
+Für $E \subset \mathbb{R}^n, E \not= \emptyset$ setzen wir
+$$
+    B(E) := \{ f \, : \, E \rightarrow \mathbb{R} \; | \; f \text{ ist beschränkt} \}.
+$$
+
+Ferner definieren wir für zweit Funktionen $f,g \, : \, E \rightarrow \mathbb{R}$ ihren Abstand
+$$
+    d(f,g) := \underset{x \in E}{\sup} |f(x) - g(x)|.
+$$
+
+Zeigen Sie, dass $(B(E),d)$ vollständig ist.\\
+
+\textbf{Lösung:}\\
+
+Als erstes müssen wir zeigen, dass es sich bei $(B(E),d)$ um eine Metrik handelt.
+\begin{enumerate}[1.]
+    \item $\forall f,g \in B(E) \; : \; d(f,g) \geq 0$.\\
+        Dies gilt trivialerweise, da $\forall x \in \mathbb{E} \; : \; |f(x) - g(x)| \geq 0$, da es sich um
+        die Betragsfunktion handelt.\\
+        $\forall f,g \in B(E) \; : \; d(f,g) = 0 \Leftrightarrow f = g$.\\
+        $<=$:\\
+            Wenn $f=g$ gilt, dass gilt insbesondere $\forall x \in E \; : \; f(x) = g(x)$.
+            Daher ist $M = \{ |f(x) - g(x)| \; , \; x \in E\} = \{ 0 \}$ und $\sup M = 0$.\\
+        $=>$:\\
+            Da $d(f,g) \geq 0$ wissen wir, dass $\forall x \in E \; : \; f(x) - g(x) = 0$ gelten muss.
+            Gäbe es nur einen Wert, der $\not= 0$ ist, so wäre das $\sup > 0$.\\
+            Nun folgt daraus aber, dass $\forall x \in E \; : \; f(x) = g(x) \Rightarrow f = g$.
+    \item $\forall f,g \in B(E) \; : \; d(f,g) = d(g,f)$.\\
+        Dies folgt aus der Symmetrie von $|a - b| = |b - a| \forall a,b \in \mathbb{R}$.
+    \item $\forall f,g,h \in B(E) \; : \; d(f,g) \leq d(f,h) + d(h,g)$\\
+        Sei $(x_n)_{n\in\mathbb{N}}$ eine Folge, so dass $\underset{n \rightarrow \infty}{\lim} |f (x_n) - g(x_n)| = d(f,g)$,
+        $(y_n)_{n\in\mathbb{N}}$ eine Folge, so dass $\underset{n \rightarrow \infty}{\lim} |f(y_n) - h (y_n)| = d(f,h)$,
+        und $(z_n)_{n\in\mathbb{N}}$ eine Folge, so dass $\underset{n \rightarrow \infty}{\lim} |h (z_n) - g(z_n)| = d(h,g)$.\\
+
+        Nun gilt $\underset{n \rightarrow \infty}{\lim} |f (x_n) - g (x_n) | \leq \underset{n \rightarrow \infty}{\lim} | f(x_n) - h (x_n) | + | h(x_n) - g(x_n)|$,
+        da $\underset{n \rightarrow \infty}{\lim} |f(x_n) - h(x_n)| \leq |f(y_n) - h(y_n)|$ und für $z_n$ ebenso gilt, da die Folgen,
+        als das supremum definiert waren und alle Funktionen in unserem Raum beschränkt sind. Es kann also kein größeren Wert geben.
+\end{enumerate}
+
+Sei nun $(f_n)_{n \in \mathbb{N}}$ Cauchy - Folge beliebig, aber fest.\\
+Als erstes zeigen wir, dass die Folge $(f_n)_{n\in\mathbb{N}}$ konvergiert.\\
+Nach definition einer Cauchyfolge, gilt $\exists n_0 \in \mathbb{N} \forall n,m > n_0 \; : \; d(f_n,f_m) < \varepsilon$.
+Da es sich nun bei $d(f_n,f_m)$ um einen Wert in $\mathbb{R}$ handelt, konvergiert die Reihe in $\mathbb{R}$.\\
+
+Sei nun $x \in E$ beliebig, aber fest.
