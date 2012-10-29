@@ -1,0 +1,86 @@
+\section*{Exercise 1 \mdseries Collecting Stickers}
+
+Let $n$ be the amount of different Twilight stickers and $X$ be the random variable representing the the required number of bags to achieve all $n$ stickers.
+The stickers are distributed uniformly in the bags.\\
+We would like to find the expected value $E[X]$.
+
+%% ----------------------------------------------------
+%%                          1 a)
+%% ----------------------------------------------------
+
+\subsection*{(a)}
+
+Let $X_i$ be the random variable that represents the length of round $i$, where a round $i$ ends, if we achiev a sticker, different from the $i+1$ we
+achieved thus far.
+
+\begin{lemma}\label{ex1:t1:linearity}
+    In the context $E[X] = \overset{n}{\underset{i=1}{\sum}} E[X_i]$ holds.
+\end{lemma}
+
+\textbf{Proof \ref{ex1:t1:linearity}.}\\
+For $i \not= j$ the events $X_i, X_j$ are independend, because the events take place striklty after another. And a later round does not
+depenend on the length of any previous round or the sticker taken.\\
+We than now, that after round the first $i$ rounds we have $i$ different stickers. After $n$ rounds we then have all stickers.
+The amount of bags needed is then the sum of the length of all rounds.\\
+$$
+    E[X] = E \left[ \sum_{i=1}^{n} X_i \right] \stackrel{Lin.}{=} \sum_{i=1}^{n} E [X_i]
+$$
+\mbox{} \hfill $\square$
+
+%% ----------------------------------------------------
+%%                          1 b)
+%% ----------------------------------------------------
+
+
+\subsection*{(b)}
+
+\begin{lemma}\label{ex1:t1:rounds}
+    In the context $E[X_i] = \frac{n}{n-i+1}$ holds.
+\end{lemma}
+
+\textbf{Proof \ref{ex1:t1:rounds}.}\\
+First we show, that $E[ X_i ]$ is geometric distributed, meaning\\
+$Pr (X_i = k) = (1 - p_i)^{k-1} \cdot p_i$ holds,
+where $p_i$ is the possibility to get a new card.\\
+
+The event $X_i$ is described as the first time, we achieve a new card. If $X_i = k$ the first $k-1$ bags
+may not contain a new card, which is the complementary event with possibility $(1- p_i)$.\\
+
+In terms of possibily $Pr(X_i = k) = (1 - p_i)^{k-1} \cdot p_i$ holds.\\
+
+Because $E [X_i ]$ is geometric distributed we now conclude
+$E[ X_i ] = \frac{1}{p_i}$.\\
+
+In the last step we now, that we already have $i-1$ stickers in the $i$-th round. So the possibility
+in a uniform distribution to get a new sticker is $p_i = \frac{n - i + 1}{n}$.\\
+By the previous formula the claim $E[ X_i ] = \frac{n}{n - i + 1}$ follows.
+
+\mbox{} \hfill $\square$
+%% ----------------------------------------------------
+%%                          1 c)
+%% ----------------------------------------------------
+
+
+\subsection*{(c)}
+
+\begin{lemma}\label{ex1:t1:expected}
+    For the task $E[X]=O(n\, log\, n)$ holds.
+\end{lemma}
+
+
+\textbf{Proof \ref{ex1:t1:expected}.}\\
+\[
+E[X]\stackrel{(a)}{=}\sum_{i=1}^{n}E[X_{i}]\stackrel{(b)}{=}\sum_{i=1}^{n}\frac{n}{n-i+1}=n\sum_{i=1}^{n}\frac{1}{n-i+1}
+\]
+
+
+\[
+\stackrel{(*)}{=}n\sum_{i=1}^{n}\frac{1}{i}=n\cdot O(log\: n)=O(n\, log\, n)
+\]
+
+
+In the step $(*)$ we reordered the sum, because in the first one we summed $\frac{1}{n} + \frac{1}{n-1} + ... + 1$ and in the second one
+we sum $1 + \frac{1}{2} + ... + \frac{1}{n}$. We can simply do this, because the sum is well defined (we only sum a finite amount
+real numbers).
+
+\mbox{} \hfill $\square$
