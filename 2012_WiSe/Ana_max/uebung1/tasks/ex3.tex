@@ -12,9 +12,50 @@ Zeigen Sie:
 $<x,y> \leq \| x \| \| y \|$\\
 \textbf{Lösung:}\\
 
+Seien $x, y \in X$ und $t \in \mathbb{R}$.\\
+
+Sei $g(t) = <x + ty, x + ty> = <x,x> + 2t <x,y> + t^2 <y,y>$.\\
+Aus der ersten characterisierung mit $z = x + ty$ erhalten wir
+$g(t) = <z,z> \geq 0$, da es sich um ein Skalarprodukt handelt.
+
+Nun leiten wir $g$ nach $t$ ab, was
+$g'(t) = 2t <y,y> + 2 <x,y>$ ergibt und bestimmen das minimum.
+(Es ist ein Minimum, da $<y,y> \geq 0$.)\\
+$$\begin{array}{lrcl}
+    & 0 &=& g'(t_0)\\
+\Leftrightarrow & 0 &=& 2t_0 <y,y> + 2 <x,y>\\
+\Leftrightarrow & t &=& - \frac{<x,y>}{<y,y>}
+\end{array}$$
+Hier ist zu beachten, dass im Fall $<y,y> = 0$ gilt, dass $<x,y> = 0$ gelten muss, womit die
+Gleichung trivialier Weise erfüllt ist. Wir können also $<y,y> > 0$ im folgenden Annehmen.\\
+
+Dies setzten wir nun erneut in $g(t)$ ein:
+$$\begin{array}{lrcl}
+&   0       &\leq& g(t_0)\\
+&           &=& <x,x> - 2 \frac{<x,y>}{<y,y>}\cdot <x,y> + \frac{<x,y>^2}{<y,y>}\\
+&           &=& <x,x> - \frac{<x,y>^2}{<y,y>}\\
+&           &=& \| x \|^2 - \frac{<x,y>^2}{\| y \|^2}\\
+\Leftrightarrow& \| x \|^2 & \geq & \frac{<x,y>^2}{\| y \|^2}\\
+\Leftrightarrow& \| x \|^2 \cdot \| y \|^2 &\geq& <x,y>^2\\
+\Leftrightarrow& \| x \| \| y \| & \geq & <x,y>
+\end{array}$$
+
+\mbox{}\hfill$\square$
+
 \subsubsection*{(ii)}
 $\| x + y \| \leq \| x \| + \| y \|$\\
 \textbf{Lösung:}\\
+
+
+Der Beweis ist durch (i) straight-forward.
+$$\begin{array}{rcl}
+    \| x + y \| &=& \sqrt{ < x + y, x + y> }\\
+                &=& \sqrt{ <x, x + y> + <y , x + y> }\\
+                &\stackrel{(i)}{\leq}& \sqrt{\| x \|^2 + 2 \| x \| \| y \| + \| y \|^2 }\\
+                &=& \sqrt{ (\| x \| + \| y \|)^2 }\\
+                &=& \| x \| + \| y \|
+\end{array}$$
+\mbox{}\hfill$\square$
 
 \subsubsection*{(iii)}
 Betrachte nun den Folgenraum
@@ -29,3 +70,77 @@ $$
 eine Norm auf $l^2$ definiert ist.\\
 
 \textbf{Lösung:}\\
+
+Wir fassen den $l^2$ als unendlich dimensionalen Vektorraum auf, wobei ein Folgenglied $x_i$ einer Folge aus $l^2$ die $i$-te
+Komponente ist.\\
+
+Zunächst müssen zeige ich, dass durch
+$$
+<x,y> = \sum^\infty_{n=1} x_n y_n
+$$
+ein Skalarprodukt auf $l^2$ definiert ist.
+
+Seien $x,y,z \in l^2$, $\alpha, \beta \in \mathbb{R}$.
+\begin{enumerate}[a)]
+    \item Bilinear\\
+        $$\begin{array}{rcl}
+            <\alpha x, y>   &=& \overset{\infty}{\underset{i=1}{\sum}} (\alpha x_i)y_i\\
+                            &=& \alpha \overset{\infty}{\underset{i=1}{\sum}} x_i y_i\\
+                            &=& \alpha < x , y>
+        \end{array}$$
+        $$\begin{array}{rcl}
+            <x, \beta y>    &=& \overset{\infty}{\underset{i=1}{\sum}} x_i (\beta y_i)\\
+                            &=& \beta \overset{\infty}{\underset{i=1}{\sum}} x_i y_i\\
+                            &=& \beta < x , y>
+        \end{array}$$
+        $$\begin{array}{rcl}
+            <x + z, y>      &=& \overset{\infty}{\underset{i=1}{\sum}} (x_i + z_i) y_i\\
+                            &=& \overset{\infty}{\underset{i=1}{\sum}} x_i y_i + z_i y_i\\
+                            &\stackrel{< \infty}{=} & \overset{\infty}{\underset{i=1}{\sum}} x_i y_i + \overset{\infty}{\underset{i=1}{\sum}} z_i y_i\\
+                            &=& < x , y> + <z , y>
+        \end{array}$$
+        $$\begin{array}{rcl}
+            <x , y + z>     &=& \overset{\infty}{\underset{i=1}{\sum}} x_i (y_i + z_i)\\
+                            &=& \overset{\infty}{\underset{i=1}{\sum}} x_i y_i + x_i z_i\\
+                            &\stackrel{< \infty}{=} & \overset{\infty}{\underset{i=1}{\sum}} x_i y_i + \overset{\infty}{\underset{i=1}{\sum}} x_i y_i\\
+                            &=& < x , y> + <x , y>
+        \end{array}$$
+    \item Symmetrisch\\
+        Trivial, da die Multiplikation auf $\mathbb{R}$ symmetrisch ist.
+    \item positiv definit\\
+        $$\begin{array}{rcl}
+            <x,x>   &=& \overset{\infty}{\underset{i=0}{\sum}} x_i^2\\
+                    &\stackrel{x_i^2 > 0}{\geq}& \overset{\infty}{\underset{i = 1}{\sum}} 0\\
+                    &=& 0
+        \end{array}$$
+\end{enumerate}
+
+Nun zeigen wir die Eigenschaften einer Norm:
+
+\begin{enumerate}[I)]
+    \item Positiv\\
+        $x_i^2 > 0 \Rightarrow \overset{\infty}{\underset{i = 0}{\sum}} x_i^2 > 0 \Rightarrow \sqrt{\overset{\infty}{\underset{i = 0}{\sum}} x_i^2} > 0 \Rightarrow \| x \| > 0$\\
+        Sei $x \in l^2$. z.z. $x = 0 \Leftrightarrow \| x \| = 0$.\\
+        $\Rightarrow$:\\
+        $x = 0 \Rightarrow \forall i \in \mathbb{N} : x_i = 0 \Rightarrow \sqrt{\overset{\infty}{\underset{i = 0}{\sum}} x_i^2} = 0 \Rightarrow \| x \| = 0$\\
+        $\Leftarrow$:\\
+        Da $\| x \| = 0$ gilt, können wir aus der ersten Eigenschaft folgern, dass $\forall i \in \mathbb{N} : x_i = 0$ gilt.
+        $\Rightarrow x = 0$.
+    \item Homogenität\\
+        Sei $x \in l^2$ und $\alpha \in \mathbb{R}$.\\
+        Dann gilt
+        $$\begin{array}{rcl}
+            \| d x \|   &=& \sqrt{\overset{\infty}{\underset{i = 0}{\sum}} (dx_i)^2}\\
+                        &=& \sqrt{\overset{\infty}{\underset{i = 0}{\sum}} d^2 x_i^2}\\
+                        &=& |d| \cdot \sqrt{\overset{\infty}{\underset{i = 0}{\sum}} x_i^2}\\
+                        &=& |d| \| x \|
+        \end{array}$$
+    \item Dreiecksungleichung\\
+        Seien $x, y \in l^2$.\\
+        Dann gilt, da wir nun eine Norm durch ein Skalarprodukt definiert haben
+        $$\begin{array}{rcl}
+            \| x + y \| &\stackrel{(ii)}{\leq} \| x \| + \| y \|
+        \end{array}$$
+ 
+\end{enumerate}
+\mbox{}\hfill$\square$

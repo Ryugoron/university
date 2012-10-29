@@ -14,6 +14,7 @@ Zeigen Sie, dass $(B(E),d)$ vollständig ist.\\
 
 \textbf{Lösung:}\\
 
+\textbf{Metrik}:\\
 Als erstes müssen wir zeigen, dass es sich bei $(B(E),d)$ um eine Metrik handelt.
 \begin{enumerate}[1.]
     \item $\forall f,g \in B(E) \; : \; d(f,g) \geq 0$.\\
@@ -39,9 +40,37 @@ Als erstes müssen wir zeigen, dass es sich bei $(B(E),d)$ um eine Metrik handel
         als das supremum definiert waren und alle Funktionen in unserem Raum beschränkt sind. Es kann also kein größeren Wert geben.
 \end{enumerate}
 
-Sei nun $(f_n)_{n \in \mathbb{N}}$ Cauchy - Folge beliebig, aber fest.\\
-Als erstes zeigen wir, dass die Folge $(f_n)_{n\in\mathbb{N}}$ konvergiert.\\
-Nach definition einer Cauchyfolge, gilt $\exists n_0 \in \mathbb{N} \forall n,m > n_0 \; : \; d(f_n,f_m) < \varepsilon$.
-Da es sich nun bei $d(f_n,f_m)$ um einen Wert in $\mathbb{R}$ handelt, konvergiert die Reihe in $\mathbb{R}$.\\
 
-Sei nun $x \in E$ beliebig, aber fest.
+\textbf{Konvergenz}:\\
+Sei nun $(f_n)_{n \in \mathbb{N}}$ Cauchy - Folge beliebig, aber fest.\\
+
+Nun ist die Folge der Werte $f_n(x_0)$ für jedes $x_0 \in E$ eine Cauchy - Folge in $\mathbb{R}$, da gilt
+
+$\forall \varepsilon > 0 \exists n_0 \in \mathbb{N} \forall n,m \geq n_0 \; : \; |f_n(x_0) - f_m(x_0)| \leq \underset{x \in E}{\sup} |f_n(x_0) -f_m (x_0) | < \varepsilon$
+
+Wobei das $\varepsilon > 0$ aus der Definition der Cauchyfolge von $(f_n)_{n \in \mathbb{N}}$ genommen werden kann.\\
+
+Da nun $f_n(x_0)$ eine Cauchyfolge in $\mathbb{R}$ ist, wissen wir, dass die Folge konvergiert. So können wir nun unsere mögliche
+Grenzfunktion $f^\infty \; : \; E \rightarrow \mathbb{R}$ über \\
+$x \mapsto \underset{n \rightarrow \infty}{\lim} f_n(x)$.\\
+
+Nun zeige ich, dass $\underset{n \rightarrow \infty}{\lim} (f_n) = f^\infty$ gilt.\\
+
+Dies zeigen wir auf folgende weise. Sei $\varepsilon > 0$ und sei $n_1 \in \mathbb{N}$, so dass für alle $m,n \geq n_1$
+$d(f_n, f_m) < \frac{\varepsilon}{2}$. Diese Gleichung ist erfüllt, da $(f_n)_{n \in \mathbb{N}}$ Cauchy ist.
+
+Nach der gezeigten konvergenz für die einzelnen Punkte, wissen wir, dass für all $x \in E$ ein $n_2 \in \mathbb{N}$ existiert,
+so dass für alle $k \geq n_2 $ gilt $| f_k(x) - f^\infty (x) | < \frac{\varepsilon}{2}$.\\
+
+Nun wählen wir $n_3 \geq \max \{ n_1 , n_2 \}$, denn dann gilt:
+$$
+    |f_n(x) - f^\infty (x)| \stackrel{Dreieck}{\leq} | f_n (x) - f_k (x)| + | f_k (x) - f(x) | < \frac{\varepsilon}{2} + \frac{\varepsilon}{2} = \varepsilon
+$$
+
+Als letzter Schritt müssen wir zeigen, dass $f^\infty \in B(E)$ liegt.\\
+Da nun aber $f_n$ für alle $n \in \mathbb{N}$ beschränkt ist und $|f_n(x) - f^\infty (x)| < \varepsilon$ für alle $x \in E$ gilt, kann $f^\infty$ nicht divergieren,
+da sonst die differenz nicht nach 0 gehen kann.\\
+
+\mbox{} \hfill $\square$
+
+\pagebreak
