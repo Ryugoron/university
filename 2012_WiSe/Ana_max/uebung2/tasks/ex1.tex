@@ -1,0 +1,76 @@
+\subsection*{\itshape 4. Hausdorff-Maß und äußeres Maß}
+
+Seien, wie in der Vorlesung definiert, $\mathcal{H}^m_\delta$ das approximative $m$-dimensionale Hausdorff-Maß (für ein $\delta > 0$) und $\mathcal{H}^m$ das $m$-dimensionale Hausdroff-Maß auf einem metrischen Raum $S$.
+
+\subsubsection*{(i)}
+
+Zeigen Sie, dass $\mathcal{H}^m_\delta$ ein äußeres Maß ist.\\
+
+\textbf{Beweis:}\\
+
+Wir nehmen an, dass wir über einer Grundmenge $S$ messen.
+
+\begin{enumerate}[a)]
+    \item z.z. $\mathcal{H}^m_\delta (\emptyset) = 0$.\\
+        Sei $(B_n)_{n \in \mathbb{N}}$ eine Familie von Mengen, mit $B_i = \emptyset \forall i \in \mathbb{N}$.\\
+        Nun ist
+        $$
+            \sum^\infty_{i=1} \omega_m \left( \frac{\diam (B_i)}{2} \right)^m = 0.
+        $$
+        Das Hausdorff-Maß ist als infimum der Überdeckungen definiert, deren Mengen maximal Duchmesser $\delta$ haben.
+        Kleiner als $0$ kann es nicht werden und $\emptyset = \underset{i \in \mathbb{N}}{\bigcup} B_i$ es ist eine Überdeckung.
+
+    \item Sei $A \in S$ und $A \subset \underset{i \in \mathbb{N}}{\bigcup} A_i$ eine Familie von Menge, die $A$ überdeckt.\\
+        z.z. $\mathcal{H}^m_\delta (A) \leq \overset{\infty}{\underset{i=1}{\sum}} \mathcal{H}^m_\delta A_i$.\\
+
+        Sei $(B^i_j)_{j \in \mathbb{N}}$ eine Familie von Mengen, so dass $ A_i \subset \underset{j \in \mathbb{N}}{\bigcup} B^i_j$,
+        $\forall j \in \mathbb{N} \; : \; \diam (B^i_j) < \delta$
+        und $\overset{\infty}{\underset{j=1}{\sum}} \omega_m \left( \frac{\diam B^i_j}{2} \right)^m \leq \mathcal{H}^m_\delta (A_i) + \frac{\varepsilon}{2^i}$ (*).\\
+
+        Nun ist für $A$ die doppelte Vereinigung $\underset{i \in \mathbb{N}}{\bigcup} \underset{j \in \mathbb{N}}{\bigcup} B^i_j$ auch eine
+        eine Überdeckung (da jede der Überdeckenden Mengen überdeckt wurde). Diese Mengen haben nun alle einen Durchmesser kleiner $\delta$. Daher
+        können wir diese in der Definition des approximativen Hausdorff-Maßes benutzten.
+
+        $$\begin{array}{rcl}
+            \mathcal{A}^m_\delta &\stackrel{inf}{\leq}& \overset{\infty}{\underset{i=1}{\sum}} \overset{\infty}{\underset{j=1}{\sum}} \omega_m \left( \frac{\diam B_i}{2} \right)^m\\
+                &\stackrel{(*)}{\leq}& \overset{\infty}{\underset{i=1}{\sum}} \left( \mathcal{H}^m_\delta (A_i) + \frac{\varepsilon}{2^i} \right)\\
+                &=& \left( \overset{\infty}{\underset{i=1}{\sum}} \mathcal{H}^m_\delta (A_i) \right) + \varepsilon
+        \end{array}$$
+
+        Lassen wir nun unser $\varepsilon$ gegen 0 laufen, so erhalten wir
+        $$
+            \mathcal(A)^m_\delta (A) \leq \overset{\infty}{\underset{i=1}{\sum}} \mathcal{H}^m_\delta (A_i).
+        $$
+\end{enumerate}
+\mbox{} \hfill $\square$
+
+
+\subsubsection*{(ii)}
+
+Zeigen Sie, dass $\mathcal{H}^m$ ein äußeres Maß ist.
+
+\textbf{Beweis:}\\
+
+\begin{enumerate}[a)]
+    \item z.z. $ \mathcal{H}^m (\emptyset) = 0$.\\
+        Wie gezeigt, ist $\mathcal{H}^m_\delta (\emptyset) = 0 \quad \forall \delta > 0$. 
+        Daher ist auch $\mathcal{H}^m (\emptyset) = \underset{\delta \rightarrow 0}{\lim} \mathcal{H}^m_\delta (\emptyset) = 0$.
+    \item Sei $A \subset \underset{i\in\mathbb{N}}{\bigcup} A_i$ eine überdeckung von $A$.\\
+        z.z. $\mathcal{H}^m (A) \leq \overset{\infty}{\underset{i=1}{\sum}} \mathcal{H}^m (A_i)$.\\
+        
+        Da wir schon in \emph{a)} gezeigt haben, dass es sich beim approximativen Hausdorff-Maß um ein Maß handelt, können wir unsere $A_i$
+        für alle $\delta > 0$ so überdecken mit $(B^i_j)_{j \in \mathbb{N}}$, dass 
+        $\mathcal{H}^m_\delta (A) \leq \overset{\infty}{\underset{i=1}{\sum}} \mathcal{H}^m_\delta (A_i)$.\\
+        
+        Aus Analysis I wissen, wir, dass sich im Grenzwert die Relation nicht umkehren kann (nur abschwächen). \\
+        Daher gilt
+        $\mathcal{H}^m (A) = \underset{\delta \rightarrow 0}{\lim} \mathcal{H}^m_\delta (A) \leq
+        \underset{\delta \rightarrow 0}{\lim} \overset{\infty}{\underset{i=1}{\sum}} \mathcal{H}^m_\delta (A_i)
+        = \overset{\infty}{\underset{i=1}{\sum}} \mathcal{H}_\delta (A_i)$.\\
+
+        Wir können den Grenzwert in die Summe ziehen, da die einzelnen Summanden unabhängig von einander bezüglich $\delta$ sind.
+     
+
+\textbf{Beweis:}\\
+\end{enumerate}
+\mbox{} \hfill $\square$

@@ -1,0 +1,70 @@
+\subsection*{\itshape 5. Hausdorff-Maß und Lebesque-Maß}
+
+Seien $\mathcal{L}$ das Lebesque-Maß und $\mathcal{H}^1_\delta$ das approximative Hausdorff-Maß auf $\mathbb{R}$. Zeigen Sie,
+dass für alle $A \subset \mathbb{R}$ gilt
+
+$$
+    \mathcal{L}^1(A) = H^1_\delta(A) \qquad \text{für alle }\delta > 0
+$$
+
+\textbf{Beweis:}\\
+
+Um dies zu zeigen, beweise ich zunächst das folgende.
+
+\begin{lemma}\label{ana3:ueb2:ex2:lebesque}
+    Im $\mathbb{R}^1$ ist für einen Würfel $I \in \mathcal{K} = (a,b)$, sein Volumen $I = b - a$, das Lebesgue-Maß $\mathcal{L}^1 (I) = b - a$
+    und das approximierte Hausdorff-Maß $\mathcal{H}^1_\delta (I) = b - a$ für alle $\delta > 0$.
+\end{lemma}
+
+\begin{lemma}\label{ana3:ueb3:ex2:offen}
+    Sei $(a,b]$ ein Intervall. Dann ist ist $\mathcal{L}^1 ((a,b]) = \mathcal{L}^1 ((a,b))$. D.h. es ist egal, ob
+    die Intervall geschlossen oder offen sind. (Ebenso $[a,b]$, $[a,b)$).
+\end{lemma}
+
+\textbf{Schlussfolgerung:} Für das Lebesgue-Maß ist es egal, welche Intervalle wir benutzten.\\
+
+\textbf{Beweis \ref{ana3:ueb2:ex2:lebesque}.}\\
+
+Das Volumen eines Würfels gerade als $| (a_1,b_1)\times ... \times (a_n,b_n)| = (b_1 - a_1) \cdot ... \cdot (b_n - a_n)$ definiert.
+Nun muss für das Lebesque-Maß die Menge mit Würfeln übderdeckt werden. Sei also $(I_i)_{i \in \mathbb{N}}$ die Überdeckung, mit $I_1 = I$, sonst $\emptyset$.
+Damit ist $\mathcal{L}^1 (I) = \overset{\infty}{\underset{i=1}{\sum}} |I_i| = |I_1| = b - a$.\\
+
+Für das Hausdorff - Maß underscheiden wir zunächst. Ist $b - a < \delta$ können wir es direkt mit dem Würfel überdecken. Ist $\delta$ zu klein wählen wir als 
+die Überdeckung $B_i = (a, a+ \frac{\delta}{b-a}], (a + \frac{\delta}{b-a}, a + 2 \frac{\delta}{b-a}], ... (b - \frac{\delta}{b-a}, b), \emptyset, ...$ und die restlichen
+Mengen sind $\emptyset$. Wie man erkennt, ist nun $\mathcal{H}^m_\delta (I) = \overset{\infty}{\underset{i=1}{\sum}} \omega_1 \left(\frac{B_i}{2} \right) = b - a$, da
+$\omega_1 = 2$ ist.\\
+\mbox{} \hfill $\square$\\
+
+\textbf{Beweis \ref{ana3:ueb3:ex2:offen}}\\
+
+Sei $(a,b]$ das Intervall. Dann wird es durch $(a,b)$ und $(b - \varepsilon, b + \varepsilon)$ für jedes $\varepsilon > 0$ übderdeckt.
+Seien $(B_i)_{i \in \mathbb{N}}$ offene Würfel, so dass $B_1 = (a,b)$, $B_2 = (b - \varepsilon, b - \varepsilon)$, $B_i = \emptyset$ $\forall i > 2$.\\
+Nun ist $\overset{\infty}{\underset{i=1}{\sum}} B_i = b - a + 2 \varepsilon$. Lässt man nun $\varepsilon$ gegen 0 laufen, erhält man nur noch $b-a$.
+Es kann auch nicht weniger werden, da man sonst einen Wert nicht mehr erreicht.\\
+\mbox{} \hfill $\square$\\
+
+Nun zeigen wir den Satz:\\
+$\mathcal{L}^1(A) \geq \mathcal{H}^1_\delta (A)$.\\
+
+Dies gilt trivialerweise. Sei $(I_i)_{i \in \mathbb{N}}$ eine überdeckung mit Würfeln sodass
+$\overset{\infty}{\underset{i=1}{\sum}} |I_i| \leq \mathcal{L}^1 (A) + \varepsilon$, mit Seitenlängen, maximal $\delta$.
+Dann ergibt sich, dass $\overset{\infty}{\underset{i=1}{\sum}} \omega_1 \frac{\diam I_i}{2} \leq \mathcal{L}^1 (a) + \varepsilon$.
+Lässt man $\varepsilon$ nun gegen $0$ laufen, drehen sich die relationen nicht um. Da nun das approximative Hausdorff-Maß als das Infimum
+aller Überdeckungen definiert ist, muss es kleiner gleich diesem sein.\\
+
+$\mathcal{L}^1 (A) \leq \mathcal{H}^1_\delta (A)$.\\
+
+Sei $(B_i)_{i \in \mathbb{N}}$ eine Überdeckung für $A$, mit $\diam B_i < \delta$ für alle $i \in \mathbb{N}$.\\
+Wir können davon ausgehen, dass $B_i$ nur aus Intervallen besteht.
+Nehmen wir an $B_j$ für ein $j \in \mathbb{N}$ wäre kein Intervall, dann gäbe es eine Menge von Intervallen
+$(I_k)_{k \in \mathbb{N}}$, so dass $B_j = \bigcup I_k$. Nehmen wir ferner an, sie sind sortiert.
+$I_1 = (a_1,b_1) , ... , I^\infty = (a_\infty, b_\infty)$. Dann ist\\
+$\overset{\infty}{\underset{i=1}{\sum}} \omega_1 \frac{b_i - a_i}{2} \leq b_\infty - a_\infty$. Damit ist die Überdeckung für das
+Hausdorff-Maß aus Intervallen gebildet, da diese kleiner sind.\\
+
+Da wir nun nur noch Intervalle betrachten müssen für unsere Überdeckung von $A$, können wir die selbe
+Überdeckung für das Lebesgue-Maß wählen (Dies ist nach 2 Möglich, da wir 
+uns nicht um offene oder abgeschlossene Mengen kümmern müssen). Wie schon öfters gesehen, ist die Berechnugsformel der beiden im 
+ein-dimensionalen gleich, falls die Überdeckung aus Würfeln mit Durchmesser kleiner als $\delta$ gebildet wird.\\
+
+\mbox{} \hfill $\square$
