@@ -20,6 +20,8 @@ $\underset{i \in I}{\sum} w_i \geq K$ and $\underset{ i \in I}{\sum} g_i \leq G$
 
 Let $KNAP$ be this problem.
 
+\pagebreak
+
 \begin{lemma}\label{cmp:ex1:knap:np}
 The decision problem for the knapsack problem is NP-complete.
 \end{lemma}
@@ -46,7 +48,7 @@ The decision problem for the knapsack problem is NP-complete.
         easily see, that the reduction can be done in linear time because we only copy values, thus it can be computed in polynomial time. \\
 
         Knapsack run on this input will now hold the following. If there exists a set $I$ that satisfies the constraints
-        $\underset{ i \in I}{\sum} w_i = \underset{i \in I} i \geq K$ and $\underset{i \in I}{\sum} g_i = \underset{i \in I}{\sum} i \leq K$.
+        $\underset{ i \in I}{\sum} w_i = \underset{i \in I}{\sum} i \geq K$ and $\underset{i \in I}{\sum} g_i = \underset{i \in I}{\sum} i \leq K$.
         Thus if we set $O = I$ $\underset{i \in O}{\sum} i = T$ holds.
 
         If no solution existed in the original problem, than we cannot find a solution in the reduction, because both sums
@@ -60,39 +62,67 @@ Let $W := \underset{i=1}{\overset{n}{\sum}} w_i$. Show that the knapsack problem
 contradict \emph{(a)}?\\
 
 \textbf{Solution:}\\
-We proof this by giving a dynamic program, we used in approximation algorithms.
-We construct an Array $A$ of sets of tupel. A tupel $(t,w) \in A(j)$ means. There exists a 
-subset $I \subseteq \{1,..,j \}$, such that $\underset{i \in I}{\sum} w_i = w$ and $\underset{i \in I}{\sum} g_i = t$.\\
 
-Furthermore we introduce a \emph{domination} relation. A tupel $(t,w)$ dominates another tupel $(t',w')$, iff $t \leq t'$ and $w \geq w'$.
-(Means we can get a bigger value with less weight).
-Observe, that we can have at most $G+1$ and $W+1$ tupels in $A(j)$ for any $j\leq n$, because otherwise there is a tupel $(t',w') \in A(j)$
-that is dominated by another tupel.
-Next we assume, that we can put any item in the bag itself. If not, we can throw them away.
+To proof this, we show, that a dynamic program solves the knapsack problem and has the runtime of $O(nW)$.\\
+Let $g[n,W]$ be a two dimensional array, that stores the in $g[i,w]$ the minimal weight, for the first $i$ objects,
+with an value exactly $w$.
 
-\begin{lstlisting}[float=tbh]
-A(1) $\leftarrow$ {(0,0),($g_1$,$w_1$)}
-for j $\leftarrow$ 2 to n do
-    A(j) $\leftarrow$ A(j-1)
-    for each (t,w) $\in$ A(j-1) do
-        if t + $g_j$ $\leq$ G then
-            A(j) $\leftarrow$ A(j) $\cup$ {(t + $g_j$, w + $w_j$)}
-    Remove dominated pairs
-return $\underset{(t,w)\in A(n)}{\max}$ w
-\end{lstlisting}
+We can now give the recursive definition of to fill in $w$. Let the array be initialized with $\infty$.
 
-In each iteration we make a constant number of steps for each element of the previous set of tupels. We showed, that in any set $A(j)$ we can bound
-the number of tupels by $\min \{ G + 1, W + 1 \}$. We iterate in the outer loop for any element in our bag. \\
+$$\begin{array}{lclr}
+    g[0,w]  &:=& 0          & \forall 0 \leq w \leq W\\
+    g[i,0]  &:=& 0          & \forall 1 \leq i \leq n\\
+    g[i,w]  &:=& g[i-1,w]   & \text{if } w - w_i \leq 0\\
+    g[i,w]  &:=& \min \{ g[i-1,w] , g[i-1 , w - w_i] + g_i\}
+\end{array}$$
 
-Therefore we can write, that the runtime of our algorithm lies in $O(nW)$. (If $G$ is smaller than $W$ our estimation is to big, but still holds).\\
+After filling the array we can retrieve the maximal value by computing\\
+$\underset{0 \leq w \leq W}{\text{argmax}} \{ g[n,w] \; | \; g[n,w] \leq G \}$.\\
 
-This solution does not contradict with $(a)$ because $W$ is epxonantial in the inpu size (which is $log \, W$). The algorithm is pseudo-polynomial.
+This algorithm can be easily implemented through a double for loop, comparing
+both cases. The result can be computed in a single for loop.
+
+\begin{lemma}\label{ex1:t2:knapcorrect}
+    The afore described algorithm computes the optimal solution.
+\end{lemma}
+
+\begin{lemma}\label{ex1:t2:knapruntime}
+    The afore described algorithm can be computed in $O(n \cdot W)$.
+\end{lemma}
+
+\textbf{Proof \ref{ex1:t2:knapcorrect}.}\\
+
+Let $I$ be the set of objects which leads to the solution $V$ of the algorithm.\\
+By construction of the solution, we only accept fields in the array, that has a weight of maximal $G$.
+Therefore the constraint is matched. And we summed all weights up correctly.\\
+Now assume, there exists a solution $V'$ corresponding to a set of items $I'$, such that $V' > V$.\\
+The solution $I$ was build, by taking the maximal value, of all possible.
+Therefore the array has to be constructed wrong.\\
+
+Therefore $g[n,V'] > G$ in our construction. But now we now, there exist the set $I'$ which gives us a way, through
+the construction. (At each point we can take an item of the set and the resulting weight is smaller than $G$).
+Therefore $g[n,V']$ cannot be greater than $G$.\\
+
+\mbox{} \hfill $\square$
+
+\textbf{Proof \ref{ex1:t2:knapruntime}.}\\
+
+As mentioned afore, we can implement the algorithm through a for loop $i := 1 to n$ and
+a internal loop $w := 1 to W$. In each step, we look at 2 places already computed,
+add and subtract a constant number ($c > 0$) of values and take the minimal value of both.\\
+Assuming that array access and addition is constant time, the algorithm runs in\\
+first loop $\times$ second loop $\times c$ addition $\times 2 $ array access + third loop $\times 2\times $ compare\\
+$T(n) \in O(n \cdot W \; c \cdot 1 \; 2 + W \cdot 2) = O(n \cdot W)$
+
+\mbox{} \hfill $\square$
 
 \subsection*{(c)}
 
 For the $(1 - \varepsilon)$ - approximation we also use a trick learned in approximation algorithms, based on the algorithm of $(b)$.\\
 
 The trick is to round the values of $w_i$, so we do not have to look at each single value.\\
+
+\pagebreak
 
 We assign new values by the following scheme
 
@@ -103,9 +133,9 @@ w_i' $\leftarrow$ $\lfloor w_i / \mu \rfloor$ for all $i \in S$
 \end{lstlisting}
 
 and run the algorithm from $(b)$ on it.
-With the modified Values we now get
+With the modified Values we can skip the array in $\mu$ steps.
 $$
-W' = \underset{i=1}{\overset{n}{\sum}} w_i' = \underset{i=1}{\overset{n}{\sum}} \left\lfloor \frac{w_i}{\varepsilon M/n} \right\rfloor = O(\frac{n^2}{\varepsilon}).
+    W' = \underset{i=1}{\overset{n}{\sum}} w_i' = \underset{i=1}{\overset{n}{\sum}} \left\lfloor \frac{w_i}{\varepsilon M/n} \right\rfloor = O(\frac{n^2}{\varepsilon}).
 $$
 Because now $W'$ is polynomial in $n$ and $\varepsilon$ it is strictly smaller than $B$ which is exponantial in the input size. So the runtime of our algorithm
 is $O(n^3 \cdot \frac{1}{\varepsilon})$, which is in $poly(n,\frac{1}{\varepsilon})$.\\

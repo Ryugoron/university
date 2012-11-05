@@ -11,6 +11,8 @@ the given time.\\
 Let $PAD-SAT_\varepsilon = \{ (\Psi , 1^{|\Psi|^{\left\lceil \frac{k}{\varepsilon} \right\rceil}}) \; | \; \Psi \text{satisfyable in 3 cnf} \}$
 where $k > 1$ is a arbitrary but fixed konstant.\\
 
+\pagebreak
+
 \begin{lemma}\label{ex1:t3:npc}
     $PAD-SAT_\varepsilon$ is NP-complete.
 \end{lemma}
@@ -29,7 +31,7 @@ $\Psi$ is not satisfiable, thus the word can't be in $PAD-SAT_\varepsilon$.
     There exists a DTM M such that $T_M(n) \in DTIME (2^{n^\varepsilon})$.
 \end{lemma}
 
-\textbf{Proof \ref{ex1:t3:npc}.}\\
+\textbf{Proof \ref{ex1:t3:time}.}\\
 
 From the definition we can conclude, that $|\Psi| \leq n^{\frac{\varepsilon}{k}}$ holds,
 because the rest of the length of the word is filled with ones.\\
