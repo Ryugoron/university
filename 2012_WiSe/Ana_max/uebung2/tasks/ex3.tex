@@ -9,5 +9,35 @@ $A$ ist nicht $\mathcal{H}_\delta^1$-messbar für beliebiges $\delta > 0$.\\
 
 \textbf{Beweis:}\\
 
-tbd
+Die Menge, an der wir zeigen, dass es nicht messbar ist, soll
+$$
+    T = B_{\frac{\delta}{2}} (0,0)
+$$
+sein. Nun muss nach Definition der Messbarkeit gelten
+$$
+    \mathcal{H}_\delta^1 (T) = \mathcal{H}_\delta^1 (T \cap A) + \mathcal{H}_\delta^1 (T \setminus A).
+$$
 
+Zunächst sollten wir der Aufgabe entsprechend zeigen, dass in jeder der Mengen $T, T \cap A, T \setminus A$
+ein Geradenstück $g$ ist, mit der Länge $\mathcal{H}_\delta^1 (g) = \delta - \varepsilon$ für alle $\varepsilon > 0$.\\
+
+Wir wissen, dass $T$ eine offene Kugel ist, um den Mittelpunkt $(0,0)$. Da diese den Radius $\frac{\delta}{2}$ hat,
+ist ihr Durchmesser $\delta$. Nehmen wir nun eine Gerade durch den Mittelpunkt, so ist dies ein Intervall, der
+Länge $\delta$. Nehmen wir nun ein Teilintervall davon, so können wir eine gerade der Länge $\delta - \varepsilon$ erzeugen.\\
+
+Für $T \setminus A$, können wir ebenso eine Gerade nehmen, wobei es nur eine der Länge $\delta$ gibt und das ist die Gerade auf der
+Achse $y=0$. Nun können wir wieder eine Teilgerade nehmen, die die Länge $\delta - \varepsilon$ hat.\\
+
+Im Fall von $T \cap A$ ist es etwas schwieriger. Es gibt keine Gerade der Länge $\delta$, da die $y=0$ Achso nicht zu der Menge gehört.
+Wir können allerdings die Geraden annähren. Nehmen wir Geraden, die parrallel zu $y=0$ Achse liegen. So liegt bei 
+$x= \sqrt{\frac{\delta^2}{4} - \frac{(\delta - \varepsilon)^2}{4}}$ die Gerade, die Länge $\delta - \varepsilon$ hat.\\
+
+Als nächstes soll gezeigt werden, dass
+$$
+    \mathcal{H}^1_\delta (T) = \mathcal{H}^1_\delta(T \cap A) = \mathcal{H}^1_\delta(T \setminus A) = \delta
+$$
+gilt.
+
+Ist dies der Fall so ist es nicht messbar, da $\mathcal{H}^1_\delta(T \cap A) = \mathcal{H}^1_\delta (T \setminus A) = 2 \delta \not= \delta = \mathcal{H}^1_\delta (T)$.\\
+
+Dies war mir aber nicht möglich zu zeigen, da ich nicht weiß, wie ich eine abzählbare Überdeckung einer (Halb-) Kugel durch Geraden bewerkstelligen soll.
