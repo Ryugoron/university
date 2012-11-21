@@ -1,6 +1,6 @@
-#define N 4
+#define N 2
 #define K 1
-#define M 5
+#define M 3
 
 #define INITVALUE 1
 
@@ -20,7 +20,7 @@ inline broadcast(counter, b, from)
   atomic {
     counter = 0;
     do :: (counter < M) -> A[from].ch[counter]!b; counter++;
-       :: else -> break;
+       :: (counter >= M) -> break;
     od
   }
 }
@@ -29,6 +29,6 @@ inline broadcast(counter, b, from)
 inline wait(barrier)
 {
   d_step { barriercounter++; }
-  (barriercounter < barrier) -> skip;
+  (barrier <= barriercounter) -> skip;
   barrier = barrier + M;
 }

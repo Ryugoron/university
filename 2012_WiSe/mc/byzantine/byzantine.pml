@@ -7,6 +7,8 @@ b) eventually every reliable process has the same value in its local variable
 
 #include "byzantine.h"
 
+bit initial =0;
+
 init
 {
   // Initial values for all processes
@@ -20,7 +22,8 @@ init
   do :: (i < N) -> run Reliable(i); i++; // N reliable processes
      :: ((i >= N) && (i < M)) -> run Unreliable(i); i++; // K unreliable processes
      :: else -> break;
-  od
+  od;
+  initial = 1;
 }
 
 
@@ -29,9 +32,43 @@ proctype Unreliable (byte processId)
   byte round;
   int barrier = M;
   round = 0;
+  byte locC;
   wait(barrier); 
-  do :: (round < K+1) -> wait(barrier);
-                         wait(barrier);
+  do :: (round < K+1) -> 
+        wait(barrier);
+        locC = 0;
+        // Phase 1 : Send abitrary value or nothing
+        if
+            :: (1)  ->  skip;
+            :: (1)  ->  broadcast(locC, 0 , processId);
+            :: (1)  ->  broadcast(locC, 1 , processId);
+        fi;
+        wait(barrier);
+        
+        locC = 0;        
+        do
+            :: (locC < M) -> if :: (empty(A[locC].ch[processId])) -> skip;
+                             :: (nempty(A[locC].ch[processId])) -> 
+                                A[locC].ch[processId]?_; // throw away
+                          fi;locC++;
+            :: else -> break;
+        od;
+        // Phase 2 : Nothing, except we have to send in phase i = processId
+        locC = 0;
+        wait(barrier);        
+        if
+            :: processId != round   -> if :: (empty(A[round].ch[processId])) -> skip;
+                                          :: (nempty(A[round].ch[processId])) -> A[round].ch[processId]?_;
+                                       fi;
+            :: else -> 
+                if
+                    :: (1)  -> broadcast(locC, 0 , processId);
+                    :: (1)  -> broadcast(locC, 1 , processId);
+                fi;
+        fi;
+        locC = 0;
+        round++;
+        wait(barrier);
      :: else -> break;
   od;
 }
@@ -43,7 +80,7 @@ proctype Reliable (byte processId)
   byte majority;
   byte msgCounter[2];
   byte msg;
-  byte _c;
+  byte locC;
   byte localVar;
   int barrier = M;
   
@@ -53,20 +90,20 @@ proctype Reliable (byte processId)
   wait(barrier); 
   do :: (round >= K+1) -> break;
      :: (round < K+1)  -> // phase 1: broadcast localVar value
-                broadcast(_c, localVar, processId);
+                broadcast(locC, localVar, processId);
                 wait(barrier); // implement barrier that makes sense
                 // reset counters
                 msgCounter[0] = 0;
                 msgCounter[1] = 0;
                 // receive sent values, assumption: only 0s and 1s are sent
-                _c = 0;
+                locC = 0;
                 do
-                :: (_c < M) -> if 
-                               :: (empty(A[_c].ch[processId])) -> skip; // maybe nothing was sent
-                               :: (nempty(A[_c].ch[processId])) -> A[_c].ch[processId] ? msg;
+                :: (locC < M) -> if 
+                               :: (empty(A[locC].ch[processId])) -> skip; // maybe nothing was sent
+                               :: (nempty(A[locC].ch[processId])) -> A[locC].ch[processId] ? msg;
                                                                    msgCounter[msg]++; 
-                               fi; _c++;
-                :: (_c >= M) -> break;
+                               fi; locC++;
+                :: else -> break;
                 od;
                 skip;
                 // compute majority
@@ -75,9 +112,10 @@ proctype Reliable (byte processId)
                      :: else -> majority = 1;
                   fi;
                 };
+                wait(barrier);                
                 // phase 2: in round i the i-th process sends the majority value 
                 // it received in the first phase
-                if :: (processId == round) -> broadcast(_c, majority, processId);
+                if :: (processId == round) -> broadcast(locC, majority, processId);
                    :: else -> skip;
                 fi;
                 wait(barrier);
@@ -88,18 +126,21 @@ proctype Reliable (byte processId)
                    :: (msgCounter[0] >= N) -> // at least n zeros
                                               localVar = 0;
                    :: else -> if :: (empty(A[round].ch[processId])) -> skip;
-                                 :: A[round].ch[processId]?localVar;
+                                 :: (nempty(A[round].ch[processId])) -> A[round].ch[processId]?localVar;
                               fi;
                 fi;
                 // empty channel if msg wasnt used
                 if :: (empty(A[round].ch[processId])) -> skip;
-                   :: A[round].ch[processId]?_;
+                   :: (nempty(A[round].ch[processId])) -> A[round].ch[processId]?_;
                 fi;
                 // end empty
                 round++;
+                wait(barrier);
   od;
   // protocol finished after k+1 rounds
   finalValues[processId] = localVar;
 }
 
-//ltl claim1 { <> (finalValues[0] == finalValues[1])}
+// ltl claim1 {(<> ((initial == 1) && finalValues[0] == finalValues[1]))}
+
+// ltl claim2 {(((<>(initial == 1)) && initialValues[0] == initialValues[1]) -> <>(finalValues[0] == finalValues[1] && finalValues[0] == initialValues[0]))}
