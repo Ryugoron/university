@@ -1,7 +1,11 @@
 EXERCISE 18
 -------------
 a) See byzantine.pml and byzantine.h for the implementation of the procotol
+
 b) And the bottom of byzantine.pml the ltl formulas are given
+
 c) Spin output see files OUTPUT_LTL1 and OUTPUT_LTL2 for the two claims (retrospectively)
-d) The counter example is given in the file COUNTEREXAMPLE
+
+d) The counter example is given in the file COUNTEREXAMPLE with respect to the trail given by byzantine.pml.trail.
+This trail might not be minimal, but by curiosity the error is not found anymore if we compile the pan verifier with the option -DBFS (breadth first search). So, at least, this is a counter example.
 
