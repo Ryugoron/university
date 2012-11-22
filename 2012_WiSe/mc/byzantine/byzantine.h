@@ -1,6 +1,6 @@
-#define N 2
-#define K 1
-#define M 3
+#define N 4
+#define K 2
+#define M 6
 
 #define INITVALUE 1
 

@@ -14,7 +14,9 @@ init
   // Initial values for all processes
   byte i;
   i = 0;
-  do :: (i < M) -> initialValues[i] = INITVALUE; finalValues[i] = i; i++;
+  byte value = INITVALUE;
+  do //:: (i < M) -> initialValues[i] = INITVALUE; finalValues[i] = i; i++;         // For all initvalues are equal
+     :: (i < M)     -> initialValues[i] = value; value = 1 - value; finalValues[i] = i; i++;
      :: else -> break;
   od;
   // Spawn processes
@@ -141,6 +143,14 @@ proctype Reliable (byte processId)
   finalValues[processId] = localVar;
 }
 
-// ltl claim1 {(<> ((initial == 1) && finalValues[0] == finalValues[1]))}
+//      Claim1 for N = 3 
+//ltl claim1 {(<> ((initial == 1) && finalValues[0] == finalValues[1] && finalValues[1] == finalValues[2]))}
 
-// ltl claim2 {(((<>(initial == 1)) && initialValues[0] == initialValues[1]) -> <>(finalValues[0] == finalValues[1] && finalValues[0] == initialValues[0]))}
+//      Claim1 for N = 4
+ltl claim1 {(<> ((initial == 1) && finalValues[0] == finalValues[1] && finalValues[1] == finalValues[2]) && finalValues[2] == finalValues[3])}
+
+//      Claim1 for N = 2 and K = 1 (error expected)
+// ltl claim1 {(<> ((initial == 1) && finalValues[0] == finalValues[1] ))}
+
+//      Claim2 for N = 3 and K = 1
+//ltl claim2{(<> ((initial == 1) && initialValues[0] == initialValues[1] && initialValues[1] == initialValues[2])) -> (<> ((initial == 1) && finalValues[0] == finalValues[1] && finalValues[1] == finalValues[2] && initialValues[0] == finalValues[0]))}
