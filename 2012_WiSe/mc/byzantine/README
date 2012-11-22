@@ -1,0 +1,7 @@
+EXERCISE 18
+-------------
+a) See byzantine.pml and byzantine.h for the implementation of the procotol
+b) And the bottom of byzantine.pml the ltl formulas are given
+c) Spin output see files OUTPUT_LTL1 and OUTPUT_LTL2 for the two claims (retrospectively)
+d) The counter example is given in the file COUNTEREXAMPLE
+

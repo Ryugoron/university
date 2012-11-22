@@ -1,13 +1,7 @@
-/*
-b) eventually every reliable process has the same value in its local variable
-  <> (finalValues[0] == finalValues[1] && finalValues[1] == finalValues[2] && .... && finalValues[N-2] == finalValues[N-1])
-  if all reliable processes have the same initial value,  then their final value is the same as their common initial value
-  [] (initialValue[0]...initialValue[N-1]=:a => finalValue[0]...finalValue[N-1] = a)
-*/
-
 #include "byzantine.h"
 
-bit initial =0;
+// auxillary variable to indicate that the initialisation of variables is done
+bit initial = 0;
 
 init
 {
@@ -15,7 +9,10 @@ init
   byte i;
   i = 0;
   byte value = INITVALUE;
-  do //:: (i < M) -> initialValues[i] = INITVALUE; finalValues[i] = i; i++;         // For all initvalues are equal
+  do
+    // uncomment the first condition to let all the processes have the same initial value
+    // the second condition is used for alternating initial values
+   //:: (i < M) -> initialValues[i] = INITVALUE; finalValues[i] = i; i++;         // For all initvalues are equal 
      :: (i < M)     -> initialValues[i] = value; value = 1 - value; finalValues[i] = i; i++;
      :: else -> break;
   od;
@@ -51,7 +48,7 @@ proctype Unreliable (byte processId)
         do
             :: (locC < M) -> if :: (empty(A[locC].ch[processId])) -> skip;
                              :: (nempty(A[locC].ch[processId])) -> 
-                                A[locC].ch[processId]?_; // throw away
+                                A[locC].ch[processId]?_; // throw away received message
                           fi;locC++;
             :: else -> break;
         od;
@@ -89,11 +86,12 @@ proctype Reliable (byte processId)
   round = 0;
   barrier = M;
   localVar = initialValues[processId];
+
   wait(barrier); 
   do :: (round >= K+1) -> break;
      :: (round < K+1)  -> // phase 1: broadcast localVar value
                 broadcast(locC, localVar, processId);
-                wait(barrier); // implement barrier that makes sense
+                wait(barrier); // wait for all to finish their broadcast
                 // reset counters
                 msgCounter[0] = 0;
                 msgCounter[1] = 0;
@@ -143,11 +141,18 @@ proctype Reliable (byte processId)
   finalValues[processId] = localVar;
 }
 
+/*
+b)
+claim1) eventually every reliable process has the same value in its local variable
+ 
+claim2)  if all reliable processes have the same initial value,  then their final value is the same as their common initial value
+*/
+
 //      Claim1 for N = 3 
-//ltl claim1 {(<> ((initial == 1) && finalValues[0] == finalValues[1] && finalValues[1] == finalValues[2]))}
+ltl claim1 {(<> ((initial == 1) && finalValues[0] == finalValues[1] && finalValues[1] == finalValues[2]))}
 
 //      Claim1 for N = 4
-ltl claim1 {(<> ((initial == 1) && finalValues[0] == finalValues[1] && finalValues[1] == finalValues[2]) && finalValues[2] == finalValues[3])}
+//ltl claim1 {(<> ((initial == 1) && finalValues[0] == finalValues[1] && finalValues[1] == finalValues[2]) && finalValues[2] == finalValues[3])}
 
 //      Claim1 for N = 2 and K = 1 (error expected)
 // ltl claim1 {(<> ((initial == 1) && finalValues[0] == finalValues[1] ))}

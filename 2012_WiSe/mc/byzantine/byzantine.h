@@ -1,6 +1,9 @@
-#define N 4
-#define K 2
-#define M 6
+// Number of reliable processes N
+#define N 3
+// Number of unreliable processes K
+#define K 1
+// Sum of both
+#define M 4
 
 #define INITVALUE 1
 
@@ -12,8 +15,8 @@ Arraychan A[M];
 
 byte initialValues[M];
 byte finalValues[M];
-
 int barriercounter = 0;
+
 // Sends a bit b from id "from" to all processes (including from itself)
 inline broadcast(counter, b, from)
 {
