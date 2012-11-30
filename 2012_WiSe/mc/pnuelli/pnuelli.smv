@@ -1,0 +1,32 @@
+MODULE pnuprocess(s, i, y1, y2)
+    VAR
+        pc : 0..4;
+    ASSIGN
+        init(pc) := 0;
+        next(pc) := case
+                        pc = 0  : { 0 , 1};
+                        pc = 1  : 2
+                        pc = 2  & (y2 = 0 | s != i) : 3 
+                        pc = 3  : 4
+                        pc = 4  : 0
+                    esac
+        next(s) :=  case
+                        pc = 1  : i;
+                        TRUE    : s;
+                    esac
+        next(y1) := case
+                        pc = 1  : TRUE;
+                        pc = 4  : FALSE;
+                    esac
+        
+MODULE main
+    VAR
+        s : boolean;
+        y1 : boolean;
+        y2 : boolean;
+        pnu1 : pnuprocess(s,0,y1,y2);
+        pnu2 : pnuprocess(s,1,y2,y1);
+    ASSIGN
+        init(s)     := {TRUE, FALSE};
+        init(y1)    := FALSE;
+        init(y2)    := FALSE;
