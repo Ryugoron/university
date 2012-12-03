@@ -18,8 +18,8 @@ MODULE pnuprocess(s, i, y1, y2)
                         pc = set                    : TRUE;
                         pc = exiting                : FALSE;
                     esac;
-    FAIRNESS
-        running & AG (pc = criticle -> EF (pc = exiting))
+--    FAIRNESS
+--        running & AG (pc = criticle -> EF (pc = exiting))
         
 MODULE main
     VAR
@@ -34,4 +34,4 @@ MODULE main
         init(y2)    := FALSE;
     SPEC AG (EF (EX (TRUE)))                                -- DEADLOCK FREE
     SPEC ! EF (pnu1.pc = criticle & pnu2.pc = criticle)     -- Es ist nie der Fall, dass beide in der kritischen Sektion sind
-    SPEC AG (pnu2.pc = entering -> pnu1.pc = criticle U (pnu1.pc != criticle U pnu2.pc = criticle))
+--    SPEC AG (pnu2.pc = entering -> pnu1.pc = criticle U (pnu1.pc != criticle U pnu2.pc = criticle))
