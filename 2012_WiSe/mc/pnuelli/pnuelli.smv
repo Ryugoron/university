@@ -4,34 +4,44 @@ MODULE pnuprocess(s, i, y1, y2)
     ASSIGN
         init(pc) := idle;
         next(pc) := case
-                        pc = idle                       : { idle , set };
-                        pc = set                        : entering;
-                        pc = entering  & (!y2 | s != i) : criticle;
-                        pc = criticle                   : { criticle , exiting };
-                        pc = exiting                    : idle;
-                    esac;
-        next(s) :=  case
-                        pc = set                    : i;
-                        pc != set                   : s;
+                        pc = idle                           : { idle , set };
+                        pc = set                            : entering;
+                        pc = entering  & (!y2 | s != i)     : criticle;
+                        pc = criticle                       : exiting;
+                        pc = exiting                        : idle;
+                        TRUE                                : pc;
                     esac;
         next(y1) := case
                         pc = set                    : TRUE;
                         pc = exiting                : FALSE;
+                        TRUE                        : y1;
                     esac;
---    FAIRNESS
---        running & AG (pc = criticle -> EF (pc = exiting))
-        
+
 MODULE main
     VAR
         s : boolean;
         y1 : boolean;
         y2 : boolean;
-        pnu1 : pnuprocess(s,0,y1,y2);
-        pnu2 : pnuprocess(s,1,y2,y1);
+        pnu1 : pnuprocess(s,FALSE,y1,y2);
+        pnu2 : pnuprocess(s,TRUE,y2,y1);
     ASSIGN
         init(s)     := {TRUE, FALSE};
         init(y1)    := FALSE;
         init(y2)    := FALSE;
-    SPEC AG (EF (EX (TRUE)))                                -- DEADLOCK FREE
-    SPEC ! EF (pnu1.pc = criticle & pnu2.pc = criticle)     -- Es ist nie der Fall, dass beide in der kritischen Sektion sind
---    SPEC AG (pnu2.pc = entering -> pnu1.pc = criticle U (pnu1.pc != criticle U pnu2.pc = criticle))
+      
+        next(s) :=  case
+                        pnu1.pc = set             : FALSE;
+                        pnu2.pc = set             : TRUE;
+                        TRUE                      : s;
+                    esac;
+
+    SPEC AG (EX (TRUE))                                     -- DEADLOCK FREE
+    SPEC EF ! (pnu1.pc = criticle & pnu2.pc = criticle)     -- Es existiert ein Pfad, auf denen nicht beide in der critischen Sektion sind
+    SPEC AG !(pnu1. pc = criticle & pnu2.pc = criticle)     -- Gilt auf allen Pfaden
+    
+    -- Starvation Free
+    SPEC AG (pnu1.pc = entering -> AF (pnu1.pc = criticle))
+
+    -- Fariness 0-bounded
+    SPEC EG ((pnu2.pc = entering & pnu1.pc = criticle) -> AX A [pnu2.pc != criticle U pnu2.pc = criticle])
+    SPEC AG ((pnu2.pc = entering & pnu1.pc = criticle) -> AX A [pnu2.pc != criticle U pnu2.pc = criticle])
