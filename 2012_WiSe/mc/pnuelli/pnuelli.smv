@@ -1,0 +1,37 @@
+MODULE pnuprocess(s, i, y1, y2)
+    VAR
+        pc : {idle, set, entering, criticle, exiting};
+    ASSIGN
+        init(pc) := idle;
+        next(pc) := case
+                        pc = idle                       : { idle , set };
+                        pc = set                        : entering;
+                        pc = entering  & (!y2 | s != i) : criticle;
+                        pc = criticle                   : { criticle , exiting };
+                        pc = exiting                    : idle;
+                    esac;
+        next(s) :=  case
+                        pc = set                    : i;
+                        pc != set                   : s;
+                    esac;
+        next(y1) := case
+                        pc = set                    : TRUE;
+                        pc = exiting                : FALSE;
+                    esac;
+--    FAIRNESS
+--        running & AG (pc = criticle -> EF (pc = exiting))
+        
+MODULE main
+    VAR
+        s : boolean;
+        y1 : boolean;
+        y2 : boolean;
+        pnu1 : pnuprocess(s,0,y1,y2);
+        pnu2 : pnuprocess(s,1,y2,y1);
+    ASSIGN
+        init(s)     := {TRUE, FALSE};
+        init(y1)    := FALSE;
+        init(y2)    := FALSE;
+    SPEC AG (EF (EX (TRUE)))                                -- DEADLOCK FREE
+    SPEC ! EF (pnu1.pc = criticle & pnu2.pc = criticle)     -- Es ist nie der Fall, dass beide in der kritischen Sektion sind
+--    SPEC AG (pnu2.pc = entering -> pnu1.pc = criticle U (pnu1.pc != criticle U pnu2.pc = criticle))
