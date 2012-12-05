@@ -1,22 +1,41 @@
 MODULE pnuprocess(s, i, y1, y2)
     VAR
-        pc : {idle, set, entering, criticle, exiting};
+        pc : {idle, set, set2, entering, criticle, exiting};
+        --pc : {idle, set, entering, criticle, exiting};
     ASSIGN
         init(pc) := idle;
         next(pc) := case
                         pc = idle                           : { idle , set };
-                        pc = set                            : entering;
+            
+                        -- Gleichzeitig setzten
+                        -- pc = set                            : entering;
+
+                        -- Nacheinander setzten
+                        pc = set                            : set2;
+                        pc = set2                           : entering;
+
                         pc = entering  & (!y2 | s != i)     : criticle;
                         pc = criticle                       : exiting;
                         pc = exiting                        : idle;
                         TRUE                                : pc;
                     esac;
         next(s) :=  case
-                        pc = set                            : i;
+                        
+                        -- Gleichzeitig oder s zuerst
+                        -- pc = set                            : i;
+
+                        -- s als letztes setzten
+                        pc = set2                           : i;
+        
                         TRUE                                : s;
                     esac;
         next(y1) := case
+                        -- Gleichzeitig oder y1 zuerset
                         pc = set                    : TRUE;
+
+                        -- y1 als letztes
+                        -- pc = set2                   : TRUE;
+
                         pc = exiting                : FALSE;
                         TRUE                        : y1;
                     esac;
