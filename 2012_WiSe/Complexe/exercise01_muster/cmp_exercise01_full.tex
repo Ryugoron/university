@@ -1,0 +1,329 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm]{geometry} 
+\usepackage{babel}
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc} 
+\usepackage{ae} 
+\usepackage{amssymb} 
+\usepackage{amsmath}
+\usepackage{amsthm} 
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{paralist}
+
+\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[C]{Complexity Theory}
+\fancyhead[L]{Exercise sheet 1}
+\fancyhead[R]{WiSe 2012}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage \hspace{1px} of \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\setlength{\parindent}{0pt} 
+\setlength{\headheight}{0pt}
+
+\date{}
+\title{Exercise Sheet 1}
+\author{}
+
+
+%%
+%% Enviroments for proofs and lemmas
+%%
+\newtheorem{lemma}{\bfseries Claim}
+
+\begin{document}
+
+\lstset{language=Pascal, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2, mathescape=true}
+
+\renewcommand{\figurename}{Figure}
+
+\maketitle
+\thispagestyle{fancy}
+
+%%\input{tasks/ex1}
+
+\section*{Exercise 1} 
+
+Let $n$ be the amount of different Twilight stickers and $X$ be the random variable representing the the required number of bags to achieve all $n$ stickers.
+Each bag contains a sticker that is chosen uniformly at random.\\
+We would like to find the expected value $E[X]$.
+
+%% ----------------------------------------------------
+%%                          1 a)
+%% ----------------------------------------------------
+
+\subsection*{(a)}
+
+Let $X_i$ be the random variable that represents the length of round $i$, where a round $i$ ends, if we achieve a sticker, different from the $i+1$ we
+achieved thus far.
+
+\begin{lemma}\label{ex1:t1:linearity}
+    $E[X] = \overset{n}{\underset{i=1}{\sum}} E[X_i]$.
+\end{lemma}
+
+\textbf{Proof \ref{ex1:t1:linearity}.}\\
+By construction $X = \overset{n}{\underset{i=1}{\sum}} X_i$ holds, because in each round we obtain a new sticker
+and sum up all bags need in each round.\\
+By linearity of the expected value it follows immediately that
+$$
+    E[X] = E \left[ \sum_{i=1}^{n} X_i \right] \stackrel{Lin.}{=} \sum_{i=1}^{n} E [X_i]
+$$
+holds.
+\mbox{} \hfill $\square$
+
+%% ----------------------------------------------------
+%%                          1 b)
+%% ----------------------------------------------------
+
+
+\subsection*{(b)}
+
+\begin{lemma}\label{ex1:t1:rounds}
+    $E[X_i] = \frac{n}{n-i+1}$.
+\end{lemma}
+
+\textbf{Proof \ref{ex1:t1:rounds}.}\\
+First we show, that $E[ X_i ]$ is a geometric distribution meaning\\
+$Pr (X_i = k) = (1 - p_i)^{k-1} \cdot p_i$ holds,
+where $p_i$ is the probability to get a new card.\\
+
+The event $X_i$ is described as the first time, we achieve a new card. If $X_i = k$ the first $k-1$ bags
+may not contain a new card, which is the complementary event with probability $(1- p_i)$.\\
+
+In terms of probability $Pr(X_i = k) = (1 - p_i)^{k-1} \cdot p_i$ holds.\\
+
+Because $E [X_i ]$ is geometric distributed we now conclude
+$E[ X_i ] = \frac{1}{p_i}$.\\
+
+In the last step we now, that we already have $i-1$ stickers in the $i$-th round. So the probability
+in a uniform distribution to get a new sticker is $p_i = \frac{n - i + 1}{n}$.\\
+By the previous formula the claim $E[ X_i ] = \frac{n}{n - i + 1}$ follows.
+
+\mbox{} \hfill $\square$
+%% ----------------------------------------------------
+%%                          1 c)
+%% ----------------------------------------------------
+
+
+\subsection*{(c)}
+
+\begin{lemma}\label{ex1:t1:expected}
+    $E[X]= O(n\, \log\, n)$.
+\end{lemma}
+
+
+\textbf{Proof \ref{ex1:t1:expected}.}\\
+\[
+E[X]\stackrel{(a)}{=}\sum_{i=1}^{n}E[X_{i}]\stackrel{(b)}{=}\sum_{i=1}^{n}\frac{n}{n-i+1}=n\sum_{i=1}^{n}\frac{1}{n-i+1}
+\]
+
+
+\[
+=n\sum_{i=1}^{n}\frac{1}{i}=n\cdot O(\log\: n)=O(n\, \log\, n)
+\]
+
+
+\mbox{} \hfill $\square$
+
+
+%%\input{tasks/ex2}
+
+\section*{Exercise 2}
+
+In the knapsack problem, we are given $n$ items. Each item has a \emph{weight} $g_i$ and a \emph{value} $w_i$.
+Furthermore , we have a maximum weight $G$. All inputs are positive integers.\\
+
+We would like to find a set $I \subseteq \{ 1,...,n \}$ of items, such that the total value
+$\underset{i \in I}{\sum} w_i$ is maximum, subject to the constraint that the total weight is at most
+$G$, meaning $\underset{i \in I}{\sum} g_i \leq G$.
+
+\subsection*{(a)} 
+
+Define an appropriate decision version for the knapsack problem and show that it is NP-complete.\\
+
+\textbf{Solution:}\\
+We choose the canonical extension of an optimization problem to a decision problem. Let the defined variables
+be as the the optimization problem. Than take an additional positive Integer $K$.\\
+
+The decision question is "Does there exist a set $I \subseteq \{ 1, ... , n \}$ such that
+$\underset{i \in I}{\sum} w_i \geq K$ and $\underset{ i \in I}{\sum} g_i \leq G$".
+
+Let KNAP be this problem.
+
+\begin{lemma}\label{cmp:ex1:knap:np}
+The decision problem for the knapsack problem is NP-complete.
+\end{lemma}
+\textbf{Proof \ref{cmp:ex1:knap:np}.}\\
+\begin{enumerate}[i)]
+    \item KNAP $\in$ NP.\\
+        Let $I \subset \{ 1, ... , n \}$ be the optimal solution. Obviously $|I| < n^c$ for some constant $c>0$,
+        because $I$ is itself part of the input.\\
+        Let the Verifier $V$ be defined as follows.\\
+        Compute $\underset{i \in I}{\sum} w_i = w'$ and 
+        $\underset{i \in I}{\sum} g_i = g'$.\\
+        Accept if and only if $w' \geq K$ and $ g' \leq G$.\\
+
+        Both sums can be computed in polynomial time and the comparison can be computed
+        in logarithmic time in the length of the values.
+        $V$ accepts $(w,I)$ in $T(n) \in O(n^c)$ for some constant $c>0$.
+
+    \item SUBSET-SUM $\prec_p$ KNAP.\\
+        To reduce subset-sum to knapsack we choose the following transformation. Let $S$ be the set of
+        positive integers for subset-sum and $T$ a value. The question for knapsack is now, does there exist
+        a subset $O \subseteq S$ such that $\underset{i \in O}{\sum} i = T$.
+
+        The reduction function $f$ sets $w_i := g_i := i$ for all $i \in S$ and $G := K := T$. One can
+        easily see, that the reduction can be done in linear time because we only copy values. \\
+
+        $w \in$ SUBSET-SUM $\Rightarrow f(w) \in$ KNAP.\\
+        There exists a subset $O \subset S$ such that $\underset{i \in O}{\sum} i = T$.
+        After the application of $f$ we know that $O \subset I$ and
+        $\underset{i \in O} w_i = K$ and $\underset{i \in O} g_i = G$. Therefore $O$ is a solution for
+        KNAP on this input.\\
+
+        $f(w) \in$ KNAP $\Rightarrow w \in$ SUBSET-SUM.\\
+        There exists a subset $O \subset I$ such that $\underset{i \in O}{\sum} g_i \leq G$ and $\underset{i \in O}{\sum} w_i \geq K$.
+        From the reduction $f$ we know that $\underset{i \in O}{\sum} g_i = \underset{i \in O}{\sum} w_i = \underset{i \in O}{\sum} i$ holds.\\
+        $\Rightarrow \underset{i \in O}{\sum} i \leq G \land \underset{i \in O}{\sum} i \geq K$.\\
+        Again from $f$ we know that $G = K = T$ holds.\\
+        $\Rightarrow \underset{i \in O}{\sum} i = T$.\\
+\mbox{} \hfill $\square$
+\end{enumerate}
+
+
+\subsection*{(b)}
+
+Let $W := \underset{i=1}{\overset{n}{\sum}} w_i$. Show that the knapsack problem can be solved in $O(nW)$ time. Why does this not
+contradict \emph{(a)}?\\
+
+\textbf{Solution:}\\
+
+We show that a dynamic program solves the knapsack problem and has the runtime of $O(nW)$.\\
+Let $g[n,W]$ be a two dimensional array, that stores the in $g[i,w]$ the minimal weight, for the first $i$ objects
+with an value exactly $w$.
+
+We can now give the recursive definition of to fill in $w$. Let the array be initialized with $\infty$.
+
+$$\begin{array}{lclr}
+    g[0,w]  &:=& 0          & \forall 0 \leq w \leq W\\
+    g[i,0]  &:=& 0          & \forall 1 \leq i \leq n\\
+    g[i,w]  &:=& g[i-1,w]   & \text{if } w - w_i \leq 0\\
+    g[i,w]  &:=& \min \{ g[i-1,w] , g[i-1 , w - w_i] + g_i\}
+\end{array}$$
+
+After filling the array we can retrieve the maximal value by computing\\
+$\underset{0 \leq w \leq W}{\text{argmax}} \{ g[n,w] \; | \; g[n,w] \leq G \}$.\\
+
+This algorithm can be easily implemented through a double for loop comparing
+both cases. The result can be computed in a single for loop.
+
+The algorithm computes the optimal solution, because it computes every possible solution and takes the greatest value.\\
+The computation takes $O(nW)$ time because the array has $n \times W$ cells and in each cell we have an constant
+computation time $O(1)$.
+To find the maximal value we iterate over $W$ cells and compute the maximum which can be done in time $O(W)$.\\
+Therefore $T(n) = O(nW)$ holds.\\
+
+This does not contradict with \emph{(a)} because $W$ can be exponential in the size of the input. The runtime of the algorithm
+is pseudo polynomial.
+
+\subsection*{(c)}
+
+For the $(1 - \varepsilon)$ - approximation we use an algorithm based on the algorithm of $(b)$.
+
+The trick is to round the values of $w_i$ such that we do not have to look at each possible value of $w$.\\
+
+We assign new values by the following scheme
+
+\begin{lstlisting}
+M $\leftarrow$ $\max_{i\in I} w_i$
+$\mu$ $\leftarrow$ $\varepsilon \frac{M}{n}$
+w_i' $\leftarrow$ $\lfloor w_i / \mu \rfloor$ for all $i \in S$
+\end{lstlisting}
+
+and run the algorithm from $(b)$ on it.
+With the modified values we can skip the array in $\mu$ steps.
+$$
+\frac{W}{\mu} = \frac{n}{\varepsilon \cdot M} \overset{n}{\underset{i=1}{\sum}} w_i \stackrel{M \geq w_i}{\leq} \frac{n}{\varepsilon} \overset{n}{\underset{i=1}{\sum}} 1 = O (\frac{n^2}{\varepsilon})
+$$
+The new grid has size $n \times O (\frac{n^2}{\varepsilon})$ therefore the runtime of the algorithm on the modified values is
+in $poly(n, \frac{1}{\varepsilon})$.\\
+Leaves us to proof, that the algorithm is a $(1-\varepsilon)$ - approximation.
+Let $I$ be the set which gives us the optimal solution on $W$ and $O$ the set, that gives use the optimal solution on $W'$ the rounded values.\\
+
+First observe, that $M \leq OPT$, because we can always can take the most valuable item. The rounding of the values gives us the estimation 
+$ \mu w_i' \leq w_i \leq \mu (w_i' + 1)$ which leads us to $\mu w_i'  \geq w_i - \mu$.
+
+$$\begin{array}{rcl}
+    \underset{i \in O}{\sum} w_i &\stackrel{\text{Def. } w_i'}{\geq}& \mu \underset{i \in O}{\sum} w_i'\\
+        &\stackrel{O \text{ opt. on } w_i'}{\geq}& \mu \underset{i \in I}{\sum} w_i'\\
+        &\geq& (\underset{i \in I}{\sum} w_i) - |I|\mu\\
+        &\stackrel{|I| < n}{\geq}& (\underset{i \in I}{\sum} w_i) - n \mu\\
+        &\stackrel{\text{Def. }\mu}{=}& (\underset{i \in I}{\sum} w_i) - \varepsilon M\\
+        &\stackrel{I \text{ opt. on }w_i}{\geq}& OPT - \varepsilon OPT = (1-\varepsilon) OPT
+\end{array}$$ 
+
+We can conclude that the algorithm is an FPTAS for the knapsack problem.
+
+
+%%\input{tasks/ex3}
+
+\section*{Exercise 3}
+
+True or False? For every $\varepsilon > 0$, there exists an NP - complete problem that can be solved deterministically in
+$O(2^{n^\varepsilon})$ steps. Explain your answer.
+
+\textbf{Solution:}\\
+
+We proof this part by construction a language for each $\varepsilon > 0$, that is $NP - complete$ and can be solved in
+the given time.\\
+
+Let PAD-SAT$_\varepsilon = \{ (\Psi , 1^{|\Psi|^{\left\lceil \frac{2}{\varepsilon} \right\rceil}}) \; | \; \Psi \text{ satisfiable in 3 cnf} \}$\\
+
+\begin{lemma}\label{ex1:t3:npc}
+	$\text{PAD-SAT}_\varepsilon$ is NP-complete.
+\end{lemma}
+
+\textbf{Proof \ref{ex1:t3:npc}.}\\
+PAD-SAT$_\varepsilon \in$ NP.\\
+Given an variable assignment we can check whether the formula $\Psi$ is satisfied in polynomial time. 
+The number of variables has to be strictly smaller than the length of the formula. The assignment is polynomial bounded
+in the input size hence the witness is polynomial in the size of the input.\\
+
+3-SAT $\prec_p$ PAD-SAT$_\varepsilon$.\\
+The reduction function copies the formula $\Psi$, computes $|\Psi|^{\left\lceil \frac{2}{\varepsilon} \right\rceil}$
+and appends that many ones to $\Psi$. The computation can be done in polynomial time.
+The reduction is valid because if $\Psi$ is satisfiable it remains satisfiable after the reduction and vis-versa.
+
+\begin{lemma}\label{ex1:t3:time}
+    There exists a DTM M such that $T_M(n) \in DTIME (2^{n^\varepsilon})$.
+\end{lemma}
+
+\textbf{Proof \ref{ex1:t3:time}.}\\
+We construct a DTM M that checks the satisfiability by brute-force.
+Given a word $w = (\Psi, 1^{|\Psi|^{\left\lceil \frac{2}{k} \right\rceil}})$ with $n = |w|$.\\
+It holds that $|\Psi| \leq n^\frac{\varepsilon}{2}$. Otherwise 
+$|w| = |\Psi| + |\Psi|^{\left\lceil \frac{2}{k} \right\rceil} > n^\frac{\varepsilon}{2} + (n^\frac{\varepsilon}{2})^{\frac{2}{k}} > n$
+holds which is a contradiction.\\
+
+$\Rightarrow$ There exists at most $n^\frac{\varepsilon}{2}$ possible assignments for $\Psi$. We can
+compute the result for a given assignment in $n^c$ time for some $c > 0$.
+
+Therefore $T_M (n) \leq n^c \cdot 2^{n^\frac{\varepsilon}{2}}$. At last we prove that $T_M(n) \in O(2^{n^\varepsilon})$.
+
+$$
+\lim_{n\rightarrow \infty} \frac{T_M (n)}{2^{n^\varepsilon}} = \lim_{n \rightarrow \infty} n^c \cdot 2^{n^\frac{\varepsilon}{2} - n^\varepsilon}
+= n^c \cdot 2^{-n^\frac{\varepsilon}{2}} = 0
+$$
+By convergence criterion we know that there exist the DTM M that computes a NP complete problem in $O(2^{n^\varepsilon})$ time.\\
+\mbox{} \hfill $\square$
+
+\label{LastPage}
+
+\end{document}

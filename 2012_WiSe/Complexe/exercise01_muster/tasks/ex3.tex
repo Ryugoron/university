@@ -1,6 +1,6 @@
 \section*{Exercise 3}
 
-True or False? For every $\varepsilon > 0$, there exists an NP - complete problem that can be solved deterministicly in
+True or False? For every $\varepsilon > 0$, there exists an NP - complete problem that can be solved deterministically in
 $O(2^{n^\varepsilon})$ steps. Explain your answer.
 
 \textbf{Solution:}\\
@@ -8,56 +8,42 @@ $O(2^{n^\varepsilon})$ steps. Explain your answer.
 We proof this part by construction a language for each $\varepsilon > 0$, that is $NP - complete$ and can be solved in
 the given time.\\
 
-Let $PAD-SAT_\varepsilon = \{ (\Psi , 1^{|\Psi|^{\left\lceil \frac{k}{\varepsilon} \right\rceil}}) \; | \; \Psi \text{satisfyable in 3 cnf} \}$
-where $k > 1$ is a arbitrary but fixed konstant.\\
-
-\pagebreak
+Let PAD-SAT$_\varepsilon = \{ (\Psi , 1^{|\Psi|^{\left\lceil \frac{2}{\varepsilon} \right\rceil}}) \; | \; \Psi \text{ satisfiable in 3 cnf} \}$\\
 
 \begin{lemma}\label{ex1:t3:npc}
-    $PAD-SAT_\varepsilon$ is NP-complete.
+	$\text{PAD-SAT}_\varepsilon$ is NP-complete.
 \end{lemma}
 
 \textbf{Proof \ref{ex1:t3:npc}.}\\
-This part is straight forward.\\
-Given an variable assignment we can check, whether the formula $\Psi$ is satisfied in linear time, by simply iteration over
-the clauses. Because the number of variables has to be strictly smaller than the formulas the assignment is polynomial bounded
-in the inputsize.\\
+PAD-SAT$_\varepsilon \in$ NP.\\
+Given an variable assignment we can check whether the formula $\Psi$ is satisfied in polynomial time. 
+The number of variables has to be strictly smaller than the length of the formula. The assignment is polynomial bounded
+in the input size hence the witness is polynomial in the size of the input.\\
 
-We can next reduce $PAD-SAT_\varepsilon$ to $3-SAT$. The reduction copys $\Psi$ and throws away the rest. If 
-the TM for $3 - SAT$ accepts, the word is in the language, because $\Psi$ is satisfiable. If it rejects,
-$\Psi$ is not satisfiable, thus the word can't be in $PAD-SAT_\varepsilon$.
+3-SAT $\succ_p$ PAD-SAT$_\varepsilon$.\\
+The reduction function copies the formula $\Psi$, computes $|\Psi|^{\left\lceil \frac{2}{\varepsilon} \right\rceil}$
+and appends that many ones to $\Psi$. The computation can be done in polynomial time.
+The reduction is valid because if $\Psi$ is satisfiable it remains satisfiable after the reduction and vis-versa.
 
 \begin{lemma}\label{ex1:t3:time}
     There exists a DTM M such that $T_M(n) \in DTIME (2^{n^\varepsilon})$.
 \end{lemma}
 
 \textbf{Proof \ref{ex1:t3:time}.}\\
+We construct a DTM M that checks the satisfiability by brute-force.
+Given a word $w = (\Psi, 1^{|\Psi|^{\left\lceil \frac{2}{k} \right\rceil}})$ with $n = |w|$.\\
+It holds that $|\Psi| \leq n^\frac{\varepsilon}{2}$. Otherwise 
+$|w| = |\Psi| + |\Psi|^{\left\lceil \frac{2}{k} \right\rceil} > n^\frac{\varepsilon}{2} + (n^\frac{\varepsilon}{2})^{\frac{2}{k}} > n$
+holds which is a contradiction.\\
 
-From the definition we can conclude, that $|\Psi| \leq n^{\frac{\varepsilon}{k}}$ holds,
-because the rest of the length of the word is filled with ones.\\
+$\Rightarrow$ There exists at most $n^\frac{\varepsilon}{2}$ possible assignments for $\Psi$. We can
+compute the result for a given assignment in $n^c$ time for some $c > 0$.
 
-$\Psi$ is a boolean formula and this formula contains each occurence of its variables. Therefore there can't
-be no more variables, than the length of $\Psi$.\\
-So we can compute all Assignments, which are less than $2^{n^{\frac{\varepsilon}{k}}}$.
-As said before we can iterate over all clauses and literals and check whether there occures at least one 
-true in each clause. Therefore we have linear costs in the length of $\Psi$.\\
+Therefore $T_M (n) \leq n^c \cdot 2^{n^\frac{\varepsilon}{2}}$. At last we prove that $T_M(n) \in O(2^{n^\varepsilon})$.
 
-We now construct a DTM $M$.\\
-Given a word $(\Psi, 1^{|\Psi|^{\left\lceil \frac{k}{\varepsilon} \right\rceil }})$, we check first
-whether the number of ones is right in the end. This takes us at most $n$ time.
-Next we test all assignments, if they satisfy the formula.\\
-
-Testing takes $n^\frac{\varepsilon}{k}$ time and we have $2^{n^\frac{\varepsilon}{k}}$ possibility, so
-the runtime of $M$ is $T_M (n) = n^\frac{\varepsilon}{k} 2^{n^\frac{\varepsilon}{k}}$. We ignore the
-linear Faktor, because we know that we can choose a faktor so that this function is strictly greate after a given $n_0$.\\
-
-Now we have to show, that $T_M(n) \in O(2^{n^\varepsilon})$. We do this by checking the limiting value
 $$
-    \underset{n \rightarrow \infty}{\lim} \frac{T_M (n)}{2^{n^\varepsilon}}
-        = \underset{n \rightarrow \infty}{\lim} n^\frac{\varepsilon}{k} 2^{n^\frac{\varepsilon}{k} - n^\varepsilon}\\
-        = 0
+\lim_{n\rightarrow \infty} \frac{T_M (n)}{2^{n^\varepsilon}} = \lim_{n \rightarrow \infty} n^c \cdot 2^{n^\frac{\varepsilon}{2} - n^\varepsilon}
+= n^c \cdot 2^{-n^\frac{\varepsilon}{2}} = 0
 $$
-
-Because $n^\frac{\varepsilon}{k} < n^\varepsilon$ holds for $k > 1$ and than we have a exponential function with a negative exponent
-and a polynomial faktor. By knowledge of Analysis I this sequence converges to 0.\\
+By convergence criterion we know that there exist the DTM M that computes a NP complete problem in $O(2^{n^\varepsilon})$ time.\\
 \mbox{} \hfill $\square$
