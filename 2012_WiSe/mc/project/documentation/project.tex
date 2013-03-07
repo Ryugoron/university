@@ -37,7 +37,7 @@ Skip
 %% --------------------------------------
 %%           Section II
 %% --------------------------------------
-\section{Problem / Algorithm???}
+\section{Problem / Algorithm??? \label{sec:prob}}
 
 No problem
 
@@ -46,13 +46,19 @@ No problem
 %% --------------------------------------
 %%           Section III
 %% --------------------------------------
-\section{Modeling in Spin}
+\section{Modeling\label{sec:model}}
 
-In this part we look at some details of the modeling process.
+To determine whether the algorithms mentioned in section~\ref{sec:prob} indeed appropriately solves
+the problem of mutual exclusion, we model these algorithms in promela and apply ltl modelchecking using spin.
+Section~\ref{ssec:choice} justifies out choice of the spin verification suite; the following sections
+describe the model itself. Finally, section~\ref{ssec:run} displays an example simulation run of the algorithms.
 
-\subsection{Why Spin}
+\subsection{Verification system~\label{ssec:choice}}
 
-Because FUCK YOU! Thats why.
+Since the algorithms described by Suzuki and Kasami use an imperative style it appears intuitive to us
+that a model in promela, which itself is imperative, is best suited. Additionally, promela comes with
+native support for process communication via channels. Since we are checking a distributed algorithm,
+we use the channels of promela to simulate the message exchange.
 
 \subsection{Channels}
 
@@ -124,7 +130,7 @@ Because Spin does not support a procedure we implemented it as a macro.
 
 Write smth.
 
-\subsection{Simulation of the model}
+\subsection{Simulation of the model\label{ssec:run}}
 
 Add blblabla diagram
 
