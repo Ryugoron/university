@@ -143,8 +143,8 @@ This time we used a label at the critical section and an array for the process i
 
 Fairness can be expressed by
 \begin{equation}
-    \square \left( \text{\lstinline|requesting|}[0] \Rightarrow \diamond \text{\lstinline|p[ids[0]]@critical|} 
-    \land \text{\lstinline|requesting|}[1] \Rightarrow \diamond \text{\lstinline|p[ids[1]]@critical|}\right)
+    \square \left( \text{\lstinline|requesting|}[0] \Rightarrow \diamond \text{\lstinline|Process[p[0]]@critical|} 
+    \land \text{\lstinline|requesting|}[1] \Rightarrow \diamond \text{\lstinline|Process[p[1]]@critical|}\right)
 \end{equation}
 in both algorithms.
 
@@ -153,7 +153,7 @@ in both algorithms.
 We check the property
 \begin{eqnarray}
     \diamond & ( \square \text{\lstinline|incs|=0} \land \text{\lstinline|requesting|}[0]=1 \land \underset{1\leq i < N}{\bigwedge} \text{\lstinline|requesting|}[i] = 0\\
-    &\Rightarrow \square (\text{\lstinline|incs|=1} \Rightarrow \text{\lstinline|p[ids[0]]@critical|}))
+    &\Rightarrow \square \diamond(\text{\lstinline|Process[p[0]]@critical|}))
 \end{eqnarray}
 that means; whenever process zero is the only one who ever wants to enter the critical section it will do so infinitly many times.
 
