@@ -164,10 +164,10 @@ The first one because it has initially the privilage and the second one as a rep
 This time we used a label at the critical section and an array for the process id's.
 
 Fairness can be expressed by
-\begin{equation}
-    \square \left( \text{\lstinline|Process[p[0]]@request|} \Rightarrow \diamond \text{\lstinline|Process[p[0]]@critical|} 
-    \land \text{\lstinline|Process[p[1]]@request|}\Rightarrow \diamond \text{\lstinline|Process[p[1]]@critical|}\right)
-\end{equation}
+\begin{eqnarray}
+    \square & ( \text{\lstinline|Process[p[0]]@request|} \Rightarrow \diamond \text{\lstinline|Process[p[0]]@critical|} \\
+    &\land \text{\lstinline|Process[p[1]]@request|}\Rightarrow \diamond \text{\lstinline|Process[p[1]]@critical|})
+\end{eqnarray}
 in both algorithms.
 
 \subsection{No Uneccessary Delay}
