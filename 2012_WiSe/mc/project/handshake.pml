@@ -40,7 +40,7 @@ proctype Process(byte id)
                if
                 :: true -> printf("Proc %d chills\n",id);skip; /*  chillout */
 
-                :: true -> /* process i wants to enter cs */
+progressCS:     :: true -> /* process i wants to enter cs */
                            /* p1 code begin */
                           printf("Proc %d wants to enter CS\n",id);
                           request : requesting[id] = 1;
@@ -68,9 +68,9 @@ proctype Process(byte id)
                           do
                            :: (_c < N) -> if :: (_c == id) -> skip;
                                              :: else       ->
-                                                  qElem(__c,Q[id],j); // __c = Queue contains j?
+                                                  qElem(__c,Q[id],_c); // __c = Queue contains _c (from 1..N)?
                                                   if
-                                                   :: (__c == 0 && LONGCOND) -> qAppend(Q[id],j);
+                                                   :: (__c == 0 && RN[id].a[_c] == LN[id].a[_c]+1) -> qAppend(Q[id],_c);
                                                    :: else -> skip;
                                                   fi;
                                           fi;
@@ -94,7 +94,7 @@ proctype Process(byte id)
   od
 }
 
-ltl claim1 { [] (incs <= 1)}
+//ltl claim1 { [] (incs <= 1)}
 
 // Starvation for 3 Processes
 //ltl claim2 { [] ((Process[p[0]]@request || Process[p[1]]@request || Process[p[2]]@request) -> <> (incs == 1))}
@@ -104,4 +104,4 @@ ltl claim1 { [] (incs <= 1)}
 //ltl claim4 {[]( Process[p[0]]@request -> <> (Process[p[1]]@cs))}
 
 // No Unnesseccary Delay for 3 Processes
-//ltl claim5 {<> (([] (incs == 0 && Process[p[0]]@request && !Process[p[1]]@request && !Process[p[2]]@request)) -> ([](<>(Process[p[0]@cs))))}
+//ltl claim5 {<> (([] (incs == 0 && (Process[p[0]]@request) && !(Process[p[1]]@request) && !(Process[p[2]]@request))) -> ([](<>(Process[p[0]]@cs))))}
