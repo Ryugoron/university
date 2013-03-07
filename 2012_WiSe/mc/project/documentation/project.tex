@@ -1,0 +1,189 @@
+\documentclass{llncs}
+
+\usepackage[utf8]{inputenc}
+
+\usepackage{listings}
+\usepackage{amssymb, amsmath}
+
+
+\title{Five Message Handshake Project in Spin}
+\titlerunning{Five Message Handshake}
+\author{Alexander Steen \and Max Wisniewski}
+\date{\today}
+\institute{Institut f\"ur Informatik, FU Berlin}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+The distributed algorithm for the mutual exclusion problem proposed by Suzuki and Kasami \cite{blub} is checked
+with the modelchecker \emph{Spin}. We present a modeling for the algorithm in Promela, the properties we want
+to check for this algorithm and a short error analysis, why the second algorithm of Suzuki and Kasami does not work.
+\end{abstract}
+
+
+
+%% --------------------------------------
+%%           Section I
+%% --------------------------------------
+\section{Introduction}
+
+Skip
+
+
+
+%% --------------------------------------
+%%           Section II
+%% --------------------------------------
+\section{Problem / Algorithm???}
+
+No problem
+
+
+
+%% --------------------------------------
+%%           Section III
+%% --------------------------------------
+\section{Modeling in Spin}
+
+In this part we look at some details of the modeling process.
+
+\subsection{Why Spin}
+
+Because FUCK YOU! Thats why.
+
+\subsection{Channels}
+
+The processes send \emph{REQUEST} and \emph{PRIVILIGE} messages which both
+need to be handeld. For any atempt to enter a process sends \emph{REQUEST} to
+each of its neighbors. We decided to use a mailbox kind of channel system because
+this way a process does not have to iterate over many possible channels and check
+each of them seperatly.
+
+\begin{lstlisting}
+chan mailbox[N] = [N] of {mtype, int, int, Queue, Array}
+\end{lstlisting}
+
+\subsection{Request Messages}
+
+The methode \lstinline|p1| is excuted if a \emph{REQUEST} message is received.
+In the modeling we decided to prioritize the receiving of \emph{REQUEST} at the
+waiting points that are the \emph{remainder} and the waiting to enter the critical section.
+
+This is neccessary to satisfy the deadlock freedom and fairness constraints.
+
+\subsection{Global Variables}
+
+We decided to model all local variables of the processes as a global array of variables.
+We have done this out of debug reasons. This way we could check on receiving a message
+if everything was the way we expected it.
+
+\subsection{Send and Receive in Spin}
+
+There occured an ambiguous error in our implementation when we used a wrong number of matching
+variables in receiving a message. It happend some times that the received message differed from the
+send message. This way some of the requesting processes where dropped from the queue and were not considered
+for execution leading to a state where only one process was possible to enter the critical section.
+
+\subsection{Queue}
+
+We choose an implementation of a queue without a check for overflow.
+\begin{lstlisting}
+    insert 'insert' here
+\end{lstlisting}
+We could do this because in the program a number for a process is at most added once to the queue.
+If we give the queue an array of size $N$ there could never occure an overflow.
+
+\subsection{Next}
+
+Write smth.
+
+%% --------------------------------------
+%%           Section IV
+%% --------------------------------------
+\section{LTL Properties}
+
+A Mutual Exclusion Algorithm needs to satisfy the four properties
+\begin{itemize}
+    \item Mutual Exclusion,
+    \item Absence of Starvation,
+    \item Fairness,
+    \item No Unneccessary Delay
+\end{itemize}
+to be considered as correct.
+
+In Spin we have to model for each of these properties one or more
+LTL - Properties.
+
+\subsection{Mutual Exclusion}
+
+We added a variable \lstinline|incs| that is incremented before the critical section
+and decremented aftarwards. If initialized to zero mutual exclusion is expressed by the
+property
+\begin{equation}
+    \square \left( \text{\lstinline|incs|} \leq 1 \right)
+\end{equation}
+which is used in both implementations.
+
+\subsection{Absence of Starvation}
+
+The algorithm already uses a flag \lstinline|requesting| to mark if a process wants to enter the critical section.
+Using the counter \lstinline|incs| from the Mutual Exclusion property we can express deadlock freedom by
+\begin{equation}
+    \square \left( (\exists i \; : \; 0 \leq i \land i < N \Rightarrow \text{\lstinline|requesting|}[i]) \Rightarrow \diamond \text{\lstinline|incs|} = 1\right)
+\end{equation}
+again in both algorithms. For the checking in the bounded example we expanded the existential quantifier explicitly.
+\begin{equation}
+    \square \left( \text{\lstinline|requesting|}[0] \lor ... \lor \text{\lstinline|requesting|}[N-1] \Rightarrow \diamond \text{\lstinline|incs|} = 1 \right)
+\end{equation}
+
+\subsection{Fairness}
+
+All processes do not differ except for their Identifier. Therefore we will check the fairness constraint for the first process and the second process.
+The first one because it has initially the privilage and the second one as a representive for every other process.
+This time we used a label at the critical section and an array for the process id's.
+
+Fairness can be expressed by
+\begin{equation}
+    \square \left( \text{\lstinline|requesting|}[0] \Rightarrow \diamond \text{\lstinline|p[ids[0]]@critical|} 
+    \land \text{\lstinline|requesting|}[1] \Rightarrow \diamond \text{\lstinline|p[ids[1]]@critical|}\right)
+\end{equation}
+in both algorithms.
+
+\subsection{No Uneccessary Delay}
+
+As in the last property we will check this one for one of the precesses.
+\begin{equation}
+    \square \left( \text{\lstinline|incs|}=0 \land \text{\lstinline|requesting|}[0] = 1 \land \text{requesting|}[1] = 0\land ... \text{\lstinline|requesting|}[N-1] = 0 
+    \Rightarrow \diamond \text{\lstinline|incs|}=0\right)
+\end{equation}
+
+NO IDEAD HERE.
+
+%% --------------------------------------
+%%           Section V
+%% --------------------------------------
+\section{Checking the Properties}
+
+We saw something
+
+\subsection{Communication Diagrams}
+
+Insert some.
+
+%% --------------------------------------
+%%           Section I
+%% --------------------------------------
+\section{Conclusion}
+
+Yes.
+
+%% --------------------------------------
+%%           Section ??
+%% --------------------------------------
+\section{Bibliography}
+
+Not today.
+
+\end{document}
