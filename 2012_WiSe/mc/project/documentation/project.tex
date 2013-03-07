@@ -207,6 +207,90 @@ that means; whenever process zero is the only one who ever wants to enter the cr
 We could see that the first algorithm has unbounded character. We let the verifier run for some time
 and never saw an error (see APPENDIX).
 
+\subsection{Unbounded Variant}
+
+In this section we checked the first, unbounded variant of the algorithm.
+Because it is unbounded the checking will never end. We therefore checked until we reached
+a certain depth in the search tree and ended it afterwards.
+
+\subsubsection{Mutual Exclusion}
+
+We used the above described LTL property
+\begin{lstlisting}
+ltl claim1 { [] (incs <= 1)}
+\end{lstlisting}
+and run the verifier via
+\begin{lstlisting}
+gcc -DVECTORSZ=4096 -DCOLLAPSE pan.c -o pan
+./pan -a
+\end{lstlisting}
+
+The verifier gave the output
+\begin{lstlisting}
+State-vector 2072 byte, depth reached 9999, errors: 0
+ 40921117 states, stored
+ 37895505 states, matched
+ 78816622 transitions (= stored+matched)
+ 56986035 atomic steps
+hash conflicts:  29156326 (resolved)
+\end{lstlisting}
+which at least shows, that until this depth there was no error.
+The full output can be see in \ref{mc:app:unb:mutex}.
+
+\subsubsection{Absence of Starvation}
+
+We used the LTL property
+\begin{lstlisting}
+ltl claim2 {[]((Process[p[0]]@request
+||Process[p[1]]@request||Process[p[2]]@request)-><>(incs==1))}
+\end{lstlisting}
+and run the verifier via
+\begin{lstlisting}
+gcc -DVECTORSZ=4096 -DCOLLAPSE pan.c -o pan
+./pan -a -f.
+\end{lstlisting}
+This time we need the parameter '-f'. Otherwise it is possible for one process to never to something after wanting to enter
+the critical section. The output can be seen in \ref{mc:app:unb:dead} and it assures us that there is no error in
+the searched depth.
+
+\subsubsection{Fariness}
+
+Here we checked the two claims
+
+\begin{lstlisting}
+ltl claim3 {[]( Process[p[0]]@request 
+    -> <> (Process[p[0]]@cs))}
+ltl claim4 {[]( Process[p[0]]@request 
+    -> <> (Process[p[1]]@cs))}
+\end{lstlisting}
+
+which both could not be proven wrong after the execution of the verifier as in the last section.
+The output can be seen in \ref{mc:app:unb:fair}.
+
+\subsubsection{No Unneccessary Delay}
+
+We checked this... Trust us!!
+
+\subsection{Bounded Variant}
+
+This algorithm has a bounded state space and can be fully checked.
+But we found an error in the property BLUBELIBLUBBLUB
+
+\subsubsection{Mutual Exclusion}
+
+tbd
+
+\subsubsection{Absence of Starvation}
+
+tbd
+
+\subsubsection{Fairness}
+
+tbd
+
+\subsubsection{No Unneccessary Delay}
+
+tbd
 
 %% --------------------------------------
 %%           Section VI
@@ -222,5 +306,290 @@ Yes.
 \bibliographystyle{splncs}
 
 \bibliography{mc}
+
+\appendix
+
+\section{Unbonded Algorithm Output}
+
+\subsection{Mutual Exclusion}
+\label{mc:app:unb:mutex}
+
+\begin{lstlisting}
+
+Alex@hildegunst ~
+$ ./pan -a
+error: max search depth too small
+Depth=    9999 States=    1e+06 Transitions= 1.92e+06 Memory=   146.812 t=     7.21 R=   1e+05
+Depth=    9999 States=    2e+06 Transitions= 3.83e+06 Memory=   228.453 t=     14.6 R=   1e+05
+Depth=    9999 States=    3e+06 Transitions= 5.74e+06 Memory=   311.656 t=     22.4 R=   1e+05
+Depth=    9999 States=    4e+06 Transitions= 7.68e+06 Memory=   402.281 t=     30.4 R=   1e+05
+Depth=    9999 States=    5e+06 Transitions= 9.63e+06 Memory=   503.453 t=     38.3 R=   1e+05
+Depth=    9999 States=    6e+06 Transitions= 1.16e+07 Memory=   582.750 t=     45.8 R=   1e+05
+Depth=    9999 States=    7e+06 Transitions= 1.35e+07 Memory=   670.250 t=     53.1 R=   1e+05
+Depth=    9999 States=    8e+06 Transitions= 1.54e+07 Memory=   744.859 t=     60.6 R=   1e+05
+Depth=    9999 States=    9e+06 Transitions= 1.73e+07 Memory=   827.672 t=     68.3 R=   1e+05
+Depth=    9999 States=    1e+07 Transitions= 1.93e+07 Memory=   914.000 t=     76.3 R=   1e+05
+Depth=    9999 States=  1.1e+07 Transitions= 2.12e+07 Memory=   997.203 t=     83.9 R=   1e+05
+Depth=    9999 States=  1.2e+07 Transitions= 2.31e+07 Memory=  1082.750 t=     91.5 R=   1e+05
+Depth=    9999 States=  1.3e+07 Transitions= 2.51e+07 Memory=  1170.250 t=     99.2 R=   1e+05
+Depth=    9999 States=  1.4e+07 Transitions=  2.7e+07 Memory=  1255.016 t=      107 R=   1e+05
+Depth=    9999 States=  1.5e+07 Transitions=  2.9e+07 Memory=  1340.172 t=      115 R=   1e+05
+Depth=    9999 States=  1.6e+07 Transitions= 3.09e+07 Memory=  1423.766 t=      123 R=   1e+05
+Depth=    9999 States=  1.7e+07 Transitions= 3.28e+07 Memory=  1507.359 t=      131 R=   1e+05
+Depth=    9999 States=  1.8e+07 Transitions= 3.47e+07 Memory=  1593.297 t=      139 R=   1e+05
+Depth=    9999 States=  1.9e+07 Transitions= 3.67e+07 Memory=  1677.672 t=      146 R=   1e+05
+Depth=    9999 States=    2e+07 Transitions= 3.86e+07 Memory=  1756.969 t=      154 R=   1e+05
+Depth=    9999 States=  2.1e+07 Transitions= 4.05e+07 Memory=  1840.172 t=      162 R=   1e+05
+Depth=    9999 States=  2.2e+07 Transitions= 4.25e+07 Memory=  1921.422 t=      170 R=   1e+05
+Depth=    9999 States=  2.3e+07 Transitions= 4.44e+07 Memory=  2001.891 t=      178 R=   1e+05
+Depth=    9999 States=  2.4e+07 Transitions= 4.63e+07 Memory=  2084.703 t=      186 R=   1e+05
+Depth=    9999 States=  2.5e+07 Transitions= 4.83e+07 Memory=  2168.297 t=      194 R=   1e+05
+Depth=    9999 States=  2.6e+07 Transitions= 5.02e+07 Memory=  2253.453 t=      202 R=   1e+05
+Depth=    9999 States=  2.7e+07 Transitions= 5.21e+07 Memory=  2321.812 t=      210 R=   1e+05
+Depth=    9999 States=  2.8e+07 Transitions=  5.4e+07 Memory=  2395.641 t=      218 R=   1e+05
+Depth=    9999 States=  2.9e+07 Transitions= 5.59e+07 Memory=  2474.156 t=      226 R=   1e+05
+Depth=    9999 States=    3e+07 Transitions= 5.79e+07 Memory=  2560.094 t=      234 R=   1e+05
+Depth=    9999 States=  3.1e+07 Transitions= 5.98e+07 Memory=  2642.906 t=      242 R=   1e+05
+Depth=    9999 States=  3.2e+07 Transitions= 6.17e+07 Memory=  2726.109 t=      251 R=   1e+05
+Depth=    9999 States=  3.3e+07 Transitions= 6.36e+07 Memory=  2804.234 t=      259 R=   1e+05
+Depth=    9999 States=  3.4e+07 Transitions= 6.55e+07 Memory=  2880.797 t=      267 R=   1e+05
+pan: resizing hashtable to -w26..  done
+Depth=    9999 States=  3.5e+07 Transitions= 6.74e+07 Memory=  3211.406 t=      282 R=   1e+05
+Depth=    9999 States=  3.6e+07 Transitions= 6.94e+07 Memory=  3302.031 t=      290 R=   1e+05
+Depth=    9999 States=  3.7e+07 Transitions= 7.13e+07 Memory=  3382.500 t=      298 R=   1e+05
+tate-vector 2072 byte, depth reached 9999, errors: 0
+ 40921117 states, stored
+ 37895505 states, matched
+ 78816622 transitions (= stored+matched)
+ 56986035 atomic steps
+hash conflicts:  29156326 (resolved)State-vector 2072 byte, depth reached 9999, errors: 0
+ 40921117 states, stored
+ 37895505 states, matched
+ 78816622 transitions (= stored+matched)
+ 56986035 atomic steps
+hash conflicts:  29156326 (resolved)
+Depth=    9999 States=  3.9e+07 Transitions= 7.51e+07 Memory=  3546.172 t=      314 R=   1e+05
+Depth=    9999 States=    4e+07 Transitions= 7.71e+07 Memory=  3636.016 t=      322 R=   1e+05
+pan: out of memory
+
+hint: to reduce memory, recompile with
+  -DMA=2072   # better/slower compression, or
+  -DBITSTATE # supertrace, approximation
+
+(Spin Version 6.2.3 -- 24 October 2012)
+Warning: Search not completed
+        + Partial Order Reduction
+        + Compression
+
+Full statespace search for:
+        never claim             + (claim1)
+        assertion violations    + (if within scope of claim)
+        acceptance   cycles     + (fairness disabled)
+        invalid end states      - (disabled by never claim)
+
+State-vector 2072 byte, depth reached 9999, errors: 0
+ 40921117 states, stored
+ 37895505 states, matched
+ 78816622 transitions (= stored+matched)
+ 56986035 atomic steps
+hash conflicts:  29156326 (resolved)
+
+Stats on memory usage (in Megabytes):
+81641.175       equivalent memory usage for states (stored*(State-vector + overhead))
+ 3442.784       actual memory usage for states (compression: 4.22%)
+                state-vector as stored = 68 byte + 20 byte overhead
+  256.000       memory used for hash table (-w26)
+    0.382       memory used for DFS stack (-m10000)
+    1.840       memory lost to fragmentation
+ 3697.344       total actual memory usage
+
+
+nr of templates: [ 0:globals 1:chans 2:procs ]
+collapse counts: [ 0:4015087 2:13 3:3852 4:1 ]
+
+pan: elapsed time 329 seconds
+pan: rate 124449.14 states/second
+\end{lstlisting}
+
+\subsubsection{Absence of Starvation}
+\label{mc:app:unb:dead}
+
+\begin{lstlisting}
+
+Alex@hildegunst ~
+$ gcc -DVECTORSZ=4096 -DCOLLAPSE pan.c -o pan
+
+Alex@hildegunst ~
+$ ./pan -a -f
+error: max search depth too small
+Depth=    9999 States=    1e+06 Transitions= 2.55e+06 Memory=    95.250 t=     10.2 R=   1e+05
+Depth=    9999 States=    2e+06 Transitions= 4.91e+06 Memory=   120.641 t=     19.2 R=   1e+05
+Depth=    9999 States=    3e+06 Transitions= 7.25e+06 Memory=   145.250 t=     28.3 R=   1e+05
+Depth=    9999 States=    4e+06 Transitions= 9.61e+06 Memory=   166.344 t=     37.5 R=   1e+05
+Depth=    9999 States=    5e+06 Transitions=  1.2e+07 Memory=   194.859 t=     47.5 R=   1e+05
+Depth=    9999 States=    6e+06 Transitions= 1.43e+07 Memory=   222.203 t=     57.8 R=   1e+05
+Depth=    9999 States=    7e+06 Transitions= 1.67e+07 Memory=   246.031 t=     66.6 R=   1e+05
+Depth=    9999 States=    8e+06 Transitions=  1.9e+07 Memory=   268.297 t=     75.6 R=   1e+05
+Depth=    9999 States=    9e+06 Transitions= 2.13e+07 Memory=   289.000 t=     84.1 R=   1e+05
+Depth=    9999 States=    1e+07 Transitions= 2.36e+07 Memory=   313.219 t=     93.6 R=   1e+05
+Depth=    9999 States=  1.1e+07 Transitions=  2.6e+07 Memory=   333.141 t=      103 R=   1e+05
+Depth=    9999 States=  1.2e+07 Transitions= 2.83e+07 Memory=   358.531 t=      113 R=   1e+05
+Depth=    9999 States=  1.3e+07 Transitions= 3.08e+07 Memory=   383.141 t=      123 R=   1e+05
+Depth=    9999 States=  1.4e+07 Transitions= 3.31e+07 Memory=   407.359 t=      131 R=   1e+05
+Depth=    9999 States=  1.5e+07 Transitions= 3.54e+07 Memory=   430.406 t=      140 R=   1e+05
+Depth=    9999 States=  1.6e+07 Transitions= 3.77e+07 Memory=   453.453 t=      149 R=   1e+05
+Depth=    9999 States=  1.7e+07 Transitions=    4e+07 Memory=   476.500 t=      158 R=   1e+05
+Depth=    9999 States=  1.8e+07 Transitions= 4.24e+07 Memory=   497.984 t=      168 R=   1e+05
+Depth=    9999 States=  1.9e+07 Transitions= 4.48e+07 Memory=   520.641 t=      180 R=   1e+05
+Depth=    9999 States=    2e+07 Transitions= 4.71e+07 Memory=   544.859 t=      189 R=   1e+05
+Depth=    9999 States=  2.1e+07 Transitions= 4.94e+07 Memory=   568.688 t=      198 R=   1e+05
+Depth=    9999 States=  2.2e+07 Transitions= 5.18e+07 Memory=   592.906 t=      207 R=   1e+05
+Depth=    9999 States=  2.3e+07 Transitions=  5.4e+07 Memory=   615.172 t=      215 R=   1e+05
+Depth=    9999 States=  2.4e+07 Transitions= 5.64e+07 Memory=   640.172 t=      225 R=   1e+05
+Depth=    9999 States=  2.5e+07 Transitions= 5.88e+07 Memory=   658.922 t=      235 R=   1e+05
+Depth=    9999 States=  2.6e+07 Transitions= 6.11e+07 Memory=   681.969 t=      243 R=   1e+05
+Depth=    9999 States=  2.7e+07 Transitions= 6.34e+07 Memory=   704.234 t=      252 R=   1e+05
+Depth=    9999 States=  2.8e+07 Transitions= 6.58e+07 Memory=   730.406 t=      263 R=   1e+05
+Depth=    9999 States=  2.9e+07 Transitions= 6.81e+07 Memory=   752.281 t=      272 R=   1e+05
+Depth=    9999 States=    3e+07 Transitions= 7.05e+07 Memory=   775.328 t=      281 R=   1e+05
+Depth=    9999 States=  3.1e+07 Transitions= 7.28e+07 Memory=   795.641 t=      290 R=   1e+05
+Depth=    9999 States=  3.2e+07 Transitions= 7.51e+07 Memory=   817.125 t=      299 R=   1e+05
+Depth=    9999 States=  3.3e+07 Transitions= 7.74e+07 Memory=   837.438 t=      309 R=   1e+05
+Depth=    9999 States=  3.4e+07 Transitions= 7.97e+07 Memory=   861.656 t=      318 R=   1e+05
+pan: resizing hashtable to -w26..  done
+Depth=    9999 States=  3.5e+07 Transitions= 8.21e+07 Memory=  1125.859 t=      329 R=   1e+05
+Depth=    9999 States=  3.6e+07 Transitions= 8.44e+07 Memory=  1150.859 t=      339 R=   1e+05
+Depth=    9999 States=  3.7e+07 Transitions= 8.67e+07 Memory=  1168.047 t=      348 R=   1e+05
+Depth=    9999 States=  3.8e+07 Transitions=  8.9e+07 Memory=  1189.531 t=      358 R=   1e+05
+.....
+
+Depth=    9999 States= 1.46e+08 Transitions= 3.43e+08 Memory=  3616.094 t= 1.41e+03 R=   1e+05
+Depth=    9999 States= 1.47e+08 Transitions= 3.45e+08 Memory=  3641.094 t= 1.42e+03 R=   1e+05
+Depth=    9999 States= 1.48e+08 Transitions= 3.47e+08 Memory=  3663.359 t= 1.43e+03 R=   1e+05
+Depth=    9999 States= 1.49e+08 Transitions=  3.5e+08 Memory=  3683.281 t= 1.44e+03 R=   1e+05
+pan: out of memory
+hint: to reduce memory, recompile with
+  -DMA=2084   # better/slower compression, or
+  -DBITSTATE # supertrace, approximation
+
+(Spin Version 6.2.3 -- 24 October 2012)
+Warning: Search not completed
+        + Partial Order Reduction
+        + Compression
+
+Full statespace search for:
+        never claim             + (claim2)
+        assertion violations    + (if within scope of claim)
+        acceptance   cycles     + (fairness enabled)
+        invalid end states      - (disabled by never claim)
+
+State-vector 2084 byte, depth reached 9999, errors: 0
+ 51599459 states, stored (1.49533e+08 visited)
+2.0147333e+08 states, matched
+3.5100596e+08 transitions (= visited+matched)
+3.592431e+08 atomic steps
+hash conflicts:  41393391 (resolved)
+
+Stats on memory usage (in Megabytes):
+103535.902      equivalent memory usage for states (stored*(State-vector + overhead))
+ 3441.959       actual memory usage for states (compression: 3.32%)
+                state-vector as stored = 50 byte + 20 byte overhead
+  256.000       memory used for hash table (-w26)
+    0.382       memory used for DFS stack (-m10000)
+    1.403       memory lost to fragmentation
+ 3696.953       total actual memory usage
+
+
+nr of templates: [ 0:globals 1:chans 2:procs ]
+collapse counts: [ 0:3040490 2:13 3:3918 4:2 ]
+
+pan: elapsed time 1.44e+03 seconds
+pan: rate 103649.56 states/second
+\end{lstlisting}
+
+\subsection{Fairness}
+\label{mc:app:unb:fai}
+
+\begin{lstlisting}
+
+Alex@hildegunst ~
+$ gcc -DVECTORSZ=4096 -DCOLLAPSE -DMEMLIM=2048 pan.c -o pan
+
+Alex@hildegunst ~
+$ ./pan -a -f
+Depth=    9999 States=    1e+06 Transitions= 2.51e+06 Memory=    87.828 t=     9.83 R=   1e+05
+Depth=    9999 States=    2e+06 Transitions= 4.96e+06 Memory=   108.922 t=     19.4 R=   1e+05
+Depth=    9999 States=    3e+06 Transitions= 7.48e+06 Memory=   129.625 t=     29.5 R=   1e+05
+Depth=    9999 States=    4e+06 Transitions= 9.92e+06 Memory=   150.328 t=       39 R=   1e+05
+Depth=    9999 States=    5e+06 Transitions= 1.24e+07 Memory=   172.984 t=       49 R=   1e+05
+Depth=    9999 States=    6e+06 Transitions= 1.49e+07 Memory=   197.594 t=     59.8 R=   1e+05
+Depth=    9999 States=    7e+06 Transitions= 1.75e+07 Memory=   221.031 t=     71.3 R=   1e+05
+Depth=    9999 States=    8e+06 Transitions= 2.01e+07 Memory=   243.688 t=     81.6 R=   1e+05
+Depth=    9999 States=    9e+06 Transitions= 2.26e+07 Memory=   266.734 t=     91.8 R=   1e+05
+Depth=    9999 States=    1e+07 Transitions= 2.51e+07 Memory=   288.609 t=      101 R=   1e+05
+Depth=    9999 States=  1.1e+07 Transitions= 2.76e+07 Memory=   308.922 t=      112 R=   1e+05
+Depth=    9999 States=  1.2e+07 Transitions= 3.01e+07 Memory=   332.359 t=      121 R=   1e+05
+Depth=    9999 States=  1.3e+07 Transitions= 3.26e+07 Memory=   354.234 t=      131 R=   1e+05
+Depth=    9999 States=  1.4e+07 Transitions= 3.51e+07 Memory=   377.672 t=      141 R=   1e+05
+Depth=    9999 States=  1.5e+07 Transitions= 3.76e+07 Memory=   402.672 t=      152 R=   1e+05
+Depth=    9999 States=  1.6e+07 Transitions=    4e+07 Memory=   423.766 t=      161 R=   1e+05
+Depth=    9999 States=  1.7e+07 Transitions= 4.26e+07 Memory=   444.469 t=      171 R=   1e+05
+Depth=    9999 States=  1.8e+07 Transitions= 4.51e+07 Memory=   465.172 t=      181 R=   1e+05
+Depth=    9999 States=  1.9e+07 Transitions= 4.77e+07 Memory=   485.484 t=      192 R=   1e+05
+Depth=    9999 States=    2e+07 Transitions= 5.02e+07 Memory=   511.266 t=      203 R=   1e+05
+Depth=    9999 States=  2.1e+07 Transitions= 5.27e+07 Memory=   532.750 t=      213 R=   1e+05
+Depth=    9999 States=  2.2e+07 Transitions= 5.52e+07 Memory=   554.234 t=      223 R=   1e+05
+Depth=    9999 States=  2.3e+07 Transitions= 5.78e+07 Memory=   572.594 t=      233 R=   1e+05
+Depth=    9999 States=  2.4e+07 Transitions= 6.03e+07 Memory=   588.219 t=      244 R=   1e+05
+Depth=    9999 States=  2.5e+07 Transitions= 6.27e+07 Memory=   607.750 t=      253 R=   1e+05
+Depth=    9999 States=  2.6e+07 Transitions= 6.52e+07 Memory=   630.406 t=      264 R=   1e+05
+Depth=    9999 States=  2.7e+07 Transitions= 6.77e+07 Memory=   651.109 t=      273 R=   1e+05
+Depth=    9999 States=  2.8e+07 Transitions= 7.02e+07 Memory=   672.594 t=      284 R=   1e+05
+Depth=    9999 States=  2.9e+07 Transitions= 7.27e+07 Memory=   694.078 t=      295 R=   1e+05
+Depth=    9999 States=    3e+07 Transitions= 7.52e+07 Memory=   717.125 t=      306 R=   1e+05
+Depth=    9999 States=  3.1e+07 Transitions= 7.76e+07 Memory=   736.656 t=      315 R=   1e+05
+Depth=    9999 States=  3.2e+07 Transitions= 8.01e+07 Memory=   756.578 t=      326 R=   1e+05
+Depth=    9999 States=  3.3e+07 Transitions= 8.26e+07 Memory=   776.891 t=      336 R=   1e+05
+Depth=    9999 States=  3.4e+07 Transitions= 8.52e+07 Memory=   799.547 t=      347 R=   1e+05
+pan: resizing hashtable to -w26..  done
+Depth=    9999 States=  3.5e+07 Transitions= 8.78e+07 Memory=  1058.281 t=      360 R=   1e+05
+....
+Depth=    9999 States=  1.1e+08 Transitions= 2.75e+08 Memory=  2727.812 t= 1.17e+03 R=   9e+04
+Interrupted
+
+(Spin Version 6.2.3 -- 24 October 2012)
+Warning: Search not completed
+        + Partial Order Reduction
+        + Compression
+
+Full statespace search for:
+        never claim             + (claim3)
+        assertion violations    + (if within scope of claim)
+        acceptance   cycles     + (fairness enabled)
+        invalid end states      - (disabled by never claim)
+
+State-vector 2084 byte, depth reached 9999, errors: 0
+ 35000887 states, stored (1.10849e+08 visited)
+1.6674613e+08 states, matched
+2.7759498e+08 transitions (= visited+matched)
+2.8812403e+08 atomic steps
+hash conflicts:  22501231 (resolved)
+
+Stats on memory usage (in Megabytes):
+70230.356       equivalent memory usage for states (stored*(State-vector + overhead))
+ 2492.384       actual memory usage for states (compression: 3.55%)
+                state-vector as stored = 55 byte + 20 byte overhead
+  256.000       memory used for hash table (-w26)
+    0.382       memory used for DFS stack (-m10000)
+    1.435       memory lost to fragmentation
+ 2747.344       total actual memory usage
+
+
+nr of templates: [ 0:globals 1:chans 2:procs ]
+collapse counts: [ 0:2257676 2:13 3:4776 4:2 ]
+
+pan: elapsed time 1.18e+03 seconds
+pan: rate 93661.735 states/second
+\end{lstlisting}
 
 \end{document}
