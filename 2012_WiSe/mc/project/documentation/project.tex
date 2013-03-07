@@ -314,7 +314,7 @@ Yes.
 \subsection{Mutual Exclusion \label{mc:app:unb:mutex}}
 
 
-\begin{lstlisting}
+\begin{lstlisting}[frame=single]
 
 Alex@hildegunst ~
 $ ./pan -a
@@ -414,7 +414,7 @@ pan: rate 124449.14 states/second
 \subsubsection{Absence of Starvation}
 \label{mc:app:unb:dead}
 
-\begin{lstlisting}
+\begin{lstlisting}[frame=single]
 
 Alex@hildegunst ~
 $ gcc -DVECTORSZ=4096 -DCOLLAPSE pan.c -o pan
@@ -510,7 +510,7 @@ pan: rate 103649.56 states/second
 \subsection{Fairness}
 \label{mc:app:unb:fair}
 
-\begin{lstlisting}
+\begin{lstlisting}[frame=single]
 
 Alex@hildegunst ~
 $ gcc -DVECTORSZ=4096 -DCOLLAPSE -DMEMLIM=2048 pan.c -o pan
