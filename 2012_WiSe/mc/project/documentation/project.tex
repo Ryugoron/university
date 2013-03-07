@@ -30,9 +30,16 @@ to check for this algorithm and a short error analysis, why the second algorithm
 %% --------------------------------------
 \section{Introduction}
 
-Skip
-
-
+In the 1980s, Ricard and Agrawala published a distributed algorithm the solves the mutual exclusion
+problem for networks of independent agents. This algorithm requires $2N-2$ message exchanges per
+invocation, where $N$ is the number of agents in the network~\cite{Ricart:1981:OAM:358527.358537}.
+In 1985, Sizuki and Kasami proposed a different algorithm which is supposed to solve the problem of 
+mutual exclusion yet only requiring $N$ messages per invocation. A modification of this algorithm
+only uses bounded counters and requires asymptoticaly $N$ messages per invocation as the number of
+invocations grow.
+Section~\ref{sec:prob} gives an overview of the problem and the solution proposed by Suzuki and Kasami.
+The remainder of this document describes how those algorithms can be modeled in promela and
+processed by the spin modelchecker.
 
 %% --------------------------------------
 %%           Section II
