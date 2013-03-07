@@ -1,6 +1,6 @@
 #define N 3
 #define M 9 /* set this to N*N by hand*/
-#define L 20
+#define L 5
 #define LONGCOND RN[id].a[j] == LN[id].a[j]+1
 
 /* Queue associated definitions BEGIN */
@@ -62,7 +62,8 @@ chan mailbox[N] = [M] of {mtype, int, int, Queue, Array};
 
 /* Variables of the algorithm, each as Array of size N, s.t.
  * each process uses its own array index */
-bit havePrivilege[N] = 0, requesting[N] = 0, replyCount[N] = 0;
+bit havePrivilege[N] = 0, requesting[N] = 0;
+int replyCount[N] = 0;
 Queue Q[N];
 Array RN[N], LN[N], requestCount[N];
 //dummy vars for msgs
@@ -89,7 +90,7 @@ inline p2(id, j, n)
     if
       :: (havePrivilege[id]
           && !requesting[id]
-          && RN[id].a[j] == LN[id].a[j] +1) -> havePrivilege[id] = 0;
+          && RN[id].a[j] == (LN[id].a[j] +1)%L) -> havePrivilege[id] = 0;
                                            mailbox[j] ! PRIVILEGE,0,0,Q[id],LN[id];
       :: else -> skip;
     fi

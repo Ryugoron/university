@@ -11,8 +11,13 @@ init
   
   /* Start N processes */
   byte i = 0;
-
+  
   for (i: 0 .. (N-1)) {
+	int j = 0;
+	for (j: 0 .. (N-1)) {
+		requestCount[i].a[j] = 0;
+	}
+	
     p[i] = run Process(i);
   }
 }
@@ -35,6 +40,9 @@ proctype Process(byte id)
                do
                 :: true -> skip; break;
                od unless {mailbox[id] ?? REQUEST,j,n,dummyQ,dummyA -> p2(id,j,n)};
+			   do
+                :: true -> skip; break;
+               od unless {mailbox[id] ?? REPLY,_,_,_,_ -> p3(id)};
 
                /* either chill of try to enter cs */
                if
@@ -67,7 +75,10 @@ progressCS:     :: true -> /* process i wants to enter cs */
                           LN[id].a[id] = RN[id].a[id];
                           if
                             :: RN[id].a[id] == L - 1 -> 
-                                (replyCount[id] == N - 1);
+                                do :: (replyCount[id] == (N - 1)) -> break;
+								   :: mailbox[id] ?? REQUEST,j,n,dummyQ,dummyA -> p2(id,j,n);
+								   :: mailbox[id] ?? REPLY,_,_,_,_ -> p3(id);
+								od;
                                 replyCount[id] = 0;
                             :: else -> skip;
                           fi;
@@ -101,14 +112,14 @@ progressCS:     :: true -> /* process i wants to enter cs */
   od
 }
 
-ltl claim1 { [] (incs <= 1)}
+//ltl claim1 { [] (incs <= 1)}
 
 // Starvation for 3 Processes
 //ltl claim2 { [] ((Process[p[0]]@request || Process[p[1]]@request || Process[p[2]]@request) -> <> (incs == 1))}
 
 // Fairness for 2 or more processes
 //ltl claim3 {[]( Process[p[0]]@request -> <> (Process[p[0]]@cs))}
-//ltl claim4 {[]( Process[p[0]]@request -> <> (Process[p[1]]@cs))}
+ltl claim4 {[]( Process[p[0]]@request -> <> (Process[p[1]]@cs))}
 
 // No Unnesseccary Delay for 3 Processes
 //ltl claim5 {<> (([] (incs == 0 && (Process[p[0]]@request) && !(Process[p[1]]@request) && !(Process[p[2]]@request))) -> ([](<>(Process[p[0]]@cs))))}
