@@ -175,3 +175,9 @@ Implementierung (Two-step)
 
 Erklärung:
 	Nun existiert der Fehler nicht mehr. Da dieses Vorbeiziehen nicht mehr möglich ist. Sonst geht auch nichts schief sagt der Modelchecker.
+
+zu e) (ii):
+Wir wissen nicht so richtig, was die Aufgabe bedeuten soll - hier aber unsere Ergebnisse:
+
+Auch in promela können wir das gleichzeitige Zuweisen von Variablen durch ein atomic-Block (oder dstep-Block) simulieren. Alternativ können wir ebenso, wie oben erwähnt, erst die private Variable zuweisen und dann erst die geteilte Variable zuweisen. Da wir gezeigt haben, dass das eine korrekt Variante des Algorithmus ist, ist die Korrektheit nicht abhängig davon, welchen Beweiser wir benutzen. Also ja: Das geht auch mit Spin.
+Das liegt aber natürlich auch daran, dass die nachzuweisenden Properties auch in LTL ausdrückbar sind (durch Streichung der Pfad-Quantoren).
