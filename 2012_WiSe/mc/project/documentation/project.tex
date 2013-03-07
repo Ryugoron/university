@@ -356,21 +356,45 @@ The output can be seen in \ref{mc:app:unb:fair}.
 This algorithm has a bounded state space and can be fully checked.
 But we found an error in the property BLUBELIBLUBBLUB
 
-\subsubsection{Mutual Exclusion}
-
-tbd
 
 \subsubsection{Absence of Starvation}
 
-tbd
+The second algorithm cannot be correct as proposed in the paper.
+We have executed the algorithm several times and always reached a state in which
+could no longer be made any progress. Because with a lifeness property we could
+not perform a BFS to this event, we constructed the error from the error traces we saw.
 
-\subsubsection{Fairness}
+Consider three processes p1, p2, p3 where p1 initially holds the privilege.
+Now p1 and p2 enter the critical section swaping each round until both entered the critical section
+L times. It holds that
+$\text{RN}[0] =\text{RN}[1] = L - 1$ in both processes
+and let be p1 be the process that aquired the priviledge last.\\
 
-tbd
+If p1 now leaves the critical section $\text{RN}[0] = L - 1$ holds and
+p1 waits for two REPLAY messages which he will get because he has sended two REQUEST messages
+while his requestCount was $L$. He receives those two messages and now atempts to
+enter the critical section again. Because no other process wants to enter and he still holds
+the priviledge he can do so.\\
 
-\subsubsection{No Unneccessary Delay}
+On leaving the critical section again $\text{RN}[0] = L - 1$ holds because RN is only changed
+if p1 does not have the priviledge. He now waits for two REPLY messages which he will never
+receive because he never send REQUEST messages in the first place. Finally because he still
+holds the priviledge no other process can enter the cirtical section and we reached a deadlock state.
 
-tbd
+\subsubsection{Fairness and No Unnecessary Delay}
+
+If we have an algorithm that contains a Deadlock (Lifelock in this case) then neither 
+Fairness nor `No Unnecessary Delay` can be satisfied because they both
+depend on the fact that it is possible to enter the critical section.
+
+\subsubsection{Mutual Exclusion}
+
+We assume the algorithm satisfies at least mutual exclusion because in this matter it does not
+differ from the first algorithm. But Spin couldn't check the property
+because he could not perform the receive that led to the error mentioned afore.\\
+
+Hence we could not check this property successful because Spin can not do so if a receive statement
+runs into a deadlock state.
 
 %% --------------------------------------
 %%           Section VI

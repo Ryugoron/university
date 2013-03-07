@@ -74,11 +74,13 @@ progressCS:     :: true -> /* process i wants to enter cs */
 
                           LN[id].a[id] = RN[id].a[id];
                           if
-                            :: RN[id].a[id] == L - 1 -> 
+                            :: RN[id].a[id] == L - 1 ->
+                                printf("Proc %d waits for RELPY\n",id);
                                 do :: (replyCount[id] == (N - 1)) -> break;
 								   :: mailbox[id] ?? REQUEST,j,n,dummyQ,dummyA -> p2(id,j,n);
 								   :: mailbox[id] ?? REPLY,_,_,_,_ -> p3(id);
 								od;
+                                printf("Proc %d received all RELPY\n",id);
                                 replyCount[id] = 0;
                             :: else -> skip;
                           fi;
