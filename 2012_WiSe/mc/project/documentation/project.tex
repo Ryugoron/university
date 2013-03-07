@@ -67,34 +67,91 @@ that a model in promela, which itself is imperative, is best suited. Additionall
 native support for process communication via channels. Since we are checking a distributed algorithm,
 we use the channels of promela to simulate the message exchange.
 
-\subsection{Channels}
 
-The processes send \emph{REQUEST} and \emph{PRIVILIGE} messages which both
-need to be handeld. For any atempt to enter a process sends \emph{REQUEST} to
-each of its neighbors. We decided to use a mailbox kind of channel system because
-this way a process does not have to iterate over many possible channels and check
-each of them seperatly.
+\subsection{Global and local variables}
 
-\begin{lstlisting}
-chan mailbox[N] = [N] of {mtype, int, int, Queue, Array}
+We chose to model almost all of the variables of a process as a global $N$-size array of variables,
+one entry per process. Of course the $i$-th entry of each of these arrays is only used by process $i$.
+This is due to (1) debug reasons and (2) to verfication reasons. Firstly, at some points we needed to
+check the system state during model simulation. Here, we can use the -w option of spin to output the
+system state. Secondly, this way we could use the variables to construct ltl formulae.
+The only process local variables are $j$ and $n$ which are used to store message variables.
+
+\subsection{Type definitions}
+Supplementary types used to model the algorithm are included in the header files of the model.
+\subsubsection{Queue}
+Since the algorithms use a queue, we implemented a simple queue without any checks for overflows or underflows. The type consists of an array and two counters, length and head. We use a standard implementation.
+\begin{lstlisting}[morekeywords={typedef,inline},frame=single]
+  typedef Queue {
+    int q[M];
+    short head = 0;
+    short length = 0;
+  } 
+  /* result = queue.empty() */
+  inline qEmpty(result,queue) {...}
+  /* queue.append(elem) */
+  inline qAppend(queue,elem) {...}
+  /* result = queue.poll() */
+  inline qPoll(result,queue) {...}
+  /* result = queue.contains(elem) */
+  inline qElem(result,queue,elem) {...}
 \end{lstlisting}
 
-\subsection{Message}
+The size of the used array is $M > N$, which should be ok because the program a process id added at most once per process to the queue. To add some padding, we choose $M = N^2$.
 
-We modeled all possible messages as one message. As can seen in
-the last section. We send messages of the form
-\begin{lstlisting}
-(mtype, int, int, Queue, Array)
+\subsubsection{Array}
+Since arrays are also used, we need to model arrays of arrays. This is simply done by the following definition:
+
+\begin{lstlisting}[frame=single,morekeywords=typedef]
+ typedef Array{
+  int a[N] = -1;
+ }
 \end{lstlisting}
-where
-\begin{lstlisting}
+Since the array is initialized by -1 in the algorithm, we set the initial value in the type definition itself.
+
+\subsection{Messages and Channels}
+There are three kinds of messages used by the algorithms, namely
+\begin{description}
+  \item[REQUEST] containing two integers $j,n$, where $j$ is the
+                 id of the sending process and $n$ is the number
+                 of previous requests by that process. This message
+                 is used to indicate that one wants to enter the
+                  criticle section.
+  \item[PRIVILEGE] containing two fields $Q,LN$, where $Q$ is a
+                   queue of process ids and $LN$ is an array of
+                   integers that indicate which process has
+                   entered the criticle section so far.
+                   This message can be considered a token that
+                   authorizes its carrier to enter the criticle
+                   section.
+  \item[REPLY]   containing no further information. This message
+                 is sent as a confirmation to request messages.
+\end{description}
+
+\noindent These message types can be modeled as a enumeration type, in promela:
+
+\begin{lstlisting}[morekeywords=mtype,frame=single]
 mtype = {REQUEST, PRIVILIGE, REPLY}
 \end{lstlisting}
-are the types we use. As one can see one message type only requires
-at most two of the attributes of the message. We decided to model a
-message this way to send each message over the same channel. If one of
-the attributes is not needed it will be filled with a dummy.
 
+\noindent In our model, all of these messages types are subsumed by one message
+type \lstinline|(mtype, int, int, Queue, Array)|. We use a mailbox system,
+where each message to a specific process is put in one channel, yielding the definition
+
+\begin{lstlisting}[morekeywords=chan,frame=single]
+chan mailbox[N] = [N] of {mtype, int, int, Queue, Array}
+\end{lstlisting}
+ 
+Another possibility to model the channel system is to create a $N\times N$-matrix of channels,
+one channel for each communication pair. We prefer our choice over this possibility because it
+avoids unneccessary code to iterate over each of the $N-1$ input channels per process.
+Also, the information which process sent a particular message is encoded into the message itself where needed.
+Another benefit is the reduced number of channels needed. \\
+
+As one can see, two message types only require two attributes, the other message does not need any
+additionally attributes. In order to be able to use one channel for all message types, we
+fill in the unneeded fields of a message with dummy variables, i.e. variables which carry
+no essential information.
 
 \subsection{Request Messages}
 
@@ -104,11 +161,6 @@ waiting points that are the \emph{remainder} and the waiting to enter the critic
 
 This is neccessary to satisfy the deadlock freedom and fairness constraints.
 
-\subsection{Global Variables}
-
-We decided to model all local variables of the processes as a global array of variables.
-We have done this out of debug reasons. This way we could check on receiving a message
-if everything was the way we expected it.
 
 \subsection{Send and Receive in Spin}
 
@@ -116,15 +168,6 @@ There occured an ambiguous error in our implementation when we used a wrong numb
 variables in receiving a message. It happend some times that the received message differed from the
 send message. This way some of the requesting processes where dropped from the queue and were not considered
 for execution leading to a state where only one process was possible to enter the critical section.
-
-\subsection{Queue}
-
-We choose an implementation of a queue without a check for overflow.
-\begin{lstlisting}
-    insert 'insert' here
-\end{lstlisting}
-We could do this because in the program a number for a process is at most added once to the queue.
-If we give the queue an array of size $N$ there could never occure an overflow.
 
 \subsection{Privilege Receving}
 
