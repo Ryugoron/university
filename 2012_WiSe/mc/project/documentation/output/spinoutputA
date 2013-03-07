@@ -39,7 +39,17 @@ pan: resizing hashtable to -w26..  done
 Depth=    9999 States=  3.5e+07 Transitions= 6.74e+07 Memory=  3211.406 t=      282 R=   1e+05
 Depth=    9999 States=  3.6e+07 Transitions= 6.94e+07 Memory=  3302.031 t=      290 R=   1e+05
 Depth=    9999 States=  3.7e+07 Transitions= 7.13e+07 Memory=  3382.500 t=      298 R=   1e+05
-Depth=    9999 States=  3.8e+07 Transitions= 7.32e+07 Memory=  3469.219 t=      306 R=   1e+05
+tate-vector 2072 byte, depth reached 9999, errors: 0
+ 40921117 states, stored
+ 37895505 states, matched
+ 78816622 transitions (= stored+matched)
+ 56986035 atomic steps
+hash conflicts:  29156326 (resolved)State-vector 2072 byte, depth reached 9999, errors: 0
+ 40921117 states, stored
+ 37895505 states, matched
+ 78816622 transitions (= stored+matched)
+ 56986035 atomic steps
+hash conflicts:  29156326 (resolved)
 Depth=    9999 States=  3.9e+07 Transitions= 7.51e+07 Memory=  3546.172 t=      314 R=   1e+05
 Depth=    9999 States=    4e+07 Transitions= 7.71e+07 Memory=  3636.016 t=      322 R=   1e+05
 pan: out of memory
