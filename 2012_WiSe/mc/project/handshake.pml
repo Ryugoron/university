@@ -20,10 +20,14 @@ proctype Process(byte i)
   int _c = 0, __c = 0;
   int j,n;
   do
-    :: true -> skip; //chillout
-    :: true -> //want to enter cs
-               p1(i,_c,__c,j,n);
-    :: mailbox[i] ?? REQUEST,j,n -> p2(i,j,n);
+    :: true -> do
+                :: mailbox[i] ?? REQUEST,j,n -> p2(i,j,n);
+                :: else -> break;
+               od;
+               if
+                :: true -> skip; /*  chillout */
+                :: true -> p1(i,_c,__c,j,n); /* process i wants to enter cs */
+               fi
   od
 }
 
