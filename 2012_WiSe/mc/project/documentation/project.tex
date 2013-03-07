@@ -5,7 +5,7 @@
 \usepackage{listings}
 \usepackage{amssymb}
 \usepackage{amsmath}
-
+\usepackage{pdfpages}
 
 \title{Five Message Handshake Project in Spin}
 \titlerunning{Five Message Handshake}
@@ -219,13 +219,11 @@ We decided to implement it this way because we need the procedure at two points 
 First in the remainder of code and secondly when a process waits for the \emph{PRIVILEGE} message.
 Because Spin does not support a procedure we implemented it as a macro.
 
-\subsection{Next}
-
-Write smth.
-
 \subsection{Simulation of the model\label{ssec:run}}
+The figure below shows an example run of the first algorithm. The receive and send events, plus
+additional debug output is printed.
 
-Add blblabla diagram
+\includepdf[scale=0.8]{output/handshakesim.pdf}
 
 %% --------------------------------------
 %%           Section IV
@@ -278,12 +276,12 @@ in both algorithms.
 
 \subsection{No Uneccessary Delay}
 
-We check the property
-\begin{eqnarray}
-    \diamond & ( \square \text{\lstinline|incs|=0} \land \text{\lstinline|Process[p[0]]@request|} \land \underset{1\leq i < N}{\bigwedge} \text{\lstinline|Process[p[i]]@request|}\\
-    &\Rightarrow \square \diamond(\text{\lstinline|Process[p[0]]@critical|}))
-\end{eqnarray}
-that means; whenever process zero is the only one who ever wants to enter the critical section it will do so infinitly many times.
+If we checked the previous property we have already a solution for this property.
+This is because it holds that each process that wants to enter the cirtical section will do so eventually for each path in
+the transition system.
+If we want to check the property -- if a process wants to enter the critical section and other process arrives at the request section,
+the first one will eventually enter the critical section -- this is only describes a subset of the paths considered in the fairness property.
+Therefore if we have proofen that one, we have a proof for this one.
 
 %% --------------------------------------
 %%           Section V
@@ -352,10 +350,6 @@ ltl claim4 {[]( Process[p[0]]@request
 
 which both could not be proven wrong after the execution of the verifier as in the last section.
 The output can be seen in \ref{mc:app:unb:fair}.
-
-\subsubsection{No Unneccessary Delay}
-
-We checked this... Trust us!!
 
 \subsection{Bounded Variant}
 
@@ -448,7 +442,8 @@ tate-vector 2072 byte, depth reached 9999, errors: 0
  37895505 states, matched
  78816622 transitions (= stored+matched)
  56986035 atomic steps
-hash conflicts:  29156326 (resolved)State-vector 2072 byte, depth reached 9999, errors: 0
+hash conflicts:  29156326 (resolved)State-vector 2072 byte, 
+    depth reached 9999, errors: 0
  40921117 states, stored
  37895505 states, matched
  78816622 transitions (= stored+matched)
