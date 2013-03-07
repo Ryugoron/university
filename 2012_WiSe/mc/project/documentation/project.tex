@@ -66,6 +66,18 @@ each of them seperatly.
 chan mailbox[N] = [N] of {mtype, int, int, Queue, Array}
 \end{lstlisting}
 
+\subsection{Message}
+
+We modeled all possible messages as one message. As can seen in
+the last section. We send messages of the form
+\begin{lstlisting}
+(mtype, int, int, Queue, Array)
+\end{lstlisting}
+with the types
+\begin{lstlisting}
+mtype = {REQUEST, PRIVILIGE, REPLY}
+\end{lstlisting}.
+
 \subsection{Request Messages}
 
 The methode \lstinline|p1| is excuted if a \emph{REQUEST} message is received.
@@ -95,6 +107,10 @@ We choose an implementation of a queue without a check for overflow.
 \end{lstlisting}
 We could do this because in the program a number for a process is at most added once to the queue.
 If we give the queue an array of size $N$ there could never occure an overflow.
+
+\subsection{P2 in header}
+
+atomic
 
 \subsection{Next}
 
@@ -129,10 +145,11 @@ which is used in both implementations.
 
 \subsection{Absence of Starvation}
 
-The algorithm already uses a flag \lstinline|requesting| to mark if a process wants to enter the critical section.
+For this property we need a label \lstinline|request|. We already have an array to keep track of the request,
+but this flag is shortly after the critical section still set to one.
 Using the counter \lstinline|incs| from the Mutual Exclusion property we can express deadlock freedom by
 \begin{equation}
-    \square \left( \left( \underset{0\leq i < N}{\bigvee} \text{\lstinline|requesting|}[i] = 1 \right) \Rightarrow \diamond \text{\lstinline|incs|} = 1 \right)
+    \square \left( \left( \underset{0\leq i < N}{\bigvee} \text{\lstinline|Process[p[i]]@request|\right) \Rightarrow \diamond \text{\lstinline|incs|} = 1 \right)
 \end{equation}
 again for both algorithms.
 \subsection{Fairness}
@@ -143,8 +160,8 @@ This time we used a label at the critical section and an array for the process i
 
 Fairness can be expressed by
 \begin{equation}
-    \square \left( \text{\lstinline|requesting|}[0] \Rightarrow \diamond \text{\lstinline|Process[p[0]]@critical|} 
-    \land \text{\lstinline|requesting|}[1] \Rightarrow \diamond \text{\lstinline|Process[p[1]]@critical|}\right)
+    \square \left( \text{\lstinline|Process[p[0]]@request|}\Rightarrow \diamond \text{\lstinline|Process[p[0]]@critical|} 
+    \land \text{\lstinline|Process[p[1]]@request}\Rightarrow \diamond \text{\lstinline|Process[p[1]]@critical|}\right)
 \end{equation}
 in both algorithms.
 
@@ -152,7 +169,7 @@ in both algorithms.
 
 We check the property
 \begin{eqnarray}
-    \diamond & ( \square \text{\lstinline|incs|=0} \land \text{\lstinline|requesting|}[0]=1 \land \underset{1\leq i < N}{\bigwedge} \text{\lstinline|requesting|}[i] = 0\\
+    \diamond & ( \square \text{\lstinline|incs|=0} \land \text{\lstinline|Process[p[0]]@request} \land \underset{1\leq i < N}{\bigwedge} \text{\lstinline|Process[p[i]]@request}\\
     &\Rightarrow \square \diamond(\text{\lstinline|Process[p[0]]@critical|}))
 \end{eqnarray}
 that means; whenever process zero is the only one who ever wants to enter the critical section it will do so infinitly many times.
@@ -162,14 +179,15 @@ that means; whenever process zero is the only one who ever wants to enter the cr
 %% --------------------------------------
 \section{Checking the Properties}
 
-We saw something
+We could see that the first algorithm has unbounded character. We let the verifier run for some time
+and never saw an error (see APPENDIX).
 
 \subsection{Communication Diagrams}
 
 Insert some.
 
 %% --------------------------------------
-%%           Section I
+%%           Section VI
 %% --------------------------------------
 \section{Conclusion}
 
