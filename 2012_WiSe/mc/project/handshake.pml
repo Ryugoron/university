@@ -43,7 +43,7 @@ proctype Process(byte id)
                 :: true -> /* process i wants to enter cs */
                            /* p1 code begin */
                           printf("Proc %d wants to enter CS\n",id);
-                          requesting[id] = 1;
+                          request : requesting[id] = 1;
                           if
                            :: (havePrivilege[id] == 0) ->
                                       RN[id].a[id] = RN[id].a[id] + 1;
@@ -97,11 +97,11 @@ proctype Process(byte id)
 ltl claim1 { [] (incs <= 1)}
 
 // Starvation for 3 Processes
-//ltl claim2 { [] ((requesting[0] == 1 \/ requesting[1] == 1 \/ requesting[2] == 1 ) -> <> (incs == 1))}
+//ltl claim2 { [] ((Process[p[0]]@request || Process[p[1]]@request || Process[p[2]]@request) -> <> (incs == 1))}
 
 // Fairness for 2 or more processes
-//ltl claim3 {[]( requesting[0] == 1 -> <> (Process[p[0]]@cs))}
-//ltl claim4 {[]( requesting[1] == 1 -> <> (Process[p[1]]@cs))}
+//ltl claim3 {[]( Process[p[0]]@request -> <> (Process[p[0]]@cs))}
+//ltl claim4 {[]( Process[p[0]]@request -> <> (Process[p[1]]@cs))}
 
 // No Unnesseccary Delay for 3 Processes
-//ltl claim5 {<> (([] (incs == 0 /\ requesting[0] == 1 /\ requesting[1] == 0 /\ requesting[2] == 0)) -> ([](<>(Process[p[0]@cs))))}
+//ltl claim5 {<> (([] (incs == 0 && Process[p[0]]@request && !Process[p[1]]@request && !Process[p[2]]@request)) -> ([](<>(Process[p[0]@cs))))}
