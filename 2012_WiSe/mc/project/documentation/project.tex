@@ -377,17 +377,23 @@ tbd
 %% --------------------------------------
 \section{Conclusion}
 
-Yes.
+We modeled both algorithms of Suzuki and Kasami in promela. We were not able to verify either one of
+both models to be correct. The first, of course, contains unbounded counters and thus cannot be 
+fully checked. Nevertheless, we were able to show that for a certain search depth, the first algorithm does not contain any reachable errors. Here, we were able to show that the first algorithm is unlikely to contain
+errors regarding safety and liveness properties.
+However, the second algorithm did trigger a number of errors during model checking. The only property we could not refute is the safety property, yet we were again not able to perform an exhaustive state search. 
+We are convinced that the second algorithm contains a deadlock and thus does not solve the mutual exclusion problem.
 
 %% --------------------------------------
 %%           Section ??
 %% --------------------------------------
-\section{Bibliography}
+\addcontentsline{toc}{section}{References}
 \bibliographystyle{splncs}
 
 \bibliography{mc}
 
-\appendix
+\chapter*{Appendix}
+\begin{appendix}
 
 \section{Unbonded Algorithm Output}
 
@@ -675,5 +681,5 @@ collapse counts: [ 0:2257676 2:13 3:4776 4:2 ]
 pan: elapsed time 1.18e+03 seconds
 pan: rate 93661.735 states/second
 \end{lstlisting}
-
+\end{appendix}
 \end{document}
