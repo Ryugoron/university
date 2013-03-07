@@ -56,8 +56,8 @@ void init611() {
     P4OUT |= 0x01;
 
     // Timer setzen:
-    // Taktanzahl fuer eine Sekunde, da 7,3728MHz
-    TBCCR0 = (unsigned int)7372800; 
+    // Taktanzahl fuer eine Sekunde, da 32,768 kHz
+    TBCCR0 = 32768; 
     // Taktquelle ACLK ist Flag TBSSEL_1
     TBCTL &= ~(TBSSEL_3 + MC_3);//reset 
     // Count-Mode ist MC_1
@@ -110,8 +110,8 @@ void init613() {
     P1IES &= ~(0x03);
     
     // Timer setzen:
-    // Taktanzahl fuer eine Sekunde, da 7,3728MHz
-    TBCCR0 = (unsigned int)7372800; 
+    // Taktanzahl fuer eine Sekunde, da 32,768 kHz
+    TBCCR0 = 32768; 
     // Taktquelle ACLK ist Flag TBSSEL_1
     TBCTL &= ~(TBSSEL_3 + MC_3  + ID_3);//reset 
     // Count-Mode ist MC_1
@@ -174,14 +174,13 @@ void init621() {
     P4OUT |= 0x01;
     
     // Taste 1 input, IO, Interrupt, edge
-	P1DIR &= ~(0x03);
+    P1DIR &= ~(0x03);
     P1SEL &= ~(0x03);
     P1IE |= (0x03);
     P1IES &= ~(0x03);
 
     // Timer setzen
-    //TBCCR0 = (unsigned int) 73728u; // GEHT NICHT IST ABER DOCH DAS GLEICHE???? (fast zumindest)
-    TBCCR0 = (unsigned int) (7372800u & 0xFFFFu)/100u; // Taktanzahl fuer eine Sekunde, da 7,3728MHz
+    TBCCR0 = 327
     // Taktquelle ACLK ist Flag TBSSEL_1, Countmethod ist MC_1
     TBCTL &= ~(TBSSEL_3 + MC_3 + ID_3);//reset 
     TBCTL |= (TBSSEL_1 + MC_0 + ID_0 );//set

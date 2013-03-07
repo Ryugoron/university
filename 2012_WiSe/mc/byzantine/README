@@ -4,8 +4,26 @@ a) See byzantine.pml and byzantine.h for the implementation of the procotol
 
 b) And the bottom of byzantine.pml the ltl formulas are given
 
-c) Spin output see files OUTPUT_LTL1 and OUTPUT_LTL2 for the two claims (retrospectively)
+c) Spin output see files OUTPUT_LTL1 and OUTPUT_LTL2 for the two claims (retrospectively). They contain the output of ./pan and one acceptance trail each.
+All checks have been made with a pan verifier created with parameters -DMEMLIM=600 -DCOLLAPSE
 
 d) The counter example is given in the file COUNTEREXAMPLE with respect to the trail given by byzantine.pml.trail.
 This trail might not be minimal, but by curiosity the error is not found anymore if we compile the pan verifier with the option -DBFS (breadth first search). So, at least, this is a counter example.
 
+
+COUNTEREXAMPLE - TRAIL
+
+In the trail of the counter example,
+process 0 starts with 0
+process 2 starts with 1
+
+unrel sends 1 to p0 and 0 to p2
+=> maj0 = 1 (N times) , maj1 = 0 (N times)
+=> localVar0 = 1, localVar1 = 0
+
+next round unrel sends 0 to p0 and 1 to p2
+=> localVar0 = 0, localVar1 = 1
+
+So in both rounds the 2 processes swap values, but do not aggree, because both determine
+different majorities, because the unreliable sends both different values. And they
+are not enough to aggree on a majority independed of the unreliable.

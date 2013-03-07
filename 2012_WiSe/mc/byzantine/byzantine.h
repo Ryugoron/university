@@ -1,11 +1,11 @@
 // Number of reliable processes N
-#define N 3
+#define N 2
 // Number of unreliable processes K
 #define K 1
 // Sum of both
-#define M 4
+#define M 3
 
-#define INITVALUE 1
+#define INITVALUE 0
 
 /* A matrix A of MxM channels of size 1 Simulation: */
 typedef Arraychan {

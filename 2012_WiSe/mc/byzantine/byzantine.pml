@@ -12,7 +12,7 @@ init
   do
     // uncomment the first condition to let all the processes have the same initial value
     // the second condition is used for alternating initial values
-   //:: (i < M) -> initialValues[i] = INITVALUE; finalValues[i] = i; i++;         // For all initvalues are equal 
+    // :: (i < M) -> initialValues[i] = INITVALUE; finalValues[i] = i; i++;         // For all initvalues are equal 
      :: (i < M)     -> initialValues[i] = value; value = 1 - value; finalValues[i] = i; i++;
      :: else -> break;
   od;
@@ -37,11 +37,14 @@ proctype Unreliable (byte processId)
         wait(barrier);
         locC = 0;
         // Phase 1 : Send abitrary value or nothing
-        if
-            :: (1)  ->  skip;
-            :: (1)  ->  broadcast(locC, 0 , processId);
-            :: (1)  ->  broadcast(locC, 1 , processId);
-        fi;
+        atomic {
+          locC = 0;
+          do :: (locC < M) -> A[processId].ch[locC]!0; locC++;
+             // :: (locC < M) -> skip;locC++;
+             :: (locC < M) -> A[processId].ch[locC]!1; locC++;
+             :: (locC >= M) -> break;
+          od;
+        }
         wait(barrier);
         
         locC = 0;        
@@ -60,10 +63,13 @@ proctype Unreliable (byte processId)
                                           :: (nempty(A[round].ch[processId])) -> A[round].ch[processId]?_;
                                        fi;
             :: else -> 
-                if
-                    :: (1)  -> broadcast(locC, 0 , processId);
-                    :: (1)  -> broadcast(locC, 1 , processId);
-                fi;
+                atomic {
+                  locC = 0;
+                  do :: (locC < M) -> A[processId].ch[locC]!0; locC++;
+                     :: (locC < M) -> A[processId].ch[locC]!1; locC++;
+                     :: (locC >= M) -> break;
+                  od;
+                };
         fi;
         locC = 0;
         round++;
@@ -107,11 +113,9 @@ proctype Reliable (byte processId)
                 od;
                 skip;
                 // compute majority
-                d_step {
-                  if :: (msgCounter[0] > M/2) -> majority = 0;
-                     :: else -> majority = 1;
-                  fi;
-                };
+                if :: (msgCounter[0]*2 > M) -> majority = 0;
+                   :: else -> majority = 1;
+                fi;
                 wait(barrier);                
                 // phase 2: in round i the i-th process sends the majority value 
                 // it received in the first phase
@@ -149,13 +153,13 @@ claim2)  if all reliable processes have the same initial value,  then their fina
 */
 
 //      Claim1 for N = 3 
-ltl claim1 {(<> ((initial == 1) && finalValues[0] == finalValues[1] && finalValues[1] == finalValues[2]))}
+//ltl claim1 {(<> ((initial == 1) && finalValues[0] == finalValues[1] && finalValues[1] == finalValues[2]))}
 
 //      Claim1 for N = 4
 //ltl claim1 {(<> ((initial == 1) && finalValues[0] == finalValues[1] && finalValues[1] == finalValues[2]) && finalValues[2] == finalValues[3])}
 
 //      Claim1 for N = 2 and K = 1 (error expected)
-// ltl claim1 {(<> ((initial == 1) && finalValues[0] == finalValues[1] ))}
+ltl claim1 {(<> ((initial == 1) && finalValues[0] == finalValues[1] ))}
 
 //      Claim2 for N = 3 and K = 1
 //ltl claim2{(<> ((initial == 1) && initialValues[0] == initialValues[1] && initialValues[1] == initialValues[2])) -> (<> ((initial == 1) && finalValues[0] == finalValues[1] && finalValues[1] == finalValues[2] && initialValues[0] == finalValues[0]))}
