@@ -37,7 +37,7 @@ Skip
 %% --------------------------------------
 %%           Section II
 %% --------------------------------------
-\section{Problem / Algorithm???}
+\section{Problem / Algorithm??? \label{sec:prob}}
 
 No problem
 
@@ -46,11 +46,14 @@ No problem
 %% --------------------------------------
 %%           Section III
 %% --------------------------------------
-\section{Modeling in Spin}
+\section{Modeling\label{sec:model}}
 
-In this part we look at some details of the modeling process.
+To determine whether the algorithms mentioned in section~\ref{sec:prob} indeed appropriately solves
+the problem of mutual exclusion, we model these algorithms in promela and apply ltl modelchecking.
+Section~\ref{ssec:choice} justifies out choice of the spin verification suite; the following sections
+describe the model itself. Finally, section~\ref{ssec:run} displays an example simulation run of the algorithms.
 
-\subsection{Why Spin}
+\subsection{Verification system~\label{ssec:choice}}
 
 Because FUCK YOU! Thats why.
 
@@ -121,7 +124,7 @@ atomic
 
 Write smth.
 
-\subsection{Simulation of the model}
+\subsection{Simulation of the model\label{ssec:run}}
 
 Add blblabla diagram
 
