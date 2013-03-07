@@ -7,7 +7,8 @@ init
 {
   /* Initial values of 'havePrivilege' is 1 for pid=1, 0 otherwise */
   havePrivilege[0] = 1;
-
+  
+  /* Start N processes */
   byte i = 0;
 
   for (i: 0 .. (N-1)) {
@@ -15,20 +16,81 @@ init
   }
 }
 
-proctype Process(byte i)
+proctype Process(byte id)
 {
-  int _c = 0, __c = 0;
-  int j,n;
+  // local variables for storing message infos and stuff
+  local int _c = 0, __c = 0;
+  local int j,n;
+
+  /* following loop structure:
+   * forever do: (1) work all request msgs
+   *             (2) then either:
+   *             (2a) chill
+   *             (2b) try to enter CS
+   * end do
+   */
   do
-    :: true -> do
-                :: mailbox[i] ?? REQUEST,j,n -> p2(i,j,n);
-                :: else -> break;
-               od;
+    :: true -> /* work on all reqeust msgs, if any */ printf("Proc %d works Requests\n",id);
+               do
+                :: true -> skip; break;
+               od unless {mailbox[id] ?? REQUEST,j,n,dummyQ,dummyA -> p2(id,j,n)};
+
+               /* either chill of try to enter cs */
                if
-                :: true -> skip; /*  chillout */
-                :: true -> p1(i,_c,__c,j,n); /* process i wants to enter cs */
+                :: true -> printf("Proc %d chills\n",id);skip; /*  chillout */
+
+                :: true -> /* process i wants to enter cs */
+                           /* p1 code begin */
+                          printf("Proc %d wants to enter CS\n",id);
+                          requesting[id] = 1;
+                          if
+                           :: (havePrivilege[id] == 0) ->
+                                      RN[id].a[id] = RN[id].a[id] + 1;
+                                      broadcast(_c,REQUEST,id,RN[id].a[id],id);
+                                      /* while waiting on PRIVILEGE, work pending REQUEST msgs */
+                                      do :: mailbox[id] ?? PRIVILEGE,_,_,Q[id],LN[id] -> break;
+                                         :: mailbox[id] ?? REQUEST,j,n,dummyQ,dummyA -> p2(id,j,n);
+                                      od;
+                                      havePrivilege[id] = 1;
+                           :: else -> skip;
+                          fi;
+
+                          /* CS */
+                          incs++;
+                          printf("Proc %d in CS\n",id);
+                          skip; //assert(incs <= 1); 
+                          incs--;
+                          /* CS End */
+
+                          LN[id].a[id] = RN[id].a[id];
+                          _c = 0;
+                          do
+                           :: (_c < N) -> if :: (_c == id) -> skip;
+                                             :: else       ->
+                                                  qElem(__c,Q[id],j); // __c = Queue contains j?
+                                                  if
+                                                   :: (__c == 0 && LONGCOND) -> qAppend(Q[id],j);
+                                                   :: else -> skip;
+                                                  fi;
+                                          fi;
+                                          _c++;
+                           :: else     -> break;
+                          od;
+                          qEmpty(_c,Q[id]); /* _c = empty(Queue) */
+                          if
+                            :: _c   -> skip; /* if Queue empty */
+                            :: else -> d_step { /* if not Queue empty */
+                                        havePrivilege[id] = false;
+                                        // send PRIVILEGE(tail(Q),LN) to node head(Q):
+                                        qPoll(_c,Q[id]);
+                                        mailbox[_c] ! PRIVILEGE,0,0,Q[id],LN[id];
+                                       };
+                          fi;
+                          requesting[id] = 0;
+
+                          /* p2 code end */
                fi
   od
 }
 
-//ltl claim1 { [] (incs <= 1)}
+ltl claim1 { [] (incs <= 1)}
