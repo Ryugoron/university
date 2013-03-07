@@ -44,10 +44,52 @@ processed by the spin modelchecker.
 %% --------------------------------------
 %%           Section II
 %% --------------------------------------
-\section{Problem / Algorithm??? \label{sec:prob}}
+\section{Problem / Algorithm\label{sec:prob}}
 
-No problem
+The proposed algorithm is a solution for the distributed mutual exclusion problem.
 
+Given $N$ processes that can only communicate over messages and that do not have shared memory
+and a critical section we want to find a protocol such that at any time at most one process
+works in the critical section.
+
+As in the concurrent case we want this protocol to satisfy \emph{mutual exclusion}, absence of
+starvation, fairness and no unnecessary delay. The first one says that not more than one process
+may enter the critical section at any time. The second one says that if some processes want to enter
+the critical section than one may succeed. If a process wants to enter the critical section he will
+eventually do so which is the statement of the third property. The last one says that a process may
+enter the critical section without the help of another process.
+
+The algorithm of Suzuki and Kasami works abstract as follows
+\begin{lstlisting}
+`Remainder of Code`
+`Enter`:
+if !hasPrivilege
+    inc(#Attempts)
+    send_all(REQUEST)
+    recv(PRIVILIGE,waiting, suc_atempts)
+fi
+
+`Critical Section`
+
+inc(#suc_atempt)
+add_atempting(waiting);
+if !emtpy(waiting)
+    send(head(waiting), PRIVILEGE, tail(waiting), suc_atempts)
+fi
+\end{lstlisting}
+if every process keeps track of the number of times a process wanted to enter the critical section
+and the one with the current privilege knows the successful atempts and a queue of processes that should
+enter next.
+
+If a process wants to enter he first checks if he already has the privilege. If not he increments his atempt and
+sends to all processes that he would like to enter. The process with the privilege will take note of that
+and send the privilege to him or at least at him to the queue of processes that wants to enter.
+
+When receiving a process increments the request counter for that process and the one with the privilege
+may send this if itself is not in the critical section right now.\\
+
+The second algorithm introduces a upper bound to the atempt counter. If a maximum is reached it will be set to
+0 again in every process list.
 
 
 %% --------------------------------------
@@ -439,7 +481,8 @@ State-vector 2072 byte, depth reached 9999, errors: 0
 hash conflicts:  29156326 (resolved)
 
 Stats on memory usage (in Megabytes):
-81641.175       equivalent memory usage for states (stored*(State-vector + overhead))
+81641.175       equivalent memory usage for states 
+    (stored*(State-vector + overhead))
  3442.784       actual memory usage for states (compression: 4.22%)
                 state-vector as stored = 68 byte + 20 byte overhead
   256.000       memory used for hash table (-w26)
@@ -535,7 +578,8 @@ State-vector 2084 byte, depth reached 9999, errors: 0
 hash conflicts:  41393391 (resolved)
 
 Stats on memory usage (in Megabytes):
-103535.902      equivalent memory usage for states (stored*(State-vector + overhead))
+103535.902      equivalent memory usage for states 
+    (stored*(State-vector + overhead))
  3441.959       actual memory usage for states (compression: 3.32%)
                 state-vector as stored = 50 byte + 20 byte overhead
   256.000       memory used for hash table (-w26)
@@ -620,7 +664,8 @@ State-vector 2084 byte, depth reached 9999, errors: 0
 hash conflicts:  22501231 (resolved)
 
 Stats on memory usage (in Megabytes):
-70230.356       equivalent memory usage for states (stored*(State-vector + overhead))
+70230.356       equivalent memory usage for states 
+    (stored*(State-vector + overhead))
  2492.384       actual memory usage for states (compression: 3.55%)
                 state-vector as stored = 55 byte + 20 byte overhead
   256.000       memory used for hash table (-w26)
