@@ -19,7 +19,7 @@
 
 \begin{abstract}
 The distributed algorithm for the mutual exclusion problem proposed by Suzuki and Kasami \cite{Suzuki:1985:DME:6110.214406} is checked
-with the modelchecker \emph{Spin}. We present a modeling for the algorithm in Promela, the properties we want
+with the model checker \emph{Spin}. We present a modeling for the algorithm in Promela, the properties we want
 to check for this algorithm and a short error analysis, why the second algorithm of Suzuki and Kasami does not work.
 \end{abstract}
 
@@ -35,11 +35,11 @@ problem for networks of independent agents. This algorithm requires $2N-2$ messa
 invocation, where $N$ is the number of agents in the network~\cite{Ricart:1981:OAM:358527.358537}.
 In 1985, Sizuki and Kasami proposed a different algorithm which is supposed to solve the problem of 
 mutual exclusion yet only requiring $N$ messages per invocation. A modification of this algorithm
-only uses bounded counters and requires asymptoticaly $N$ messages per invocation as the number of
+only uses bounded counters and requires asymptotically $N$ messages per invocation as the number of
 invocations grow.
 Section~\ref{sec:prob} gives an overview of the problem and the solution proposed by Suzuki and Kasami.
 The remainder of this document describes how those algorithms can be modeled in promela and
-processed by the spin modelchecker.
+processed by the spin model checker.
 
 %% --------------------------------------
 %%           Section II
@@ -78,17 +78,17 @@ if !emtpy(waiting)
 fi
 \end{lstlisting}
 if every process keeps track of the number of times a process wanted to enter the critical section
-and the one with the current privilege knows the successful atempts and a queue of processes that should
+and the one with the current privilege knows the successful attempts and a queue of processes that should
 enter next.
 
-If a process wants to enter he first checks if he already has the privilege. If not he increments his atempt and
+If a process wants to enter he first checks if he already has the privilege. If not he increments his attempt and
 sends to all processes that he would like to enter. The process with the privilege will take note of that
 and send the privilege to him or at least at him to the queue of processes that wants to enter.
 
 When receiving a process increments the request counter for that process and the one with the privilege
 may send this if itself is not in the critical section right now.\\
 
-The second algorithm introduces a upper bound to the atempt counter. If a maximum is reached it will be set to
+The second algorithm introduces a upper bound to the attempt counter. If a maximum is reached it will be set to
 0 again in every process list.
 
 
@@ -98,7 +98,7 @@ The second algorithm introduces a upper bound to the atempt counter. If a maximu
 \section{Modeling\label{sec:model}}
 
 To determine whether the algorithms mentioned in section~\ref{sec:prob} indeed appropriately solves
-the problem of mutual exclusion, we model these algorithms in promela and apply ltl modelchecking using spin.
+the problem of mutual exclusion, we model these algorithms in promela and apply ltl model checking using spin.
 Section~\ref{ssec:choice} justifies out choice of the spin verification suite; the following sections
 describe the model itself. Finally, section~\ref{ssec:run} displays an example simulation run of the algorithms.
 
@@ -114,9 +114,9 @@ we use the channels of promela to simulate the message exchange.
 
 We chose to model almost all of the variables of a process as a global $N$-size array of variables,
 one entry per process. Of course the $i$-th entry of each of these arrays is only used by process $i$.
-This is due to (1) debug reasons and (2) to verfication reasons. Firstly, at some points we needed to
+This is due to (1) debug reasons and (2) to verification reasons. Firstly, at some points we needed to
 check the system state during model simulation. Here, we can use the -w option of spin to output the
-system state. Secondly, this way we could use the variables to construct ltl formulae.
+system state. Secondly, this way we could use the variables to construct ltl formulas.
 The only process local variables are $j$ and $n$ which are used to store message variables.
 
 \subsection{Type definitions}
@@ -139,7 +139,7 @@ Since the algorithms use a queue, we implemented a simple queue without any chec
   inline qElem(result,queue,elem) {...}
 \end{lstlisting}
 
-The size of the used array is $M > N$, which should be ok because the program a process id added at most once per process to the queue. To add some padding, we choose $M = N^2$.
+The size of the used array is $M > N$, which should be OK because the program a process id added at most once per process to the queue. To add some padding, we choose $M = N^2$.
 
 \subsubsection{Array}
 Since arrays are also used, we need to model arrays of arrays. This is simply done by the following definition:
@@ -158,13 +158,13 @@ There are three kinds of messages used by the algorithms, namely
                  id of the sending process and $n$ is the number
                  of previous requests by that process. This message
                  is used to indicate that one wants to enter the
-                  criticle section.
+                  critical section.
   \item[PRIVILEGE] containing two fields $Q,LN$, where $Q$ is a
                    queue of process ids and $LN$ is an array of
                    integers that indicate which process has
-                   entered the criticle section so far.
+                   entered the critical section so far.
                    This message can be considered a token that
-                   authorizes its carrier to enter the criticle
+                   authorizes its carrier to enter the critical
                    section.
   \item[REPLY]   containing no further information. This message
                  is sent as a confirmation to request messages.
@@ -186,7 +186,7 @@ chan mailbox[N] = [N] of {mtype, int, int, Queue, Array}
  
 Another possibility to model the channel system is to create a $N\times N$-matrix of channels,
 one channel for each communication pair. We prefer our choice over this possibility because it
-avoids unneccessary code to iterate over each of the $N-1$ input channels per process.
+avoids unnecessary code to iterate over each of the $N-1$ input channels per process.
 Also, the information which process sent a particular message is encoded into the message itself where needed.
 Another benefit is the reduced number of channels needed. \\
 
@@ -207,14 +207,14 @@ criticle section), we here chose to process pending request messages while waiti
 
 \subsection{Send and Receive in Spin}
 
-There occured an ambiguous error in our implementation when we used a wrong number of matching
-variables in receiving a message. It happend some times that the received message differed from the
+There occurred an ambiguous error in our implementation when we used a wrong number of matching
+variables in receiving a message. It happened some times that the received message differed from the
 send message. This way some of the requesting processes where dropped from the queue and were not considered
 for execution leading to a state where only one process was possible to enter the critical section.
 
-\subsection{Privilege Receving}
+\subsection{Privilege Receiving}
 
-We implemented the procedure that is called on an incomming \emph{PRIVILEGE} message as a macro.
+We implemented the procedure that is called on an incoming \emph{PRIVILEGE} message as a macro.
 We decided to implement it this way because we need the procedure at two points in the code.
 First in the remainder of code and secondly when a process waits for the \emph{PRIVILEGE} message.
 Because Spin does not support a procedure we implemented it as a macro.
@@ -235,7 +235,7 @@ A Mutual Exclusion Algorithm needs to satisfy the four properties
     \item Mutual Exclusion,
     \item Absence of Starvation,
     \item Fairness,
-    \item No Unneccessary Delay
+    \item No Unnecessary Delay
 \end{itemize}
 to be considered as correct.
 
@@ -245,7 +245,7 @@ LTL - Properties.
 \subsection{Mutual Exclusion}
 
 We added a variable \lstinline|incs| that is incremented before the critical section
-and decremented aftarwards. If initialized to zero mutual exclusion is expressed by the
+and decremented afterwards. If initialized to zero mutual exclusion is expressed by the
 property
 \begin{equation}
     \square \left( \text{\lstinline|incs|} \leq 1 \right)
@@ -264,7 +264,7 @@ again for both algorithms.
 \subsection{Fairness}
 
 All processes do not differ except for their Identifier. Therefore we will check the fairness constraint for the first process and the second process.
-The first one because it has initially the privilage and the second one as a representive for every other process.
+The first one because it has initially the privilege and the second one as a representative for every other process.
 This time we used a label at the critical section and an array for the process id's.
 
 Fairness can be expressed by
@@ -274,14 +274,14 @@ Fairness can be expressed by
 \end{eqnarray}
 in both algorithms.
 
-\subsection{No Uneccessary Delay}
+\subsection{No Unnecessary Delay}
 
 If we checked the previous property we have already a solution for this property.
-This is because it holds that each process that wants to enter the cirtical section will do so eventually for each path in
+This is because it holds that each process that wants to enter the critical section will do so eventually for each path in
 the transition system.
 If we want to check the property -- if a process wants to enter the critical section and other process arrives at the request section,
 the first one will eventually enter the critical section -- this is only describes a subset of the paths considered in the fairness property.
-Therefore if we have proofen that one, we have a proof for this one.
+Therefore if we have proven that one, we have a proof for this one.
 
 %% --------------------------------------
 %%           Section V
@@ -337,7 +337,7 @@ This time we need the parameter '-f'. Otherwise it is possible for one process t
 the critical section. The output can be seen in \ref{mc:app:unb:dead} and it assures us that there is no error in
 the searched depth.
 
-\subsubsection{Fariness}
+\subsubsection{Fairness}
 
 Here we checked the two claims
 
@@ -353,9 +353,7 @@ The output can be seen in \ref{mc:app:unb:fair}.
 
 \subsection{Bounded Variant}
 
-This algorithm has a bounded state space and can be fully checked.
-But we found an error in the property BLUBELIBLUBBLUB
-
+This algorithm has a bounded state space and can, in principle, be fully checked.
 
 \subsubsection{Absence of Starvation}
 
@@ -365,21 +363,21 @@ could no longer be made any progress. Because with a lifeness property we could
 not perform a BFS to this event, we constructed the error from the error traces we saw.
 
 Consider three processes p1, p2, p3 where p1 initially holds the privilege.
-Now p1 and p2 enter the critical section swaping each round until both entered the critical section
+Now p1 and p2 enter the critical section swapping each round until both entered the critical section
 L times. It holds that
 $\text{RN}[0] =\text{RN}[1] = L - 1$ in both processes
-and let be p1 be the process that aquired the priviledge last.\\
+and let be p1 be the process that acquired the privilege last.\\
 
 If p1 now leaves the critical section $\text{RN}[0] = L - 1$ holds and
-p1 waits for two REPLAY messages which he will get because he has sended two REQUEST messages
-while his requestCount was $L$. He receives those two messages and now atempts to
+p1 waits for two REPLAY messages which he will get because he has sent two REQUEST messages
+while his requestCount was $L$. He receives those two messages and now attempts to
 enter the critical section again. Because no other process wants to enter and he still holds
-the priviledge he can do so.\\
+the privilege he can do so.\\
 
 On leaving the critical section again $\text{RN}[0] = L - 1$ holds because RN is only changed
-if p1 does not have the priviledge. He now waits for two REPLY messages which he will never
+if p1 does not have the privilege. He now waits for two REPLY messages which he will never
 receive because he never send REQUEST messages in the first place. Finally because he still
-holds the priviledge no other process can enter the cirtical section and we reached a deadlock state.
+holds the privilege no other process can enter the critical section and we reached a deadlock state.
 
 \subsubsection{Fairness and No Unnecessary Delay}
 
@@ -391,7 +389,7 @@ depend on the fact that it is possible to enter the critical section.
 
 We assume the algorithm satisfies at least mutual exclusion because in this matter it does not
 differ from the first algorithm. But Spin couldn't check the property
-because he could not perform the receive that led to the error mentioned afore.\\
+because he could not perform the receive that led to the error mentioned before.\\
 
 Hence we could not check this property successful because Spin can not do so if a receive statement
 runs into a deadlock state.
