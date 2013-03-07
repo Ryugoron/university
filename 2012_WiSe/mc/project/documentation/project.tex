@@ -119,9 +119,12 @@ We choose an implementation of a queue without a check for overflow.
 We could do this because in the program a number for a process is at most added once to the queue.
 If we give the queue an array of size $N$ there could never occure an overflow.
 
-\subsection{P2 in header}
+\subsection{Privilege Receving}
 
-atomic
+We implemented the procedure that is called on an incomming \emph{PRIVILEGE} message as a macro.
+We decided to implement it this way because we need the procedure at two points in the code.
+First in the remainder of code and secondly when a process waits for the \emph{PRIVILEGE} message.
+Because Spin does not support a procedure we implemented it as a macro.
 
 \subsection{Next}
 
