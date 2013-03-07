@@ -155,12 +155,13 @@ no essential information.
 
 \subsection{Request Messages}
 
-The methode \lstinline|p1| is excuted if a \emph{REQUEST} message is received.
-In the modeling we decided to prioritize the receiving of \emph{REQUEST} at the
-waiting points that are the \emph{remainder} and the waiting to enter the critical section.
-
-This is neccessary to satisfy the deadlock freedom and fairness constraints.
-
+The procedure \lstinline|p2|, as called in the paper, is supposed to be executed ''indivisibly''
+whenever a \emph{REQUEST} message is received. 
+We chose to put the code of this procedure in an atomic statement (so that its executed indivisibly),
+the procedure  itself resides as inline function in the header file. This is due to our modeling:
+Since it is not possible to interrupt a process whenever a message arrives, we chose to process 
+all pending \emph{REQUEST} messages before entering the entry code. Since there is a line in procedure \lstinline|p1| where a process waits on the \emph{PRIVILEGE} message (i.e. authorization to enter the
+criticle section), we here chose to process pending request messages while waiting.
 
 \subsection{Send and Receive in Spin}
 
