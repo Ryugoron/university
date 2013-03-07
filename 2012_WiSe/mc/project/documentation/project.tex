@@ -73,10 +73,15 @@ the last section. We send messages of the form
 \begin{lstlisting}
 (mtype, int, int, Queue, Array)
 \end{lstlisting}
-with the types
+where
 \begin{lstlisting}
 mtype = {REQUEST, PRIVILIGE, REPLY}
-\end{lstlisting}.
+\end{lstlisting}
+are the types we use. As one can see one message type only requires
+at most two of the attributes of the message. We decided to model a
+message this way to send each message over the same channel. If one of
+the attributes is not needed it will be filled with a dummy.
+
 
 \subsection{Request Messages}
 
@@ -149,7 +154,7 @@ For this property we need a label \lstinline|request|. We already have an array 
 but this flag is shortly after the critical section still set to one.
 Using the counter \lstinline|incs| from the Mutual Exclusion property we can express deadlock freedom by
 \begin{equation}
-    \square \left( \left( \underset{0\leq i < N}{\bigvee} \text{\lstinline|Process[p[i]]@request|\right) \Rightarrow \diamond \text{\lstinline|incs|} = 1 \right)
+    \square \left( \left( \underset{0\leq i < N}{\bigvee} \text{\lstinline|Process[p[i]]@request|}\right) \Rightarrow \diamond \text{\lstinline|incs|} = 1 \right)
 \end{equation}
 again for both algorithms.
 \subsection{Fairness}
