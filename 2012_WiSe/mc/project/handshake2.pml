@@ -101,7 +101,7 @@ progressCS:     :: true -> /* process i wants to enter cs */
   od
 }
 
-//ltl claim1 { [] (incs <= 1)}
+ltl claim1 { [] (incs <= 1)}
 
 // Starvation for 3 Processes
 //ltl claim2 { [] ((Process[p[0]]@request || Process[p[1]]@request || Process[p[2]]@request) -> <> (incs == 1))}
