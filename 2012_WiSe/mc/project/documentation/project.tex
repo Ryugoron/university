@@ -73,10 +73,15 @@ the last section. We send messages of the form
 \begin{lstlisting}
 (mtype, int, int, Queue, Array)
 \end{lstlisting}
-with the types
+where
 \begin{lstlisting}
 mtype = {REQUEST, PRIVILIGE, REPLY}
-\end{lstlisting}.
+\end{lstlisting}
+are the types we use. As one can see one message type only requires
+at most two of the attributes of the message. We decided to model a
+message this way to send each message over the same channel. If one of
+the attributes is not needed it will be filled with a dummy.
+
 
 \subsection{Request Messages}
 
@@ -159,10 +164,10 @@ The first one because it has initially the privilage and the second one as a rep
 This time we used a label at the critical section and an array for the process id's.
 
 Fairness can be expressed by
-\begin{equation}
-    \square \left( \text{\lstinline|Process[p[0]]@request|} \Rightarrow \diamond \text{\lstinline|Process[p[0]]@critical|} 
-    \land \text{\lstinline|Process[p[1]]@request|}\Rightarrow \diamond \text{\lstinline|Process[p[1]]@critical|}\right)
-\end{equation}
+\begin{eqnarray}
+    \square & ( \text{\lstinline|Process[p[0]]@request|} \Rightarrow \diamond \text{\lstinline|Process[p[0]]@critical|} \\
+    &\land \text{\lstinline|Process[p[1]]@request|}\Rightarrow \diamond \text{\lstinline|Process[p[1]]@critical|})
+\end{eqnarray}
 in both algorithms.
 
 \subsection{No Uneccessary Delay}
