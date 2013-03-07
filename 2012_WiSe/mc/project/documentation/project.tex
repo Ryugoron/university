@@ -5,7 +5,7 @@
 \usepackage{listings}
 \usepackage{amssymb}
 \usepackage{amsmath}
-
+\usepackage{pdfpages}
 
 \title{Five Message Handshake Project in Spin}
 \titlerunning{Five Message Handshake}
@@ -219,13 +219,11 @@ We decided to implement it this way because we need the procedure at two points 
 First in the remainder of code and secondly when a process waits for the \emph{PRIVILEGE} message.
 Because Spin does not support a procedure we implemented it as a macro.
 
-\subsection{Next}
-
-Write smth.
-
 \subsection{Simulation of the model\label{ssec:run}}
+The figure below shows an example run of the first algorithm. The receive and send events, plus
+additional debug output is printed.
 
-Add blblabla diagram
+\includepdf[scale=0.8]{output/handshakesim.pdf}
 
 %% --------------------------------------
 %%           Section IV
