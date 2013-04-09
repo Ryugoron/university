@@ -1,0 +1,126 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm]{geometry} 
+\usepackage{babel}
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc} 
+\usepackage{ae} 
+\usepackage{amssymb} 
+\usepackage{amsmath}
+\usepackage{amsthm} 
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{paralist}
+
+\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[C]{Computational Geometry}
+\fancyhead[L]{Exercise sheet 1}
+\fancyhead[R]{SoSe 2013}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage \hspace{1px} of \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\setlength{\parindent}{0pt} 
+\setlength{\headheight}{0pt}
+
+\date{}
+\title{Exercise sheet 1}
+\author{Max Wisniewski, Alexander Steen}
+
+
+%%
+%% Enviroments for proofs and lemmas
+%%
+\newtheorem{lemma}{\bfseries Claim}
+
+\begin{document}
+
+\lstset{language=Pascal, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2, mathescape=true}
+
+\renewcommand{\figurename}{Figure}
+
+\maketitle
+\thispagestyle{fancy}
+
+\begin{description}
+%%%%%%%%%%%%%%%%%%%%%%%%
+%% Aufgabe 1 
+%%%%%%%%%%%%%%%%%%%%%%%%
+\item[Problem 1] Computing the minimum
+  \begin{enumerate}
+    \item Let $X_i \in \{ 0,1 \}$ be the random variable that indicates whether line (*) is executed
+          in the $i$-th iteration of the for-loop. Show that $E[X] = \sum_{i=2}^{n}{E[X_i]}$.\\
+
+          Since $X = \sum_{i=2}{n}{X_i}$, it holds that
+          \begin{equation}\begin{split}
+            E[X] = E\left[ \sum_{i=2}^n X_i \right] \stackrel{(*)}{=} \sum_{i=2}^{n}{E[X_i]}
+          \end{split}\end{equation}
+          where (*) holds by linearity of the expected value.
+    \item Find $E[X_i]$. \\
+          
+          Since the numbers are pairwise distinct, the probability that at some fixed position $k$
+          $A[k]$ is minimal, is given by $Pr[A[k] \text{ minimal}] = \frac{1}{i}$, where $i$ is the number
+          of distinct numbers. It follows that
+          \begin{equation}\begin{split}
+            E[X_i] & \stackrel{\text{Def.}}{=} \sum_{a \in \{0,1\}}{a \cdot Pr[X_i = a]}\\
+                                          &\;= Pr[X_i = 1] = Pr[A[i] \text{ minimal in $i$ elements}]
+                                           = \frac{1}{i}
+          \end{split}\end{equation}
+    \item Conclude that $E[X] = O(\log n)$.
+          \begin{equation}\begin{split}
+            E[X] &\stackrel{(1)}{=} \sum_{i = 2}^{n}{E[X_i]} = \sum_{i = 2}^{n}{\frac{1}{i}} \\
+                 &\leq \sum_{i = 1}^{n}{\frac{1}{i}} = H_n = O(\log n)
+          \end{split}\end{equation}
+  \end{enumerate}
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+%% Aufgabe 2
+%%%%%%%%%%%%%%%%%%%%%%%%
+\item[Problem 2] Induction \\
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+%% Aufgabe 3
+%%%%%%%%%%%%%%%%%%%%%%%%
+\item[Problem 3] O-Notation
+  \begin{enumerate}
+    \item $\log(n!) = \Theta(n \log(n))$\\
+          (1) $\log(n!) = O(n \log(n))$ \\
+              \begin{equation}\begin{split}
+                \log(n!) &= \sum_{i=1}^n {\log i} 
+                         \leq n \cdot \log n
+              \end{split}\end{equation}
+          (2) $\log(n!) = \Omega(n \log(n))$ \\
+              \begin{equation}\begin{split}
+                TBD
+              \end{split}\end{equation}
+    \item $\log(mn) = O(\log(n+m))$ holds since
+      \begin{equation}\begin{split}
+        \log(mn) &= \log(m) + \log(n) \leq \log(m+n) + \log(n+m)\\
+                 &= 2 \log(n+m) = O(\log(n+m))
+      \end{split}\end{equation}
+  
+    \item Let $f,g \geq 2$ and $f(n) = O(g(n))$
+    \begin{enumerate}
+      \item $\sqrt{f(n)} = O(\sqrt{g(n)})$
+            \begin{equation}\begin{split}
+              \sqrt{f(n)} &= (f(n))^{\frac{1}{2}} \leq (c\cdot g(n))^{\frac{1}{2}}\\
+                          &= \sqrt{c}\cdot \sqrt{g(n)} = O(\sqrt{g(n)})
+            \end{split}\end{equation}
+      \item $2^f(n) = O(2^g(n))$
+            \begin{equation}\begin{split}
+              TBD
+            \end{split}\end{equation}
+    \end{enumerate}
+  \end{enumerate}
+
+\end{description}
+
+\label{LastPage}
+
+\end{document}
