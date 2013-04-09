@@ -89,7 +89,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%
 \item[Problem 3] O-Notation
   \begin{enumerate}
-    \item $\log(n!) = \Theta(n \log(n))$\\
+    \item $\log(n!) = \Theta(n \log(n))$ holds since\\
           (1) $\log(n!) = O(n \log(n))$ \\
               \begin{equation}\begin{split}
                 \log(n!) &= \sum_{i=1}^n {\log i} 
@@ -97,7 +97,8 @@
               \end{split}\end{equation}
           (2) $\log(n!) = \Omega(n \log(n))$ \\
               \begin{equation}\begin{split}
-                TBD
+                \log(n!) &= \sum_{i=1}^n {\log i} \geq \sum_{i=\frac{n}{2}}^n {\log i} \\
+                         &\geq \frac{n}{2} \log(\frac{n}{2}) = \Omega(n \log(n))
               \end{split}\end{equation}
     \item $\log(mn) = O(\log(n+m))$ holds since
       \begin{equation}\begin{split}
@@ -107,14 +108,14 @@
   
     \item Let $f,g \geq 2$ and $f(n) = O(g(n))$
     \begin{enumerate}
-      \item $\sqrt{f(n)} = O(\sqrt{g(n)})$
+      \item $\sqrt{f(n)} = O(\sqrt{g(n)})$ holds since
             \begin{equation}\begin{split}
               \sqrt{f(n)} &= (f(n))^{\frac{1}{2}} \leq (c\cdot g(n))^{\frac{1}{2}}\\
                           &= \sqrt{c}\cdot \sqrt{g(n)} = O(\sqrt{g(n)})
             \end{split}\end{equation}
-      \item $2^f(n) = O(2^g(n))$
+      \item $2^{f(n)} = O(2^{g(n)})$ does not hold, e.g. choose $f := 2\cdot g$, then
             \begin{equation}\begin{split}
-              TBD
+              2^{f(n)} = 2^{2\cdot g(n)} = 2^{2^g(n)} \neq O(2^g(n))
             \end{split}\end{equation}
     \end{enumerate}
   \end{enumerate}
