@@ -1,0 +1,152 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm]{geometry} 
+\usepackage{babel}
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc} 
+\usepackage{ae} 
+\usepackage{amssymb} 
+\usepackage{amsmath}
+\usepackage{amsthm} 
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{paralist}
+
+\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[C]{Diskrete Mathematik}
+\fancyhead[L]{Übung 1}
+\fancyhead[R]{SoSe 2013}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage \hspace{1px} of \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\setlength{\parindent}{0pt} 
+\setlength{\headheight}{0pt}
+
+\date{}
+\title{Übung 1}
+\author{Max Wisniewski, Alexander Steen}
+
+
+%%
+%% Enviroments for proofs and lemmas
+%%
+\newtheorem{lemma}{\bfseries Claim}
+
+\begin{document}
+
+\lstset{language=Pascal, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2, mathescape=true}
+
+\renewcommand{\figurename}{Figure}
+
+\maketitle
+\thispagestyle{fancy}
+
+\subsection*{Aufgabe 1.}
+Zeigen Sie, dass durch
+$$
+	u \sim v \, : \, \Leftrightarrow u \text{ und } v \text{ hängen zusammen}
+$$
+eine Äquivalenzrelation auf den Knoten eines Graphen definiert wird.\\
+
+\textbf{Beweis:}\\
+Sei  $ G(V,E) $ ein ungerichteter Graph.
+
+Zwei Knoten $u,v$ hängen zusammen, wenn ein Weg $(a_i)_{1\leq i \leq n}$ existiert, mit $u = a_1$, $v = a_n$ und 
+$\forall 1 \leq i < n \; : \; a_ia_{i+1} \in E$.\\
+
+\begin{description}
+	\item[\bfseries Reflexivität:]
+		Sei $u \in V$, dann ist $(u)$  ein Weg in $G$, da es keine Kanten gibt die nicht in $E$ liegen und Start- und Endknoten
+		$u$ sind. $\Rightarrow$ $u \sim v$.
+
+	\item[\bfseries Symmetrisch:]
+		Sei $u,v \in V$ mit $u \sim v$.\\
+
+		Dann existiert ein Weg $(a_i)_{1 \leq i \leq n}$ nach Definition.
+		Sei $(b_i)_{1 \leq i \leq n}$ ein Weg mit $b_j = (a_{n-j+1})$ für alle $1 \leq j \leq n$. 
+		Da alle Knoten aus $V$ kommen, liegt dieser Weg auch in $G$.
+		Es gilt $b_1 = a_{n-1+1} = a_n = v$ und $b_n = a_{n - n + 1} = a_1 = u$.
+
+		Nun gilt für alle $1 \leq i < n$, dass
+		$$
+			b_ib_{i+1} = a_{n-i+1}a_{n-i} \in E
+		$$
+		da $G$ ungerichtet ist und nach Vorraussetzung $a_{n-i}a_{n-i+1}$ in $E$ liegt.
+		Damit ist
+		$$
+			v \sim u
+		$$
+	\item[\bfseries Transitivität:]
+		Seien $u,v,w \in V$ mit $u \sim v$ und $v \sim w$
+		Sei $(a_i)_{1 \leq i \leq n}$ ein Weg von $u$ nach $v$ und
+		$(b_i)_{1\leq i \leq n}$ ein Weg von $v$ nach $w$.
+
+		Dann ist 
+		$(c_i)_{1 \leq i \leq 2n}$ ein Weg mit
+		$$
+			c_i = \left\{ \begin{array}{lr} a_i &, i \leq n \\ b_{i-n} &, i > n \end{array}\right.
+		$$
+		
+		Es gilt $c_0 = a_0 = u$ und $c_{2n} = b_n = w$.
+		Desweiteren gilt für alle $1 \leq i \leq n$, dass $c_ic_{i+1} = a_ia_{i+1}\in E$ gilt
+		und für alle $n+1 \leq i \leq 2n$, dass $c_{i-n}c_{i-n+1}=b_ib_{i+1} \in E$.\\
+
+		$\Rightarrow u \sim w$.
+\end{description}
+
+Damit ist $\sim$ eine Äquivalenzrelation.\\
+\mbox{}\hfill$\square$
+
+\subsection*{Aufgabe 2.}
+
+Zeigen Sie, dass in jedem Graphen die Anzahl der Knoten mit ungeradem Grad gerade ist.\\
+
+\textbf{Beweis:}\\
+
+Sei $G(V,E)$ ein ungerichter Graph.\\
+
+Wir betrachten nun $g = \underset{v\ in V}{\sum} \text{grad}(v) = 2 |E|$.
+Dies gilt, da wir für jede Kante $(u,v) \in E$ sie einmal für den Grad von $u$ und einmal
+für den Grad von $v$ zählen.\\
+
+Nun wissen wir, dass die summe von
+\begin{enumerate}
+	\item gerade und gerade ist gerade.
+	\item gerade und ungrade ist ungerade.
+	\item ungerade und ungerade ist gerade.
+\end{enumerate}
+Da die Summe aller Grade gerade ist, müssen es eine gerade Anzahl von Knoten mit geradem Grad sein.\\
+
+\mbox{}\hfill$\square$
+
+\subsection*{Aufgabe 3.}
+
+Zeigen Sie: Eine Kante ist eine Brücke genau dann, wenn sie in keinem Kreis enthalten ist.\\
+
+\textbf{Beweis:}\\
+Sei $G(V,E)$ ein Graph. und $(u,v) \in E$.
+
+$\Rightarrow$\\
+tbd
+
+$\Leftarrow$\\
+
+tbd
+
+\subsection*{Afugabe 4.}
+
+Zeigen Sie, dass ein Graph genau dann bipartit ist, wenn er keinen ungeraden Kreis enthält.\\
+
+\textbf{Beweis:}\\
+
+tbd
+
+\label{LastPage}
+
+\end{document}
