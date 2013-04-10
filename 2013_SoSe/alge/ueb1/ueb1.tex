@@ -82,6 +82,30 @@
 %% Aufgabe 2
 %%%%%%%%%%%%%%%%%%%%%%%%
 \item[Problem 2] Induction \\
+Let $L$ be a set of $n$ lines in the plane. We would like to assign a color to each face such that no two adjacent faces have the same color. Show that two colors are always sufficient.\\
+
+\textbf{Proof} by induction:
+\begin{description}
+\item[Base step]: $n = 1$ \\
+Since $L$ consists of only one line, the plane is divided into two halfs. We can color the one black,
+and the other one white in order to gain a valid coloring.
+\item[Induction step]: $n \rightsquigarrow n + 1$ \\
+Now consider the set $L$ of $n+1$ lines. By removing one line, say $l$, we gain a set of $n$ lines
+which can, by induction assumption, be colored properly. If we add the $n+1$-st line $l$ again,
+it divides the plane into two halfs.\\
+Let $L_1,\ldots,L_a$ be the faces that are entirely on the
+'left side' of this plane and let $R_1,\ldots,R_b$ be the faces that are entirely on the
+'right side' of this plane. Let $M_1,\ldots,M_c$ be the faces that are divided by $l$, where $M_i^l$
+denotes the left part of the divided face $M_i$ and $M_i^r$ the right side.
+
+The coloring of the set $L$ containing $n+1$ lines is achieved by the following rules:\\
+$L_i$ keep their coloring, $R_i$ swap their coloring, $M_i^l$ takes the color of $M_i$ and $M_i^r$ takes
+the opposite color of $M_i^l$.\\
+\textbf{Claim:} The coloring gained by the above rules is valid.\\
+\textbf{Proof:} .... TBA 
+\mbox{} \hfill $\square$
+\end{description}
+  
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%
@@ -110,13 +134,14 @@
     \begin{enumerate}
       \item $\sqrt{f(n)} = O(\sqrt{g(n)})$ holds since
             \begin{equation}\begin{split}
-              \sqrt{f(n)} &= (f(n))^{\frac{1}{2}} \leq (c\cdot g(n))^{\frac{1}{2}}\\
+              \sqrt{f(n)} &\leq \sqrt{c\cdot g(n)}\\
                           &= \sqrt{c}\cdot \sqrt{g(n)} = O(\sqrt{g(n)})
             \end{split}\end{equation}
       \item $2^{f(n)} = O(2^{g(n)})$ does not hold, e.g. choose $f := 2\cdot g$, then
             \begin{equation}\begin{split}
-              2^{f(n)} = 2^{2\cdot g(n)} = 2^{2^g(n)} \neq O(2^g(n))
+              2^{f(n)} = 2^{2\cdot g(n)} = 2^{2^g(n)} \neq O(2^{g(n)})
             \end{split}\end{equation}
+            ADD SOMETHING HERE
     \end{enumerate}
   \end{enumerate}
 
