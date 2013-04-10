@@ -130,14 +130,16 @@ Da die Summe aller Grade gerade ist, müssen es eine gerade Anzahl von Knoten mi
 Zeigen Sie: Eine Kante ist eine Brücke genau dann, wenn sie in keinem Kreis enthalten ist.\\
 
 \textbf{Beweis:}\\
-Sei $G(V,E)$ ein Graph. und $(u,v) \in E$.
+Sei $G(V,E)$ ein Graph und $(u,v) \in E$.
 
-$\Rightarrow$\\
-tbd
+"$\Rightarrow$":\\
+Sei $(u,v)$ eine Brücke und $G' = (V,E \setminus \{ (u,v) \})$ der Graph nach dem Entfernen von Kante $(u,v)$ aus $G$.
+Da $(u,v)$ Brücke war, zerfällt die Komponente in der $(u,v)$ lag, in zwei Komponenten $K_1$ und $K_2$.
+Insbesondere gibt in $G'$ keinen Weg von $K_1$ nach $K_2$ und umgekehrt. Damit kann $(u,v)$ in $G$ in
+keinem Kreis enthalten sein, da sonst ein solcher Weg (o.B.d.A. von $K_1$ nach $K_2$) in $G'$ existiere.
 
-$\Leftarrow$\\
+"$\Leftarrow$":\\
 
-tbd
 
 \subsection*{Afugabe 4.}
 
