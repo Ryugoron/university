@@ -102,7 +102,12 @@ The coloring of the set $L$ containing $n+1$ lines is achieved by the following 
 $L_i$ keep their coloring, $R_i$ swap their coloring, $M_i^l$ takes the color of $M_i$ and $M_i^r$ takes
 the opposite color of $M_i^l$.\\
 \textbf{Claim:} The coloring gained by the above rules is valid.\\
-\textbf{Proof:} .... TBA 
+\textbf{Proof:} The coloring of $L_i$ and $M_i^l$ are valid by induction assumption,
+                and since the coloring of $R_i$ and $M_i^r$ were valid by induction assumption, they
+                are still valid with swapped colors. The borders of the faces along the $n+1$st line
+                are valid since the other side has the opposite color.
+                If we assume general position no two faces $R_i$ and $L_j$ can share an edge,
+                because then two lines have to equal.
 \mbox{} \hfill $\square$
 \end{description}
   
@@ -139,9 +144,8 @@ the opposite color of $M_i^l$.\\
             \end{split}\end{equation}
       \item $2^{f(n)} = O(2^{g(n)})$ does not hold, e.g. choose $f := 2\cdot g$, then
             \begin{equation}\begin{split}
-              2^{f(n)} = 2^{2\cdot g(n)} = 2^{2^g(n)} \neq O(2^{g(n)})
+              2^{f(n)} = 2^{2\cdot g(n)} = 2^{2^{g(n)}} \neq O(2^{g(n)})
             \end{split}\end{equation}
-            ADD SOMETHING HERE
     \end{enumerate}
   \end{enumerate}
 
