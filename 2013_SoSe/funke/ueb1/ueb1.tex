@@ -1,0 +1,215 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm]{geometry} 
+\usepackage{babel}
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc} 
+\usepackage{ae} 
+\usepackage{amssymb} 
+\usepackage{amsmath}
+\usepackage{amsthm} 
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{paralist}
+
+\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[C]{Advanced Functional Programming}
+\fancyhead[L]{Exercise sheet 1}
+\fancyhead[R]{SoSe 2013}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage \hspace{1px} of \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\setlength{\parindent}{0pt} 
+\setlength{\headheight}{0pt}
+
+\date{}
+\title{Exercise sheet 1}
+\author{Max Wisniewski, Alexander Steen}
+
+
+%%
+%% Enviroments for proofs and lemmas
+%%
+\newtheorem{lemma}{\bfseries lemma}
+\newtheorem{claim}{\bfseries claim}
+
+\begin{document}
+
+\lstset{language=Pascal, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2, mathescape=true}
+
+\renewcommand{\figurename}{Figure}
+
+\maketitle
+\thispagestyle{fancy}
+
+\subsection*{Task 1}
+
+What is the fold function corresponding to the |Either| datatype and what is its prelude correspondence?\\
+
+\textbf{Solution:}\\
+
+\begin{lstlisting}[language=haskell]
+data Either a b = Left a | Right b
+
+foldEither :: (a -> c) -> (b -> c) -> Either a b -> c
+foldEither f _ (Left a)   = f a
+foldEither _ g (Right b)  = g b
+\end{lstlisting}
+
+The corresponding function is called `either`.
+
+\subsection*{Task 2}
+
+Express the function |pow m n = $m^n$| (|m| to the power of |n|)
+as a fold.
+
+\textbf{Solution:}\\
+
+\begin{lstlisting}[language=haskell]
+data Nat = O | S Nat
+
+foldNat :: (a -> a) -> a -> Nat -> a
+foldNat _ e O      = e
+foldNat f e (S n)  = f ( foldNat f e n )
+
+plus :: Nat -> Nat -> Nat
+plus a b = foldNat S a b
+
+mult :: Nat -> Nat -> Nat
+mult a b = foldNat (plus a) b
+
+pow :: Nat -> Nat -> Nat
+pow a b = foldNat (mult a) b
+\end{lstlisting}
+
+PROOF??
+
+\subsection*{Task 3}
+
+Express the predecessor function |pred :: Nat -> Maybe Nat| as
+a fold.
+
+\textbf{Solution:}\\
+
+In the following we use `maybe` which is the fold for Maybe in the haskell prelude.
+
+\begin{lstlisting}
+> pred :: Nat -> Maybe Nat
+> pred  = foldNat (maybe (Just O) (Just . S)) Nothing
+\end{lstlisting}
+
+We strip of one of the successors by a double application of the fold. The zero value `O` is mapped to `Nothing`
+in the anchor. In the first application `Nothing` is mapped to `Just O`. In the following the value in the Monad
+will be incremented, but the first application no increment was done. Therefore we have done one increment less
+then the original number required and this is therefore the predecessor.\\
+
+\subsection*{Task 4}
+
+Complete the proof that |`plus`| is commutative
+
+\textbf{Solution:}\\
+
+For completeness we will do the whole proof here.
+
+\begin{claim} \label{funke:ueb1:plus:commu}
+   The function `plus` is commutative.
+\begin{lstlisting}[language=haskell]
+plus m n = plus n m
+\end{lstlisting}
+\end{claim}
+\mbox{}\hfill$\rfloor$\\
+
+To proof this claim we first proof some lemma.
+
+\begin{lemma} \label{funke:ueb1:plus:commu:lemma1}
+Adding a zero to a number will return the number again.
+\begin{lstlisting}[language=haskell]
+plus O n = n
+\end{lstlisting}
+\mbox{}\hfill$\rfloor$\\
+\end{lemma}
+
+\begin{lemma} \label{funke:ueb1:plus:commu:lemma2}
+We can increment the first parameter instead of the second without changing the result.
+\begin{lstlisting}[language=haskell]
+plus m (S n) = plus (S m) n
+\end{lstlisting}
+\mbox{}\hfill$\rfloor$\\
+\end{lemma}
+
+\textbf{Proof lemma \ref{funke:ueb1:plus:commu:lemma1}.}\\
+Induction on $n$.\\
+\begin{description}
+   \item[\bfseries I.A.] $n=0$\\
+\begin{lstlisting}[language=haskell]
+plus O O = O
+\end{lstlisting}
+holds.
+   \item[\bfseries I.S.] $n \leadsto S n$\\
+$$\begin{array}{rcl}
+\textit{plus 0 (S n)} &\stackrel{\text{Def. plus}}{=}&
+      \textit{S (plus 0 n)}\\
+   &\stackrel{\text{ind. hyp.}}{=}&
+      \textit{S n}
+\end{array}$$
+By induction the claim holds.\\
+\mbox{}\hfill$\square$
+\end{description}
+
+\textbf{Proof lemma \ref{funke:ueb1:plus:commu:lemma1}.}\\
+Induction on $n$.\\
+\begin{description}
+   \item[\bfseries I.A.] $n = $O\\
+\begin{lstlisting}[language=haskell]
+plus m (S O) = S (plus m O)
+             = S m
+             = plus (S m) 0
+\end{lstlisting}
+   \item[\bfseries I.S.] $n \leadsto S n$\\
+$$\begin{array}{rcl}
+\textit{plus m (S (S n))} &\stackrel{\text{Def. plus}}{=}&
+      \textit{S (plus m (S n)}\\
+   &\stackrel{\text{ind. hyp.}}{=}&
+      \textit{S (plus (S m) n)}\\
+   &\stackrel{\text{Def. plus}}{=}&
+      \textit{plus (S m) (S n)}
+\end{array}$$
+\end{description}
+By induction the claim holds.\\
+\mbox{}\hfill$\square$
+
+\textbf{Proof claim \ref{funke:ueb1:plus:commu:lemma1}.}\\
+Let $m$ be arbitrary but fixed.\\
+Induction on $n$.\\
+\begin{description}
+   \item[\bfseries I.A.] $n=$O\\
+      $$\begin{array}{rcl}
+         \textit{plus m O} &\stackrel{\text{Def. plus}}{=}& \textit{m} \\
+         &\stackrel{\text{lemma 1}}{=} \textit{plus O m}
+      \end{array}$$
+   \item[\bfseries I.S.] $n \leadsto S n$\\
+      $$\begin{array}{rcl}
+         \textit{plus m (S n)} &\stackrel{\text{Def. plus}}{=}&
+            \textit{S (plus m n)}\\
+         &\stackrel{\text{ind. hyp.}}{=}&
+            \textit{S (plus n m)}\\
+         &\stackrel{\text{Def. plus}}{=}&
+            \textit{plus n (S m)}\\
+         &\stackrel{\text{lemma 2}}{=}&
+            \textit{plus (S n) m}
+      \end{array}$$
+\end{description}
+By induction the claim holds.\\
+\mbox{}\hfill$\square$
+
+We concluded that the function `plus` is commutative.
+
+\label{LastPage}
+
+\end{document}
