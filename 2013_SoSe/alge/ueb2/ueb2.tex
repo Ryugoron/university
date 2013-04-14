@@ -1,0 +1,116 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm]{geometry} 
+\usepackage{babel}
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc} 
+\usepackage{ae} 
+\usepackage{amssymb} 
+\usepackage{amsmath}
+\usepackage{amsthm} 
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{paralist}
+
+\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[C]{Computational Geometry}
+\fancyhead[L]{Exercise sheet 2}
+\fancyhead[R]{SoSe 2013}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage \hspace{1px} of \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\setlength{\parindent}{0pt} 
+\setlength{\headheight}{0pt}
+
+\date{}
+\title{Exercise sheet 2}
+\author{Max Wisniewski, Alexander Steen}
+
+
+%%
+%% Enviroments for proofs and lemmas
+%%
+\newtheorem{lemma}{\bfseries Claim}
+
+\begin{document}
+
+\lstset{language=Pascal, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2, mathescape=true}
+
+\renewcommand{\figurename}{Figure}
+
+\maketitle
+\thispagestyle{fancy}
+
+\begin{description}
+%%%%%%%%%%%%%%%%%%%%%%%%
+%% Aufgabe 1 
+%%%%%%%%%%%%%%%%%%%%%%%%
+\item[Problem 1] Convexity
+  \begin{enumerate}
+    \item Let $\{C_i\}_{i \in I}$ be a set of convex sets. Show that $\bigcap_{i \in I} C_i$ is convex.\\
+
+          \textbf{Proof}: Since each $C_i$ is convex, it holds that the line $\overline{pq}$,
+                          for $p,q \in C_i$, is completely contained in $C_i$. 
+                          %%More formally
+                          %%$\forall p,q \in C_i \, \forall \alpha \in [0,1]:
+                          %%(1- \alpha) p + \alpha (q-p) \in C_i$, for all $i$. 
+                          Since for all $p,q \in \bigcap_{i \in I} C_i$, the segment 
+                          $\overline{pq}$ is contained in each $C_i$, it holds that
+                          $\overline{pq} \in \bigcap_{i \in I} C_i$.\\
+                          $\Rightarrow \bigcap_{i \in I} C_i$ is convex.
+                          \mbox{} \hfill $\square$ \\
+
+          A similar property can be found for unions of convex sets: \\        
+          \textbf{Claim}: For any non-decreasing series of
+                          convex sets $(C_i)_{i \in I}$ (with respect to set inclusion),
+                          the set $\bigcup_{i \in I} C_i$ is convex.\\
+          \textbf{Proof}: For all $p,q \in \bigcup_{i \in I} C_i$ there exists a $\tilde{i} \in I$
+                          such that $p,q \in C_{\tilde{i}}$, hence $\overline{pq} \in C_{\tilde{i}}$.
+                          Since $(C_i)_{i \in I}$ is non-decreasing,
+                          $\overline{pq} \in \bigcup_{i \in I} C_i$.
+                          \mbox{} \hfill $\square$ 
+                          
+    \item Let $P$ be a finite point set in the plane.
+          Show that the boundary of the convex hull $CH(P)$ of $P$ is a convex polygon
+          whose vertices are points of $P$. \\
+    
+          TBA
+    \item Show that the segment between two points $p, q \in P$ is an edge of $CH(P)$ if
+          and only if all points of $P$ lie on the same side of the line through $p$ and $q$. \\
+
+          \textbf{Proof}: \\
+          "$\Rightarrow$": By contraposition. Let $\tilde{p}$ a point on the one side of the line
+                           through $p$ and $q$ and $\tilde{q}$ a point on the other side.
+                           Let $s \in \overline{pq}$. Then, one of $\overline{s\tilde{p}}$ 
+                           and $\overline{s\tilde{q}}$ is not contained in $P$. Hence,
+                           $\overline{pq}$ cannot be an edge of $CH(P)$. \\
+          "$\Leftarrow$": TBA
+          \mbox{} \hfill $\square$
+  \end{enumerate}
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+%% Aufgabe 2
+%%%%%%%%%%%%%%%%%%%%%%%%
+\item[Problem 2] Computing the tangents to a polygon \\
+
+TBA
+%%%%%%%%%%%%%%%%%%%%%%%%
+%% Aufgabe 3
+%%%%%%%%%%%%%%%%%%%%%%%%
+\item[Problem 3] Chan's algorithm and superexponential search
+  \begin{enumerate}
+    \item 
+    \item 
+  \end{enumerate}
+
+\end{description}
+
+\label{LastPage}
+
+\end{document}
