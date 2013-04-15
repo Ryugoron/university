@@ -166,12 +166,42 @@ Daher ist der Kreis gerade.
 
 $\Leftarrow$:\\
 
-Sei $k = a_1..a_n$ ein ungerader Kreis.
-Nehmen wir an $G$ wäre bipartit, dann existiert eine Partition von $V$ in $V_0$ und $V_1$ wie gehabt.
-Sei o.B.d.A $a_1 \in V_0$. Wie gehabt sind nu alle geraden Indizes in $V_1$ und alle ungeraden in $V_0$.
-Da $K$ ungerader Kreis ist, ist $n$ gerade. Nun wäre $a_1 \in V_0$ und $a_n \in V1$. Da aber 
-$a_1 = a_n$ gilt ist dies unmöglich, da $V_1 \cap V_2 = \emptyset$.\\
-(Widerspruch)\\
+Wir wissen, dass alle Kreise gerade sind.
+Wir betrachten Graphen die o.B.d.A. nur aus Kreisen bestehen.
+Wir färben die Kreise nun induktiv.
+
+\begin{description}
+   \item[\bfseries I.A.] $n = 1$.\\
+      Sie $k = a_1 ... a_n$ ein Kreis.
+      Wir stecken für alle ungeraden $i$ $a_i$ in $V_1$ und
+      für alle geraden $i$ $a_i$ in $V_0$. Alle Kanten des Kreises
+      laufen nun nur von $V_0$ nach $V_1$ und nie innerhalb.
+      Wir nennen den Graphen, der nur aus $k$ besteht $G^1$
+   \item[\bfseries I.V.] Der Graph $G^n$ bestehend aus den ersten
+      $n$ Kreisen ist bipartit.
+   \item[\bfseries I.S.] $n \leadsto n+1$.\\
+     Sei $k = a_1 ... a_m$ der $n$-te gerade Kreis.
+     Teilt der Graph keinen Knoten mit $G^n$ so teilen wir ihn, wie im Anker
+     auf.\\
+     Trifft er jede Zusammenhangskomponente höchstens einmal, so
+     vereinigen wir die induzierten Partitionen der Kompenenten konsistent
+     indem wir den Knoten, der auf dem Kreis liegt als ursprung komponente
+     annehmen. (Entweder belassen wir die Mengen oder wir tauschen $V_0$ und
+     $V_1$). Die Knoten des Kreises werden, wie im Anker aufgenommen.\\
+
+     Trifft der Kreis eine Komponente mehrfach, ist die Aufteilung trotzdem
+     Konsistent.
+     Seien $u, v \in V$ Knoten auf dem Kreis, die die selbe
+     Zusammenhangskomponente treffen. Dann schließt sich nun
+     durch die Kompentente und ein Teil des Kreises $k$ ein neuer Kreis,
+     der aufgrund der Vorraussetzung gerade ist.
+     Starten wir mit der selben Aufteiliung für $u$ so erreichen wir auf
+     $k$ und dem neuen Kreis die selbe Einteilung für $v$.\\
+
+     Durch Aufnahme des Kreises $k$ erhalten wir $G^{n+1}$.
+\end{description}
+
+In der Induktion konnten wir Kreise schon aufgenommen haben, bevor wir sie betrachten. In diesem Fall wird sich nach dem Schema allerdings nichts verändern.
 
 \mbox{}\hfill$\square$
 
