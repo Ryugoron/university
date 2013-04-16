@@ -1,0 +1,115 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm]{geometry} 
+\usepackage{babel}
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc} 
+\usepackage{ae} 
+\usepackage{amssymb} 
+\usepackage{amsmath}
+\usepackage{amsthm} 
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{paralist}
+
+\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[C]{Höhere Algorithmik II}
+\fancyhead[L]{Übung 1}
+\fancyhead[R]{SoSe 2013}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage \hspace{1px} of \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\setlength{\parindent}{0pt} 
+\setlength{\headheight}{0pt}
+
+\date{}
+\title{Übung 1}
+\author{Max Wisniewski, Alexander Steen}
+
+
+%%
+%% Enviroments for proofs and lemmas
+%%
+\newtheorem{lemma}{\bfseries Claim}
+
+\begin{document}
+
+\lstset{language=Pascal, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2, mathescape=true}
+
+\renewcommand{\figurename}{Figure}
+
+\maketitle
+\thispagestyle{fancy}
+
+\subsection*{Aufgabe 1.}
+
+Im Folgenden werden zwei Vorhergehensweisen angeben, wie man den Algorithmus
+von Strassen zur Multiplikation zweier $n \times n$ Matrizen verwenden kann, falls
+$n$ nicht unbedingt eine Zweierpotenz ist.
+
+Bestimmen Sie die jeweilige Laufzeit einschließlich der Konstante im signifikantesten
+Term genau und berechnen Sie, für welche $n$ diese Algorithmen weniger Operationen als
+die klassische Methode benötigen.
+
+\subsubsection*{(a)}
+
+Die Matrizen werden bis zur nächsten Zweierpotenz geeignet aufgefüllt.\\
+
+\textbf{Lösung:}\\
+
+tbd
+
+\subsubsection*{(b)}
+
+Ist $n$ gerade so führt man einen Rekursionsschritt nach Strassen aus.
+Andernfalls zerlegt man
+$$
+A = \left( \begin{array}{cc} A_{11} & A_{12}\\A_{21} & A_{22}\end{array} \right),
+\quad
+B = \left( \begin{array}{cc} B_{11} & B_{12}\\B_{21} & B_{22}\end{array} \right),
+$$
+wobei $A_{11}$ und $B_{11}$ $(n-1) \times (n-1)$-, $A_{12}$ und $B_{12}$ $(n-1)\times 1$-, $A_{21}$ und $B_{21}$ $1\times (n-1)$- und $A_{22}$ und $B_{22}$ $1 \times 1$- Matrizen sind.
+
+Dann berechnet man $AB$ in der Aufteilung, wie bei der klassischen Multiplikation von $2\times 2$ Matrizen, wobei $A_{11}B_{11}$ rekursiv, die übrigen Produkte klassisch berechnet werden.\\
+
+\textbf{Lösung:}\\
+
+tbd
+
+\subsection*{Aufgabe 2.}
+
+\subsubsection*{(a)}
+
+Zeigen Sie, dass die Multiplikation von $n \times n$- Matrizen mit $O(I(n))$ Operationen durchführbar ist, falls man mit $I(n)$ Operationen Matrizen invertieren kann.\\
+
+\textbf{Lösung:}\\
+
+tbd
+
+\subsubsection*{(b)}
+
+Zeigen Sie, dass die Multiplikation von $n \times n$- Matrizen mit $O(S(n))$ Operationen durchführtbar ist, falls man mit $S(n)$ Operationen Matrizen quadrieren kann.\\
+
+\textbf{Lösung:}\\
+
+tbd
+
+\subsection*{Aufgabe 3.}
+
+Bei der Multiplikation Boolescher Matrizen wird $+$ durch $\lor$ und $\cdot$ durch $\land$ ersetzt. Strassens Algorithmus ist nicht direkt anwendbar, da $(\{0,1\}, \lor, \land)$ kein Ring ist.
+
+Zeigen Sie, dass die Boolsche Matrizenmultiplikation mit $O( n^{\omega + \varepsilon} )$ Operationen aus $\{ \lor, \land, \neg \}$ für jedes $\varepsilon > 0$ möglich ist, wenn die Matrizenmultiplikation für ganze Zahlen mit $O(n^\omega )$ arithmetischen Operationen möglich ist.\\
+
+\textbf{Lösung:}\\
+
+tbd
+
+\label{LastPage}
+
+\end{document}
