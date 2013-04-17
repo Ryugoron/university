@@ -79,8 +79,42 @@
     \item Let $P$ be a finite point set in the plane.
           Show that the boundary of the convex hull $CH(P)$ of $P$ is a convex polygon
           whose vertices are points of $P$. \\
-    
-          TBA
+
+	 \textbf{Proof:}\\
+	 We first proove, that $CH(P)$ is a polygon and second, the 
+	 points of the polygon are points of $P$.\\
+
+   	 Let $C$ be an arbitrary convex set containing $P$. Assume $C$ is
+	not a polygon. Fix a point $x$ on that curve 
+	\footnote{We assume complete sets. If the set has no boundary
+	we consider a series of points converging to the boundary.}.
+	We now take $\varepsilon > 0$ steps on the curve to the point
+	$x_\varepsilon$ and look at the 
+	set $C'$ where we substituted the line $\overline{xx_\varepsilon}$
+	for the curveseqment that connected them before.
+
+	We know if $\varepsilon$ is small enough there is no point of $P$
+	in the cut part. If the curve was bend left, the resulting line will
+	only do left turns at the end. Therefore $C'$ is convex.
+
+	Hence $C$ could not be the convex hull.\\
+
+	Next we fix a convex polygon $CP$ that has points of $P$ on the
+	nodes. This can be found by intersecting all halfplanes that contain all
+	points in $P$ as in the Brute-Force algorithm.\\
+
+	Because $CP$ is a convex set containing $P$ only 
+	$CH(P) \subset CP$ can hold.\\
+
+	Assume there is a point on the polygon $CH(P)$ $y=p_k \not \in P$.
+	Then $p_{k-1}p_kp_{k+1}$ is a triangle pointing to the outside
+	of the polygon. Otherwise we would have taken a left turn in cw
+	order.
+	But this is not possible due to the previous shown fact, that
+	a polygon only of points of $P$ is a convex set containing $P$.
+	Hence $p_k$ can not be on the hull.\\
+\mbox{}\hfill$\square$
+
     \item Show that the segment between two points $p, q \in P$ is an edge of $CH(P)$ if
           and only if all points of $P$ lie on the same side of the line through $p$ and $q$. \\
 
@@ -90,23 +124,108 @@
                            Let $s \in \overline{pq}$. Then, one of $\overline{s\tilde{p}}$ 
                            and $\overline{s\tilde{q}}$ is not contained in $P$. Hence,
                            $\overline{pq}$ cannot be an edge of $CH(P)$. \\
-          "$\Leftarrow$": TBA
+          "$\Leftarrow$": \\
+		By the previous part, we know that the $CH(P)$ is a polygon
+		of the points in $P$. Because $p,q \in P$ we know that 
+		$\overline{pq} \in CH(P)$.\\ 
+
+		Assume $\overline{pq}$ is not
+		on the boundary. Then there exists points $u,v \in P$
+		on both sides of $\overline{pq}$ by the previous part.
+		But this is not possible due to the premise.
+                
           \mbox{} \hfill $\square$
   \end{enumerate}
 
 %%%%%%%%%%%%%%%%%%%%%%%%
 %% Aufgabe 2
 %%%%%%%%%%%%%%%%%%%%%%%%
-\item[Problem 2] Computing the tangents to a polygon \\
+\item[Problem 2] Computing the maximal tangent to a subconvex hull in Chens Algorithm in $O(log h^*)$. \\
 
-TBA
+\textbf{Proof:}\\
+
+Let $p_{k-1}, p_k$ be the last computed points on the convex hull.
+Let $q_1, ..., q_{h^*}$ be the points on the convex hull of the subconvex hull
+given in ccw or cw order. Then we will compute the point on the hull that
+maximizes the angle as follows. Assume we have the points given in an array
+\lstinline|hull|.
+
+\begin{lstlisting}[mathescape=true]
+pos $\leftarrow$ 1
+h'$\leftarrow h^*$ / 2
+while h' > 0 do
+  l $\leftarrow$ deg($p_{k-1},p_k$,hull[pos-1 mod h^*]))
+  c $\leftarrow$ deg($p_{k-1},p_k$,hull[pos mod h^*]))
+  r $\leftarrow$ deg($p_{k-1},p_k$,hull[pos+1 mod h^*]))
+  if l < c && c < r || l == r
+    pos $\leftarrow$ pos + h' mod $h^*$
+  else if l > c && c > r
+    pos $\leftarrow$ pos - h' mod $h^*$
+  h'$\leftarrow$ h' / 2
+od
+return pos
+\end{lstlisting}
+
+Next we have to verify the algorithm.
+\begin{lemma}\label{alge:ueb2:logh}
+  The above algorithm maximizes the angle and can be
+  computed in $O(\log \, h^*)$ time.\\
+\mbox{}\hfill$\lrcorner$
+\end{lemma}
+
+\textbf{Proof \ref{alge:ueb2:logh}:}\\
+The running time of the algorithm is obviously $O(\log \, h^*)$.
+We start with $\frac{h^*}{2}$. In the while loop we only
+compute for constant time $c$. We decrease $h'$ until we hit zero.
+$$
+\Rightarrow T(n) = log h^*.
+$$
+
+We know that $\overset{\infty}{\underset{i=1}{\sum \frac{h^*}{2}}} = h^*$
+and if our steps are discrete we can reach the point in $log h^*$ time
+(Binary Search).
+Let $R_i$ be the set of reachable points on the hull in step $i$
+of the algorithm and $q$ the optimal point. Then
+$$
+	\forall i \in \mathbb{N} : q \in R_i, |R_i| = \frac{h^*}{2^i}
+$$
+Inducion on $i$.
+\begin{description}
+	\item[\bfseries I.A.] $i=1$\\
+	In the first step we can do at most 
+	$\overset{\infty}{\underset{i=1}{\sum}} \frac{h^*}{2^i} = h^*$
+	steps. Therefore all points are reachable espacially $q$.
+	\item[\bfseries I.S.] $i \leadsto i+1$\\
+	We now in $q \in R_i$. On the last step we were
+	according to the algorithm at one endpoint and we were on the
+	edge of $R_i$. In the algorithm we devide \lstinline|h'| by two,
+	therefore we are in the middle of the set according to the given order
+	because it had size \lstinline|h'| $= |R_i|$.
+	We divide $R_i$ into two subsets $R_{i+1}^l$ and $R_{i+1}^r$.
+	If the first case is true, we know $q \in R_{i+1}^l$ because
+	the hull was convex therefore we can only decrease the angle again
+	on the otherside of the optimum. We take $R_{i+1}=R_{i+1}^l$
+	as the algorithm says. The othercase is equivalent with $R_{i+1}^r$.\\
+	$|R_{i+1}| = |\frac{R_i}{2}|$.
+\end{description}
+BUILD UP MORE!!
+\mbox{}\hfill$\square$
+
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%
 %% Aufgabe 3
 %%%%%%%%%%%%%%%%%%%%%%%%
 \item[Problem 3] Chan's algorithm and superexponential search
   \begin{enumerate}
-    \item 
-    \item 
+    \item Show that the first $h^*$ points of the convex hull
+	can be computed in $O(n)$ time given the $r$ subconvex hulls.\\
+    \textbf{Solution:}\\
+	tbd
+    \item Show that by $2^{2^i}$ as the iteration for $h^*$ we obtain
+	a total running time of $O(n \log h)$.\\
+    \textbf{Solution:}\\
+	tbd
   \end{enumerate}
 
 \end{description}
