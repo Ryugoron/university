@@ -89,16 +89,52 @@ tbd
 Zeigen Sie, dass die Multiplikation von $n \times n$- Matrizen mit $O(I(n))$ Operationen durchführbar ist, falls man mit $I(n)$ Operationen Matrizen invertieren kann.\\
 
 \textbf{Lösung:}\\
+Zur Multiplikation den Matrizen $A,B$ betrachten wir das folgende Inverse einer $3n \times 3n$-Matrix $M$:
+\begin{equation}\label{eq:inverse}
+  M^{-1} = \left(\begin{array}{ccc}
+              1_n & A   & 0_n \\
+              0_n & 1_n & B \\
+              0_n & 0_n & 1_n
+           \end{array}\right)^{-1}
+         = \left(\begin{array}{ccc}
+              1_n & -A   & AB \\
+              0_n & 1_n & -B \\
+              0_n & 0_n & 1_n
+           \end{array}\right)
+\end{equation}
+Wir sehen also in Gleichung~(\ref{eq:inverse}), dass durch Invertierung der Matrix $M$ das Produkt $AB$
+in der oberen rechte Ecke enthalten ist. Damit gilt $M(n) = I(3n)$, wobei $M(n)$ die Kosten der Multiplikation
+darstellt.
+Eine Abschätzung erhalten wir durch Nutzung der Abschätzung $(*)$: $I(n) = O(n^3)$. Dann gilt:
 
-tbd
-
+\begin{equation}
+  M(n) = I(3n) \stackrel{(*)}{\leq} 9c\cdot I(n) = O(I(n))
+\end{equation}
 \subsubsection*{(b)}
 
 Zeigen Sie, dass die Multiplikation von $n \times n$- Matrizen mit $O(S(n))$ Operationen durchführtbar ist, falls man mit $S(n)$ Operationen Matrizen quadrieren kann.\\
 
 \textbf{Lösung:}\\
+Zur Multiplikation den Matrizen $A,B$ betrachten wir die gleiche $3n \times 3n$-Matrix $M$ wie in a):
+\begin{equation}\label{eq:square}
+  M^{2} = \left(\begin{array}{ccc}
+              1_n & A   & 0_n \\
+              0_n & 1_n & B \\
+              0_n & 0_n & 1_n
+           \end{array}\right)^{2}
+         = \left(\begin{array}{ccc}
+              1_n & 2A   & AB \\
+              0_n & 1_n & 2B \\
+              0_n & 0_n & 1_n
+           \end{array}\right)
+\end{equation}
+Wieder steht das Produkt $AB$ oben rechts. Es gilt also wieder $M(n) = S(3n)$. Auch für Quadrieren gilt
+die Abschätzung $S(n) = O(n^3)$, also:
 
-tbd
+\begin{equation}
+  M(n) = S(3n) {\leq} 9c\cdot S(n) = O(S(n))
+\end{equation}
+
 
 \subsection*{Aufgabe 3.}
 
