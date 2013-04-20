@@ -62,8 +62,10 @@ die klassische Methode benötigen.
 Die Matrizen werden bis zur nächsten Zweierpotenz geeignet aufgefüllt.\\
 
 \textbf{Lösung:}\\
+Sei $M_1(n)$ die Kosten dieser Methode bei Eingabe einer $n \times n$-Matrix.
+Die Größe der nächsten Zweierpotenz von $n$ ist $2^{\lceil \log(n) \rceil}$, d.h. $M_1(n) = M(2^{\lceil \log(n) \rceil})$.
 
-tbd
+$M(n) = 7*M(n/2) + 18 \frac{n}{2}$
 
 \subsubsection*{(b)}
 
@@ -144,8 +146,32 @@ Zeigen Sie, dass die Boolsche Matrizenmultiplikation mit $O( n^{\omega + \vareps
 
 \textbf{Lösung:}\\
 
-tbd
+Eine Boolesche Matrix ist eine Matrix $A = \left(a_{ij} \right)_{1 \leq i,j \leq n}$
+mit $a_{ij} \in \{ 0,1 \}$. Das Boolesche Matrixprodukt zweier Boolescher Matrizen $AB$ ist eine
+Boolesche Matrix $C = \left(c_{ij} \right)_{1 \leq i,j \leq n}$ mit 
+$c_{ij} = \bigvee_{k = 1}^{n} a_{ik} \land b_{kj}$.
+Um die Multiplikation zweier Boolescher Matrizen $A,B$ zu lösen,
+definieren wir eine $n \times n$-Hilfsmatrix $H = \left(h_{ij} \right)_{1 \leq i,j \leq n}$ durch
+$h_{ij} = \sum_{k=1}^{n} a_{ik}\cdot b_{kj}$. Es gilt nun $0 \leq h_{ij} \leq n$, damit können wir
+diese Berechnungen in $\mathbb{Z}_{n+1}$  durchführen. Da $\mathbb{Z}_{n+1}$ ein Ring ist, können 
+wir den Algorithmus für Matrizenmultiplikation für ganze Zahlen (mit $O(n^\omega)$ Operationen) nutzen.
 
+Nun definieren wir die Ergebnismatrix $C = \left(c_{ij} \right)_{1 \leq i,j \leq n}$ durch
+
+\begin{equation*}
+c_{ij} = \begin{cases}
+          0 & \text{, if $h_{ij} = 0$} \\
+          1 & \text{ otherwise}
+       \end{cases}
+\end{equation*}
+Die hierdurch erhaltene Produktmatrix  $C$ ist offensichtlich richtig $\ddot\smile$\\
+
+\textbf{Laufzeit}: Wie bekannt ist, können wir die Multiplikation von zwei $m$-stelligen Binärzahlen
+durch $O(m^2)$ Operationen berechnen. Addition benötigt $O(m)$ Operationen. \\
+Da jede Zahl aus $\mathbb{Z}_{n+1}$ mit maximal $O(\log n)$ Bits dargestellt werden kann, benötigen
+wir also pro arithmetischer Operation im Algorithmus $O(\log^2 n)$ Operationen.
+Damit ist die Gesamtlaufzeit $O(n^{\omega} \cdot \log^2 n) = O(n^{\omega + \varepsilon})$, da
+$\log^2 n = O(n^\varepsilon)$, für jedes $\varepsilon > 0$.
 \label{LastPage}
 
 \end{document}
