@@ -57,6 +57,11 @@ Bestimmen Sie die jeweilige Laufzeit einschließlich der Konstante im signifikan
 Term genau und berechnen Sie, für welche $n$ diese Algorithmen weniger Operationen als
 die klassische Methode benötigen.
 
+\subsubsection*{(primitive Methode)}
+Es bezeichne $M_p(n)$ die Anzahl der Operationen bei Multiplikation zweier $n \times n$-Matrizen
+mit der primitiven Methode. Pro Eintrag in der Ergebnismatrix werden $n$ Multiplikationen
+und $n$ Additionen benötigt. Es gilt also $M_p(n) = n^2 \cdot 2n = 2n^3$.
+
 \subsubsection*{(a)}
 
 Die Matrizen werden bis zur nächsten Zweierpotenz geeignet aufgefüllt.\\
@@ -70,6 +75,10 @@ Sei $M_1(n)$ die Kosten dieser Methode bei Eingabe einer $n \times n$-Matrix.
 $M(n) = 7*M(n/2) + 18 \frac{n}{2} = \frac{23}{5}n^{\log 7} - \frac{18}{5}n$
 
 --> $\frac{23}{5}m^{\log 7} - \frac{18}{5}m = \frac{23\cdot 2^{\log 7}}{5} n^{\log 7} - \frac{39}{5}n$
+BENENNUNG MACHT NOCH KEINEN SINN.
+
+
+Dieses Verfahren ist bei einer Eingabegröße von $n > 16023$ besser als der naive Ansatz.
 
 \subsubsection*{(b)}
 
