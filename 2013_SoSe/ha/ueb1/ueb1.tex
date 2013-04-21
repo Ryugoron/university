@@ -68,14 +68,20 @@ Die Matrizen werden bis zur nächsten Zweierpotenz geeignet aufgefüllt.\\
 
 \textbf{Lösung:}\\
 Sei $M_1(n)$ die Kosten dieser Methode bei Eingabe einer $n \times n$-Matrix.
-Sei weiterhin $2^r \leq n \leq 2^{r+1}$.
+Sei weiterhin (*)$2^r \leq n \leq 2^{r+1}$.
  
 
 Es gilt
 \begin{equation*}\begin{split}
-M_1(n) &= 7*M(n/2) + 18 \left(\frac{n}{2}\right)^2 \\
-       & = 2^{\log 7} n^{\log 7} - 6n^2
+M_1(n) &= 7*M(n'/2) + 18 \left(\frac{n'}{2}\right)^2 \\
+       & = 2^{\log 7} n'^{\log 7} - 6n'^2\\
+       &\text{Es folgt nun aus (*)}n'=2^{\lceil \log n \rceil}\\
+       &= 2^{\log 7} (2^{\lceil \log n \rceil})^{\log 7} - 6(2^{\lceil \log n \rceil})^2\\
+       &\leq 2^{\log 7} (2n)^{\log 7} - 6 (2n)^2\\
+       &= 4^{\log 7}n^{\log 7} - 24n^2
 \end{split}\end{equation*}
+
+Durch Einsetzen sehen wir, dass für $n \geq 2$ das Verfahren schneller ist, als die klassiche Methode.
 
 
 %%Dieses Verfahren ist bei einer Eingabegröße von $n > 16023$ besser als der naive Ansatz.
@@ -126,7 +132,7 @@ $A_{22}B_{22}$ & $1$ Mult. & $1$ \\
 Als Summe ergibt sich dann $M_2(n) = M_2(n-1) + 2n^3 -5n^2 +7n -2$, für $n$ ungerade.
 \end{description}
 
-Also ergibt sich also Rekursionsgleichung für diese Methode:
+Also ergibt sich die Rekursionsgleichung für diese Methode:
 
 \begin{equation*}\begin{split}
 M_2(1) &= 1 \\
@@ -136,7 +142,18 @@ M_2(n) &= \begin{cases}
          \end{cases}
 \end{split}\end{equation*}
 
+Da die zweite Zeile eine erheblich schlechtere Laufzeit hat erhalten wir eine Worst-Case Laufzeit, wenn wir immer
+möglichst viele ungerade Matrizen haben. Da nach einer Ausführung für eine ungerade Matrix eine gerade herrauskommt,
+nehmen wir diesen Wechsel für unsere Analyse an um die Matrix zu vereinfachen.
 
+\begin{equation*}\begin{split}
+M_2(1) &= 1\\
+M_2(n) &= 7M_2(\frac{n-1}{2}) + 18(\frac{n-1}{2})^2 + 2n^3 - 5n^2+7n-2
+\end{split}\end{equation*}
+
+Diese Form ist auch nicht schön, aber wir sehen, dass wir in jedem Schritt etwa so viele Operationen haben, wie die naive Methode.
+Daher wird die Laufzeit zu keinem Zeitpunkt besser sein. Die konstanten sind in dieser Form schwer zu bestimmen, weshalb wir es unterlassen
+haben.
 
 %%%%%%%%%%%%%%%%%%%%%%
 % Aufgabe 2%
