@@ -60,7 +60,7 @@ die klassische Methode benötigen.
 \subsubsection*{(primitive Methode)}
 Es bezeichne $M_p(n)$ die Anzahl der Operationen bei Multiplikation zweier $n \times n$-Matrizen
 mit der primitiven Methode. Pro Eintrag in der Ergebnismatrix werden $n$ Multiplikationen
-und $n$ Additionen benötigt. Es gilt also $M_p(n) = n^2 \cdot 2n = 2n^3$.
+und $n-1$ Additionen benötigt. Es gilt also $M_p(n) = n^2 \cdot (2n-1) = 2n^3-n^2$.
 
 \subsubsection*{(a)}
 
@@ -78,10 +78,9 @@ $M(n) = 7*M(n/2) + 18 \frac{n}{2} = \frac{23}{5}n^{\log 7} - \frac{18}{5}n$
 BENENNUNG MACHT NOCH KEINEN SINN.
 
 
-Dieses Verfahren ist bei einer Eingabegröße von $n > 16023$ besser als der naive Ansatz.
+%%Dieses Verfahren ist bei einer Eingabegröße von $n > 16023$ besser als der naive Ansatz.
 
 \subsubsection*{(b)}
-
 Ist $n$ gerade so führt man einen Rekursionsschritt nach Strassen aus.
 Andernfalls zerlegt man
 $$
@@ -94,9 +93,54 @@ wobei $A_{11}$ und $B_{11}$ $(n-1) \times (n-1)$-, $A_{12}$ und $B_{12}$ $(n-1)\
 Dann berechnet man $AB$ in der Aufteilung, wie bei der klassischen Multiplikation von $2\times 2$ Matrizen, wobei $A_{11}B_{11}$ rekursiv, die übrigen Produkte klassisch berechnet werden.\\
 
 \textbf{Lösung:}\\
+Sei $M_2(n)$ die Laufzeit für dieses Verfahren. Dann untersuchen wir nun zwei Fälle:
 
-tbd
+\begin{description}
+\item[$n$ gerade:] Hier wird ein Rekursionsschritt nach Strassen ausgeführt, wir erhalten also in diesem
+Fall eine Laufzeit von $M_2(n) = 7M_2(\frac{n}{2}) + 18\left(\frac{n}{2}\right)^2$, für $n$ gerade.
+\item[$n$ ungerade:] Hier betrachten wir die folgenden Produkte:
 
+\begin{equation*}\begin{split}
+C_{11} &= A_{11}B_{11} + A_{12}B_{21} \\
+C_{12} &= A_{11}B_{12} + A_{12}B_{22} \\
+C_{21} &= A_{21}B_{11} + A_{22}B_{21} \\
+C_{22} &= A_{21}B_{12} + A_{22}B_{22}
+\end{split}\end{equation*}
+
+und damit die folgenden Operationen:
+
+\begin{tabular}{l|l||r}
+Produkt & Operationen & Kosten \\
+\hline \hline
+$A_{11}B_{11}$ & Rekursiver Berechnung & $M_2(n-1)$ \\
+$A_{12}B_{21}$ & $(n-1)^2$ Mult. & $(n-1)^2$ \\
+$A_{11}B_{12}$ & $(n-1)$ mal: $(n-1)$ Mult., $(n-2)$ Add. & $(n-1)^2 (n-2)$ \\
+$A_{12}B_{22}$ & $(n-1)$ Mult. & $(n-1)$ \\
+$A_{21}B_{11}$ & $(n-1)$ mal: $(n-1)$ Mult., $(n-2)$ Add. & $(n-1)^2 (n-2)$ \\
+$A_{22}B_{21}$ & $(n-1)$ Mult. & $(n-1)$ \\
+$A_{21}B_{12}$ & $(n-1)$ Mult., $(n-2)$ Add. & $(n-1)(n-2)$ \\
+$A_{22}B_{22}$ & $1$ Mult. & $1$ \\
+& Zusammensetzen (Additionen)& $n^2$ 
+\end{tabular}
+
+Als Summe ergibt sich dann $M_2(n) = M_2(n-1) + 2n^3 -5n^2 +7n -2$, für $n$ ungerade.
+\end{description}
+
+Also ergibt sich also Rekursionsgleichung für diese Methode:
+
+\begin{equation*}\begin{split}
+M_2(1) &= 1 \\
+M_2(n) &= \begin{cases}
+            7M_2(\frac{n}{2}) + 18\left(\frac{n}{2}\right)^2 & \text{, falls $n$ gerade} \\
+            M_2(n-1) + 2n^3 -5n^2 +7n -2 & \text{, falls $n$ ungerade}
+         \end{cases}
+\end{split}\end{equation*}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%
+% Aufgabe 2%
+%%%%%%%%%%%%%%%%%%%%%%
 \subsection*{Aufgabe 2.}
 
 \subsubsection*{(a)}
