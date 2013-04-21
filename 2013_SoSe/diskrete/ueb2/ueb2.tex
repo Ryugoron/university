@@ -13,6 +13,7 @@
 \usepackage{listings}
 \usepackage{xcolor}
 \usepackage{paralist}
+\usepackage{tabularx}
 \usepackage{tikz}
 \usetikzlibrary{arrows,automata}
 \usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
@@ -55,8 +56,8 @@ Zu zeigen: $G$ ist ein Baum $\Leftrightarrow$ $G' := (V \setminus \{v \}, E \set
 "$\Rightarrow$": Sei $G$ ein Baum.\\
 (1) In $G'$ kann kein Kreis entstanden sein, da keine Kanten hinzu kamen.\\
 (2) $G'$ ist zusammenhängend: Da $v$ ein Blatt ist, gibt es genau einen Knoten, der adjazent zu $v$ ist.
-Damit kann durch das Entfernen von $v$ eine neue Zusammenhangskomponente entstehen. 
-\textbf{(MUSS HIER MEHR HIN?)}\\
+Damit kann durch das Entfernen von $v$ keine neue Zusammenhangskomponente entstehen. 
+\\
 "$\Leftarrow$": Sei $G' := (V \setminus \{v \}, E \setminus \delta(v))$ ein Baum. \\
 (1) $G$ ist kreisfrei: $G'$ war kreisfrei; der hinzugefügte Knoten $v$ kann nicht Teil eines
 neuen Kreises sein da $d(v)=1$ gilt, jeder auf einem Kreis liegende Knoten aber mindestens Grad 2 haben muss.\\
@@ -69,8 +70,8 @@ Die Aussage ist offensichtlich falsch für Bäume mit unendlich vielen Knoten (m
 einen unendlichen Pfad). Darum beschränken wir uns auf eine endliche Anzahl von Knoten.
 
 \textbf{Beweis}:\\
-Sei $G=(V,E)$ ein Baum mit $|V| < \omega$ und Maximalgrad $\Delta(G)$.
-Dh. es existiert ein Knoten $v \in V$ mit $d(v) = \Delta(G) =: d$. 
+Sei $G=(V,E)$ ein Baum mit $|V| < \aleph_0$ und Maximalgrad $\Delta(G)$.
+D.h. es existiert ein Knoten $v \in V$ mit $d(v) = \Delta(G) =: d$. 
 Falls $\Delta(G) = 0$
 folgt die Behauptung direkt, also nehmen wir im folgenden $\Delta(G) \geq 1$ an.
 Seien $G_1,\ldots,G_d$ die Unterbäume von $v$; dann gilt $1\leq |G_i| < \omega$. 
@@ -82,9 +83,65 @@ $\tilde{G}_i$ höchstens ein Blatt verloren haben (nämlich $v$ falls es nicht s
 Damit enthält $G$ mindestens $\Delta(G)$ Blätter (in jedem $G_i$ eines).
 \mbox{}\hfill$\square$
 
+\pagebreak
+
 \subsection*{Aufgabe 3.}
-\textbf{Beweis:}\\
-\mbox{}\hfill$\square$
+\textbf{Lösung:}\\
+
+Wir haben den Namen \textbf{MAXWISNIE} gewählt. Ins Alphabet modulo $9$ und um eins inkrementiert ergibt sich der Code
+$527612616$. Für den Algorithmus führen wir eine Liste mit markierten Knoten (müssen noch eingefügt werden
+und stehen nicht in der Liste) und den verbleibenden Code. (Wir waren uns bei der Aufgabenstellung im unklaren ob
+wir nun die ersten 9 oder die ersten 7 nehmen sollen)
+\begin{table}[h!]
+\centering
+\begin{tabularx}{0.6\textwidth}{c|ccc}
+Runde & Code & Marked & New Edge\\
+\hline
+0 & $527612616$ &  $\{3, 4, 8, 9, 10, 11\}$ & 5-3\\
+1 & $27612616$ & $\{ 4, 5, 8, 9, 10, 11\}$ & 2-4\\
+2 & $7612616$ & $\{ 5, 8, 9, 10, 11\}$ & 7-5\\
+3 & $612616$ & $\{ 7, 8, 9, 10, 11\}$ & 6-7\\
+4 & $12616$ & $\{ 8, 9, 10, 11\}$ & 1-8\\
+5 & $2616$ & $\{ 9, 10, 11\}$ & 2-9\\
+6 & $616$ & $\{ 2, 10, 11\}$ & 6-2\\
+7 & $16$ & $\{ 10, 11\}$ & 1-10\\
+8 & $6$ & $\{ 1, 11\}$ &6-1\\
+9 & - & $\{ 6, 11\}$ & 6-11
+\end{tabularx}
+\caption{Ausführung der Decodierung vom Prüfercode}
+\end{table}
+
+Der dazugehörige Graph sieht wie folgt aus:
+
+\begin{table}[h!]
+\centering
+\begin{tikzpicture}[font=\small,minimum size=0.5cm]
+	\node[circle,draw=black,name=6]{6};
+	\node[circle,draw=black,name=11, below right of=6]{11};
+	\node[circle,draw=black,name=2, below left of=6]{2};
+	\node[circle,draw=black,name=4, below left of=2]{4};
+	\node[circle,draw=black,name=1, right of=11]{1};
+	\node[circle,draw=black,name=7, above left of=4]{7};
+	\node[circle,draw=black,name=5, below of=7]{5};
+	\node[circle,draw=black,name=3, below of=5]{3};
+	\node[circle,draw=black,name=8, below left of=1]{8};
+	\node[circle,draw=black,name=9, below right of=2]{9};
+	\node[circle,draw=black,name=10, below right of =1]{10};
+
+	\path[-] (3) edge (5)
+		(5) edge (7)
+		(7) edge (6)
+		(11) edge (6)
+		(9) edge (2)
+		(4) edge (2)
+		(2) edge (6)
+		(10) edge (1)
+		(8) edge (1)
+		(1) edge (6);
+\end{tikzpicture}
+\caption{Baum für den Prüfercode $527612616$}
+\end{table}
+
 
 \subsection*{Aufgabe 4.}
 \subsubsection*{a)}
@@ -132,12 +189,17 @@ Es gibt genau drei Klassen isomorpher Bäume:\\
 Gesucht: $|[T]|$ für alle Isomorphieklassen.
 Seien $T_1, T_2, T_3$ die Bäume aus (a), dann ist:
 \begin{enumerate}
-\item $|[T_1]|$ 
+\item $|[T_1]| = 5$
+\item $|[T_2]| = 120$
+\item $|[T_3]| = 120$ 
 \end{enumerate}
+$T_2, T_3$ ergeben sich, da wenn man einmal spiegelt wieder der selbe Graph herraus kommt. Daher haben wir $5! / 2$ viele
+Isomorphismen. Bei $T_1$ können wir wählen welches der 5 Elemente wir in die Mitte stellen. Danach sind alle Graphen gleich.
 \subsubsection*{c)}
 
-$\sum_{[T]} |[T]| = 125 = 5^3$ ?? Geraten :D
-(Auch Satz von Cayley)
+$\sum_{[T]} |[T]| = |[T_1]| + |[T_2]| + |[T_3]| = 5 + 60 + 60 = 125 = 5^3$
+Dieses Ergebnis ist auch sinvoll, da die Summe alle Bäume ergeben muss und wir nach dem Satz von Caley
+wissen, dass dies eben $125$ sind. 
 
 \label{LastPage}
 
