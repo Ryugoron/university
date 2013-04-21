@@ -51,9 +51,22 @@
 \mbox{}\hfill$\square$
 
 \subsection*{Aufgabe 2.}
+Zu zeigen: Ein Baum $G$ mit Maximalgrad $\Delta(G)$ hat mindestens $\Delta(G)$ Blätter.\\
+Die Aussage ist offensichtlich falsch für Bäume mit unendlich vielen Knoten (man betrachte z.B.
+einen unendlichen Pfad). Darum beschränken wir uns auf eine endliche Anzahl von Knoten.
 
 \textbf{Beweis:}\\
-
+Sei $G=(V,E)$ ein Baum mit $|V| < \omega$ und Maximalgrad $\Delta(G)$.
+Dh. es existiert ein Knoten $v \in V$ mit $d(v) = \Delta(G) =: d$. 
+Falls $\Delta(G) = 0$
+folgt die Behauptung direkt, also nehmen wir im folgenden $\Delta(G) \geq 1$ an.
+Seien $G_1,\ldots,G_d$ die Unterbäume von $v$; dann gilt $1\leq |G_i| < \omega$. 
+Seien $\tilde{G}_i$ die Bäume die man durch Hinzufügen von
+(1) $v$ und (2) der Originalkante von $v$ nach $G_i$ aus $G_i$ enthält.
+Nach dem ''Blattlemma'' (2.5) haben alle $\tilde{G}_i$ jeweils mindestens $2$ Blätter.
+Betrachten wir also wieder den Originalgraphen $G = \bigcup \tilde{G}_i$, kann jedes
+$\tilde{G}_i$ höchstens ein Blatt verloren haben (nämlich $v$ falls es nicht selber ein Blatt in $G$ ist). 
+Damit enthält $G$ mindestens $\Delta(G)$ Blätter (in jedem $G_i$ eines).
 \mbox{}\hfill$\square$
 
 \subsection*{Aufgabe 3.}
