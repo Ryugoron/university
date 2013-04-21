@@ -68,14 +68,14 @@ Die Matrizen werden bis zur nächsten Zweierpotenz geeignet aufgefüllt.\\
 
 \textbf{Lösung:}\\
 Sei $M_1(n)$ die Kosten dieser Methode bei Eingabe einer $n \times n$-Matrix.
- $2^n \leq m \leq 2^{n+1}$.
+Sei weiterhin $2^r \leq n \leq 2^{r+1}$.
+ 
 
-%$n$ ist $2^{\lceil \log(n) \rceil}$, d.h. $M_1(n) = M(2^{\lceil \log(n) \rceil})$.
-
-$M(n) = 7*M(n/2) + 18 \frac{n}{2} = \frac{23}{5}n^{\log 7} - \frac{18}{5}n$
-
---> $\frac{23}{5}m^{\log 7} - \frac{18}{5}m = \frac{23\cdot 2^{\log 7}}{5} n^{\log 7} - \frac{39}{5}n$
-BENENNUNG MACHT NOCH KEINEN SINN.
+Es gilt
+\begin{equation*}\begin{split}
+M_1(n) &= 7*M(n/2) + 18 \left(\frac{n}{2}\right)^2 \\
+       & = 2^{\log 7} n^{\log 7} - 6n^2
+\end{split}\end{equation*}
 
 
 %%Dieses Verfahren ist bei einer Eingabegröße von $n > 16023$ besser als der naive Ansatz.
