@@ -48,6 +48,18 @@
 \thispagestyle{fancy}
 
 \subsection*{Aufgabe 1.}
+Sei $G = (V,E)$ ein Graph und $v \in V$ ein Blatt. \\
+Zu zeigen: $G$ ist ein Baum $\Leftrightarrow$ $G' := (V \setminus \{v \}, E \setminus \delta(v))$ ist ein Baum. \\
+\textbf{Beweis}:\\
+"$\Rightarrow$": Sei $G$ ein Baum.\\
+(1) In $G'$ kann kein Kreis entstanden sein, da keine Kanten hinzu kamen.\\
+(2) $G'$ ist zusammenhängend: Da $v$ ein Blatt ist, gibt es genau einen Knoten, der adjazent zu $v$ ist.
+Damit kann durch das Entfernen von $v$ eine neue Zusammenhangskomponente entstehen. 
+\textbf{(MUSS HIER MEHR HIN?)}\\
+"$\Leftarrow$": Sei $G' := (V \setminus \{v \}, E \setminus \delta(v))$ ein Baum. \\
+(1) $G$ ist kreisfrei: $G'$ war kreisfrei; der hinzugefügte Knoten $v$ kann nicht Teil eines
+neuen Kreises sein da $d(v)=1$ gilt, jeder auf einem Kreis liegende Knoten aber mindestens Grad 2 haben muss.\\
+(2) $G$ ist zusammenhängend,da keine Kanten entfernt worden sind und ein Knoten mit genau einer Kante hinzugefügt worden ist.
 \mbox{}\hfill$\square$
 
 \subsection*{Aufgabe 2.}
@@ -55,7 +67,7 @@ Zu zeigen: Ein Baum $G$ mit Maximalgrad $\Delta(G)$ hat mindestens $\Delta(G)$ B
 Die Aussage ist offensichtlich falsch für Bäume mit unendlich vielen Knoten (man betrachte z.B.
 einen unendlichen Pfad). Darum beschränken wir uns auf eine endliche Anzahl von Knoten.
 
-\textbf{Beweis:}\\
+\textbf{Beweis}:\\
 Sei $G=(V,E)$ ein Baum mit $|V| < \omega$ und Maximalgrad $\Delta(G)$.
 Dh. es existiert ein Knoten $v \in V$ mit $d(v) = \Delta(G) =: d$. 
 Falls $\Delta(G) = 0$
