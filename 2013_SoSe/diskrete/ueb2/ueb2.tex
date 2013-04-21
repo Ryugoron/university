@@ -13,7 +13,8 @@
 \usepackage{listings}
 \usepackage{xcolor}
 \usepackage{paralist}
-
+\usepackage{tikz}
+\usetikzlibrary{arrows,automata}
 \usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
 \usepackage{fancyhdr}
 \pagestyle{fancy}
@@ -90,11 +91,53 @@ Damit enthält $G$ mindestens $\Delta(G)$ Blätter (in jedem $G_i$ eines).
 Wie viele Klassen isomorpher Bäume gibt es in $T_5$? \\
 \textbf{Lösung:}\\
 Es gibt genau drei Klassen isomorpher Bäume:\\
-(1) o-o-o-o-o (max. Weglänge 5)\\
-(2) o-o-o=8 (max. Weglänge 4)\\
-(3) 8=o=8 (max. Weglänge 3)
+
+\begin{tikzpicture}[font=\small,minimum size=0.5cm]
+    \node[circle,draw=black,name=1] {};
+    \node[circle,draw=black,name=2, right of=1] {};
+    \node[circle,draw=black,name=3, left of=1] {};
+    \node[circle,draw=black,name=4, above of=1] {};
+    \node[circle,draw=black,name=5, below of=1] {};
+
+    \node[circle,draw=black,name=6, right of=2, node distance=2cm] {};
+    \node[circle,draw=black,name=7, right of=6] {};
+    \node[circle,draw=black,name=8, right of=7] {};
+    \node[circle,draw=black,name=9, above right of=8] {};
+    \node[circle,draw=black,name=10, below right of=8] {};
+
+    \node[circle,draw=black,name=11, right of=8, node distance=3cm] {};
+    \node[circle,draw=black,name=12, right of=11] {};
+    \node[circle,draw=black,name=13, right of=12] {};
+    \node[circle,draw=black,name=14, right of=13] {};
+    \node[circle,draw=black,name=15, right of=14] {};
+
+    \path[-] (1) edge (2)
+             (1) edge (3)
+             (1) edge (4)
+             (1) edge (5)
+             (6) edge (7)
+             (7) edge (8)
+             (8) edge (9)
+             (8) edge (10)
+             (11) edge (12)
+             (12) edge (13)
+             (13) edge (14)
+             (14) edge (15);
+\end{tikzpicture}
+
+(1) Alle isomorphen Bäume mit maximaler Pfadlänge 3 (links).\\
+(2) Alle isomorphen Bäume mit maximaler Pfadlänge 4 (mitte).\\
+(3) Alle isomorphen Bäume mit maximaler Pfadlänge 5 (rechts).
 \subsubsection*{b)}
+Gesucht: $|[T]|$ für alle Isomorphieklassen.
+Seien $T_1, T_2, T_3$ die Bäume aus (a), dann ist:
+\begin{enumerate}
+\item $|[T_1]|$ 
+\end{enumerate}
 \subsubsection*{c)}
+
+$\sum_{[T]} |[T]| = 125 = 5^3$
+(Auch Satz von Cayley)
 \mbox{}\hfill$\square$
 
 \label{LastPage}
