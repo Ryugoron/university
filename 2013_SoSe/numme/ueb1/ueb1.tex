@@ -1,0 +1,98 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm]{geometry} 
+\usepackage{babel}
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc} 
+\usepackage{ae} 
+\usepackage{amssymb} 
+\usepackage{amsmath}
+\usepackage{amsthm} 
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{paralist}
+
+\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[C]{Numerik I}
+\fancyhead[L]{Übung 1}
+\fancyhead[R]{SoSe 2013}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage \hspace{1px} of \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\setlength{\parindent}{0pt} 
+\setlength{\headheight}{0pt}
+
+\date{}
+\title{Übung 1}
+\author{Max Wisniewski, Alexander Steen}
+
+
+%%
+%% Enviroments for proofs and lemmas
+%%
+\newtheorem{lemma}{\bfseries Claim}
+
+\begin{document}
+
+\lstset{language=Pascal, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2, mathescape=true}
+
+\renewcommand{\figurename}{Figure}
+
+\maketitle
+\thispagestyle{fancy}
+
+
+\subsection*{Aufgabe 1}
+Es sei $g(x) = x + \frac{1}{1+x}$ und $M = \{ x \geq 0 \}$.
+
+\begin{enumerate}
+\item $g(M) \subseteq M$\\
+  Sei $x \in M$, dann gilt 
+  \begin{equation*}
+    g(x) = \underbrace{x}_{\geq 0} + \underbrace{\frac{1}{1+x}}_{\geq 0} \geq 0
+  \end{equation*}
+  Also ist $g(x) \in M \Rightarrow g(M) \subseteq M$.
+\item $|g(x) - g(y)| < |x-y|$ für $x \neq y$\\
+  Seien $x,y \in M$, $x \neq y$. Sei weiterhin o.B.d.A. $x > y$. Dann gilt
+  \begin{equation*}\begin{split}
+    |g(x) - g(y)| &= |x + \frac{1}{1+x} - y - \frac{1}{1+y}|\\
+                  &= |\underbrace{x - y}_{> 0} + \underbrace{\frac{1}{1+x} - \frac{1}{1+y}}_{< 0}| \\
+                  &< |x - y|
+  \end{split}\end{equation*}
+\item $g$ besitzt keinen Fixpunkt in $M$\\
+  Beweis durch Widerspruch: Sei $x^* \in M$ Fixpunkt von $g$. Dann gilt
+  \begin{equation*}\begin{split}
+    g(x^*) &= x^* = x^* + \frac{1}{1+ x^*}\\
+    &\Leftrightarrow 0 = \frac{1}{1 + x^*}
+  \end{split}\end{equation*}
+  Das ist aber ein Widerspruch, da es keine Zahl $x$ gibt, für die $\frac{1}{1+x} = 0$ gilt.
+  \mbox{} \hfill $\square$
+\end{enumerate}
+Dies ist kein Widerspruch zum Banachschen Fixpunktsatz, da es sich bei $g$ nicht um eine
+Kontraktion handelt: Da $\frac{1}{x+1} \stackrel{x \to \infty}{\to} 0$, gibt es keine Konstante
+$\alpha \in [0,1)$, sodass  $|g(x) - g(y)| \leq \alpha|x-y|$. Beweis:\\
+Sei $\varepsilon > 0$.
+Dann ist $|g(x) - x| < \frac{\varepsilon}{2}$ und $|g(y) - y| < \frac{\varepsilon}{2}$ für alle 
+$x,y \geq x_0 \in M$. Außerdem ist dann 
+$|(g(x) - x) - (g(y) - y)| \leq |g(x)-x| + |-(g(y)-y)| < \varepsilon$. 
+Also gilt:
+\begin{equation*}\begin{split}
+|g(x) - g(y)| &= |g(x) - x + x - g(y) - y + y| \\
+              &= |(g(x) - x) - (g(y) - y) + x - y| \\
+              &< \varepsilon + |x-y|
+\end{split}\end{equation*}
+Für jedes feste $\alpha \in [0,1)$ ... bla
+
+\subsection*{Aufgabe 2}
+
+\subsection*{Aufgabe 3}
+
+\label{LastPage}
+
+\end{document}
