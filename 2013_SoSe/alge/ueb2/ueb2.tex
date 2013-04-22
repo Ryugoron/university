@@ -81,7 +81,7 @@
           whose vertices are points of $P$. \\
 
      \textbf{Proof:}\\
-     We first proove, that $CH(P)$ is a polygon and second, the 
+     We first prove, that $CH(P)$ is a polygon and second, the 
      points of the polygon are points of $P$.\\
 
      Let $C$ be an arbitrary convex set containing $P$. Assume $C$ is
@@ -91,7 +91,7 @@
     We now take $\varepsilon > 0$ steps on the curve to the point
     $x_\varepsilon$ and look at the 
     set $C'$ where we substituted the line $\overline{xx_\varepsilon}$
-    for the curveseqment that connected them before.
+    for the curve segment that connected them before.
 
     We know if $\varepsilon$ is small enough there is no point of $P$
     in the cut part. If the curve was bend left, the resulting line will
@@ -189,26 +189,25 @@ of the algorithm and $q$ the optimal point. Then
 $$
     \forall i \in \mathbb{N} : q \in R_i, |R_i| = \frac{h^*}{2^i}
 $$
-Inducion on $i$.
+Induction on $i$.
 \begin{description}
     \item[\bfseries I.A.] $i=1$\\
     In the first step we can do at most 
     $\overset{\infty}{\underset{i=1}{\sum}} \frac{h^*}{2^i} = h^*$
-    steps. Therefore all points are reachable espacially $q$.
+    steps. Therefore all points are reachable especially $q$.
     \item[\bfseries I.S.] $i \leadsto i+1$\\
     We now in $q \in R_i$. On the last step we were
     according to the algorithm at one endpoint and we were on the
-    edge of $R_i$. In the algorithm we devide \lstinline|h'| by two,
+    edge of $R_i$. In the algorithm we divide \lstinline|h'| by two,
     therefore we are in the middle of the set according to the given order
     because it had size \lstinline|h'| $= |R_i|$.
     We divide $R_i$ into two subsets $R_{i+1}^l$ and $R_{i+1}^r$.
     If the first case is true, we know $q \in R_{i+1}^l$ because
     the hull was convex therefore we can only decrease the angle again
-    on the otherside of the optimum. We take $R_{i+1}=R_{i+1}^l$
-    as the algorithm says. The othercase is equivalent with $R_{i+1}^r$.\\
+    on the other side of the optimum. We take $R_{i+1}=R_{i+1}^l$
+    as the algorithm says. The other case is similar with $R_{i+1}^r$.\\
     $|R_{i+1}| = |\frac{R_i}{2}|$.
 \end{description}
-BUILD UP MORE!!
 \mbox{}\hfill$\square$
 
 
@@ -268,7 +267,7 @@ for k = 2 to $h^*$ - 1
         on the hull.
         If we look at the picture in figure \ref{alge:ueb2:hullOn}
         if we assume the convex polygon has a border after $x$ at most 
-        at the line $\overline{p_kx}$ and assumed somewhere on the corssing line.
+        at the line $\overline{p_kx}$ and assumed somewhere on the crossing line.
         The next point from which $x$ is no longer the maximizing point is
         element of $P_1$ potentially $x$ itself.\\
         If we want to leave $x$ behind us a second time we have to cross $p_{k-1}$
@@ -281,7 +280,7 @@ for k = 2 to $h^*$ - 1
         This is not possible because all lines of the algorithm are borders
         of the polygon. Now either $\overline{p_{k+t}p_{k+t+1}}$ is on the left
         of $\overline{p_{k-1}p_k}$ in which case $\overline{p_{k+t}p_{k+t+1}}$ is
-        no borderline or it is the otherway around.\\
+        no borderline or it is the other way around.\\
 
         We conclude, that it is not possible to enter $P_1$ a second time,
         such that we will consider $x$ only twice.\\
@@ -300,17 +299,17 @@ for k = 2 to $h^*$ - 1
                 For each hull we can compute the point in $O(\log h^*)$.\\
                 $\Rightarrow O(n)$ total running time.
             \item The internal for and while loops consider all points at most
-                twice as prooven above. This gives a runtime of $O(n)$ in total.
+                twice as proven above. This gives a runtime of $O(n)$ in total.
             \item The maximum can be found in $O(n / h^*)$ and we compute it $h^*$
                 times. The running time therefor is $O(n)$ in total.
         \end{enumerate}
-        The algorithm has a runningtime of $T(n) = 3 \cdot O(n) = O(n)$.
+        The algorithm has a running time of $T(n) = 3 \cdot O(n) = O(n)$.
         \mbox{}\hfill$\square$ 
 
     \item Show that by $2^{2^i}$ as the iteration for $h^*$ we obtain
         a total running time of $O(n \log h)$.\\
     \textbf{Proof:}\\
-        From the lecture we know, that the runningtime for
+        From the lecture we know, that the running time for
         one iteration of the algorithm with $h^*$ has the running time
         $O(n \log h^*)$.
         Iteration our $h^*$ gives us that 
@@ -318,11 +317,11 @@ for k = 2 to $h^*$ - 1
             h^*_{i+1} = 2^{2^{i+1}} = \left( 2^{2^i}\right)^2 = \left( h^*_i \right)^2
         $$
         hence if we terminate in step $n$ it holds that $h^*_n \leq h^2$. Or
-        we should have terminated bevore.\\
+        we should have terminated before.\\
         \begin{equation}
             h^*_n = 2^{2^n} \leq h^2 \Rightarrow n \leq (\log \log h) + 1
         \end{equation}
-        Therefor the total runningtime of all iterations is
+        Therefor the total running time of all iterations is
         \begin{equation}
         \begin{aligned}
             T(n, h) &=& \overset{\log \log h + 1}{\underset{n = 1}{\sum}} n \log h^*_n
