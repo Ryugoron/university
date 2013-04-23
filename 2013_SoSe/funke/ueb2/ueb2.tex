@@ -1,0 +1,121 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm]{geometry} 
+\usepackage{babel}
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc} 
+\usepackage{ae} 
+\usepackage{amssymb} 
+\usepackage{amsmath}
+\usepackage{amsthm} 
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{paralist}
+
+\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[C]{Advanced Functional Programming}
+\fancyhead[L]{Exercise sheet 2}
+\fancyhead[R]{SoSe 2013}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage \hspace{1px} of \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\setlength{\parindent}{0pt} 
+\setlength{\headheight}{0pt}
+
+\date{}
+\title{Exercise sheet 2}
+\author{Max Wisniewski, Alexander Steen}
+
+
+%%
+%% Enviroments for proofs and lemmas
+%%
+\newtheorem{lemma}{\bfseries lemma}
+\newtheorem{claim}{\bfseries claim}
+
+\lstloadlanguages{Haskell}
+\lstset{
+  language=Haskell,
+  basicstyle=\ttfamily,
+  flexiblecolumns=false,
+  basewidth={0.5em,0.45em},
+  literate={+}{{$+$}}1 {/}{{$/$}}1 {*}{{$*$}}1 {=}{{$=$}}1
+           {>}{{$>$}}1 {<}{{$<$}}1 {\\}{{$\lambda$}}1
+           {\\\\}{{\char`\\\char`\\}}1
+           {->}{{$\rightarrow$}}2 {>=}{{$\geq$}}2 {<-}{{$\leftarrow$}}2
+           {<=}{{$\leq$}}2 {=>}{{$\Rightarrow$}}2 
+           {\ .}{{$\circ$}}2 {\ .\ }{{$\circ$}}2
+           {>>}{{>>}}2 {>>=}{{>>=}}2
+           {|}{{$\mid$}}1               
+}
+
+\lstnewenvironment{code}
+    {\lstset{basicstyle=\footnotesize\ttfamily}%
+      \csname lst@SetFirstLabel\endcsname}
+    {\csname lst@SaveFirstLabel\endcsname}
+\long\def\ignore#1{}
+
+\begin{document}
+
+\renewcommand{\figurename}{Figure}
+\maketitle
+\thispagestyle{fancy}
+
+\section*{Task 1}
+We first prove a lemma that is being used in the induction proof of the task's proposition:
+\textbf{Lemma}: \lstinline|f (foldNat' f e n) = foldNat' f (f e) n|.\\
+\textbf{Proof} by induction:\\
+Base: \texttt{n = O}
+    \begin{lstlisting}
+      f (foldNat' f e O)
+    = {Def.}
+      f e
+    = {Def. inverse}
+      foldNat' f (f e) O
+    \end{lstlisting}
+Step: \texttt{n} $\rightsquigarrow$ \texttt{S n}
+    \begin{lstlisting}
+      f (foldNat' f e (S n))
+    = {Def.}
+      f (foldNat' f (f e) n)
+    = {Induction Hyp.}
+      foldNat' f (f (f e)) n
+    = {Def. inverse}
+      foldNat' f (f e) (S n)
+    \end{lstlisting}
+\mbox{} \hfill $\square$
+
+\textbf{Proposition}: \lstinline|foldNat f e = foldNat' f e|.\\
+\textbf{Proof} by induction:\\
+Base: \texttt{n = O}
+    \begin{lstlisting}
+      foldNat f e O
+    = {Def.}
+      e
+    = {Def. inverse}
+      foldNat' f e 0
+    \end{lstlisting}
+Step: \texttt{n} $\rightsquigarrow$ \texttt{S n}
+    \begin{lstlisting}
+      foldNat f e (S n)
+    = {Def.}
+      f (foldNat f e n)
+    = {Induction Hyp.}
+      f (foldNat' f e n)
+    = {Lemma}
+      foldNat' f (f e) n
+    = {Def. inverse}
+      foldNat' f e (S n)
+    \end{lstlisting} 
+\mbox{} \hfill $\square$
+\input{ueb2.lhs}
+
+\label{LastPage}
+
+\end{document}
