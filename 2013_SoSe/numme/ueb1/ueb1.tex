@@ -105,17 +105,15 @@ Sei $x \in D$. Dann gilt
 asd
 \subsubsection*{b)}
 \begin{lstlisting}[language=matlab]
-f = @(x) (1/3 * x(2)^2 + 1/8, 1/4 * x(1)^2 + 1/6);
-lambda = 0.99 //lipschitz-konstante
+function [x] = myfixpoint (f, lambda, start, error)
 
-lastx = (1,1); // x0: Startwert mit |x0| <= 1
-x = f(1,1); // F(x0)
+lastx = start;
+x = f(start);
 
-while lambda/(1-lambda) * norm(lastx - x,inf) > 1.0e-8 
-  x = f(x); // x(n+1) = F(x(n))
+while lambda / (1 - lambda) * norm(lastx - x, inf) > error
+    lastx = x;
+    x = f(x);
 end;
-
-return x;
 \end{lstlisting}
 \subsection*{Aufgabe 3}
 
