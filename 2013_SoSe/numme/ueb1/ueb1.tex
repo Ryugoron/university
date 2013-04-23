@@ -75,19 +75,11 @@ Es sei $g(x) = x + \frac{1}{1+x}$ und $M = \{ x \geq 0 \}$.
   \mbox{} \hfill $\square$
 \end{enumerate}
 Dies ist kein Widerspruch zum Banachschen Fixpunktsatz, da es sich bei $g$ nicht um eine
-Kontraktion handelt: Da $\frac{1}{x+1} \stackrel{x \to \infty}{\to} 0$, gibt es keine Konstante
-$\alpha \in [0,1)$, sodass  $|g(x) - g(y)| \leq \alpha|x-y|$. Beweis:\\
-Sei $\varepsilon > 0$.
-Dann ist $|g(x) - x| < \frac{\varepsilon}{2}$ und $|g(y) - y| < \frac{\varepsilon}{2}$ für alle 
-$x,y \geq x_0 \in M$. Außerdem ist dann 
-$|(g(x) - x) - (g(y) - y)| \leq |g(x)-x| + |-(g(y)-y)| < \varepsilon$. 
-Also gilt:
+Kontraktion handelt: Da $\frac{1}{x+1} \stackrel{x \to \infty}{\to} 0$ und damit
 \begin{equation*}\begin{split}
-|g(x) - g(y)| &= |g(x) - x + x - g(y) - y + y| \\
-              &= |(g(x) - x) - (g(y) - y) + x - y| \\
-              &< \varepsilon + |x-y|
-\end{split}\end{equation*}
-Für jedes feste $\alpha \in [0,1)$ ... bla
+|g(x) - g(y)| &= |\underbrace{\frac{1}{x+1} - \frac{1}{y+1}}_{\stackrel{x,y \to \infty}{\to} 0}  + x- y| \\
+\end{split}\end{equation*} 
+Für jedes feste $\alpha \in [0,1)$ ist $|g(x) - g(y)| \to |x-y| > \alpha|x-y|$, für $x,y$ groß genug.
 
 \subsection*{Aufgabe 2}
 
