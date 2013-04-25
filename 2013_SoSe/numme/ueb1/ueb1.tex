@@ -63,7 +63,7 @@ Es sei $g(x) = x + \frac{1}{1+x}$ und $M = \{ x \geq 0 \}$.
   \begin{equation*}\begin{split}
     |g(x) - g(y)| &= |x + \frac{1}{1+x} - y - \frac{1}{1+y}|\\
                   &= |\underbrace{x - y}_{> 0} + \underbrace{\frac{1}{1+x} - \frac{1}{1+y}}_{< 0}| \\
-                  &\leq |x-y| + |\frac{1}{1+x} - \frac{1}{1+y}|\\
+               %   &\leq |x-y| + |\frac{1}{1+x} - \frac{1}{1+y}|\\
                   &= \left| x - y +\frac{x-y}{(1+x)(1+y)} \right|\\
                   &\overset{(1+x)(1+y) > 1}{<} |x - y|
   \end{split}\end{equation*}
@@ -94,7 +94,8 @@ $$ F(x) := F(x_1,x_2) := \left(\begin{array}{c}
 Zu zeigen: Es existiert ein eindeutiger Fixpunkt von $F$ in 
 $D := \{x\in \mathbb{R}^2 | \left|x\right|_\infty \leq 1 \}$. \\
 
-\textbf{Beweis}: (1) $F(D) \subseteq D$ \\
+\textbf{Beweis}: (1) $F$ ist kontraktion. \\
+(i) $F(D) \subseteq D$ \\
 Sei $x \in D$. Dann gilt
 \begin{equation*}\begin{split}
 \left|F(x)\right|_\infty &=  \left|\left(\begin{array}{c}
@@ -104,20 +105,68 @@ Sei $x \in D$. Dann gilt
                 \underbrace{|\frac{1}{4}\overbrace{x_1^2}^{\leq 1}-\frac{1}{6} |}_{\leq 1} \} \\
      &\Rightarrow x \in D
 \end{split}\end{equation*}
-(2) $F$ ist Kontraktion\\
-asd
-\subsubsection*{b)}
-\begin{lstlisting}[language=matlab]
-function [x] = myfixpoint (f, lambda, start, error)
+(i) $\exists \lambda \in [0,1) \forall x,y \in D: \left|F(x) - F(y)\right|_\infty < \lambda \left|x-y\right|_\infty$. \\
+Mit $\lambda = \frac{1}{3}$ gilt die Behauptung, denn
+% Dann gilt $\left|F(x) - F(y)\right|_\infty < \lambda \left|x-y\right|_\infty$, für alle $x,y \in D$. \\
+%\textbf{Beweis}: 
+\begin{equation*}\begin{split}
+  \left|F(x) - F(y)\right|_\infty &= \left|
+\left(\begin{array}{c}
+\frac{1}{3}x_2^2+\frac{1}{8}\\
+\frac{1}{4}x_1^2-\frac{1}{6}\end{array} \right)
+-
+\left(\begin{array}{c}
+\frac{1}{3}y_2^2+\frac{1}{8}\\
+\frac{1}{4}y_1^2-\frac{1}{6}\end{array} \right)
+\right|_\infty \\
+&= 
+\left|\left(\begin{array}{c}
+\frac{1}{3}(x_2^2- y_2^2)\\
+\frac{1}{4}(x_1^2-y_1^2)\end{array} \right)
+\right|_\infty
+\leq \frac{1}{3}
+\left| x - y \right|_\infty
+\end{split}\end{equation*}
 
+(2) Da der $\mathbb{R}^2$ eine Banachraum und $F$ eine Kontraktion auf $D$ ist, gilt nach dem Banachschen Fixpunktsatz, dass ein eindeutiger Fixpunkt in $D$ existiert. 
+\mbox{} \hfill $\square$
+
+\subsubsection*{b)}
+Listing~\ref{lst:fix} zeigt die Matlab-Funktion \texttt{myfixpoint}, die bei Eingabe von \\
+(1) \texttt{f}: der zu betrachtenden Funktion $f$\\
+(2) \texttt{lambda}: der Lipschitzkonstanten $\lambda$ von $f$ \\
+(3) \texttt{start}: einem Startpunkt der Iteration, und
+(4) \texttt{error}: dem Fehler, bei dem die Iteration abgerochen werden soll \\
+näherungsweise den Fixpunkt von $f$ berechnet und als \texttt{x} zurückgibt.
+
+\begin{lstlisting}[language=matlab,caption=Funktion zur näherungsweisen Bestimmung eines Fixpunkts, label=lst:fix]
+function [x] = myfixpoint (f, lambda, start, error)
+%% Fixpunktiteration fuer
+%% Funktion f mit Lipschitzkonstante lambda
+%% vom Startwert start und Abbruchfehler error.
+
+%% Initialisierung der ersten beiden Folgenelementee
 lastx = start;
 x = f(start);
 
+%% Iteration  mit Abbruchbedingung der a posteori-Abschaetzung
 while lambda / (1 - lambda) * norm(lastx - x, inf) > error
     lastx = x;
     x = f(x);
 end;
 \end{lstlisting}
+
+Wie in Listing~\ref{lst:test} zu sehen ist, wurde mit Hilfe dieser Funktion der Fixpunkt der Funktion $F$ bis auf einen Fehler von $10^{-8}$ auf $x_{fix} = (0.1338,-0,1622)$ bestimmt.
+
+\begin{lstlisting}[language=matlab,label=lst:test,caption=Testaufruf der Funktion myfixpoint]
+>> f = @(x) [1/3*x(2)^2 + 1/8, 1/4*x(1)^2 - 1/6]
+>> myfixpoint(f,1/3,[1,1],10e-8)
+
+ans =
+
+    0.1338   -0.1622
+\end{lstlisting}
+
 \subsection*{Aufgabe 3}
 
 Sei $f : [a,b] \rightarrow \mathbb{R}$ eine zweifach stetig differenzierbare konvexe Funktion mit den Eigenschaften
