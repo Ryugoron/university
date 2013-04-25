@@ -177,27 +177,33 @@ $$\begin{array}{l}
 Zeigen Sie, dass das Newtonverfahren mit $x_0 = b$ gegen die einzige Nullstelle konvergiert.\\
 
 \textbf{Lösung:}\\
-Da die Funktion monoton wächst ($f'(x) > 0$) wissen wir, dass die Funktion in $a$ ihr Minimum annimmt und in $b$ ihr Maximum.
-Wir haben eine Nullstelle in diesem Intervall nach dem Zwischenwertsatz, da $f(a)<0$ und $f(b) > 0$ und $f$ stetig ist.
-Es ist die einzige Nullstelle, da die Funktion monoton ist.\\
 
-$f$ ist auf $[a,b]$ Lipschitz-stetig mit $L = f(b) - f(a)$, da es die maximale Differenz von Werten auf diesem Intervall ist.\\
+Die Nullstelle existiert nach dem Zwischenwertsatz, da $f$ stetig ist und $f(a) < 0$ und $f(b) > 0$.
+Diese Nullstelle ist eindeutig, da die Funktion streng monoton wächst und die Funktion stetig ist.\\
 
-Nun wissen wir, dass nach dem Mittelwertsatz ein $x_M \in [a,b]$ existiert mit $f'(x_M) = \frac{f(b) - f(a)}{b - a} = \tau$.
-Nach Konvexität wissen wir, dass für $x > x_M$ $f'(x) > \frac{f(b) - f(a)}{b-a}$, desshalb haben wir auf dem Interval
-$[x_M,b]$ eine Untereschranke für die erste Ableitung.
 
-Nun gilt $x_M < x*$, da wir sonst and der Position $b$ $f(b)$ überschreiten würden. Damit wissen wir, wenn wir in $b$ starten,
-dass $f'$ immer durch $\frac{f(b) - f(a)}{b-a}$ nach unten beschränkt ist.
+Wir zeigen nun, dass $\forall n\in \mathbb{N} : x^* \leq x_n$.
+\begin{description}
+    \item[I.A.] $n = 0$\\
+        $x^* = 0 < f(b)$, da $f'(x) > 0$ für alle $x \in [a,b]$ muss $x^* < b = x_0$.\\
+    \item[I.S.] $n \leadsto n+1$\\
+        \begin{equation*}\begin{split}
+            x^{n+1} &= x_n - \frac{f(x_n)}{f'(x_n)}\\
+            &\stackrel{I.V.}{\geq} x^* - \frac{f(x_n)}{f'(x_n)}\\
+            &\stackrel{(*)}{\geq} x^* - \frac{f(x^*)}{f'(x_n)}\\
+            &= x^* - 0
+        \end{split}\end{equation*}
+\end{description}
 
-Da $f'(x) > 0$ für alle $x \in [a,b]$ wissen wir, dass wir $f'$ invertieren können mit $f'(x)^{-1} = \frac{1}{f'(x)}$.\\
+Nun gilt $(*)$, da nach I.V. $x_n > x_*$ und da $f$ streng monoton steigt wird der Term dadurch nur kleiner.
 
-Nach dem Satz über die Konvergenz vom Newtonverfahren aus der VL wissen wir nun, dass eben dieses in einem Interval mit dem Radius
-$$
-    \frac{2\pi}{L \cdot \tau^{-1}} = \frac{2\pi}{(f(b)-f(a))\cdot\frac{b-a}{f(b) - f(a)}} = \frac{2\pi}{a-b}.
-$$
-
-Und nun haben wir komplett den Faden verloren.
+Nun können wir folgern, dass $x_n$ monoton fällt.
+\begin{equation*}\begin{split}
+    x_{n+1} &= x_n - \frac{f(x_n)}{f'(x_n)}\\
+        &< x_n
+\end{split}\end{equation*}
+da $f(x_n) > 0$ wie gezeigt und $f'(x_n) > 0$ nach Vorraussetzung gilt.
+\mbox{} \hfill $\square$
 
 \label{LastPage}
 
