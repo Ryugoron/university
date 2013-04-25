@@ -120,6 +120,36 @@ end;
 \end{lstlisting}
 \subsection*{Aufgabe 3}
 
+Sei $f : [a,b] \rightarrow \mathbb{R}$ eine zweifach stetig differenzierbare konvexe Funktion mit den Eigenschaften
+$$\begin{array}{l}
+    f(a) > 0 \text{ und } f(b) > 0\\
+    f'(x) > 0 \text{ und } f''(x) > 0 \text{ für }a \leq x \leq b.
+\end{array}$$
+Zeigen Sie, dass das Newtonverfahren mit $x_0 = b$ gegen die einzige Nullstelle konvergiert.\\
+
+\textbf{Lösung:}\\
+Da die Funktion monoton wächst ($f'(x) > 0$) wissen wir, dass die Funktion in $a$ ihr Minimum annimmt und in $b$ ihr Maximum.
+Wir haben eine Nullstelle in diesem Intervall nach dem Zwischenwertsatz, da $f(a)<0$ und $f(b) > 0$ und $f$ stetig ist.
+Es ist die einzige Nullstelle, da die Funktion monoton ist.\\
+
+$f$ ist auf $[a,b]$ Lipschitz-stetig mit $L = f(b) - f(a)$, da es die maximale Differenz von Werten auf diesem Intervall ist.\\
+
+Nun wissen wir, dass nach dem Mittelwertsatz ein $x_M \in [a,b]$ existiert mit $f'(x_M) = \frac{f(b) - f(a)}{b - a} = \tau$.
+Nach Konvexität wissen wir, dass für $x > x_M$ $f'(x) > \frac{f(b) - f(a)}{b-a}$, desshalb haben wir auf dem Interval
+$[x_M,b]$ eine Untereschranke für die erste Ableitung.
+
+Nun gilt $x_M < x*$, da wir sonst and der Position $b$ $f(b)$ überschreiten würden. Damit wissen wir, wenn wir in $b$ starten,
+dass $f'$ immer durch $\frac{f(b) - f(a)}{b-a}$ nach unten beschränkt ist.
+
+Da $f'(x) > 0$ für alle $x \in [a,b]$ wissen wir, dass wir $f'$ invertieren können mit $f'(x)^{-1} = \frac{1}{f'(x)}$.\\
+
+Nach dem Satz über die Konvergenz vom Newtonverfahren aus der VL wissen wir nun, dass eben dieses in einem Interval mit dem Radius
+$$
+    \frac{2\pi}{L \cdot \tau^{-1}} = \frac{2\pi}{(f(b)-f(a))\cdot\frac{b-a}{f(b) - f(a)}} = \frac{2\pi}{a-b}.
+$$
+
+Und nun haben wir komplett den Faden verloren.
+
 \label{LastPage}
 
 \end{document}
