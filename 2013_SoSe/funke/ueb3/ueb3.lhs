@@ -81,10 +81,10 @@ Again by definition
 \lstinline|e = e' = []| has to hold.\\
 
 In \lstinline|foldr|
-\begin{lstlisting}
+\begin{lstlisting}[mathescape]
 f as bs     =   {spec}
                 as ++ bs
-           <=>
+           $<=>$
 f           =   (++)
 \end{lstlisting}
 has to hold.\\
