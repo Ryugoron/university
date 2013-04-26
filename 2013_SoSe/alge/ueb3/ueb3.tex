@@ -1,0 +1,177 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm]{geometry} 
+\usepackage{babel}
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc} 
+\usepackage{ae} 
+\usepackage{amssymb} 
+\usepackage{amsmath}
+\usepackage{amsthm} 
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{paralist}
+
+\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[C]{Computational Geometry}
+\fancyhead[L]{Exercise sheet 3}
+\fancyhead[R]{SoSe 2013}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage \hspace{1px} of \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\setlength{\parindent}{0pt} 
+\setlength{\headheight}{0pt}
+
+\date{}
+\title{Exercise sheet 3}
+\author{Max Wisniewski, Alexander Steen}
+
+
+%%
+%% Enviroments for proofs and lemmas
+%%
+\newtheorem{lemma}{\bfseries Claim}
+
+\begin{document}
+
+\lstset{language=Pascal, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2, mathescape=true}
+
+\renewcommand{\figurename}{Figure}
+
+\maketitle
+\thispagestyle{fancy}
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+%% Aufgabe 1 
+%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Task 1}
+
+Let $P$ and $Q$ be two convex polygons with $n$ and $m$ vertices respectively, each polygon is given as
+a list of its vertices sorted in counter-clockwise (or clock-wise) order. Give a sweep-line algorithm
+that computes all intersections between $P$ and $Q$ in $O(n + m)$ times.
+
+\textbf{Solution:}\\
+
+tbd
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+%%  Aufgabe 2
+%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Task 2}
+Let $P$ be a polygon with $n$ vertices and $h$ holes.
+
+\subsubsection*{(a)}
+Give a reasonable definition for a triangulation of $P$.\\
+
+\textbf{Solution:}\\
+tbd
+
+\subsubsection*{(b)}
+Show that $P$ has a triangulation.\\
+
+\textbf{Proof:}\\
+
+tbd
+
+\subsubsection*{(c)}
+
+Find a formula for the number of triangles in any triangulation of $T$, and proof that it is correct.\\
+
+\textbf{Solution:}\\
+
+tbd
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%  Aufgabe 3
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Task 3}
+
+Let $P$ be a simple polygon with $n$ vertices and let $T$ be a triangulation of $P$. The \emph{dual graph} of $T$,
+named $T^*$, is the graph whose vertices are the triangles of $T$ in which two triangles are adjazent if and only if
+they share a diagonal.
+
+\subsubsection*{(a)}
+Show that $T^*$ is a tree.\\
+
+\textbf{Proof:}\\
+
+Because $T$ is a simple polygon $T^*$ is connected. Assume $T^*$ is not a tree. Then it contains at least one
+cicle $C$. A cicle of triangles encloses some area in the interior of the circle of triangles. On a euklidian
+topological surface these circles have at least on point in the middle. All triangles ar in the interior of the polygon
+therefor this inner point cannot be on a edge of the polygon.
+
+This means one endpoint of the diagonals the triangles are made of is not a vertex of the polygon $P$. Therefor these
+were not diagonals and the circle could not be made of triangles of a triangulation.\\
+\mbox{}\hfill$\square$
+
+\subsubsection*{(b)}
+
+Use $T^*$ to give an alternative proof that $T$ is 3-colorable.\\
+
+\textbf{Proof:}\\
+
+tbd
+
+\subsubsection*{(c)}
+
+Suppose $n \geq 4$. An \emph{ear} of $T$ is a triangle in $T$ that has two polygon edges
+as sides. Show that $T$ contains at least two ears.\\
+
+\textbf{Proof:}\\
+
+If $T$ has more than $4$ vertices, that every dual graph $T^*$ representing 
+a triangulation is made of at least two nodes.\\
+As we have shown in \emph{(a)} $T^*$ is a tree.
+
+For a leave of $T^*$ it holds that it only shares on diagonal with an other triangle.
+Therefor the other two edges can only be edges of the polygon $P$ itself.
+
+This implies that every leave of the dual-graph is an ear.\\
+
+Next we know that every tree with $n\geq 4$ contains at least two leaves
+\footnote{If we cannot assume this, we take an maximal path in $T^*$, that exsists because there are no circles.
+The endpoints of the path are leaves because there exist no other edge except the ones we already took for the path.
+Therefor these endpoints have a degree of $\leq 1$.}.
+\mbox{} \hfill $\square$
+
+\subsubsection*{(d)}
+
+Let $n \geq 4$. Show that $P$ has a diagonal that partitions $P$ into two
+simple poylgons with at least $\frac{n-3}{3} + 2$ vertices.\\
+
+\textbf{Proof:}\\
+
+We assume a polygon wit $n\geq 5$. Therefor we have a dualgraph $T^*$ with at least
+three nodes. We can assume this savely, because in a polygon with $n = 4$ vertices
+there exists only one diagonal that partitions the polygon equaly.
+
+Some triangulation $T$ of $P$ and look at the dual graph $T^*$ of $T$.
+
+\begin{claim}\label{alge:ueb3:centerpoint}
+There exists a node $v$ in $T^*$ were
+\begin{itemize}
+    \item $d(v) \leq 2$ and the both subtrees $l, r$ hold that
+        \begin{equation}\begin{split}
+            |l| &\leq |r| + 1\\
+            |r| &\leq |l| + 1
+        \end{split}\end{equation}
+    \item or $d(v) \leq 3$ and for the subtrees $t_1, t_2, t_3$ it holds that
+        \begin{equation}\begin{split}
+            |t_1| &\leq |t_2| + |t_3| + 1\\
+            |t_2| &\leq |t_1| + |t_3| + 1\\
+            |t_3| &\leq |t_1| + |t_2| + 1
+        \end{split}\end{equation}
+\end{itemize}
+\end{claim}
+
+
+
+\label{LastPage}
+
+\end{document}
