@@ -1,0 +1,84 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm]{geometry} 
+\usepackage{babel}
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc} 
+\usepackage{ae} 
+\usepackage{amssymb} 
+\usepackage{amsmath}
+\usepackage{amsthm} 
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{paralist}
+\usepackage{tabularx}
+\usepackage{tikz}
+\usetikzlibrary{arrows,automata}
+\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[C]{Diskrete Mathematik}
+\fancyhead[L]{Übung 3}
+\fancyhead[R]{SoSe 2013}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage \hspace{1px} of \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\setlength{\parindent}{0pt} 
+\setlength{\headheight}{0pt}
+
+\date{}
+\title{Übung 3}
+\author{Max Wisniewski, Alexander Steen}
+
+
+%%
+%% Enviroments for proofs and lemmas
+%%
+\newtheorem{lemma}{\bfseries Claim}
+
+\begin{document}
+
+\lstset{language=Pascal, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2, mathescape=true}
+
+\renewcommand{\figurename}{Figure}
+
+\maketitle
+\thispagestyle{fancy}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Aufgabe 1
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Aufgabe 1.}
+\mbox{}\hfill$\square$
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Aufgabe 2
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Aufgabe 2.}
+\begin{enumerate}
+  \item Zu zeigen: $\sum_{i=r}^{n}{\binom{i}{r}} = \binom{n+1}{r+1}$ \\
+        \textbf{Beweis}:\\
+        Induktionsanfang: $n := r \in \mathbb{N}$
+        \begin{equation*}
+          \sum_{i=r}^{r}{\binom{i}{r}} = \binom{r}{r} = 1 = \binom{r+1}{r+1}
+        \end{equation*}
+        Induktionsschritt: $n+1 > r \in \mathbb{N}$
+        \begin{equation*}\begin{split}
+          \sum_{i=r}^{n+1}{\binom{i}{r}} &= \sum_{i=r}^{n}{\binom{i}{r}} + \binom{n+1}{r} \\
+          &\stackrel{IV}{=} \binom{n+1}{r+1} + \binom{n+1}{r}\\
+          &= \binom{n+2}{r+1}
+        \end{split}\end{equation*}
+\end{enumerate}
+\mbox{}\hfill$\square$
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Aufgabe 3
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Aufgabe 3.}
+\label{LastPage}
+
+\end{document}
