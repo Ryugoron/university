@@ -29,7 +29,7 @@
 \renewcommand{\headrulewidth}{0.5pt}
 \setlength{\parindent}{0pt} 
 \setlength{\headheight}{0pt}
-
+\newcommand\mdoubleplus{\ensuremath{\mathbin{+\mkern-10mu+}}}
 \date{}
 \title{Übung 3}
 \author{Max Wisniewski, Alexander Steen}
@@ -62,7 +62,7 @@
 \begin{enumerate}
   \item Zu zeigen: $\sum_{i=r}^{n}{\binom{i}{r}} = \binom{n+1}{r+1}$ \\
         \textbf{Beweis}:\\
-        Induktionsanfang: $n := r \in \mathbb{N}$
+        Induktionsanfang: $n = r \in \mathbb{N}$
         \begin{equation*}
           \sum_{i=r}^{r}{\binom{i}{r}} = \binom{r}{r} = 1 = \binom{r+1}{r+1}
         \end{equation*}
@@ -70,7 +70,18 @@
         \begin{equation*}\begin{split}
           \sum_{i=r}^{n+1}{\binom{i}{r}} &= \sum_{i=r}^{n}{\binom{i}{r}} + \binom{n+1}{r} \\
           &\stackrel{IV}{=} \binom{n+1}{r+1} + \binom{n+1}{r}\\
-          &= \binom{n+2}{r+1}
+          &\stackrel{Rekur.}{=} \binom{n+2}{r+1}
+        \end{split}\end{equation*}
+\mbox{}\hfill$\square$
+  \item Zu zeigen: $|M| =\binom{n+r-1}{r-1}$, mit $M =  \{ (k_1,\ldots,k_r) \in \mathbb{N}^r | \sum_{i=1}^r k_i = n\} $, für $n,r \in \mathbb{N}, r \geq 1$. \\
+        \textbf{Beweis}: Sei $n \in \mathbb{N}$.\\
+        Induktionsanfang: $r = 1$
+        \begin{equation*}
+           |M| \stackrel{}{=} 1 = \binom{n}{0} = \binom{n+r-1}{r-1}
+        \end{equation*}
+        Induktionsschritt: $r+1 > 1$
+        \begin{equation*}\begin{split}
+            ...blabla nutze 1)
         \end{split}\end{equation*}
 \end{enumerate}
 \mbox{}\hfill$\square$
@@ -78,7 +89,40 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Aufgabe 3
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection*{Aufgabe 3.}
+\subsection*{Aufgabe 3}
+
+Wir betrachten den Namen \textbf{Max}: Wir können $3! = 6$ verschiedene Worte damit bilden.\\
+Wir betrachten den Namen \textbf{Alexander}: Wir können damit $\frac{9!}{4} = 90720$ verschiedene Worte bilden. Die Division durch vier ergibt sich aus den doppelten Buchstaben des Namens (nämlich zwei doppelte).
+
+\subsection*{Aufgabe 4}
+Sei $M$ eine Menge mit $|M| =: n \in \mathbb{N}$ Elementen. Z.z: Die Hälfe der Teilmengen von $M$ hat eine gerade Anzahl von Elementen. \\
+\textbf{Beweis} durch Induktion über $n$: \\
+  Induktionsanfang: $n = 1$ \\
+        Sei o.B.d.A $M = \{ a \}$. Dann ist
+        \begin{equation*}
+          2^M = \{\emptyset, {a} \}
+        \end{equation*}
+        wobei die Teilmenge $\emptyset$ eine gerade Anzahl von Elementen hat (nämlich Null) und
+        die Teilmenge $M$ eine ungerade Anzahl von Elementen hat. Damit besitzt die Hälfte aller
+        Teilmengen eine gerade Kardinalität. \\
+        Induktionsschritt: $n > 1$ \\
+        Sei o.B.d.A. $M = M' \mathaccent\cdot\cup \{ a \}$.
+        Die Teilmengen von $M$ sind nun die Teilmengen von $M'$ zusammen mit den um $\{a\}$ 
+        erweiterten Teilmengen von $M'$.
+        
+        Sei hierfür $2^M \mdoubleplus A$ für zwei Mengen $M,A$ definiert als
+        $2^M \mdoubleplus A := \{m \cup A | m \in 2^M\} $. Dann ist
+        \begin{equation*}\begin{split}
+          2^M &= 2^{M'} \mathaccent\cdot\cup (2^{M'} \mdoubleplus \{a\})
+        \end{split}\end{equation*}
+        Die Hälfte der Mengen von $2^{M'}$ hat nach Induktionsvoraussetzung eine gerade
+        Kardinalität. Die Hälfte der Mengen von $2^{M'} \mdoubleplus \{a\}$ hat ebenfalls
+        eine gerade Kardinalität, da in jede Menge von $2^{M'}$ jeweils ein Element hinzugefügt
+        wird und dadurch haben nun die Mengen von $2^{M'} \mdoubleplus \{a\}$,
+        die vorher eine ungerade Kardinalität basaßen nun eine
+        gerade Kardinalität und andersherum. Da Vereinigung disjunkt ist, 
+        besitzen nun auch die Hälfte der Mengen von $2^M$ eine gerade Anzahl von Elementen.
+
 \label{LastPage}
 
 \end{document}
