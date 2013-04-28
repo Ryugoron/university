@@ -1,0 +1,137 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm]{geometry} 
+\usepackage{babel}
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc} 
+\usepackage{ae} 
+\usepackage{amssymb} 
+\usepackage{amsmath}
+\usepackage{amsthm} 
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{paralist}
+
+\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[C]{Höhere Algorithmik II}
+\fancyhead[L]{Übung 2}
+\fancyhead[R]{SoSe 2013}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage \hspace{1px} of \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\setlength{\parindent}{0pt} 
+\setlength{\headheight}{0pt}
+
+\date{}
+\title{Übung 2}
+\author{Max Wisniewski, Alexander Steen}
+
+
+%%
+%% Enviroments for proofs and lemmas
+%%
+\newtheorem{lemma}{\bfseries Claim}
+
+\begin{document}
+
+\lstset{language=Pascal, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2, mathescape=true}
+
+\renewcommand{\figurename}{Figure}
+
+\maketitle
+\thispagestyle{fancy}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%% Aufgabe 1 %%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Aufgabe 1}
+Gesucht ist ein $O(M(n))$-Algorithmus zur Bestimmung des Betrags der Determinanten, wobei $M(n)$ die Anzahl
+der arithmetischen Operationen für die Matrizenmultiplikation von $n \times n$-Matrizen ist. \\
+
+\textbf{Lösung}: \\
+Sei $A$ eine invertierbare $n \times n$-Matrix. Wir zerteilen die Matrix wie in der VL in folgende Teile:
+
+\begin{equation*}
+A = XYZ = \left( \begin{array}{cc}
+          I & 0 \\
+          A_{21}A_{11}^{-1} & I
+          \end{array} \right)
+          \left( \begin{array}{cc}
+          A_{11} & 0 \\
+          0 & D
+          \end{array} \right)
+          \left( \begin{array}{cc}
+          I & A_{11}^{-1}A_{12} \\
+          0 & I
+          \end{array} \right)
+\end{equation*}
+
+wobei
+
+\begin{equation*}
+A = \left( \begin{array}{cc}
+          A_{11} & A_{12} \\
+          A_{21} & A_{22}
+    \end{array} \right), \quad
+D = A_{22} - A_{21}A_{11}^{-1}A_{12}
+\end{equation*}
+Wir nehmen vorerst an, dass $A_{11}$ ebenfalls invertierbar ist. Wir kommen später darauf zurück.
+Für die Determinante von $A$ gilt nun:
+
+\begin{equation*}\begin{split}
+\det A &= \det \left( \begin{array}{cc}
+          I & 0 \\
+          A_{21}A_{11}^{-1} & I
+          \end{array} \right)
+          \det \left( \begin{array}{cc}
+          A_{11} & 0 \\
+          0 & D
+          \end{array} \right)
+          \det \left( \begin{array}{cc}
+          I & A_{11}^{-1}A_{12} \\
+          0 & I
+          \end{array} \right) \\
+      &= \det \left( \begin{array}{cc}
+          A_{11} & 0 \\
+          0 & D
+          \end{array} \right)
+       = \det A_{11} \det D
+\end{split}\end{equation*}
+
+Stellen wir nun die Rekursionsgleichung für $D(n)$ (Anz. Operationen für die Berechnung der Determinanten) auf und lösen sie:
+
+\begin{equation*}\begin{split}
+D(1) &= 1 \\
+D(n) &= 2\cdot D\left(\frac{n}{2}\right) + 3O\left(M\left(\frac{n}{2}\right) \right) + \left(\frac{n}{2}\right)^2 + 1 \\
+     &= 2\cdot D\left(\frac{n}{2}\right) + c M\left(\frac{n}{2}\right) \\
+     &= \ldots \\
+     &= 2^k D\left(\frac{n}{2^k} \right) + c \left(M\left(\frac{n}{2}\right)+ 2M\left(\frac{n}{4}\right) + \ldots +  2^{k-1}M\left(\frac{n}{2^k}\right) \right) \\
+     &\stackrel{(*)}{=} 2^k D\left(\frac{n}{2^k} \right) + M(n) \cdot c\sum_{i=0}^{k} {(2a)^i} \\
+     &\stackrel{k = \log n}{=}2^{\log n} + M(n) \cdot c' \\
+     &= O(M(n))
+\end{split}\end{equation*}
+
+Umformung (*) gilt, da $M(\frac{n}{2}) \leq a\cdot M(n)$ für ein $a < 1/2$.
+
+Die Annahme, dass $A_{11}$ invertierbar ist, können wir treffen, da wir im Zweifelsfall den Algorithmus
+auf $B := A\cdot A^{t}$ anwenden, und dort die linke obere Teilmatrix immer invertierbar ist. \\
+Da dann $\det B = (\det A)^2$ gilt hier $|\det A| = \sqrt{\det B}$.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%% Aufgabe 2 %%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Aufgabe 2}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%% Aufgabe 3 %%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Aufgabe 3}
+
+
+
+\label{LastPage}
+\end{document}
