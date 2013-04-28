@@ -12,6 +12,7 @@
 \usepackage{fancyref}
 \usepackage{listings}
 \usepackage{xcolor}
+\usepackage{tikz}
 \usepackage{paralist}
 
 \usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
@@ -233,7 +234,31 @@ T(n) &= 2T\left(\frac{n}{2} \right) + 7M(\frac{n}{2}) + 2\left(\frac{n}{2}\right
 \end{split}\end{equation*}
 Das ist die gleiche Rekursionsgleichung wie in Aufgabe 1, ergibt also als Lösung $T(n) = O(M(n))$. \\
 
-Die Rekursionsgleichung ist korrekt, da ...BLABLABLA
+Die Rekursionsgleichung ist korrekt. Betrachten wir das System nur dem Shema entsprechend, haben wir zwei Koponenten
+$V_1$ ist die erste Hälfte der Knoten und $V_2$ die zweite Hälfte. Dann beschreiben die verschiedenen Teilmatrizen
+Kanten wie in Figure \ref{ha2:ueb2:reksceme} gezeigt. $B$ beschreibt Kanten die in $V_1$ verlaufen, $E$ beschreibt Kanten die in $V_2$ verlaufen
+und $C,D$ beschreibt Kanten, die $V_1$ und $V_2$ wechseln.
+
+\begin{table}[h!]
+    \centering
+    \begin{tikzpicture}[auto, node distance=2.8cm]
+        \node[circle, draw=black, name=a]{$V_1$};
+        \node[circle, draw=black, name=b, right of=a]{$V_2$};
+
+        \path[->]
+            (a) edge [loop left] node {B} (a)
+            (b) edge [loop right] node {E} (b)
+            (a) edge [bend left=20] node [swap] {C} (b)
+            (b) edge [bend left=20] node {D} (a);
+    \end{tikzpicture}
+    \caption{Rekursions Schema}
+    \label{ha2:ueb2:reksceme}
+\end{table}
+
+Nun entsprechen die Teilmatrizen in etwa genau dem Kleene Algorithmus. Als neue Matrix $B$ haben wir die Möglichkeit mit $B$ iin $V_1$ zu bleiben,
+oder wir gehen mit $C$ in $V_2$ loopen dort mit $E$ und kehren dann mit $D$ nach $V_1$ zurück. Ähnlich gehen wir im neuen $C$ vor. Dort können wir von
+und nach $V_1$ loopen und gehen dann einen Schritt nach $V_2$ und können auch dort loopen. Für den unteren Teil analog. Unserer Anschauung und dem Beweis
+des Kleene Algorithmuses entsprechend sollten wir so alle möglichen Wege erhalten.
 \subsubsection*{(c)}
 Wie lässt sich, unter der Berücksichtigung von (a), $A^*$ mit Floyd-Warshall oder mit widerholter Breitensuche brechnen?
 Vergleichen Sie die Laufzeiten mit der Laufzeit die Sie in Teil (b) ermittelt haben.\\
@@ -273,6 +298,10 @@ for i = 1 to n do
 end
 \end{lstlisting}
 
-Under der Annahme, dass beide Eingabematrizen $m$ Nichtnullelemente besitzen, wird Zeile 6 max. $m \cdot n$-mal ausgeführt. Blablablabla,, mehr schreiben.
+Wir sehen, dass wir nun nur noch für jedes nicht Nullelement multiplizieren und addieren müssen. Wenn wir es nach oben abschätzen,
+müssen wir für jedes nicht Nullelement nur $n$ Multiplikationen und Addition ausführen. Da wir nur arithmetische Operationen zählen
+und die Vergleiche nichts kosten erhalten wir so einen Algorithmus mit der Laufzeit $O(m*n)$.\\
+
+Dies erhält die ursorüngliche Laufzeit, da wir bei einer vollbesetzen Matrix $O(n^3)$ Operationen brauchen.
 \label{LastPage}
 \end{document}
