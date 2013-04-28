@@ -196,7 +196,7 @@ Falls wir uns den Vektor $x$ als Zeugen geben, können wir ihn also in poly Zeit
 %%%%% Aufgabe 3 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection*{Aufgabe 3}
 
-Der transifitive Abschluss $A^*$ einer Boolschen $n \times n$ Matrix $A$ ist definiert als
+Der transitive Abschluss $A^*$ einer Boolschen $n \times n$ Matrix $A$ ist definiert als
 \begin{equation*}
     A^* = \overset{n-1}{\underset{i=0}{\bigvee}} A^i,\text{ wobei }A^0 = I_n\text{ ist.}
 \end{equation*}
@@ -205,33 +205,59 @@ Der transifitive Abschluss $A^*$ einer Boolschen $n \times n$ Matrix $A$ ist def
 Was ist die Bedeutung von $A^*$, wenn $A$ die Adjazenzmatrix eines gerichteten Graphen ist?\\
 
 \textbf{Lösung:}\\
-
-tbd
+Ein Eintrag $a^{*}_{ij}$ der Matrix $A^*$ ist $1$, wenn es einen Pfad von Knoten $i$ zu Knoten $j$ gibt; sonst $0$. Der transitive Abschluss der Adjazenzmatrix ist also die ''Zusammenhangsmatrix'' des zugrundeliegenden Graphen.
 
 \subsubsection*{(b)}
-
 Zeigen Sie, dass man zur Berechnung von $A^*$ $O(M(n))$ Boolsche Operationen benötigt, wenn sich Boolsche $n \times n$- Matrizen mit $M(n)$ Operaitonen berechnen lassen.\\
 
 \textbf{Lösung:}\\
+Nach Aufgabenzettel gilt folgende Indentität für den transitiven Abschluss einer $n \times n$-Matrix
+$ A = \left(\begin{array}{cc} 
+        B & C \\
+        D & E
+      \end{array} \right)$, mit $n$ gerade:
+\begin{equation*}\begin{split}
+A^* &= \left(\begin{array}{cc}
+        F & FCE^* \\
+        E^* DF & E^* \lor E^*DFCE^*
+       \end{array} \right), \quad
+        F = (B \lor CE^*D)^*
+\end{split}\end{equation*}
 
-tbd
+Sei $T(n)$ die Anzahl der Operationen zur Berechnung des transitiven Abschlusses einer $n \times n$-Matrix.
+Aufstellen der Rekursionsgleichung liefert
+\begin{equation*}\begin{split}
+T(1) &= 0 \\
+T(n) &= 2T\left(\frac{n}{2} \right) + 7M(\frac{n}{2}) + 2\left(\frac{n}{2}\right)^2 \\
+     &= 2T\left(\frac{n}{2} \right) + cM(\frac{n}{2})  \\
+\end{split}\end{equation*}
+Das ist die gleiche Rekursionsgleichung wie in Aufgabe 1, ergibt also als Lösung $T(n) = O(M(n))$. \\
 
+Die Rekursionsgleichung ist korrekt, da ...BLABLABLA
 \subsubsection*{(c)}
-
 Wie lässt sich, unter der Berücksichtigung von (a), $A^*$ mit Floyd-Warshall oder mit widerholter Breitensuche brechnen?
 Vergleichen Sie die Laufzeiten mit der Laufzeit die Sie in Teil (b) ermittelt haben.\\
 
 \textbf{Lösung:}\\
-
-tbd
-
+(1) Da der Floyd-Warshall-Algorithmus eine Matrix der kürzesten Wege (minimale Kosten) ausgibt, gibt es
+genau dann einen Weg wenn ein Matrixeintrag kleiner $\infty$ ist.
+Sei diese Matrix $\tilde{A}^* = (\tilde{a}^*_{ij})$ eben diese Matrix. Dann erhält man die Matrix $A^* = (a^*_{ij})$ durch
+\begin{equation*}
+a^*_{ij} = \begin{cases}
+              1 & \text{, falls $\tilde{a}^*_{ij} < \infty$} \\
+              0 & \text{sonst}
+            \end{cases}
+\end{equation*}
+Der Floyd-Warshall-Algorithmus hat eine Laufzeit von $O(n^3)$ und ist damit schlechter als die Matrizenmultiplikation, die mit $O(n^{2.3blabla}$ Operationen auskommt.\\
+(2) Wiederholte Breitensuche:  Man interpretiert die Eingabematrix als Adjazenzmatrix eines Graphen. Eine Breitensuche wird von jedem Knoten aus gestartet um alle
+Zusammenhangskomponenten zu finden. Damit kommt man auf eine Laufzeit von $n \cdot (|V| +|E|)$.
+Für Graphen mit wenigen Kanten ist diese Laufzeit nahe an $n^2$ (also besser), für Graphen mit vielen Kanten nah an $n^3$ (also schlechter).
 \subsubsection*{(d)}
 
 Geben Sie einen efizienten Algorithmus zur Multiplikation von Matrizen an, die nur wenige Einträge $\not= 0$ haben. Analysieren Sie die Anzahl der Operationen
 als Funktion der Dimenision $n$ der Matrix und der Anzahl $m$ der Nichtnullelemente.\\
 
 \textbf{Lösung:}\\
-
 tbd
 
 \label{LastPage}
