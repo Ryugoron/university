@@ -258,7 +258,21 @@ Geben Sie einen efizienten Algorithmus zur Multiplikation von Matrizen an, die n
 als Funktion der Dimenision $n$ der Matrix und der Anzahl $m$ der Nichtnullelemente.\\
 
 \textbf{Lösung:}\\
-tbd
+Der folgende Algorithmus bekommt als Eingabe zwei $n \times n$-Matrizen $A = (a_{ij}), B = (b_{ij})$.
+\begin{lstlisting}[numbers=left]
+for i = 1 to n do
+  for j = 1 to n do
+    tempsum := 0;
+    for k = 1 to n do
+      if $a_{ik} \neq 0 \land b_{kj} \neq 0$ then
+        tempsum := tempsum + $a_{ik} \cdot b_{kj}$
+      end
+    end
+    $c_{ij}$ := tempsum
+  end
+end
+\end{lstlisting}
 
+Under der Annahme, dass beide Eingabematrizen $m$ Nichtnullelemente besitzen, wird Zeile 6 max. $m \cdot n$-mal ausgeführt. Blablablabla,, mehr schreiben.
 \label{LastPage}
 \end{document}
