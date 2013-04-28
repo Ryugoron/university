@@ -81,7 +81,14 @@
         \end{equation*}
         Induktionsschritt: $r+1 > 1$
         \begin{equation*}\begin{split}
-            ...blabla nutze 1)
+            |M| =&  |\{ (k_1,\ldots,k_r,k_{r+1}) \in \mathbb{N}^{r+1} | \sum_{i=1}^{r+1} k_i = n\}| \\
+              =& |\{ (k_1,\ldots,k_r,0)| \sum_{i=1}^r k_i = n\}|
+               + |\{ (k_1,\ldots,k_r,1)| \sum_{i=1}^r k_i = n-1\}| \\
+              &+ \ldots 
+              + |\{ (k_1,\ldots,k_r,n-1)| \sum_{i=1}^r k_i = 1\}|
+               + |\{ (k_1,\ldots,k_r,n) | \sum_{i=1}^r k_i = 0\}| \\
+              \stackrel{IV}{=}& \binom{n+r-1}{r-1} + \binom{n+r-2}{r-1} + \ldots + \binom{r-1}{r-1} \\
+              \stackrel{1.)}{=}& \binom{n+r}{r} = \binom{n+(r+1)-1}{(r+1)-1}
         \end{split}\end{equation*}
 \end{enumerate}
 \mbox{}\hfill$\square$
@@ -92,7 +99,7 @@
 \subsection*{Aufgabe 3}
 
 Wir betrachten den Namen \textbf{Max}: Wir können $3! = 6$ verschiedene Worte damit bilden.\\
-Wir betrachten den Namen \textbf{Alexander}: Wir können damit $\frac{9!}{4} = 90720$ verschiedene Worte bilden. Die Division durch vier ergibt sich aus den doppelten Buchstaben des Namens (nämlich zwei doppelte).
+Wir betrachten den Namen \textbf{Alexander}: Wir können damit $\frac{9!}{2\cdot 2} = 90720$ verschiedene Worte bilden. Die Division durch vier ergibt sich aus den doppelten Buchstaben des Namens (nämlich zwei doppelte).
 
 \subsection*{Aufgabe 4}
 Sei $M$ eine Menge mit $|M| =: n \in \mathbb{N}$ Elementen. Z.z: Die Hälfe der Teilmengen von $M$ hat eine gerade Anzahl von Elementen. \\
@@ -118,9 +125,9 @@ Sei $M$ eine Menge mit $|M| =: n \in \mathbb{N}$ Elementen. Z.z: Die Hälfe der 
         Die Hälfte der Mengen von $2^{M'}$ hat nach Induktionsvoraussetzung eine gerade
         Kardinalität. Die Hälfte der Mengen von $2^{M'} \mdoubleplus \{a\}$ hat ebenfalls
         eine gerade Kardinalität, da in jede Menge von $2^{M'}$ jeweils ein Element hinzugefügt
-        wird und dadurch haben nun die Mengen von $2^{M'} \mdoubleplus \{a\}$,
+        wird und dadurch die Mengen von $2^{M'} \mdoubleplus \{a\}$,
         die vorher eine ungerade Kardinalität basaßen nun eine
-        gerade Kardinalität und andersherum. Da Vereinigung disjunkt ist, 
+        gerade Kardinalität besitzen und andersherum. Da Vereinigung disjunkt ist, 
         besitzen nun auch die Hälfte der Mengen von $2^M$ eine gerade Anzahl von Elementen.
 
 \label{LastPage}
