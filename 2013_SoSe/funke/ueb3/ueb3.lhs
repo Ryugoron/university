@@ -117,8 +117,8 @@ Proof by induction on listst that
 \lstinline|reverse . reverse = id|.\\
 
 \textbf{Solution:}\\
-Lemma 1: \lstinline|reverse (as ++ bs) = (reverse bs) ++ (reverse as)|.
-Proof: Induction on as.
+\textbf{Lemma 1:} \lstinline|reverse (as ++ bs) = (reverse bs) ++ (reverse as)|.\\
+\textbf{Proof:} Induction on as.
 \begin{lstlisting}
 I.A. as = []
     reverse ([] ++ bs)
@@ -145,7 +145,7 @@ I.S. as -> (a:as)
 \mbox{}\hfill$\square$
 
 
-Proof (main claim):
+\textbf{Proof} (main claim):
 \begin{lstlisting}
 I.A. n = []
     reverse ( reverse [] )
