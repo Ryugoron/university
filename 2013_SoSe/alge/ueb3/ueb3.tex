@@ -177,7 +177,24 @@ Use $T^*$ to give an alternative proof that $T$ is 3-colorable.\\
 
 \textbf{Proof:}\\
 
-tbd
+We proove the following:\\
+Given a diagonal and two colors for each edge, we can find a coloring for the triangulation $T$.\\
+Induction on the size of $T^*$.
+\begin{description}
+    \item[ind. anc.] $|T^*| = 1$\\
+        We have exactly on triangle and this one has already given two colors. We take the third one
+        for the last edge.
+    \item[ind. step] $|T^*| \leq n \leadsto |T^*| = n+1$\\
+        We are given two colors on one edge. This diagonal is part of at least one triangle. We take the missing
+        third color for this triangle. Then we know in $T^*$ this triangle has a set of subtrees. Each subtree does not share
+        an edge and at most one node, of which we already know the color. For each subtree we have two colors on one edge, namely
+        the edges of the triangle. Therfor we can color the subtrees with 3 colors keeping the colors of the initial triangle
+        by induction hyptheses.\\
+
+        The coloring of the subtrees does not collide on the vertices,  because we initially gave them the same color.
+        This leads to a 3-coloring of the whole tree $T^*$.
+\end{description}
+\mbox{}\hfill $\square$
 
 \subsubsection*{(c)}
 
