@@ -70,10 +70,10 @@ Next we observe that each side of the polygon can be intersected at most twice b
 it could not be convex. Therefor we have to keep track of at most 8 points, that we have to consider. The rest of
 the points can be computed as soon as we reached the next vertex of the polygon.\\
 
-Therefor we get the next eventpoint in $O(1)$ time and can store the intersections as another convex polygon also in $O(1)$ time
+Therefor we get the next event point in $O(1)$ time and can store the intersections as another convex polygon also in $O(1)$ time
 per round. Thus for vertex of each convex hull we half a constant number of events and intersections which can be computed in constant time.\\
 
-The computation with sweepline on this simpler datastructure has a total runningtime of $O(n+m)$.
+The computation with sweepline on this simpler data structure has a total running time of $O(n+m)$.
 
 %%%%%%%%%%%%%%%%%%%%%%%%
 %%  Aufgabe 2
@@ -112,7 +112,7 @@ Show that $P$ has a triangulation.\\
 Let $P$ be a simple polygon and $H_1, ... , H_h$ holes. We do an induction on $h$.
 \begin{description}
     \item[\bfseries ind. anc.] $h=0$.\\
-        $P$ is a simple polygon and has a triangluation as shown in the lecture.
+        $P$ is a simple polygon and has a triangulation as shown in the lecture.
     \item[\bfseries ind. hyp.] For any simple polygon $P$ with $H_1, ... , H_h$ there exist a triangulation.
     \item[\bfseries ind. step.] Let $P$ be a simple polygon and $H_1, ... , H_h, H_{h+1}$ holes.\\
         Let $d_{h+1}$ be a diagonal with some endpoint in $H_{h+1}$.\\
@@ -120,13 +120,13 @@ Let $P$ be a simple polygon and $H_1, ... , H_h$ holes. We do an induction on $h
         This diagonal exists. Otherwise there would not be any diagonal in $P$ without the hole $H_{h+1}$
         which would be in the interior of $H_{h+1}$, because we could move this diagonal to some vertex
         of this edge. If such an edge would not exists we can simply ignore $H_{h+1}$ because it is not
-        recognisable by any measurement.\\
+        recognizable by any measurement.\\
 
-        If we have this diagonal we virtually split the polygon along this edge. This can be done by doubleing the
+        If we have this diagonal we virtually split the polygon along this edge. This can be done by doubling the
         endpoints and moving them apart in some $\varepsilon > 0$ Ball such that the both resulting lines would not collide.\\
 
         We get a new Polygon in which $H_{h+1}$ is either part of $P$ or merged with one of $H_i$.
-        The resulting polygon has only $h$ holes. And there exists a triangulationi $T'$.\\
+        The resulting polygon has only $h$ holes. And there exists a triangulation $T'$.\\
 
         The diagonals of this triangulation $T'$ do not cross $d_{h+1}$ because in the construction $d_{h+1}$ has a small space
         that is not part of the polygon, therefor there exists no diagonal crossing this space.
@@ -140,13 +140,21 @@ Find a formula for the number of triangles in any triangulation of $P$, and proo
 
 \textbf{Solution:}\\
 
-By construction in (b) we add for each hole in $P$ one diagonal and in the end we triangulate a simple polygon.
+By construction in (b) we add for each hole in $P$ one diagonal, add therefor two points, and in the end we triangulate a simple polygon.
 The number of triangles in a triangulation for a simple polygon are $n-2$.
 
-Therefor by construction we need $n + h -2$ triangles.\\
+Therefor by construction we need $n + 2*h -2$ triangles.\\
 
 \textbf{Proof:}\\
-tbd
+Leaves us with the proof that this is always the case.\\
+For every triangulation we have for each hole at least one diagonal connected to it. Therefor we can proceed as in the
+algorithm above to merge the hole along this diagonal. The rest of the polygon still contains all the original triangles,
+except we moved the ones at the merge diagonal a bit.\\
+
+We proceed until we have no more holes and get a Polygon with $n + 2h$ nodes and all triangles from the original one.\\
+From this new Triangulation we know from the lecture, that it contains $n + 2h -2$ triangles. Hence the original
+triangulation has $n + 2h - 2$ triangles.\\
+\mbox{} \hfill $\square$
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 %%  Aufgabe 3
@@ -154,7 +162,7 @@ tbd
 \subsection*{Task 3}
 
 Let $P$ be a simple polygon with $n$ vertices and let $T$ be a triangulation of $P$. The \emph{dual graph} of $T$,
-named $T^*$, is the graph whose vertices are the triangles of $T$ in which two triangles are adjazent if and only if
+named $T^*$, is the graph whose vertices are the triangles of $T$ in which two triangles are adjacent if and only if
 they share a diagonal.
 
 \subsubsection*{(a)}
@@ -163,8 +171,8 @@ Show that $T^*$ is a tree.\\
 \textbf{Proof:}\\
 
 Because $T$ is a simple polygon $T^*$ is connected. Assume $T^*$ is not a tree. Then it contains at least one
-cicle $C$. A cicle of triangles encloses some area in the interior of the circle of triangles. On a euklidian
-topological surface these circles have at least on point in the middle. All triangles ar in the interior of the polygon
+cycle $C$. A cycle of triangles encloses some area in the interior of the circle of triangles. On a euclidean
+topological surface these circles have at least on point in the middle. All triangles are in the interior of the polygon
 therefor this inner point cannot be on a edge of the polygon.
 
 This means one endpoint of the diagonals the triangles are made of is not a vertex of the polygon $P$. Therefor these
@@ -177,7 +185,7 @@ Use $T^*$ to give an alternative proof that $T$ is 3-colorable.\\
 
 \textbf{Proof:}\\
 
-We proove the following:\\
+We prove the following:\\
 Given a diagonal and two colors for each edge, we can find a coloring for the triangulation $T$.\\
 Induction on the size of $T^*$.
 \begin{description}
@@ -188,8 +196,8 @@ Induction on the size of $T^*$.
         We are given two colors on one edge. This diagonal is part of at least one triangle. We take the missing
         third color for this triangle. Then we know in $T^*$ this triangle has a set of subtrees. Each subtree does not share
         an edge and at most one node, of which we already know the color. For each subtree we have two colors on one edge, namely
-        the edges of the triangle. Therfor we can color the subtrees with 3 colors keeping the colors of the initial triangle
-        by induction hyptheses.\\
+        the edges of the triangle. Therefor we can color the subtrees with 3 colors keeping the colors of the initial triangle
+        by induction hypotheses.\\
 
         The coloring of the subtrees does not collide on the vertices,  because we initially gave them the same color.
         This leads to a 3-coloring of the whole tree $T^*$.
@@ -213,7 +221,7 @@ Therefor the other two edges can only be edges of the polygon $P$ itself.
 This implies that every leave of the dual-graph is an ear.\\
 
 Next we know that every tree with $n\geq 4$ contains at least two leaves
-\footnote{If we cannot assume this, we take an maximal path in $T^*$, that exsists because there are no circles.
+\footnote{If we cannot assume this, we take an maximal path in $T^*$, that exists because there are no circles.
 The endpoints of the path are leaves because there exist no other edge except the ones we already took for the path.
 Therefor these endpoints have a degree of $\leq 1$.}.
 \mbox{} \hfill $\square$
@@ -221,13 +229,13 @@ Therefor these endpoints have a degree of $\leq 1$.}.
 \subsubsection*{(d)}
 
 Let $n \geq 4$. Show that $P$ has a diagonal that partitions $P$ into two
-simple poylgons with at least $\frac{n-3}{3} + 2$ vertices.\\
+simple polygons with at least $\frac{n-3}{3} + 2$ vertices.\\
 
 \textbf{Proof:}\\
 
-We assume a polygon wit $n\geq 5$. Therefor we have a dualgraph $T^*$ with at least
-three nodes. We can assume this savely, because in a polygon with $n = 4$ vertices
-there exists only one diagonal that partitions the polygon equaly.
+We assume a polygon wit $n\geq 5$. Therefor we have a dual graph $T^*$ with at least
+three nodes. We can assume this safely, because in a polygon with $n = 4$ vertices
+there exists only one diagonal that partitions the polygon equally.
 
 Some triangulation $T$ of $P$ and look at the dual graph $T^*$ of $T$.
 
@@ -264,7 +272,7 @@ If this sequence would not exist, there would be a vertex that has the property 
 Assume there is a loop that repeats the sequence $v_{i+1}v_i$. Then both mutually dissatisfy the property.
 Otherwise they could not loop.\\
 
-Any other cicle is not possible. If $v_{i}v_{i+1}$ is in the sequence $v_{i+1}v_i$ can not be in there later on.
+Any other cycle is not possible. If $v_{i}v_{i+1}$ is in the sequence $v_{i+1}v_i$ can not be in there later on.
 As shown before at most one successor can dissatisfy the property such that if we left from $v_{i+1}$ not to $v_i$ we
 will do this any other time we enter $v_{i+1}$. Therefor $v_i$ cannot be a successor.\\
 
@@ -275,7 +283,7 @@ or the sequence ends in a node that satisfies the property.\\
 \mbox{}\hfill $\square$
 
 \textbf{Proof 3d.}\\
-First we obeserve, that with the formulas for the triangles ins any triangulation we have $n-2$ triangles in
+First we observe, that with the formulas for the triangles ins any triangulation we have $n-2$ triangles in
 each triangulation. Therefor the number of nodes in a tree with $k$ triangles is $k+2$.\\
 
 Using claim \ref{alge:ueb3:centerpoint} we know there either exists a point with satisfies the property or two,
@@ -285,8 +293,8 @@ In the second case, we will simple cut this edge.
 \begin{itemize}
      \item If $u,v$ had both degree $2$ we know that we have a graph $T_1 - u - v - T_2$
         with $|T_1| + 1 > |T_2| + 1$ but also $|T_2| + 1 > |T_1| + 1$. Therefor this
-        constallation is not possible.
-    \item If $u,v$ have both degree $3$ we know that mutualy both subtrees on $u,v$ must hold
+        constellation is not possible.
+    \item If $u,v$ have both degree $3$ we know that mutually both subtrees on $u,v$ must hold
         more than $\frac{2}{3}$ of the tree. Because they share no nodes the tree would have $\frac{4}{3}n$ nodes
         which is not possible.
     \item If one of them has degree on both of them must have, because their subtrees cannot be larger then one.
@@ -301,7 +309,7 @@ If we have a node that satisfies the property.
     \item If $v$ is the first case. We can cut any of the two edges. If $T_1 - v - T_2$ is
         the tree and we cut $T_1 - v$ then $|T_1| = \frac{k}{2} -1 = \frac{n+2 - 2}{2}$ vertices. The other have is bigger.
         Because we assumed $n \geq 5$ the theorem is satisfied.
-    \item If $v$ is the second case. We can cut any fo the edges. If $T_1 - v = (T_2, T_3)$ is the
+    \item If $v$ is the second case. We can cut any of the edges. If $T_1 - v = (T_2, T_3)$ is the
         tree and we cut $T_1 - v$ then $|T_1| = \frac{n-3}{3} + 2$ vertices big.
 \end{itemize}
 \mbox{}\hfill $\square$
