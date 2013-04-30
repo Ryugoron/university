@@ -24,8 +24,8 @@ Import the definition for Fields
 >   in
 >       (zipWith (add) ger $ zipWith (mult) ws unger) ++ (zipWith (sub) ger $ zipWith (mult) ws unger)
 
->a = expandTo 8 (Z 0 17) [Z 2 17, Z 3 17]
->b = expandTo 8 (Z 0 17) [Z 3 17, Z 2 17]
+>a = expandTo 8 (Z 0 17) [Z 2 17, Z 3 17, Z 5 17]
+>b = expandTo 8 (Z 0 17) [Z 3 17, Z 2 17, Z 7 17]
 >w = Z 2 17
 
 >split :: [a] -> ([a],[a])
