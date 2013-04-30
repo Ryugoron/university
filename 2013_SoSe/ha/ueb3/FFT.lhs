@@ -18,16 +18,20 @@ Import the definition for Fields
 >fft _ [a] = [a]
 >fft w as  = 
 >   let
->       (ag, au)    = split as ([],[])
->       (v, u)      = (fft (mult w w) ag, fft (mult w w) au)
->       ws          = iterate (mult w) w
+>       (ag, au)    = split as
+>       (ger, unger)      = (fft (mult w w) ag, fft (mult w w) au)
+>       ws          = iterate (mult w) (nMult w)
 >   in
->       (zipWith (add) u $ zipWith (mult) ws v) ++ (zipWith (sub) u $ zipWith (mult) ws v)
+>       (zipWith (add) ger $ zipWith (mult) ws unger) ++ (zipWith (sub) ger $ zipWith (mult) ws unger)
 
->split :: [a] -> ([a],[a]) -> ([a],[a])
->split [] x                = x
->split [a] (as,bs)         = (a:as, bs)
->split (a:b:xs) (as,bs)    = split xs (a:as, b:bs)
+>a = expandTo 8 (Z 0 17) [Z 2 17, Z 3 17]
+>b = expandTo 8 (Z 0 17) [Z 3 17, Z 2 17]
+>w = Z 2 17
+
+>split :: [a] -> ([a],[a])
+>split []                = ([],[])
+>split [a]               = ([a], [])
+>split (a:b:xs)          = (\(as,bs) -> (a:as,b:bs)) $ split xs
 
 >dft :: (Field a)
 >   => a        -- w Root of unity
