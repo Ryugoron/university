@@ -64,7 +64,20 @@ $U = \{(u_1,u_2) \in V| u_1 - u_2 = 0 \} \subseteq V$ ein Unterraum. Sei weiterh
       also ist die Lösung eindeutig.
       
 \item Gesucht: Zur Bestapproximationsaufgabe äquivalente Normalengleichung 
-\item bla
+    \begin{equation*}\begin{split}
+      & (u-f,v) = 0 \\
+      \Leftrightarrow & v_1(u_1-f_1) + v_2(u_2-f_2) = 0 \\
+      \Leftrightarrow & v_1(u_1-f_1) + v_1(u_1-f_2) = 0 \\
+      \Leftrightarrow & v_1 \left( (u_1-f_1) + (u_1-f_2) \right) = 0 \\
+      \Leftrightarrow & u_1 = u_2 = \frac{f_1+f_2}{2}
+    \end{split}\end{equation*}
+    Also ergibt sich für die Bestapproximation von $f$ der Vektor, der komponentenweise aus dem Durchschnitt
+    des Komponenten von $f$ besteht.
+\item Projektion: \\
+    Wähle als Projektion $P : V \to U$ mit $P(x,y) = \left(\frac{x+y}{2},\frac{x+y}{2} \right)$. Dann ist $P$ Orthogonalprojektion, denn
+    $(v,(I - P) f) = \left(\frac{x+y}{2},\frac{x+y}{2} \right),\left(\frac{1}{2}(f_1-f_2),\frac{1}{2}(f_2-f_1)\right) = 0$, mit $v = P(x,y) = \left(\frac{x+y}{2},\frac{x+y}{2} \right) \in R(P), f = (f_1,f_2) \in V$. \\
+    Nach Satz 2.8 ist dann die Lösung der Bestapproximationsaufgabe $u = Pf = P(2,4) = (3,3)$.
+
 \end{enumerate}
 \subsection*{Aufgabe 2}
 Zu zeigen: $(C[0,1],(\cdot,\cdot))$ ist mit $(v,w) = \int_0^1 v(x)w(x)\,dx$ kein Hilbertraum. \\
@@ -76,7 +89,7 @@ Zu zeigen: $(C[0,1],(\cdot,\cdot))$ ist mit $(v,w) = \int_0^1 v(x)w(x)\,dx$ kein
                 1 & \text{, für $x \in (\frac{1}{n},1]$}
              \end{cases}$ für alle $n \in \mathbb{N}$. Dann ist jedes $f_n \in C[0,1]$ und es gilt
   \begin{equation*}
-    \left( f_n \right) \stackrel{n \to \infty}{\longrightarrow} sgn_{{\left. \right|}_{[0,1]}}
+    \left( f_n \right) \stackrel{n \to \infty}{\longrightarrow} sgn_{{\left. \right|}_{[0,1]}} \text{in $L^2$}
   \end{equation*}
   wobei $sgn_{{\left. \right|}_{[0,1]}}$ die auf das Intervall $[0,1]$ eingeschränkte signum-Funktion ist.
   Da $\left(f_n\right)$ eine Cauchyfolge in $L^2$ und $C[0,1]$ ein Unterraum von $L^2$,
