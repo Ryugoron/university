@@ -57,14 +57,33 @@ $U = \{(u_1,u_2) \in V| u_1 - u_2 = 0 \} \subseteq V$ ein Unterraum. Sei weiterh
 \item Bestapproximationsaufgabe: \\
       Finde $u \in U$, sodass $\forall v \in U: \, \|f-u\|_2 \leq \|f-v\|_2$. \\
       Existenz der Lösung: \\
-      asd \\
+      Nach Satz 2.1 ist die Bestapproximationsaufgabe in einem normierten, linearen Raum immer lösbar. \\
       Eindeutigkeit der Lösung: \\
-      asdasd
+      Nach Satz 2.2 ist die Lösung eindeutig, falls $V$ strikt konvex ist. Nun ist $V$ strikt konvex, da
+      ....
+      also ist die Lösung eindeutig.
       
 \item Gesucht: Zur Bestapproximationsaufgabe äquivalente Normalengleichung 
 \item bla
 \end{enumerate}
 \subsection*{Aufgabe 2}
+Zu zeigen: $(C[0,1],(\cdot,\cdot))$ ist mit $(v,w) = \int_0^1 v(x)w(x)\,dx$ kein Hilbertraum. \\
+\textbf{Beweis}: Wir zeigen, dass eine Cauchyfolge $\left( f_n \right)$ mit $f_i \in C[0,1]$
+                 nicht in $C[0,1]$ konvergiert. \\
+
+  Sei $f_n (x) = \begin{cases}
+                nx & \text{, für $x \in [0,\frac{1}{n}]$} \\
+                1 & \text{, für $x \in (\frac{1}{n},1]$}
+             \end{cases}$ für alle $n \in \mathbb{N}$. Dann ist jedes $f_n \in C[0,1]$ und es gilt
+  \begin{equation*}
+    \left( f_n \right) \stackrel{n \to \infty}{\longrightarrow} sgn_{{\left. \right|}_{[0,1]}}
+  \end{equation*}
+  wobei $sgn_{{\left. \right|}_{[0,1]}}$ die auf das Intervall $[0,1]$ eingeschränkte signum-Funktion ist.
+  Da $\left(f_n\right)$ eine Cauchyfolge in $L^2$ und $C[0,1]$ ein Unterraum von $L^2$,
+  ist $\left(f_n\right)$ ebenfalls Cauchyfolge in $C[0,1]$ (siehe Analysis III).
+  Allerdings ist gilt $ sgn_{{\left. \right|}_{[0,1]}} \notin C[0,1]$.
+  Damit ist $C[0,1]$ nicht vollständig, also kein Hilbertraum.
+  
 \subsection*{Aufgabe 3}
 
 \label{LastPage}
