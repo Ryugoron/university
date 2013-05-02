@@ -1,33 +1,39 @@
-> 
->module Field
->   ( Complex(..)
->   , ZRing(..)
->   , Field(..)
->   , znRoot
->   , rootOfUnityC
->   ) where
->
+\ignore{
+\begin{code}
+module Field
+   ( Complex(..)
+   , ZRing(..)
+   , Field(..)
+   , znRoot
+   , rootOfUnityC
+   ) where
+\end{code}}
 
->class Field a where
->    add :: a -> a -> a
->    add x y     = sub x (addInv y)
->
->    sub :: a -> a -> a
->    sub x y     = add x (addInv y)
->
->    mult :: a -> a -> a
->    mult x y    = divi x (multInv y)
->
->    divi :: a -> a -> a
->    divi x y     = mult x (multInv y)
->
->    addInv :: a -> a
->    addInv x    = sub (nAdd x) x
->
->    multInv :: a -> a
->    multInv x   = divi (nMult x) x 
->
->    fromInt :: a -> Int -> a
+
+
+\begin{code}
+class Field a where
+    add :: a -> a -> a
+    add x y     = sub x (addInv y)
+
+    sub :: a -> a -> a
+    sub x y     = add x (addInv y)
+
+    mult :: a -> a -> a
+    mult x y    = divi x (multInv y)
+
+    divi :: a -> a -> a
+    divi x y     = mult x (multInv y)
+
+    addInv :: a -> a
+    addInv x    = sub (nAdd x) x
+
+    multInv :: a -> a
+    multInv x   = divi (nMult x) x 
+
+    fromInt :: a -> Int -> a
+\end{code}
+
 
 Basis because we can't extract the basis of Z_n without dependent type systems.
 

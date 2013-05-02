@@ -1,0 +1,90 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm]{geometry} 
+\usepackage{babel}
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc} 
+\usepackage{ae} 
+\usepackage{amssymb} 
+\usepackage{amsmath}
+\usepackage{amsthm} 
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{paralist}
+
+\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[C]{Höhere Algorithmik}
+\fancyhead[L]{Übungsblatt Nr. 3}
+\fancyhead[R]{SoSe 2013}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage \hspace{1px} of \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\setlength{\parindent}{0pt} 
+\setlength{\headheight}{0pt}
+
+\date{}
+\title{Übungsblatt Nr. 2}
+\author{Max Wisniewski, Alexander Steen}
+
+
+%%
+%% Enviroments for proofs and lemmas
+%%
+\newtheorem{lemma}{\bfseries lemma}
+\newtheorem{claim}{\bfseries claim}
+\newtheorem{theorem}{\bfseries Theorem}
+
+\lstloadlanguages{Haskell}
+\lstset{
+  language=Haskell,
+  basicstyle=\ttfamily,
+  flexiblecolumns=false,
+  basewidth={0.5em,0.45em},
+  literate={+}{{$+$}}1 {/}{{$/$}}1 {*}{{$*$}}1 {=}{{$=$}}1
+           {>}{{$>$}}1 {<}{{$<$}}1 {\\}{{$\lambda$}}1
+           {\\\\}{{\char`\\\char`\\}}1
+           {->}{{$\rightarrow$}}2 {>=}{{$\geq$}}2 {<-}{{$\leftarrow$}}2
+           {<=}{{$\leq$}}2 {=>}{{$\Rightarrow$}}2 
+           {\ .}{{$\circ$}}2 {\ .\ }{{$\circ$}}2
+           {>>}{{>>}}2 {>>=}{{>>=}}2
+           {|}{{$\mid$}}1               
+}
+
+\lstnewenvironment{code}
+    {\lstset{basicstyle=\footnotesize\ttfamily}%
+      \csname lst@SetFirstLabel\endcsname}
+    {\csname lst@SaveFirstLabel\endcsname}
+\long\def\ignore#1{}
+
+\begin{document}
+
+\renewcommand{\figurename}{Figure}
+\maketitle
+\thispagestyle{fancy}
+
+\subsection*{Aufgabe 1}
+
+Sei $K$ ein Körper, der eine primitive $k$-te Einheitswurzel mit $k=2^{\lceil \log (n+1) \rceil}$ enthält. Zeigen Sie, wie man effizient die Koeffizeinten eins Polynoms $P(x)$ finden kann, das eine gegebene Folge $z_0,...,z_n$ von Elementen von $K$ als Nullstellen hat und sonst keine Nullstellen. Geben Sie dazu einen Algorithmus an, der $O(n\log^2 n)$ Operationen auf $K$ benötigt.\\
+
+\textbf{Lösung:}\\
+
+tbd
+
+
+\subsection*{Aufgabe 2}
+
+Implementieren sie die dieskrete Fouriertransformation durch FFT, die inverse DFT und die Faltung.\\
+
+\textbf{Lösung:}\\
+\input{Field.lhs}
+\input{FFT.lhs}
+
+\label{LastPage}
+
+\end{document}
