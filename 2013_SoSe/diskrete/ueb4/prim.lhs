@@ -81,9 +81,6 @@ Insertion sort for the next vertices.
 >   return ()
 >       where
 >           handleArgs [dat,start,target]    = do
->               putStrLn dat
->               putStrLn start
->               putStrLn target
 >               f <- load dat
 >               writeFile target $ treeToDot $ prim start $ inputToGraph f
 >               return ()
