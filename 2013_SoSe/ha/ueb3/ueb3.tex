@@ -36,7 +36,7 @@
 %%
 %% Enviroments for proofs and lemmas
 %%
-\newtheorem{lemma}{\bfseries lemma}
+\newtheorem{lemma}{\bfseries Lemma}
 \newtheorem{claim}{\bfseries claim}
 \newtheorem{theorem}{\bfseries Theorem}
 
@@ -74,7 +74,69 @@ Sei $K$ ein Körper, der eine primitive $k$-te Einheitswurzel mit $k=2^{\lceil \
 
 \textbf{Lösung:}\\
 
-tbd
+Wir schreiben das Polynom als Multiplikation seiner Nullstellen auf.
+\begin{equation}
+    P(x) = \underset{i=0}{\overset{n}{\prod}} (x-z_i)
+\end{equation}
+Dieses Polynom hat genau $z_i$ als seine Nullstellen. Sei nun
+$P_{i}(x) = x-z_i$ eins der einzelpolynome. Dann ist $P(x)$ das Produkt aller $P_i(x)$.
+Von $P_i(x)$ wissen wir nun aber, dass der Koeffizientenvektor $\left( \begin{array}{c}1\\-z_i\end{array}\right)$ ist.
+
+Wir benutzten nun die schnelle Fouriertransformation um aus den $n$ Polynomen $P(x)$ zu bestimmen.
+
+\begin{lstlisting}[language=Pascal, mathescape=true]
+P($P_1$, $...$ , $P_n$)
+for i := 1 to log n
+    for j := 0 to n / 2^(i+1)
+        $P_{j}$ := convulate $P_{2j}$ $P_{2j + 1}$
+return $P_0$
+\end{lstlisting}
+
+Wir multiplizieren je zwei Poylnome miteinander um zur nächsten Ebene zu gelangen. Dies tuen wir, bis wir nur noch ein Polynom
+haben, indem dann alle Multiplziert sein sollten.
+
+\begin{lemma}\label{ha2:ueb3:poly} (Korrektheit)
+    Der Algorithmus $P$ berechnet $P(x) = \prod P_i(x)$ in der Zeit $O(n \log^2 n)$.
+\end{lemma}
+
+\textbf{Beweis \ref{ha2:ueb3:poly}:}\\
+
+Wir multiplizieren pro Runde je zwei Poylnome, wobei wir pro Runde keines doppelt Multiplizieren. Das bedeutet nach $k$ Runden
+haben wir noch $\frac{n}{2^k}$ Polynome übrig. Also is, wie im Algorithmus korrekt angegeben, nach $k=\log n$ Runden nur noch
+ein Polynom übrig. Nun gilt, dass in Runde $k$ im $0 \leq i \leq \frac{n}{2^k}$ ten Polynom 
+\begin{equation*}
+    P_i(x) = \underset{j=0}{\overset{2^k}{\prod}} P_{i\cdot 2^k+j}(x)
+\end{equation*}
+steht.
+Induktion über $k$.
+\begin{description}
+    \item[\bfseries I.A.] $k = 0$.\\
+        Zu Beginn steht in $P_i(x) = P_{i\cdot 2^0 + 0}(x)$.
+    \item[\bfseries I.S.] $k \leadsto k+1$.\\
+        Nach Induktionvorraussetzung 
+        haben wir $P_{2i}(x) = \underset{j=0}{\overset{2^k}{\prod}} P_{2i\cdot 2^k + j}(x)$ und
+        $P_{2i+1}(x) = \underset{j=0}{\overset{2^k}{\prod}} P_{(2i+1)\cdot 2^k + j}(x)$.
+        Multiplizieren wir beide, so erhalten wir
+        $P_{2i}(x) = \underset{j=0}{\overset{2^{k+1}}{\prod}} P_{2i\cdot 2^{k+1} + j}(x)$.
+\end{description}
+
+Nun wissen wir, dass wir zu Beginn Polynome in Runde $k$ vom Grad $2^k$ auf Grad $2^{k+1}$ wechseln. Da wir nun einen Körper $K$
+mit primitiver $k$er Einheitswurzel $\omega$ mit $k=2^{\left\lceil \log (n+1)\right\rceil}$ haben, wissen wir, dass wir auf jedenfall genug
+Einheitswurzeln für jede Runde haben um die schnelle Fouriertransformation auszuführen.
+Wie gezeigt ist ist $\omega^2$ eine $\frac{k}{2}$te primitive Einheitswurzel. Demnach können wir in Runde $i$ $\omega^{2i}$ benutzen um eine $i+1$ te Einheitswurzel
+zu erhalten. (Da es sich bei $k$ um eine Zweierpotenz handelte, ist die Operation wohldefiniert für Einheitswurzeln)\\
+
+Die konvolution über die schnelle Fouriertransformation hat, wie in der Vorlesung gezeigt, eine Laufzeit von $O(n)$. Sei $c\cdot n$ die Laufzeit für eine Multiplikation
+von Zwei polynomen vom Grad $\frac{n}{2}$ (das resultierende Polynom hat Grad $n$).
+Dann müssen wir in Runde $i$ $\frac{n}{2^i}$ Polynome mit Grad $2^{i-1}$ Multiplizieren.
+\begin{equation*}\begin{split}
+    T(n) &= \overset{\log n}{\underset{i=1}{\sum}} c \cdot 2^i \cdot \frac{n}{2^i}\\
+        &= \overset{\log n}{\underset{i=1}{\sum}} c \cdot n\\
+        &= cn \overset{\log n}{\underset{i=1}{\sum}} 1\\
+        &= cn \log^2 n\\
+        &= O(n \log^2 n)
+\end{split}\end{equation*}
+\mbox{}\hfill $\square$
 
 
 \subsection*{Aufgabe 2}
@@ -84,6 +146,26 @@ Implementieren sie die dieskrete Fouriertransformation durch FFT, die inverse DF
 \textbf{Lösung:}\\
 \input{Field.lhs}
 \input{FFT.lhs}
+
+\textbf{Test:}\\
+Unser letzter Test
+liegt noch in den Variablen $a,b,w$ und kann mit \emph{ghci}
+einfach ausgeführt werden.
+\begin{lstlisting}
+> ghci FFT.lhs
+...
+>let a = expandTo 8 (Z 0 17) [Z 2 17, Z 3 17, Z 5 17]
+>let b = expandTo 8 (Z 0 17) [Z 3 17, Z 2 17, Z 7 17]
+>let w = Z 2 17
+> convulate w a b
+[6, 13, 1, 14, 1, 0, 0, 0]
+> a
+[2, 3, 5, 0, 0, 0, 0, 0]
+> dft w $ fft w a
+[2, 3, 5, 0, 0, 0, 0, 0]
+\end{lstlisting}
+
+Wobei wir überprüft haben, dass $2$ in $\mathbb{Z}_{17}$ eine $8$te primitive Einheitswurzel ist.
 
 \label{LastPage}
 
