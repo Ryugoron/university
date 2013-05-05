@@ -114,9 +114,12 @@ Nun wird $w$ in der nächsten Breitensuche-Iteration gefunden und es ist $Q = Q'
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection*{Aufgabe 4}
 \begin{enumerate}[i)]
-\item Breitensuche: Im schlimmsten Fall wird jede Kante und jeder Knoten besucht, also beträgt die Laufzeit $O(|V| + |E|)$.
-\item Prim: $O(|E| \log |V|)$ für die Implementierung mit Prioritätswarteschlange (Heap) und einer Adjazenzliste.
+\item Breitensuche: Initiales Färben aller Knoten: $|V|-1$ mal $O(1)$-Kosten. Jeder Knoten wird einmal in die Warteschlange hinzugefügt und entfernt, jeweils mit konstanten Kosten. Jede Eintrag in den Adjazenzlisten wird einmal durchlaufen (mit konstanten Kosten), also insgesamt $\Theta(|E|)$ viele. Damit beträgt die Laufzeit $O(|V| + |E|)$.
+\item Prim: $O(|E| \log |V|)$ für die Implementierung mit Prioritätswarteschlange (Heap) und einer Adjazenzliste. Es wird $|V|$ mal das Minimum aus der Warteschlange entfernt, das geht jeweils in $O(\log |V|)$ Zeit. Anschließend wird über die Adjazenzlisten iteriert und die Kosten (Entfernung) aktualisiert, das geht jeweils in $O(\log |V|)$, insgesamt also $O(|E| \log |V|)$. Damit ergibt sich eine Laufzeit von $O(|V| \log |V| + |E| \log |V|) = O(|E| \log |V|)$.
 \end{enumerate}
+
+\subsection*{Aufgabe 5}
+Siehe E-Mail.
 
 \label{LastPage}
 
