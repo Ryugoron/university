@@ -1,0 +1,123 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm]{geometry} 
+\usepackage{babel}
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc} 
+\usepackage{ae} 
+\usepackage{amssymb} 
+\usepackage{algpseudocode}
+\usepackage{algorithm}
+\usepackage{amsmath}
+\usepackage{amsthm} 
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{paralist}
+\usepackage{tabularx}
+\usepackage{tikz}
+\usetikzlibrary{arrows,automata}
+\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[C]{Diskrete Mathematik}
+\fancyhead[L]{Übung 3}
+\fancyhead[R]{SoSe 2013}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage \hspace{1px} of \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\setlength{\parindent}{0pt} 
+\setlength{\headheight}{0pt}
+\newcommand\mdoubleplus{\ensuremath{\mathbin{+\mkern-10mu+}}}
+\date{}
+\title{Übung 4}
+\author{B. Sc. Max Wisniewski, B. Sc. Alexander Steen}
+\newcommand{\argmin}{\text{argmin}}
+\newcommand{\argmax}{\text{argmax}}
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+%%
+%% Enviroments for proofs and lemmas
+%%
+\newtheorem{lemma}{\bfseries Claim}
+
+\begin{document}
+
+\lstset{language=Pascal, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2, mathescape=true}
+
+\renewcommand{\figurename}{Figure}
+
+\maketitle
+\thispagestyle{fancy}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Aufgabe 1
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Aufgabe 1.}
+Wir betrachten folgende Algorithmus als ''dualen Greedyalgorithmus'':
+\begin{algorithmic}[1]
+\Require Graph $G = ([n],E)$ zusammenhängend, $c \in \mathbb{R}^n$
+\Ensure $T^* = ([n], E^*) \in \argmin_{T \in T_G} c(T)$
+\State $E^* \gets E$
+\While{$|E^*| > n-1$}
+  \State wähle $e \in \argmax_{e \in E^*} c_e$, sodass $e$ keine Brücke
+  \State $E^* \gets E^* \setminus \{e \}$
+\EndWhile
+\end{algorithmic}
+Terminierung: Der Algorithmus terminiert, da jeder Baum mit $n$ Knoten genau $n-1$ Kanten besitzt und
+pro Iteration genau eine Kante entfernt wird. \\
+Korrektheit: 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Aufgabe 2
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Aufgabe 2.}
+Idee: Fasse am Anfang jeden Knoten des Eingabegraphen als eigene Zusammenhangskomponente auf und verschmelze diese nach und nach, bis die Anzahl der Zusammenhangskomponenten nicht mehr sinken kann.
+Bei dem Verschmelzen werden maximale Kanten zuerst gewählt. Im schlimmsten Fall müssen $n-1$ Verschmelzungen durchgeführt werden (dann ist der Graph zusammenhängend und der Output ist ein MST).
+
+Damit ergibt sich folgender Algorithmus:
+\begin{algorithmic}[1]
+\Require Graph $G = ([n],E)$, $c \in \mathbb{R}^E$
+\Ensure Wald $W = ([n], E^*) \in \argmax_{W \in W_G} c(W)$
+\State $U_i \gets \{ i\}, E_i \gets \emptyset, T_i = (U_i, E_i), i \in [n]$
+\For{$k = 1,\ldots,n-1$}
+\State wähle $U_i \neq \emptyset$, sodass $\delta(U_i) \neq \emptyset$
+\State wähle $e_i = u_i v_i \in \argmax_{e \in \delta (U_i)} c_e$
+\State bestimme $j: v_i \in U_j$
+\State $U_i \gets U_i \cup U_j$, $E_i \gets E_i \cup E_j \cup \{u_iv_i \}$, $T_i \gets (U_i, E_i)$
+\State $U_j \gets \emptyset$, $E_j \gets \emptyset$, $T_j \gets (U_j, E_j)$.
+\EndFor
+\State $E^* \gets \bigcup E_i$, $W \gets ([n], E^*)$
+\end{algorithmic}
+
+Korrektheit folgt aus Satz 4.4 für jede einzelne Zusammenhangskomponente $E_i \neq \emptyset$ von $G$, also jeweils $F = E_i$, $U = U_i$, $e = e_i$ für $k = 1,\ldots,n-1$ und $E_i \neq \emptyset$.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Aufgabe 3
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Aufgabe 3}
+Sei $G = (V,E)$ Graph und $T$ ein aufspannender BFS-Baum zur Wurzel $v \in V$. Sei $w \in V$ ein Knoten und $P$ ein vw-Weg in $G$ und $Q$ der eindeutige vw-Weg in $T$. Zz. $|E(Q)| \leq |E(P)|$. \\
+
+\textbf{Beweis} durch Induktion über $n := dist(v,w)$ \\
+\textbf{I.A.} $n = 1$ \\
+Da $v$ und $w$ inzident, wurde $w$ in der ersten Iteration der Breitensuche gefunden. Also ist $|E(Q)| = 1 \leq |E(W)|$ für jeden vw-Weg $W$ in $G$. \\
+
+\textbf{I.S.} $n-1 \rightsquigarrow n$ \\
+Sei $Q = v,u_1,\ldots,u_j,w$ für $j \geq 1$ der eindeutig bestimmte $vw$-Weg in $T$.
+Für den Weg $Q' = v,u_1,\ldots,u_j$ in $T$ gilt nach I.V. $n-1 = |E(Q')| \leq |E(W')|$ für jeden $vu_j$-Weg $W'$ in $G$.
+Nun wird $w$ in der nächsten Breitensuche-Iteration gefunden und es ist $Q = Q'w$ und damit $|E(Q')|+1 =|E(Q)| = n  \leq |E(W)|$ für jeden $vw$-Weg $W$ in $G$.
+\mbox{} \hfill $\square$
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Aufgabe 4
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Aufgabe 4}
+\begin{enumerate}[i)]
+\item Breitensuche: Im schlimmsten Fall wird jede Kante und jeder Knoten besucht, also beträgt die Laufzeit $O(|V| + |E|)$.
+\item Prim: $O(|E| \log |V|)$ für die Implementierung mit Prioritätswarteschlange (Heap) und einer Adjazenzliste.
+\end{enumerate}
+
+\label{LastPage}
+
+\end{document}
