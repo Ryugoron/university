@@ -19,6 +19,7 @@
 *.o
 *.so
 *.eps
+*.pdf
 
 # Packages #
 ############
