@@ -1,0 +1,191 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm]{geometry} 
+\usepackage{babel}
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc} 
+\usepackage{ae} 
+\usepackage{amssymb} 
+\usepackage{amsmath}
+\usepackage{amsthm} 
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{paralist}
+
+\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[C]{Höhere Algorithmik}
+\fancyhead[L]{Übungsblatt Nr. 4}
+\fancyhead[R]{SoSe 2013}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage \hspace{1px} of \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\setlength{\parindent}{0pt} 
+\setlength{\headheight}{0pt}
+
+\date{}
+\title{Übungsblatt Nr. 4}
+\author{Max Wisniewski, Alexander Steen}
+
+
+%%
+%% Enviroments for proofs and lemmas
+%%
+\newtheorem{lemma}{\bfseries Lemma}
+\newtheorem{claim}{\bfseries claim}
+\newtheorem{theorem}{\bfseries Theorem}
+
+\begin{document}
+
+\renewcommand{\figurename}{Figure}
+\maketitle
+\thispagestyle{fancy}
+
+\subsection*{Aufgabe 1}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%      Aufgabe 1
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection*{(a)}
+
+Schreiben Sie den Pseudocode für die Schulmethode zum Berechnen der Quadratwurzel von einer Binärzahl, die den ganzzahligen Anteil berechnet.\\
+
+\textbf{Lösung:}\\
+
+Wir betrachten unsere eingegebene Zahl $n$ als liste von Bits $n=b_{k-1}...b_0$, wobei $k < \log n$ die Länge der Binärdarstellung ist.
+
+\begin{lstlisting}
+root([]bit b){
+    akt := 0
+    k := length(b)
+    rest := mod k 2 = 0 ? b[k]<<1 + b[k-1] : b[k]
+    k := mod k 2 = 0 ? k-2 : k-1
+    do{
+        if (rest < akt<<1 + 1){
+            akt := akt<<1
+            rest := rest<<2 + b[k]<<1 + b[k-1]
+            k := k - 2
+        } else {
+            akt := akt<<1 + 1
+            rest := (rest-akt)<<2 + b[k]<<1 +b[k-1]
+            k := k - 2
+        }
+    }until {k < 0}
+    return akt 
+}
+\end{lstlisting}
+
+In dieser Darstellung ist (\lstinline|x<<k|) ein Linksshift von $x$ um $k$ Stellen, was in $k$ Schritten gehen sollte und $+1$ auf ein verschobenes
+Polynom ändert nur die letzte Stelle (da diese vorher 0 war) geht also in einem Schritt.\\
+
+\subsubsection*{(b)}
+
+Die in \emph{(a)} gezeigt Funktion berechnet den ganzzahligen Anteil der Quadratwurzel einer Zahl $n$.\\
+
+\textbf{Beweis:}\\
+
+tbd
+
+\subsubsection*{(c)}
+
+Bestimmen Sie asymptotisch die Zahl der Binäroperationen des Algorithmuses für $n$ Bitzahlen.\\
+
+\textbf{Lösung:}\\
+
+tbd
+%%%%%%%%%%%%%%%%%%%%%%%%%
+%%      Aufgabe 2
+%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Aufgabe 2}
+
+Bei der Newton-Iteration zuer Bestimmung der Reziproken $\frac{1}{a}$ sei der Fehler zum korrekten Wert nach $i$ Schritten $\varepsilon_i$. Geben Sie eine Abschätzung von $\varepsilon_{i+1}$ durch $\varepsilon_i$ an.
+
+Was folgt als Bedingung für den Startwert $x_0$, damit das Verfahren konvergiert?\\
+
+\textbf{Lösung:}\\
+
+Wir berechnen den nächsten Wert nach Newtoniteration durch
+\begin{equation}\label{ha:ueb4:newtonit}
+    x_{i+1} = 2x_i - ax_i^2.
+\end{equation}
+
+Der Fehler wird beschrieben durch
+\begin{equation}\label{ha:ueb4:newtonerror}
+    \varepsilon_i = \left| x_i - \frac{1}{a} \right|,
+\end{equation} wobei $a \not= 0$ gilt da wir nur
+diese Werte invertieren können.
+
+Stellen wir nun den aposteriori Fehlerabschätzer auf so erhalten wir
+für $\varepsilon_{i+1}$.
+
+\begin{equation}\label{ha:ueb4:aposteriori}\begin{array}{rcl}
+    \varepsilon_{i+1} &\stackrel{(\ref{ha:ueb4:newtonerror})}{=}&
+        \left| \frac{1}{a} - x_{i+1} \right|\\
+    &\stackrel{(\ref{ha:ueb4:newtonit})}{=}&
+        \left| ax_i^2 - 2x_i + \frac{1}{a} \right|\\
+    &\stackrel{\text{Binomie}}{=}&
+        \left| a \left( x_i - \frac{1}{a} \right)^2 \right|\\
+    &=& |a| \cdot \varepsilon_i^2
+\end{array}\end{equation}
+
+Nun müssen wir untersuchen, wann $(\varepsilon_i)_{i\in \mathbb{N}}$ gegen $0$ konvergiert. 
+Dazu muss $(\varepsilon_i)$ zunächst streng monoton fallen.
+\begin{equation}\label{ha:ueb4:monoton} \begin{array}{lrcl}
+    &\varepsilon_{i+1} &<& \varepsilon_i \\
+    \stackrel{(\ref{ha:ueb4:aposteriori})}{\Leftrightarrow}&
+         \left| a \right| \varepsilon_i &<& \varepsilon_i\\
+    \Leftrightarrow& \varepsilon_i &<& \left| \frac{1}{a} \right|
+\end{array}\end{equation}
+
+Da es sich um eine geometrische Folge handelt, wird sie nun so gegen 0 konvergieren.
+Müssen wir uns nur noch um $x_0$ kümmern, damit $\varepsilon_0$ klein genug ist.
+\begin{equation}\label{ha:ueb4:start}\begin{split}
+    \varepsilon_0 < \left| \frac{1}{a} \right|\\
+    \Leftrightarrow \left| x_0 - \frac{1}{a} \right| < \left| \frac{1}{a} \right|\\
+\end{split}\end{equation}
+
+Da der Fehler in jedem Schritt sinkt, können wir durch eine Exponentialsuche den Startwert in $O(\log a)$ iterationen finden.
+
+\subsection*{Aufgabe 3}
+
+\subsubsection*{(a)}
+
+Bestimmen Sie die Iterationsvorschrift, wenn man die Bestimmung der Quadratwurzel mittels Newton-Iteration auf Multiplikation
+und Division zurück.\\
+
+\textbf{Lösung:}\\
+
+Wir wollen die Nullstelle der Funktion
+\begin{equation}
+    f(x) = x^2 - a,
+\end{equation}
+da in der Nulstelle
+\begin{equation*}\begin{split}
+    0 &= x^2 - a\\
+    a &= x^2
+\end{split}\end{equation*}
+was genau die Definition der Wurzel ist.\\
+
+Die Iteration ergbit die Folgende Rekursion.
+\begin{equation}\begin{split}
+    x_{i+1} &= x_i - \frac{f(x_i)}{f'(x_i)}\\
+    \Rightarrow x_{i+1} &= x_i - \frac{x_i^2 - a}{2x_i}\\
+    \Rightarrow x_{i+1} &= \frac{1}{2} (x_i + \frac{a}{x_i})
+\end{split}\end{equation}
+
+\subsubsection*{(b)}
+
+Führen Sie die selbe Analyse wie bei \emph{Aufgabe 2} aus.\\
+
+\textbf{Lösung:}\\
+
+tbd
+
+\label{LastPage}
+
+\end{document}
