@@ -1,0 +1,99 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm]{geometry} 
+\usepackage{babel}
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc} 
+\usepackage{ae} 
+\usepackage{amssymb} 
+\usepackage{amsmath}
+\usepackage{amsthm} 
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{enumerate}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{paralist}
+
+\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[C]{Numerik I}
+\fancyhead[L]{Übung 3}
+\fancyhead[R]{SoSe 2013}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage \hspace{1px} of \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\setlength{\parindent}{0pt} 
+\setlength{\headheight}{0pt}
+
+\date{}
+\title{Übung 3}
+\author{Max Wisniewski, Alexander Steen}
+
+
+%%
+%% Enviroments for proofs and lemmas
+%%
+\newtheorem{lemma}{\bfseries Claim}
+
+\begin{document}
+
+\lstset{language=Pascal, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2, mathescape=true}
+
+\renewcommand{\figurename}{Figure}
+
+\maketitle
+\thispagestyle{fancy}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Aufgabe 1 %%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Aufgabe 1}
+Sei $X$ ein Prähilbertraum und $P: X \to X$ linear. Z.z: Folgende drei Aussagen sind äquivalent
+\begin{enumerate}[(a)]
+\item $(x-Px,y) = 0$, für alle $x \in X$, $y \in R(P)$ 
+\item $P^2 = P$ und $(Px,y) = (x,Py)$, für alle $x,y \in X$ 
+\item $P^2 = P$ und $\|P\| \leq 1$
+\end{enumerate}
+\textbf{Beweis} durch Ringschluss:\\
+(a) $\Rightarrow$ (b) \\
+asd \\
+(b) $\Rightarrow$ (c) \\
+P selbstadjungiert und $P^2 = P$ => P diagonalisierbar (reell), durch $P^2 = p$ folgt ew = 0 od. 1 => nach basiswechsel bla ,kann nicht mehr werden. \\
+(c) $\Rightarrow$ (a) \\
+asd 
+\mbox{} \hfill $\square$
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Aufgabe 2 %%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Aufgabe 2}
+Seien $w: [0,1] \to \mathbb{R}$, mit $w(x) := - \ln x$ und $(u,v)$ definiert durch
+$$ (u,v) := \int_0^1 w(x)u(x)v(x) \, dx $$
+Dann ergeben sich die Orthogonalpolynome $v_0,v_1,v_2$ vom Grad 0,1,2 (respektive) durch Anwendung
+des Gram-Schmidt-Verfahrens wie folgt: \\
+
+Wähle $\{w_0, w_1, w_2\}$ mit $w_i = x^i$ als Basis des $P_2$.
+\begin{enumerate}
+\item $v_0 := w_0 = 1$ 
+\item $v_1 = w_1 - \frac{(v_0,w_1)}{(v_0,v_0)} v_0 = x - \frac{\int_0^1 - x \cdot \ln x \, dx}{\int_0^1 - \ln x \, dx} x
+           = x - \frac{1}{4} x = \frac{3}{4}x$
+\item $v_2 = w_2 - \frac{(v_1,w_2)}{(v_1,v_1)} v_1
+           = \frac{3}{4} \left( x^2 - \frac{\int_0^1 - \frac{3}{4}x^3 \ln x \, dx }{ \int_0^1 - \frac{9}{16}x^2\ln x \, dx} x \right)
+           = \frac{3}{4} \left(x^2 - \frac{\frac{3}{64}}{\frac{625}{10000}} x\right)
+           = \frac{3}{4} \left(x^2 - \frac{3}{4} x\right) = \frac{3}{4}x^2 - \frac{9}{16}x$
+\end{enumerate}
+
+Also ergibt sich $\{1,\frac{3}{4}x,\frac{3}{4}x^2 - \frac{9}{16}x \}$ als Orthogonalbasis.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Aufgabe 3 %%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Aufgabe 3}
+
+
+
+\label{LastPage}
+\end{document}
