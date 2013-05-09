@@ -60,7 +60,41 @@ Sei $X$ ein Prähilbertraum und $P: X \to X$ linear. Z.z: Folgende drei Aussagen
 \end{enumerate}
 \textbf{Beweis} durch Ringschluss:\\
 (a) $\Rightarrow$ (b) \\
-asd \\
+
+Wir zeigen zunächst den ersten Teil.\\
+Sei $x \in X$ beliebig aber fest.
+\begin{equation*}\begin{array}{rl}
+& \left\langle Px - P^2 x, Px - P^2 x \right\rangle\\
+\stackrel{\text{Bilinear}}{=}&
+    \left\langle Px - P^2 x, Px \right\rangle - \left\langle Px - P^2 x, P^2 x\right\rangle\\
+\stackrel{Px \in X\text{ a)}}{=}&
+    0 - 0 = 0
+\end{array}\end{equation*}
+
+Da $\left\langle . \right\rangle$ ein Skalarprodukt ist, kann nur
+\begin{equation*}\begin{split}
+    Px - P^2 x &= 0\\
+    Px      &= P^2 x
+\end{split}\end{equation*}
+und somit muss $P = P^2$ gelten.\\
+
+Zum zweiten Teil:
+Seien $x, y \in X$, dann gilt nach a)
+\begin{equation*}\begin{array}{crcl}
+& \left\langle x - Px, Py \right\rangle &=& 0\\
+\Leftrightarrow &
+\left\langle x , Py \right\rangle - \left\langle Px, Py \right\rangle &=& 0\\
+\Leftrightarrow &
+\left\langle x, Py \right\rangle &=& \left\langle Px, Py + y - y \right\rangle\\
+\Leftrightarrow &
+\left\langle x , Py \right\rangle &=&
+\left\langle Px, y \right\rangle + \left\langle Px, Py - y \right\rangle\\
+\stackrel{\left\langle y - Py, Px \right\rangle = 0}{\Leftrightarrow}&
+\left\langle x , Py \right\rangle &=& \left\langle Px , y \right\rangle
+\end{array}\end{equation*}
+
+Somit haben wir diesen Teil durch zweifache Anwendung der Vorraussetzung erreicht.
+
 (b) $\Rightarrow$ (c) \\
 P selbstadjungiert und $P^2 = P$ => P diagonalisierbar (reell), durch $P^2 = p$ folgt ew = 0 od. 1 => nach basiswechsel bla ,kann nicht mehr werden. \\
 (c) $\Rightarrow$ (a) \\
