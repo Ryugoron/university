@@ -58,16 +58,16 @@ Sei $X$ ein Prähilbertraum und $P: X \to X$ linear. Z.z: Folgende drei Aussagen
 \item $P^2 = P$ und $(Px,y) = (x,Py)$, für alle $x,y \in X$ 
 \item $P^2 = P$ und $\|P\| \leq 1$
 \end{enumerate}
-\textbf{Beweis} durch Ringschluss:\\
-(a) $\Rightarrow$ (b) \\
-
+\textbf{Beweis}:\\
+(a) $\Leftrightarrow$ (b): \\
+(i) "$\Rightarrow$": \\
 Wir zeigen zunächst den ersten Teil.\\
 Sei $x \in X$ beliebig aber fest.
 \begin{equation*}\begin{array}{rl}
 & \left\langle Px - P^2 x, Px - P^2 x \right\rangle\\
 \stackrel{\text{Bilinear}}{=}&
     \left\langle Px - P^2 x, Px \right\rangle - \left\langle Px - P^2 x, P^2 x\right\rangle\\
-\stackrel{Px \in X\text{ a)}}{=}&
+\stackrel{Px \in X\text{, Vor.}}{=}&
     0 - 0 = 0
 \end{array}\end{equation*}
 
@@ -93,13 +93,30 @@ Seien $x, y \in X$, dann gilt nach a)
 \left\langle x , Py \right\rangle &=& \left\langle Px , y \right\rangle
 \end{array}\end{equation*}
 
-Somit haben wir diesen Teil durch zweifache Anwendung der Vorraussetzung erreicht.
+Somit haben wir diesen Teil durch zweifache Anwendung der Vorraussetzung erreicht. \\
+(ii) "$\Leftarrow$": \\
+Es gelte $P^2 = P$ und $P$ selbstadjungiert. Dann gilt für $y = Pa$, für ein $a \in X$:
+\begin{equation*}\begin{split}
+(x-Px,y) &= (x,Pa) - (Px,Pa) \\
+      &\stackrel{P^2 = P}{=} (x,P^2 a) - (Px,Pa) \\
+      &\stackrel{P \text{ selbstadj.}}{=} (Px, Pa) - (Px,Pa) = 0
+\end{split}\end{equation*}
+(b) $\Leftrightarrow$ (c): \\
+(i) "$\Rightarrow$": \\
+Da $P^2 = P$ und $P$ selbstadjungiert (also $P = P^t$) folgt $P = PP = P P^t$. Also ist $P$ symmetrisch und damit (reell) diagonalisierbar. Sei $B$ die Basis aus Eigenvektoren sodass
+\begin{equation*}
+ P_B = \left(\begin{array}{cccc}
+      \lambda_1 & 0 & \hdots & 0\\
+      0 & \lambda_2 & \hdots & \vdots \\
+      \vdots & \vdots & \vdots & \vdots \\
+      0 & 0 & \hdots & \lambda_n
+      \end{array} \right)
+\end{equation*}
+wobei $\lambda_i$ die Eigenwerte von $P$ sind.
+Wegen $P^2 = P$ ist $\lambda_i \in \{0,1 \}$. Also ist
+$\| Px \| \leq \|x\|$ und dadurch auch $\|P \| \leq 1$.
 
-(b) $\Rightarrow$ (c) \\
-P selbstadjungiert und $P^2 = P$ => P diagonalisierbar (reell), durch $P^2 = p$ folgt ew = 0 od. 1 => nach basiswechsel bla ,kann nicht mehr werden. \\
-(c) $\Rightarrow$ (a) \\
-asd 
-\mbox{} \hfill $\square$
+(ii) "$\Leftarrow$": Gute Frage ;)\\
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Aufgabe 2 %%%%%%%%%%%%%%%%
@@ -126,7 +143,11 @@ Also ergibt sich $\{1,\frac{3}{4}x,\frac{3}{4}x^2 - \frac{9}{16}x \}$ als Orthog
 %% Aufgabe 3 %%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection*{Aufgabe 3}
-
+Sei $h := x_{i+1} - x_i = \frac{1}{n}$ der Abstand des Gitters.
+\begin{enumerate}[a)]
+\item Es gilt $(\varphi_i,\varphi_j) = 0$ für $|i - j| \geq 2$. Allerdings ist $(\varphi_i,\varphi_{i+1}) = \frac{1}{6}h = \frac{1}{6n}$, für $i = 0,\ldots,n-1$ bzw. $(\varphi_{i-1},\varphi_i) = \frac{1}{6n}$, für $i = 1,\ldots,n$. Also ist die Knotenbasis nicht orthogonal.
+Beim Rest haben wir leider keine Ahnung was gemacht werden soll :D
+\end{enumerate}
 
 
 \label{LastPage}
