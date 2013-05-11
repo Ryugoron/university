@@ -1,0 +1,80 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm]{geometry} 
+\usepackage{babel}
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc} 
+\usepackage{ae} 
+\usepackage{amssymb} 
+\usepackage{algpseudocode}
+\usepackage{algorithm}
+\usepackage{amsmath}
+\usepackage{amsthm} 
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{paralist}
+\usepackage{tabularx}
+\usepackage{tikz}
+\usetikzlibrary{arrows,automata}
+\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[C]{Diskrete Mathematik}
+\fancyhead[L]{Übung 5}
+\fancyhead[R]{SoSe 2013}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage \hspace{1px} of \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\setlength{\parindent}{0pt} 
+\setlength{\headheight}{0pt}
+\newcommand\mdoubleplus{\ensuremath{\mathbin{+\mkern-10mu+}}}
+\date{}
+\title{Übung 5}
+\author{Max Wisniewski, Alexander Steen}
+\newcommand{\argmin}{\text{argmin}}
+\newcommand{\argmax}{\text{argmax}}
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+\newcommand{\code}[1]{\langle {#1} \rangle}
+\newcommand{\Z}{\mathbb{Z}}
+%%
+%% Enviroments for proofs and lemmas
+%%
+\newtheorem{lemma}{\bfseries Claim}
+
+\begin{document}
+
+\lstset{language=Pascal, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2, mathescape=true}
+
+\renewcommand{\figurename}{Figure}
+
+\maketitle
+\thispagestyle{fancy}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Aufgabe 1
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Aufgabe 1.}
+\begin{enumerate}[a)]
+\item Zu zeigen: $\forall a,b \in \Z: \, \code{ab} \leq \code{a} + \code{b}$ 
+\begin{equation*}
+ \code{ab} \leq \log(|ab| + 1)+2 \leq (\log(|a|+1)+1) + (\log(|b|+1)+1) \leq \code{a} + \code{b}
+\end{equation*}
+\item Zu zeigen: $\forall A \in \Z^{n \times n}: \code{\det A} \leq \code{A} - n^2 + 1$ \\
+\item Zu zeigen: $\forall k \in \Z: k \leq 2^{\code{k}}$ \\
+\begin{equation*}
+2^{\code{k}} \geq 2^{\log(|k| + 1)} \geq 2^{\log(|k|)} = |k| \geq k
+\end{equation*}
+\end{enumerate}
+\subsection*{Aufgabe 2.}
+\subsection*{Aufgabe 3.}
+\subsection*{Aufgabe 4.}
+
+
+\label{LastPage}
+
+\end{document}
