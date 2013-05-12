@@ -57,31 +57,27 @@ Schreiben Sie den Pseudocode für die Schulmethode zum Berechnen der Quadratwurz
 
 \textbf{Lösung:}\\
 
-Wir betrachten unsere eingegebene Zahl $n$ als liste von Bits $n=b_{k-1}...b_0$, wobei $k < \log n$ die Länge der Binärdarstellung ist.
+Wir betrachten unsere eingegebene Zahl $n$ als liste von Bits $n=b_k...b_0$, wobei $k < \log n$ die Länge der Binärdarstellung ist.
+Wir betrachten nur Zahlen mit geradzahliger Anzahl von Stellen. Sonst müsste die Zahl von mit einer führenden $0$ ergänzt werden.
 
-\begin{lstlisting}
-root([]bit b){
+\begin{lstlisting}[frame=single]
+root([]bit b)
     akt := 0
     k := length(b)
-    rest := mod k 2 = 0 ? b[k]<<1 + b[k-1] : b[k]
-    k := mod k 2 = 0 ? k-2 : k-1
-    do{
-        if (rest < akt<<1 + 1){
-            akt := akt<<1
-            rest := rest<<2 + b[k]<<1 + b[k-1]
-            k := k - 2
-        } else {
-            akt := akt<<1 + 1
-            rest := (rest-akt)<<2 + b[k]<<1 +b[k-1]
-            k := k - 2
-        }
-    }until {k < 0}
-    return akt 
-}
+    rest := 0
+    while( k >= 0 )
+        rest := rest<<2 + b[k]<<1 + b[k-1]
+        if (rest < akt << 1 + 1)
+            akt := akt << 1
+        else
+            akt := akt << 1 + 1
+            rest := rest - akt
+        k := k - 2
+    return akt
 \end{lstlisting}
 
-In dieser Darstellung ist (\lstinline|x<<k|) ein Linksshift von $x$ um $k$ Stellen, was in $k$ Schritten gehen sollte und $+1$ auf ein verschobenes
-Polynom ändert nur die letzte Stelle (da diese vorher 0 war) geht also in einem Schritt.\\
+In dieser Darstellung ist (\lstinline|x<<k|) ein Linksshift von $x$ um $k$ Stellen, was in $k$ Schritten gehen sollte und $k+1$ auf ein verschobenes
+Polynom ändert nur die letzte Stelle (da diese vorher 0 war) geht also in einem Schritt. Sollte $k<0$ sein, soll der Wert von $x$ zurückgegeben werden.\\
 
 \subsubsection*{(b)}
 
@@ -89,15 +85,62 @@ Die in \emph{(a)} gezeigt Funktion berechnet den ganzzahligen Anteil der Quadrat
 
 \textbf{Beweis:}\\
 
-tbd
+Wir zeigen, dass
+\begin{equation}
+    n = \left(\textit{akt}^2 + \textit{rest} \right) << k + b_{k} ... b_0 \land rest < akt
+\end{equation}
+eine Invariante des Programmes ist. Daraus folgt direkt, dass bei einer Quadratzahl
+am Ende 
+\begin{equation}
+   n = \left(\textit{akt}^2 + 0 \right) + 0 = \textit{akt}^2 
+\end{equation}
+ist und in \lstinline|akt| das Ergebnis steht. Sollte $n$ keine Quadratzahl sein, so wissen wir
+das in $rest$ eine Zahl steht, die kleiner ist als $akt$ und kann daher als Rest des Quadratwurzel ziehens gelten.\\
 
+Der Beweis dieses Programmes ist nunmehr fleißarbeit, da der Hoare Kalkül und insbesondere der wlp Transformator uns automatisch
+die Lösung bestimmen kann.
+
+Der Beweiser wird am Anfang der Schleife zwei Optionen haben,
+wenn $rest<<2 + b[k]<<1 + b[k-1] < akt << 1 + 1$,
+dann ist
+\begin{equation*}\begin{split}
+    n &= ((\textit{akt} << 1)^2 + \textit{rest}<<2 + b[k]<<1 + b[k-1])<< (k-2) + b_{k-2} ... b_0\\
+    &= (\textit{akt}^2 << 2 + \textit{rest}<<2 + b[k] << 1 + b[k-1]) << (k-2) + b_{k-2} ... b_0\\
+    &= ((\textit{akt}^2 + \textit{rest})<<2)<<(k-2) + (b[k]<<1)<<(k-2) + (b[k-1])<<(k-2)\\
+    & + b_{k-2}...b_0\\
+    &= (\textit{akt}^2 + \textit{rest})<<k + b_{k}b_{k-1}b_{k-2}...b_0
+\end{split}\end{equation*}
+und im anderen Fall ist
+\begin{equation*}\begin{split}
+    n &= ((\textit{akt} << 1 + 1)^2 + (\textit{rest}-\textit{akt})<<2 + b[k]<<1 + b[k-1])<<(k-2) + b_{k-3}...b_0\\
+    &= (((\textit{akt}<<1)^2 + 2(\textit{akt}<<1) + 1) + (\textit{rest}-(\textit{akt}<<1 + 1))<<2 + b[k]<<1 + b[k-1])<<(k-2)\\
+    & + b_{k-3}...b_0\\
+    &= (\textit{akt}^2 + \textit{rest})<<k + b_k ... b_0 + (\textit{akt}<<2 + 2 - (\textit{akt}<<3 + 4))\\
+    &\stackrel{\text{Why}}{=} (\textit{akt}^2 + \textit{res})<<k + b_k ... b_0
+\end{split}\end{equation*}
+
+Der zweite Teil der Invariante ist leicht zu zeigen, da wir vom Rest immer wieder $akt$ abziehen. Daher kann, wenn $rest < akt$ vorher galt,
+danach auch nur wieder $rest<akt$ gelten. Zu Begin ist die Invariante erfüllt, da $akt = rest = 0$ gesetzt ist und damit
+$n = b_k ... b_0$ ist, was nach Defintion stimmt.
+\mbox{} \hfill $\square$
 \subsubsection*{(c)}
 
 Bestimmen Sie asymptotisch die Zahl der Binäroperationen des Algorithmuses für $n$ Bitzahlen.\\
 
 \textbf{Lösung:}\\
 
-tbd
+Gehen wir davon aus, das ein Shift eine Operation von konstanter Laufzeit ist, so
+haben wir in Runde $i$ eine Zahl $akt$ mit $i$ Stellen. Da $rest < akt$ hat auch $rest$ weniger als $i$ Stellen.
+Wir haben bei $akt$ $i$ Stellen, da wir in jeder Runde um eins shiften und hinten eine 1 anhängen. Da nach einem Shift
+die letzte Stelle 0 ist, dauert die addition einer eins konstante Zeit.
+Der Vergleich, ob $rest<<2 +b[k] + b[k-1] <  akt << 1 + 1$ dauert daher $i$ Schritte (lexikographisch vergleichen).
+Die gesammte Laufzeit beträgt daher
+\begin{equation}\begin{split}
+    T(k) &= \overset{k}{\underset{i=1}{\sum}} c \cdot i\\
+        &= c \overset{\frac{k}{2}}{\underset{i=1}{\sum}} i\\
+        &= O (k^2)
+\end{split}\end{equation}
+und damit ist die Laufzeit von der schulmethode quadratisch in der Anzahl der Stellen.
 %%%%%%%%%%%%%%%%%%%%%%%%%
 %%      Aufgabe 2
 %%%%%%%%%%%%%%%%%%%%%%%%
@@ -138,7 +181,7 @@ Dazu muss $(\varepsilon_i)$ zunächst streng monoton fallen.
 \begin{equation}\label{ha:ueb4:monoton} \begin{array}{lrcl}
     &\varepsilon_{i+1} &<& \varepsilon_i \\
     \stackrel{(\ref{ha:ueb4:aposteriori})}{\Leftrightarrow}&
-         \left| a \right| \varepsilon_i &<& \varepsilon_i\\
+         \left| a \right| \varepsilon_i^2 &<& \varepsilon_i\\
     \Leftrightarrow& \varepsilon_i &<& \left| \frac{1}{a} \right|
 \end{array}\end{equation}
 
@@ -149,7 +192,9 @@ Müssen wir uns nur noch um $x_0$ kümmern, damit $\varepsilon_0$ klein genug is
     \Leftrightarrow \left| x_0 - \frac{1}{a} \right| < \left| \frac{1}{a} \right|\\
 \end{split}\end{equation}
 
-Da der Fehler in jedem Schritt sinkt, können wir durch eine Exponentialsuche den Startwert in $O(\log a)$ iterationen finden.
+Wir können nun mit $a$ multiplizieren und so ein leichtes Argument finden. Falls
+$a>0$ ist, dann muss $\left| ax_0 - 1 \right| < 1$ und falls $a<0$ ist, dann muss
+$\left| ax_0 - 1\right| > 1$ sein.
 
 \subsection*{Aufgabe 3}
 
@@ -172,7 +217,7 @@ da in der Nulstelle
 was genau die Definition der Wurzel ist.\\
 
 Die Iteration ergbit die Folgende Rekursion.
-\begin{equation}\begin{split}
+\begin{equation}\begin{split}\label{ha:ueb4:quadit}
     x_{i+1} &= x_i - \frac{f(x_i)}{f'(x_i)}\\
     \Rightarrow x_{i+1} &= x_i - \frac{x_i^2 - a}{2x_i}\\
     \Rightarrow x_{i+1} &= \frac{1}{2} (x_i + \frac{a}{x_i})
@@ -184,7 +229,13 @@ Führen Sie die selbe Analyse wie bei \emph{Aufgabe 2} aus.\\
 
 \textbf{Lösung:}\\
 
-tbd
+Wir sind nun wieder am Fehler interessiert. Dazu lösen wir wiederum auf.
+
+\begin{equation}\begin{split}
+    \varepsilon_{i+1} &\stackrel{\text{Fehler}}{=} \left| x_{i+1} - \sqrt{a} \right|\\
+    &\stackrel{(\ref{ha:ueb4:quadit})}{=} \left| \frac{x_i}{2} + \frac{a}{2x_i} - \sqrt{a} \right|\\
+    &\stackrel{\text{Binomie}}{=} \left| \left( \frac{\sqrt{a}}{bla}\right)^2 \right| 
+\end{split}\end{equation}
 
 \label{LastPage}
 
