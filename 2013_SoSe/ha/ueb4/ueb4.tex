@@ -233,7 +233,7 @@ Wir sind nun wieder am Fehler $\varepsilon_i$ im $i$-ten Rekursionsschritt inter
 Der Fehler $\varepsilon_i$ ist gegeben durch
 
 \begin{equation}
-\varepsilon_i := |x_i - \sqrt{a}| \stackrel{\varepsilon_i \geq 0}{=} x_i - \sqrt{a}
+\varepsilon_i := |x_i - \sqrt{a}| \stackrel{x_i - \sqrt{a} \geq 0}{=} x_i - \sqrt{a}
 \end{equation}
 
 und entspricht wegen $x_i = \varepsilon_i + \sqrt{a}$
@@ -249,6 +249,8 @@ Also folgt als Abschätzung
   &\stackrel{(12)}{=} \frac{1}{2} \frac{\varepsilon_i^2}{\sqrt{a} + \varepsilon_i} \\
   &\; \leq \frac{1}{2} \min \{\varepsilon_i^2, \varepsilon_i \}
 \end{split}\end{equation}
+
+Da diese Abschätzung vom Startwert unabhängig ist, können wir jeden Startwert $x_0 > 0$ wählen. 
 
 %\begin{equation}\begin{split}
 %    \varepsilon_{i+1} &\stackrel{\text{Fehler}}{=} \left| x_{i+1} - \sqrt{a} \right|\\
