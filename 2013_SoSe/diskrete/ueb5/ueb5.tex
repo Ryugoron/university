@@ -70,7 +70,17 @@
 \begin{enumerate}[a)]
 \item Z.z. \textsc{Clique} ist NP-vollständig \\
 (1) \textsc{Clique} $\in$ NP \\
+Als Zeuge wird die Menge der Knoten $\{v_1,\ldots,v_k \} \subseteq V $ in der Clique genutzt. Dann kann in $O(k^2)$ Zeit überprüft werden (Adjazenzmatrix), ob es sich um eine Clique in $G$ handelt.\\
 (2) \textsc{Independent Set} $\preceq$ \textsc{Clique} \\
+Die Reduktion ist gegeben durch
+$$ f: (G, k) \mapsto (G^*, k)$$
+wobei $G^* = (V, V^2 \setminus E)$ den zu $G = (V,E)$ komplementären Graphen bezeichnet. \\
+Z.z. $(G,k) \in $ \textsc{Independent Set} $\Leftrightarrow f(G,k) \in $ \textsc{Clique}\\
+"$\Rightarrow$": Sei $(G,k) \in$ \textsc{Independent Set}.
+Dann ex. $U \subseteq V$, mit $|U| = k$ und $U$ stabile Menge, also $\forall u_1, u_2 \in U: (u_1,u_2) \notin E$. Damit gilt dann $\forall u_1, u_2 \in U: (u_1,u_2) \in V^2 \setminus E$. Also ist $f(G,k) \in$ \textsc{Clique}. \\
+"$\Leftarrow$": Sei $(G,k) \notin$ \textsc{Independent Set}.
+asd asd
+\mbox{} \hfill $\square$
 \item Z.z. \textsc{Longest Path} ist NP-vollständig \\
 (1) \textsc{Longest Path} $\in$ NP \\
 (2) \textsc{Hamiltonian Path} $\preceq$ \textsc{Longest Path} \\
@@ -79,6 +89,7 @@
 (2) \textsc{3-SAT} $\preceq$ \textsc{Exact Cover} \\
 \end{enumerate}
 \subsection*{Aufgabe 3.}
+
 \subsection*{Aufgabe 4.}
 
 
