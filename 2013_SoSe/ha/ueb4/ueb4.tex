@@ -58,7 +58,7 @@ Schreiben Sie den Pseudocode für die Schulmethode zum Berechnen der Quadratwurz
 \textbf{Lösung:}\\
 
 Wir betrachten unsere eingegebene Zahl $n$ als liste von Bits $n=b_k...b_0$, wobei $k < \log n$ die Länge der Binärdarstellung ist.
-Wir betrachten nur Zahlen mit geradzahliger Anzahl von Stellen. Sonst müsste die Zahl von mit einer führenden $0$ ergänzt werden.
+Wir betrachten nur Zahlen mit gerader Anzahl von Stellen. Sonst müsste die Zahl von mit einer führenden $0$ ergänzt werden.
 
 \begin{lstlisting}[frame=single]
 root([]bit b)
@@ -89,7 +89,7 @@ Wir zeigen, dass
 \begin{equation}
     n = \left(\textit{akt}^2 + \textit{rest} \right) << k + b_{k} ... b_0 \land rest < akt
 \end{equation}
-eine Invariante des Programmes ist. Daraus folgt direkt, dass bei einer Quadratzahl
+eine Invariante des Programms ist. Daraus folgt direkt, dass bei einer Quadratzahl
 am Ende 
 \begin{equation}
    n = \left(\textit{akt}^2 + 0 \right) + 0 = \textit{akt}^2 
@@ -97,7 +97,7 @@ am Ende
 ist und in \lstinline|akt| das Ergebnis steht. Sollte $n$ keine Quadratzahl sein, so wissen wir
 das in $rest$ eine Zahl steht, die kleiner ist als $akt$ und kann daher als Rest des Quadratwurzel ziehens gelten.\\
 
-Der Beweis dieses Programmes ist nunmehr fleißarbeit, da der Hoare Kalkül und insbesondere der wlp Transformator uns automatisch
+Der Beweis dieses Programms ist nunmehr Fleißarbeit, da der Hoare-Kalkül und insbesondere der wlp-Transformator uns automatisch
 die Lösung bestimmen kann.
 
 Der Beweiser wird am Anfang der Schleife zwei Optionen haben,
@@ -120,12 +120,12 @@ und im anderen Fall ist
 \end{split}\end{equation*}
 
 Der zweite Teil der Invariante ist leicht zu zeigen, da wir vom Rest immer wieder $akt$ abziehen. Daher kann, wenn $rest < akt$ vorher galt,
-danach auch nur wieder $rest<akt$ gelten. Zu Begin ist die Invariante erfüllt, da $akt = rest = 0$ gesetzt ist und damit
-$n = b_k ... b_0$ ist, was nach Defintion stimmt.
+danach auch nur wieder $rest<akt$ gelten. Zu Beginn ist die Invariante erfüllt, da $akt = rest = 0$ gesetzt ist und damit
+$n = b_k ... b_0$ ist, was nach Definition stimmt.
 \mbox{} \hfill $\square$
 \subsubsection*{(c)}
 
-Bestimmen Sie asymptotisch die Zahl der Binäroperationen des Algorithmuses für $n$ Bitzahlen.\\
+Bestimmen Sie asymptotisch die Zahl der Binäroperationen des Algorithmus für $n$ Bitzahlen.\\
 
 \textbf{Lösung:}\\
 
@@ -134,19 +134,19 @@ haben wir in Runde $i$ eine Zahl $akt$ mit $i$ Stellen. Da $rest < akt$ hat auch
 Wir haben bei $akt$ $i$ Stellen, da wir in jeder Runde um eins shiften und hinten eine 1 anhängen. Da nach einem Shift
 die letzte Stelle 0 ist, dauert die addition einer eins konstante Zeit.
 Der Vergleich, ob $rest<<2 +b[k] + b[k-1] <  akt << 1 + 1$ dauert daher $i$ Schritte (lexikographisch vergleichen).
-Die gesammte Laufzeit beträgt daher
+Die gesamte Laufzeit beträgt daher
 \begin{equation}\begin{split}
     T(k) &= \overset{k}{\underset{i=1}{\sum}} c \cdot i\\
         &= c \overset{\frac{k}{2}}{\underset{i=1}{\sum}} i\\
         &= O (k^2)
 \end{split}\end{equation}
-und damit ist die Laufzeit von der schulmethode quadratisch in der Anzahl der Stellen.
+und damit ist die Laufzeit von der Schulmethode quadratisch in der Anzahl der Stellen.
 %%%%%%%%%%%%%%%%%%%%%%%%%
 %%      Aufgabe 2
 %%%%%%%%%%%%%%%%%%%%%%%%
 \subsection*{Aufgabe 2}
 
-Bei der Newton-Iteration zuer Bestimmung der Reziproken $\frac{1}{a}$ sei der Fehler zum korrekten Wert nach $i$ Schritten $\varepsilon_i$. Geben Sie eine Abschätzung von $\varepsilon_{i+1}$ durch $\varepsilon_i$ an.
+Bei der Newton-Iteration zur Bestimmung der Reziproken $\frac{1}{a}$ sei der Fehler zum korrekten Wert nach $i$ Schritten $\varepsilon_i$. Geben Sie eine Abschätzung von $\varepsilon_{i+1}$ durch $\varepsilon_i$ an.
 
 Was folgt als Bedingung für den Startwert $x_0$, damit das Verfahren konvergiert?\\
 
@@ -209,14 +209,14 @@ Wir wollen die Nullstelle der Funktion
 \begin{equation}
     f(x) = x^2 - a,
 \end{equation}
-da in der Nulstelle
+da in der Nullstelle
 \begin{equation*}\begin{split}
     0 &= x^2 - a\\
     a &= x^2
 \end{split}\end{equation*}
 was genau die Definition der Wurzel ist.\\
 
-Die Iteration ergbit die Folgende Rekursion.
+Die Iteration ergibt die Folgende Rekursion.
 \begin{equation}\begin{split}\label{ha:ueb4:quadit}
     x_{i+1} &= x_i - \frac{f(x_i)}{f'(x_i)}\\
     \Rightarrow x_{i+1} &= x_i - \frac{x_i^2 - a}{2x_i}\\
@@ -229,13 +229,32 @@ Führen Sie die selbe Analyse wie bei \emph{Aufgabe 2} aus.\\
 
 \textbf{Lösung:}\\
 
-Wir sind nun wieder am Fehler interessiert. Dazu lösen wir wiederum auf.
+Wir sind nun wieder am Fehler $\varepsilon_i$ im $i$-ten Rekursionsschritt interessiert. 
+Der Fehler $\varepsilon_i$ ist gegeben durch
+
+\begin{equation}
+\varepsilon_i := |x_i - \sqrt{a}| \stackrel{\varepsilon_i \geq 0}{=} x_i - \sqrt{a}
+\end{equation}
+
+und entspricht wegen $x_i = \varepsilon_i + \sqrt{a}$
+der Rekursionsgleichung
+
+\begin{equation}
+\varepsilon_{i+1} + \sqrt{a} = \frac{1}{2} \left(\varepsilon_i + \sqrt{a} + \frac{a}{\varepsilon_i + \sqrt{a}} \right)
+\end{equation}
+Also folgt als Abschätzung 
 
 \begin{equation}\begin{split}
-    \varepsilon_{i+1} &\stackrel{\text{Fehler}}{=} \left| x_{i+1} - \sqrt{a} \right|\\
-    &\stackrel{(\ref{ha:ueb4:quadit})}{=} \left| \frac{x_i}{2} + \frac{a}{2x_i} - \sqrt{a} \right|\\
-    &\stackrel{\text{Binomie}}{=} \left| \left( \frac{\sqrt{a}}{bla}\right)^2 \right| 
+\varepsilon_{i+1} &=  \frac{1}{2} \left(\varepsilon_i + \sqrt{a} + \frac{a}{\varepsilon_i + \sqrt{a}} \right) - \sqrt{a} \\
+  &\stackrel{(12)}{=} \frac{1}{2} \frac{\varepsilon_i^2}{\sqrt{a} + \varepsilon_i} \\
+  &\; \leq \frac{1}{2} \min \{\varepsilon_i^2, \varepsilon_i \}
 \end{split}\end{equation}
+
+%\begin{equation}\begin{split}
+%    \varepsilon_{i+1} &\stackrel{\text{Fehler}}{=} \left| x_{i+1} - \sqrt{a} \right|\\
+%    &\stackrel{(\ref{ha:ueb4:quadit})}{=} \left| \frac{x_i}{2} + \frac{a}{2x_i} - \sqrt{a} \right|\\
+%    &\stackrel{\text{Binomie}}{=} \left| \left( \frac{\sqrt{a}}{bla}\right)^2 \right| 
+%\end{split}\end{equation}
 
 \label{LastPage}
 
