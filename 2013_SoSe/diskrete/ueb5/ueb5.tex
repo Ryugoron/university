@@ -5,8 +5,6 @@
 \usepackage[T1]{fontenc} 
 \usepackage{ae} 
 \usepackage{amssymb} 
-\usepackage{algpseudocode}
-\usepackage{algorithm}
 \usepackage{amsmath}
 \usepackage{amsthm} 
 \usepackage{graphicx}
@@ -37,8 +35,6 @@
 \author{Max Wisniewski, Alexander Steen}
 \newcommand{\argmin}{\text{argmin}}
 \newcommand{\argmax}{\text{argmax}}
-\renewcommand{\algorithmicrequire}{\textbf{Input:}}
-\renewcommand{\algorithmicensure}{\textbf{Output:}}
 \newcommand{\code}[1]{\langle {#1} \rangle}
 \newcommand{\Z}{\mathbb{Z}}
 %%
@@ -71,6 +67,17 @@
 \end{equation*}
 \end{enumerate}
 \subsection*{Aufgabe 2.}
+\begin{enumerate}[a)]
+\item Z.z. \textsc{Clique} ist NP-vollständig \\
+(1) \textsc{Clique} $\in$ NP \\
+(2) \textsc{Independent Set} $\preceq$ \textsc{Clique} \\
+\item Z.z. \textsc{Longest Path} ist NP-vollständig \\
+(1) \textsc{Longest Path} $\in$ NP \\
+(2) \textsc{Hamiltonian Path} $\preceq$ \textsc{Longest Path} \\
+\item Z.z. \textsc{Partition} ist NP-vollständig \\
+(1) \textsc{Partition} $\in$ NP \\
+(2) \textsc{Xyz} $\preceq$ \textsc{Partition} \\
+\end{enumerate}
 \subsection*{Aufgabe 3.}
 \subsection*{Aufgabe 4.}
 
