@@ -69,6 +69,7 @@
 \subsection*{Aufgabe 2.}
 \begin{enumerate}[a)]
 \item Z.z. \textsc{Clique} ist NP-vollständig \\
+Sei $G = (V,E)$ ein Graph und $k \in \mathbb{N}$.\\
 (1) \textsc{Clique} $\in$ NP \\
 Als Zeuge wird die Menge der Knoten $\{v_1,\ldots,v_k \} \subseteq V $ in der Clique genutzt. Dann kann in $O(k^2)$ Zeit überprüft werden (Adjazenzmatrix), ob es sich um eine Clique in $G$ handelt.\\
 (2) \textsc{Independent Set} $\preceq$ \textsc{Clique} \\
@@ -79,13 +80,22 @@ Z.z. $(G,k) \in $ \textsc{Independent Set} $\Leftrightarrow f(G,k) \in $ \textsc
 "$\Rightarrow$": Sei $(G,k) \in$ \textsc{Independent Set}.
 Dann ex. $U \subseteq V$, mit $|U| = k$ und $U$ stabile Menge, also $\forall u_1, u_2 \in U: (u_1,u_2) \notin E$. Damit gilt dann $\forall u_1, u_2 \in U: (u_1,u_2) \in V^2 \setminus E$. Also ist $f(G,k) \in$ \textsc{Clique}. \\
 "$\Leftarrow$": Sei $(G,k) \notin$ \textsc{Independent Set}.
-asd asd
+Also existiert keine stabile Knotenteilmenge $U \subseteq V$ der Größe $k$. Also gibt es auch keine $k$-Clique im Komplementgraphen $G^*$ und damit $f(G,k) \notin$ \textsc{Clique}.
 \mbox{} \hfill $\square$
 \item Z.z. \textsc{Longest Path} ist NP-vollständig \\
+Sei $G = (V,E)$ ein Graph, $v,w \in V$ und $k \in \mathbb{N}$. \\
 (1) \textsc{Longest Path} $\in$ NP \\
+Als Zeuge für $(G,v,w,k) \in$ \textsc{Longest Path} wird eben die Kantenfolge $e_1,\ldots,e_z \subseteq E$ mit $z \geq k$ und $e_1 = vv' \in E$, $e_z = w'w \in E$ benutzt. Dies kann in linearer Zeit verifiziert werden. \\
 (2) \textsc{Hamiltonian Path} $\preceq$ \textsc{Longest Path} \\
+Die Reduktion ist gegeben durch
+$$ f: G \mapsto (G,v,w,n-1)$$
+wobei $vw \in E$ beliebig und $|V| = n$. \\
+Z.z. $G \in $ \textsc{Hamiltonian Path} $\Leftrightarrow f(G) \in $ \textsc{Longest Path}\\
+HIER FEHLT NOCH DER BEWEIS
 \item Z.z. \textsc{Exact Cover} ist NP-vollständig \\
+Sei $M$ eine endliche Menge und $\mathcal{M} \subseteq 2^M$.\\
 (1) \textsc{Exact Cover} $\in$ NP \\
+Als Zeuge für $(M,\mathcal{M}) \in$ \textsc{Exact Cover} wird die Teilmenge $\mathcal{P} \subseteq \mathcal{M}$ mit $M = \dot\bigcup_{M \in \mathcal{P}} M$ benutzt. Die Überprüfung der Disjunktheit benötigt $O(|\mathcal{P}|^2 \cdot m)$ Schritte, wobei $m = \max_{M \in \mathcal{P}} |M|$, die Überprüfung der Überdeckung dauert $O(|M|)$ Schritte. Insgesamt also polynomielle Zeit in der Eingabe.\\
 (2) \textsc{3-SAT} $\preceq$ \textsc{Exact Cover} \\
 \end{enumerate}
 \subsection*{Aufgabe 3.}
