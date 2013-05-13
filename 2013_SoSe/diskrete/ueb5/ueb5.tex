@@ -86,12 +86,29 @@ Also existiert keine stabile Knotenteilmenge $U \subseteq V$ der Größe $k$. Al
 Sei $G = (V,E)$ ein Graph, $v,w \in V$ und $k \in \mathbb{N}$. \\
 (1) \textsc{Longest Path} $\in$ NP \\
 Als Zeuge für $(G,v,w,k) \in$ \textsc{Longest Path} wird eben die Kantenfolge $e_1,\ldots,e_z \subseteq E$ mit $z \geq k$ und $e_1 = vv' \in E$, $e_z = w'w \in E$ benutzt. Dies kann in linearer Zeit verifiziert werden. \\
-(2) \textsc{Hamiltonian Path} $\preceq$ \textsc{Longest Path} \\
+(2) \textsc{Hamilton Pfad} $\preceq$ \textsc{Longest Path} \\
 Die Reduktion ist gegeben durch
-$$ f: G \mapsto (G,v,w,n-1)$$
-wobei $vw \in E$ beliebig und $|V| = n$. \\
-Z.z. $G \in $ \textsc{Hamiltonian Path} $\Leftrightarrow f(G) \in $ \textsc{Longest Path}\\
-HIER FEHLT NOCH DER BEWEIS
+$$ f: G \mapsto (G',v,w,n+1)$$
+wobei $v,w \not\in V$ in $V'$ liegen und wir fügen Kanten hinzu, so dass $v,w$ zu jedem Knoten in $V$ adjazent sind. \\
+Z.z. $G \in $ \textsc{Hamilton Pfad} $\Leftrightarrow f(G) \in $ \textsc{Longest Path}\\
+\begin{description}
+    \item[$\Rightarrow$]:\\
+        Sei $G(V,E)$ ein Graph der einen Hamiltonpfad entält.
+        Wir wissen, dass ein Hamiltonpfad $|V| = n-1$ Kanten enthält und jeden Knoten besucht.
+        Seien $a,b$ die letzen Knoten auf diesem Pfad. Da $v,w$ zu jedem Knoten adjazent sind, nehmen wir nun $va$ und $bw$ in unseren
+        Pfad auf. Da diese Kanten in $V$ nicht existiert haben können wir nichts doppelt oder kreuzendes wählen.
+        Dieser Pfad von $u$ nach $v$ ist $n+1$ Kanten lang.
+    \item[$\Leftarrow$]:\\
+        Sei $G(V,E)$ ein Graph und $G'(V',E')$ enthält einen Pfad der Länge $n+1$ von $v$ nach $w$.
+        Da wir $v,w$ nicht doppelt anlaufen können sind beide nur an den beiden Enden des Pfades vorhanden.
+        Löschen wir nun die erste Kante $va$ und die letzte Kante $bw$ aus dem Pfad. So erhalten wir einen Pfad der länge
+        $n-1$ der von $a$ nach $b$ führt.
+        Da der Pfad jeden Knoten nur einmal anlaufen sollte, wissen wir, dass auf diesem Pfad $n$ verschiedene Knoten liegen.
+        Dies bedeutet, dass komplett $V$ auf dem Pfad liegt und damit ist es ein Hamilton Pfad.
+\end{description}
+\mbox{}\hfill $\square$
+
+
 \item Z.z. \textsc{Exact Cover} ist NP-vollständig \\
 Sei $M$ eine endliche Menge und $\mathcal{M} \subseteq 2^M$.\\
 (1) \textsc{Exact Cover} $\in$ NP \\
@@ -100,8 +117,101 @@ Als Zeuge für $(M,\mathcal{M}) \in$ \textsc{Exact Cover} wird die Teilmenge $\m
 \end{enumerate}
 \subsection*{Aufgabe 3.}
 
+\subsubsection*{(a)}
+
+Das Unabhängigkeitssystem der stabilen Mengen eines Graphen ist ein Matroid.\\
+
+\textbf{Lösung:}\\
+
+Diese Aussage ist falsch.
+
+Betrachten wir einen einfachen Pfad $v_1v_2v_3$ als Graph. Dann ist $S_1 = \{v_1, v_3 \}$ eine stabile Menge und $S_2 = \{v_2\}$ ist eine stabile
+Menge. Da nun $|S_1| = |S_2| + 1$ ist müsste eine Element in der Differenz liegen $y \in S_1 \setminus S_2$, so dass $S_2 \cup \{y\}$ wieder eine
+stabile Menge ist. Doch die einzigen Möglichkeiten $\{v_1, v_2\}$ und $\{v_2, v_3\}$ sind nicht unabhängig, da zwischen diesen Knoten eine Kante existiert.
+
+\subsubsection*{(b)}
+
+Das Unabhängigkeitssystem der Teilmengen von Hamiltonkreisen eines Graphen ist ein Matroid.\\
+
+\textbf{Lösung:}\\
+
+Diese Aussage ist falsch.
+
+Wir betrachten einen vollständigen Graphen $G(V,E)$. Sei $v \in V$ ein beliebiger Knoten. Sei o.B.d.A. $|V| > 3$.
+Sei $U_1 = \{ (a,v_1), (v_1, b), (b, c) \}$ ein Pfad mit 3 Kanten durch $v_1$ und $U_1 \{ (d, v_1), (v_1, e) \}$
+
+\subsubsection*{(c)}
+
+Sei $G=(V,E)$ ein Graph und $s,t \in V$ zwei verschiedene Knoten. Das System $I := \{ F \subseteq E \, | \, \not \exists \text{st-Weg in } (V,F) \}$
+ist ein Unabhängigkeitssystem.\\
+
+\textbf{Lösung:}\\
+
+Die Aussage stimmt.
+
+Zunächst ist $\emptyset \in I$. Wenn es keine Kanten gibt, dann gibt es insbesondere auch keinen Weg. Daher existiert kein Weg von $s$ nach $t$.
+
+Wenn $X \subset F$ und $F \in I$ ist, dann ist $x \in I$. Gäbe es einen Weg von $s$ nach $t$ in $X$, so besteht dieser nur aus Kanten von $X$.
+Damit müsste der selbe Weg aber auch in $F$ existieren. Damit ist ausgeschlossen, dass ein solcher Weg in $X$ existiert.
+
+\mbox{}\hfill $\square$
+
+\subsubsection*{(d)}
+
+Das Problem, einen minimalen aufspannenden Baum zu finden, lässt sich als ein Maximierungsproblem über einem Matroid formulieren.\\
+
+\textbf{Lösung:}\\
+
+Wir wählen uns das Unabhängigkeitsystem $I = (E, W)$ der Wälder in einem Graphen $G(V,E)$ mit Kantengewichten $\nu \, : \, E \rightarrow \mathbb{R_+}$.
+
+Das Unabhängigkeitsystem ist ein Matroid. Seien $W_1$, $W_2$ Wälder in $G$ mit $|W_1| = |W_2| + 1$.
+Dann existiert in $W_2$ ein Knoten, der noch mit keiner Kanteverbunden ist, der in $W_1$ mit einer Kante verbunden ist.
+Wählen wir diese Kante $y$, dann ist $W_2 \cup \{y \}$ ein Wald, da kein Kreis entstehen kann, da von $y$ keine Kante weg führt.\\
+
+Wir brauchen zunächst das Maximale Kantengewicht $m := 1 + \subset{e \in E}{\max} \nu (e)$ und bauen uns so
+die Gewichtsfunktion für das Maximierungsproblem $c \, : \, E \rightarrow R_+$ mit
+$c(e) = m - \nu (e)$.
+Dann ist liefert uns das Maximierungsproblem
+$$
+    \underset{w \in W}{\max} c(w)
+$$
+einen minimalen aufspannenden Baum, da die vorher minimalsten Kanten das gewicht nun maximieren werden.
+
 \subsection*{Aufgabe 4.}
 
+\begin{description}
+    \item[$a) \Rightarrow b)$]:\\
+        Seien $X,Y \in I$ beliebig, aber fest mit $|X| > |Y|$.\\
+        Es gilt $\exists Z \subseteq X \setminus Y$ mit $|Z| = |X| - |Y|$, so dass
+        $Y \cup Z \in I$.\\
+        Induktion über $|Z|$.
+        \begin{description}
+            \item[I.A.] $|Z| = 1$. Dann ist $|X| = |Y| + 1$ und nach a) existiert ein
+                Element im Schnitt $y \in X \setminus Y$, so dass $Y \cup \{y\} \in I$.
+                Setze $Z = \{ y \}$.
+            \item[I.S.] $|Z| \leadsto |Z|+1$.\\
+                Da $I$ Unabhängiges Mengensystem ist, können wir ein $y \in X \setminus Y$ nehmen
+                und betrachten dann $X' := X \setminus \{y\}$.
+                Nun gilt nach Induktionsvorraussetzung, dass für $X'$ und $Y$ eine Menge $Z'$ existiert
+                mit $Z' \subseteq X' \setminus Y$ und $|Z'| = |X'| - |Y|$.
+                Nun ist $Y' := Y \cup Z' \in I$. Nun lässt sich auf $X$ und $Y'$ wiederum a) anwenden,
+                da nun $|X| = |Y'| + 1$ gilt.
+                Wir nehmen wieder $x \in X \setminus Y'$. Da $x \not\in Z'$ ist, können wir es hinzunehmen.
+                Da $Y' \cup \{x \} \in I$ und $Y' \cup \{x\} = Y \cup Z' \cup \{x\} = Y \cup (Z' \cup \{x\})$
+                können wir $Z := Z' \cup \{x\}$ wählen.
+        \end{description}
+        \mbox{}\hfill$\square$
+    \item[$b) \Rightarrow c)$]:\\
+        Sei $Z \in I$ beliebig, aber fest. Seien $X, Y$ zwei Basen von $Z$.
+        Angenommen $|X| \not= |Y|$, dann ist o.B.d.A. $|X| > |Y|$. Nach b) existiert nun eine Menge
+        $M \subseteq X \setminus Y$ mit $|Z| = |X| - |Y|$ so dass $Z \cup Y \in I$. Da alle Elemente aus $Z \subseteq X$
+        auch aus $Z$ kommen ist $Z \cup Y$ genauso aus Elementen von $Z$ gebildet. $Y$ war also nicht maximal und damit nicht Basis.
+    \item[$c) \Rightarrow a)$]:\\
+        Beweis durch Kontraposition.\\
+        Es existieren zwei Mengen $X,Y \in I$, so dass $|Y| = |X| + 1$ und $\not \exists y \in Y \setminus X \, : \, X \cup \{y\} \in I$.
+        
+        bla
+\end{description}
 
 \label{LastPage}
 
