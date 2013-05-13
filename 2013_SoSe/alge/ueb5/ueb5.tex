@@ -136,16 +136,17 @@ We assume that no two points share the same $x$ - coordinate.
 
 \begin{enumerate}[1.]
     \item Sort the points by $x$ - coordinate.
-    \item Take $p_0 = (x_0, y_0)$ as the point with the smallest $x$ - coordinate.
-    \item Split the points into two sets $P_1 = \{ (x,y) \, | \, y <= y_0 \}$
-        and $P_2 = \{ (x,y) \, | \, y > y_0 \}$.
+    \item Take $p_0$ as the point with the smallest $x$ - coordinate and $p_n$ as the one with
+        the highest $x$-coordinate.
+    \item Split the points into two sets $P_1 = \{ p \in P \, | \, \text{right of or on } \overline{p_0 p_n} \}$
+        and $P_2 = \{ p \in P \, | \, \text{left of } \overline{p_0 p_n} \}$. $p_0$ and $p_n$ should be in there both.
     \item for both sets starting with $p_i = p_0$.
         \begin{enumerate}[a.]
             \item take the next vertex $p_{i+1}$ from the set and add the
                 edge $\overline{p_ip_{i+1}}$.
             \item continue with $p_{i+1}$.
         \end{enumerate}
-    \item Add an edge between the last two vertices from $P_1$ and $P_2$.
+    \item Connect both chains.
 \end{enumerate}
 
 \begin{lemma}\label{alge:ueb5:simp:cor}
@@ -159,10 +160,11 @@ are sorted by $x$-coordinate. A later edge is always right to all previous edges
 an earlier one.
 
 The two chains do not intersect mutually, because the points from $P_1, P_2$ are divided by
-the line $y_0$ and therefor the chains do not cross this line. And at most the chain in $P_1$ can 
-intersect this line.
+the line $\overline{p_0p_n}$ and therefor the chains do not cross this line. And at most the chain in $P_1$ can 
+overlap with this line.
 
-We obtain a polynomial chain with no crossing that is a circle and therefor it is a simple polygon.\\
+We obtain a polynomial chain with no crossing that is a circle and therefor it is a simple polygon, because
+the start end endpoint of both lines equal and we took each point of $P$.
 
 The running time is in $O(n \log n)$.
 Step one runs in $O(n \log n)$ because it sorts the points. The second then can be computed in $O(1)$.
