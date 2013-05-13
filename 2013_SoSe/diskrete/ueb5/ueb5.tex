@@ -60,7 +60,20 @@
 \begin{equation*}
  \code{ab} \leq \log(|ab| + 1)+2 \leq (\log(|a|+1)+1) + (\log(|b|+1)+1) \leq \code{a} + \code{b}
 \end{equation*}
-\item Zu zeigen: $\forall A \in \Z^{n \times n}: \code{\det A} \leq \code{A} - n^2 + 1$ \\
+\item Zu zeigen: $\forall A \in \Z^{n \times n}: \code{\det A} \leq \code{A} - n^2 + 1$
+\begin{equation*}\begin{split}
+\code{\det A} &= \code{\sum_{\sigma \in S_n} {sgn(\sigma) \prod_{i=1}^n a_{i \sigma(i)}}} \\
+ &= \sum_{\sigma \in S_n} \code{{\prod_{i=1}^n a_{i \sigma(i)}}} \\
+  &\stackrel{(a)}{\leq} \sum_{\sigma \in S_n} \sum_{i=1}^n \code{{a_{i \sigma(i)}}} \\
+  &= \sum_{i=1}^n \sum_{j=1}^n \code{a_{ij}} - \sum_{\sigma \notin S_n} \sum_{i=1}^n \code{{a_{i \sigma(i)}}} \\
+  &= \code{A} - \sum_{\sigma \notin S_n} \sum_{i=1}^n \code{{a_{i \sigma(i)}}} \\
+  &\stackrel{(*)}{\leq} \code{A} - \left( \sum_{i=1}^n \sum_{j=1}^n \code{a_{ij}} \right) +1 \\
+  &\stackrel{\code{.} \geq 1}{\leq} \code{A} - \left( \sum_{i=1}^n \sum_{j=1}^n 1 \right) +1 \\
+  &= \code{A} - n^2 + 1
+\end{split}\end{equation*}
+(*) gilt, da wir in $S_n$ über weniger iterieren als in der nächsten Zeile. Wir ergänzen alles
+  und da $S_n \not= \emptyset$ wissen wir, dass wir eins übrigbehalten können. Fügen wir also
+  den Rest hinzu, so erhalten wir etwa die nächste Zeile.
 \item Zu zeigen: $\forall k \in \Z: k \leq 2^{\code{k}}$ \\
 \begin{equation*}
 2^{\code{k}} \geq 2^{\log(|k| + 1)} \geq 2^{\log(|k|)} = |k| \geq k
@@ -114,6 +127,7 @@ Sei $M$ eine endliche Menge und $\mathcal{M} \subseteq 2^M$.\\
 (1) \textsc{Exact Cover} $\in$ NP \\
 Als Zeuge für $(M,\mathcal{M}) \in$ \textsc{Exact Cover} wird die Teilmenge $\mathcal{P} \subseteq \mathcal{M}$ mit $M = \dot\bigcup_{M \in \mathcal{P}} M$ benutzt. Die Überprüfung der Disjunktheit benötigt $O(|\mathcal{P}|^2 \cdot m)$ Schritte, wobei $m = \max_{M \in \mathcal{P}} |M|$, die Überprüfung der Überdeckung dauert $O(|M|)$ Schritte. Insgesamt also polynomielle Zeit in der Eingabe.\\
 (2) \textsc{3-SAT} $\preceq$ \textsc{Exact Cover} \\
+Ziemlich technische Reduktion. Tenor: Es funzt ;)
 \end{enumerate}
 \subsection*{Aufgabe 3.}
 
