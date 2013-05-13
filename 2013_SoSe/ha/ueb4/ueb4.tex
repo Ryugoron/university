@@ -112,12 +112,12 @@ dann ist
 \end{split}\end{equation*}
 und im anderen Fall ist
 \begin{equation*}\begin{split}
-    n &= ((\textit{akt} << 1 + 1)^2 + (\textit{rest}-\textit{akt})<<2 + b[k]<<1 + b[k-1])<<(k-2) + b_{k-3}...b_0\\
+    n &= ((\textit{akt} << 1 + 1)^2 + (\textit{rest}-\textit{akt}<<1 - 1)<<2 + b[k]<<1 + b[k-1])<<(k-2) + b_{k-3}...b_0\\
     &= (((\textit{akt}<<1)^2 + 2(\textit{akt}<<1) + 1) + (\textit{rest}-(\textit{akt}<<1 + 1))<<2 + b[k]<<1 + b[k-1])<<(k-2)\\
     & + b_{k-3}...b_0\\
     &= (\textit{akt}^2 + \textit{rest})<<k + b_k ... b_0 + (\textit{akt}<<2 + 2 - (\textit{akt}<<3 + 4))\\
     &\stackrel{\text{Why}}{=} (\textit{akt}^2 + \textit{res})<<k + b_k ... b_0
-\end{split}\end{equation*}
+\end{split}\end{equation*}\footnote{Da hat sich irgendwo ein Rechenfehler eingeschlichen...}
 
 Der zweite Teil der Invariante ist leicht zu zeigen, da wir vom Rest immer wieder $akt$ abziehen. Daher kann, wenn $rest < akt$ vorher galt,
 danach auch nur wieder $rest<akt$ gelten. Zu Beginn ist die Invariante erfüllt, da $akt = rest = 0$ gesetzt ist und damit
