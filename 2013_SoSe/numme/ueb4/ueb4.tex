@@ -1,0 +1,91 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm]{geometry} 
+\usepackage{babel}
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc} 
+\usepackage{ae} 
+\usepackage{amssymb} 
+\usepackage{amsmath}
+\usepackage{amsthm} 
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{enumerate}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{paralist}
+
+\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[C]{Numerik I}
+\fancyhead[L]{Übung 4}
+\fancyhead[R]{SoSe 2013}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage \hspace{1px} of \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\setlength{\parindent}{0pt} 
+\setlength{\headheight}{0pt}
+
+\date{Tutor : Christina Schulz}
+\title{Übung 4}
+\author{Max Wisniewski, Alexander Steen}
+
+
+%%
+%% Enviroments for proofs and lemmas
+%%
+\newtheorem{lemma}{\bfseries Claim}
+
+\begin{document}
+
+\lstset{language=Pascal, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2, mathescape=true}
+
+\renewcommand{\figurename}{Figure}
+
+\maketitle
+\thispagestyle{fancy}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Aufgabe 1 %%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Aufgabe 1}
+Gegeben ein Gitter $0 = x_0 < x_1 < \ldots < x_m = 2 \pi$ und folgende Bestapproximationsaufgabe:
+
+\begin{equation} \label{eq:1}
+ p \in \mathcal{P}_n: \quad \sum_{i=0}^m {\left(p(x_i) - \sin(x_i) \right))^2} \leq \sum_{i=0}^m {\left(q(x_i) - \sin(x_i) \right))^2} \; \forall q \in \mathcal{P}_n
+\end{equation}
+
+\begin{enumerate}[a)]
+\item Für die Bestapproximationsaufgabe \ref{eq:1} ergibt sich als lineares Ausgleichsproblem:
+\begin{equation}
+\|b - Ax \|_2 \leq \|b - Ay \|_2
+\end{equation}
+mit $b = \left(\sin(x_0),\ldots,\sin(x_m) \right)$ und $A$ der van-der-Monde-Matrix zu den Stützstellen, also
+$$ A = \left( \begin{array}{ccccc} 1 & x_0 & x_0^2 & \ldots & x_0^n \\
+  1 & x_1 & x_1^2 & \ldots & x_1^n \\
+  \vdots & \vdots & \vdots &\vdots & \vdots \\
+  1 & x_m & x_m^2 & \ldots & x_m^n \end{array} \right)$$
+\item 
+\end{enumerate}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Aufgabe 2 %%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Aufgabe 2}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Aufgabe 3 %%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Aufgabe 3}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Aufgabe 4 %%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Aufgabe 4}
+
+
+
+\label{LastPage}
+\end{document}
