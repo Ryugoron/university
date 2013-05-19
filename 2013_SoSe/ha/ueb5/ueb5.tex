@@ -1,0 +1,101 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm]{geometry} 
+\usepackage{babel}
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc} 
+\usepackage{ae} 
+\usepackage{amssymb} 
+\usepackage{amsmath}
+\usepackage{amsthm} 
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{paralist}
+
+\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[C]{Höhere Algorithmik}
+\fancyhead[L]{Übungsblatt Nr. 5}
+\fancyhead[R]{SoSe 2013}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage \hspace{1px} of \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\setlength{\parindent}{0pt} 
+\setlength{\headheight}{0pt}
+
+\date{}
+\title{Übungsblatt Nr. 5}
+\author{Max Wisniewski, Alexander Steen}
+
+
+%%
+%% Enviroments for proofs and lemmas
+%%
+\newtheorem{lemma}{\bfseries Lemma}
+\newtheorem{claim}{\bfseries claim}
+\newtheorem{theorem}{\bfseries Theorem}
+
+\begin{document}
+
+\renewcommand{\figurename}{Figure}
+\maketitle
+\thispagestyle{fancy}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%      Aufgabe 1
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Aufgabe 1}
+
+\textbf{Bezeichner}:\\
+Sei $1 \leq i \leq 4$. Dann bezeichnet \\
+$r_i$ die Anzahl der gebauten Radios in der $i$-ten Woche,\\
+$p_i$ die Anzahl der angestellten Personen in der $i$-ten Woche (es gilt $p_1 = 40$), \\
+$w_i$ die Anzahl der ''bauenden'' Arbeiter in der $i$-ten Woche, \\
+$t_i$ die Anzahl der ausbildenden Arbeiter in der $i$-ten Woche, \\
+$a_i$ die Anzal der neuen Auszubildenden in der $i$-ten Woche. \\
+
+Wir nehmen hierbei an, dass die Angestellten-Bezeichner die Veränderungen der Personalgröße reflektieren; so ist z.B. $p_2 = p_1 + a_1$ (die Auszubildenden wurden also ''übernommen''). \\
+
+\textbf{Gewinnfunktion}: Die Gewinnfunktion~(\ref{eq:gewinn}) ergibt sich aus Umsatz abzüglich Kosten, also als Summe der Erlöse minus die Summe der Personal- und Produktionskosten. 
+
+\begin{equation}\label{eq:gewinn}
+ \underbrace{40r_1 + 36r_2 + 32r_3 + 28r_4}_{Umsatz} - \left(\overbrace{10\sum_i r_i}^{Produktionskosten}
+ + \underbrace{\sum_i 400p_i + 200a_i}_{Personalkosten} \right)
+\end{equation}
+
+\textbf{Nebenbedingungen}: \\
+\begin{tabular}{c|c}
+Bedingung & Erklärung \\
+\hline \hline
+$\sum_{i=1}^4 r_i \leq 20000$ & Nicht mehr als 20000 Radios\\
+$r_i \leq 50w_i$, für $i = 1,\ldots,4$ & Jeder bauende Arbeiter kann max. 50 Radios bauen \\
+$p_i = w_i + t_i$, für $i = 1,\ldots,4$ & Einige Arbeiter bauen, andere bilden aus \\
+$a_i \leq 3 t_i$, für $i = 1,\ldots,4$ & Jeder Ausbildende kann max. 3 Personen einweisen \\
+$p_{i+1} = p_i + a_i$, für $i = 1,2,3$ & Nach einer Woche sind die neuen Mitarbeiter eingearbeitet 
+\end{tabular}
+
+Die Gewinnstrategie sieht nun vor, die Gewinnfunktion~(\ref{eq:gewinn}) zu maximieren
+und dabei die Nebenbedingungen einzuhalten. Dies kann als LP formuliert werden, sollte aber
+eigentlich als Integer-Programm formuliert werden, da die Anzahl von Mitarbeiten etc. keine
+nicht-ganzzahligen Werte haben kann.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%      Aufgabe 2
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Aufgabe 2}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%      Aufgabe 3
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Aufgabe 3}
+
+
+
+
+\label{LastPage}
+\end{document}
