@@ -96,7 +96,7 @@ of $P$ on a line $xp$ for $p \in P$. And no three vertices of $P$ lie on a line.
                 \end{enumerate}
                 \item (Moving right / up)\\
                     Else let $q$ be the next point right of the line 
-                    $\overline{xp_i}$.
+                    $\overline{xp_i}$ in the triangle containing $p_i$.
                     \begin{enumerate}[(i)]
                         \item If $q = p_i$ we move one triangle back in the
                             traversal of the triangulation. (We keep staying at
@@ -105,8 +105,12 @@ of $P$ on a line $xp$ for $p \in P$. And no three vertices of $P$ lie on a line.
                             We take the next vertex $z$ in cw order in
                             the upper triangle.
                             We remove $p_i$ (and decrement $i$ as long
-                            as $p_i$ is right to $\overline{xz}$.
-                            Then we add $z$ as $p_{i+1}$.
+                            as $p_i$ is right to $\overline{xz}$.\\
+                            
+                            If the removed point $p'$ was connected by an edge
+                            in $P$ with $p_i$ we compute the intersection of
+                            $\overline{xz}$ with this edge. We add the intersection
+                            point to the list after $p_i$ and add $z$ as the new $p_{i+1}$.
                         \item Else we set $p_i = q$.
                     \end{enumerate} 
         \end{enumerate}
@@ -185,12 +189,19 @@ we calculate the point in the middle of the line and simply check
 if the radius is smaller then the line to each of these points. Furthermore
 $(x,y)$ has to be on the left of this line. Let $p_{n+1}=p_0$ then we
 formulate both these conditions as linear constraints.
+Für jede der Kanten $\overline{p_ip_{i+1}}$ we can compute the
+normal vector $\overline{n_i}$ in advance and use it in the subjective function.
 
 \begin{equation}\label{alge:ueb6:disklp}\begin{array}{lrclr}
     \text{maximize} & 1 \cdot r + 0 \cdot x + 0 \cdot y\\
-    \text{subject to} & p_i^x & \leq & \\
-                & 
+    \text{subject to} & (x-p_i^x) \cdot n_i^x + (y-p_i^y) \cdot n_i^y & \leq & r & \forall 0 \leq i \leq n\\
+                & (x - p_i^x) \cdot n_i^x + (y-p_i^y) \cdot n_i^y & \geq & 0 & \forall 0 \leq i \leq n
 \end{array}\end{equation}
+
+The first subject assures that the center of the circel has a distance of at most $r$ to the line between $\overline{p_ip_{i+1}}$.
+The second one assures, that the center of the disk is to the left of the line.
+Because only $x,y,r$ are variables the equation is linear.
+(For the standard form we might move the $r$ to the other side).
 
 \label{LastPage}
 
