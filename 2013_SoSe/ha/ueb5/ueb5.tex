@@ -121,9 +121,57 @@ mit den Nebenbed. \\
 %%      Aufgabe 3
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection*{Aufgabe 3}
+\begin{enumerate}[a)]
+\item Zielfunktion unbeschränkt, wenn \\
+(1) $s = 0, t > 0$, oder \\
+(2) $s > 0, t = 0$, oder \\
+(3) $s > 0, t > 0$. \\
+In den ersten beiden Fällen verschwindet ein $x_i$ aus der Nebenbed. und darum kann dieser beliebig wachsen. Im dritten Fall wird für genügend große $x_i$ die Nebenbed. für immer gelten.
+\item Keine zulässige Lösung gibt es, wenn \\
+(1) $s < 0, t < 0$, oder \\
+(2) $s < 0, t = 0$, oder \\
+(3) $s = 0, t < 0$, oder \\
+(4) $s = 0, t = 0$
+\item Mehr als eine optimale Lösung \\
+Wenn es mehr als eine optimale Lösung geben sollte, muss die Gerade $sx_1 + tx_2 = 1$ (Ebenenbegrenzung)) 
+orthogonal zu der Zielfunktion sein. Die Zielfunktion hat Steigung 1, also muss die Gerade
+$sx_1 + tx_2 = 1$ Steigung $-1$ haben. Durch Umformen erhalten wir
+$sx_1 + tx_2 = 1 \Leftrightarrow x_2 = \frac{1}{t} - \frac{s}{t}x_1$ für $t \neq 0$.
 
+Um die Steigung $-1$ zu erhalten muss also $\frac{s}{t} = 1$ gelten, also wenn $s = t$ gilt. Ist $s,t < 0$ gibt es aber nach (b) keine Lösung. Ist $s,t > 0$, so ist nach (a) die Zielfunktion unbeschränkt.\\
+Also kann es nicht mehrere optimale Lösungen geben.
+\item Genau eine optimale Lösung
+In allen anderen Fällen.
 
-
+%s < 0
+%  t < 0
+%    keine zulässige lösung
+%  t = 0
+%    keine zulässige lösung
+%  t > 0
+%    x1 <= 1/s - t*x2/s
+%    x2 >= 1/t - s*x1/t
+%    eine opt
+%    
+%s = 0
+%  t < 0
+%    keine zulässige lösung
+%  t = 0
+%    keine zulässige lösung
+%  t > 0
+%    x2 >= 1/t
+%    x1 beliebig -> zielfunktion unbeschränkt
+%
+%s > 0
+%  t < 0
+%    s*x1 + t*x2 >= 1 ???
+%  t = 0
+%    s*x1 >= 1  <-> x1 >= 1/s, x2 beliebig
+%    zielfunktion unbeschränkt
+%  t > 0
+%    s*x1 + t*x2 >= 1
+%    zielfunktion unbeschränkt
+\end{enumerate}
 
 \label{LastPage}
 \end{document}
