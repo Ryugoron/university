@@ -1,0 +1,198 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm]{geometry} 
+\usepackage{babel}
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc} 
+\usepackage{ae} 
+\usepackage{amssymb} 
+\usepackage{amsmath}
+\usepackage{amsthm} 
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{paralist}
+
+\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[C]{Computational Geometry}
+\fancyhead[L]{Exercise sheet 6}
+\fancyhead[R]{SoSe 2013}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage \hspace{1px} of \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\setlength{\parindent}{0pt} 
+\setlength{\headheight}{0pt}
+
+\date{}
+\title{Exercise sheet 6}
+\author{Max Wisniewski, Alexander Steen}
+
+
+%%
+%% Enviroments for proofs and lemmas
+%%
+\newtheorem{lemma}{\bfseries Claim}
+
+\begin{document}
+
+\lstset{language=Pascal, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2, mathescape=true}
+
+\renewcommand{\figurename}{Figure}
+
+\maketitle
+\thispagestyle{fancy}
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+%% Aufgabe 1 
+%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Problem 1}
+
+Let $P$ be a simple planar polygon with $n$ vertices. Let $x$ be a point inside $P$. The \emph{visible polygon} $\text{vis}_P(x)$ of $x$ is the set of all points $q \in P$ that are \emph{visible} from $x$, i.e., the line segment $xq$ does not intersect the outside of $P$.
+
+\subsubsection*{(a)}
+Draw an interesting example of a simple polygon $P$ and visibility polygons
+for two points in $P$.\\
+
+\textbf{Solution:}\\
+
+\vspace{15cm}
+
+\subsubsection*{(b)}
+Describe the structure of $\text{vis}_P(x)$. What are its vertices and edges?\\
+
+\textbf{Solution:}\\
+
+The \emph{visible polygon} is a simple planar polygon if no vertices of $P$ lie on a line with $x$. $\text{vis}_P$ is enclosed by $P$ and its vertices are
+either vertices of $P$ or a point on an edge of $P$. For each vertex $v$ of $\text{vis}_P$ on an edge of $P$ there exists a vertex $q$ in $P$ such that $v$ lies
+on the line $xq$.
+
+\subsubsection*{(c)}
+Suppose that we have a triangulation $T$ of $P$ available. Given a point $x$ inside $P$, show how to find $\text{vis}_P$ in $O(n)$ time.\\
+
+\textbf{Algorithm:}\\
+
+We assume, that $x$ is in the proper interior of $P$ and that no two vertices
+of $P$ on a line $xp$ for $p \in P$. And no three vertices of $P$ lie on a line.
+
+\begin{enumerate}[1.]
+    \item Find the triangle $T$ that contains $x$.
+    \item Fix one vertex $p_0$ of the triangle $T$.
+    \item loop until $p_{i+1} = p_0$
+        \begin{enumerate}[a.]
+                \item (Descending to new bottom)\\
+                    If edge right to $p_i$ is a diagonal of $P$.
+                \begin{enumerate}[(i)]
+                    \item for the current triangle $T$ test if
+                        two points are on the right of $\overline{xq}$
+                        then take the left subtree. Else the right one.
+                    \item If this subtree does not exist, mark the intersection
+                        of $\overline{xq}$ with the edge of the triangle as
+                        $p_{i+1}$
+                \end{enumerate}
+                \item (Moving right / up)\\
+                    Else let $q$ be the next point right of the line 
+                    $\overline{xp_i}$.
+                    \begin{enumerate}[(i)]
+                        \item If $q = p_i$ we move one triangle back in the
+                            traversal of the triangulation. (We keep staying at
+                            $p_i$ which is also a vertex of the next upper
+                            triangle.)
+                            We take the next vertex $z$ in cw order in
+                            the upper triangle.
+                            We remove $p_i$ (and decrement $i$ as long
+                            as $p_i$ is right to $\overline{xz}$.
+                            Then we add $z$ as $p_{i+1}$.
+                        \item Else we set $p_i = q$.
+                    \end{enumerate} 
+        \end{enumerate}
+\end{enumerate}
+
+\textbf{Correctness:} (Sketch)\\
+
+We traverse the triangulation only, if we have a line of side with $x$
+therefor each point in the new polygon should be visible. On
+the way up, we remove every vertex in $p_i$ that is right
+to the new line. Because we always
+descent if it is possible we should no skip a point.\\
+
+The algorithm works by shooting a ray from $x$ onto some starting direction in $P$. Then it iterates by moving the ray cw around searching for a next point of interest (lighthouse). Until it reaches the starting point.\\
+
+The deleting of the points already reached is important, because a corner
+in the polygon above might block the vision to an already worked part.\\
+This can only happen on the way up, because we keep track of the line of side
+on the way down.\\
+
+The starting point $p_0$ is in $\text{vis}_P$ because it is visible (the
+triangle containing $x$ is convex) and every point behind $p_0$ is not visible.
+Furthermore $p_0$ is a vertex of $\text{vis}_P$ because it cannot lie on a
+line in $P$ due to the general position assumed. Such that the edge in $P$
+to $p_0$ also are contained at least partially (connected to $p_0$) to $\text{vis}_P$.\\
+
+\textbf{Runtime:}\\
+
+To find the triangle takes $O(n)$ time.\\
+We consider each triangle (except the start triangle) three times.
+On on moving down where we make a constant number of steps to check
+if we can still descent.
+
+And on the way up. On the way up we have to delete all non visible points.
+But each added point can only be added/removes once through the algorithm.
+We can have at most one point per edge of $P$ and at most all points in $P$.
+Thefore in total this step takes linear time.\\
+
+The initial triangle can have three children, but it remains the same analysis
+as for the rest.\\
+
+Because we iterate at most over all triangles and do in total a linear
+number of deletions on $p_i$. The algorithm
+runs in $O(n)$ if the triangulation is given.
+
+\subsection*{Problem 2}
+
+Give an example that the deterministic incremental algorithm for two dimensional LP may take $\Omega(n^2)$ time.\\
+
+\textbf{Solution:}\\
+
+\vspace{15cm}
+
+The example was given in the book \emph{Computational Complexity} by \emph{de Berg, et al.}. In each iteration we have to compute the next optimal solution $v_i$ as the intersection of the halfplanes in $H_i$. This takes $O(i)$ time when formulated as a linear program.
+The lines are sorted in a way, that $v_{i-1} \not\in H_i$ as can be seen
+in the picture, but the new $v_i$ always moves up. Therefor it takes
+\begin{equation}\begin{split}
+    T(n) &= \overset{n}{\underset{i=0}{\sum}} O(i)\\
+        &= O(n^2)
+\end{split}\end{equation}
+time to run the deterministic algorithm on this example.
+
+\subsection*{Problem 3}
+Let $P$ be a convex poylgon in the plane. We would like to compute a disk
+of maximum size that is encolsed in $P$. Formulate this problem as a linear
+program.\\
+
+\textbf{Solution:}\\
+
+The size of the disk grows monoton with its radius $r$. Hence we do not have
+to check the size but can rather check the radius of the disk.
+Let $p_0, p_1, ..., p_n$ be the vertices in ccw order of the convex polygon.
+The for each triangle. $(p_i, p_{i+1}, (x,y))$ the radius has to be smaller
+then the normal on $\overline{p_ip_{i+1}}$ and $(x,y)$ To check this
+we calculate the point in the middle of the line and simply check
+if the radius is smaller then the line to each of these points. Furthermore
+$(x,y)$ has to be on the left of this line. Let $p_{n+1}=p_0$ then we
+formulate both these conditions as linear constraints.
+
+\begin{equation}\label{alge:ueb6:disklp}\begin{array}{lrclr}
+    \text{maximize} & 1 \cdot r + 0 \cdot x + 0 \cdot y\\
+    \text{subject to} & p_i^x & \leq & \\
+                & 
+\end{array}\end{equation}
+
+\label{LastPage}
+
+
+\end{document}
