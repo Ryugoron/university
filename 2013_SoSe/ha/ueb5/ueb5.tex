@@ -70,6 +70,7 @@ Wir nehmen hierbei an, dass die Angestellten-Bezeichner die Veränderungen der P
 \end{equation}
 
 \textbf{Nebenbedingungen}: \\
+
 \begin{tabular}{c|c}
 Bedingung & Erklärung \\
 \hline \hline
@@ -77,9 +78,11 @@ $\sum_{i=1}^4 r_i \leq 20000$ & Nicht mehr als 20000 Radios\\
 $r_i \leq 50w_i$, für $i = 1,\ldots,4$ & Jeder bauende Arbeiter kann max. 50 Radios bauen \\
 $p_i = w_i + t_i$, für $i = 1,\ldots,4$ & Einige Arbeiter bauen, andere bilden aus \\
 $a_i \leq 3 t_i$, für $i = 1,\ldots,4$ & Jeder Ausbildende kann max. 3 Personen einweisen \\
-$p_{i+1} = p_i + a_i$, für $i = 1,2,3$ & Nach einer Woche sind die neuen Mitarbeiter eingearbeitet 
+$p_{i+1} = p_i + a_i$, für $i = 1,2,3$ & Nach einer Woche sind die neuen Mitarbeiter eingearbeitet \\
+\hline
+$p_i, r_i, a_i, w_i, t_i \geq 0, i = 1,\ldots,4$ & Vorzeichenbed. 
 \end{tabular}
-
+$\quad$ \\
 Die Gewinnstrategie sieht nun vor, die Gewinnfunktion~(\ref{eq:gewinn}) zu maximieren
 und dabei die Nebenbedingungen einzuhalten. Dies kann als LP formuliert werden, sollte aber
 eigentlich als Integer-Programm formuliert werden, da die Anzahl von Mitarbeiten etc. keine
@@ -88,7 +91,32 @@ nicht-ganzzahligen Werte haben kann.
 %%      Aufgabe 2
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection*{Aufgabe 2}
+\begin{enumerate}[a)]
+\item maximaler Netzwerkfluss als LP \\
+Wir formen unser ungerichtetes Netzwerk $G = (V,E)$ so um, dass wir jede Kante $e$ durch zwei Flusskanten $e^+, e^-$
+ersetzen, die den Fluss in die eine bzw. die andere Richtung beschreiben. Dann führen wir für jede solcher
+gerichteten Kanten eine Variable $x_{e^+}$ (bzw. $x_{e^-}$) ein, die den Betrag des Flusses in die jeweilige 
+Richtung beschreibt. Die Quelle des Netzwerkflusses sei $s$, die Senke sei $t$, die Kapazität sei gegeben durch $c \in \mathbb{R}^{E}$. Bezeichne $\delta^+(v)$ alle ausgehenden Kanten vom Knoten $v$, $\delta^-(v)$ alle eingehenden Kanten von $v$. Dann ist das LP für den max. Fluss gegeben durch:
 
+$$ \max \sum_{e \in \delta^+(s)} x_e - \sum_{e \in \delta^-(s)} x_e$$
+
+Die Nebenbedingungen sind durch die Flussbeschränkung und die Knotenregel gegeben: \\
+(1) $x_{e^+} - x_{e^-} \leq c(e), x_{e^-} - x_{e^+} \leq c(e), \forall e \in E$ -- die Flüsse müssen betragsmäßig kleiner als die Kapazität sein \\
+
+(2) $\sum_{e \in \delta^+(v)} x_e = \sum_{e \in \delta^-(v)} x_e, \forall v \in V \setminus \{s,t\}$ -- in jedem Knoten fließt genausoviel rein wie raus \\
+
+(3) (Vorzeichenbed.) $x_{e^+} \geq 0, x_{e^-} \geq 0$, für alle Kanten $e$.
+
+\item Länge des kürzesten Wegs von $s$ nach $t$ in $G = (V,E)$ gerichtet \\
+Siehe Hinweis aus dem Blatt für die Benennung der Variablen; dann ergibt sich das LP durch: \\
+$ \min x_t $ \\
+mit den Nebenbed. \\
+(1) $x_s = 0$ \\
+(2) $x_u \leq x_v + c(u,v), \forall (u,v) \in E$ und \\
+(3) Vorzeichenbed. $x_u \geq 0, \forall u \in V$. \\
+
+\textbf{Korrektheit}: Yada bla
+\end{enumerate}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%      Aufgabe 3
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
