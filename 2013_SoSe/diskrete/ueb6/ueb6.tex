@@ -126,9 +126,9 @@ Cographisches Matroid.\\
 \textbf{Lösung:}\\
 
 \begin{tabular}{rl}
-    Zirkuitsystem & $\{ C \, | \, C$ Kreis in $G\}$\\
-    Basisystem & Alle Menge, die aus jedem Kreis in $G$ eine Kante nehmen.\\
-    Rang & $r(F) = |E| - n + 1$.
+    Zirkuitsystem & Alle Schnitte von $G$.\\
+    Basisystem & Alle Menge, die aus jedem Kreis in $G$ genau eine Kante nehmen.\\
+    Rang & $r(F) = \left\{ \begin{array}{lr} 0 &, |E|\text{ nicht zusammenhängend}\\ |E| - n + 1 \quad &, sonst \end{array}\right. $.
 \end{tabular}\\
 Der Rang ist wie angegeben, da so noch genau $n-1$ Kanten 
 im Graphen sind, die genau noch einen auspannenden Baum entsprechen.
@@ -145,7 +145,7 @@ Sei $\mathcal{I}$ ein $r$ Uniformes Matroid.\\
     Basissystem & $\mathcal{B} = \left( \begin{array}{c} M \\ r \end{array} \right)$\\
     Rang & $r(V) = \min \{r, |V|\}$
 \end{tabular}\\
-Im Falle der Basis ist der Rang $r$.
+\pagebreak
 
 \subsubsection*{(c)}
 Partitionsmatroid.\\
@@ -157,9 +157,9 @@ ganze Zahlen.\\
 
 \begin{tabular}{rl}
     Zirkuitsystem & $\varrho = \overset{k}{\underset{i=1}{\bigcup}} \{ M' \subset M_i \, | \, |M' \cap M_i| = k_i + 1 \} $\\
-    Basissystem & $\mathcal{B} = \{ M' \subset M_1 \, | \, |M' \cap M_1| = k_1\} \times ... \times \{ M' \subset M_k \, | \, |M' \cap M_k| = k_n $\\
+    Basissystem & $\mathcal{B} = \{ M' \subset M_1 \, | \, |M' \cap M_1| = k_1\} \times ... \times \{ M' \subset M_k \, | \, |M' \cap M_k| = k_n \} $\\
         &wobei hier $\times$ die paarweise Vereinigung der Mengen darstellen soll.\\
-    Rang & $r(M') = \overset{k}{\underset{i=0}{\sum}} k_i$\\
+    Rang & $r(M') = \overset{k}{\underset{i=0}{\sum}} \min \{ k_i , |M' \cap M_i|\}$\\
 \end{tabular}\\
 
 \subsection*{Aufgabe 3.}
@@ -206,13 +206,23 @@ da wir in den einzelnen Matroiden alles außer den Zirkuiten von $\mathcal{I}$
 fehlt. Damit sind nur die Zirkuite nicht im Schnitt und wir erlangen $\mathcal{I}$.
 \mbox{}\hfill$\square$
 
+\pagebreak
+
 \subsection*{Aufgabe 4.}
 Konstruieren Sie ein Worstcase.\\
 
 \textbf{Lösung:}\\
 
-Wir suchen eine Gewichtsminimal Basis für stabile Mengen in eingem Graphen
+Wir suchen eine Gewichtsminimal Basis für ein Matching im Graphen.
 $G = (V,E)$.
+Das Matching ist characterisiert durch
+$\mathcal{I} = (E, \{ E' \subset E \, | \, \forall v \in V \, : \, |\text{adj}(v) \cap E'| \leq 1\} )$.
+Dies ist ein Unabhängigkeitssystem, da
+$\emptyset \in \mathcal{I}$, da jeder Schnitt immer $0$ groß ist.\\
+Falls $U \in \mathcal{I}$, so ist höchstenst eine Kante pro Knoten adjazent. Lassen wir nun Kanten weg $U' \subset U$
+, so ist jeder Schnitt höchstens kleiner.\\
+
+Damit haben wir ein Unabhängigkeitssystem und wir konstruieren ein Beispiel.\\
 
 Sei der Graph gegeben durch das Bild \ref{disk:ueb6:wc}.
 
