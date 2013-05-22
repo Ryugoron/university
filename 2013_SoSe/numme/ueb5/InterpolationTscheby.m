@@ -10,7 +10,7 @@ dist = min(genauigkeit, round((b-a)/n));
 %% Tschebyscheff-Gitter mit 
 stuetzSt = zeros(1,n+1);
 for i = 0:n
-  stuetzSt(i+1) = a + ((b-a)/2) *(cos((2*i+1)/(2*(n+1)) * pi) + 1)
+  stuetzSt(i+1) = a + ((b-a)/2) *(cos((2*i+1)/(2*(n+1)) * pi) + 1);
 end;
 %% Funktionswerte an den Stuetzstellen
 fstuetzSt  = f(stuetzSt);
