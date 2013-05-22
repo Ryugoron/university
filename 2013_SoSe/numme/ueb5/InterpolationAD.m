@@ -4,7 +4,7 @@ a = I(1);
 b = I(2);
 %% Genaugkeit des Plots
 genauigkeit = 0.1;
-dist = min(genauigkeit, ceil((b-a)/n));
+dist = min(genauigkeit, round((b-a)/n));
 
 %% Erstelle Gitter:
 %% Aequidistanter Gitter a = x0 < x1 < ... < xn = b
@@ -17,8 +17,8 @@ fstuetzSt  = f(stuetzSt);
 %% der gewaehlten Genauigkeit
 %% unter Nutzung von Aitken-Neville
 x  = [a:dist:b];
-fx = zeros(1,ceil((b-a)/dist));
-for i = 1:(b-a)/dist
+fx = zeros(1,length(x));
+for i = 1:length(x)
   fx(i) = AitkenNeville(stuetzSt,fstuetzSt,x(i));
 end;
 
