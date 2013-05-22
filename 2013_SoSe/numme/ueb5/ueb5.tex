@@ -1,0 +1,102 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm]{geometry} 
+\usepackage{babel}
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc} 
+\usepackage{ae} 
+\usepackage{amssymb} 
+\usepackage{amsmath}
+\usepackage{amsthm} 
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{enumerate}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{paralist}
+\usepackage{tabularx}
+
+\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[C]{Numerik I}
+\fancyhead[L]{Übung 5}
+\fancyhead[R]{SoSe 2013}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage \hspace{1px} of \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\setlength{\parindent}{0pt} 
+\setlength{\headheight}{0pt}
+
+\date{Tutor : Christina Schulz}
+\title{Übung 5}
+\author{Max Wisniewski, Alexander Steen}
+
+
+%%
+%% Enviroments for proofs and lemmas
+%%
+\newtheorem{lemma}{\bfseries Claim}
+
+\begin{document}
+
+\lstset{language=Pascal, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2, mathescape=true}
+
+\renewcommand{\figurename}{Figure}
+
+\maketitle
+\thispagestyle{fancy}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Aufgabe 1 %%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Aufgabe 1}
+
+Zeigen Sie, dass der Interpolationsoperator
+\begin{equation*}
+    \mathcal{C}[a,b] \ni f \mapsto \varphi (f) = p_n \in \mathcal{P}_n
+\end{equation*}
+eine Projektion ist und die Norm $\| \varphi \|_\infty = \Lambda_n$ hat, wobei
+$$
+    \Lambda_n = \underset{x \in [a,b]}{\max} \overset{n}{\underset{k=0}{\sum}} |L_k(x)|
+$$
+die Lebesque-Konstante ist und $L_k$ die Lagrange-Polyonme bezeichnet.\\
+
+\textbf{Lösung:}\\
+
+tbd
+
+\subsection*{Aufgabe 2}
+
+Betrachte die Funktionsklasse
+\begin{equation*}
+    \mathcal{F} = \{f \in C^{n+1}[-1,1] \, | \, \|f^{(n+1)}\|_\infty \leq (n+1)! \}.
+\end{equation*}
+Für $f \in \mathcal{F}$ bezeichne $p_n(f)$ das Interpolationspolynom $n$-ten Grades zu den Knoten
+$K = \{t_0, ..., t_n \} \subset [-1,1]$.
+
+\subsubsection*{(a)}
+
+Zeigen Sie
+\begin{equation*}
+    \varepsilon_n(K) = \underset{f \in \mathcal{F}}{\sup} |f - p_n(f)| = \| \omega_{n+1} \|_\infty, \omega_{n+1}(t) = (t-t_0)...(t-t_n).
+\end{equation*}
+
+\textbf{Lösung:}\\
+
+tbd
+
+\subsubsection*{(b)}
+
+Zeigen Sie $\varepsilon_n(K) \geq 2^{-n}$ und dass Gleicheit genau dann gilt, wenn $K$ die Menge
+der Tschebyscheff-Knoten ist.\\
+
+\textbf{Lösung:}\\
+
+tbd
+
+
+\label{LastPage}
+\end{document}
