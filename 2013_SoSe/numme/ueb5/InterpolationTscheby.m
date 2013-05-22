@@ -7,9 +7,11 @@ genauigkeit = 0.1;
 dist = min(genauigkeit, round((b-a)/n));
 
 %% Erstelle Gitter:
-%% Aequidistanter Gitter a = x0 < x1 < ... < xn = b
-%% mit Distanz (b-a)/n
-stuetzSt = [a:(b-a)/n:b];
+%% Tschebyscheff-Gitter mit 
+stuetzSt = zeros(1,n+1);
+for i = 0:n
+  stuetzSt(i+1) = a + ((b-a)/2) *(cos((2*i+1)/(2*(n+1)) * pi) + 1)
+end;
 %% Funktionswerte an den Stuetzstellen
 fstuetzSt  = f(stuetzSt);
 
