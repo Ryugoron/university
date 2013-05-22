@@ -166,11 +166,27 @@ First we show that
     &= \underset{f \in \mathcal{F}}{\sup} \| f - p_n(f) \|_\infty\\
     &= \underset{f \in \mathcal{F}}{\sup}
         \underset{x \in [-1,1]}{\sup} | f (x) - p_n(f)(x) |\\
-    &\stackrel{\text{Taylor}}{=} \underset{x \in [-1,1]}{\sup} | T_n(x) + R_n(x) - p_n(T_n(x) + R_n(x)) |\\
-    &\stackrel{\text{linear}}{=} \underset{x \in [-1,1]}{\sup} | T_n(x) - p_n(T_n(x)) + R_n(x) - p_n(R_n(x)) |\\
-    &\stackrel{T_n(x)=p_n(R_n(x))}{=} \underset{x \in [-1,1]}{\sup} | R_n(x) - p_n(R_n(x)) | \\
-    &= \underset{x \in [-1,1]}{\sup} | \frac{f^{(n+1)}(\xi)}{(n+1)!} (x-a)^{n+1} - p_n(\frac{f^{(n+1)}(\xi)}{(n+1)!} (x-a)^{n+1}) |\\
-    &\stackrel{f \in \mathcal{F}}{=} \underset{x \in [-1,1]}{\sup} | (x-a)^{n+1} - p_n((x-a)^{n+1}) |
+    &\stackrel{\text{Taylor}}{=} \underset{f \in \mathcal{F}}{\sup}
+        \underset{x \in [-1,1]}{\sup} | T_n(x) + R_n(x) - p_n(T_n(x) + R_n(x)) |\\
+    &\stackrel{\text{linear}}{=}\underset{f \in \mathcal{F}}{\sup} \underset{x \in [-1,1]}{\sup} | T_n(x) - p_n(T_n(x)) + R_n(x) - p_n(R_n(x)) |\\
+    &\stackrel{T_n(x)=p_n(R_n(x))}{=} \underset{f \in \mathcal{F}}{\sup}\underset{x \in [-1,1]}{\sup} | R_n(x) - p_n(R_n(x)) | \\
+    &= \underset{x \in [-1,1]}{\sup} \underset{f \in \mathcal{F}}{\sup}| \frac{f^{(n+1)}(\xi)}{(n+1)!} (x-a)^{n+1} - p_n(\frac{f^{(n+1)}(\xi)}{(n+1)!} (x-a)^{n+1}) |\\
+    &\stackrel{f \in \mathcal{F}}{=} \underset{x \in [-1,1]}{\sup} | (x-a)^{n+1} - p_n((x-a)^{n+1}) |\\
+    &\stackrel{\text{Lagrange Poylnom}}{=}
+        \underset{x \in [-1,1]}{\sup}
+    \left| (x-a)^{n+1} - \overset{n}{\underset{k=0}{\sum}} y_k L_k(x) \right|\\     
+    &= \underset{x \in [-1,1]}{\sup}
+     \left| (x-a)^{n+1} - 
+    \overset{n}{\underset{k=0}{\sum}} y_k \underset{m \not= k}{\prod}
+    \frac{x - t_m}{t_k - t_m} \right|\\
+    &\stackrel{a = 0 => \sup x=1}{=}
+        \left| 1 - \overset{n}{\underset{k=0}{\sum}} t_k^{n+1}
+        \underset{m \not= k}{\prod} \frac{1 - t_m}{t_k - t_m} \right| \\
+    &= \left| 1 - \overset{n}{\underset{k=0}{\sum}} t_k
+        \underset{m \not= k}{\prod} \frac{t_k(1-t_m)}{t_k - t_m} \right| \\
+    &= \left| 1 - \overset{n}{\underset{k=0}{\sum}} 
+         \right|\\
+    &= \left| 1 - \overset{n}{\underset{k=0}{\sum}}  \right|
 \end{split}\end{equation*}
 
 \subsubsection*{(b)}
