@@ -183,5 +183,154 @@ der Tschebyscheff-Knoten ist.\\
 tbd
 
 
+\subsection*{Aufgabe 3}
+
+
+\subsubsection*{a)}
+\begin{lstlisting}[language=matlab,numbers=left]
+function v = AitkenNeville(x, fx, z)
+% x Stuetzstellen
+% fx Funktionswerte der Stuetzstellen
+% z Auswertungsstelle
+
+% n ist die Anzahl der Stuetzstellen
+n = size(x,2);
+
+% Initialwerte fuer alle p_11
+for i = 1:n,
+    p(i,i) = fx(i);
+end;
+
+% Nach dem Schema von Aitken
+% Berechnung der restlichen Terme
+for i = 1:n,
+    for j = 1:n-i,
+      p(j,j+i) = 1/(x(j+i)-x(j)) * ((z-x(j))*p(j+1,j+i) - (z-x(j+i))*p(j,j+i-1));
+    end;
+end;
+
+% Rueckgabe ist p0n(x)
+v = p(1,n);
+\end{lstlisting}
+\subsubsection*{b)}
+\begin{lstlisting}[language=matlab,numbers=left]
+function [] = InterpolationAD(f,I,n)
+%% Grenzen des Intervalls
+a = I(1);
+b = I(2);
+%% Genaugkeit des Plots
+genauigkeit = 0.1;
+dist = min(genauigkeit, (b-a)/n);
+
+%% Erstelle Gitter:
+%% Aequidistanter Gitter a = x0 < x1 < ... < xn = b
+%% mit Distanz (b-a)/n
+stuetzSt = [a:(b-a)/n:b];
+%% Funktionswerte an den Stuetzstellen
+fstuetzSt  = f(stuetzSt);
+
+%% Erstelle Funktionswerte an allen Stellen
+%% der gewaehlten Genauigkeit
+%% unter Nutzung von Aitken-Neville
+x  = [a:dist:b];
+fx = zeros(1,length(x));
+for i = 1:length(x)
+  fx(i) = AitkenNeville(stuetzSt,fstuetzSt,x(i));
+end;
+
+%% Plot
+plot(x,fx);
+title('Interpolation durch Polynom n-ten Grades');
+xlabel('x');
+ylabel('p(x)');
+\end{lstlisting}
+\subsubsection*{c)}
+\begin{lstlisting}[language=matlab,numbers=left]
+function [] = InterpolationAD(f,I,n)
+%% Grenzen des Intervalls
+a = I(1);
+b = I(2);
+%% Genaugkeit des Plots
+genauigkeit = 0.1;
+dist = min(genauigkeit, (b-a)/n);
+
+%% Erstelle Gitter:
+%% Tschebyscheff-Gitter mit 
+stuetzSt = zeros(1,n+1);
+for i = 0:n
+  stuetzSt(i+1) = a + ((b-a)/2) *(cos((2*i+1)/(2*(n+1)) * pi) + 1);
+end;
+%% Funktionswerte an den Stuetzstellen
+fstuetzSt  = f(stuetzSt);
+
+%% Erstelle Funktionswerte an allen Stellen
+%% der gewaehlten Genauigkeit
+%% unter Nutzung von Aitken-Neville
+x  = [a:dist:b];
+fx = zeros(1,length(x));
+for i = 1:length(x)
+  fx(i) = AitkenNeville(stuetzSt,fstuetzSt,x(i));
+end;
+
+%% Plot
+plot(x,fx);
+title('Interpolation durch Polynom n-ten Grades');
+xlabel('x');
+ylabel('p(x)');
+\end{lstlisting}
+
+\newpage
+\subsubsection*{d)}
+Als Funktionen zum Test wählen wir $x \mapsto \sin(x)$ und $x \mapsto e^x$, jeweils auf dem Intervall $[0,5]$.
+Die Ergebnisse sind für Grad $n = 1,2,4$ folgende:  \\
+
+\textbf{InterpolationAD}:\\
+\begin{tabular}{l|ccc}
+ & $n = 1$ & $n = 2$ & $n = 4$ \\
+\hline
+$\sin(x)$ & & & \\
+& \includegraphics[width=0.3\textwidth]{plot1_1.png} & \includegraphics[width=0.3\textwidth]{plot1_2.png} & \includegraphics[width=0.3\textwidth]{plot1_4.png} \\
+$e^x$ & & & \\
+ & \includegraphics[width=0.3\textwidth]{plot2_1.png} & \includegraphics[width=0.3\textwidth]{plot2_2.png} & \includegraphics[width=0.3\textwidth]{plot2_4.png} \\
+\end{tabular}
+
+\textbf{InterpolationTscheby}:\\
+\begin{tabular}{l|ccc}
+ & $n = 1$ & $n = 2$ & $n = 4$ \\
+\hline
+$\sin(x)$ & & & \\
+ & \includegraphics[width=0.3\textwidth]{plot4_1.png} & \includegraphics[width=0.3\textwidth]{plot4_2.png} & \includegraphics[width=0.3\textwidth]{plot4_4.png} \\
+$e^x$ & & & \\
+ & \includegraphics[width=0.3\textwidth]{plot3_1.png} & \includegraphics[width=0.3\textwidth]{plot3_2.png} & \includegraphics[width=0.3\textwidth]{plot3_4.png} \\
+\end{tabular}
+
+\newpage
+\subsubsection*{e)}
+\textbf{InterpolationAD}: Interpolation mit äquidistantem Gitter ergibt folgende Polynome bzw. Fehlerplots:
+
+\begin{tabular}{l|cc}
+n & Interpolationsplot & Fehlerplot \\
+\hline
+5 & & \\
+ & \includegraphics[width=0.45\textwidth]{plotE_AD_5.png} & \includegraphics[width=0.45\textwidth]{fehlerAD_5.png} \\ 
+25 & & \\
+& \includegraphics[width=0.45\textwidth]{plotE_AD_25.png} & \includegraphics[width=0.45\textwidth]{fehlerAD_25.png} \\
+100 & & \\
+& \includegraphics[width=0.45\textwidth]{plotE_AD_100.png} & \includegraphics[width=0.45\textwidth]{fehlerAD_100.png} \\
+\end{tabular}
+
+\newpage
+\textbf{InterpolationTscheby}: Interpolation mit Tschebyschef-Knoten ergibt folgende Polynome bzw. Fehlerplots:
+
+\begin{tabular}{l|cc}
+n & Interpolationsplot & Fehlerplot \\
+\hline
+5 & & \\
+ & \includegraphics[width=0.45\textwidth]{plotE_TSCHEBY_5.png} & \includegraphics[width=0.45\textwidth]{fehlerTscheby_5.png} \\ 
+25 & & \\
+& \includegraphics[width=0.45\textwidth]{plotE_TSCHEBY_25.png} & \includegraphics[width=0.45\textwidth]{fehlerTscheby_25.png} \\
+100 & & \\
+& \includegraphics[width=0.45\textwidth]{plotE_TSCHEBY_100.png} & \includegraphics[width=0.45\textwidth]{fehlerTscheby_100.png} \\
+\end{tabular}
 \label{LastPage}
 \end{document}
