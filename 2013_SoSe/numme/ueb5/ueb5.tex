@@ -66,7 +66,82 @@ die Lebesque-Konstante ist und $L_k$ die Lagrange-Polyonme bezeichnet.\\
 
 \textbf{Lösung:}\\
 
-tbd
+Seien $a \leq x_0 < ... < x_n \leq b$ die Stützstellen für den Interpolationsoperator.
+Dann zeigen wir zunächst, dass für $f,g \in \mathcal{C}[a,b]$ und $\lambda \in \mathbb{R}$
+\begin{equation*}
+    \varphi(\lambda (f + g)) = \lambda (\varphi(f) + \varphi(g))
+\end{equation*}
+gilt.\\
+
+\textbf{Beweis:}
+Da der Interpolationsopertor nur über
+\begin{equation}\label{numme:ueb5:intopdef}
+    f(x_i) = \varphi(f)(x_i), \quad \forall 0 \leq i \leq n
+\end{equation}
+definiert ist, müssen wir auch nur jede der Stütztstellen untersuchen.\\
+
+Sei $x_i$ eine der Stützstellen, beliebig aber fest.
+\begin{equation}\begin{split}
+    \varphi(\lambda (f + g))(x_i)
+    &\stackrel{(\ref{numme:ueb5:intopdef})}{=} (\lambda (f + g))(x_i)\\
+    &\stackrel{f,g\text{ stetig}}{=} \lambda (f(x_i) + g(x_i))\\
+    &\stackrel{(\ref{numme:ueb5:intopdef})f,g}{=} \lambda (\varphi(f)(x_i) + \varphi(g)(x_i))\\
+    &\stackrel{\varphi(f),\varphi(g)\text{ stetig}}{=} (\lambda (\varphi(f) + \varphi(g))) (x_i)
+\end{split}\end{equation}
+\mbox{}\hfill$\square$
+
+Als nächstes zeigen wir, dass $\varphi^2 = \varphi$ ist.\\
+
+\textbf{Beweis:}
+Sei $f \in \mathcal{C}[a,b]$ beliebig aber fest.
+Dann ist $p_n = \varphi(f) \in P_n$ ein Polynom vom Grad $n$.
+
+Nun ist $q_n = \varphi(p_n) = \varphi^2(f) \in P_n$ ebenfalls ein Polynom vom Grad $n$,
+bei dem nach Definition vom Interpolationsoperator gilt, dass
+$\forall 0 \leq i \leq n \, : \, q_n(x_i) = p_n(x_i)$ gilt.
+
+Nun gilt, dass zwei Polynome vom Grad $n$, die an $n+1$ Stellen den selben Wert haben die selben Polynome
+sind. Also gilt $p_n = q_n$.\\
+\mbox{}\hfill$\square$
+
+Als nächstes zeigen wir, dass die Norm $\| \varphi \|_\infty = \Lambda_n$ ist.\\
+
+\textbf{Beweis:}\\
+
+Wir nehmen an, dass wir auf dem Zielraum $P_n$ wiederum die supremumsnorm verwenden wollen.
+
+Es gilt zunächst, dass wenn wir ein Polynom haben, dass das Lagrangepolynom wieder das selbe beschreibt.
+Das Lagrangepolynom $L(f)$ sieht wie folg aus.
+\begin{equation}\begin{split}
+    L(f)(x) &:= \overset{k}{\underset{j=0}{\sum}} y_i L_j(x)\\
+        &\text{und}\\
+    L(f)(x) = \varphi(L(f))(x) = \varphi(f)(x)
+\end{split}\end{equation}
+
+Zeigen wir zunächst, dass $\|\varphi\|_\infty \leq \Lambda_n$ ist.
+
+\begin{equation*}\begin{split}
+    \| \varphi \|_\infty  &= \underset{f \in \mathcal{C}[a,b]}{\sup} \| \varphi(f) \|_\infty \\
+    &= \underset{f \in \mathcal{C}[a,b]}{\sup} \underset{x \in [a,b]}{\sup} |\varphi(f)(x)|\\
+    &= \underset{f \in \mathcal{C}[a,b]}{\sup} \underset{x \in [a,b]}{\sup} |L(f)(x)|\\
+    &= \underset{f \in \mathcal{C}[a,b]}{\sup} \underset{x \in [a,b]}{\sup} |\overset{k}{\underset{j=0}{\sum}} y_i L_j(x)|\\
+    &\stackrel{\sup}{\leq} \underset{f \in \mathcal{C}[a,b]}{\sup} \underset{x \in [a,b]}{\sup} \overset{k}{\underset{j=0}{\sum}} |y_i L_j(x)|\\
+    &\stackrel{\sup}{\leq} \underset{f \in \mathcal{C}[a,b]}{\sup} \underset{x \in [a,b]}{\max} \overset{k}{\underset{j=0}{\sum}} |L_j(x)|\\
+    &= \underset{f \in \mathcal{C}[a,b]}{\sup} \Lambda_n\\
+    &= \Lambda_n
+\end{split}\end{equation*}
+
+Und nun zeigen wir, dass $\Lambda_n \leq \|\varphi \|_\infty$ ist.
+
+\begin{equation*}\begin{split}
+    \Lambda_n &= \underset{x \in [a,b]}{\max} \overset{n}{\underset{k=0}{\sum}} |L_j(x)|\\
+        &\leq \underset{x \in [a,b]}{\sup} \overset{n}{\underset{k=0}{\sum}} |L_j(x)|\\
+        &\overset{\exists f\,:\,|y_i|\geq 1}{\leq} \underset{f \in \mathcal{C}[a,b]}{\sup} \underset{x \in [a,b]}{\sup} \overset{n}{\underset{k=0}{\sum}} |y_i||L_i(x)|\\
+        &\leq \underset{f \in \mathcal{C}[a,b]}{\sup} \underset{x \in [a,b]}{\sup} \overset{n}{\underset{k=0}{\sum}} |y_i L_i(x)|\\
+        &= \underset{f \in \mathcal{C}[a,b]}{\sup} \underset{x \in [a,b]}{\sup} \varphi(f)(x)\\
+        &\stackrel{\text{Def.}}{=} \| \varphi \|_\infty
+\end{split}\end{equation*}
+\mbox{}\hfill$\square$
 
 \subsection*{Aufgabe 2}
 
