@@ -179,15 +179,34 @@ First we show that
      \left| (x-a)^{n+1} - 
     \overset{n}{\underset{k=0}{\sum}} y_k \underset{m \not= k}{\prod}
     \frac{x - t_m}{t_k - t_m} \right|\\
-    &\stackrel{a = 0 => \sup x=1}{=}
-        \left| 1 - \overset{n}{\underset{k=0}{\sum}} t_k^{n+1}
-        \underset{m \not= k}{\prod} \frac{1 - t_m}{t_k - t_m} \right| \\
-    &= \left| 1 - \overset{n}{\underset{k=0}{\sum}} t_k
-        \underset{m \not= k}{\prod} \frac{t_k(1-t_m)}{t_k - t_m} \right| \\
-    &= \left| 1 - \overset{n}{\underset{k=0}{\sum}} 
-         \right|\\
-    &= \left| 1 - \overset{n}{\underset{k=0}{\sum}}  \right|
+    &\stackrel{a = t_0}{=} \underset{x \in [-1,1]}{\sup}
+        \left| (x-t_0)^{n+1} - \overset{n}{\underset{k=0}{\sum}} (t_k-t_0)^{n+1}
+        \underset{m \not= k}{\prod} \frac{x - t_m}{t_k - t_m} \right| \\
+    &= \underset{x \in [-1,1]}{\sup}
+        \left| (x-t_0)^{n+1}-\overset{n}{\underset{k=1}{\sum}} (t_k - t_0)^{n+1}
+        \underset{m \not= k}{\prod} \frac{x-t_m}{t_k - t_m} - (t_0-t_0)^{n+1}
+        \underset{m \not= 0}{\prod} \frac{x - t_m}{t_0 - t_m} \right| \\
+    &= \underset{x \in [-1,1]}{\sup}
+        \left|  (x-t_0)^{n+1} - \underset{k=0}{\overset{n}{\prod}}(x-t_i)
+        \overset{n}{\underset{k=1}{\sum}} 
+        \frac{(t_k-t_0)^{n+1}}{(x-t_k)(x-t_0)}
+        \underset{m \not= k}{\prod} \frac{1}{t_k - t_m}\right|\\
+    &= \underset{x \in [-1,1]}{\sup}
+        \left| \underset{k=0}{\overset{n}{\prod}} (x-t_i)
+        \left( \underset{k=1}{\overset{n}{\prod}} \frac{x-t_0}{x-t_k}
+        - \underset{k=1}{\overset{n}{\sum}}
+        \frac{(t_k - t_0)^{n+1}}{(x-t_k)(x-t_0)}
+        \underset{m\not= k}{\prod} \frac{1}{t_k - t_m} \right)\right|\\
+    &\stackrel{(*)}{=} \underset{x \in [-1,1]}{\sup} \left| \underset{k=0}{
+            \overset{n}{\prod}} x-t_i \right|\\
+    &= \| w_{n+1}(x) \|_\infty
 \end{split}\end{equation*}
+
+Wir haben den Faden verloren und hoffen, dass bei $(*)$ der hintere
+Teil $1$ sein sollte. Wir können gefahrlos durch unsere Definitionbereiche
+teilen, da in $x \in K$ das Interpolationspolynom genau der ursprünglichen
+Funktion entspricht. Daher wird dort auf jedenfall nicht das supremum
+angenommen und wir können die übrigen stellen betrachten.
 
 \subsubsection*{(b)}
 
@@ -196,8 +215,23 @@ der Tschebyscheff-Knoten ist.\\
 
 \textbf{Lösung:}\\
 
-tbd
+Wir wissen nun, dass
+$\varepsilon_n(K) = \underset{x \in [-1,1]}{\sup} (x-t_0)\cdot ... \cdot(x - t_n)$
+  
+gilt. Nehmen wir an, es gibt ein Gitter, so dass
+$\varepsilon_n(K) < 2^{-n}$. Dann gilt insbesondere, dass
+$\omega_{n+1} (x) < 2^{-n}$ für alle $x \in [-1,1]$.
 
+Nehmen wir $x=1$ als Punkt, so muss jeder Gitterpunkt
+größer sein als
+$1-2^{-n}$ sonst da sonst die Multiplikation zu groß wäre.\\
+Nun gilt aber für $n\geq0$, dass für $k \in K$ $k > 0$ gelten müsste.
+Damit wäre aber für $x = -1$ jede Differenz $x-k > 2^{-n}$ und folglich
+ist $\omega_{n+1}(x) > 2^{-n}$.\\
+
+Nun gilt zu zeigen, dass für Tschebyscheff-Knoten die Gleichheit erfüllt ist.\\
+
+tbd
 
 \subsection*{Aufgabe 3}
 
