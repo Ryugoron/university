@@ -2,16 +2,14 @@ function [] = InterpolationAD(f,I,n)
 %% Grenzen des Intervalls
 a = I(1);
 b = I(2);
-%% m ist die Anzahl der Gitterpunkte (Grad + 1)
-m = n+1;
 %% Genaugkeit des Plots
 genauigkeit = 0.1;
-dist = min(genauigkeit, ceil((b-a)/m));
+dist = min(genauigkeit, ceil((b-a)/n));
 
 %% Erstelle Gitter:
-%% Aequidistanter Gitter a = x0 < x1 < ... < xm = b
-%% mit Distanz (b-a)/m
-stuetzSt = [a:(b-a)/m:b];
+%% Aequidistanter Gitter a = x0 < x1 < ... < xn = b
+%% mit Distanz (b-a)/n
+stuetzSt = [a:(b-a)/n:b];
 %% Funktionswerte an den Stuetzstellen
 fstuetzSt  = f(stuetzSt);
 
