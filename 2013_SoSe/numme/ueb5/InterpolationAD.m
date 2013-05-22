@@ -4,7 +4,7 @@ a = I(1);
 b = I(2);
 %% Genaugkeit des Plots
 genauigkeit = 0.1;
-dist = min(genauigkeit, round((b-a)/n));
+dist = min(genauigkeit, (b-a)/n);
 
 %% Erstelle Gitter:
 %% Aequidistanter Gitter a = x0 < x1 < ... < xn = b
