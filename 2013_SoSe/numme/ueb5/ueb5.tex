@@ -160,8 +160,18 @@ Zeigen Sie
 \end{equation*}
 
 \textbf{Lösung:}\\
-
-tbd
+First we show that
+\begin{equation*}\begin{split}
+    \varepsilon_n(K)
+    &= \underset{f \in \mathcal{F}}{\sup} \| f - p_n(f) \|_\infty\\
+    &= \underset{f \in \mathcal{F}}{\sup}
+        \underset{x \in [-1,1]}{\sup} | f (x) - p_n(f)(x) |\\
+    &\stackrel{\text{Taylor}}{=} \underset{x \in [-1,1]}{\sup} | T_n(x) + R_n(x) - p_n(T_n(x) + R_n(x)) |\\
+    &\stackrel{\text{linear}}{=} \underset{x \in [-1,1]}{\sup} | T_n(x) - p_n(T_n(x)) + R_n(x) - p_n(R_n(x)) |\\
+    &\stackrel{T_n(x)=p_n(R_n(x))}{=} \underset{x \in [-1,1]}{\sup} | R_n(x) - p_n(R_n(x)) | \\
+    &= \underset{x \in [-1,1]}{\sup} | \frac{f^{(n+1)}(\xi)}{(n+1)!} (x-a)^{n+1} - p_n(\frac{f^{(n+1)}(\xi)}{(n+1)!} (x-a)^{n+1}) |\\
+    &\stackrel{f \in \mathcal{F}}{=} \underset{x \in [-1,1]}{\sup} | (x-a)^{n+1} - p_n((x-a)^{n+1}) |
+\end{split}\end{equation*}
 
 \subsubsection*{(b)}
 
