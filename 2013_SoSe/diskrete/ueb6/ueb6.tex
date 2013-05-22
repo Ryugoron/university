@@ -64,7 +64,7 @@ Was ist das Zirkuitsystem des graphischen Matroiden von $G_1$?\\
 \textbf{Lösung:}\\
 
 \begin{equation*}\begin{split}
-    \varrho = \{ 
+    \mathcal{C} = \{ 
             & \{a,b,c\},\\
             & \{ d , e, f, g \}\\
             & \{ i , j , k , l\}\}
@@ -76,7 +76,7 @@ Was ist das Zirkuitsystem des cographischen Matroiden von $G_1$?\\
 \textbf{Lösung:}\\
 
 \begin{equation*}\begin{split}
-    \varrho = \{ 
+    \mathcal{C} = \{ 
         & \{ a , b \}, \{ a , c \}, \{ c , b \}, \\
         & \{ g , f \}, \{ g , e \}, \{ g , d \}, \\
         & \{ f , e \}, \{ f , d \}, \{ e , d \}, \\
@@ -141,7 +141,7 @@ Uniformes Matroid.\\
 Sei $\mathcal{I}$ ein $r$ Uniformes Matroid.\\
 
 \begin{tabular}{rl}
-    Zirkuitsystem & $\varrho = \left( \begin{array}{c} M \\ r+1 \end{array}\right) $\\
+    Zirkuitsystem & $\mathcal{C} = \left( \begin{array}{c} M \\ r+1 \end{array}\right) $\\
     Basissystem & $\mathcal{B} = \left( \begin{array}{c} M \\ r \end{array} \right)$\\
     Rang & $r(V) = \min \{r, |V|\}$
 \end{tabular}\\
@@ -156,7 +156,7 @@ Seien $M_i$ die disjunkten Mengen mit $M = \overset{k}{\underset{i=1}{\bigcup}} 
 ganze Zahlen.\\
 
 \begin{tabular}{rl}
-    Zirkuitsystem & $\varrho = \overset{k}{\underset{i=1}{\bigcup}} \{ M' \subset M_i \, | \, |M' \cap M_i| = k_i + 1 \} $\\
+    Zirkuitsystem & $\mathcal{C} = \overset{k}{\underset{i=1}{\bigcup}} \{ M' \subset M_i \, | \, |M' \cap M_i| = k_i + 1 \} $\\
     Basissystem & $\mathcal{B} = \{ M' \subset M_1 \, | \, |M' \cap M_1| = k_1\} \times ... \times \{ M' \subset M_k \, | \, |M' \cap M_k| = k_n \} $\\
         &wobei hier $\times$ die paarweise Vereinigung der Mengen darstellen soll.\\
     Rang & $r(M') = \overset{k}{\underset{i=0}{\sum}} \min \{ k_i , |M' \cap M_i|\}$\\
