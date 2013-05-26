@@ -1,0 +1,167 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm]{geometry} 
+\usepackage{babel}
+\usepackage{algpseudocode}
+\usepackage{algorithm}
+
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc} 
+\usepackage{ae} 
+\usepackage{amssymb} 
+\usepackage{amsmath}
+\usepackage{amsthm} 
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{paralist}
+\usepackage{tabularx}
+\usepackage{tikz}
+\usetikzlibrary{arrows,automata}
+\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[C]{Diskrete Mathematik}
+\fancyhead[L]{Übung 7}
+\fancyhead[R]{SoSe 2013}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage \hspace{1px} of \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\setlength{\parindent}{0pt} 
+\setlength{\headheight}{0pt}
+\newcommand\mdoubleplus{\ensuremath{\mathbin{+\mkern-10mu+}}}
+\date{}
+\title{Übung 7}
+\author{Max Wisniewski, Alexander Steen}
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+\newcommand{\argmin}{\text{argmin}}
+\newcommand{\argmax}{\text{argmax}}
+\newcommand{\code}[1]{\langle {#1} \rangle}
+\newcommand{\Z}{\mathbb{Z}}
+%%
+%% Enviroments for proofs and lemmas
+%%
+\newtheorem{lemma}{\bfseries Claim}
+
+\begin{document}
+
+\lstset{language=Pascal, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2, mathescape=true}
+
+\renewcommand{\figurename}{Figure}
+
+\maketitle
+\thispagestyle{fancy}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Aufgabe 1
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Aufgabe 1.}
+Dijkstras Algorithmus gibt für Eingaben mit negativen Kantengewichten i.A. keinen kürzesten Weg zurück. \\
+
+\textbf{Beispiel}: \\
+Graph $G = (V,E)$ gegeben durch $V = \{s,t,u \}, E = \{\{s,t\},\{s,u\},\{u,t\} \}$ mit Kosten $c: E \to \mathbb{Z}$ gegeben durch $c(\{s,t\}) = 2, c(\{s,u\}) = 3, c(\{u,t\}) = -2$.
+Für den Startknoten $s$ gibt Dijkstras Algorithmus nun folgende kürzesten Weglängen $d$ aus: \\
+$d(s,s) = 0$ \\
+$d(s,t) = 2$ \\
+$d(s,u) = 1$ \\
+
+Allerdings kann der Knoten $t$ über den Weg $s,u,t$ mit Kosten 1 erreicht werden. Also ist die Ausgabe kein korrekter kürzester Weg.
+
+%  2
+%s ->  t
+%3\ u /-2
+%
+%s -> (2)
+% \ (3) / -2
+%
+%
+%(0) -> (2)
+ %\ (1) /
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Aufgabe 2
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Aufgabe 2.}
+Sei $G = (V,E)$ ein Graph.
+\begin{enumerate}[a)]
+\item Korrektheit Fold-Algorithmus: \\
+asd
+\item Bezeichner wie im Bild. Im schlimmsten Fall werden die kürzesten Wege in der Abbildung in der Art nach und nach verkleinert, dass immer der aktuell schlechteste (längstmöglichste) Weg als nächst-kleinerer Weg gefunden wird. D.h. zuerst wird der längste Weg $s \to k' \to k \to (k-1)' \to (k-1) \to \ldots \to 1' \to 1$ gefunden; dies braucht $|V|-1$ Schritte; danach wird der Abschnitt $s \to k' \to k$ aus diesem Weg durch die Kante $s \to k$ verkürzt (halbiert) und dies wird bis zum vordersten Knoten $1$ propagiert. Dies braucht nun $|V|-3$ Schritte. Im $i$-ten Schritt wird der Abschnitt $(k-i+2) \to (k-i+1)' \to (k-i+1)$ durch den kürzeren Weg $(k-i+2) \to (k-i+1)$ ersetzt und bis zum letzten Knoten $1$ propagiert. Dies benötigt $2 \cdot (k-i+2) -1$ Schritte. Das ganze wird nun bis $i = 1$ ausgeführt. Da $|V| = 2k+1$ gilt und $\sum_{i=1}^k 2 \cdot (k-i+2) -1 = k \cdot (k+2)$, ist die Laufzeit des Algorithmus in diesem Beispiel $|V| \cdot (|V| + 6) - 2$. Da $|V| \cdot (|V| + 6) - 2 = O(|V|^2)$, ist die Laufzeit natürlich polynomiell in $|V|$.
+\end{enumerate}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Aufgabe 3
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Aufgabe 3.}
+Sei $G = (V,E)$. Bezeiche $C_{ung}$ die Menge aller Kreise ungerader Länge in $G$. \\
+
+Die Idee ist eine modifizierte Tiefensuche für jeden Knoten des Graphen auszuführen.
+Bei jeder Tiefensuche wird bis für eine Tiefe von $n := |V|$ bei Entdecken eines bereits gesehenen Knoten geprüft, ob der aktuelle Suchpfad eine ungerade Länge hat und ob die Kosten dieses resultierenden Kreises kleiner sind als die vom bisherigen Minimum.
+Die Algorithmus ergibt sich durch Aufruf von: \\
+
+\begin{algorithmic}[1]
+\Require Graph $G = ([n],E)$, $c \in \mathbb{R}^E$
+\Ensure Kreis $C \subseteq [n] \in \argmin_{C \in C_{ung}} c(C)$ oder Fehler
+\State curmin $\gets \emptyset$
+\For {$v \in [n]$}
+\State curmin $\gets$ ModTiefensuche($G$,$c$,$v$,curMin);
+\EndFor
+\If{curmin $\neq \emptyset$}
+  \State \Return curmin
+\Else
+  \State \Return error: Kein Kreis ungerader Länge
+\EndIf
+\end{algorithmic}
+
+Die modifizierte Tiefensuche \texttt{ModTiefensuche} ist dabei gegeben durch: \\
+
+
+\begin{algorithmic}[1]
+\Require Graph $G = ([n],E)$, $c \in \mathbb{R}^E$, $v \in [n]$, $cur \subseteq [n]$
+\Ensure Kreis $C \subseteq [n]$
+\State Stack toVisit = $\langle v \rangle$
+\State visited[$v$] = no, $\forall v \in [n]$
+\State Stack path = $\langle \rangle$
+\While{toVisit not empty}
+\State node $\gets$ toVisit.pop()
+
+\State bla
+\EndWhile
+\end{algorithmic}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Aufgabe 4
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Aufgabe 4.}
+Sei $N = (V,E,c,s,t)$ ein Netzwerk von $s$ nach $t$ mit Kapazität $c \in \mathbb{N}_0^E$.
+$f$ heißt zulässiger Fluss von $s$ nach $t$, falls \\
+(1) $0 \leq f(e) \leq c(e), \forall e \in E$ \\
+(2) $(\partial f)(v) = 0, \forall v \in V, v \neq s, t$ \\
+(siehe Buch ''Diskrete Mathematik'', Aigner) \\
+
+\begin{enumerate}[a)]
+\item z.z. $(\partial f)(v) = 0, \forall v \in V \setminus \{s,t \}$ \\
+Naja, was sollen wir da sagen: Nach Definition (2) gilt das.
+\item z.z $(\partial f)(W) = (\partial f)(s), \forall W \subseteq V$ mit $s \in W, t \notin W$ \\
+Es gilt $(\partial f)(W) \stackrel{Def.}{=} \sum_{w \in W} (\partial f)(w)$. Dann gilt für $W \subseteq V$ mit $s \in W, t \notin W$:
+\begin{equation*}\begin{split}
+(\partial f)(W) &\stackrel{Def.}{=} \sum_{w \in W} (\partial f)(w) \\
+  &= (\partial f)(s) + \sum_{w \in W,w \neq s} (\partial f)(w) \\
+  &\stackrel{a)}{=} (\partial f)(s) + 0 = (\partial f)(s)
+\end{split}\end{equation*}
+\item z.z. $(\partial f)(s) = -(\partial f)(t)$ \\
+Da $\sum_{v \in V} (\partial f)(v) = 0$ (in der Summe wird jedes $f(vw)$ einmal positiv und einmal negativ addiert), gilt:
+\begin{equation*}\begin{split}
+  0 &= \sum_{v \in V} (\partial f)(v) \\
+    &= (\partial f)(t) + \underbrace{\sum_{v \in V \setminus \{t \}} (\partial f)(v)}_{= (\partial f)(s)} \\
+    &= (\partial f)(t) + (\partial f)(s) \\
+\end{split}\end{equation*}
+Also gilt $0 = (\partial f)(s) + (\partial f)(t) \Leftrightarrow (\partial f)(s) = -(\partial f)(t)$.
+\end{enumerate}
+
+\label{LastPage}
+\end{document}
