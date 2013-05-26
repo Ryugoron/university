@@ -1,0 +1,180 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm]{geometry} 
+\usepackage{babel}
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc} 
+\usepackage{ae} 
+\usepackage{amssymb} 
+\usepackage{amsmath}
+\usepackage{amsthm} 
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{paralist}
+
+\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[C]{Computational Geometry}
+\fancyhead[L]{Exercise sheet 7}
+\fancyhead[R]{SoSe 2013}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage \hspace{1px} of \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\setlength{\parindent}{0pt} 
+\setlength{\headheight}{0pt}
+
+\date{}
+\title{Exercise sheet 7}
+\author{Max Wisniewski, Alexander Steen}
+
+
+%%
+%% Enviroments for proofs and lemmas
+%%
+\newtheorem{lemma}{\bfseries Claim}
+
+\begin{document}
+
+\lstset{language=Pascal, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2, mathescape=true}
+
+\renewcommand{\figurename}{Figure}
+
+\maketitle
+\thispagestyle{fancy}
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+%% Aufgabe 1 
+%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Problem 1}
+
+Let $P$ be a set of $n$ points in the plane. We would like to compute the minimal disk enclosing all points in $P$.
+Consider the randomized inkremental algorithm from the lecture.
+
+\subsubsection*{(a)}
+For an order $p_1, ... , p_n$ of points in $P$, let $P_i =  \{ p_1, ... , p_i \}$. Also let $D_i$
+be the smallest enclosing disk of $P_i$. Consider how the optimum disc changes when $p_i$ is added and
+show that for $(2 < i < n)$ if $p_i \not\in D_{i-1}$, then $p_i$ lies on the boundary of $D_i$.\\
+
+\textbf{Proof.}\\
+
+If $p_i \in D_{i-1}$ then $D_i = D_{i-1}$. $D_i$ cannot be any larger, because $D_{i-1}$ would be smaller and contain
+every point in $P_i$. Therefor $D_i$ would not be optimal. On the otherhand $D_i$ cannot be smaller, because
+otherwise $D_{i-1}$ could have been smaller already, because $D_i$ contains in particular $P_i \setminus \{ q_i \}$.
+Therefor $D_{i-1}$ would not be optimal.\\
+
+Now consider $p_i \not\in D_{i-1}$.\\
+First it is the case, that if two minimal disk $D_1, D_2$ contain the same set of points $Q$ $D_1 = D_2$.
+\textbf{Proof.}\\
+Consider $D_1 \not= D_2$, that $D_1 \cap D_2 \ni P \not= \emptyset$. We take the middle point $p$ of both centers
+of the disks. It holds that a disk $D_3$ centered at $P$ and with a diameter of the maximal distance in $D_1 \cap D_2$.\\
+We can easily see, that the disk $P \in D_2 \cap D_1 \in D_3$. But because $D_1 \not= D_2$ the diameter is strictly
+smaller than the diameter of one of $D_1, D_2$ because otherwise one would be contained strictly in the other.
+But this is not possible because $D_1, D_2$ were optimal.
+\mbox{} \hfill $\square$
+
+Now assume $p_i$ is not on the boundary of $D_i$. Because by lemma we know, that $D_i$ is strictly larger than $D_{i-1}$.
+This is true, because otherwise we saw that because $D_i$ contains $P_{i-1}$ and both are minimal they would be the
+same, which is not possible because $p_i$ is in $D_i$ but not in $D_{i-1}$.
+
+But if $p_i$ is not on the boundary of $D_i$ we can move the disk. We keep track, that we keep $D_{i-1}$ contained in $D_{i}$
+and $p_i$ until $p_i$ is on the boundary. This is possible because both $D_{i-1}$ and $D_i$ are convex, so we can not move the
+boundary to $p_i$ letting $D_{i-1}$ leaving the interiour of $D_i$ partially.\\
+
+But by lemma the new $D_i'$ with $p_i$ on the boundary has to be equal to $D_i$, because both contain $P_i$ and have the same
+size and in the case of $D_i$ it was optimal.\\
+
+Therefor $p_i$ has to be on the boundary of $D_i$.
+
+\subsubsection*{(b)}
+Show that the algorithm described in the lecture runs in $O(n)$ expected time.\\
+
+\textbf{Proof.}\\
+
+First observe, that a circle is fixed by three non-colinear points on the boundary. If we remove one of 
+three points on the boundary, we are able to construct a smaller disk.\\
+
+In every iteration we check if $p_i \in D_{i-1}$ which takes constant time.
+If it is true we do nothing. If it is false we have to compute a new disk. This
+procedure iterates over all yet seen points. Therefor it takes $O(i)$ time in round $i$
+to compute the next disk.\\
+
+We only have to look at the probability for the disk to change in iteration $i$. We therefor
+do a backwards analysis as seen in the lecture.\\
+
+We know from the algorithm that $q$ is on the boundary and can not vanish. Let $D_i$ be
+the smallest disk for the points in $P_i$. We know that the disk can only change if we drop
+below 3 points on the boundary. So if $p_i$ is not in $D_{i-1}$ it has to change
+and this means we have to remove one of the 3 points on the boundary. Because $q$ is fixed
+we have a choice of $\frac{1}{p}$ to take one node and there are two critical nodes.
+Hence $Pr[p_i \not\in D_i] = \frac{2}{p}$.\\
+
+The total running time is therefor
+\begin{equation*}\begin{split}
+    T(n) &= \overset{n}{\underset{i=0}{\sum}} \underbrace{O(1)}_{\text{Test}} + \underbrace{O(i)}_{\text{Compute next disk}} \cdot Pr[p_i \not\in D_i]\\
+        &= O(n) + \overset{n}{\underset{i=0}{\sum}} c \cdot i \cdot \frac{2}{i}\\
+        &= O(n) + O(n) = O(n)
+\end{split}\end{equation*}
+
+\subsection*{Problem 2}
+
+Consider the procedure \lstinline|RandomPerumtation(A)| that we have described in the lecture and show that it is correct.
+
+\textbf{Proof.}\\
+
+If the algorithm chooses in iteration $i$ a different element, than another Permutation we get a completly different
+permutation. This is obvious, because the first one has at position $i$ another element than the other.\\
+
+We now claim, that for $|A| = n$ the algorithm can produce $n!$ different permutations.
+Let $|A| = 1$ then the algorithm can only produce one Permutation and this is $1! = 1$.\\
+
+Let $|A| = n + 1$. Then the algorithm can choose
+$n + 1$ elements for the first position. As shown before each of the results will be different and computes
+by induction $n!$ different permutations per element.
+This produces $\overset{n+1}{\underset{i=1}{\sum}} n! = (n+1)!$.\\
+
+Because we know there is no doubeling of permutations in this algorithm and we get every permutation we iterate
+the choose pick.\\
+
+For $n$ elements in round $i$ we have a probability of $\frac{1}{n-i}$ to pick an element. This is due to the
+fact, that we have only $n-i$ Elements in round $i$ obviously.\\
+
+As shown before the probability is independent, we can simply sum up the probability for a path.
+$Pr[\text{RandomPermutation(A)}=A'] = \overset{n-1}{\underset{i=0}{\prod}} \frac{1}{n-i} = \frac{1}{n!}$.
+
+Therefor we know that each Permutation has the same probability to be choosen.
+
+\subsection*{Problem 3}
+
+Give an algorithm to compute whether a given poylgon is a \emph{star-shaped} polygon whose expected running time is
+linear.\\
+
+\textbf{Solution}:\\
+
+Let $P$ be a simple polygon. For every edge $(a,b) \in P$ we can define a half-plane $h_{a,b}$.
+$h_{a,b}$ is the half-plane where $(a,b)$ is in the boundary $\delta h_{a,b}$ and the halfplane
+is directed towards the inside of the polygon. Such that it
+can be described by the equation $h_{a,b}(x) = \left[x - a \right] n_{a,b} \geq 0$ where $n_{a,b}$ is 
+the normal vektor directed to the inside of the polygon.\\
+
+As one can see $h_{a,b}(x)$ is a linear property in $x$.\\
+
+For a point to see a point of this halfplane it means to be inside of it. A point can therefor see
+the hole polygon if $\forall (a,b) \in P \, : \, h_{a,b}(x)$ holds. It lies in all half-planes.\\
+
+We formulate the LP
+\begin{equation*}\begin{array}{rlcr}
+    \min & (1,1)^T x\\
+    \text{s.t.} & \left[ x - a \right] n_{a,b} & \geq 0
+\end{array}\end{equation*}
+and we know that the solution can see every point in $P$ by construction
+and the LP can be solved in $O(n)$ running time by lecture.
+
+\label{LastPage}
+
+
+\end{document}

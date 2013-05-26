@@ -1,0 +1,255 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm]{geometry} 
+\usepackage{babel}
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc} 
+\usepackage{ae} 
+\usepackage{amssymb} 
+\usepackage{amsmath}
+\usepackage{amsthm} 
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{paralist}
+
+\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[C]{Höhere Algorithmik}
+\fancyhead[L]{Übungsblatt Nr. 6}
+\fancyhead[R]{SoSe 2013}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage \hspace{1px} of \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\setlength{\parindent}{0pt} 
+\setlength{\headheight}{0pt}
+
+\date{}
+\title{Übungsblatt Nr. 6}
+\author{Max Wisniewski, Alexander Steen}
+
+
+%%
+%% Enviroments for proofs and lemmas
+%%
+\newtheorem{lemma}{\bfseries Lemma}
+\newtheorem{claim}{\bfseries claim}
+\newtheorem{theorem}{\bfseries Theorem}
+
+\begin{document}
+
+\renewcommand{\figurename}{Figure}
+\maketitle
+\thispagestyle{fancy}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%      Aufgabe 1
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Aufgabe 1}
+
+Lösen Sie das folgende lineare Programm mit dem zweiphasigen Simplex-Algorithmus:
+\begin{equation*}\begin{array}{rlcr}
+    \max &c^Tx\\
+    \text{s.t.} & A x & \leq & b
+\end{array}\end{equation*}
+wobei 
+\begin{equation*}
+c = \left( \begin{array}{c} 3 \\ 1 \end{array}\right), A = \left( \begin{array}{cc} 1 & -1 \\ -1 & -1 \\ 2 & -1\end{array}\right), b =
+\left( \begin{array}{c} -1 \\ -3 \\ 2 \end{array}\right)
+\end{equation*}
+gilt.
+
+\textbf{Lösung:}\\
+
+tbd
+
+\subsection*{Aufgabe 2}
+
+Wie reagiert der Simplex-Algorithmus, falls für das lineare Programm gilt:
+
+\subsubsection*{(a)}
+Das LP hat mehr als eine optimale Lösung.\\
+
+\textbf{Lösung:}\\
+
+Wenn der Simplex-Algorithmus mehr als eine optimale Lösung hat, so liegt diese in einer Facette des Polyeders mit einer
+Dimension größer $0$. Der Simplex-Algorithmus mit der Regel von \emph{to be pasted here} (Blank???) wird eine
+Ecke dieser Facette finden.
+Nun gilt in dieser Ecke:
+\begin{itemize}
+    \item Die Hyperebenen, die nicht diese Facette bilden, werden die Zielfunktion kleiner machen, wenn
+        wir ihre Variablen vergrößern, da die Facette sonst nicht optimal wäre. 
+        Daher werden sie positiv in der Zielfunktion stehen. Werden also vom Algorithmus nicht für
+        eine Austrittsvariable in betracht gezogen.\\
+    \item Die Hyperebenen, die diese Facette bilden, können von den Bedingungsfunktionen zwar
+        noch vergrößert werden, aber da der Wert überall in der Facette gleich ist, werden
+        diese mit einem Gewicht von $0$ in der Zielfunktion stehen. Also werden auch
+        diese Hyperebenen nicht für ein Fortfahren in betracht gezogen.
+\end{itemize}
+Es gibt also in einer Zielecke keine Variable, die wir erhöhen können. Der Simplex-Algorithmus terminiert
+also in der ersten Ecke der Zielfacette, die er erreicht.
+
+\subsubsection*{(b)}
+Das LP hat keine zulässige Lösung.\\
+
+\textbf{Lösung:}\\
+
+Wenn es keine zulässige Lösung gibt, so enthält es insbesondere keine bfs.
+Dies bedeuted für uns, dass unser erstes Hilfs-LP für das finden der Startecke,
+das die neue Variable $x_0$ minimieren sollte, einen Wert $>0$ liefert. Wir wissen,
+dass nach Blanches Regel, dass es eine Lösung finden wird. Nach den Vorzeichenbedingungen
+ist $x \geq 0$ und da $x=0$ bedeuted, dass es eine bfs für das ursprüngliche LP gibt,
+wird das Hilfs-LP eben einen Wert $>0$ liefern und der Algorithmus kann abbrechen.
+
+\subsubsection*{(c)}
+Die Zielfunktion ist unbeschränkt.\\
+
+\textbf{Lösung:}\\
+
+Wenn die Zielfunktion nicht beschränkt ist, wird der Algorithmus irgendwann eine
+Kante finden (da der Quadrant immer von $x_1, ... , x_n \geq 0$ begränzt ist, existieren
+zumindest immer Kanten und ein Punkt in dem wir sind), entlang dessen wir die Zielfunktion
+verkleinern können ($b_i < 0$), aber wenn wir die aktuellen Bedingungsfunktionen betrachten
+und die Nullstelle mit diesen berechen, sind alle Nullstellen für $x_i < 0$ erreicht.
+Da die Funktionen linear ist es die einzige Nullstelle und folglich können wir $x_i$ beliebig groß machen.
+
+Der Algorithmus sieht aber das es keine Nulstellen geben wird und kann abbrechen.
+
+\subsection*{Aufgabe 3}
+
+Reduktionen auf ILP (Integer Lineare Programming).
+
+\subsubsection*{(a)}
+SAT $\preceq_P$ ILP\\
+
+\textbf{Lösung:}\\
+
+Wir wissen, dass wir jede Aussagenlogische, mit linear mehr Variablen als KNF in polynomieller Größe
+der eigentlichen Formel darstellen können. Wir nehmen daher an, dass die Eingaben für SAT hier in KNF gegeben sind.\\
+
+Sei $\Phi = \overset{m}{\underset{i=1}{\bigwedge}} \overset{n}{\underset{j=1}{\bigvee}} l_{ij}$
+wobei $l_{ij}$ das Literal in Klausel $i$ zur Variable $j$
+\begin{itemize}
+    \item FALSE ist, wenn die Variable $j$ nicht in der Klausel $i$ steht.
+    \item $\overline{x_j}$ ist, wenn die Variable $x_j$ negativ in der Klausel $i$ steht.
+    \item $x_j$ ist, wenn die Varibale $x_j$ psoitiv in der Klausel $i$ steht.
+\end{itemize}
+
+Nun ist $f(\Phi)$ definiert durch:
+Wir verdoppeln jede Variable $x_i$ in $x_i^+$ und $x_i^-$.
+Als Vorzeichen-/Integerbedingung verlangen wir $x_i \in \{0,1\}$.\\
+
+$c = (1 , ... , 1) \in \mathbb{R}^{2n}$,
+$A = (a_{ij})_{1 \leq i \leq m+2n, 1 \leq j \leq 2n}$
+mit 
+\begin{equation*}\begin{split}
+\forall 1 \leq i \leq m, 1 \leq j \leq n \, : \, a_{ij} &= \left(\begin{array}{rl} 1 \quad &, l_{ij} = x_j \\ 0 &, \text{sonst}\end{array}\right. ,\\
+\forall 1 \leq i \leq m, 1 \leq j \leq n \, : \, a_{i(j+n)} &= \left(\begin{array}{rl} 1 \quad &, l_{ij} = \overline{x_j} \\ 0 &, \text{sonst}\end{array}\right. \\
+\forall 1 \leq i \leq n \; : \; a_{(i+m)i} &= 1 \land a_{(i+m)(i+n)} = 1.
+\end{split}\end{equation*}
+
+Wir verlangen nun, dass für die ersten $m$ Zeilen gelten muss, dass in der Summe $\geq 1$ herauskommen soll.
+Für den zweiten Teil der Matrix, soll genau $1$ herauskommen. (Wir haben sorum also keine Normalform).\\
+
+Unser LP führt also für jede Variable einen positiven und einen negativen Teil ein.
+Danach addieren wir pro Klausel die Literale, die wir gesetzt haben.
+Am Ende verlangen wir noch, dass jede Variable auf true ODER false gesetzt wird und nicht beides
+gleichzeit sein kann.\\
+
+Erhalten wir vom ILP also eine Lösung $x^*$ so gilt für diese:
+$\overset{2n}{\underset{j=1}{\sum}} a_{ij}x_j \geq 1$ für alle Bedingungen $i$.
+Dies Bedeuted, dass wir für jede Klausel mindestens ein Literal positiv gesetzt haben,
+dass in $i$ vorkommt.\\
+Da darüber hinaus gilt, dass $x_i + x_{2i} = 1$ ist also eine Variable entweder auf true oder auf false gesetzt.\\
+Also ist für das SAT Problem eine Lösung gefunden indem wir $y_i =$ true, wenn $x_i = 1$ und $y_1 =$ false, wenn $x_{2i} = 1$ ist.\\
+
+Wenn die Formel $\Phi$ erfüllbar ist, können wir unsere Variablen,
+wie folgt setzten: Falls $y_i = $ true, dann ist $x_i = 1$ und $x_{2i} = 0$. Falls $y_i = $ false, dann ist $x_i = 0$ und $x_{2i} = 1$.
+Die Vorzeichenbedingung ist erfüllt. Addieren wir beide Variablen erhalten wir $1$ und nach
+der überlegung aus der anderen Richtung, wissen wir, dass jede Summe größer als $1$ sein muss.\\
+
+Das größte was wir konstruieren ist eine Matrix der Größe $(m+2n)\times(2n)$. Damit ist unser Algorithmus polynomiell.
+
+\subsubsection*{(b)}
+MAX-INDEPENDENT-SET $\preceq_P$ ILP\\
+
+\textbf{Lösung:}\\
+
+Sei $G(V,E)$ ein Graph. Dann führen wir für jeden Knoten eine Variable ein $x_v \in \{ 0 , 1 \} \forall v \in V$.
+Wir maximieren nun $\underset{v \in V}{\sum} x_v$ unter der Bedingung,
+dass $\forall (i,j) \in E \, : \, x_i + x_j \leq 1$ gilt.\\
+
+Dies Bedeutet, dass wir für jede Kante höchstens einen Knoten genommen haben, was genau der Definition von
+unabhängiger Knotenmenge entspricht.\\
+
+Wir zeigen zunächst, dass jede feasable solution von diesem LP eine unabhängige Knotenmenge der Größe
+als als Ursprung hat und umgekehrt.\\
+
+Sie $x^*$ eine feasable solution. Dann wissen wir, dass für jede Kante $(i,j) \in E$ nur ein Knoten von $i,j$
+genommen worden sein konnte. Da für alle Variablen die Bedingungen erfüllt ist, gibt es in $G$ eine unabhängige
+Knotenmenge der Größe $\sum x^*$.\\
+Umgekehrt könen wir zu einer Unabhängigen Knotenmenge $v^*$ auch alle Variablen zu jedem Knoten auf $1$ setzen und
+den Rest auf $0$. Da die Knotenmenge unabhängig war, erfüllt diese Belegung die Bedingungsfunktion und die Zielfunktion
+hat den Wert $|v^*|$.\\
+
+Sei $v^* \subseteq V$ nun eine maximale unabhängige Knotenmenge.
+Dann ist $x^*$ wie oben gezeigt eine feasable solution für das ILP mit $|x^*| = |v^*|$. Wäre $x^*$ nicht optimal,
+gäbe es ein $x'$ mit $|x'| > |x^*|$. Wie wir aber schon gezeigt haben, gibt es dann auch eine Knotenmenge
+$v'$ zu $x'$, mit $|v'| = |x'| > |x^*| = |v^*|$. Damit war $v^*$ nicht optimal.
+
+Die Rückrichtung läuft unter der vorher gezeigten Bedingung analog.\\
+
+Der Algoritmus konstruiert einen Zielvektor der Größe $|A|$, eine Matrix der Größe $|A|\times1$ und einen Bedingungsvektor
+der größe $|A|$. Damit ist die Reduktion linear.
+
+\subsubsection*{(c)}
+SUBSET-SUM $\preceq_P$ ILP\\
+
+\textbf{Lösung:}\\
+
+Wir konstruieren für die Menge $A$ von Zahlen ein ILP,
+wobei wir jedem Elemente $a \in A$ eine Variable $x_a \in \{0 , 1 \}$ zuweisen.
+Dies steht am Ende dafür, ob ein Element $a$ in der Lösung enthalten ist oder nicht.
+Die Zielfunktion ist daher
+$\max \underset{ a \in A }{\sum} x_a$.\\
+
+Nun verlangen wir noch das die Nebenbedingung an die Lösung erfüllt ist, also
+$\underset{ a \in A }{\sum} x_a * a \leq b$.
+Dies ist linear, da $a \in \mathbb{R}$ im LP nur eine konstante ist.\\
+
+Es sollte nun offensichtlich sein, dass es sich hierbei um eine Reduktion handelt,
+da wir nur die Definition des Problems linear formuliert haben. Der Beweis ist
+somit trivial.\\
+
+Die Laufzeit ist ebenso simple linear wie in Aufgabenteil \emph{b)}.
+
+\subsubsection*{(d)}
+MIN-VERTEX-COVER $\preceq_P$ ILP\\
+
+\textbf{Lösung:}\\
+
+Analog zu Independent-Set können wir Vertex-Cover formulieren.\\
+
+Sei $G(V,E)$ ein Graph. Wir suchen eine minimale Anzahl von Knoten $v \in V' \subset V$, so
+dass jede Kante $e \in E$ zu mindestens einem Knoten adjazent ist $e \cap V' \not= \emptyset$.\\
+
+Wir suchen die minimale Menge (minimum), so dass die Bedingung erfüllt ist, also minimieren
+wir die Zielfunktion $\underset{v \in V}{\sum} x_v$, wobei wir für jeden Knoten $v\in V$
+eine Variable $x_v \in \{ 0, 1 \}$ enführen.
+
+Die Nebenbeding lässt Darstellen als
+$x_i + x_j \geq 1$ für alle $e = (i,j) \in E$.
+
+Der Beweis ist nun Aufgrund der leichten umformulierung nicht mehr trivial, aber noch so hinreichend
+einfach, dass es offensichtlich ist, dass die Reduktion stimmt.\\
+
+Wir konstriueren eine Zielfunktion der Größe $|V|$, eine Matrix und eine Bedingung der Größe $O(|E|)$.
+Damit ist die Reduktion polynomiell.
+
+\label{LastPage}
+\end{document}
