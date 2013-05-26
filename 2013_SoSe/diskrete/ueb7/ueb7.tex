@@ -88,8 +88,7 @@ Allerdings kann der Knoten $t$ über den Weg $s,u,t$ mit Kosten 1 erreicht werde
 \subsection*{Aufgabe 2.}
 Sei $G = (V,E)$ ein Graph.
 \begin{enumerate}[a)]
-\item Korrektheit Fold-Algorithmus: \\
-asd
+\item Hmmmmm, keine Lust $\ddot\smile$
 \item Bezeichner wie im Bild. Im schlimmsten Fall werden die kürzesten Wege in der Abbildung in der Art nach und nach verkleinert, dass immer der aktuell schlechteste (längstmöglichste) Weg als nächst-kleinerer Weg gefunden wird. D.h. zuerst wird der längste Weg $s \to k' \to k \to (k-1)' \to (k-1) \to \ldots \to 1' \to 1$ gefunden; dies braucht $|V|-1$ Schritte; danach wird der Abschnitt $s \to k' \to k$ aus diesem Weg durch die Kante $s \to k$ verkürzt (halbiert) und dies wird bis zum vordersten Knoten $1$ propagiert. Dies braucht nun $|V|-3$ Schritte. Im $i$-ten Schritt wird der Abschnitt $(k-i+2) \to (k-i+1)' \to (k-i+1)$ durch den kürzeren Weg $(k-i+2) \to (k-i+1)$ ersetzt und bis zum letzten Knoten $1$ propagiert. Dies benötigt $2 \cdot (k-i+2) -1$ Schritte. Das ganze wird nun bis $i = 1$ ausgeführt. Da $|V| = 2k+1$ gilt und $\sum_{i=1}^k 2 \cdot (k-i+2) -1 = k \cdot (k+2)$, ist die Laufzeit des Algorithmus in diesem Beispiel $|V| \cdot (|V| + 6) - 2$. Da $|V| \cdot (|V| + 6) - 2 = O(|V|^2)$, ist die Laufzeit natürlich polynomiell in $|V|$.
 \end{enumerate}
 
@@ -117,7 +116,7 @@ Die Algorithmus ergibt sich durch Aufruf von: \\
 \EndIf
 \end{algorithmic}
 
-Die modifizierte Tiefensuche \texttt{ModTiefensuche} ist dabei gegeben durch: \\
+Die modifizierte Tiefensuche ist dabei gegeben durch: \\
 
 \begin{algorithmic}[1]
 \Require Graph $G = ([n],E)$, $c \in \mathbb{R}^E$, $v \in [n]$, $cur \subseteq [n]$
@@ -134,22 +133,22 @@ Die modifizierte Tiefensuche \texttt{ModTiefensuche} ist dabei gegeben durch: \\
 
 \State path.push(node)
 
-\For{neighbor $\in \delta($node$)$}
-\State toVisit.push((neighbor,node))
-\EndFor
-
 \If{visited[node] = yes}
 \If{length(path) is odd and $c$(path) $ < c(cur)$}
 \State cur $\gets$ path
 \EndIf
 \Else
 \State visited[node] $\gets$ yes
+\For{neighbor $\in \delta($node$)$}
+\State toVisit.push((neighbor,node))
+\EndFor
 \EndIf
-
 
 \EndWhile
 \State \Return cur
 \end{algorithmic}
+
+Da der Algorithmus im Prinzip Tiefensuche ist, ist die Laufzeit des zweiten Listings $O(|V| + |E|)$. Da der Algorithmus diese Art von Tiefesuche für jeden Knoten ausführt, ist die resultierende Laufzeit $O(|V| \cdot (|V| + |E|))$.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Aufgabe 4
