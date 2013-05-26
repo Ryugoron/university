@@ -119,18 +119,36 @@ Die Algorithmus ergibt sich durch Aufruf von: \\
 
 Die modifizierte Tiefensuche \texttt{ModTiefensuche} ist dabei gegeben durch: \\
 
-
 \begin{algorithmic}[1]
 \Require Graph $G = ([n],E)$, $c \in \mathbb{R}^E$, $v \in [n]$, $cur \subseteq [n]$
 \Ensure Kreis $C \subseteq [n]$
-\State Stack toVisit = $\langle v \rangle$
+\State Stack toVisit = $\langle (v, \bot) \rangle$
 \State visited[$v$] = no, $\forall v \in [n]$
-\State Stack path = $\langle \rangle$
+\State Stack path = $\langle \bot \rangle$
 \While{toVisit not empty}
-\State node $\gets$ toVisit.pop()
+\State (node,origin) $\gets$ toVisit.pop()
 
-\State bla
+\While{path.top() $\neq$ origin}
+\State path.pop()
 \EndWhile
+
+\State path.push(node)
+
+\For{neighbor $\in \delta($node$)$}
+\State toVisit.push((neighbor,node))
+\EndFor
+
+\If{visited[node] = yes}
+\If{length(path) is odd and $c$(path) $ < c(cur)$}
+\State cur $\gets$ path
+\EndIf
+\Else
+\State visited[node] $\gets$ yes
+\EndIf
+
+
+\EndWhile
+\State \Return cur
 \end{algorithmic}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
