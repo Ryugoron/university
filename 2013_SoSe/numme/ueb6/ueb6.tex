@@ -75,17 +75,17 @@ Wir können $f$ also durch $n \cdot (m+1)$ Koeffizienten beschreiben.\\
 Da die Funktion im Übergang $m-1$ fach stetig differenzierbar sein muss, gilt nach übergangsbedingung,
 dass $p_k^j(x_k) = p_{k+1}^(j)(x_k)$ für alle $0 \leq j < m$ und $0 \leq k < n$.\\
 
-Wir werden also mindestens einen Wert (den Funktionwert $p_k(x_k)$ für jede Funktion fixieren müssen,
-da hier die Funktion über das Gitter definiert ist. Wir wissen, dass wir ein Polynom vom Grad $m$ durch
-$m+1$ Koeffizienten oder $m+1$ Stützstellen beschreiben können.\\
+Wir verlieren nun für jede der Bedingungen einen Freiheitsgrad, da in den Punkten $t_k$ immer
+gelten muss, dass die $i$-te Ableitung auf beiden angrezenden Funktionen je eine Variable fest setzen
+wird, wie wir bei der Interpolation vorher gesehen haben.
 
-Setzen wir also $2$ der Werte fest, so erhalten wir einen Freiheitsgrad von $m-1$, für die restlichen
-Koeffizienten. Nun ist der Ring der Polynome ein Vektorraum und somit sind bei fixierung von $2$ Werten
-die restlichen $m-1$ noch linear unabhängig, da sonst $\dim P_m < m$ sein müsste.\\
+Pro Polynom verlieren wir so also $m$ Koeffizienten, die wir frei wählen können. Dies gilt nicht für
+$t_0$ und $t_n$ da wir nicht auf die Ramenbedingung zum Nachbern achten müssen. Die restlichen
+Koeffizienten können immer noch frei gewählt werden, da es sich beim Polynomring um einen Vektorraum handelt.
 
 Folglich erhalten wir
 \begin{equation*}
-    \dim S_\Delta^m = \underbrace{n(m+1)}_\text{\#Mögliche Koeffizienten} - \underbrace{m(n-1)}_\text{linear unabhängige Koeffizienten} = n + m
+    \dim S_\Delta^m = \underbrace{n(m+1)}_\text{\#Mögliche Koeffizienten} - \underbrace{m(n-1)}_\text{stetig im Gitter} = n + m
 \end{equation*}
 \mbox{}\hfill$\square$
 \label{LastPage}
