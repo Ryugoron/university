@@ -66,7 +66,65 @@ gilt.
 
 \textbf{Lösung:}\\
 
-tbd
+Wir formen unser LP zunächst in die Standardform um.
+Wobei $x_1 = x_1 - x_3$ und $x_2 = x_2 + x_4$.
+\begin{equation*}\begin{array}{rlcr}
+    \min & -3x_1 + 3x_3 - x_2 + x_4\\
+    \text{s.t.} &
+        x_1 - x_3 - x_2 + x_4 + x_5 & = & -1\\
+    & - x_1 + x_3 - x_2 + x_4 + x_6 & = & -3\\
+    & 2x_1 - 2x_3 - x_2 + x_4 + x_7 & = & 2\\
+    & x & \geq & 0
+\end{array}\end{equation*}
+Wir sehen, dass $(0,0,0,0,-1,-3,2)$ keine bfs ist. Daher formulieren wir das neue LP um
+die Startecke zu finden.
+
+\begin{enumerate}[1.]
+    \item Wir starten mit dem Dictionary:
+        \begin{equation*}\begin{array}{rcl}
+            f & = & x_0\\
+            x_5 & = & -1 - x_1 + x_3 + x_2 - x_4 + x_0\\
+            x_6 & = & -3 + x_1 - x_3 + x_2 - x_4 + x_0\\
+            x_7 & = & 2 - 2x_1 + 2x_3 + x_2 - x_4 + x_0\\
+        \end{array}\end{equation*}
+    \item Wir setzen in unserem resultierenden LP $x_0$ als Exitvariable und setzen es auf $3$, damit
+        alle Variablen korrekt größer als $0$ sind. Damit ist $x_6$ Entryvariable, da die Gleichung
+        für seine Nebenbedingung $0$ wird.\\
+        Wir erhalten das Dictionary:
+    \begin{equation*}\begin{array}{rcl}
+        f = x_0 & = & 3 - x_1 + x_3 -x_2 + x_4 + x_6\\
+        x_5 & = & 2 - 2x_1 + 2x_3 + x_6\\
+        x_7 & = & 5 - 3x_1 + 3x_3 + x_6\\
+        \text{bfs} & = & \left( 3 , 0, 0 ,0 ,0 , 2 , 0, 5 \right)  
+    \end{array}\end{equation*}
+    \item Wir sehen,dass wir $x_2$ als Exitvariable nehmen können und und $x_0$ als Entryvariable um so eine
+        bfs zu finden. Damit (einsetzen) ist
+        $\text{bfs} = (0, 3, 0, 0, 2, 0, 5)$ eine bfs für das ursprüngliche LP mit der Startecke
+        $x_2, x_5, x_7$.
+    \item Erstellen des Initialen Dictionaries.
+        \begin{equation*}\begin{array}{rcl}
+            f & = & -3x_1 + 3x_3 - (3 - x_1 + x_3 + x_4 + x_6) + x_4\\
+                & = & -3 - 2x_1 + 2x_3 - x_6\\
+            x_5 & = & 2 - x_1 + x_3 - x_4\\
+            x_2 & = & 3 - x_1 + x_3 + x_4 + x_6\\
+            x_7 & = & 5 - 2x_1 + 2x_3 - x_4\\
+            \text{bfs} & = & (0, 3, 0, 0, 2, 0, 7)
+        \end{array}\end{equation*}
+    \item Wir nehmen $x_1$ als Exitvariable. Wir sehen, dass $x_5$ als erstes $0$ wird
+        mit $x_1 = 2$.\\
+        \begin{equation*}\begin{array}{rcl}
+            f   & = & -3 - 2 (2 + x_3 - x_4 - x_5) + 2x_3 - x_6\\
+                & = & -7 + 2x_4 + 2x_5 - x_6\\
+            x_1 & = & 2 + x_3 - x_4 - x_5\\
+            x_2 & = & 3 - (2 + x_3 - x_4 - x_5) + x_3 + x_4 + x_6\\
+                & = & 1 + 2x_4 + x_5 + x_6\\
+            x_7 & = & 5 - 2 (2 + x_3 - x_4 - x_5) + 2x_3 - x_4\\
+                & = & 1 + x_4 + 2x_5\\
+            \text{bfs} & = & (2, 3, 0, 0, 0, 0, 1)
+        \end{array}\end{equation*}
+    \item Nun ist $x_6$ einzige verbleibende Exitvariable, aber es gibt keine Bedingung, so dass mit $x_6 \geq 0$ eine Nulstelle
+        erreicht wird. Demnach können wir das LP beliebig groß machen und die Zielfunktion ist unbeschränkt.
+\end{enumerate}
 
 \subsection*{Aufgabe 2}
 
@@ -78,7 +136,7 @@ Das LP hat mehr als eine optimale Lösung.\\
 \textbf{Lösung:}\\
 
 Wenn der Simplex-Algorithmus mehr als eine optimale Lösung hat, so liegt diese in einer Facette des Polyeders mit einer
-Dimension größer $0$. Der Simplex-Algorithmus mit der Regel von \emph{to be pasted here} (Blank???) wird eine
+Dimension größer $0$. Der Simplex-Algorithmus mit der Regel von Bland wird eine
 Ecke dieser Facette finden.
 Nun gilt in dieser Ecke:
 \begin{itemize}
@@ -102,7 +160,7 @@ Das LP hat keine zulässige Lösung.\\
 Wenn es keine zulässige Lösung gibt, so enthält es insbesondere keine bfs.
 Dies bedeuted für uns, dass unser erstes Hilfs-LP für das finden der Startecke,
 das die neue Variable $x_0$ minimieren sollte, einen Wert $>0$ liefert. Wir wissen,
-dass nach Blanches Regel, dass es eine Lösung finden wird. Nach den Vorzeichenbedingungen
+dass nach Blands Regel, dass es eine Lösung finden wird. Nach den Vorzeichenbedingungen
 ist $x \geq 0$ und da $x=0$ bedeuted, dass es eine bfs für das ursprüngliche LP gibt,
 wird das Hilfs-LP eben einen Wert $>0$ liefern und der Algorithmus kann abbrechen.
 
@@ -148,8 +206,8 @@ $c = (1 , ... , 1) \in \mathbb{R}^{2n}$,
 $A = (a_{ij})_{1 \leq i \leq m+2n, 1 \leq j \leq 2n}$
 mit 
 \begin{equation*}\begin{split}
-\forall 1 \leq i \leq m, 1 \leq j \leq n \, : \, a_{ij} &= \left(\begin{array}{rl} 1 \quad &, l_{ij} = x_j \\ 0 &, \text{sonst}\end{array}\right. ,\\
-\forall 1 \leq i \leq m, 1 \leq j \leq n \, : \, a_{i(j+n)} &= \left(\begin{array}{rl} 1 \quad &, l_{ij} = \overline{x_j} \\ 0 &, \text{sonst}\end{array}\right. \\
+\forall 1 \leq i \leq m, 1 \leq j \leq n \, : \, a_{ij} &= \left \{ \begin{array}{rl} 1 \quad &, l_{ij} = x_j \\ 0 &, \text{sonst}\end{array}\right. ,\\
+\forall 1 \leq i \leq m, 1 \leq j \leq n \, : \, a_{i(j+n)} &= \left \{\begin{array}{rl} 1 \quad &, l_{ij} = \overline{x_j} \\ 0 &, \text{sonst}\end{array}\right. \\
 \forall 1 \leq i \leq n \; : \; a_{(i+m)i} &= 1 \land a_{(i+m)(i+n)} = 1.
 \end{split}\end{equation*}
 
