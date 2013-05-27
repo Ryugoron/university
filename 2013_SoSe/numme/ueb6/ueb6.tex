@@ -1,0 +1,92 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm]{geometry} 
+\usepackage{babel}
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc} 
+\usepackage{ae} 
+\usepackage{amssymb} 
+\usepackage{amsmath}
+\usepackage{amsthm} 
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{enumerate}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{paralist}
+\usepackage{tabularx}
+
+\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[C]{Numerik I}
+\fancyhead[L]{Übung 6}
+\fancyhead[R]{SoSe 2013}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage \hspace{1px} of \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\setlength{\parindent}{0pt} 
+\setlength{\headheight}{0pt}
+
+\date{Tutor : Christina Schulz}
+\title{Übung 6}
+\author{Max Wisniewski, Alexander Steen}
+
+
+%%
+%% Enviroments for proofs and lemmas
+%%
+\newtheorem{lemma}{\bfseries Claim}
+
+\begin{document}
+
+\lstset{language=Pascal, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2, mathescape=true}
+
+\renewcommand{\figurename}{Figure}
+
+\maketitle
+\thispagestyle{fancy}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Aufgabe 1 %%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Aufgabe 1}
+
+Sei $S_\Delta^m$ der Raum der Splines $m$-ter Ordnung zum Gitter $\Delta = \{ t_0 , ..., t_n \}$.
+
+Zeigen Sie
+\begin{equation*}
+    \dim S_\Delta^m = n + m.
+\end{equation*}
+
+\textbf{Beweis:}\\
+
+Der Beweis steht schon fast vollständig im Skript.
+
+Eine Funktion
+\begin{equation*}
+    f \in S_\Delta^m = \{ f \in C^{m-1}[a,b] \, | \, v|_{I_k} = p_k \in \mathcal{P}_m\}
+\end{equation*}
+wird wie man sieht durch $n$ Polynome beschrieben, die alle Grad $k$ haben.
+Wir können $f$ also durch $n \cdot (m+1)$ Koeffizienten beschreiben.\\
+
+Da die Funktion im Übergang $m-1$ fach stetig differenzierbar sein muss, gilt nach übergangsbedingung,
+dass $p_k^j(x_k) = p_{k+1}^(j)(x_k)$ für alle $0 \leq j < m$ und $0 \leq k < n$.\\
+
+Wir werden also mindestens einen Wert (den Funktionwert $p_k(x_k)$ für jede Funktion fixieren müssen,
+da hier die Funktion über das Gitter definiert ist. Wir wissen, dass wir ein Polynom vom Grad $m$ durch
+$m+1$ Koeffizienten oder $m+1$ Stützstellen beschreiben können.\\
+
+Setzen wir also $2$ der Werte fest, so erhalten wir einen Freiheitsgrad von $m-1$, für die restlichen
+Koeffizienten. Nun ist der Ring der Polynome ein Vektorraum und somit sind bei fixierung von $2$ Werten
+die restlichen $m-1$ noch linear unabhängig, da sonst $\dim P_m < m$ sein müsste.\\
+
+Folglich erhalten wir
+\begin{equation*}
+    \dim S_\Delta^m = \underbrace{n(m+1)}_\text{\#Mögliche Koeffizienten} - \underbrace{m(n-1)}_\text{linear unabhängige Koeffizienten} = n + m
+\end{equation*}
+\mbox{}\hfill$\square$
+\label{LastPage}
+\end{document}
