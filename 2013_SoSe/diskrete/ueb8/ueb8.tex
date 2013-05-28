@@ -1,0 +1,135 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm]{geometry} 
+\usepackage{babel}
+\usepackage{algpseudocode}
+\usepackage{algorithm}
+
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc} 
+\usepackage{ae} 
+\usepackage{amssymb} 
+\usepackage{amsmath}
+\usepackage{amsthm} 
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{paralist}
+\usepackage{tabularx}
+\usepackage{tikz}
+\usetikzlibrary{arrows,automata}
+\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[C]{Diskrete Mathematik}
+\fancyhead[L]{Übung 7}
+\fancyhead[R]{SoSe 2013}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage \hspace{1px} of \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\setlength{\parindent}{0pt} 
+\setlength{\headheight}{0pt}
+\newcommand\mdoubleplus{\ensuremath{\mathbin{+\mkern-10mu+}}}
+\date{}
+\title{Übung 7}
+\author{Max Wisniewski, Alexander Steen}
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+\newcommand{\argmin}{\text{argmin}}
+\newcommand{\argmax}{\text{argmax}}
+\newcommand{\code}[1]{\langle {#1} \rangle}
+\newcommand{\Z}{\mathbb{Z}}
+%%
+%% Enviroments for proofs and lemmas
+%%
+\newtheorem{lemma}{\bfseries Claim}
+
+\begin{document}
+
+\lstset{language=Pascal, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape,
+commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single,
+xleftmargin=3mm, xrightmargin=3mm, tabsize=2, mathescape=true}
+
+\renewcommand{\figurename}{Figure}
+
+\maketitle
+\thispagestyle{fancy}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Aufgabe 1
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Aufgabe 1.}
+Reduzieren der folgenden Probleme auf Max-Flow
+
+\begin{enumerate}[a)]
+\item Gegeben sei ein Netzwerk $N = (V,E,c,S,T)$ mit $(V,E)$ gerichteter Graph, 
+$c \in \mathbb{N}_0^E$ Kapazitätsfunktion,
+$S \subseteq V$ Quellenmenge und $T \subseteq V$ Senkenmenge. \\
+\textbf{Idee}: Füge explizite Quelle/Senke ein und verbinde diese mit allen vorigen Quellen/Senken (respektive).
+Daraus ergibt sich die Konstruktion der ''normales Netzwerk'' $N' = (V', E', c', s, t)$ (mit einer
+Quelle/Senke) wie folgt: \\
+
+Für zwei neue Knoten $s,t$ setzen wir \\
+$V' := V \cup \{ s,t \}$ \\
+$E' := E \cup \{ (s,s') | s' \in S \} \cup \{(t',t) | t' \in T\}$ \\
+$c' := e \mapsto \begin{cases}
+			c_e & \text{, falls $e \in E$} \\
+			c^* & \text{, sonst}
+		      \end{cases} \quad$
+		      mit $c^* = \max_{s \in S} \left( \sum_{(u,v) \in \delta^+(s)} c_{uv} -  \sum_{(u,v) \in \delta^-(s)} c_{uv}\right)$ \\
+
+Das Gewicht der neuen Kanten $c^*$ ist so gewählt, dass genügend
+viel über diese Kanten fließen kann; nämlich mindestens das,
+was auch aus den jeweiligen Quellen ausfließen kann.
+\item Gegeben sei ein Netzwerk $N = (V,E,c,\tilde{c},s,t)$ mit $(V,E)$ gerichteter Graph, 
+$c \in \mathbb{N}_0^E$ Kapazitätsfunktion der Kanten,
+$\tilde{c} \in \mathbb{N}_0^V$ Kapazitätsfunktion der Knoten,
+$s,t \in V$ Quelle bzw. Senke (respektive). \\
+\textbf{Idee}: Zerteile alle Knoten in zwei separate Knoten;
+dem einen Knoten werden alle eingehenden Kanten zugeordnet,
+dem anderen Knoten werden alle ausgehenden Kanten zugeordet
+(jeweils mit deren gegebenen Kapazität).
+Die beiden Knoten werden miteinander durch eine Kante verbunden,
+die das Kantengewicht des ursprünglichen Knotengewichts trägt.
+Daraus ergibt sich die Konstruktion der ''normales Netzwerk'' 
+$N' = (V', E', c', s', t')$ (mit einer Kapazitätsfunktion) wie folgt: \\
+
+$V' := \{ v_{in} | v \in V \} \cup \{v_{out} | v \in V \}$ \\
+$E' := \{ (u,v_{in}) | u \in \delta^-(v)\} \cup \{ (v_{out},u) | u \in \delta^+(v) \} \cup \{(v_{in},v_{out}) | v \in V \}$ \\
+$c' := e \mapsto \begin{cases}
+			c_e & \text{, falls $e \in E$} \\
+			\tilde{c}_v & \text{, falls $e = (v_{in},v_{out}) \notin E$}
+		      \end{cases} $ \\
+$s' := s_{in}$ \\
+$t' := t_{out}$ \\
+
+Die Einhaltung der zusätzlichen Knotenkapazität ist nun dadurch gewährleistet,
+dass durch die '' künstliche Kante'' zwischen $v_{in}$ und $v_{out}$ erzwungen wird,
+dass nie mehr als diese Kapazität durch $v_{in}$ und $v_{out}$, also auch nicht 
+durch den ursprünglichen Knoten, fließen.
+\end{enumerate}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Aufgabe 2
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Aufgabe 2.}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Aufgabe 3
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Aufgabe 3.}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Aufgabe 4
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Aufgabe 4.}
+
+
+
+\label{LastPage}
+\end{document}
