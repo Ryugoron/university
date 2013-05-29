@@ -48,5 +48,10 @@ function YPos = cub2 (X , Y, R , XPos)
     %% Compute d's
     d = zeros(1,n);
     for i = 1:n
-        d(i) = (c(i+1) - c(i))/(X(i+1)-X(i))
+        d(i) = (c(i+1) - c(i))/(X(i+1)-X(i));
     end
+    Y
+    b
+    c
+    d
+    return;
