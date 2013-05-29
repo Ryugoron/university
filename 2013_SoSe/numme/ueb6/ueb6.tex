@@ -69,18 +69,18 @@ Eine Funktion
 \begin{equation*}
     f \in S_\Delta^m = \{ f \in C^{m-1}[a,b] \, | \, v|_{I_k} = p_k \in \mathcal{P}_m\}
 \end{equation*}
-wird wie man sieht durch $n$ Polynome beschrieben, die alle Grad $k$ haben.
+wird, wie man sieht, durch $n$ Polynome beschrieben, die alle Grad $k$ haben.
 Wir können $f$ also durch $n \cdot (m+1)$ Koeffizienten beschreiben.\\
 
-Da die Funktion im Übergang $m-1$ fach stetig differenzierbar sein muss, gilt nach übergangsbedingung,
+Da die Funktion im Übergang $m-1$ fach stetig differenzierbar sein muss, gilt nach Übergangsbedingung,
 dass $p_k^j(x_k) = p_{k+1}^(j)(x_k)$ für alle $0 \leq j < m$ und $0 \leq k < n$.\\
 
 Wir verlieren nun für jede der Bedingungen einen Freiheitsgrad, da in den Punkten $t_k$ immer
-gelten muss, dass die $i$-te Ableitung auf beiden angrezenden Funktionen je eine Variable fest setzen
-wird, wie wir bei der Interpolation vorher gesehen haben.
+gelten muss, dass die $i$-te Ableitung auf beiden angrenzenden Funktionen je eine Variable fest setzen
+wird (wie wir bei der Interpolation vorher gesehen haben).
 
-Pro Polynom verlieren wir so also $m$ Koeffizienten, die wir frei wählen können. Dies gilt nicht für
-$t_0$ und $t_n$ da wir nicht auf die Ramenbedingung zum Nachbern achten müssen. Die restlichen
+Pro Polynom ''verlieren'' wir so also $m$ Koeffizienten, die wir frei wählen können. Dies gilt nicht für
+$t_0$ und $t_n$ da wir nicht auf die Rahmenbedingung zum Nachbarn achten müssen. Die restlichen
 Koeffizienten können immer noch frei gewählt werden, da es sich beim Polynomring um einen Vektorraum handelt.
 
 Folglich erhalten wir
@@ -110,13 +110,32 @@ tbd
 \subsection*{Aufgabe 3}
 
 Zeichnen Sie ihre Hand nach. Interpolieren Sie die gewählten Punkte mittels Kubischen Splines und natürlichen Randbedingungen
-und interpolieren Sie es mittels \emph{......}. Berechnen Sie es einmal über $x$ und einmal über $y$. Welchen unterschied
+und interpolieren Sie es mittels pchip. Berechnen Sie es einmal über $x$ und einmal über $y$. Welchen unterschied
 haben die beiden Verfahren.\\
 
 \textbf{Lösung:}\\
 
-tbd
+Die Aufnahmepunkte wurden wie in der Aufgabe beschrieben erhoben und interpoliert. Abbildung~\ref{abb:1} zeigt die Interpolation der x-Koordinaten, Abbildung~\ref{abb:2} die Interpolation der y-Koordinaten; jeweils durch  die MATLAB-Funktion \texttt{pchip} und die MATLAB-Funktion \texttt{spline}\footnote{Unser Programm aus Aufgabe 2 wurde erst relativ spät fertig; darum haben wir schon vorher diese Aufgabe gelöst -- die Ergebnisse sollten aber die gleichen sein.}.
+Leider war uns nicht klar, wie wir der Funktion \texttt{pchip} bzw. \texttt{spline} die ''natürlichen Randbedingungen'' übergeben sollen, da diese Funktion diese Eingabeparameter nicht vorsehen.
 
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{plotX.png}
+\caption{Interpolation der $x$-Koordinaten\label{abb:1}}
+\end{figure}
 
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{plotY.png}
+\caption{Interpolation der $y$-Koordinaten\label{abb:2}}
+\end{figure}
+
+\textbf{Beobachtungen}: Die Interpolation durch \texttt{spline} wirkt glatter bzw. ''geschmeidiger'',
+macht also weniger starke bzw. enge Kurven. Die Kurven, die von \texttt{pchip} erzeugt werden, haben
+weniger ''ausladende Schlaufen'', also keine kleine Oszillation um Datenpunkte.
+
+\textbf{Erklärung}: Die beiden Methoden scheinen sich sehr stark zu ähneln. Der größte Unterschied ist,
+dass \texttt{spline} die (stückweisen) Kurven so auswählt, dass die zweite Ableitung stetig ist.
+Dies ist bei \texttt{pchip} nicht der Fall.
 \label{LastPage}
 \end{document}
