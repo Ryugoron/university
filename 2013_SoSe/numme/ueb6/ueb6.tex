@@ -88,5 +88,39 @@ Folglich erhalten wir
     \dim S_\Delta^m = \underbrace{n(m+1)}_\text{\#Mögliche Koeffizienten} - \underbrace{m(n-1)}_\text{stetig im Gitter} = n + m
 \end{equation*}
 \mbox{}\hfill$\square$
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Aufgabe 2 %%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Aufgabe 2}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Aufgabe 3 %%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Aufgabe 3}
+Die Aufnahmepunkte wurden wie in der Aufgabe beschrieben erhoben und interpoliert. Abbildung~\ref{abb:1} zeigt die Interpolation der x-Koordinaten, Abbildung~\ref{abb:2} die Interpolation der y-Koordinaten; jeweils durch  die MATLAB-Funktion \texttt{pchip} und die MATLAB-Funktion \texttt{spline}\footnote{Unser Programm aus Aufgabe 2 wurde erst relativ spät fertig; darum haben wir schon vorher diese Aufgabe gelöst -- die Ergebnisse sollten aber die gleichen sein.}.
+Leider war uns nicht klar, wie wir der Funktion \texttt{pchip} bzw. \texttt{spline} die ''natürlichen Randbedingungen'' übergeben sollen, da diese Funktion diese Eingabeparameter nicht vorsehen.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{plotX.png}
+\caption{Interpolation der $x$-Koordinaten\label{abb:1}}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{plotY.png}
+\caption{Interpolation der $y$-Koordinaten\label{abb:2}}
+\end{figure}
+
+\textbf{Beobachtungen}: Die Interpolation durch \texttt{spline} wirkt glatter bzw. ''geschmeidiger'',
+macht also weniger starke bzw. enge Kurven. Die Kurven, die von \texttt{pchip} erzeugt werden, haben
+weniger ''ausladende Schlaufen'', also keine kleine Oszillation um Datenpunkte.
+
+\textbf{Erklärung}: Die beiden Methoden scheinen sich sehr stark zu ähneln. Der größte Unterschied ist,
+dass \texttt{spline} die (stückweisen) Kurven so auswählt, dass die zweite Ableitung stetig ist.
+Dies ist bei \texttt{pchip} nicht der Fall.
 \label{LastPage}
 \end{document}
