@@ -1,16 +1,21 @@
-function YPos = cubSpline (X , Y)
-    n = lenght(X);
+%%
+%% Gibt ein Gitter X = {x_1, ..., x_n} vor mit Werten
+%% Y = {y_1 = f(x_1) , .... , y_n = f(x_n)} und berechnet
+%% die Interpolierte Funktion an den Punkten XPos = { t_1 ... t_m }
+%% wobei wir t_i < t_(i+1) annehmen
+function YPos = cubSpline (X , Y, XPos)
+    n = length(X);
     %% Wir wollen zunächst der als Lösung von Mc = b darstellbar ist
-    b = zeros(1,n);
+    beta = zeros(1,n);
 
     %% Hier hab ich die Natürlichen Randbedingungen gewählt, kann wahlweise noch ergänzt werden
     %% f'(x_0) = 0 und f'(x_n) = 0. Damit sind alle Freiheitsgerade aufgebraucht.
-    b(1) = 6 * (Y(2)-Y(1))/(X(2)-X(1));
-    b(n) = 6 * (-Y(n) - Y(n-1))/(X(n) - X(n-1));
+    beta(1) = 6 * (Y(2)-Y(1))/(X(2)-X(1));
+    beta(n) = 6 * (-Y(n) + Y(n-1))/(X(n) - X(n-1));
 
     for i = 2:(n-1)
         %% Aitken-Neville für 6 * f[x_i-1 x_i x_i+1] = beta_i
-        b(i) = 6 * ((Y(i+1)- Y(i))/(X(i+1) - X(i) + (Y(i) - Y(i-1))/(X(i) - X(i-1))))/(X(i+1) - X(i-1));
+        beta(i) = 6 * ((Y(i+1)- Y(i))/(X(i+1) - X(i)) - (Y(i) - Y(i-1))/(X(i) - X(i-1)))/(X(i+1) - X(i-1));
     end
     M = 2 * eye(n);
    
@@ -29,12 +34,24 @@ function YPos = cubSpline (X , Y)
     end
     
     %% Standard Matlab Function to solve a system of linear equations
-    c = linsolve(M,b);
+    c = linsolve(M,beta');
     
-    %% Create a new Vector of size n
-    YPos = zeros(1,n);
+    %% Create a new Vector for the b's
+    b = zeros(1,n);
     %% Stabile rekursion aus dem Skript
     for i = 1:(n-1)
-        YPos(i) = (Y(i+1) - Y(i))/(X(i+1) - X(i)) - (X(i+1) - X(i))*(2*c(i)+c(i+1))/6;
+        b(i) = (Y(i+1) - Y(i))/(X(i+1) - X(i)) - (X(i+1) - X(i))*(2*c(i)+c(i+1))/6;
     end
+
+    %% d's berechnen
+    d = zeros(1,n);
+    for i = 1:(n-2)
+        d(i) = (c(i+1) - c(i))/(X(i+1) - X(i));
+    end
+    Y
+    b
+    c
+    d
+
+    %% Compute Grid
     return;
