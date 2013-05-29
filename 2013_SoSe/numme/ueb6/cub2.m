@@ -14,15 +14,14 @@ function YPos = cub2 (X , Y, R , XPos)
     M = 2 * eye(n+1);
     
     %% Randbedingung (Hermite Gleichung
-    beta(1) = 6 * ((Y(2) - Y(1))-R(1))/(X(2) - X(1));
-    beta(n+1) = 6 * (R(2) - (Y(n+1) - Y(n)))/(X(n+1)-X(n));
+    beta(1) = 6 * ((Y(2) - Y(1))/(X(2)-X(1))-R(1))/(X(2) - X(1));
+    beta(n+1) = 6 * (R(2) - (Y(n+1) - Y(n))/(X(n+1) - X(n)))/(X(n+1)-X(n));
 
     for i = 2:n
         fa = (Y(i) - Y(i-1))/(X(i) - X(i-1));
         fb = (Y(i+1) - Y(i))/(X(i+1) - X(i));
         beta(i) = 6*(fb - fa)/(X(i+1) - X(i+1));
     end
-
     %% Matrix M mit mu und lambda wie im skript
 
     M(1,2) = 1; %% lambda_0 ist immer 1
@@ -34,7 +33,6 @@ function YPos = cub2 (X , Y, R , XPos)
     for i = 1:(n-1)
         M(i+1,i) = (X(i) - X(i-1))/(X(i+1) - X(i-1));
     end
-
     c = linsolve(M, beta');
     
     %% Compute b's
@@ -50,8 +48,15 @@ function YPos = cub2 (X , Y, R , XPos)
     for i = 1:n
         d(i) = (c(i+1) - c(i))/(X(i+1)-X(i));
     end
-    Y
-    b
-    c
-    d
-    return;
+   
+    curPoly = 1;
+    m = length(XPos);
+    YPos = zeros(1,m);
+    for i = 1:m
+        %% Depends on the XPos to be inside the intervalls
+        while XPos(i) > X(curPoly+1) do
+            curPoly = curPoly + 1;
+        end
+        YPos(i) = polyval([d(curPoly) c(curPoly) b(curPoly) Y(curPoly)], XPos(i));
+    end
+    return YPos;
