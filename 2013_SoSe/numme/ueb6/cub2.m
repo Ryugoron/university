@@ -7,7 +7,7 @@
 %% in diesem Fall die Ableitung in x_0 und x_n
 function YPos = cub2 (X , Y, R , XPos)
     %% Anzahl der Intervalle
-    n = length(X) - 1
+    n = length(X) - 1;
 
     %% Lösen der linearen Gleichung Mc = b
     beta = zeros(1,n+1);
@@ -20,7 +20,7 @@ function YPos = cub2 (X , Y, R , XPos)
     for i = 2:n
         fa = (Y(i) - Y(i-1))/(X(i) - X(i-1));
         fb = (Y(i+1) - Y(i))/(X(i+1) - X(i));
-        beta(i) = (fb - fa)/(X(i+1) - X(i+1));
+        beta(i) = 6*(fb - fa)/(X(i+1) - X(i+1));
     end
 
     %% Matrix M mit mu und lambda wie im skript
