@@ -57,6 +57,6 @@ function YPos = cub2 (X , Y, R , XPos)
         while XPos(i) > X(curPoly+1) do
             curPoly = curPoly + 1;
         end
-        YPos(i) = polyval([d(curPoly) c(curPoly) b(curPoly) Y(curPoly)], XPos(i));
+        YPos(i) = polyval([(d(curPoly)/6) (c(curPoly)/2) b(curPoly) Y(curPoly)], (XPos(i) - X(curPoly)));
     end
     return;
