@@ -59,4 +59,4 @@ function YPos = cub2 (X , Y, R , XPos)
         end
         YPos(i) = polyval([d(curPoly) c(curPoly) b(curPoly) Y(curPoly)], XPos(i));
     end
-    return YPos;
+    return;
