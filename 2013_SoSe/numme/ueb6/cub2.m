@@ -19,18 +19,18 @@ function YPos = cub2 (X , Y, R , XPos)
     for i = 2:n
         fa = (Y(i) - Y(i-1))/(X(i) - X(i-1));
         fb = (Y(i+1) - Y(i))/(X(i+1) - X(i));
-        beta(i) = 6*(fb - fa)/(X(i+1) - X(i+1));
+        beta(i) = 6*(fb - fa)/(X(i+1) - X(i-1));
     end
 
     %% Matrix M mit mu und lambda wie im skript
     M(1,2) = 1; %% lambda_0 ist immer 1
     for i = 1:(n-1)
-        M(i+1,i+2) = (X(i+1)-X(i))/(X(i+1) - X(i-1));
+        M(i+1,i+2) = (X(i+2)-X(i+1))/(X(i+2) - X(i));
     end
 
-    M(n+1,n) = 0; %% mu_n ist immer 0
+    M(n+1,n) = 1; %% mu_n ist immer 1
     for i = 1:(n-1)
-        M(i+1,i) = (X(i) - X(i-1))/(X(i+1) - X(i-1));
+        M(i+1,i) = (X(i+1) - X(i))/(X(i+2) - X(i));
     end
     c = linsolve(M, beta');
     
