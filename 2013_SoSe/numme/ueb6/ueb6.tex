@@ -179,23 +179,35 @@ mit äquidistanten Knoten.\\
 \textbf{Lösung:}\\
 Es gilt $f(-\frac{5}{16} \pi) \approx 0.7198974$.
 
-\begin{tabular}{c|c|c||c}
-$i$ & $n$ & $ca. \phi_n(f)(-\frac{5}{16} \pi)$ & ca. Fehler \\
-\hline \hline
-1 & 1 & 0.707626 & 0.012271 \\
-2 & 16 & 0.7098757 & 0.010021 \\
-3 & $4^3$ &  0.7167205 &  0.0031769 \\
-4 & $4^4$ & 0.719831 & $6.665823\cdot 10^{-5}$ \\
-5 & $4^5$ & 0.7198974 &  $1.6561232\cdot 10^{-9}$ \\
-6 & $4^6$ & 0.7198974 &  $1.2212453\cdot 10^{-15}$ \\
-7 & $4^7$ &  0.71989742 & $\approx 0$ \\
-8 & $4^8$ & ... & ...
-\end{tabular}
+Die theoretische Fehlerschranke ergibt sich nach Satz 3.22 (Skript) durch
 
-Wie wir sehen, ist der absolute Fehler bereits bei $i = 7$ nach der Maschinengenauigkeit von MATLAB gleich 0 (der tatsächliche Fehler also sehr klein).
+$$\| f - \phi_n f \|_{\infty} \leq \frac{h^4}{16} \|f^{(4)} \|_{\infty} $$
+
+wobei $h := \max h_k = \frac{1}{n}$ und $f^{(4)}$ gegeben durch
+$f^{(4)} = - \frac{15}{16 \cdot (x + 1.5)^{7/2}}$ und damit 
+
+$$ \| f^{(4)} \|_{\infty} = \max_{x \in [-1,1]} |^{(4)}(x)| = \frac{15}{\sqrt{2}}$$
+
+
+Die Messungen sind gegeben durch die folgende Tabelle:
+\begin{center}
+\begin{tabular}{c|c|c||c|c}
+$i$ & $n$ & $ca. \phi_n(f)(-\frac{5}{16} \pi)$ & ca. Fehler & ca. theor. Fehlerschranke\\
+\hline \hline
+1 & 1 & 0.707626 & 0.012271 & 169.7056\\
+2 & 16 & 0.7098757 & 0.010021 & 10.60660 \\
+3 & $4^3$ &  0.7167205 &  0.0031769 & 2.65165 \\
+4 & $4^4$ & 0.719831 & $6.665823\cdot 10^{-5}$ &  0.662912\\
+5 & $4^5$ & 0.7198974 &  $1.6561232\cdot 10^{-9}$ & 0.165728 \\
+6 & $4^6$ & 0.7198974 &  $1.2212453\cdot 10^{-15}$ & 0.041432\\
+7 & $4^7$ &  0.71989742 & $\approx 0$ & 0.010358\\
+8 & $4^8$ & ... & ...&  0.0025895
+\end{tabular}
+\end{center}
+
+Wie wir sehen, ist der absolute Fehler bereits bei $i = 7$ nach der Maschinengenauigkeit von MATLAB gleich 0 (der tatsächliche Fehler also sehr klein). Wie man sieht, ist der gemessene Fehler immer kleinergleich dem theoretischen Fehler.
 
 \subsection*{Aufgabe 3}
-
 Zeichnen Sie ihre Hand nach. Interpolieren Sie die gewählten Punkte mittels Kubischen Splines und natürlichen Randbedingungen
 und interpolieren Sie es mittels pchip. Berechnen Sie es einmal über $x$ und einmal über $y$. Welchen unterschied
 haben die beiden Verfahren.\\
@@ -205,15 +217,15 @@ haben die beiden Verfahren.\\
 Die Aufnahmepunkte wurden wie in der Aufgabe beschrieben erhoben und interpoliert. Abbildung~\ref{abb:1} zeigt die Interpolation der x-Koordinaten, Abbildung~\ref{abb:2} die Interpolation der y-Koordinaten; jeweils durch  die MATLAB-Funktion \texttt{pchip} und die MATLAB-Funktion \texttt{spline}\footnote{Unser Programm aus Aufgabe 2 wurde erst relativ spät fertig; darum haben wir schon vorher diese Aufgabe gelöst -- die Ergebnisse sollten aber die gleichen sein.}.
 Leider war uns nicht klar, wie wir der Funktion \texttt{pchip} bzw. \texttt{spline} die ''natürlichen Randbedingungen'' übergeben sollen, da diese Funktion diese Eingabeparameter nicht vorsehen.
 
-\begin{figure}[h]
+\begin{figure}[h!]
 \centering
-\includegraphics[width=0.8\textwidth]{plotX.png}
+\includegraphics[width=0.7\textwidth]{plotX.png}
 \caption{Interpolation der $x$-Koordinaten\label{abb:1}}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[h!]
 \centering
-\includegraphics[width=0.8\textwidth]{plotY.png}
+\includegraphics[width=0.7\textwidth]{plotY.png}
 \caption{Interpolation der $y$-Koordinaten\label{abb:2}}
 \end{figure}
 
