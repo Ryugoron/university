@@ -57,7 +57,7 @@ function YPos = cub2 (X , Y, R , XPos)
     YPos = zeros(1,m);
     for i = 1:m
         %% XPos innerhalb des Intervalls
-        while XPos(i) > X(curPoly+1) do
+        while XPos(i) > X(curPoly+1)
             curPoly = curPoly + 1;
         end
         %% Auswertung mit Taylor

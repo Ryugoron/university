@@ -125,18 +125,18 @@ function YPos = cub2 (X , Y, R , XPos)
     for i = 2:n
         fa = (Y(i) - Y(i-1))/(X(i) - X(i-1));
         fb = (Y(i+1) - Y(i))/(X(i+1) - X(i));
-        beta(i) = 6*(fb - fa)/(X(i+1) - X(i+1));
+        beta(i) = 6*(fb - fa)/(X(i+1) - X(i-1));
     end
 
     %% Matrix M mit mu und lambda wie im skript
     M(1,2) = 1; %% lambda_0 ist immer 1
     for i = 1:(n-1)
-        M(i+1,i+2) = (X(i+1)-X(i))/(X(i+1) - X(i-1));
+        M(i+1,i+2) = (X(i+2)-X(i+1))/(X(i+2) - X(i));
     end
 
-    M(n+1,n) = 0; %% mu_n ist immer 0
+    M(n+1,n) = 1; %% mu_n ist immer 1
     for i = 1:(n-1)
-        M(i+1,i) = (X(i) - X(i-1))/(X(i+1) - X(i-1));
+        M(i+1,i) = (X(i+1) - X(i))/(X(i+2) - X(i));
     end
     c = linsolve(M, beta');
     
@@ -163,7 +163,7 @@ function YPos = cub2 (X , Y, R , XPos)
     YPos = zeros(1,m);
     for i = 1:m
         %% XPos innerhalb des Intervalls
-        while XPos(i) > X(curPoly+1) do
+        while XPos(i) > X(curPoly+1)
             curPoly = curPoly + 1;
         end
         %% Auswertung mit Taylor
@@ -177,8 +177,22 @@ Testen des Programms an der Funktion $f = \sqrt{1,5 + x}$ auf dem Intervall $I =
 mit äquidistanten Knoten.\\
 
 \textbf{Lösung:}\\
+Es gilt $f(-\frac{5}{16} \pi) \approx 0.7198974$.
 
-tbd
+\begin{tabular}{c|c|c||c}
+$i$ & $n$ & $ca. \phi_n(f)(-\frac{5}{16} \pi)$ & ca. Fehler \\
+\hline \hline
+1 & 1 & 0.707626 & 0.012271 \\
+2 & 16 & 0.7098757 & 0.010021 \\
+3 & $4^3$ &  0.7167205 &  0.0031769 \\
+4 & $4^4$ & 0.719831 & $6.665823\cdot 10^{-5}$ \\
+5 & $4^5$ & 0.7198974 &  $1.6561232\cdot 10^{-9}$ \\
+6 & $4^6$ & 0.7198974 &  $1.2212453\cdot 10^{-15}$ \\
+7 & $4^7$ &  0.71989742 & $\approx 0$ \\
+8 & $4^8$ & ... & ...
+\end{tabular}
+
+Wie wir sehen, ist der absolute Fehler bereits bei $i = 7$ nach der Maschinengenauigkeit von MATLAB gleich 0 (der tatsächliche Fehler also sehr klein).
 
 \subsection*{Aufgabe 3}
 
