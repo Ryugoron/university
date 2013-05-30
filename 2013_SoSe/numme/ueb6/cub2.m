@@ -24,7 +24,7 @@ function YPos = cub2 (X , Y, R , XPos)
 
     %% Matrix M mit mu und lambda wie im skript
     M(1,2) = 1; %% lambda_0 ist immer 1
-    for i = 1:(n-2)
+    for i = 1:(n-1)
         M(i+1,i+2) = (X(i+1)-X(i))/(X(i+1) - X(i-1));
     end
 
