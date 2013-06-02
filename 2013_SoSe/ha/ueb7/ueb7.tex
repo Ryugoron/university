@@ -1,0 +1,188 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm]{geometry} 
+\usepackage{babel}
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc} 
+\usepackage{ae} 
+\usepackage{amssymb} 
+\usepackage{amsmath}
+\usepackage{amsthm} 
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{paralist}
+
+\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[C]{Höhere Algorithmik}
+\fancyhead[L]{Übungsblatt Nr. 7}
+\fancyhead[R]{SoSe 2013}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage \hspace{1px} of \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\setlength{\parindent}{0pt} 
+\setlength{\headheight}{0pt}
+
+\date{}
+\title{Übungsblatt Nr. 7}
+\author{Max Wisniewski, Alexander Steen}
+
+
+%%
+%% Enviroments for proofs and lemmas
+%%
+\newtheorem{lemma}{\bfseries Lemma}
+\newtheorem{claim}{\bfseries claim}
+\newtheorem{theorem}{\bfseries Theorem}
+
+\begin{document}
+
+\renewcommand{\figurename}{Figure}
+\maketitle
+\thispagestyle{fancy}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%      Aufgabe 1
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Aufgabe 1}
+
+Lesen Sie den Text und entscheiden Sie, welche Angaben
+
+\begin{description}
+    \item[richtig] sind.\\
+        \begin{enumerate}[1.]
+            \item Leonid Khachiyan hat die Elipsoid Method Entwickelt, die in der Tat neu war.
+            \item "The technique is in any case an important theoretical accomplishment."
+                Dies stimmt, da er gezeigt hat, dass LP Solving in P liegt. Allerdings ist
+                die Laufzeit in real meist schlechter als Simplex.
+            \item TSP kann man so formulieren.
+            \item Man hat Simplex benutzt, das ist richtig.
+            \item Danzig hat Simplex entwickelt.
+            \item Elipsoid legt immer kleinere Elipsen um die feasable solutions.
+        \end{enumerate}
+    \item[falsch] sind.\\
+         \begin{enumerate}[1.]
+            \item Ein LP kann TSP nicht "effizient" lösen. Zumindest nicht, solange $P = NP$ nicht
+                bewiesen wurde. (Man kann streiten, ob es hier oder unter Vermutung fällt). Mittels
+                eines LPs können wir nur mittels Rounding eine Approximierte Lösung finden, die das
+                Problem im allgemeinen aber nicht löst, da sie nicht optimal ist.
+            \item "[Simplex] can't garantue that after a certain number of steps it will find a solution".
+                Ist falsch, da der algorithmus immer terminiert, Bland's Regel, können wir eine obere Schranke angeben,
+                die Laufzeit ist nur exponentiell mit den bisherigen Heuristiken für Austrittsveriablen.
+                Damit ist die Aussage das elepsoid das kann zwar wahr, aber irrefürhend, da Simplex es auch kann.
+            \item "..., the answer is know with greater precision". Da die elipsen das ganze LP einschließen, wissen
+                wir bis wir das erste mal das polyeder berühren eigentlich nichts, da wir auch Punkte einschließen, die
+                nicht zur Lösung gehören können. Also haben wir bis zum Ende, im Gegensatz zu Simplex, eigentlich
+                gar keine Lösung in der Hand und insbesondere wissen wir nichts über den relativen Wert zum Endergebnis.
+        \end{enumerate}
+    \item[irreführend] sind.\\
+        \begin{enumerate}[1.]
+            \item "At a certain point the complexity becomes so great..." ist irreführend.
+                Die Komplexität ist eine Funktion abhängig von der Eingabegröße. Daher steigt
+                die Komplexität nicht mir Größerer Eingabe, sondern die Laufzeit. Und selbst
+                dann ist die Aussage irreführend, da außer konstanten Berechnungen diese
+                Aussage immer stimmt, wobei hier wahrscheinlich eine Exponentielle laufzeit gemeint ist.
+                Dabei ist es in dem Sinne auch falsch, da Simplex nicht für jede Eingabe exponentiell läuft
+                sondern nur für einen sehr kleinen Anteil, also reicht das einfache erhöhen der Bedingungen nicht.
+        \end{enumerate}
+    \item[einer bekannten] Vermutung entsprechen.\\
+        \begin{enumerate}[1.]
+            \item TSP und ähnliches ist "schwer".
+        \end{enumerate}
+\end{description}
+
+Wir haben keine Ahnung, ob ein "Pocket Calculator" entwickelt wurde und hatten keine Lust zu googeln :)
+
+\subsection*{Aufgabe 2}
+
+Zeigen Sie, dass folgende Funktionen in polynomieller Zeit berechenbar sind.\\
+
+\begin{description}
+    \item[$+,*,-,\setminus : \mathbb{Q} \rightarrow \mathbb{Q}$]:
+        Nehmen wir die Schulmethode, also einen Carry Ripple Addieren,
+        zum addieren von zwei ganzen Zahlen, so benötigen wir für zwei Zahlen mit
+        $n$ bits. Pro Schritt die addition von je $3 Zahlen$ in eine Stelle des Ergebnis
+        und Übertrag, was uns insgesammt 3 Operationen kostet (im Binären) also
+        $T(n) = 3n = O(n)$ total. Die Multiplikation von ganzen Zahlen nach der Schulmethode
+        wurde schon in der Vorlesung gezeigt und braucht $O(n^2)$ wobei $n$ wieder die Anzahl der
+        Bits waren. Wärend des Verfahrens haben wir je $n$ bit Zahlen vorschoben und addiert.
+        Dabei werden die verschobenen Zahlen maximal $2n$ Bit lang. Demnach sind alle Zwischenergebnisse polynomiell.
+        
+        Nun ist die Addition von zwei zahlen $p,q \in Q$ darstellbar als
+        \begin{equation*}\begin{split}
+            p + q &= \frac{a}{b} + \frac{c}{d} = \frac{a*d + b*c}{b*d}\\
+            p * q &= \frac{a}{b} * \frac{c}{d} = \frac{a*c}{b*d}\\
+            p - q &= \frac{a}{b} + \frac{-c}{d}\\
+            p / q &= \frac{a}{b} / \frac{c}{d} = \frac{a*d}{b*c}
+        \end{split}\end{equation*}
+        und damit zurückgeführt auf die Operation auf ganzen Zahlen, die wie gesehen polynomiell sind.
+    \item[$\left\lceil \log x\right\rceil \, : \, \mathbb{N} \rightarrow \mathbb{N}$]
+        Wir teilen ganzzahligen durch $3$. Die Schulmethode nimmt immer die die nächsten Stellen einer Zahl, solange
+        bis die Zahl größer als $3$ ist. Damit kann die Zahl im Speicher nur konstant groß sein. für die Zahlen
+        im Puffer können wir das Ergebnis hart kodieren. Das Ergebnis ist kleiner als die Eingabe und damit durch $n$ beschränkt.\\
+
+        Damit können wir in lineare Zeit durch 3 teilen und das Ergebnis is linear groß.\\
+        Nun teilen wir die Zahl solange durch 3 bis wir eine 1 erhalten. Dies ist nach $\log_3 n$ Schritten der Fall.
+        Also brauchen wir $n \cdot \log_3 n$ Schritte. Jedes Zwischenergebnis ist wie gezeigt höchstens $O(n)$ groß und
+        das Endergebnis sollte $\log (\log_3 n)$ bits haben.
+    \item[ggt $: \mathbb{N} \times \mathbb{N} \rightarrow \mathbb{N}$]
+        Die Schlmethode zum teilen von Zahlen dauert insgesammt $O(n^2)$ für beliebige Zahlen durch die wir teilen. Davon abgesehen
+        sehen die Zwischenergebnisse aus wie zuvor beschrieben. Beim rechnen von Modulo geben wir den Rest zurück, wenn wir
+        keine weitere Stelle beim Teilen mehr haben. Der Rest ist ebenfalls höchstens so groß wie die Zahl durch die wir teilen
+        also ebenfalls $n$ bits groß.\\
+
+        Der euklidische Algorithmus braucht $O(\log n)$ Schritte. In jedem Schritte teilen wir die beiden Eingaben und berechnen
+        modulo. Dadurch werden die Zahlen nur kleiner und nie größer. Im letzten Schritt gelingt der Vergleich auf 1. Da alle
+        Ergebnisse höchstens $n$ groß waren ist es auch das Endergebnis.
+    \item[mult $: \mathbb{Q}^{n \times n} \times \mathbb{Q}^{n\times n} \rightarrow \mathbb{Q}^{n \times n}$]
+        Wir wollen $A \cdot B$ berechnen mit $A = (a_{ij}), B = (b_{ij})$. Nehmen wir an, jede Zahl $a_{ij}, b_{ij}$ hat höchstens
+        $m$ Bits.
+        Dann können wir das Ergebnis 
+        $A\cdot B = (c_{ij})$ darstellen als
+        \begin{equation*}
+            c_{ij} = \overset{n}{\underset{i=1}{\sum}} a_i b_j
+        \end{equation*}
+        Wir müssen dies für $n^2$ viele $c_{ij}$ berechnen. Die multiplikation dauert $O(m^2)$ und die addition brauch $O(m)$ Zeit, wie
+        wir bisher gezeigt haben. Nach der Multiplikation hat jedes der Ergebnisse höchstens $2m$ viele Bits. Da jede
+        Addition die Anzahl der Bits um höchstens eins erhöht hat jedes $c_{ij}$ am Ende höchstens $2m + n$ viele Bits.
+        
+        Schätzen wir die Laufzeit nach oben ab, so haben wir pro $c_{ij}$ $n$ Additionen von Zahlen mit höchstens $2m+n$ vielen
+        Bits, damit ist die Laufzeit $T(n) = n^2 \cdot n\cdot (2m+n) = 2mn^3 + n^4$,
+        was polynomiell in der Eingabegröße ist.\\
+    \item[inv,det $: \mathbb{Q}^{n \times n} \rightarrow \mathbb{Q}^{n \times n}$]
+        Wir hatten in der Vorlesung die Aufteilung der Matrix $A$ in
+
+
+        \begin{equation*}\begin{array}{rcl}
+            A &=& \left( \begin{array}{cc} A_{11} & A_{12} \\ A_{21} & A_{22} \end{array}\right)\\
+                &=& \left( \begin{array}{cc}I & 0 \\ A_{21}A_{11}^{-1} & I \end{array}\right) \cdot 
+                \left( \begin{array}{cc} A_{11} & 0 \\ 0 & D \end{array} \right) \cdot 
+                \left( \begin{array}{cc} I & A_{11}^{-1}A_{12} \\ O & I \end{array}\right)
+        \end{array}\end{equation*}
+
+
+        und $D = A_{22} - A_{21}A_{11}^{-1}A_{12}$. Wie wir gesehen hatten 
+        laufen die beiden Algorithmus polynomiell, wenn man die Bits vernachlässigt.\\
+        Wie wir aber nun wissen erhöht Addition (zurückgeführt auf Addtion von $\mathbb{Q}$) und Multiplikation
+        von Matrizen die Anzahl der Bits nur Polynomiell.
+        Wir wissen, dass der Algorithmus ind $O(M(n))$ liegt, wenn $M(n)$ die Anzahl Operationen der Multiplikation von
+        zwei Matrizen ist.\\
+    
+        Wir tuen in jeder iteration nur konstant viele Additionen/Multiplikaitonen, bekommen wir von der unteren Ebene
+        nun eine Matrix, die polynomiell in der Eingabe ist (was sie zu begin ist), so produzieren wir
+        nach den Operationen in diesem Schritt nur eine Matrix die polynomiell viel Bits mehr braucht, wie wir vorher gezeigt haben.
+        Da dies in jedem Schritt gilt, gilt es insbesondere auch am Ende.\\
+
+        Diese Rekursion gilt sowohl bei der Inversen und der Determinanten.
+\end{description}
+
+
+
+\label{LastPage}
+\end{document}
