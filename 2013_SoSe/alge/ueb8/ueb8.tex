@@ -1,0 +1,204 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm]{geometry} 
+\usepackage{babel}
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc} 
+\usepackage{ae} 
+\usepackage{amssymb} 
+\usepackage{amsmath}
+\usepackage{amsthm} 
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{paralist}
+
+\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[C]{Computational Geometry}
+\fancyhead[L]{Exercise sheet 8}
+\fancyhead[R]{SoSe 2013}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage \hspace{1px} of \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\setlength{\parindent}{0pt} 
+\setlength{\headheight}{0pt}
+
+\date{}
+\title{Exercise sheet 8}
+\author{Max Wisniewski, Alexander Steen}
+
+
+%%
+%% Enviroments for proofs and lemmas
+%%
+\newtheorem{lemma}{\bfseries Claim}
+
+\begin{document}
+
+\lstset{language=Pascal, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2, mathescape=true}
+
+\renewcommand{\figurename}{Figure}
+
+\maketitle
+\thispagestyle{fancy}
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+%% Aufgabe 1 
+%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Problem 1}
+
+Let $P = \{ x_1, ..., x_n\}$ be $n$ numbers, given no particular order.\\
+
+Consider the algortihm that picks a random permutation of $P$ and then inserts the elements of $P$ in this order into
+an (unbalanced) binary search tree $T$.
+
+\subsubsection*{(a)}
+
+Explain how this algorithm can be interpreted as a one-dimensional version of the algorithm in class.\\
+
+\textbf{Solution:}\\
+
+The search structure from the lecture dicedes by points $p$ from the planar subdevision whether the searched point
+lies right or left of this point and then descendes into this subtree. Given a line of the subdevision it decides
+wether it the searched point lies above or below.\\
+
+In the one dimensional case we can only do a choice in one dimension, therefore we have either of the two cases
+mentioned above. In the two-dimensional case we choose a random permutation of lines, which are in one dimension points,
+and insert them into the structure, by finding its position in the search tree and update by inserting new choiced
+for the endpoints and the line two the new faces. If only given a point we only insert it at the right place.\\
+
+The result partitions the previous line segment \emph{next($p$)} \emph{prev($p$)}. In two dimensions the line
+can partition a face into at most four new faces.\\
+
+Therefore the interpretation of the searchtree and the search is essantially the same as the algorithm in the lecture.
+
+\subsubsection*{(b)}
+
+Show that the expected running time for the construction of $T$ is $O(n \log n)$.\\
+
+\textbf{Soluton:}\\
+
+If the first element of the permuation is inserted into the search tree all following elements will be partitioned by
+this choice. If $x \in P$ is inserted we insert all $P_<(x) = \{ p \in P \, | \, p < x \}$ into the left and
+all $P_>(x) = \{ p \in P \, | \, p > x \}$ into the right tree. Because of the itertive construction of a binary search tree,
+there procede just the same. Hence we are interested in the expected size of $P_<$ and $P_>$.\\
+
+If the permutation is choosen random at equal, for an element of $P$ to be first we have a probability of $\frac{1}{n}$.
+Because $P$ is a set each number occurs at most once. If we sort $P$ we know, that $P_<(i)$ for te $i$th element
+has size $i-1$ and $P_>(i) = n-i$.
+\begin{equation*}\begin{split}
+    E[|P_<(p)|] &= \overset{n}{\underset{i=1}{\sum}} Pr(p = i) \cdot |P_<(i)|\\
+                &= \frac{1}{n} \cdot \overset{n}{\underset{i=1}{\sum}} i-1\\
+                &= \frac{1}{n} \cdot \overset{n-1}{\underset{i=0}{\sum}} i\\
+                &= \frac{1}{n} \cdot \frac{(n-1)(n-2)}{2}\\
+                &< \frac{n}{2}\\
+    E[|P_>(p)|] &= \overset{n}{\underset{i=1}{\sum}} Pr(p=i) \cdot |P_>(i)|\\
+                &= \frac{1}{n} \cdot \overset{n}{\underset{i=1}{\sum}} n-i\\
+                &< \frac{n}{2}
+\end{split}\end{equation*}
+
+We see that we half the number of elements at each level of the iteration.
+Therefor the height of the tree is $O(\log n)$. Because of that each insertion operation takes
+at most $O(\log n)$ time. Hence all insertions take $O(n \log n )$ time.
+
+\subsubsection*{(c)}
+
+Let $z$ be a fixed number. Give a bound on the expected time it takes to search for $z$ in $T$. Here, the expectation is
+over the random permutation used to construct $T$.\\
+
+\textbf{Solution:}\\
+
+As shown in \emph{(b)} the height of the tree is expected $O(\log n)$. Hence a search takes at most $O(\log n)$ steps.
+In each step we make a constant number of operations.
+
+\subsubsection*{(d)}
+
+Explain how this algorithm resembles randomized quicksort.\\
+
+\textbf{Solution:}\\
+
+In quicksort we partition the list of elements by a pivot element which is in out case given by the first element
+of the random permutation. Our algorithm partions it by the first element, because it is the root of the search tree.\\
+
+The tree will be computed by quicksort implicitly as the recursion tree. The left iteration is the left side of the tree
+and the right as that.\\
+
+The constructed search tree will produce a sorted list if it is flattened again.
+By \emph{fold fusion law} the known quicksort is exaclty the same as first creating the data structure and then flatten it
+again.
+
+
+\subsection*{Problem 2}
+
+Give an example of $n$ line segments with an order on them that makes the algorithm conustruct a search structure of size $\Theta (n^2)$ and worst-case
+query time $\Theta (n)$.\\
+
+\textbf{Solution:}\\
+
+tbd
+
+\subsection*{Problem 3}
+
+Let $P$ be a polygon given an array of its $n$ vertices in sorted order along the boundary. Give an algorithm, that given a query point $q$, decides
+whether $q$ lies inside of $P$ in $O(\log n)$ time for the following cases.
+
+\subsubsecetion*{(a)}
+
+$P$ is convex.\\
+
+\textbf{Solution:}\\
+
+Choose a point $p \in P$ and look search for the intersection $\overline{qp}$ with $P$. Because $P$ is convex there can be at most two.
+If we found the second intersection (it can be on an edge or a vertex of $P$) we can check, if $q$ lies between the two points.
+If both points lie on one side of $q$, then $q$ lies outside. This holds if $q$ lies on the proper interior. If $q$ lies on the boundary
+we can not find a second point other then $q$.\\
+
+If we can find the second point in $O(\log n)$ time we can check the property in $O(\log n)$ time.\\
+
+We again search a point where the line $\overline{pq}$ is right (or on) but the next point in $P$ is on the left. As we have already seen
+this binary search in a circular structure, we know that we can find this point in $O(\log n)$ time.
+
+\subsubsection*{(b)}
+
+$P$ is y-monoton.\\
+
+\textbf{Solution:}\\
+
+We search the two line segments enclosing the point $q$ in y-coordinates. There exists at most two because it is y-monoton.
+
+We can find both the line segements $s,t$ by binary search. Let $x,y$ be the upper most and lower most point of the polygon.
+Then the part between $x,y$ and $y,x$ are both sorted lists, where we can find via binary search the segment, where
+the moment point is below and the next is above $q$ and vis-versa.
+
+Given $s$ and $t$ we check if $q$ lies between this both points.\\
+
+This binary search takes $O(\log n)$ time and the check takes $O(1)$ such that this algorithm takes $O(\log n)$ time.
+
+\subsubsection*{(c)}
+
+$P$ is star-shaped.\\
+
+\textbf{Solution:}\\
+
+We reduce this problem to a y-monoton case. From $p$ we shoot rays to two abritrary disjoint points. For one we do a
+binary search for the vertex, where the line from $p$ to this vertex has $q$ to the left, but the next vertex on $P$ has
+$q$ to the right. And the other line accordingly wit h$q$ to the right.\\
+
+Because $P$ is star shaped both lines are completly in $P$. Taken the polygon defined by the both lines and the line segment
+between both endpoints is y-monoton. If it were not the case there would be an ear pointing into the new polygon $P'$ (no
+other case is possible because it is star shaped and $p$ can see every point). If we assume general position $q$ can not lie
+an the line from $p$ to the vertex of the ear. An is therefor left or right. But then we could have moved one of the two rays
+closer to $q$.\\
+
+The search takes $O(\log n)$ time for both rays. As shown in \emph{(b)} the search in the y-monoton subsegment takes $O(\log n)$ time
+such that this algorithm takes $O(\log n)$ time.
+
+\label{LastPage}
+
+
+\end{document}
