@@ -116,19 +116,82 @@ durch den ursprünglichen Knoten, fließen.
 %% Aufgabe 2
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection*{Aufgabe 2.}
+Sei $G = (V,E)$ ein gerichteter Graph, $k \in \mathbb{N}$. \\
+Z.z. $G$ ist $k$-fach stark kantenzusammenhängend \\
+  $\Leftrightarrow \forall s,t \in V: \; \left|\{ \text{ disjunkte gerichtete $st$-Wege } \}\right| \geq k$ \\
+
+\textbf{Beweis}: \\
+"$\Rightarrow$": Sei $G$ $k$-fach stark kantenzusammenhängend, $s,t \in V$. \\
+Dann gilt nach Annahme $\forall B \subseteq V, |B| \leq k-1: \, (V,E \setminus B)$ enthält einen $st$-Weg.
 
 
+asd \\
+
+"$\Leftarrow$": Sei $s,t \in V$ und $\mathcal{M} = \{M_1, M_2, \ldots \}$ die Menge aller kantendisjunkter gerichteten $st$-Wege, $|\mathcal{M}| \geq k$.\\
+Sei $B \subseteq V$ mit $|B| \leq k-1$, dann ist $|B \cap \left(\cup_{i=1}^{|\mathcal{M}|} M_i\right)| \leq k-1$.
+Da außerdem alle $M_i$ kantendisjunkt, ex. also ein $j \in \{1,\ldots,|\mathcal{M}| \}$, sodass $M_j \cap B = \emptyset$.
+Also enthält der Graph $(V, E \setminus B)$ mindestens einen $st$-Weg, nämlich $M_j$.
+\mbox{} \hfill $\square$
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Aufgabe 3
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection*{Aufgabe 3.}
+Z.z. jeder ganzzahliger $st$-Fluss $f$ mit $|f| \geq 1$ kann in $st$-Wege $P_i$ und Kreise $C_j$ zerlegt werden.
 
+\textbf{Beweis}: Wir geben einen Algorithmus an, der uns die Zerlegung liefert. Bezeichne $f(e)$ den Fluss entlang einer Kante $e \in E$.
+
+\begin{algorithmic}[1]
+\Require Netzwerk $N = (V,E,c,s,t)$, $c \in \mathbb{R}^E, f$ gültiger Fluss 
+\Ensure Zerlegung von $f$ in $st$-Wege $P$ und Kreise $C$
+\While{ex. $st$-Weg $v_1,v_2,\ldots,v_k$ mit $f(v_iv_{i+1}) > 0, \forall i < k$}
+\State $E \gets st$-Weg $v_1,v_2,\ldots,v_k$ mit $f(v_iv_{i+1}) > 0, \forall i<k$
+\State $f(e) \gets f(e) - 1$, für alle Kanten $e$ des $st$-Weges $E$
+\State füge $E$ zu $P$ hinzu
+\EndWhile
+\While{ex. Kante $e = v_1v_2$ mit $f(e) > 0$}
+\State $K \gets $ Kreis $v_1,v_2,\ldots,v_k,v_{k+1}=v_1$ mit $f(v_iv_{i+1}) > 0, \forall i \leq k$
+\State $f(e) \gets f(e) - 1$, für alle Kanten $e$ des Kreises $K$
+\State füge $K$ zu $C$ hinzu
+\EndWhile
+\end{algorithmic}
+
+\textbf{Korrektheit}: In den Zeilen 1..5 werden die $st$-Wege extrahiert. Falls in dem Fluss $f$ etwas fließt, also $|f| \geq 1$ gilt, können wir solche Wege nach Knotenbedingung finden.
+In den Zeilen 6..10 werden dann die Kreise extrahiert. Falls es nach ''entfernen'' der $st$-Wege noch Kanten mit positivem Fluss gibt, müssen solche Kreise nach Knotenbedingung existieren.
+Sowohl Wege als auch Kreise werden nur dann
+betrachtet, falls diese auf jeder Kante mindestens die Flussmenge eins besitzen.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Aufgabe 4
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection*{Aufgabe 4.}
-
+\begin{enumerate}[a)]
+\item Beweis durch Widerspruch: \\
+      Angenommen $d^{i+1}(v) < d^i(v)$ für einen Knoten $v \in V \setminus \{s,t\}$.
+      Sei $v$ o.B.d.A. der Knoten kürzester Distanz von $s$ der nach der Augmentierung
+      die Distanz verkürzte. Sei dann $w = s,\ldots,u,v$ ein kürzester Pfad nach der Augmentierung.
+      Dann gilt aber
+      \begin{equation*}\begin{split}
+        d^{i}(v) & \leq d^{i}(u) + 1 \\
+        &\stackrel{(*)}{\leq} d^{i}(u) + 1 \\
+        &\leq d^{i+1}(v)
+      \end{split}\end{equation*}
+      was ein Widerspruch ist.
+      (*) gilt, da sich nach Wahl des Pfades $w$ die Distanz von $s$ nach $u$ nicht reduziert.
+\item Sei $(v,u) \in E; v,u \in V$. Wird $u$ saturiert, so lag dieser vor der Augmentierung auf einem         
+      augmentierendem Weg kürzester Länge, also gilt $d^i(u) = d^i(v) + 1$. Frühestens bei der nächsten   
+      Saturierung muss nun die umgekehrte Kante $(u,v)$ auf einem augmentierenden Pfad liegen,
+      hier gilt also $d^{i+1}(v) = d^{i+1}(u) + 1$. Dann gilt
+      \begin{equation*}\begin{split}
+        d^{i+1}(v) & = d^{i+1}(u) + 1 \\
+        &\stackrel{(a)}{\geq} d^{i}(u) + 1 \\
+        &= d^{i}(v) +2
+      \end{split}\end{equation*}
+      Also kann ein Knoten höchstens $\frac{|V|}{2} = \frac{n}{2}$ mal saturiert werden.
+\item Da im Residualgraphen $O(|E|)$ Kanten enthalten sind und jede Augmentierung mindestens einen Knoten
+      saturiert, ist (nach (b)) ist die Anzahl der Augmentierungen $O(|V|\cdot |E|)$. Die Suche des kürzesten
+      augmentierenden Pfad kann durch Breitensuche gelöst werden, damit ergibt sich eine Laufzeit von
+      $O(|V|\cdot |E|^2)$. Also ist die Laufzeit polynomiell.
+\end{enumerate}
 
 
 \label{LastPage}
