@@ -23,7 +23,7 @@
 \usepackage{fancyhdr}
 \pagestyle{fancy}
 \fancyhead[C]{Diskrete Mathematik}
-\fancyhead[L]{Übung 7}
+\fancyhead[L]{Übung 8}
 \fancyhead[R]{SoSe 2013}
 \fancyfoot{}
 \fancyfoot[L]{}
@@ -34,7 +34,7 @@
 \setlength{\headheight}{0pt}
 \newcommand\mdoubleplus{\ensuremath{\mathbin{+\mkern-10mu+}}}
 \date{}
-\title{Übung 7}
+\title{Übung 8}
 \author{Max Wisniewski, Alexander Steen}
 \renewcommand{\algorithmicrequire}{\textbf{Input:}}
 \renewcommand{\algorithmicensure}{\textbf{Output:}}
@@ -121,11 +121,10 @@ Z.z. $G$ ist $k$-fach stark kantenzusammenhängend \\
   $\Leftrightarrow \forall s,t \in V: \; \left|\{ \text{ disjunkte gerichtete $st$-Wege } \}\right| \geq k$ \\
 
 \textbf{Beweis}: \\
-"$\Rightarrow$": Sei $G$ $k$-fach stark kantenzusammenhängend, $s,t \in V$. \\
+"$\Rightarrow$": Beweis durch Widerspruch: Sei $G$ $k$-fach stark kantenzusammenhängend, $s,t \in V$. \\
 Dann gilt nach Annahme $\forall B \subseteq V, |B| \leq k-1: \, (V,E \setminus B)$ enthält einen $st$-Weg.
-
-
-asd \\
+Es gelte zusätzlich, dass es höchstens $k-1$ kantendisjunkte $st$-Wege gebe. Sei nun $\mathcal{M} = \{M_1,\ldots,M_\kappa \}, \kappa \leq k-1$ eben diese Menge disjunkter Wege. Sei nun $B \subseteq V$ eine Menge, die je eine Kante von allen $M_i, 1 \leq i \leq \kappa$ enthält. Dann ist $|B| = \kappa \leq k-1$, allerdings
+existiert in $(V,E \setminus B)$ kein $st$-Weg mehr, da es höchstens $k-1$ viele $st$-Wege gibt. Dies ist aber ein Widerspruch zur Annahme, dass $G$ $k$-fach stark kantenzusammenhängend ist. \\
 
 "$\Leftarrow$": Sei $s,t \in V$ und $\mathcal{M} = \{M_1, M_2, \ldots \}$ die Menge aller kantendisjunkter gerichteten $st$-Wege, $|\mathcal{M}| \geq k$.\\
 Sei $B \subseteq V$ mit $|B| \leq k-1$, dann ist $|B \cap \left(\cup_{i=1}^{|\mathcal{M}|} M_i\right)| \leq k-1$.
@@ -159,7 +158,7 @@ Z.z. jeder ganzzahliger $st$-Fluss $f$ mit $|f| \geq 1$ kann in $st$-Wege $P_i$ 
 In den Zeilen 6..10 werden dann die Kreise extrahiert. Falls es nach ''entfernen'' der $st$-Wege noch Kanten mit positivem Fluss gibt, müssen solche Kreise nach Knotenbedingung existieren.
 Sowohl Wege als auch Kreise werden nur dann
 betrachtet, falls diese auf jeder Kante mindestens die Flussmenge eins besitzen.
-
+\newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Aufgabe 4
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
