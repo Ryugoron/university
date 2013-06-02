@@ -100,21 +100,114 @@ Die Funktion benutzt die Berechnungsvorschriften des Skriptes.
 Für zwei Eingabelisten $[x_1,\ldots,x_k]$, $[y_1 = f(x_1),\ldots,y_k = f(x_k)]$ 
 intepoliert die Funktion mittels kubischen Splines die Funktion $f$ und gibt
 deren interpolierte Funktionswerte für die Eingabeliste $t = [t_1, \ldots, t_j]$
-zurück.
+zurück. \\
+Siehe Dokumentation im Code.
 
-\begin{lstlisting}[language=matlab,numbers=left]
+\begin{lstlisting}[basicstyle=\ttfamily\scriptsize\selectfont\upshape,language=matlab,numbers=left,]
+%% Gibt ein Gitter X = {x_1, ..., x_n} vor mit Werten
+%% Y = {y_1 = f(x_1) , .... , y_n = f(x_n)} und berechnet
+%% die Interpolierte Funktion an den Punkten XPos = { t_1 ... t_m }
+%% wobei wir t_i < t_(i+1) annehmen (wichtig!)
+%% R ist ein Vektor mit Randbedingungen
+%% in diesem Fall die Ableitung in x_0 und x_n
+function YPos = cub2 (X , Y, R , XPos)
+    %% Anzahl der Intervalle
+    n = length(X) - 1;
+
+    %% Losen der linearen Gleichung Mc = b
+    beta = zeros(1,n+1);
+    M = 2 * eye(n+1);
+    
+    %% Randbedingung (Hermite Gleichung
+    beta(1) = 6 * ((Y(2) - Y(1))/(X(2)-X(1))-R(1))/(X(2) - X(1));
+    beta(n+1) = 6 * (R(2) - (Y(n+1) - Y(n))/(X(n+1) - X(n)))/(X(n+1)-X(n));
+
+    for i = 2:n
+        fa = (Y(i) - Y(i-1))/(X(i) - X(i-1));
+        fb = (Y(i+1) - Y(i))/(X(i+1) - X(i));
+        beta(i) = 6*(fb - fa)/(X(i+1) - X(i-1));
+    end
+
+    %% Matrix M mit mu und lambda wie im skript
+    M(1,2) = 1; %% lambda_0 ist immer 1
+    for i = 1:(n-1)
+        M(i+1,i+2) = (X(i+2)-X(i+1))/(X(i+2) - X(i));
+    end
+
+    M(n+1,n) = 1; %% mu_n ist immer 1
+    for i = 1:(n-1)
+        M(i+1,i) = (X(i+1) - X(i))/(X(i+2) - X(i));
+    end
+    c = linsolve(M, beta');
+    
+    %% Berechne b's
+    b = zeros(1,n);
+    for i = 1:n
+        h2 = X(i+1) - X(i);
+        f2 = (Y(i+1) - Y(i))/h2;
+        b(i) = f2 - h2/6*(2 * c(i) + c(i+1));
+    end
+
+    %% Berechne d's
+    d = zeros(1,n);
+    for i = 1:n
+        d(i) = (c(i+1) - c(i))/(X(i+1)-X(i));
+    end
+   
+    %% Auswertung der Eingabestellen t_i
+    %% Dazu: In welchem Intervall liegt t_i?
+    %% Dann: Auswertung des kubisches Polynoms des Intervalls
+    %% mit Taylor
+    curPoly = 1;
+    m = length(XPos);
+    YPos = zeros(1,m);
+    for i = 1:m
+        %% XPos innerhalb des Intervalls
+        while XPos(i) > X(curPoly+1)
+            curPoly = curPoly + 1;
+        end
+        %% Auswertung mit Taylor
+        YPos(i) = polyval([(d(curPoly)/6) (c(curPoly)/2) b(curPoly) Y(curPoly)], (XPos(i) - X(curPoly)));
+    end
+    return;
 \end{lstlisting}
 
 \subsubsection*{(b)}
-
-Testen Sie ihr Programm an der Funktion $f = \sqrt{5 + x}$ (WRONG).\\
+Testen des Programms an der Funktion $f = \sqrt{1,5 + x}$ auf dem Intervall $I = [-1,1]$
+mit äquidistanten Knoten.\\
 
 \textbf{Lösung:}\\
+Es gilt $f(-\frac{5}{16} \pi) \approx 0.7198974$.
 
-tbd
+Die theoretische Fehlerschranke ergibt sich nach Satz 3.22 (Skript) durch
+
+$$\| f - \phi_n f \|_{\infty} \leq \frac{h^4}{16} \|f^{(4)} \|_{\infty} $$
+
+wobei $h := \max h_k = \frac{1}{n}$ und $f^{(4)}$ gegeben durch
+$f^{(4)} = - \frac{15}{16 \cdot (x + 1.5)^{7/2}}$ und damit 
+
+$$ \| f^{(4)} \|_{\infty} = \max_{x \in [-1,1]} |^{(4)}(x)| = \frac{15}{\sqrt{2}}$$
+
+
+Die Messungen sind gegeben durch die folgende Tabelle:
+\begin{center}
+\begin{tabular}{c|c|c||c|c}
+$i$ & $n$ & $ca. \phi_n(f)(-\frac{5}{16} \pi)$ & ca. Fehler & ca. theor. Fehlerschranke\\
+\hline \hline
+1 & 1 & 0.707626 & 0.012271 & 169.7056\\
+2 & 16 & 0.7098757 & 0.010021 & 10.60660 \\
+3 & $4^3$ &  0.7167205 &  0.0031769 & 2.65165 \\
+4 & $4^4$ & 0.719831 & $6.665823\cdot 10^{-5}$ &  0.662912\\
+5 & $4^5$ & 0.7198974 &  $1.6561232\cdot 10^{-9}$ & 0.165728 \\
+6 & $4^6$ & 0.7198974 &  $1.2212453\cdot 10^{-15}$ & 0.041432\\
+7 & $4^7$ &  0.71989742 & $\approx 0$ & 0.010358\\
+8 & $4^8$ & ... & ...&  0.0025895
+\end{tabular}
+\end{center}
+
+Wie wir sehen, ist der absolute Fehler bereits bei $i = 7$ nach der Maschinengenauigkeit von MATLAB gleich 0 (der tatsächliche Fehler also sehr klein). Wie man sieht, ist der gemessene Fehler immer kleinergleich dem theoretischen Fehler.
 
 \subsection*{Aufgabe 3}
-
 Zeichnen Sie ihre Hand nach. Interpolieren Sie die gewählten Punkte mittels Kubischen Splines und natürlichen Randbedingungen
 und interpolieren Sie es mittels pchip. Berechnen Sie es einmal über $x$ und einmal über $y$. Welchen unterschied
 haben die beiden Verfahren.\\
@@ -124,15 +217,15 @@ haben die beiden Verfahren.\\
 Die Aufnahmepunkte wurden wie in der Aufgabe beschrieben erhoben und interpoliert. Abbildung~\ref{abb:1} zeigt die Interpolation der x-Koordinaten, Abbildung~\ref{abb:2} die Interpolation der y-Koordinaten; jeweils durch  die MATLAB-Funktion \texttt{pchip} und die MATLAB-Funktion \texttt{spline}\footnote{Unser Programm aus Aufgabe 2 wurde erst relativ spät fertig; darum haben wir schon vorher diese Aufgabe gelöst -- die Ergebnisse sollten aber die gleichen sein.}.
 Leider war uns nicht klar, wie wir der Funktion \texttt{pchip} bzw. \texttt{spline} die ''natürlichen Randbedingungen'' übergeben sollen, da diese Funktion diese Eingabeparameter nicht vorsehen.
 
-\begin{figure}[h]
+\begin{figure}[h!]
 \centering
-\includegraphics[width=0.8\textwidth]{plotX.png}
+\includegraphics[width=0.7\textwidth]{plotX.png}
 \caption{Interpolation der $x$-Koordinaten\label{abb:1}}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[h!]
 \centering
-\includegraphics[width=0.8\textwidth]{plotY.png}
+\includegraphics[width=0.7\textwidth]{plotY.png}
 \caption{Interpolation der $y$-Koordinaten\label{abb:2}}
 \end{figure}
 
