@@ -93,13 +93,13 @@ Because $P$ is a set each number occurs at most once. If we sort $P$ we know, th
 has size $i-1$ and $P_>(i) = n-i$.
 \begin{equation*}\begin{split}
     E[|P_<(p)|] &= \overset{n}{\underset{i=1}{\sum}} Pr(p = i) \cdot |P_<(i)|\\
-                &= \frac{1}{n} \cdot \overset{n}{\underset{i=1}{\sum}} i-1\\
-                &= \frac{1}{n} \cdot \overset{n-1}{\underset{i=0}{\sum}} i\\
+                &= \frac{1}{n} \cdot \overset{n}{\underset{i=1}{\sum}} i-1
+                = \frac{1}{n} \cdot \overset{n-1}{\underset{i=0}{\sum}} i\\
                 &= \frac{1}{n} \cdot \frac{(n-1)(n-2)}{2}\\
                 &< \frac{n}{2}\\
     E[|P_>(p)|] &= \overset{n}{\underset{i=1}{\sum}} Pr(p=i) \cdot |P_>(i)|\\
-                &= \frac{1}{n} \cdot \overset{n}{\underset{i=1}{\sum}} n-i\\
-                &< \frac{n}{2}
+                &= \frac{1}{n} \cdot \overset{n}{\underset{i=1}{\sum}} n-i
+                < \frac{n}{2}
 \end{split}\end{equation*}
 
 We see that we half the number of elements at each level of the iteration.
@@ -140,14 +140,48 @@ query time $\Theta (n)$.\\
 
 \textbf{Solution:}\\
 
-tbd
+We get a greater number of leaves if the next added line segment cuts
+through many of the existing faces.
+So assume we have $2n$ lines strinctly above each other. The 
+first $n$ we have from top to bottom, where the next lower one
+is always completly enclosed in x-range by the ones above.\\
+The $n$ lower lines are from bottom to top increasing.\\
+
+\vspace{5cm}
+
+We always take the next topmost left line and then the next lower most line.\\
+After takeing the next topmost line, in the result there will
+be two additional faces between top and bottom series. This happens
+because we lie completly in one face and by adding the horizontal lines
+of the endpoints we partition this face into three. Therefor
+we have $3i$ faces in round $i$ between top and bottom line.\\
+
+Therefor if we add the lower line, we cut through $3i$ faces, which will
+add the line in the search tree to this $2i$ previous leaves to make
+another decision for above or below this line. We increase the tree by
+$2i$ inner nodes. (Forgetting the new faces created at the endpoints of
+this line, for that only increases the number of downwards)
+
+After $n$ rounds we inserted all $2n$ lines, at each round we inserted
+$2i$ inner nodes and $2$ new leaves (at least).
+Therefor the size of the search structure is
+\begin{equation*}
+    S(n) = \overset{n}{\underset{i=1}{\sum}} 3i = O(n^2)
+\end{equation*}
+
+If we then search for a point in the inner most face, we have to
+check compare with all $n$ lines below, because they were added first to the tree and are therefor to check first on the way to to this face.
+\begin{equation*}
+    T(n) = O(n)
+\end{equation*}
+because we have to perform a comparison for each of the bottom lines.
 
 \subsection*{Problem 3}
 
 Let $P$ be a polygon given an array of its $n$ vertices in sorted order along the boundary. Give an algorithm, that given a query point $q$, decides
 whether $q$ lies inside of $P$ in $O(\log n)$ time for the following cases.
 
-\subsubsecetion*{(a)}
+\subsubsection*{(a)}
 
 $P$ is convex.\\
 
