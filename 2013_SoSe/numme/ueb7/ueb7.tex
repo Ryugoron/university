@@ -53,32 +53,112 @@
 %% Aufgabe 1                                                    %%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection*{Aufgabe 1}
+
+\subsubsection*{(a)}
+
 Gegeben sei das Integral $J$ mit folgender (exakter) Lösung:
-$$ J := \int_0^1 \sin(\pi x) \, dx = \frac{2}{\pi} $$
+\begin{equation*}
+    J := \int_0^1 \sin(\pi x) \, dx = \frac{2}{\pi}
+\end{equation*}
 
 Nach Skript  ist der Fehler bei summierter Trapezregel beschränkt durch $h^2 \|f^{(2)} \|_\infty$ und damit für uns gegeben durch
 
-$$ h^2 \|f^{(2)} \|_\infty =$h^2 \| -\pi^2 \sin(\pi x) \|_\infty = h^2 \pi^2$$
+\begin{equation*}\begin{array}{crcl}
+    & h^2 \| f^{(a)} \|_\infty &<& 10^{-4}\\
+\Leftrightarrow & \frac{1}{n}^2 \| -\pi^2 \sin (\pi x) \|_\infty &<& 10^{-4}\\
+\Leftrightarrow & \frac{pi}{n}^2 &<& 10^{-4}\\
+\Leftrightarrow & n &>& 100 \pi
+\end{array}\end{equation*}
 
-Da der Fehler durch $10^{-4}$ beschränkt sein soll ergibt sich folgende Ungleichung
+Nun müssen wir nach der Formel
+$$
+    I_\Delta (f) = \overset{m}{\underset{k=1}{\sum}} \overset{n}{\underset{i=0}{\sum}} \lambda_{ik} f(x_{ik}) h_k
+$$
+die Funktion insgesammt $2n$ mal auswerten oder aber, da sich die Werte immer überschneiden, müssen wir sie nur $n$ mal berechnen
+und uns den letzten Wert für das nächste Trapez merken.
 
-$$ h^2 \pi^2 < 10^{-4} \Leftrightarrow n > 100 \pi$$
+\subsubsection*{(b)}
 
+Gegeben ist das Integral $\int_0^1 f(x) dx$ und die Knoten $x_0 = 0, x_1 = \frac{1}{4}, x_2 = 1$.
+Bestimmen Sie die Quadraturformel mit Ordnung 3.\\
 
+\textbf{Solution:}\\
 
+Die Quadraturformel mit Ordnung 3 ist nach Newton-Côtes Formel die simpsonregel. Da wir nur 3 Punkte haben, betrachten wir
+nur dieses Interval.\\
+
+\begin{equation*}\begin{split}
+    I_\Delta (f) &= \overset{2}{\underset{i=0}{\sum}} \lambda_{i} f(x_i) h_{i}\\
+    &= \frac{f(0)}{6} + \frac{4 \cdot f(\frac{1}{4})}{6} + \frac{f(1)}{6}
+\end{split}\end{equation*}
+
+Äh, ich glaub man sollte noch 3 Punkte in die beiden Intervalle je setzten....
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Aufgabe 2                           %%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection*{Aufgabe 2}
 
-check
+Es sollen zwei Programme zur berechnung von
+$$
+    \int_a^b f(x) dx
+$$
+geschriebe werde.
+
+\subsubsection*{(a)}
+
+Schreiben Sie eine Funktion zur Berechnung mit summierter Trapezregel.\\
+
+\textbf{Lösung:}\\
+
+tbd
+
+\subsubsection*{(b)}
+
+Schreibe Sie eine FUnktion zur Berechnung mit summierter Simpsonregel.\\
+
+\textbf{Lösung:}\\
+
+tbd
+
+\subsubseciton*{(c)}
+
+Testen Sie die Funktionen und plotten Sie die Laufzeit.\\
+
+\textbf{Lösung:}\\
+
+tbd
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Aufgabe 3                   %%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection*{Aufgabe 3}
 
+Gewinnung einer Quadraturformel in höheren Dimensionen.
 
+\subsubsectin*{(a)}
+
+Wie sieht die Quadratur auf einem Dreieck mit den Ecke $e_1 = (0,0), e_2 = (a,0), e_3 = (0,b)$ aus.\\
+
+\textbf{Lösung:}\\
+
+tbd
+
+\subsubsection*{(b)}
+
+Gewinnen Sie eine Quadraturformel für das Dreieck durch Integration der Lagrange-Polynome ähnlich
+durch $L_k(e_i) = \delta_{ki}$ gegeben sind.\\
+
+\textbf{Lösung:}\\
+
+tbd
+
+\subsubsection*{(c)}
+
+Leiten Sie die Formel für das Recheck her.\\
+
+\textbf{Lösung:}\\
+
+tbd
 
 
 \label{LastPage}
