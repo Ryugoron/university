@@ -1,5 +1,5 @@
 > import Lecture7summary
-o
+
 Exercises 8
 -----------
 
@@ -17,20 +17,20 @@ Exercises 8
 We do not want to show the trace, but only the value. If the Trace is wanted
 you may call fstT.show
 
-> instance Show (Trace a) where
->   show t             = show.sndT
+> instance Show a => Show (Trace a) where
+>   show              = show.sndT 
 
 > eval                ::  Term -> Trace Float
 > eval                 =  foldTerm fC fA fD
 >           where
 >           fC x       =  T (show x ++ "\n", x)
->           fA t1 t2   =  T ((show.fst) t1) ++ ((show.fst) t2) ++ show x ++ "\n", x)
+>           fA t1 t2   =  T (fstT t1 ++ fstT t2 ++ show x ++ "\n", x)
 >                         where
->                           x = (sndT t1) + (sndT t2)::Float
->           fD t1 t2   =  T ((show.fst) t2) ++ ((show.fst) t2) ++ help ++ "\n", x)
+>                           x = ((sndT t1) + (sndT t2))::Float
+>           fD t1 t2   =  T (fstT t1 ++ fstT t2 ++ help ++ "\n", x)
 >                         where
 >                           x = (sndT t1) / (sndT t2)
->                           help = if t2 == 0 then "Division by zero error => infty" else show x
+>                           help = if sndT t2 == 0 then "Division by zero error => infty" else show x
 
 2.  Give a |Monad| instance declaration for |Trace| and rewrite
     the evaluator in monadic form.
@@ -39,6 +39,21 @@ you may call fstT.show
 >   return x           =  T ("",x)
 >   t >>= f    =  let T (s', v') = (f . sndT) t in
 >                             T ((fstT t) ++ s', v')
+
+Fehlerkram fehlt noch
+
+> eval'               ::  Term -> Trace Float
+> eval'                =  foldTerm fC fA fD
+>           where
+>           fC         =  \v -> T (show v ++ "\n",v)
+>           fA t1 t2   =  do
+>                           v <- t1
+>                           v' <- t2
+>                           return (v+v')
+>           fD t1 t2   =  do 
+>                           v <- t1
+>                           v' <- t2
+>                           return (v/v')
 
     Show that the |return| and |>>=| you have defined satisfy the monad 
     laws.
@@ -97,13 +112,38 @@ Associativity: (m >>= f) >>= g <=> m >>= (\x -> fx >>= g), sei m = T(s,v)
 >                              --  do just as well                             
 > data G a             =  C1 a  |  C2 (F (G a))
 
+G A = {C1 a, C2 [], C2 [C1 a], C2 [C1 a, C1 a], ...,  C2 [C2 [C1 a]] ...
+
     forms a monad.  Show that this is the case by completing the following
     instance declaration:
 
 > instance Monad G where
->   return             =  undefined
->   (C1 a)  >>=  f     =  undefined
->   (C2 x)  >>=  f     =  undefined
+>   return             =  C1
+>   (C1 a)  >>=  f     =  f a
+>   (C2 x)  >>=  f     =  C2 $ fmap (>>=f) x 
 
     Show that the |return| and |>>=| you have defined fulfill the monad
     laws.
+
+< (return a >>= f = f a)
+
+  return a >>= f
+= C1 a >>= f
+= f a
+
+< f x       >>=  return  =  f x
+
+case 1: f x = C1 a
+  f x >>= return
+= C1 a >>= return
+= return a
+= C1 a = f x
+
+case 2: f x = C2 z
+  f x >>= return
+= C2 z >>= return
+*= C2 $ fmap (>>= return) z
+= C2 $ z
+= f x
+
+etc. i hope
