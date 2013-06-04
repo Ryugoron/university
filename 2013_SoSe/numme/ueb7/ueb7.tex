@@ -84,17 +84,55 @@ und uns den letzten Wert für das nächste Trapez merken.
 Gegeben ist das Integral $\int_0^1 f(x) dx$ und die Knoten $x_0 = 0, x_1 = \frac{1}{4}, x_2 = 1$.
 Bestimmen Sie die Quadraturformel mit Ordnung 3.\\
 
-\textbf{Solution:}\\
-
-Die Quadraturformel mit Ordnung 3 ist nach Newton-Côtes Formel die simpsonregel. Da wir nur 3 Punkte haben, betrachten wir
-nur dieses Interval.\\
+\textbf{Lösung:}\\
+%Die Quadraturformel mit Ordnung 3 ist nach Newton-Côtes Formel die simpsonregel. Da wir nur 3 Punkte haben, betrachten wir
+%nur dieses Interval.\\
+%
+%\begin{equation*}\begin{split}
+%    I_\Delta (f) &= \overset{2}{\underset{i=0}{\sum}} \lambda_{i} f(x_i) h_{i}\\
+%    &= \frac{f(0)}{6} + \frac{4 \cdot f(\frac{1}{4})}{6} + \frac{f(1)}{6}
+%\end{split}\end{equation*}
+%
+%Äh, ich glaub man sollte noch 3 Punkte in die beiden Intervalle je setzten....
+%ICH glaube: Newton-cote kann man hier nicht verwenden, da kein äquidistanter gitter.
+%-> selber quadraturformel aufstellen. \\
+%
+Gegeben ist das Gitter $\Delta = \{x_0 < x_1 < x_2 \} = \{0, \frac{1}{4}, 1 \}$.
+Die Quadraturformel dritter Ordnung $I_2(f)$ (also Interpolationspolynomgrad 2)
+erhält man durch Interpolation des Integranden durch ein Polynom $p_2$ vom Grad 2.
+Setzt man nun die Legendre-Darstellung des Polynoms $p_2 = \sum_{k=0}^2 f(x_k)L_k$ ein,
+erhält man als Quadraturformel
 
 \begin{equation*}\begin{split}
-    I_\Delta (f) &= \overset{2}{\underset{i=0}{\sum}} \lambda_{i} f(x_i) h_{i}\\
-    &= \frac{f(0)}{6} + \frac{4 \cdot f(\frac{1}{4})}{6} + \frac{f(1)}{6}
+I_2(f) &= \int_0^1 p_2(x) dx \\
+       &= \sum_{k=0}^2 f(x_k) \lambda_k
 \end{split}\end{equation*}
 
-Äh, ich glaub man sollte noch 3 Punkte in die beiden Intervalle je setzten....
+Die Gewichte $\lambda_k$ können (wie z.B. im CoMa II gelernt) durch die Vorschrift
+
+\begin{equation*}
+  \lambda_k = \int_0^1 L_k(x) dx
+  \quad \quad
+  L_k(x) = \prod_{j=0,j \neq k}^2 \frac{x-x_k}{x_j - x_k},
+  k = 0, 1,2
+\end{equation*}
+
+berechnet werden.
+Einsetzen ergibt:
+\begin{center}
+\begin{tabular}{c|c|c}
+k & $L_k(x)$ & $\lambda_k$ \\
+\hline \hline
+0 & $x(4x -5)+1$ & $-\frac{1}{6}$\\
+1 & $-\frac{16}{3} (x-1) x$ & $\frac{8}{9}$ \\
+2 & $\frac{1}{3}x (4x -1)$ & $\frac{5}{18}$\\
+\end{tabular}
+\end{center}
+und damit
+
+\begin{equation*}
+I_2(f) = -\frac{1}{6} f(x_0) + \frac{8}{9} f(x_1) + \frac{5}{18} f(x_2)
+\end{equation*}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Aufgabe 2                           %%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -188,15 +226,15 @@ Dies kann man machen, da die exakte Lösung gegeben ist durch $\int_0^{\pi} \sin
 
 \begin{figure}[ht]
 \centering
-\begin{subfigure}{0.4\textwidth}
+\begin{subfigure}{0.45\textwidth}
 	\includegraphics[width=\textwidth]{trapez.png}
   \caption{Fehler der Trapezregel}
 \end{subfigure}
-\begin{subfigure}{0.4\textwidth}
-	\includegraphics[width=\textwidth]{trapez.png}
-  \caption{Fehler der Trapezregel}
+\begin{subfigure}{0.45\textwidth}
+	\includegraphics[width=\textwidth]{simpson.png}
+  \caption{Fehler der Simpsonregel}
 \end{subfigure}
-\caption{Fehler der Newton-Cotes-Formeln}
+\caption{Fehler der Newton-Cotes-Formeln (Aufgabe 2c)}
 \end{figure}
 
 Der lineare Verlauf (auf der log-Skala) der Fehler über die Teilintervalle zeigt ein akzeptables Verhältnis und ist bei beiden Formeln (nahezu) gleich. Die Steigung der Fehlerkurve auf der log-Skala zeigt die
@@ -210,28 +248,22 @@ gewünschte Konvergenzordnung.
 Gewinnung einer Quadraturformel in höheren Dimensionen.
 
 \subsubsection*{(a)}
-
 Wie sieht die Quadratur auf einem Dreieck mit den Ecke $e_1 = (0,0), e_2 = (a,0), e_3 = (0,b)$ aus.\\
 
 \textbf{Lösung:}\\
-
 tbd
 
 \subsubsection*{(b)}
-
 Gewinnen Sie eine Quadraturformel für das Dreieck durch Integration der Lagrange-Polynome ähnlich
 durch $L_k(e_i) = \delta_{ki}$ gegeben sind.\\
 
 \textbf{Lösung:}\\
-
 tbd
 
 \subsubsection*{(c)}
-
 Leiten Sie die Formel für das Recheck her.\\
 
 \textbf{Lösung:}\\
-
 tbd
 
 
