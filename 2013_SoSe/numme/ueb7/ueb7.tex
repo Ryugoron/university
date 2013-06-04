@@ -9,6 +9,8 @@
 \usepackage{amsthm} 
 \usepackage{graphicx}
 \usepackage{fancyhdr}
+\usepackage{caption}
+\usepackage{subcaption}
 \usepackage{fancyref}
 \usepackage{enumerate}
 \usepackage{listings}
@@ -30,7 +32,7 @@
 \setlength{\parindent}{0pt} 
 \setlength{\headheight}{0pt}
 
-\date{Tutor : Christina Schulz}
+\date{Tutor: Christina Schulz}
 \title{Übung 7}
 \author{Max Wisniewski, Alexander Steen}
 
@@ -50,7 +52,7 @@
 \thispagestyle{fancy}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Aufgabe 1                                                    %%%%%%%%%%%%%%%%
+%% Aufgabe 1     %%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection*{Aufgabe 1}
 
@@ -61,7 +63,7 @@ Gegeben sei das Integral $J$ mit folgender (exakter) Lösung:
     J := \int_0^1 \sin(\pi x) \, dx = \frac{2}{\pi}
 \end{equation*}
 
-Nach Skript  ist der Fehler bei summierter Trapezregel beschränkt durch $h^2 \|f^{(2)} \|_\infty$ und damit für uns gegeben durch
+Nach Skript ist der Fehler bei summierter Trapezregel beschränkt durch $h^2 \|f^{(2)} \|_\infty$ und damit für uns gegeben durch
 
 \begin{equation*}\begin{array}{crcl}
     & h^2 \| f^{(a)} \|_\infty &<& 10^{-4}\\
@@ -97,45 +99,117 @@ nur dieses Interval.\\
 %% Aufgabe 2                           %%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection*{Aufgabe 2}
-
 Es sollen zwei Programme zur berechnung von
 $$
     \int_a^b f(x) dx
 $$
-geschriebe werde.
+geschriebe werden.
+
+Die folgenden matlab-Programme rechnet die jeweiligen Newton-Cotes-Formeln aus. Der Aufwand ist jeweils auf die Berechnung des Programms bezogen, welche Funktionsauswertungen nicht mehrfach benutzt und darum etwas ineffizienter ist, als es sein könnte.
 
 \subsubsection*{(a)}
-
 Schreiben Sie eine Funktion zur Berechnung mit summierter Trapezregel.\\
 
 \textbf{Lösung:}\\
+\begin{lstlisting}[language=matlab,numbers=left,caption=Quadratur nach Trapez-Regel]
+function [S] = trapQuad(a,b,f,n)
+% Gibt den Zahlenwert S der Quadratur zurueck
+%
+% [a,b] Integrationsintervall
+% f zu intigrierende Funktion
+% n anzahl der teilintervalle
 
-tbd
+ab = [a,b];
+% Bezeichnungen ab hier wie im Skript
+% h ist der Abstand zwischen den Stellen
+h = (ab(2) - ab(1))/n;
+% z sind die Stuetzstellen
+z = ab(1) + (1:n).*h;
+
+% Gewichte jeweils aus dem Skript entnommen,
+% sowie Berechnungsvorgehen
+
+%% Trapez-Berechnungsvorschrift
+x = @(k) z(k);
+S = h/2 * (f(ab(1)) + f(ab(2)));
+for k = 2:(n),
+   S = S + h*f(x(k)); % Siehe Skript
+end
+return % Aufwand n+1
+\end{lstlisting}
 
 \subsubsection*{(b)}
-
-Schreibe Sie eine FUnktion zur Berechnung mit summierter Simpsonregel.\\
-
-\textbf{Lösung:}\\
-
-tbd
-
-\subsubseciton*{(c)}
-
-Testen Sie die Funktionen und plotten Sie die Laufzeit.\\
+Schreibe Sie eine Funktion zur Berechnung mit summierter Simpsonregel.\\
 
 \textbf{Lösung:}\\
+\begin{lstlisting}[language=matlab,numbers=left,caption=Quadratur nach Simpson-Regel]
+function [S] = simpQuad(a,b,f,n)
+% Gibt den Zahlenwert S der Quadratur zurueck.
+%
+% [a,b] Integrationsintervall
+% f zu intigrierende Funktion
+% n anzahl der teilintervalle
 
-tbd
+ab = [a,b];
+%% Simpson-Berechnungsvorschrift
+% (Algorithmisches) Vorgehen analog zu Trapez
+x = @(k,j) z(k/2) + j*h/2;
+S = 0;
+for k = 1:(n),
+   S = S + h/6 * (f(x(2*k,0)) + 4*f(x(2*k,1)) + f(x(2*k,2)));
+end
+return % Aufwand 3n
+\end{lstlisting}
+
+\subsubsection*{(c)}
+Testen Sie die Funktionen und beurteilen Sie die beobachtete Konvergenzordnungen.\\
+
+\textbf{Lösung:}\\
+Wir wählen als Funktion zum Testen $f = \sin(x)$. Diese Funktion ist glatt und beschreibt einen
+gleichmäßigen Bogen, eignet sich also relativ gut für Quadraturen mit äquidistanten Stützstellen.
+
+
+Die Auswertung der matlab-Funktionen aus a) und b) wurde mit folgendem Code gemacht:
+\begin{lstlisting}[language=matlab]
+>> for k = 1:50,                         
+erg(k) = trapQuad(0,pi,f,6*k);
+end
+>> for k = 1:50,              
+erg2(k) = trapQuad(0,pi,f,6*k);
+end
+\end{lstlisting}
+
+Und dann mit diesem Code geplottet (Achsenbenennung weggelassen):
+\begin{lstlisting}[language=matlab]
+h=loglog(6:6:6*50,abs(2-erg)) 
+h2=loglog(6:6:6*50,abs(2-erg2)) 
+\end{lstlisting}
+Dies kann man machen, da die exakte Lösung gegeben ist durch $\int_0^{\pi} \sin(x) \, dx = 2$.
+
+\begin{figure}[ht]
+\centering
+\begin{subfigure}{0.4\textwidth}
+	\includegraphics[width=\textwidth]{trapez.png}
+  \caption{Fehler der Trapezregel}
+\end{subfigure}
+\begin{subfigure}{0.4\textwidth}
+	\includegraphics[width=\textwidth]{trapez.png}
+  \caption{Fehler der Trapezregel}
+\end{subfigure}
+\caption{Fehler der Newton-Cotes-Formeln}
+\end{figure}
+
+Der lineare Verlauf (auf der log-Skala) der Fehler über die Teilintervalle zeigt ein akzeptables Verhältnis und ist bei beiden Formeln (nahezu) gleich. Die Steigung der Fehlerkurve auf der log-Skala zeigt die
+gewünschte Konvergenzordnung.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Aufgabe 3                   %%%%%%%%%%%%%%%%
+%% Aufgabe 3   %%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection*{Aufgabe 3}
 
 Gewinnung einer Quadraturformel in höheren Dimensionen.
 
-\subsubsectin*{(a)}
+\subsubsection*{(a)}
 
 Wie sieht die Quadratur auf einem Dreieck mit den Ecke $e_1 = (0,0), e_2 = (a,0), e_3 = (0,b)$ aus.\\
 
