@@ -248,14 +248,17 @@ gewünschte Konvergenzordnung.
 Gewinnung einer Quadraturformel in höheren Dimensionen.
 
 \subsubsection*{(a)}
-Wie sieht die Quadratur auf einem Dreieck mit den Ecke $e_1 = (0,0), e_2 = (a,0), e_3 = (0,b)$ aus.\\
+Wie sieht die Interpolation auf einem Dreieck mit den Ecken $e_1 = (0,0), e_2 = (a,0), e_3 = (0,b)$ aus?\\
 
 \textbf{Lösung:}\\
-tbd
+Als lineare Interpolation für $f(p)$ einen Punkt $p$ im Dreieck $T$ mit Eckpunkten $e_1, e_2, e_3$ können wir
+$p$ als Linearkombination der Eckpunkte darstellen und dies als Gewichtung der Stützstellenauswertung benutzen.
+Es gilt $p = (0,0) + s \cdot (a,0) + t \cdot (0,b)$ für $s,t \geq 0, s + t \leq 1$ und damit als Interpolation
+$f(p) = f(0,0) + s \cdot f(a,0) + t \cdot f(0,b)$.
 
 \subsubsection*{(b)}
-Gewinnen Sie eine Quadraturformel für das Dreieck durch Integration der Lagrange-Polynome ähnlich
-durch $L_k(e_i) = \delta_{ki}$ gegeben sind.\\
+Gewinnen Sie eine Quadraturformel für das Dreieck durch Integration der Lagrange-Polynome, gegeben
+durch $L_k(e_i) = \delta_{ki}$.\\
 
 \textbf{Lösung:}\\
 tbd
