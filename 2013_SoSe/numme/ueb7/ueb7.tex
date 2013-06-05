@@ -261,12 +261,58 @@ Gewinnen Sie eine Quadraturformel für das Dreieck durch Integration der Lagrang
 durch $L_k(e_i) = \delta_{ki}$.\\
 
 \textbf{Lösung:}\\
-Gleichungssystem für ein $L_k, k = 0,1,2$.
+Um die Lagrange-Polynome zu erhalten, lösen wir die Gleichungssysteme für die $L_k(x_1,x_2) = a_k x_1 + b_k x_2 + c_k, k = 0,1,2$. Die Gleichungen ergeben sich durch $L_k(e_i) = \delta_{ki}$
+
+Das Polynom $L_0(x)$ ist gegeben durch
+\begin{equation*}
+\begin{cases}
+  L_0(0,0) &= 1 \\
+  L_0(a,0) &= 0 \\
+  L_0(0,b) &= 0
+\end{cases}
+= \begin{cases}
+  c_0 &= 1 \\
+  a \cdot a_0 + c_0 &= 0 \\
+  b\cdot b_0 + c_0 &= 0
+\end{cases}
+\Leftrightarrow
+a_0 = -\frac{1}{a}, b_0 = -\frac{1}{b}, c_0 = 1
+\end{equation*}
+Es ist also $L_0(x_1,x_2) = -\frac{1}{a} x_1 -\frac{1}{b}x_2 + 1$. \\
+Analog ergibt sich $L_1(x_1,x_2) = \frac{1}{a} x_1$ und $L_2(x_1,x_2) = \frac{1}{b}x_2$.
+%L_1(0,0) = 0
+%L_1(a,0) = 1
+%L_1(0,b) = 0
+%<=>
+%c_1 = 0
+%a_1 = 1/a
+%b_1 = 0
+%
+%L_2(0,0) = 0
+%L_2(a,0) = 0
+%L_2(0,b) = 1
+%<=>
+%c_2 = 0
+%a_2 = 0
+%b_2 = 1/b
+
+% alternativ:
+%
+% b_2 =1/b
+%
+
+Die Quadratur ist dann gegeben durch $I(f) = \sum_{k=0}^2 f_k \cdot \lambda_k$ mit $f_i = f(e_{i+1}), i = 0,1,2$. Die $\lambda_k$ erhalten wir durch
 
 \begin{equation*}
-
+\lambda_k = \int_T L_k(x) dx = \int_0^b \int_0^{a-x} L_k(x,y) dy dx
 \end{equation*}
+und damit
 
+$\lambda_0 = \frac{-3a^3+9a^2b-7ab^2 + 2b^3}{6a}$ \\
+$\lambda_1 = \frac{b^2 (3a - 2b)}{6a}$ \\
+$\lambda_2 = \frac{1}{6}(3a^2 - 3ab+b^2)$ \\
+
+Kann das richtig sein? :D
 \subsubsection*{(c)}
 Leiten Sie die Formel für das Recheck her.\\
 
