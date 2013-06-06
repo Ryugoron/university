@@ -222,7 +222,7 @@ Und dann mit diesem Code geplottet (Achsenbenennung weggelassen):
 h=loglog(6:6:6*50,abs(2-erg)) 
 h2=loglog(6:6:6*50,abs(2-erg2)) 
 \end{lstlisting}
-Dies kann man machen, da die exakte Lösung gegeben ist durch $\int_0^{\pi} \sin(x) \, dx = 2$.
+Dies ist korrekt, da die exakte Lösung gegeben ist durch $\int_0^{\pi} \sin(x) \, dx = 2$.
 
 \begin{figure}[ht]
 \centering
@@ -240,6 +240,7 @@ Dies kann man machen, da die exakte Lösung gegeben ist durch $\int_0^{\pi} \sin
 Der lineare Verlauf (auf der log-Skala) der Fehler über die Teilintervalle zeigt ein akzeptables Verhältnis und ist bei beiden Formeln (nahezu) gleich. Die Steigung der Fehlerkurve auf der log-Skala zeigt die
 gewünschte Konvergenzordnung.
 
+\newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Aufgabe 3   %%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -301,23 +302,31 @@ Analog ergibt sich $L_1(x_1,x_2) = \frac{1}{a} x_1$ und $L_2(x_1,x_2) = \frac{1}
 % b_2 =1/b
 %
 
-Die Quadratur ist dann gegeben durch $I(f) = \sum_{k=0}^2 f_k \cdot \lambda_k$ mit $f_i = f(e_{i+1}), i = 0,1,2$. Die $\lambda_k$ erhalten wir durch
+Die Quadratur ist dann gegeben durch $I_T(f) = \sum_{k=0}^2 f_k \cdot \lambda_k$ mit $f_i = f(e_{i+1}), i = 0,1,2$. Die $\lambda_k$ erhalten wir durch
 
 \begin{equation*}
-\lambda_k = \int_T L_k(x) dx = \int_0^b \int_0^{a-x} L_k(x,y) dy dx
+\lambda_k = \int_T L_k(x) dx = \int_0^a \int_0^{b-\frac{b}{a}\cdot x} L_k(x,y) dy dx
 \end{equation*}
 und damit
+$\lambda_0 = \lambda_1 = \lambda_2 = \frac{1}{6} ab$ \\
+Also ist die Quadraturformel $I_T(f)$ gegeben durch
+\begin{equation*}
+I_T(f) =  \frac{1}{6} ab \left( f(e_1) + f(e_2) + f(e_3) \right)
+\end{equation*}
 
-$\lambda_0 = \frac{-3a^3+9a^2b-7ab^2 + 2b^3}{6a}$ \\
-$\lambda_1 = \frac{b^2 (3a - 2b)}{6a}$ \\
-$\lambda_2 = \frac{1}{6}(3a^2 - 3ab+b^2)$ \\
-
-Kann das richtig sein? :D
 \subsubsection*{(c)}
 Leiten Sie die Formel für das Recheck her.\\
 
 \textbf{Lösung:}\\
-tbd
+Da wir ein Rechteck durch zwei Dreiecke darstellen können, kann wir die Integration auf einem Rechteck mit den Eckpunkten $e_1 = (0,0), e_2 = (a,0), e_3 = (a,b), e_4 = (0,b)$ durch
+je eine Integrationen auf den Dreiecken mit den Eckpunkten $(0,0),(a,0),(0,b)$ und $(a,0),(a,b),(0,b)$ darstellen.
+Damit ergibt sich als Quadraturformel $I(f)$
+
+\begin{equation*}\begin{split}
+I(f) &=  \frac{1}{6} ab \left( f(e_1) + f(e_2) + f(e_4) \right) +  \frac{1}{6} ab \left( f(e_2) + f(e_3) + f(e_4) \right) \\
+&=  \frac{1}{6} ab \left(f(e_1) + 2f(e_2) + 2f(e_4) + f(e_3) \right)  \\
+&= \frac{1}{3} ab \left( f(e_2) + f(e_4) \right) +  \frac{1}{6} ab \left(f(e_1) +  f(e_3) \right)
+\end{split}\end{equation*}
 
 
 \label{LastPage}
