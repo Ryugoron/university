@@ -56,7 +56,65 @@
 %%      Aufgabe 2
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection*{Aufgabe 2}
-
+Es ist $t_0 = 0, C_0 = E_n$ und die NB $x_1 \leq -1$ wurde verletzt.
+Zu zeigen:
+\begin{enumerate}[(a)]
+\item $t_1$ und $C_1$ haben die Gestalt wie auf dem Zettel \\
+    Da die NB $x_1 \leq -1$ verletzt wurde, gilt in der ersten Iteration
+    \begin{equation}\label{eq:1}
+      a^t = \left(1,0,\ldots,0 \right)
+    \end{equation}
+    Durch die Berechnungsvorschrift ergibt sich für $t_1$:
+    \begin{equation*}\begin{split}
+      t_1 &= t_0 -\frac{1}{n+1} \frac{C_0 a}{\sqrt{a^t C_0 a}}
+          = -\frac{1}{n+1} \frac{a}{\sqrt{a^t a}} \\
+          &\stackrel{(\ref{eq:1})}{=} -\frac{1}{n+1} \left(1,0,\ldots,0 \right)
+          = \left(-\frac{1}{n+1},0,\ldots,0 \right)^t
+    \end{split}\end{equation*}
+    
+    und für $C_1$:
+    \begin{equation*}\begin{split}
+      C_1 &= \frac{n^2}{n^2-1} \left(E_n - \frac{2}{n+1} \cdot \frac{a a^t}{a^t a} \right) 
+          \stackrel{(\ref{eq:1})}{=} \frac{n^2}{n^2-1} \left(E_n - \frac{2}{n+1} \cdot
+                  \left(\begin{array}{cccc} 1 & 0 & \hdots & 0 \\
+                                            0 & 0 & \hdots & 0 \\
+                                            \vdots & \vdots & \ddots & \vdots \\
+                                            0 & 0 & \hdots & 0
+                  \end{array} \right)
+              \right) \\
+          &=  \frac{n^2}{n^2-1}  \left(\begin{array}{cccc} 1-\frac{2}{n+1} & 0 & \hdots & 0 \\
+                                            0 & 1 & \hdots & 0 \\
+                                            \vdots & \vdots & \ddots & \vdots \\
+                                            0 & 0 & \hdots & 1
+                  \end{array} \right) 
+          = \left(\begin{array}{cccc} \frac{n^2}{n^2-1} \cdot \frac{n-1}{n+1} & 0 & \hdots & 0 \\
+                                            0 & \frac{n^2}{n^2-1} & \hdots & 0 \\
+                                            \vdots & \vdots & \ddots & \vdots \\
+                                            0 & 0 & \hdots & \frac{n^2}{n^2-1}
+                  \end{array} \right) \\
+          &= \left(\begin{array}{cccc} \frac{n^2}{(n+1)^2} & 0 & \hdots & 0 \\
+                                            0 & \frac{n^2}{n^2-1} & \hdots & 0 \\
+                                            \vdots & \vdots & \ddots & \vdots \\
+                                            0 & 0 & \hdots & \frac{n^2}{n^2-1}
+                  \end{array} \right)
+    \end{split}\end{equation*}
+\item $C_1$ ist symmetrisch und positiv definit \\
+      \begin{itemize}
+        \item symmetrisch: Naja, haben wir ja gerade berechnet. $C_1$ hat Diagonalform und ist damit
+              insbesondere symmetrisch.
+        \item positiv definit: \\
+              Sei $x \in \mathbb{R}^n$, $x \neq 0$. Dann gilt
+              \begin{equation}\begin{split}
+                x^t C_1 x = x_1^2 \cdot \overbrace{\frac{n^2}{(n+1)^2}}^{> 0}
+                            + \overbrace{\frac{n^2}{n^2-1}}^{> 0} \sum_{i=2}^n  x_i^2
+              \end{split}\end{equation}
+              Da $x \neq 0$ ex. ein $1 \leq i \leq n$ mit $x_i \neq 0$. Dann ist
+              $x_1^2 \cdot \frac{n^2}{(n+1)^2} \frac{n^2}{n^2-1} \sum_{i=2}^n  x_i^2 > 0$.
+      \end{itemize}
+\item ...
+\item ...
+\item ...
+\end{enumerate}
 
 \label{LastPage}
 \end{document}
