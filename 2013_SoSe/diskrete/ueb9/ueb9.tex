@@ -60,22 +60,92 @@
 %% Aufgabe 1
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection*{Aufgabe 1.}
+Es gibt $\sum_{i=1}^n \binom{n}{i} 2^i$ viele Möglichkeiten.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Aufgabe 2
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection*{Aufgabe 2.}
+Wie viele Möglichkeiten gibt es, sieben Elfen und fünf Kobolde in einer Reihe aufzustellen,
+sodass nie zwei Kobolde direkt hintereinander stehen?
+\begin{enumerate}[a)]
+\item Elfen bzw. Kobolde nicht unterscheidbar \\
+    Stehen die sieben Elfen hintereinander, so gibt es acht Positionen, an denen man die Koblde
+    platzieren könnte. Also gibt es $\binom{8}{5} = 56$ Möglichkeiten.
+\item Elfen bzw. Kobolde unterscheidbar \\
+    Für jede Aufstellung können wir uns jede Permutation der Elfen bzw. Kobolde betrachten. Für eine
+    feste Aufstellung haben wir $7! \cdot 5!$ Permutationen, also insgesamt
+    $\binom{8}{5} \cdot 7! \cdot 5! = 33 868 800$.
+\end{enumerate}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Aufgabe 3
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection*{Aufgabe 3.}
+Zu zeigen: Für alle $r,n \in \mathbb{N}_0: \sum_{k=0}^n \binom{r+k}{k} = \binom{n+r+1}{n}$
 
+\textbf{Beweis} durch Induktion: \\
+Sei $r \in \mathbb{N}_0$.
+Basis: $n = 0$, dann ist
+    \begin{equation*}
+      \sum_{k=0}^0 \binom{r+k}{k} = \binom{r}{0} = 1 = \binom{r+1}{0}
+    \end{equation*}
+I.V.: Behauptung gilt für ein $n$. \\
+Schritt: $n \rightsquigarrow n+1$
+    \begin{equation*}\begin{split}
+      \sum_{k=0}^{n+1} \binom{r+k}{k} &= \sum_{k=0}^{n} \binom{r+k}{k} + \binom{r+n+1}{n+1} \\
+      &\stackrel{(IV)}{=}\binom{n+r+1}{n} + \binom{n+r+1}{n+1}  \\
+      &\stackrel{(Def.)}{=}\binom{n+r+2}{n+1} = \binom{(n+1)+r+1}{n+1}
+    \end{split}\end{equation*}
+\mbox{} \hfill $\square$
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Aufgabe 4
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection*{Aufgabe 4.}
+Sei $n \in \mathbb{N}, \tilde{n} \in \mathbb{N}_0$.
+\begin{enumerate}[a)]
+\item $s_{n,1} = (n-1)!$ \\
+I.A. $n=1$; $s_{1,1} = 1 = 0! = (1-1)!$ \\
+I.S. $n \rightsquigarrow n+1$;
+  \begin{equation*}\begin{split}
+    s_{n+1,1} &= s_{n,0} + n \cdot s_{n,1} 
+              \stackrel{(IV)}{=} 0 + n \cdot (n-1)! 
+              = n! = ((n+1)-1)!
+  \end{split}\end{equation*}
+\item $s_{n,n-1} = \binom{n}{2}$ \\
+I.A. $s_{1,0} = 0 = \binom{1}{2}$ \\
+I.S. $n \rightsquigarrow n+1$;
+  \begin{equation*}s_{n+1,n} = s_{n,n-1} + n s_{n,n} \stackrel{(IV)}{=} \binom{n}{2} + n = \binom{n+1}{2}\end{equation*}
+\item $s_{\tilde{n},\tilde{n}} = 1$ \\
+Gilt nach Definition.
+\item $s_{n,2} = (n-1)! H_{n-1}$ \\
+I.A. $n=1$; $s_{1,2} = 0 = 1 \cdot 0 = 0! \cdot H_{0} $ \\
+I.S. $n \rightsquigarrow n+1$;
+  \begin{equation*}\begin{split}
+    s_{n+1,2} &= s_{n,1} + n s_{n,2} \stackrel{(IV)}{=} (n-1)! + n (n-1)! H_{n-1} \\
+              &=  (n-1)! + n! H_{n-1} ...
+  \end{split}\end{equation*}
+\item $S_{n,1} = S_{n,n} = 1$ \\
+$S_{n,n} = 1$ gilt nach Definition. \\
+I.A. $n=1$; $S_{1,1} \stackrel{Def.}{=} 1 $ \\
+I.S. $n \rightsquigarrow n+1$;
+  \begin{equation*}\begin{split}
+    S_{n+1,1} &= S_{n,0} + S_{n,1} \stackrel{(IV)}{=}0 + 1 = 1\end{split}\end{equation*}
+\item $S_{n,n-1} = \binom{n}{2}$ \\
+I.A. $n=1$; $S_{1,0} \stackrel{Def.}{=} 0 = \binom{1}{2} $ \\
+I.S. $n \rightsquigarrow n+1$;
+  \begin{equation*}\begin{split}
+    S_{n+1,n} &= S_{n,n-1} + n S_{n,n} \stackrel{(IV)}{=} \binom{n}{2} + n = \binom{n+1}{2}
+  \end{split}\end{equation*}
+\item $S_{n,2} = 2^{n-1} -1 $
+I.A. $n=1$; $S_{1,2} \stackrel{Def.}{=} 0 = 2^{1-1} - 1 $ \\
+I.S. $n \rightsquigarrow n+1$;
+  \begin{equation*}\begin{split}
+    S_{n+1,2} &= S_{n,1} + 2 S_{n,2} \stackrel{(e)+(IV)}{=} 1 + 2\cdot (2^{n-1} -1) \\
+              &= 1+ 2^n - 2 = 2^n - 1 = 2^{(n+1)-1} - 1
+  \end{split}\end{equation*}
 
+\end{enumerate}
 
 \label{LastPage}
 \end{document}
