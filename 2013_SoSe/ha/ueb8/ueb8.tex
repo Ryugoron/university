@@ -104,15 +104,24 @@ Zu zeigen:
               insbesondere symmetrisch.
         \item positiv definit: \\
               Sei $x \in \mathbb{R}^n$, $x \neq 0$. Dann gilt
-              \begin{equation}\begin{split}
+              \begin{equation}\label{eq:2}\begin{split}
                 x^t C_1 x = x_1^2 \cdot \overbrace{\frac{n^2}{(n+1)^2}}^{> 0}
                             + \overbrace{\frac{n^2}{n^2-1}}^{> 0} \sum_{i=2}^n  x_i^2
               \end{split}\end{equation}
               Da $x \neq 0$ ex. ein $1 \leq i \leq n$ mit $x_i \neq 0$. Dann ist
-              $x_1^2 \cdot \frac{n^2}{(n+1)^2} \frac{n^2}{n^2-1} \sum_{i=2}^n  x_i^2 > 0$.
+              $x_1^2 \cdot \frac{n^2}{(n+1)^2} + \frac{n^2}{n^2-1} \sum_{i=2}^n  x_i^2 > 0$.
       \end{itemize}
-\item ...
-\item ...
+\item $\frac{1}{2}B_n = \{x| x^tx \leq 1, x_1 \leq 0 \} \subseteq E_1$ \\
+      Sei $x \in \frac{1}{2}B_n$. Dann ist (*) $\sum_{i=1}^n x_i^2 \leq 1$, (**) $x_1 \leq 0$.\\
+      Es ist 
+      \begin{equation*}\begin{split}
+        (x-t_1)^t C_1^{-1} (x-t_1) &= (x_1 - t_1^1)^2 \cdot \frac{(n+1)^2}{n^2} + \frac{n^2-1}{n^2} \sum_{i=2}^n  (x_i - t_1^i)^2 \\
+        &= (x_1 + \frac{1}{n+1})^2 \cdot \frac{(n+1)^2}{n^2} + \frac{n^2-1}{n^2} \sum_{i=2}^n  x_i^2 \\
+        &= \frac{(n+1)^2}{n^2} \cdot x_1^2 + 2\frac{n+1}{n^2} \cdot x_1 + \frac{1}{n^2} + \frac{n^2-1}{n^2} \sum_{i=2}^n  x_i^2 \\
+        &= \frac{(x_1(n+1) + 1)^2}{n^2} + \frac{n^2-1}{n^2} \sum_{i=2}^n  x_i^2 \\
+        &\geq BRINGT UNS NIX :( \underbrace{\frac{1+ 2x_1(n+1)}{n^2}}_{(**), \leq 1} +  \underbrace{\frac{n^2-1}{n^2} \sum_{i=2}^n  x_i^2}_{(*), \leq 1}  
+      \end{split}\end{equation*}
+\item $\frac{vol(E_1)}{vol(B_n)} < 2^{- \frac{1}{2(n+1)}}$ \\
 \item ...
 \end{enumerate}
 
