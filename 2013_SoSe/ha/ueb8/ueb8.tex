@@ -46,11 +46,90 @@
 \maketitle
 \thispagestyle{fancy}
 
-
+    
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%      Aufgabe 1
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection*{Aufgabe 1}
+
+Sei $Q \in \mathbb{R}^{n\times n}, A \in \mathbb{R}^{m \times n}, x,c \in \mathbb{R}^n, b \in \mathbb{R}^m$.
+Bei der \emph{quadratischen Optimierung} ist eine Zielfunktion
+$$
+    x^T Q x + c^Tx
+$$
+zu maximieren oder minimieren unter der Nebenbedingung
+$$
+   A x \leq b
+$$
+\subsubsection*{(a)}
+Zeigen Sie, dass quadratische Optimierung NP-schwer ist.\\
+
+\textbf{Beweis:}\\
+Wir reduzieren 3-Sat auf dieses Problem.\\
+
+Die Idee ist uns nach Aufgabenteil b) gekommen.\\
+Wir bilden die Nebenbedinung wie auf dem letzen Zettel, über die Summe der Literale pro Klausel. Nur können wir
+im Gegensatz zum ILP nicht $x \in \{ 0 , 1 \}$ verlangen. Deshalb sagen wir $x \in [-1, 1]$ was wir machen können,
+da dies die Bedingungen $x \geq -1$ und $x \leq 1$ ist, welche linear ist.\\
+
+In der Zielfunktion minimieren wir nun das folgende.
+$$
+    x^T Q x + c^tx = \overset{n}{\underset{k=1}{\sum}} x_i^2 - 1
+$$
+Diese wollen wir nun maximieren. Wie wir sehen gilt für jeden einzelnen Summand $x_i^2 - 1 \leq 0$ und $x_i^2 - 1 = 0$,
+falls $x_i \in \{ -1 , 1\}$ gilt.\\
+
+Wir benötigen nun eine Entscheidungsvariante um von 3-Sat reduzieren zu können. Wir wählen die Variante, dass wir fragen,
+ob eine Lösung mit dem Wert $0$ existiert.\\
+
+Die Nebenbedinung sind wie beim letzen mal gewählt, nur dass wir statt $x_i$ zu benutzen
+die Makros $v_i = \frac{x_i + 1}{2}$ wählen. Im Fall, der uns interesiert $x_i \in \{-1 , 1\}$ ist, $v_i \in \{ 0, 1 \}$.
+Damit ist der Rest der Reduktion wie auf dem letzen Zettel, da wir uns nun nur noch die Nebenbedinungen ansehen müssen
+und über $v_i$ argumentieren.
+
+\mbox{}\hfill$\square$
+
+\subsubsection*{(b)}
+Zeigen Sie, dass Optimieren einer linearen Zielfunktion mit quadratischen Nebenbedingungen NP-schwer ist.\\
+
+\textbf{Beweis:}\\
+
+Wie auf dem letzten Zettel erstellen wir ein Optimierungsproblem, bei dem wir daran interessiert sind,
+ob eine Lösung existiert und nicht direckt an dessen Wert. Damit haben wir auch wieder eine Entscheidungsvariante des Problems.\\
+
+Nun reduzieren wir 3-SAT auf dieses Problem.\\
+
+Wir führen für jede boolsche Variable $b_i$ eine Variable $x_i$ ein.\\
+Wir stellen nun eine "Vorzeichenbedingung" an die Variablen mit
+$x_i * x_i = 1$. Diese Bedingung ist quadratisch.
+
+Um für die Klauseln zu rechnen bedienen wir uns des Makros $v_i = \frac{x_i + 1}{2}$.
+Die interpretation ist, dass $x_i = -1$ bedeutet, dass $b_i$ false ist und $x_i = 1$ bedeutet $b_i$ ist true.
+Daraus folgt $b_i = true \Rightarrow v_i = 1$ und $b_i = false \Rightarrow v_i = 0$, so wie wir es schoneinmal hatten.
+Für ein literal $l_i$ aus einer Klausel setzen wir nun nun 
+$$l_i = \left\{ \begin{array}{lr} v_i \quad &, l_i \text{ positiv} \\ 1-v_i &, l_i \text{ negativ} \end{array}\right.$$ \\
+
+Für eine Klausel $k_j = (b_x \land b_y \land b_z)$ führen wir die Bedingung\\
+$$
+    l_x + l_y + l_z \geq 1
+$$
+
+Zuletzt erstellen wir die Zielfunktion, die uns aber eigentlich egal ist, indem wir
+z.B. die richtigen Klauseln zählen und maximieren $\overset{m}{\underset{k=1}{\sum}} l_{x_k} + l_{y_k} + l_{z_k}$.\\
+
+$w \in $ 3-Sat $\Leftrightarrow$ $f(w) \in$ Problem\\
+Sei $w = \overset{m}{\underset{i=1}{\bigwedge}} k_i$ und es existiert eine gültige Belegung von $b_i$ bezeichnet als $\overline{b_i}$.\\
+Dann ist $x_i = 1$, falls $\overline{b_i} = true$ und $x_i = -1$, falls $\overline{b_i} = false$, eine Lösung für das Optimierungsproblem.\\
+
+Die "Vorzeichenbedingungen" sind erfüllt, da $(-1)^2 = 1^2 = 1$ gilt. Wie gezeigt, ist $v_i = 0$ falls $\overline{b_i} = false$ und 1 sonst.\\
+Wie schon auf dem letzten Zettel gezeigt ist so die Nebenbedinung auch erfüllt.\\
+
+$\Rightarrow$:\\
+Wie schon gesagt, folgt aus der Nebenbedinung, dass alle $x_i \in \{ -1, 1\}$ liegen. Wir setzen wieder $\overline{b_i} = true$ falls
+$x_i = 1$, $\overline{b_i} = -1$ falls $x_i = 1$. Aus dem zweiten Teil der Nebenbedinung wissen wir, dass für jede Klausel $l_1 + l_2 + l_3 \geq 1$ gilt.
+Da alle $l_1 \in \{ 0 , 1 \}$ liegen, gilt daher, dass mindestens ein $l_i$ eins sein muss und damit ist pro Klausel mindestens ein Literal wahr.\\
+
+\mbox{} \hfill $\square$
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%      Aufgabe 2
