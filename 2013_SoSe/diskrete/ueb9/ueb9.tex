@@ -102,6 +102,13 @@ Schritt: $n \rightsquigarrow n+1$
 %% Aufgabe 4
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection*{Aufgabe 4.}
+Wir nehmen es uns heraus, zu behaupten, dass in einer Induktion die Induktionsvorraussetzung
+die folgende Form hat:
+Sei $\forall n \in K \, : \, P(n)$ die Induktionsbehauptung. Dann ist die Induktionsvorraussetzung
+$\forall n < n_0 \in K \, : P(n)$. Dieses generische Konstrukt setzen wir nun immer ein und schreiben
+es nicht extra hin.\\
+
+
 Sei $n \in \mathbb{N}, \tilde{n} \in \mathbb{N}_0$.
 \begin{enumerate}[a)]
 \item $s_{n,1} = (n-1)!$ \\
@@ -123,7 +130,10 @@ I.A. $n=1$; $s_{1,2} = 0 = 1 \cdot 0 = 0! \cdot H_{0} $ \\
 I.S. $n \rightsquigarrow n+1$;
   \begin{equation*}\begin{split}
     s_{n+1,2} &= s_{n,1} + n s_{n,2} \stackrel{(IV)}{=} (n-1)! + n (n-1)! H_{n-1} \\
-              &=  (n-1)! + n! H_{n-1} ...
+              &=  (n-1)! + n! H_{n-1}\\
+              &= (n-1)! + n! ((\overset{n}{underset{k=1}{\sum}} \frac{1}{k}) - \frac{1}{n})\\
+              &= (n-1)! + n! (H_n - \frac{1}{n})\\
+              &= (n-1)! + n!H_n - (n-1)! = n!H_n
   \end{split}\end{equation*}
 \item $S_{n,1} = S_{n,n} = 1$ \\
 $S_{n,n} = 1$ gilt nach Definition. \\
