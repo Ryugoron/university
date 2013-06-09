@@ -60,7 +60,9 @@
 %% Aufgabe 1
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection*{Aufgabe 1.}
-Es gibt $\sum_{i=1}^n \binom{n}{i} 2^i$ viele Möglichkeiten.
+Für die Menge $B \subseteq [n]$ haben wir $\binom{n}{i}$ Möglichkeiten, $B$ $i$-elementig zu wählen.
+Zu jeder dieser Möglichkeit gibt es $2^i$ Teilmengen von $B$ (Potenzmengenkonstrukt). Also ergeben
+sich $\sum_{i=0}^n \binom{n}{i} 2^i$ viele Möglichkeiten.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Aufgabe 2
@@ -106,10 +108,7 @@ Wir nehmen es uns heraus, zu behaupten, dass in einer Induktion die Induktionsvo
 die folgende Form hat:
 Sei $\forall n \in K \, : \, P(n)$ die Induktionsbehauptung. Dann ist die Induktionsvorraussetzung
 $\forall n < n_0 \in K \, : P(n)$. Dieses generische Konstrukt setzen wir nun immer ein und schreiben
-es nicht extra hin.\\
-
-
-Sei $n \in \mathbb{N}, \tilde{n} \in \mathbb{N}_0$.
+es nicht extra hin. Sei $n \in \mathbb{N}, \tilde{n} \in \mathbb{N}_0$.
 \begin{enumerate}[a)]
 \item $s_{n,1} = (n-1)!$ \\
 I.A. $n=1$; $s_{1,1} = 1 = 0! = (1-1)!$ \\
@@ -123,15 +122,14 @@ I.S. $n \rightsquigarrow n+1$;
 I.A. $s_{1,0} = 0 = \binom{1}{2}$ \\
 I.S. $n \rightsquigarrow n+1$;
   \begin{equation*}s_{n+1,n} = s_{n,n-1} + n s_{n,n} \stackrel{(IV)}{=} \binom{n}{2} + n = \binom{n+1}{2}\end{equation*}
-\item $s_{\tilde{n},\tilde{n}} = 1$ \\
-Gilt nach Definition.
+\item $s_{\tilde{n},\tilde{n}} = 1$ gilt nach Definition.
 \item $s_{n,2} = (n-1)! H_{n-1}$ \\
 I.A. $n=1$; $s_{1,2} = 0 = 1 \cdot 0 = 0! \cdot H_{0} $ \\
 I.S. $n \rightsquigarrow n+1$;
   \begin{equation*}\begin{split}
     s_{n+1,2} &= s_{n,1} + n s_{n,2} \stackrel{(IV)}{=} (n-1)! + n (n-1)! H_{n-1} \\
               &=  (n-1)! + n! H_{n-1}\\
-              &= (n-1)! + n! ((\overset{n}{underset{k=1}{\sum}} \frac{1}{k}) - \frac{1}{n})\\
+              &= (n-1)! + n! ((\overset{n}{\underset{k=1}{\sum}} \frac{1}{k}) - \frac{1}{n})\\
               &= (n-1)! + n! (H_n - \frac{1}{n})\\
               &= (n-1)! + n!H_n - (n-1)! = n!H_n
   \end{split}\end{equation*}
