@@ -69,21 +69,19 @@ Wir reduzieren 3-Sat auf dieses Problem.\\
 
 Die Idee ist uns nach Aufgabenteil b) gekommen.\\
 Wir bilden die Nebenbedinung wie auf dem letzen Zettel, über die Summe der Literale pro Klausel. Nur können wir
-im Gegensatz zum ILP nicht $x \in \{ 0 , 1 \}$ verlangen. Deshalb sagen wir $x \in [-1, 1]$ was wir machen können,
-da dies die Bedingungen $x \geq -1$ und $x \leq 1$ ist, welche linear ist.\\
+im Gegensatz zum ILP nicht $x \in \{ 0 , 1 \}$ verlangen. Stattdessen verlangen wir $x \in [-1, 1]$; die Bedingungen $x \geq -1$ und $x \leq 1$ sind linear.\\
 
 In der Zielfunktion minimieren wir nun das folgende.
 $$
     x^T Q x + c^tx = \overset{n}{\underset{k=1}{\sum}} x_i^2 - 1
 $$
-Diese wollen wir nun maximieren. Wie wir sehen gilt für jeden einzelnen Summand $x_i^2 - 1 \leq 0$ und $x_i^2 - 1 = 0$,
-falls $x_i \in \{ -1 , 1\}$ gilt.\\
+Diese wollen wir nun maximieren. Wie wir sehen gilt für jeden einzelnen Summanden $x_i^2 - 1 \leq 0$, und $x_i^2 - 1 = 0$ falls $x_i \in \{ -1 , 1\}$.\\
 
 Wir benötigen nun eine Entscheidungsvariante um von 3-Sat reduzieren zu können. Wir wählen die Variante, dass wir fragen,
 ob eine Lösung mit dem Wert $0$ existiert.\\
 
-Die Nebenbedinung sind wie beim letzen mal gewählt, nur dass wir statt $x_i$ zu benutzen
-die Makros $v_i = \frac{x_i + 1}{2}$ wählen. Im Fall, der uns interesiert $x_i \in \{-1 , 1\}$ ist, $v_i \in \{ 0, 1 \}$.
+Die Nebenbedinung sind wie beim letzen Mal gewählt, nur dass wir statt $x_i$ zu benutzen
+die Makros $v_i = \frac{x_i + 1}{2}$ wählen. Im Fall, der uns interessiert ($x_i \in \{-1 , 1\}$) ist $v_i \in \{ 0, 1 \}$.
 Damit ist der Rest der Reduktion wie auf dem letzen Zettel, da wir uns nun nur noch die Nebenbedinungen ansehen müssen
 und über $v_i$ argumentieren.
 
@@ -104,9 +102,9 @@ Wir stellen nun eine "Vorzeichenbedingung" an die Variablen mit
 $x_i * x_i = 1$. Diese Bedingung ist quadratisch.
 
 Um für die Klauseln zu rechnen bedienen wir uns des Makros $v_i = \frac{x_i + 1}{2}$.
-Die interpretation ist, dass $x_i = -1$ bedeutet, dass $b_i$ false ist und $x_i = 1$ bedeutet $b_i$ ist true.
+Die Interpretation ist, dass $x_i = -1$ bedeutet, dass $b_i$ false ist und $x_i = 1$ bedeutet $b_i$ ist true.
 Daraus folgt $b_i = true \Rightarrow v_i = 1$ und $b_i = false \Rightarrow v_i = 0$, so wie wir es schoneinmal hatten.
-Für ein literal $l_i$ aus einer Klausel setzen wir nun nun 
+Für ein Literal $l_i$ aus einer Klausel setzen wir nun nun 
 $$l_i = \left\{ \begin{array}{lr} v_i \quad &, l_i \text{ positiv} \\ 1-v_i &, l_i \text{ negativ} \end{array}\right.$$ \\
 
 Für eine Klausel $k_j = (b_x \land b_y \land b_z)$ führen wir die Bedingung\\
@@ -196,12 +194,14 @@ Zu zeigen:
       \begin{equation*}\begin{split}
         (x-t_1)^t C_1^{-1} (x-t_1) &= (x_1 - t_1^1)^2 \cdot \frac{(n+1)^2}{n^2} + \frac{n^2-1}{n^2} \sum_{i=2}^n  (x_i - t_1^i)^2 \\
         &= (x_1 + \frac{1}{n+1})^2 \cdot \frac{(n+1)^2}{n^2} + \frac{n^2-1}{n^2} \sum_{i=2}^n  x_i^2 \\
-        &= \frac{(n+1)^2}{n^2} \cdot x_1^2 + 2\frac{n+1}{n^2} \cdot x_1 + \frac{1}{n^2} + \frac{n^2-1}{n^2} \sum_{i=2}^n  x_i^2 \\
-        &= \frac{(x_1(n+1) + 1)^2}{n^2} + \frac{n^2-1}{n^2} \sum_{i=2}^n  x_i^2 \\
-        &\geq BRINGT UNS NIX :( \underbrace{\frac{1+ 2x_1(n+1)}{n^2}}_{(**), \leq 1} +  \underbrace{\frac{n^2-1}{n^2} \sum_{i=2}^n  x_i^2}_{(*), \leq 1}  
+        &= (x_1 + \frac{1}{n+1})^2 \cdot \frac{(n+1)^2}{n^2} + \left( \frac{n^2-1}{n^2} \cdot (- x_1^2 + \sum_{i=1}^n  x_i^2) \right) \\
+        &= \frac{(x_1(n+1) + 1)^2}{n^2} + \left( \frac{n^2-1}{n^2} \cdot (- x_1^2 + \sum_{i=1}^n  x_i^2) \right) \\
+        &\stackrel{(*)}{\leq} \frac{(x_1(n+1) + 1)^2 - x_1^2(n^2 -1)}{n^2} \\
+        &= \frac{2x_1^2 (n+1) + 2x_1 (n+1) + 1}{n^2} \stackrel{n \geq 2}{\leq} 1
+       % &= \frac{(n+1)^2}{n^2} \cdot x_1^2 + 2\frac{n+1}{n^2} \cdot x_1 + \frac{1}{n^2} + \frac{n^2-1}{n^2} \sum_{i=2}^n  x_i^2 \\
+       % &= \frac{(x_1(n+1) + 1)^2}{n^2} + \frac{n^2-1}{n^2} \sum_{i=2}^n  x_i^2 \\
+      %  &\geq BRINGT UNS NIX :( \underbrace{\frac{1+ 2x_1(n+1)}{n^2}}_{(**), \leq 1} +  \underbrace{\frac{n^2-1}{n^2} \sum_{i=2}^n  x_i^2}_{(*), \leq 1}  
       \end{split}\end{equation*}
-\item $\frac{vol(E_1)}{vol(B_n)} < 2^{- \frac{1}{2(n+1)}}$ \\
-\item ...
 \end{enumerate}
 
 \label{LastPage}
