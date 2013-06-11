@@ -5,7 +5,7 @@ function [S] = simpQuad(g,f)
 % f zu intigrierende Funktion
 % 
 
-m = length(g)
+m = length(g);
 
 %% Simpson-Berechnungsvorschrift
 % (Algorithmisches) Vorgehen analog zu Trapez
