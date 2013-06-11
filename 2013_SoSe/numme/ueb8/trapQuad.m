@@ -9,10 +9,10 @@ function [S] = trapQuad(g,f)
 % sowie Berechnungsvorgehen
 
 m = length(g);
-
+S = 0;
 %% Trapez-Berechnungsvorschrift
 for k = 2:(m),
    h = g(k) - g(k-1);
-   S = S + (f(g(k)) + f(g(k-1)))*.h/2;
+   S = S + (f(g(k)) + f(g(k-1)))*h/2;
 end
 return % Aufwand n+1
