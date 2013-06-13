@@ -1,4 +1,4 @@
-function S = adapQuad (g, f, tol, n, maxN)
+function S = adapQuadError (g, f, tol, n, maxN)
 
 %
 % g     - Gitter
@@ -7,7 +7,10 @@ function S = adapQuad (g, f, tol, n, maxN)
 % tol   - Abstand zwischen Simpson und Trapez
 % n     - Schwellwert für das verfeinern.
 % maxN  - maximale Gitterpunkte
-
+%
+% return - Matrix mit (Werten, #Gitterpunkte, gemessener Fehler) als
+%           Spalten
+%
 m = length(g);
 
 sim = simpQuad(g, f);
