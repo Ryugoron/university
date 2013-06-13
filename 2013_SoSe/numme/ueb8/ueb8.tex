@@ -55,14 +55,54 @@
 %% Aufgabe 1     %%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection*{Aufgabe 1}
+Das Listing~\ref{alg:romberg} zeigt unsere Implementierung der klassichen Romberg-Quadratur.
+Bei Eingabe der Integrationsgrenzen, der Funktion und der Liste von Gitterbreiten, wird (wie 
+im Skript gezeigt) nach dem Aitken-Neville-Schema die Extrapolation berechnet.
+Der Aufruf von \texttt{trapQuad} in der Funktion ist eine leicht modifizierte Version der Funktion vom letzten Übungszettel. Hier wird nicht mehr die Gitterbreite und der Start- und Endpunkt übergeben, sondern das Gittern selber (macht den Code kürzer).
+
+\begin{lstlisting}[language=matlab, numbers=left, caption=Klassische Romberg-Quadratur, label=alg:romberg]
+function [S] = romberg(a,b,f,h)
+% Gibt den Zahlenwert S der klassischen
+% Romberg-Quadratur zurueck
+%
+% [a,b] Integrationsintervall
+% f zu intigrierende Funktion
+% h Liste der Schrittweiten
+%  (absteigende Gitterbreite!)
+
+% Anzahl der Gitterbreiten
+n = length(h);
+
+t = zeros(n,1);
+
+%% Berechnung nach Aitken-Neville-Schema
+%% mit Rekursion aus dem Skript
+for i = 1:n
+  %% summierte Trapezregel zur breite h_i
+  t(i) = trapQuad(a:h(i):b,f);
+  %% Rekursion
+  for k = i:-1:1
+    t(k) = t(k+1) + (t(k+1)-t(k))/((h(k)/h(i))^2 - 1);
+  end
+end
+S = t(1);
+\end{lstlisting}
+
+Der Test der Funktion wurde wie folgt durchgeführt (Kommentare im Listing).
 
 \begin{lstlisting}[language=matlab,numbers=left]
+%% f1 und f2 sind die beiden zu integrierenden Funktionen
 f1 = @(x) 1/(2*atan(1)) * 1/(1+x^2);
 f2 = @(x) 1/(2*atan(500)) * 1/(1+(500*x)^2);
+%% 12x2 Matrizen zur Speicherung der Ergebnisse
+%% beider Methoden bei Eingabe f1 bzw. f2
 rombergQuad = zeros(12,2);
 trapezQuad = zeros(12,2);
+%% 12x2 Matrizen der absoluten Fehler
+%% beider Methoden
 fehlerRomberg = zeros(12,2);
 fehlerTrapez = zeros(12,2);
+%% Berechnung der Quadratur und Fehler
 for i = 1:12
   trapezQuad(i,1) = trapQuad(-1:2^(-i):1,f1);
   trapezQuad(i,2) = trapQuad(-1:2^(-i):1,f2);
@@ -75,8 +115,8 @@ for i = 1:12
 end
 \end{lstlisting}
 
-Es ergibt sich
-
+Es ergeben sich folgende Fehler (die linke Spalte sind die Fehler von \texttt{f1} ($\gamma = 1$), die rechte Spalte von \texttt{f2} ($\gamma = 500$)). In jeder Spalte ist die $i-te$ Zeile das Ergebnis der Quadratur mit
+(feinstem) Gitter $h_i$, $i = 1,.., 12$.
 \begin{lstlisting}
 fehlerTrapez =
 
