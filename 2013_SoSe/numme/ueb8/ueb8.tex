@@ -79,9 +79,9 @@ t = zeros(n,1);
 %% mit Rekursion aus dem Skript
 for i = 1:n
   %% summierte Trapezregel zur breite h_i
-  t(i) = trapQuad(a:h(i):b,f);
+  t(i) = trapQuad([a:h(i):b],f);
   %% Rekursion
-  for k = i:-1:1
+  for k = (i+1):-1:1
     t(k) = t(k+1) + (t(k+1)-t(k))/((h(k)/h(i))^2 - 1);
   end
 end
@@ -163,6 +163,53 @@ Schaut man sich die Graphen der beiden Funktionen an (siehe Abbildung~\ref{fig:f
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection*{Aufgabe 2}
 
+Listing~\ref{lst:adaptiv} zeigt unsere Implementierung der adaptiven Multilevelquadratur in Matlab.
+Kommentare sind im Quelltext zu finden.
+
+\begin{lstlisting}[language=matlab,numbers=left,caption=Adaptive Multilevel-Quadratur,label=lst:adaptiv]
+function [S] = adapQuad (g, f, tol, n, maxN)
+
+%
+% g         - Gitter
+% f         - Funktion die zu Integieren ist
+%
+% tol       - Abstand zwischen Simpson und Trapez
+% n         - Schwellwert fuer das verfeinern.
+% maxN      - MaxN, maximale Gitterpunkt
+
+m = length(g);
+
+sim = simpQuad(g, f);
+trap = trapQuad(g, f);
+
+% Solange wir ueber dem tolleranzwert sind,
+% oder wir noch nicht genuegend Stuetzstellen haben
+while (abs(sim - trap) > tol) && m < maxN,
+    gs = [g(1)];
+    %% Unser Schwellwert bezeichnet einen relativen Unterschied zur durchschnittlichen Grenze
+    sch = n * (tol / m);
+    for k = 2:m,
+        %%
+        %% Testen wir fuer alle Intervalle, ob wir verfeinern muessen
+        %%
+        if (abs(simpQuad( g(k-1:k), f) - trapQuad(g(k-1:k), f))) > sch
+           gs = [gs ((g(k) + g(k-1))/2) g(k)];
+        else
+           gs = [gs g(k)]
+        end
+    end
+    g = gs;
+    m = length(gs);
+    sim = simpQuad(g, f);
+    trap = trapQuad(g, f);
+end
+S = trap;
+return
+\end{lstlisting}
+
+
 
 \label{LastPage}
+
+
 \end{document}
