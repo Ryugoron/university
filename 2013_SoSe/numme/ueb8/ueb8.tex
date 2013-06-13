@@ -81,7 +81,7 @@ for i = 1:n
   %% summierte Trapezregel zur breite h_i
   t(i) = trapQuad([a:h(i):b],f);
   %% Rekursion
-  for k = (i+1):-1:1
+  for k = (i-1):-1:1
     t(k) = t(k+1) + (t(k+1)-t(k))/((h(k)/h(i))^2 - 1);
   end
 end
@@ -93,7 +93,7 @@ Der Test der Funktion wurde wie folgt durchgeführt (Kommentare im Listing).
 \begin{lstlisting}[language=matlab,numbers=left]
 %% f1 und f2 sind die beiden zu integrierenden Funktionen
 f1 = @(x) 1/(2*atan(1)) * 1/(1+x^2);
-f2 = @(x) 1/(2*atan(500)) * 1/(1+(500*x)^2);
+f2 = @(x) 500/(2*atan(500)) * 1/(1+(500*x)^2);
 %% 12x2 Matrizen zur Speicherung der Ergebnisse
 %% beider Methoden bei Eingabe f1 bzw. f2
 rombergQuad = zeros(12,2);
@@ -119,35 +119,35 @@ Es ergeben sich folgende Fehler (die linke Spalte sind die Fehler von \texttt{f1
 (feinstem) Gitter $h_i$, $i = 1,.., 12$.
 \begin{lstlisting}[basicstyle=\ttfamily\scriptsize\selectfont\upshape]
 fehlerTrapez =
-   0.013239352830249   0.840636419672265
-   0.003315574025695   0.920306878383561
-   0.000828929586313   0.960129548066769
-   0.000207232961173   0.980015760024551
-   0.000051808249116   0.989908833068686
-   0.000012952062417   0.994757042698583
-   0.000003238015606   0.996997544736434
-   0.000000809503901   0.997832792863140
-   0.000000202375976   0.997993557291557
-   0.000000050593994   0.997999989669726
-   0.000000012648499   0.998000000000075
-   0.000000003162123   0.998000000000025
+   0.013239352830249  78.681790163867319
+   0.003315574025695  38.846560808219330
+   0.000828929586313  18.935225966615434
+   0.000207232961173   8.992119987724385
+   0.000051808249116   4.045583465656764
+   0.000012952062417   1.621478650708542
+   0.000003238015606   0.501227631782829
+   0.000000809503901   0.083603568430169
+   0.000000202375976   0.003221354221314
+   0.000000050593994   0.000005165137005
+   0.000000012648499   0.000000000037336
+   0.000000003162123   0.000000000012663
 
 fehlerRomberg =
-   0.002629023290789   0.893754213535242
-   0.000167110611374   0.950404330248577
-   0.000002186734143   0.975566264743692
-   0.000000003720382   0.987770983969616
-   0.000000000015422   0.993770542341976
-   0.000000000000023   0.996645736088292
-   0.000000000000001   0.997862028038352
-   0.000000000000001   0.998141905293127
-   0.000000000000001   0.998040882362203
-   0.000000000000000   0.997998214562390
-   0.000000000000001   0.997999880717347
-   0.000000000000002   0.998000002633203
+   0.002629023290789  52.122893232379226
+   0.000167110611374  23.797834875711604
+   0.000002186734143  11.216867628153990
+   0.000000003720382   5.114508015192024
+   0.000000000015422   2.114728829012008
+   0.000000000000023   0.677131955853995
+   0.000000000000001   0.068985980824099
+   0.000000000000001   0.070952646563530
+   0.000000000000001   0.020441181101389
+   0.000000000000000   0.000892718805243
+   0.000000000000001   0.000059641326506
+   0.000000000000002   0.000001316601661
 \end{lstlisting}
 
-Der Fehler beider Methoden bei Eingabe von $f$ mit $\gamma = 1$ wird schnell klein; bei der Romberg-Quadratur etwas schneller als bei der summierten Trapezregel. Bei Eingabe von $f$ mit $\gamma = 500$ wird bei beiden Verfahren der Fehler nicht kleiner, sondern sogar größer. Bei beiden Verfahren ist bei $n=12$ nazezu ein relativer Fehler von hundert Prozent zu beobachten. Es fällt auf, dass der Fehler der Romberg-Quadratur sogar schneller wächst als bei der summierten Trapezregel.
+Der Fehler beider Methoden bei Eingabe von $f$ mit $\gamma = 1$ wird schnell klein; bei der Romberg-Quadratur etwas schneller als bei der summierten Trapezregel. Bei Eingabe von $f$ mit $\gamma = 500$ wird bei beiden Verfahren der Fehler etwas langsamer klein. Im Falle $\gamma = 1$ erzielt die Romberg-Quadratur ein besseres Ergebnis, bei $\gamma = 500$ allerdings die summierte Trapezregel. Figure~\ref{fig:f} zeigt die Graphen von $f$ mit verschiedenem $\gamma$.
 
 \begin{figure}[h!]
 \centering
@@ -156,7 +156,6 @@ Der Fehler beider Methoden bei Eingabe von $f$ mit $\gamma = 1$ wird schnell kle
 \caption{Graph der Funktion $f$ mit $\gamma = 1$ (links) und $\gamma = 500$ (rechts) \label{fig:f}}
 \end{figure}
 
-Schaut man sich die Graphen der beiden Funktionen an (siehe Abbildung~\ref{fig:f}), so fällt auf, dass die erste Funktion sehr glatt ist, die zweite Funktionen eine (betragsmäßig) extrem große Steigung um 0 herum aufweist. Der Funktionswert an Stelle 0 fällt zu beiden seiten extrem schnell ab. Aus diesem Grund werden beide Quadraturen sehr ungenau, da die ''kleine Spitze'' des Graphen nicht korrekt berücksichtigt wird.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Aufgabe 2     %%%%%%%%%%%%%%%%
@@ -207,9 +206,39 @@ S = trap;
 return
 \end{lstlisting}
 
+Wir haben uns für einen Schwellwert entschieden, der den Fehler versucht gleichmäßig auf die Intervalle aufzuteilen. Ist ein Intervall über
+dem Durchschnitt (multipliziert mit der Konstante $n$) so halbieren wir es.
 
+Für die Tests wurden alle Zwischenergebnisse mit ausgegeben (das Programm oben also leicht geändert). Es ergeben sich folgende Plots:
 
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.48\textwidth]{f1_1.png}
+\includegraphics[width=0.48\textwidth]{f1_2.png}
+\caption{Graph des exakten Fehlers (links) und geschätzten Fehlers (rechts) über Anz. der Stützstellen mit $\gamma = 1$ \label{fig:f1}}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.48\textwidth]{f2_1.png}
+\includegraphics[width=0.48\textwidth]{f2_2.png}
+\caption{Graph des exakten Fehlers (links) und geschätzten Fehlers (rechts) über Anz. der Stützstellen mit $\gamma = 10$ \label{fig:f2}}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.48\textwidth]{f3_1.png}
+\includegraphics[width=0.48\textwidth]{f3_2.png}
+\caption{Graph des exakten Fehlers (links) und geschätzten Fehlers (rechts) über Anz. der Stützstellen mit $\gamma = 100$ \label{fig:f3}}
+\end{figure}
+
+Wie wir sehen, sind wir in jedem Test an die Maximalbegrenzung des Gitters gestoßen.\\
+
+Wir haben keine Ahnung, welche Gitterdarstellung sinnvoll sein sollte. Wir konnten beim überfliegen darstellen, dass das Gitter recht nah an
+einem Equidistanten lag. Wir wissen nun nicht, ob dies an der Wahl des Schwellwertes lag oder ob der Fehler auf jedem Teilintervall jeweils so groß war,
+dass wir verkleinern mussten. Auf jedenfall konnten wir keine Aussagenkräftige darstellung finden (der Plot der Differenz zweier aufeinander folgender Punkte,
+sah recht konstant aus).
+\newpage
+$\quad$
 \label{LastPage}
-
-
 \end{document}
