@@ -1,0 +1,279 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm]{geometry} 
+\usepackage{babel}
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc} 
+\usepackage{ae} 
+\usepackage{amssymb} 
+\usepackage{amsmath}
+\usepackage{amsthm} 
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{paralist}
+
+\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[C]{Höhere Algorithmik}
+\fancyhead[L]{Übungsblatt Nr. 9}
+\fancyhead[R]{SoSe 2013}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage \hspace{1px} of \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\setlength{\parindent}{0pt} 
+\setlength{\headheight}{0pt}
+
+\date{}
+\title{Übungsblatt Nr. 9}
+\author{Max Wisniewski, Alexander Steen}
+
+
+%%
+%% Enviroments for proofs and lemmas
+%%
+\newtheorem{lemma}{\bfseries Lemma}
+\newtheorem{claim}{\bfseries claim}
+\newtheorem{theorem}{\bfseries Theorem}
+
+\begin{document}
+
+\renewcommand{\figurename}{Figure}
+\maketitle
+\thispagestyle{fancy}
+
+    
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%      Aufgabe 1
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Aufgabe 1}
+
+Sei $A$ ein Array mit $n$ Einträgen. Wir wissen, dass $A$ einen bestimmten Schlüssel $k$ enthält. Wir
+wollen den Eintrag finden, an dem $k$ vorkommt.
+
+\subsubsection*{(a)}
+
+Zeigen Sie, dass jeder deterministische Algorithmus im schlimmsten Fall mindestens $n-1$ Zugriffe auf $A$ durchführen muss,
+um die Position von $k$ zu finden.\\
+
+\textbf{Beweis:}\\
+
+Wir haben zunächst keine näheren Anhaltspunkt, wie der Algorithmus aussieht. Was wir aber aussagen können ist, dass wir
+jeden Algorithmus, der auf ein Feld mehr als einmal zugreift dahingehend optimieren können, dass er das Feld nur einmal
+liest, indem wir uns die Information des Feldes speichern. Da wir nur die Anzahl der Zugriffe auf $A$ zählen, erhöht dies
+die Komplexität nicht.\\
+
+Wir sehen also, dass wir nur neue Informationen gewinnen, wenn wir uns ein neues Feld ansehen. Da der Algorithmus deterministisch ist,
+wird er sich für eine Eingabe eine Permutation $\sigma \in \pi (n)$ betrachten und diese Schritt für Schritt ausführen.\\
+
+Nun kann man für jede Eingabelänge $n$ eine Folge konstruieren, so dass die Permuatation des Algorithmus $k$ auf den Platz
+$n$ setzt. $k = \sigma (n)$.
+
+Der Algorithmus wird also $n-1$ Schritte benötigen, da er sich die ersten $n-1$ Felder anguckt und danach weiß,
+dass das Element auf dem letzten Platz ist. (Das Element ist zugesichert im Array enthalten).\\
+
+Wie gezeigt, ist dies für jeden Algorithmus konstruierbar und ein Algorithmus kann höchstens mehr Zugriffe auf das Array durchführen.
+
+\mbox{} \hfill $\square$
+
+\subsubsection*{(b)}
+
+Entwickeln Sie einen randomisierten Algorithmus, der das Problem mit $\frac{n}{2}$ erwarteten Zugriffen löst.\\
+
+\textbf{Lösung:}\\
+
+Der Algorithmus ist recht simpel (Zu beachten ist die Indexverschiebung innerhalb des Arrays).
+
+\begin{lstlisting}[mathescape=true]
+$\sigma \leftarrow$ zufaellige Permutation von $[n]$
+for i = 1 to n-1
+    if a[$\sigma$(i) - 1] = k
+        return $\sigma$(i) - 1
+    return $\sigma$(n)-1
+\end{lstlisting}
+
+Der Algorithmus hat die erwartete Anzahl von $\frac{n}{2}$ Zugriffen.\\
+
+\textbf{Beweis:}\\
+    Wir führen die Zufallsvariable
+    $$
+        X_i = \left\{ \begin{array}{ll} 1 \quad &,\text{falls }k=a[\sigma(i)-1]\\ 0 &,\text{sonst} \end{array}\right.
+    $$
+    Bei einer gleichverteilten Wahl der Permutationen ist das Element $k$ an Position $i$
+    mit der Wahrscheinlichkeit
+    $$
+        Pr[X_i = 1] = \frac{1}{n}
+    $$
+
+    Für das letzte Feld machen wir keinen Zugriff, daher können wir den Erwartungs wie folgt ausrechen:
+    \begin{equation*}\begin{array}{rcl}
+        E[X] &=& \overset{n-1}{\underset{i=1}{\sum}} Pr[X_i = 1]\\
+            &=& \overset{n-1}{\underset{i=1}{\sum}} \frac{1}{n}
+            = \frac{1}{n} \overset{n-1}{\underset{i=1}{\sum}} 1\\
+            &=& \frac{1}{n} \frac{(n-1)n}{2}\\
+            &=& \frac{n-1}{2}
+    \end{array}\end{equation*}
+
+    Wir kommen also mit $\frac{n-1}{2}$ erwarteten Zugriffen aus, was der Anforderung an den Algorithmus entsprach.
+    \mbox{}\hfill$\square$.
+
+\subsection*{Aufgabe 2}
+
+\subsubsection*{(a)}
+Sei $X$ eine nichtnegative Zufallsvariable mit Erwartungswert $\mu$. Beweisen Sie die \emph{Markov}-Ungleichung.
+$$
+    \forall t > 0 \, : \, Pr[X \geq t\mu] \leq \frac{1}{t}.
+$$    
+
+\textbf{Beweis:}\\
+
+Da wir keine näheren Informationen über die Verteilung der und Anzahl der Werte haben, nehmen wir die allgemeinste
+Definition.
+
+Sei $\mathcal{L}$ ein Wahrscheinlichkeitsmaß.
+Dann gilt
+$$
+    E[X] = \int_{x \in \Omega (X)} x d\mathcal{L} = \int_{x \in \Omega (X)} x \mathcal{L}(x) dx
+$$
+Wobei allgemein gilt $\mathcal{L}(x) = Pr[X = x]$.
+
+Daraus folgt
+\begin{equation*}\begin{split}
+    \mu &= \int_{x \in \Omega (X)} x Pr[X = x] dx\\
+        &= \underset{\underset{x \geq t \mu}{x \in \Omega (X)}}{\int} x \cdot Pr [X = x] dx + 
+            \underset{\underset{x < t \mu}{x \in \Omega (X)}}{\int} x \cdot Pr [X = x]\\
+        &\stackrel{x \geq 0}{\geq} \underset{\underset{x \geq t\mu}{ x\in \Omega (X)}}{\int} x \cdot Pr [X = x]\\
+        &\stackrel{x \geq t \mu}{\geq} t \mu  \cdot \underset{\underset{x \geq t\mu}{ x \in \Omega (X) }}{\int} Pr [X = x]\\
+        &\stackrel{\mathcal{L}\text{ subadditiv}}{\geq} t \mu \cdot Pr[X \geq t \mu]\\
+\end{split}\end{equation*}
+
+Für $t \mu > 0$ teilt man beide Sieten der Gleichung und es folgt
+$$
+    Pr[X \geq t \mu] \leq \frac{1}{t}
+$$
+
+
+\subsubsection*{(b)}
+
+Sei $ X = \overset{n}{\underset{i=1}{\sum}} X_i$, mit $X_i \in \{ 0 , 1\}$ undabhängig und $Pr[X_i = 1] = p$. Zeigen Sie,
+dass für alle $\lambda , t \geq 0$ gilt
+$$
+        Pr[X \geq (p + t)n] = Pr[e^{\lambda X} \geq e^{\lambda (p + t)n}] \leq E[e^{\lambda X}] / e^{\lambda(p+t)n}.
+$$
+
+\textbf{Beweis:}\\
+
+Als erstes gilt
+\begin{equation*}\begin{array}{crcl}
+& X &\geq& (p + t)n\\
+\stackrel{\lambda > 0}{\Leftrightarrow} & \lambda X & \geq & \lambda (p + t) n\\
+\Leftrightarrow & e^{\lambda X} & \geq & e^{\lambda ( p + t) n}
+\end{array}\end{equation*}
+
+Als nächstes wenden wir die \emph{Markov}-Ungleichung an.
+\begin{equation*}\begin{array}{rl}
+    Pr[X \geq \lambda (p + t) n]
+        &= Pr[X \geq \frac{\lambda (p + t) n}{\lambda \mu} \mu]\\
+        &\stackrel{\emph{Markov}}{\leq} \frac{\lambda \mu}{\lambda (p + t) n}
+        = \frac{\lambda E[X]}{\lambda (p + t) n}\\
+        &= \frac{E[\lambda X]}{\lambda (p + t) n}
+        = \frac{e^{E[\lambda X]}}{e^{\lambda (p + t) n}}\\
+        &\leq \frac{e^{E[\lambda X]}}{e^{\lambda (p + t) n}}
+\end{array}\end{equation*}
+
+\mbox{}\hfill$\square$
+
+\subsubsection*{(c)}
+
+Benutzen Sie die Unabhängigkeit der $X_i$ und die Eigenschaft der Exponentialfunktion, um zu zeigen, dass
+$$
+    E[e^{\lambda X}] = (pe^\lambda + 1 - p)^n.
+$$
+
+\textbf{Beweis:}\\
+
+\begin{equation*}\begin{split}
+    E[e^{\lambda X}] &= E[e^{\lambda \overset{n}{\underset{i=1}{\sum}} X_i}]\\
+        &= E[ \overset{n}{\underset{i=1}{\prod}} e^{\lambda X_i}]\\
+        &\stackrel{\text{Unabh.}}{=} \overset{n}{\underset{i=1}{\prod}} E[e^{\lambda X_i}]\\
+        &= \overset{n}{\underset{i=1}{\prod}} \left( e^{\lambda} Pr[X_i = 1] + e^0 Pr[X_i = 0] \right)\\
+        &= \overset{n}{\underset{i=1}{\prod}} \left( e^{\lambda}\cdot p + 1 \cdot (1 - p) \right)\\
+        &= \left( pe^\lambda + 1 - p \right)^n
+\end{split}\end{equation*}
+
+\subsubsection*{(d)}
+
+Optimieren Sie $\lambda$, um eine möglichst gute Abschätzung für $Pr[X \geq (p + t)n]$ zu erhalten.\\
+
+\textbf{Lösung:}\\
+
+Nach \emph{(c)} wissen wir, dass
+$$
+    Pr[ X \geq (p + t)n] \leq \frac{\left( p e^{\lambda} + 1 - p\right)^n}{e^{\lambda (p + t) n}}
+$$
+gilt. Nun wollen wir das Minimum bezüglich $\lambda$ finden, dazu bilden wir zunächst die erste ableitung bezüglich $\lambda$.
+
+\begin{equation*}\begin{array}{rl}
+    \frac{\lambda}{\partial \lambda} \left( \frac{p e^{\lambda} + 1 - p}{e^{\lambda (p + t)}} \right)^n
+        &= n \cdot \left( \frac{pe^\lambda + 1 - p}{e^{\lambda (p + t)}} \right)^{n-1} 
+        \cdot \frac{\lambda}{\partial \lambda} \left( \frac{pe^\lambda + 1 - p}{e^{\lambda (p + t)}}\right)\\
+        &= n \cdot \left( \frac{pe^\lambda + 1 - p}{e^{\lambda (p + t)}} \right)^{n-1} \cdot
+            \frac{pe^\lambda - (pe^\lambda + 1 - p)(p+t)}{e^(\lambda(p+t)}
+\end{array}\end{equation*}
+
+Nun such wir die Nullstellen der ersten Ableitung. Da wir hier nur Produkte haben müssen wir nur die einzelnen Faktoren überprüfen.
+Bei Brüchen müssen wir nur den Zähler testen.\\
+
+\begin{enumerate}[1. {Fall}]
+    \item 
+        \begin{equation*}\begin{array}{crcl}
+            & 0 &=& pe^\lambda + 1 - p\\
+            \Leftrightarrow & p-1 &=& pe^\lambda\\
+            \Leftrightarrow & e^\lambda &=& \frac{p-1}{p}
+        \end{array}\end{equation*}
+        Diese Nullstelle ist für uns nicht möglich, da $\lambda > 0$ immer $e^\lambda > 1$ zur Folge hat.
+    \item
+        \begin{equation*}\begin{array}{crcl}
+            & 0 &=& pe^\lambda - (pe^\lambda + 1 -p)(p+t)\\
+            \Leftrightarrow & 0 &=& pe^\lambda (1 - p - t) - (1-p)(p+t)\\
+            \Leftrightarrow & e^\lambda &=& \frac{(1-p)(p+t)}{(1-p-t)p}
+        \end{array}\end{equation*}
+        Wir haben auch nachgeprüft, dass es sich hierbei um ein Minimum handelt, hatten aber keine Lust die Rechung dafür auch noch
+        aufzuschreiben.
+\end{enumerate}
+
+Mit dem Minimum können wir nun den optimalen Wert errechnen.
+
+\begin{equation*}\begin{split}
+    Pr[X \geq (p+t)n] & \leq \left( \frac{p e^\lambda + 1 -p}{(e^\lambda)^{p+t}} \right)^n\\
+        &\stackrel{Min.}{=} \left( \frac{ p (\frac{(1-p)(p+t)}{(1-p-t)p}) + 1 - p}{(\frac{(1-p)(p+t)}{(1-p-t)p})^{p+t}} \right)^n\\
+        &= \left[ \left(\frac{p}{p+t}\right)^{p+t} \left( \frac{1-p}{1-p-t}\right)^{1-p-t} \right]^n
+\end{split}\end{equation*}
+
+\subsubsection*{(e)}
+
+Die Abschätzung aus der VL war
+$$
+    Pr [|X - \mu| \geq \delta \mu] \leq 2e^{\frac{\min \{ \delta, \delta^2\}}{4} \mu}
+$$
+
+Zunächst sind wir immer noch Exponentiell in $n$ beschränkt. Nun haben wir eine geringfügig andere Betrachtung.
+Wo wir vorher $|X-\mu| \geq \delta \mu$  betrachten wir nun
+$$
+    X \geq (p+t)n = \mu + tn \Leftrightarrow X - \mu \geq \frac{tn}{\mu} \mu
+$$
+haben wir den Fehler nur zu einer Seite betrachtet, da in der Abschätzung aus der Vorlesung der Betrag stand.
+Dies erklärt das Fehler des Faktors $2$ aus der Abschätzung der VL, da das Bernouli Experiment symmetrisch ist,
+sollte die Wahrscheinlichkeit für die andere Hälfte des Betrages gleich zur ersten sein.\\
+
+
+Was wir nicht wissen ist, wo da $\delta^2$ hin verschwunden ist. Wir haben uns nicht genauer angesehen,
+was passiert, wenn $\frac{p+t}{n}$ klein wird, ob sich dort die Funktion anders Verhält.\\
+
+Ansonsten sehen beide Funktionen recht ähnlich aus, wenn man einen Basiswechsel nach $e$ durchführt.
+\label{LastPage}
+\end{document}
