@@ -1,0 +1,191 @@
+> {-# LANGUAGE KindSignatures, GADTs, DataKinds #-}
+
+> module Lecture9summary where
+
+We extend our evaluator with boolean values:
+
+> data Term            =  ValFloat Float 
+>                      |  ValBool Bool 
+>                      |  Add Term Term 
+>                      |  And Term Term
+
+
+Some test terms:
+
+> addterm             ::  Term
+> addterm              =  Add (ValFloat 2.2) (ValFloat 0.5)
+> andterm             ::  Term
+> andterm              =  And (ValBool True) (ValBool False)
+
+
+> eval                ::  Term -> Maybe (Either Float Bool)
+
+> eval (ValFloat x)    =  Just (Left x)
+
+> eval (ValBool b)     =  Just (Right b)
+
+> eval (Add t1 t2)     =  case eval t1 of
+>                           Nothing          ->  Nothing
+>                           Just  (Right b)  ->  Nothing
+>                           Just  (Left x1)  -> 
+>                                 case eval t2 of
+>                                    Nothing         ->  Nothing
+>                                    Just (Right b)  ->  Nothing
+>                                    Just (Left x2)  ->  Just (Left (x1 + x2))
+
+> eval (And t1 t2)     = case eval t1 of
+>                          Nothing          ->  Nothing
+>                          Just (Left x)    ->  Nothing
+>                          Just (Right b1)  ->  
+>                               case eval t2 of
+>                                 Nothing          ->  Nothing
+>                                 Just (Left x)    ->  Nothing
+>                                 Just (Right b2)  ->  Just (Right (b1 && b2))
+
+Now, |eval| has a lot of ``boilerplate'' which is needed only to
+ensure that we get the types straight.  While we can get some
+reduction by using the fact that |Maybe| is a monad, but not much, and
+no monad is going to help here, because the decision about when to
+return |Nothing| and when to go on is not structural, but semantic.
+
+Moreover, while some type errors, such as |x = ValFloat True|, are
+caught by the type checker, other terms, similarly wrong ``in
+spirit'', get a free pass:
+
+> illtyped1           ::  Term
+> illtyped1            =  Add (ValFloat 2.2) (ValBool False)
+                     
+> illtyped2           ::  Term
+> illtyped2            =  And (ValFloat 2.2) (ValFloat 0.5)
+
+The solution appears simple: add the semantic information to the
+terms, so we end up with something such as
+
+< addterm             ::  Term Float
+< andterm             ::  Term Bool
+
+and the evaluator has the type
+
+< eval                ::  Term a -> a
+
+Unfortunately, we cannot do it in standard Haskell, because all
+constructors have to have the same target, and here we would like
+|ValFloat| and |Add| to have a different one from |ValBool| and 
+|And| (namely |Float| and |Bool|, respectively).
+
+Enter ``Generalized Algebraic Datytypes'' (GADTs), which allow
+you to give signatures to the constructors:
+
+> data TTerm          ::  * -> *  where
+>   Val               ::  a -> TTerm a
+>   AddT              ::  TTerm Float -> TTerm Float -> TTerm Float
+>   AndT              ::  TTerm Bool -> TTerm Bool -> TTerm Bool
+>   IfT               ::  TTerm Bool -> TTerm a -> TTerm a -> TTerm a
+
+(I've made |Val| polymorphic for brevity, and thrown in a new
+constructor to make clear that signatures can be quite complicated.)
+
+Now we can only write well-typed terms, such as
+
+> addtermT            ::  TTerm Float
+> addtermT             =  AddT (Val 2.2) (Val 0.5)
+> andtermT            ::  TTerm Bool
+> andtermT             =  AndT (Val True) (Val False)
+> iftermT             ::  TTerm Float
+> iftermT              =  IfT andtermT (Val 0.0) addtermT
+
+Not only are terms type-safe now, but the evaluator is much shorter!
+
+> typedEval                ::  TTerm ty -> ty
+> typedEval (Val v)         =  v
+> typedEval (AddT t1 t2)    =  typedEval t1 + typedEval t2
+> typedEval (AndT t1 t2)    =  typedEval t1 && typedEval t2
+> typedEval (IfT tb t1 t2)  =  if (typedEval tb) 
+>                                 then typedEval t1
+>                                 else typedEval t2
+
+The standard |data| declarations can also be written GADT-style, for
+example:
+
+> data NAT            ::  *  where
+>   O                 ::  NAT
+>   S                 ::  NAT -> NAT
+
+So far, GADTs have allowed us to have more refined constructors than
+those allowed by standard Haskell: the change was on the target side.  
+Another extension to GADTs allows a refinement on the source side as 
+well: we can have values as arguments, not just types!  The typical
+example is the array (somwhat unfortunately spelled ``Vector''):
+
+> data Vector         ::  * -> NAT -> * where
+>   Nil               ::  Vector a O
+>   Cons              ::  a -> Vector a n -> Vector a (S n)
+
+> testVector1         ::  Vector Char (S (S (S O))) -- 3
+> testVector1          =  Cons 'd' (Cons 't' (Cons 'p' Nil))
+
+We can now type-safe versions of familiar functions on lists, e.g.:
+
+> headVector             ::  Vector a (S n) -> a
+> headVector (Cons a as)  =  a
+
+We could also write a safe indexing function if only we had a datatype
+of ``suitably'' small indexes.  The standard solution for this is the
+datatype |FIN|
+
+> data FIN               ::  NAT -> * where
+>  FO                    ::  FIN (S n)
+>  FS                    ::  FIN n -> FIN (S n)
+
+|FIN n| has exactly |n| elements.  We can show this by induction over |n|:
+
+    P n                <=>      FIN n   has exactly n elements
+
+    P O                Every element of |FIN n| is constructed either
+                       by |fO| or by |fS|.  But the target of both
+                       |fO| and |fS| is |FIN (S k)| which is not |FIN O|
+                       for any |k|.  Therefore, neither |fO| nor |fS|
+                       construct elements of |FIN O|, therefore there are
+                       no elements of |FIN O|.
+
+    P n => P (S n)     For every element |j : FIN n|, |fS| constructs
+                       exactly one element of |FIN (S n)|, namely |fS j|.
+                       Additionaly, there is exactly one other element
+                       of |FIN (S n)|, namely |fO|.  Thus, |FIN (S n)|
+                       has one element more than |FIN n|.  If |FIN n|
+                       has |n| elements (inductin hypothesis), then
+                       |FIN (S n)| has |S n| elements.
+
+Using |FIN| we can write the indexing function:
+
+> ndx                    ::  FIN n -> Vector a n -> a
+> ndx FO (Cons a as)      =  a
+> ndx (FS j) (Cons a as)  =  ndx j as
+
+and now cannot have out-of-bounds errors at runtime.
+
+Everything is not golden, however, as the following example shows.  The
+rather trivial append function on arrays, given by
+
+> plus                   ::  NAT -> NAT -> NAT
+> plus O n                =  n
+> plus (S n1) n2          =  S (plus n1 n2)
+
+
+< plusVector                   ::  Vector a n1 -> Vector a n2 -> 
+<                                  Vector a (plus n1 n2)
+< plusVector Nil Nil            =  Nil
+< plusVector (Cons a1 as1) as2  =  Cons a1 (plusVector as1 as2)
+
+is rejected by the type checker, and no extensions will change that.
+There are workarounds, see for example Conor McBride's ``Strathclyde
+Haskell Extensions'' at
+
+  https://personal.cis.strath.ac.uk/conor.mcbride/pub/she/
+
+for the currently most advanced ``turning Haskell into a programming
+language with dependent types''.  But these workarounds are rather
+meant to show what is possible within the confines of the Haskell 
+type system with an amazing amount of brilliance, then to offer
+a viable alternative to the use of a real dependently-typed 
+programming language.
