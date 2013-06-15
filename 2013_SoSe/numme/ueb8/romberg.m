@@ -18,7 +18,7 @@ for i = 1:n
   %% summierte Trapezregel zur breite h_i
   t(i) = trapQuad([a:h(i):b],f);
   %% Rekursion
-  for k = (i+1):-1:1
+  for k = (i-1):-1:1
     t(k) = t(k+1) + (t(k+1)-t(k))/((h(k)/h(i))^2 - 1);
   end
 end
