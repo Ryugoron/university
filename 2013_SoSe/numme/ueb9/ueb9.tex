@@ -1,0 +1,143 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm]{geometry} 
+\usepackage{babel}
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc} 
+\usepackage{ae} 
+\usepackage{amssymb} 
+\usepackage{amsmath}
+\usepackage{amsthm} 
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{fancyref}
+\usepackage{enumerate}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{paralist}
+\usepackage{tabularx}
+
+\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[C]{Numerik I}
+\fancyhead[L]{Übung 9}
+\fancyhead[R]{SoSe 2013}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage \hspace{1px} of \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\setlength{\parindent}{0pt} 
+\setlength{\headheight}{0pt}
+
+\date{Tutor: Christina Schulz}
+\title{Übung 9}
+\author{Max Wisniewski, Alexander Steen}
+
+
+%%
+%% Enviroments for proofs and lemmas
+%%
+\newtheorem{lemma}{\bfseries Claim}
+
+\begin{document}
+
+\lstset{language=Pascal, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2, mathescape=true}
+
+\renewcommand{\figurename}{Figure}
+
+\maketitle
+\thispagestyle{fancy}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Aufgabe 1     %%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Aufgabe 1}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Aufgabe 2     %%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Aufgabe 2}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Aufgabe 3     %%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Aufgabe 3}
+\begin{enumerate}[a)]
+\item Verifizieren Sie das  Modell
+$$ \Theta'(t) = \frac{f}{V_0}(\Theta_1 - \Theta(t)), \quad \Theta(0) = \Theta_0$$ 
+
+Sei $\Delta t > 0$, dann ist $\Theta(t + \Delta t) = \Theta(t) + \Delta \Theta$, wobei $\Delta \Theta$ die Temperaturänderung von $t$ bis $t + \Delta t$ bezeichnet.
+
+Die Menge des zugelaufenen und abgelaufenen Wassers nach $\Delta t$ vergangener Zeit beträgt jeweils $\Delta t f$. Dann ist $\frac{1}{V_0}(\Delta t f \Theta_1 - \Delta t f \Theta(t))$ der gewichtete Durchschnitt (Temperaturdifferenz verteilt auf das Volumen) der Temperaturunterschiede und damit die Temperaturdifferenz $\Delta \Theta$. Also ist $\Theta(t + \Delta t) = \Theta(t) + \frac{1}{V_0}(\Delta t f \Theta_1 - \Delta t f \Theta(t)) = \Delta t \frac{f}{V_0} (\Theta_1 - \Theta(t))$.
+
+Durch Umstellen erhalten wir $\frac{\Theta(t + \Delta t) - \Theta(t)}{\Delta t} = \frac{f}{V_0} (\Theta_1 - \Theta(t))$ und damit für den Grenzübergang $\Delta t \to 0$:
+
+$\Theta'(t) = \frac{f}{V_0} (\Theta_1 - \Theta(t))$. Dass beim Zeitpunkt $t= 0$ das Wasser seine Ausgangstemperatur besitzt, also $\Theta(0) = \Theta_0$ gilt, ist offensichtlich.
+
+\item Lösung der  DGL: todo, mit dem vorgeschlagenen lösungsweg kommt bei mir nur müll raus.
+% Lösung aus Coma hat nicht geforderten Lösungsweg
+%
+% \begin{eqnarray*}
+%\Theta'(t) &=& \frac{f}{V_0} (\Theta_1 - \Theta(t)) = -\frac{f}{V_0} \Theta(t) + \frac{f}{V_0}\Theta_1 \\ 
+%\end{eqnarray*}
+%Da $-\frac{f}{V_0} =: \lambda \in \mathbb{R}$ und $f : \mathbb{R} \to \mathbb{R}$, mit $f(x)= \frac{f}{V_0}\Theta_1 =: \nu \in \mathbb{R}$ konstante Funktion, können wir Satz 3.2 %anwenden und die Lösung der DGL von oben ist
+%
+%\begin{eqnarray*}
+%\Theta(t) &=& \alpha e^{\lambda t} + \int_0^t f(x) \cdot e^{\lambda(t-x)} \; dx \\
+%&=& \alpha e^{\lambda t} + \nu \int_0^t e^{\lambda(t-x)} \; dx \\
+%&=& \alpha e^{\lambda t} + \nu \int_0^t  e^{\lambda t} e^{\nu x} \; dx \\
+%&=& \alpha e^{\lambda t} + \nu e^{\lambda t} \int_0^t  e^{\nu x} \; dx \\
+%&=& \alpha e^{\lambda t} + \nu e^{\lambda t} \frac{V_0}{f} (e^{\nu t} - 1) \\
+%&=& \alpha e^{\lambda t} + \Theta_1  e^{\lambda t} (e^{\nu t} - 1) \\
+%&=& \alpha e^{-\frac{f}{V_0} t} + \Theta_1  e^{\frac{-f}{V_0} t} (e^{\frac{f}{V_0} t} - 1) 
+%\end{eqnarray*}
+%für jedes $\alpha \in \mathbb{R}$.
+%
+%Einsetzen von des Anfangswertes 
+%$\Theta_0 = \Theta(0) = \alpha e^{\lambda 0} + \Theta_1  e^{\frac{-f}{V_0} 0} (e^{\frac{f}{V_0} 0} - 1) = \alpha$ liefert $\alpha = \Theta_0$ und damit
+%$$ \Theta(t) = \Theta_0 e^{-\frac{f}{V_0} t} + \Theta_1  e^{\frac{-f}{V_0} t} (e^{\frac{f}{V_0} t} - 1) $$
+%als Lösung des Anfangswertproblem.
+%
+\item Die DGL besitzt die stationäre Lösung $\Theta_{stat}(t) = \Theta_1$. \\
+
+Für eine stationäre Lösung einer DGL der Form $x'(t) = \lambda x(t) + f(t)$ gilt $x'(t) = 0$. Also setzen wir ein:
+\begin{eqnarray*}
+\Theta'(t) = \frac{f}{V_0} (\Theta_1 - \Theta_{stat}(t)) &=& 0 \\
+ \Leftrightarrow \frac{f}{V_0} \Theta_1 - \frac{f}{V_0} \Theta_{stat}(t) &=& 0\\
+ \Leftrightarrow \frac{f}{V_0} \Theta_1 &=& \frac{f}{V_0} \Theta_{stat}(t) \\
+ \Leftrightarrow \Theta_1 &=& \Theta_{stat}(t)
+\end{eqnarray*}
+
+Also ist die stationäre Lösung $\Theta_{stat}(t) = \Theta_1$.
+
+\item Es gilt für jedes $\Theta_0$: $\lim_{t \to \infty} \Theta(t) = \Theta_1$. \\
+Es sei $\Theta_0 \in \mathbb{R}$ beliebig. Dann ist
+\begin{eqnarray*}
+\lim_{t \to \infty} \Theta(t) &=& \lim_{t \to \infty} \Theta_0 e^{-\frac{f}{V_0} t} + \Theta_1  e^{\frac{-f}{V_0} t} (e^{\frac{f}{V_0} t} - 1) \\
+&=& \Theta_0  \lim_{t \to \infty} (e^{-\frac{f}{V_0} t}) + \Theta_1 \lim_{t \to \infty} \left( e^{-\frac{f}{V_0} t}e^{\frac{f}{V_0} t} - e^{-\frac{f}{V_0} t} \right) \\
+&=& \Theta_0  \lim_{t \to \infty} (e^{-\frac{f}{V_0} t}) + \Theta_1 \lim_{t \to \infty} \left(e^{0} - e^{-\frac{f}{V_0} t} \right) \\
+&=& \Theta_0  \lim_{t \to \infty} (e^{-\frac{f}{V_0} t}) + \Theta_1 \lim_{t \to \infty} e^{0} - \Theta_1 \lim_{t \to \infty} e^{-\frac{f}{V_0} t}\\
+&=& \Theta_0 \cdot  0 + \Theta_1 \cdot 1 - \Theta_1 \cdot 0 \\
+&=& \Theta_1
+\end{eqnarray*}
+
+\item Wann besitzt das Wasser $38 ^\circ C$, bei $V_0 = 150l, \Theta_0 = 30^\circ C, f = 0.1ls^{-1}, \Theta_1 = 60 ^\circ C$? \\
+
+Wir lösen die Gleichung
+$$ 
+30 e^{-\frac{0.1}{150} t} + 60 e^{-\frac{0.1}{150} t} (e^{\frac{0.1}{150} t} - 1) = 38
+$$
+nach $t$ unter der Nutzung von wolfram alpha (www.wolframalpha.com) mittels solve-Befehl.
+
+Aus der Gleichung ergibt sich $t \approx 465,2324$. Wir müssen also ca. 465 Sekunden warten, bis das Wasser eine Temperatur von $38 ^\circ C$ besitzt.
+\end{enumerate}
+
+\label{LastPage}
+\end{document}
