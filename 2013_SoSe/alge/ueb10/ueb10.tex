@@ -1,0 +1,277 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm]{geometry} 
+\usepackage{babel}
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc} 
+\usepackage{ae} 
+\usepackage{amssymb} 
+\usepackage{amsmath}
+\usepackage{amsthm} 
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{paralist}
+
+\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[C]{Algorithmische Geometrie}
+\fancyhead[L]{Aufgabenblatt 10}
+\fancyhead[R]{SoSe 2013}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage \hspace{1px} of \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\setlength{\parindent}{0pt} 
+\setlength{\headheight}{0pt}
+
+\date{}
+\title{Aufgabenblatt 10}
+\author{Max Wisniewski, Alexander Steen}
+
+
+%%
+%% Enviroments for proofs and lemmas
+%%
+\newtheorem{lemma}{\bfseries Claim}
+
+\begin{document}
+
+\lstset{language=Pascal, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2, mathescape=true}
+
+\renewcommand{\figurename}{Figur}
+
+\maketitle
+\thispagestyle{fancy}
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+%% Aufgabe 1 
+%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Aufgabe 1}
+
+Geben Sie ein Beispiel an, dass der Term $\sqrt{n}$ in der oberen Schranke $O( \sqrt{n} + z)$ für die Anfragezeit
+an zwei Dimensionale kd-Bäume nicht verbessert werden kann.\\
+
+\textbf{Lösung:}\\
+
+Wir nehmen uns eine Linie als Bereichsanfrage, parrallel zur x-Achse, die jeden Knoten, der nach y-Koordinate
+fragt und im richtigen x-Abschnitt liegt durchschneidet.
+
+\vspace{5cm}
+
+Pro x-Knoten machen wir einen Vergelich und gehen in nur einen der beiden Teilbäume. Diesen Schritt vernachlässigen wir
+(oder fassen in den y-Knoten zusammen). Dort vergleichen wir und arbeiten auf beiden Bäumen weiter.
+Da wir durch 2 Knoten durch sind, verlieren wir in einer x/y Runde die Hälfte der Knoten, so dass uns 
+pro besuchten Teilbaum $\frac{n}{4}$ bleiben. Der Baum hat immer noch eine Höhe von $\log n$,
+
+\begin{equation*}\begin{array}{rcl}
+    T(1) &=& O(1)\\
+    T(n) &=& 2 T(\frac{n}{4}) + O(1)\\
+        &=& 2^k (T\frac{n}{2^{2k}}) + \overset{k}{\underset{i=1}{\sum}} 2^i \cdot c\\
+        &\stackrel{k=\frac{1}{2}\log n}{=}& 2^{\frac{\log n}{2}} c + c * \overset{\frac{\log n}{2}}{\underset{i=1}{\sum}} 2^i\\
+        &\leq& c * \sqrt{n} + \sqrt{\frac{n}{2}} - 1\\
+        &=& O(\sqrt{n})
+\end{array}\end{equation*}
+
+Dabei sollte bei einer einfachen linie unser Ergebniss höchstens ein Elemente enthalten also $z \leq 1$.
+
+\subsection*{Aufgabe 2}
+
+Sei $P \subseteq \mathbb{R}^k$ mit $|P| = n$, wobei $k$ nicht von $n$ abhängen soll.
+
+\subsubsection*{(a)}
+
+Geben Sie einen Algorithmus an, für die Konstruktion eines kd-Baums an, der $O(n \log n)$ Zeit und
+$O(n)$ Speicher benötigt.\\
+
+\textbf{Lösung:}\\
+
+Der Algorithmus nimmt eine Liste von Zahlen entgegen, $i$ als die Dimension,
+nach der in der aktuellen Phase geteilt werden soll und $k$ als die Dimension von $P$.\\
+Wir wissen, dass einen linearzeit Algorithmus \lstinline|median| gibt,
+der zu einer Liste von Zahlen den Median berechnet. Wir wollen den Median der $i$ ten
+Komponente und setzen den Algorithmus vorraus.
+
+\begin{lstlisting}[frame=single, mathescape = true]
+kdTree(list, i, k)
+    if |list| = 0 
+        return Nil
+    m = median(list, i)
+    l = $\{x \in list \, | \, x(i) < m(i) \}$
+    r = $\{x \in list \, | \, x(i) > m(i) \}$
+    
+    return Node (kdTree (l, (i+1) % k), (m,i) , kdTree (r, (i+1) % k))
+\end{lstlisting}
+
+Jedes Element kann höchstens einmal Median sein (da wir es danach löschen) und damit hat der
+Baum höchstens $n$ Knoten, was einer linearen Größe entspricht.\\
+
+Die Laufzeit lässt sich beschreiben durch
+$$
+    T(n) \leq 2 \cdot T(\left\lceil \frac{n}{2} \right\rceil) + T_m(n)
+$$
+und da $T_m(n) = c \cdot n$ für ein $c > 0$ ist, können wir die alt bekannte Abschätzung
+für Mergesort benutzen und erhalten
+$$
+    T(n) \leq 2 n \log n = O(n \log n).
+$$
+Daraus ergibt sich auch, dass die Höhe des Baumes in $O(\log n)$ ist.
+
+\subsubsection*{(b)}
+
+Beschreiben Sie einen Algorithmus, der die Bereichsabfrage an Ihren Baum in $O(n^{1-\frac{1}{k} + z}$ beantwortet.\\
+
+\textbf{Lösung:}\\
+
+Wir setzen vorraus, dass es eine Methode \lstinline|geti : Nat -> Range -> (R,R)| gibt,
+die uns die Grenzen des Rechtecks bezüglich der $i$-ten Komponente gibt und in konstante Zeit läuft.
+
+\begin{lstlisting}
+query(Nil, i, k)
+    return []
+query(Node l (m,i) r, range)
+    (lb, rb) = geti(i, query)
+    erg = []
+    if lb < m(i)
+        erg = erg ++ query(l, range))
+    if rb > m(i)
+        erg = erg ++ query(r, range))
+    if m $\in$ Range
+        erg = erg ++ [m]
+
+    return erg
+\end{lstlisting}
+
+Der Algorithmus geht analog zum zwei dimensionalen vor. Wenn die Bereichsabfrage in der $i$-ten Komponente kleiner wird als
+der Knoten, müssen wir nach links gehen, und wenn er größer wird als der Knoten, müssen wir nach rechts.
+Wenn beides zutrifft müssen wir natürlich in beide Teilbäume absteigen.
+
+Zuletzt prüfen wir den Knoten auf alle $k$ Dimensionen, ob wir ihn nehmen können.\\
+
+\begin{lemma}\label{alge:ueb10:kdquery}
+    Der Algorithmus ist korrekt und hat die Laufzeit $O(n^{1-\frac{1}{k}} + z)$.
+\end{lemma}
+
+\textbf{Beweis \ref{alge:ueb10:kdquery}.}\\
+    Nach Konstruktion befinden sich im linken Unterbaumbaum alle nur Punkte mit $x(i) < m(i)$. Sollte der
+    Query als in dieser Komponente größer sein, kann das Rechteck keinen Punkt aus dem linken Unterbaum enthalten.
+    Dies gilt ebenso für den rechten Unterbaum. Es ist also korrekt diesen Unterbaum nicht zu besuchen.
+
+    Demnach müssen wir also alle Knoten besuchen, die in der Range liegen.\\
+
+    Betrachten wir nun die Laufzeit.\\
+
+    tbd  
+
+\subsection*{Aufgabe 3}
+
+Sei $P \subseteq \mathbb{R}^k$. Zeigen Sie, wie man \emph{Range Trees} auf $k$ dimensionen erweitert und wie man
+für die Anfrage $R$ die Größe $P \cap R$ berechnet, so dass die Anfrage Zeit in $O(\log^k n)$ liegt.\\
+
+\textbf{Lösung:}\\
+
+In der zweidimensionalen Fassung wurde ein balancierter Suchbaum, nach der ersten Komponente erstellt und
+in jedem Knoten ein Array gehalten, mit der sortierten Liste für die zweite Komponente.\\
+
+Dies erweitern wir nun indem wir einen RangeTree(i) definieren. Dieser
+ist ein balancierter Suchbaum nach der $i$-ten Komponente und speichert in jedem Knoten einen
+RaneTree($i-1$), statt einem Array.\\
+
+Wir wissen, dass man RangeTree(2) mit Platz $O(n \log n)$ speichern kann und in Zeit $O(n \log n)$ berechnen kann.\\
+
+Wir erstellen einen Range wie folgt Rekursiv, wobei $i=2$ der bekannte RangeTree aus der VL ist.
+\begin{enumerate}[1.]
+    \item Sei \emph{list} die aktuelle List und wir sortieren nach der $i$ den Komponente.
+    \item Erstelle einen $u = $ RangeTree($i-1$) aus \emph{list}.
+    \item Berechne den Median $m$ bezüglich der $i$ten Komponente von \emph{list}.
+    \item Berechne \lstinline|l = RangeTree(i)| begzüglich $\{ x \in list \, | \, x(i) \leq m(i) \}$
+        und \lstinline|r = RangeTree(i)| bezüglich $\{x \in list \, | \, x(i) > m(i) \}$.
+    \item Gebe den Knoten zurück mit $u$ als Wert und $l,r$ als Unterbäumen.
+\end{enumerate}
+
+Es gilt offensichtlich, dass ein RangeTree einer Partition von $P$ in der Summe höchstens so groß ist
+wie der RangeTree von gesamt $P$ und das selbe gilt für die Laufzeit.
+
+Für den Platz gilt also $O(n \log^{k-1} n)$.\\
+\textbf{Beweis:}\\
+I.A. Für $k=2$ wissen wir, nimmt der Baum die Größe $O(n \log n)$ an.\\
+I.S. $k \leadsto k+1$\\
+    Pro Ebene ist der RangeTree eine Partition von $P$ mit RangeTrees(k). Diese
+    sind nach höchstens so große wie ein RangeTree(k) über gesammt $P$.
+    Und da der Baum die Höhe $O(\log n)$ (Da es ein binärer Suchbaum in einer Dimension ist),
+    folgt
+    $$
+        S_{k+1}(n) \leq c \log n * S_{k}(n) = c' \log n * (n \log^{k-1} n) = O(n \log^k n)
+    $$
+\mbox{}\hfill$\square$
+
+Die Vorverarbeitungszeit ist $O(n \log^{k-1} n)$.\\
+\textbf{Beweis:}\\
+    Der Beweis läuft analog zum Platz beweis, da wir wie beim platz die subadditivität für
+    die Partition benutzen können.
+    Dabei können wir pro Knoten das aufteilen und die Median bestimmung vernachlässigen,
+    da beides linear ist aber die Verarbeitungszeit für den RangeTree(k-1) mindestens $O(n \log n)$
+    dauert.\\
+\mbox{}\hfill$\square$
+
+Nun führen wir eine Bereichsabfrage wie folgt durch:
+\begin{enumerate}[a.]
+    \item Falls $k=1$ sind wir in einem Array. Wir machen eine Binäre Suche nach dem kleinsten
+        und dem Größten Element, das noch in der Range liegt, wie in der Vl und geben
+        die Differenz der Indizes zurück.
+    item Falls $k>1$
+\begin{enumerate}[1.]
+    \item Gehe den Baum hinunter, bis wir einen Knoten gefunden haben, für den $m(k) \in query(k)$ gilt,
+        also der Knoten liegt in der $k$ten Komponente im Suchinterval.
+    \item Laufe den linken Baum hinunter. Gehen wir nach links, führen wir eine Bereichsabfrage auf
+        den RangeTree(k-1) zur rechten aus und mergen das Ergebnis mit der Rekursion aus dem linken Unterbaum.\\
+        Sind wir in einem Blatt, prüfen wir, ob der einzelne Knoten im query liegt und geben das Ergebnis zurück.
+    \item Ebenso verfahren wir mit dem rechten Baum spiegelverkehrt.
+    \item Wir addieren beide Ergebnisse.
+\end{enumerate}
+\end{enumerate}
+
+Der Algorithmus läuft analog zum Algorithmus aus der Vorlesung, nur dass wir beim links gehen den rechten Knoten
+nicht als als Array betrachten, sondern wieder als RangeTree.
+
+\begin{lemma}\label{alge:ueb10:rangetreecor}
+    Der Algorithmus ist korrekt und läuft in Zeit $O(\log^{k})$.
+\end{lemma}
+
+\textbf{Beweis \ref{alge:ueb10:rangetreecor}.}\\
+
+Wir müssen den Pfad bis zum \emph{Split} Knoten nicht betrachten, da die Werte nicht innerhalb der Range liegen.\\
+Haben wir den Split Knoten erreicht und sind o.B.d.A. auf dem linken Pfad. Gehen wir nach rechts,
+so ist der linke Unterbaum nicht im query enthalten, da er nach der $k$ten Komponente außerhalb lag.
+
+Gehen wir allerdings nach links weiter, so liegen alle Knoten im rechten Unterbaum im Intervall ter $k$ten Komponente der
+Suchanfrage, da wir links vom \emph{Split} Knoten sind , der kleiner als die obere Grenze der $k$ten Komponente war, und
+rechts vom aktuellen Knoten sind, der da wir nach links gehen größer als die untere Grenze der $k$ ten Komponente war.
+Wir müssen hier also weiter suchen.\\
+Da jede Ebene eine Partition von allen Elementen ist, können wir also keinen Wert aus $P$ übersehen.\\
+
+Der Algorithmus läuft in $O(\log^{k})$. Wir wissen nach VL (ohne das $z$ da wir nur Indizes zählen und
+nicht die Elemente aufsammeln müssen), dass für $k=2$ der Algorithmus
+in $O(\log^2 n)$ läuft.\\
+
+Für einen RangeTree mit $n$ Elemente der Höche $\log n$ können wir den Rückgriff auf den Algorithmus für $k-1$ höchstens
+2 mal pro Ebene machen. Darüber hinaus, können wir erst auf Ebene 2 damit Anfangen, da auf Ebene 1 (also die Wurzel) die
+früheste Möglichkeit für den Split Knoten ist.
+
+Daraus ergibt sich
+\begin{equation*}\begin{array}{rcl}
+    T_{k+1}(n) &\leq& \overset{\log n}{\underset{i = 2}{\sum}} 2 \cdot T_k(\frac{n}{2^i})\\
+        &=& \overset{\log n}{\underset{i=2}{\sum}} 2 c \cdot \log^k \frac{n}{2^i}\\
+        &=& \overset{\log n}{\underset{i=2}{\sum}} 2 \cdot (\log^k n - \log 2^i)\\
+        &=& \overset{\log n}{\underset{i=2}{\sum}} 2 c \log^k n - 2i\\
+        &=& \left( 2c \log^k n \overset{\log n}{\underset{i=2}{\sum}} 1 \right) - 2c \overset{\log n}{\underset{i=2}{\sum}} i\\
+        &\leq& 2c  \log^{k+1} n - 2c \frac{(\log n)((\log n) + 1)}{2}\\
+        &= O(\log^{k+1} n)
+\end{array}\end{equation*}
+\mbox{}\hfill $\square$
+\label{LastPage}
+
+\end{document}
