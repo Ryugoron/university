@@ -164,8 +164,39 @@ Zuletzt prüfen wir den Knoten auf alle $k$ Dimensionen, ob wir ihn nehmen könn
 
     Betrachten wir nun die Laufzeit.\\
 
-    tbd  
+    Wie in Teil \emph{(a)} und in der VL konstruieren wir unseren Worstcase.
+    
+    In jedem Schritt haben wir die Möglichkeit und entweder aufzuteilen oder nur in eine Richtung zu gehen.
+    Wir wollen hierbei nun die Anzeil der aufteilungsoperationen zu maximieren. Dies erreichen wir,
+    indem wir eine Dimension fixieren und uns in dieser nicht verzweigen. In allen anderen verzweigen wir uns.\\
 
+    Wir brauchen diese eine "nicht-verzweigung", da sonst alle inneren Knoten, wie im ein-dimensionalen Fall
+    komplett von unserem Query-Rechteck eingeschlossen werden und somit zum Ergebnis gehören. Somit würden
+    wir also nur eine Laufzeit von $O(\log n + z)$ erreichen.\\
+
+    Lassen wir aber das Rechteck noch je von einer Hyperebene schneiden, so besteht bis zum Schluss die 
+    Möglichkeit, dass ein Element nicht zum Ergebnis gehört.\\
+
+    Wie in \emph{(a)} gehen wir durch $k$ Dimensionen, wobei wir immer die Anzahl der Elemente halbieren.
+    Da wir in einer Dimension verzweigen verlieren wir bei einer Runde vom Durchlaufen aller Dimensionen
+    je die Hälfte der Elemente.
+    $$\begin{array}{rcl}
+        T(1) &=& 0\\
+        T(n) &\leq& 2^{k-1} \cdot T(\frac{n}{2^{k}}) + O(1)\\
+            &=& \left( 2^{k-1} \right)^i \cdot T(\frac{n}{\left( 2^k \right)^i}) + c \cdot \overset{i}{\underset{j=1}{\sum}} \left(2^{k-1}\right)^j\\
+            &\stackrel{i=(\log n)/k}{=}& c \cdot \overset{(\log n)/k}{\underset{j=1}{\sum}} \left(2^{k-1} \right)^j\\
+            &=& c \cdot \left( \left( 2^{k-1} \right)^{(\log n)/k} - 1\right)\\
+            &=& c \cdot \left( \left( 2^{\log n} \right)^{(k-1)/k} - 1 \right)\\
+            &=& c n^{1 - \frac{1}{k}} - c\\
+            &=& O(n^{1 - \frac{1}{k}})
+    \end{array}$$
+
+    Wie schon gesagt, können wir nicht mehr Verzweigungen erreichen, da sonst der innere Teil komplett im Rechteck liegt.
+    Sollten wir weniger verzweigungen haben, so wird der Rekursionschritt nur kleiner, da wir weniger Teile betrachten müssen.
+    Damit ist $O(n^{1-\frac{1}{k}})$ eine obere Schranke und wir wissen, dass diese Schranke fest ist, da wir wie in \emph{(a)} das
+    Beispiel konstruieren können, so dass unsere Abschätzung mit Gleichheit erfüllt ist.
+
+    \mbox{}\hfill$\square$
 \subsection*{Aufgabe 3}
 
 Sei $P \subseteq \mathbb{R}^k$. Zeigen Sie, wie man \emph{Range Trees} auf $k$ dimensionen erweitert und wie man

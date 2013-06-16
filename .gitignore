@@ -20,6 +20,7 @@
 *.so
 *.eps
 *.pdf
+*.ibc
 
 # Packages #
 ############
