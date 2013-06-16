@@ -1,0 +1,118 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm]{geometry} 
+\usepackage{babel}
+\usepackage{algpseudocode}
+\usepackage{algorithm}
+
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc} 
+\usepackage{ae} 
+\usepackage{amssymb} 
+\usepackage{amsmath}
+\usepackage{amsthm} 
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{paralist}
+\usepackage{tabularx}
+\usepackage{tikz}
+\usetikzlibrary{arrows,automata}
+\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[C]{Diskrete Mathematik}
+\fancyhead[L]{Übung 10}
+\fancyhead[R]{SoSe 2013}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage \hspace{1px} of \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\setlength{\parindent}{0pt} 
+\setlength{\headheight}{0pt}
+\newcommand\mdoubleplus{\ensuremath{\mathbin{+\mkern-10mu+}}}
+\date{Tutor : Stefan Schwarz}
+\title{Übung 10}
+\author{Max Wisniewski, Alexander Steen}
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+\newcommand{\argmin}{\text{argmin}}
+\newcommand{\argmax}{\text{argmax}}
+\newcommand{\code}[1]{\langle {#1} \rangle}
+\newcommand{\Z}{\mathbb{Z}}
+%%
+%% Enviroments for proofs and lemmas
+%%
+\newtheorem{lemma}{\bfseries Claim}
+
+\begin{document}
+
+\lstset{language=Pascal, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2, mathescape=true}
+
+\renewcommand{\figurename}{Figure}
+
+\maketitle
+\thispagestyle{fancy}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Aufgabe 1
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Aufgabe 1.}
+Die Herleitung ist analog zu der Herleitung in Aufgabe 5 (die wir zuerst gemacht haben), nur dass dieses Mal der jeweils ersten und zweiten Tänzer von $1 \ldots n$ durchnummeriert werden und der eine Partner $i$ zum anderen Partner $i$ gehört. Die Anzahl der Paare, bei denen niemand mit seinem eigentlich Tanzpartner tanzt, ist nun wieder genau die Anzahl der fixpunktfreien Permutation von $n$ Elementen $D(n)$. Nach Aufgabe 5 gilt
+$D(n) = n! \left(\sum_{k=0}^n \frac{ (-1)^{k} }{k!} \right)$ (siehe Aufgabe 5 für die genaue Herleitung).
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Aufgabe 2
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Aufgabe 2.}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Aufgabe 3
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Aufgabe 3.}
+Z.z. es gilt die folgende Gleichung für alle $k,m,n$ mit $k \leq m$:
+\begin{equation*}
+  \sum_{i=0}^n (-1)^i  \binom{n}{i} \binom{n+m-1}{k-i} = \binom{m}{k}
+\end{equation*}
+
+\textbf{Beweis} durch Induktion. Sei $k,m$ beliebig mit $k \leq m$.\\
+Basis: $n = 0$ \\
+just scribble:
+$\sum_{i=0}^0 (-1)^i  \binom{0}{i} \binom{m-1}{k-i} = \binom{0}{0} \binom{m-1}{k} = \binom{m-1}{k} = ...$
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Aufgabe 4
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Aufgabe 4.}
+Z.z. Für $n \in \mathbb{N}$ ist $D_n = (n-1)(D_{n-1} + D_{n-2})$, $D_0 = 1, D_1 = 0$ (nehmen wir mal an). \\
+
+\textbf{Beweis} durch Induktion: \\
+Bases: $n = 2$ \\
+Es gibt nur eine fixpunktfreie Permutation von zwei Elementen, also
+$D_2 = 1 = 1 \cdot (0 + 1)$. \\
+
+Schritt: $n \rightsquigarrow n+1$ \\
+asd
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Aufgabe 5
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Aufgabe 5.}
+Seien die Herren und deren Hüte mit $1 \ldots n$ durchnummeriert (wobei der Hut $i$ dem Herrn $i$ gehört).
+Die Rückgabe der Gardrobiere entspricht der Wahl einer Permutation $\sigma \in S_n$, wobei
+der Hut korrekt zurückgegeben wird, wenn $\sigma(i) = i, i = 1,\ldots,n$. Keiner der $n$ Herren bekommt
+seinen Hut zurück, falls die Permutation $\sigma$ fixpunktfrei (also ein Derangement) ist. Sei $D(n)$ die
+Anzahl der fixpunktfreien Permutation $\sigma \in S_n$.
+Gesucht ist also die Wahrscheinlichkeit
+$$p_n = Pr[\text{keiner der $n$ Herren bekommt seinen Hut zurück}] \stackrel{\text{Laplace}}{=} \frac{D(n)}{|S_n|} = \frac{D(n)}{n!}$$
+Die Anzahl $D(n)$ können wir nun mit dem Prinzip der Inklusion und Exklusion bestimmen: \\
+Wir zählen die Permutation, die mindestens einem Herren den korrekten Hut geben und ziehen diese Zahl von $n!$ ab. Betrachten wir die Menge $X_i = \{\sigma \in S_n | \sigma(i) = i \}$, so gilt $\bigcap_{i \in I \subset [n]} X_i = (n - |I|)!$ und damit
+
+$$ |\bigcup_{i = 1}^n X_i | = \sum_{k=1}^n (-1)^{k-1} \binom{n}{k} (n-k)! =  \sum_{k=1}^n (-1)^{k-1} \frac{n!}{k!}$$
+
+Daraus ergibt sich 
+$$D(n) = n! - \sum_{k=1}^n (-1)^{k-1} \frac{n!}{k!} = n! \left(\sum_{k=0}^n \frac{ (-1)^{k} }{k!} \right)$$
+und damit für $p_n$
+$$ p_n = \frac{D(n)}{n!} = \sum_{k=0}^n \frac{ (-1)^{k} }{k!} \stackrel{n \to \infty}{\longrightarrow} \frac{1}{e}$$
+\label{LastPage}
+\end{document}
