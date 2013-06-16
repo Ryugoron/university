@@ -73,27 +73,33 @@ $D(n) = n! \left(\sum_{k=0}^n \frac{ (-1)^{k} }{k!} \right)$ (siehe Aufgabe 5 f�
 \subsection*{Aufgabe 3.}
 Z.z. es gilt die folgende Gleichung für alle $k,m,n$ mit $k \leq m$:
 \begin{equation*}
-  \sum_{i=0}^n (-1)^i  \binom{n}{i} \binom{n+m-1}{k-i} = \binom{m}{k}
+  \sum_{i=0}^n (-1)^i  \binom{n}{i} \binom{n+m-i}{k-i} = \binom{m}{k}
 \end{equation*}
 
 \textbf{Beweis} durch Induktion. Sei $k,m$ beliebig mit $k \leq m$.\\
 Basis: $n = 0$ \\
-just scribble:
-$\sum_{i=0}^0 (-1)^i  \binom{0}{i} \binom{m-1}{k-i} = \binom{0}{0} \binom{m-1}{k} = \binom{m-1}{k} = ...$
+$\sum_{i=0}^0 (-1)^i  \binom{0}{i} \binom{m-i}{k-i} = \binom{0}{0} \binom{m}{k} = \binom{m}{k}$ \\
+%
+%Schritt: $n \rightsquigarrow n+1$ \\
+%
+%\begin{equation*}\begin{split}
+%  &  \sum_{i=0}^{n+1} (-1)^i  \binom{n+1}{i} \binom{(n+1)+m-i}{k-i} \\
+%  = & (-1)^{n+1} \binom{n+1}{n+1} \binom{(n+1)+m-(n+1)}{k-(n+1)} + \sum_{i=0}^{n} (-1)^i  \binom{n+1}{i} \binom%{(n+1)+m-i}{k-i} \\
+%  = &
+%\end{split}\end{equation*}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Aufgabe 4
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection*{Aufgabe 4.}
-Z.z. Für $n \in \mathbb{N}$ ist $D_n = (n-1)(D_{n-1} + D_{n-2})$, $D_0 = 1, D_1 = 0$ (nehmen wir mal an). \\
+\textbf{Beweis}: \\
+Sei $\sigma \in S_{n}$ eine fixpunktfreie Permutation. Also ist insbesondere $\sigma(1) = i \neq 1$.
+Dann gilt entweder: \\
+Fall 1: $\sigma(i) = 1$ \\
+Dann verbleiben für die verbliebenen $n-2$ Elemente $\{ 2,\ldots,n \} \setminus \{i \}$ genau $D_{n-2}$ Möglichkeiten, eine fixpunktfreie Permutation zu erzeugen. \\
+Fall 2: $\sigma(i) \neq 1$ \\
+Dann verbleiben für die restlichen $n-1$ Elemente genau $D_{n-1}$ Möglichkeiten, eine fixpunktfreie Permutation zu erzeugen.\\
 
-\textbf{Beweis} durch Induktion: \\
-Bases: $n = 2$ \\
-Es gibt nur eine fixpunktfreie Permutation von zwei Elementen, also
-$D_2 = 1 = 1 \cdot (0 + 1)$. \\
-
-Schritt: $n \rightsquigarrow n+1$ \\
-asd
-
+Für die Wahl von $i$ haben für nun $n-1$ Möglichkeiten (nämlich genau $\{2,\ldots,n \}$). Daraus ergibt sich die Rekursion $D_n = (n-1) (D_{n-1} + D_{n-2})$.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Aufgabe 5
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
