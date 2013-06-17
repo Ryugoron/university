@@ -67,26 +67,28 @@ $D(n) = n! \left(\sum_{k=0}^n \frac{ (-1)^{k} }{k!} \right)$ (siehe Aufgabe 5 f�
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection*{Aufgabe 2.}
 
+Die Anzahl der Aufteilungen der drei Personentypen kann (vorerst ohne Berücksichtigung der verbotenen Situtationen) durch $\binom{12}{3,4,5} = 27 720$ ermittelt werden.
+Nun betrachten wir, wie viele Möglichkeiten es gibt, sodass (a) alle Amerikaner (b) alle Chinesen und (c) alle
+Russen hintereinander stehen.\\
+(a) Sind drei Amerikanerpositionen vergeben, ergeben sich $\binom{8}{5}$ Möglichkeiten für die restliche Aufteilung. Für die geschlossene Aufstellung der drei Amerikaner haben wir 9 Möglichkeiten (jeweils am Ende der Gruppe und sieben Positionen zwischen den acht restlichen Leuten).
+Es ergibt sich $ 9 \cdot \binom{8}{5} = 504$. \\
+(b) Analog ergibt sich eine restliche Aufteilung von $\binom{7}{3}$ Möglicheiten auf acht verschiedene Arten. Also $8 \cdot \binom{7}{3} = 280$. \\
+(c) Analog ergibt sich eine restliche Aufteilung von $\binom{9}{5}$ Möglicheiten auf zehn verschiedene Arten. Also $10 \cdot \binom{9}{5} = 1260$. \\
+
+Nun betrachten wir die Möglichkeiten, bei denen jeweils zwei Nationalitätsgruppen jeweils zusammenstehen:
+Davon gibt es sechs Möglichkeiten, nämlich: \\
+(1) Amerikaner und Russen: $\binom{6}{2} = 15 $ Möglichkeiten \\
+(2) Amerikaner und Chinesen: $\binom{4}{2} = 6$ Möglichkeiten \\
+(3) Chinesen und Russen: $\binom{5}{2} = 10$ Möglichkeiten \\
+
+Nun betrachten wir die Möglichkeiten, bei denen alle drei Nationalitäten jeweils geschlossen zusammenstehen, das sind genau $3! = 6$ Möglichkeiten.
+
+Also ergibt sich insgesamt eine Anzahl von $27 720 - 504 - 280 - 1260 +15 + 6+ 10 - 6 = 25701$.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Aufgabe 3
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection*{Aufgabe 3.}
-Z.z. es gilt die folgende Gleichung für alle $k,m,n$ mit $k \leq m$:
-\begin{equation*}
-  \sum_{i=0}^n (-1)^i  \binom{n}{i} \binom{n+m-i}{k-i} = \binom{m}{k}
-\end{equation*}
-
-\textbf{Beweis} durch Induktion. Sei $k,m$ beliebig mit $k \leq m$.\\
-Basis: $n = 0$ \\
-$\sum_{i=0}^0 (-1)^i  \binom{0}{i} \binom{m-i}{k-i} = \binom{0}{0} \binom{m}{k} = \binom{m}{k}$ \\
-%
-%Schritt: $n \rightsquigarrow n+1$ \\
-%
-%\begin{equation*}\begin{split}
-%  &  \sum_{i=0}^{n+1} (-1)^i  \binom{n+1}{i} \binom{(n+1)+m-i}{k-i} \\
-%  = & (-1)^{n+1} \binom{n+1}{n+1} \binom{(n+1)+m-(n+1)}{k-(n+1)} + \sum_{i=0}^{n} (-1)^i  \binom{n+1}{i} \binom%{(n+1)+m-i}{k-i} \\
-%  = &
-%\end{split}\end{equation*}
+Nicht bearbeitet.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Aufgabe 4
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
