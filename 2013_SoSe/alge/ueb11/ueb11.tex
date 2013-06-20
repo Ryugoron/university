@@ -1,0 +1,94 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm]{geometry} 
+\usepackage{babel}
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc} 
+\usepackage{ae} 
+\usepackage{amssymb} 
+\usepackage{amsmath}
+\usepackage{amsthm} 
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{paralist}
+
+\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[C]{Algorithmische Geometrie}
+\fancyhead[L]{Aufgabenblatt 101}
+\fancyhead[R]{SoSe 2013}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage \hspace{1px} of \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\setlength{\parindent}{0pt} 
+\setlength{\headheight}{0pt}
+
+\date{}
+\title{Aufgabenblatt 11}
+\author{Max Wisniewski, Alexander Steen}
+
+
+%%
+%% Enviroments for proofs and lemmas
+%%
+\newtheorem{lemma}{\bfseries Behauptung}
+
+\begin{document}
+
+\lstset{language=Pascal, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2, mathescape=true}
+
+\renewcommand{\figurename}{Figur}
+
+\maketitle
+\thispagestyle{fancy}
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+%% Aufgabe 1 
+%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Aufgabe 1}
+Sei $\left( a_n \right)_{n \in \mathbb{N}}$ eine Folge gegeben durch $a_n = (1-\frac{1}{n})^n$ für $n \geq 2$. \\
+
+\begin{enumerate}[(1)]
+\item $\left( a_n \right)$ ist monoton steigend \\
+z.Z. $a_{n+1} \geq a_n$, $n \in \mathbb{N}, n \geq 2$ \\
+Sei $n \in \mathbb{N}$. Dann ist
+\begin{equation*}\begin{split}
+\frac{a_{n+1}}{a_n} &= \frac{(1-\frac{1}{n+1})^{n+1}}{(1-\frac{1}{n})^n} \\
+  &= \frac{ (\frac{n}{n+1})^{n+1} }{(\frac{n-1}{n})^n } 
+  = \left(\frac{n}{n+1}\right)^{n+1} \left(\frac{n}{n-1}\right)^n  \\
+  &= \left(\frac{n}{n+1}\right)^{n+1} \left(\frac{n}{n-1}\right)^{n+1} \frac{n-1}{n} \\
+  &= \left(\frac{n^2}{(n+1)(n-1)}\right)^{n+1} \frac{n-1}{n} \\
+%  &= (\frac{n^2}{(n^2-1)})^{n+1} \frac{n-1}{n} \\
+  &= \left(1+\frac{1}{n^2-1}\right)^{n+1} \frac{n-1}{n} \\
+  &\stackrel{Bernoulli}{\geq} \frac{n-1}{n}  \left(1 + \frac{n+1}{n^2-1}\right) \\
+  &= \frac{n-1}{n}  + \frac{1}{n} = 1
+\end{split}\end{equation*}
+und daraus folgt die Behauptung.
+
+\item $\left( a_n \right)$ ist nach oben beschränkt
+Sei $n \in \mathbb{N}, n \geq 2$. \\
+Dann ist 
+\begin{equation*}\begin{split}
+a_n &= \left(1 - \frac{1}{n}\right)^n \stackrel{*}{\leq} 1
+\end{split}\end{equation*}
+\end{enumerate}
+
+(*) gilt, da $1- \frac{1}{n} \leq 1$.
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+%% Aufgabe 2
+%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Aufgabe 2}
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+%% Aufgabe 3
+%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Aufgabe 3}
+
+\label{LastPage}
+\end{document}
