@@ -72,8 +72,17 @@ und damit das gewünschte Ergebnis.
 %% Aufgabe 2     %%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection*{Aufgabe 2}
+(1) Zum Anfangswertproblem
 
+$$ y'(t) = p*y(t) - k*y(t)^2, y(0) = y_0$$
+ ist die Lösung gegeben durch (siehe Tipp)
+$$  y(t) =  \frac{y_0 e^{pt} p}{y_0 (-1+e^{pt}) k+p} $$
+Durch Einsetzen und nachrechnen zeigt sich, dass dies tatsächlich die Lösung des AWP ist. \\
 
+Da die Wronski-Matrix $W$ durch die Ableitung von $y$ im Punkt $y_0$ gegeben ist, und wir hier eine skalarwertige Funktion betrachten, gilt
+$$ \kappa(t) \leq \| W \| = |y'(y_0)| = \left|\frac{y_0 e^{p t} p^2 (-y_0 k+p)}{(y_0 (-1+e^{p t}) k+p)^2}\right| $$
+
+(2) nicht bearbeitet
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Aufgabe 3     %%%%%%%%%%%%%%%%
