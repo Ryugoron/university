@@ -55,7 +55,17 @@
 %% Aufgabe 1     %%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection*{Aufgabe 1}
-
+Es reicht zu zeigen, dass $\frac{d}{dt} \|z(t) \|_2 = 0$ für alle $t$. Es ist
+\begin{equation*}\begin{split}
+\frac{d}{dt} \|z(t) \|_2 &= 0 \\
+\Leftrightarrow  \frac{d}{dt} (x(t)^2 + y(t)^2) &= 0 \\
+\Leftrightarrow 2 x(t) x'(t)+2 y(t) y'(t) &= 0 \qquad \qquad (*)
+\end{split}\end{equation*}
+Durch Einsetzen von $x'(t) = -y(t)$ und $y'(t) = x(t)$ in (*) erhalten wir
+\begin{equation*}\begin{split}
+ 2 x(t) x'(t)+2 y(t) y'(t) =  -2 x(t) y(t)+2 y(t)  x(t) = 0
+\end{split}\end{equation*}
+und damit das gewünschte Ergebnis.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -81,7 +91,26 @@ Durch Umstellen erhalten wir $\frac{\Theta(t + \Delta t) - \Theta(t)}{\Delta t} 
 
 $\Theta'(t) = \frac{f}{V_0} (\Theta_1 - \Theta(t))$. Dass beim Zeitpunkt $t= 0$ das Wasser seine Ausgangstemperatur besitzt, also $\Theta(0) = \Theta_0$ gilt, ist offensichtlich.
 
-\item Lösung der  DGL: todo, mit dem vorgeschlagenen lösungsweg kommt bei mir nur müll raus.
+\item Lösung der  DGL durch den gegebenen Ansatz: 
+\begin{equation*}\begin{split}
+\frac{f}{V_0} \Theta_1 -\frac{f}{V_0} y(t) &= y' (t) = \frac{d}{dt} \left(c(t) e^{dt} \right) \\
+\Leftrightarrow \frac{f}{V_0} \Theta_1 -\frac{f}{V_0} y(t) &= e^{dt} c'(t) - \frac{f}{V_0} e^{dt} c(t) \\
+\Leftrightarrow \frac{f}{V_0} \Theta_1 &= e^{dt} c'(t) \\ 
+\Leftrightarrow  \frac{f}{e^{dt} V_0} \Theta_1 &= c'(t) \qquad (1)
+\end{split}\end{equation*}
+
+Durch Integration von (1) ergibt sich für $a \in \mathbb{R}$ konstant
+\begin{equation*}
+c(t) = \Theta_1 e^{-dt} + a
+\end{equation*}
+Durch Wahl von $a = \Theta_0 - \Theta_1$ erhalten wir 
+\begin{equation*}\begin{split}
+y(t) = c(t) e^{dt} &= \left(\Theta_1 e^{-dt} + a\right) e^{dt} \\
+&= \Theta_1 + a e^{dt} \\
+&=  \Theta_1 + (\Theta_0 - \Theta_1) e^{dt}
+\end{split}\end{equation*}
+und damit eine Lösung des AWP.
+
 % Lösung aus Coma hat nicht geforderten Lösungsweg
 %
 % \begin{eqnarray*}
