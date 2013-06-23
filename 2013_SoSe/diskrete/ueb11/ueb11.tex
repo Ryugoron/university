@@ -1,0 +1,115 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm]{geometry} 
+\usepackage{babel}
+\usepackage{algpseudocode}
+\usepackage{algorithm}
+
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc} 
+\usepackage{ae} 
+\usepackage{amssymb} 
+\usepackage{amsmath}
+\usepackage{amsthm} 
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{paralist}
+\usepackage{tabularx}
+\usepackage{tikz}
+\usetikzlibrary{arrows,automata}
+\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[C]{Diskrete Mathematik}
+\fancyhead[L]{Übung 11}
+\fancyhead[R]{SoSe 2013}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage \hspace{1px} of \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\setlength{\parindent}{0pt} 
+\setlength{\headheight}{0pt}
+\newcommand\mdoubleplus{\ensuremath{\mathbin{+\mkern-10mu+}}}
+\date{Tutor : Stefan Schwarz}
+\title{Übung 11}
+\author{Max Wisniewski, Alexander Steen}
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+\newcommand{\argmin}{\text{argmin}}
+\newcommand{\argmax}{\text{argmax}}
+\newcommand{\code}[1]{\langle {#1} \rangle}
+\newcommand{\Z}{\mathbb{Z}}
+%%
+%% Enviroments for proofs and lemmas
+%%
+\newtheorem{lemma}{\bfseries Claim}
+
+\begin{document}
+
+\lstset{language=Pascal, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2, mathescape=true}
+
+\renewcommand{\figurename}{Figure}
+
+\maketitle
+\thispagestyle{fancy}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Aufgabe 1
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Aufgabe 1.}
+\begin{enumerate}[a)]
+\item Rekursion für $a_n$: \\
+$a_n = 2 a_{n-1} + \sum_{k=1}^{n-2} a_k$, wobei $a_1 := 1$.
+\item spezifische Werte bzw. geschlossene Formel: \\
+Es gilt $a_2 = 1, a_3 = 3, a_4 = 8, a_5 = 21$.
+\item Beweis von (b): \\
+\end{enumerate}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Aufgabe 2
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Aufgabe 2.}
+
+\begin{enumerate}[a)]
+\item Blabla
+\item Es gilt $a_n = \frac{1}{2} \left( \left(1-\sqrt{2} \right)^{1+n}+\left(1+\sqrt{2}\right)^{1+n} \right)$. \\
+\textbf{Beweis} durch Induktion: \\
+Basis: $n = 0,1$
+
+\begin{equation*}
+\frac{1}{2} \left((1-\sqrt{2})+(1+\sqrt{2}) \right) = 1 = a_0
+\end{equation*}
+und
+\begin{equation*}\begin{split}
+& \frac{1}{2} \left((1-\sqrt{2})^2+(1+\sqrt{2})^2 \right) \\
+& = \frac{1}{2} \left(1-2\sqrt{2}+2+1+2\sqrt{2}+2 \right) \\
+& = \frac{1}{2} 6 = 3 = a_1
+\end{split}\end{equation*}
+I.V. Behauptung gilt für alle $n$ mit $1 \geq n_0 < n$ \\
+I.S. $n-1 \rightsquigarrow n$ \\
+\begin{equation*}\begin{split}
+a_{n} &= 2a_{n-1} + a_{n-2} \\
+      &\stackrel{IV}{=} 2* \frac{1}{2} \left( \left(1-\sqrt{2} \right)^{n}+\left(1+\sqrt{2}\right)^{n} \right)
+        +  \frac{1}{2} \left( \left(1-\sqrt{2} \right)^{n-1}+\left(1+\sqrt{2}\right)^{n-1} \right) \\
+      &= \frac{1}{2} \left(\left(1-\sqrt{2} \right)^{n}+\left(1+\sqrt{2}\right)^{n} + \left(1-\sqrt{2} \right)^{n-1}+\left(1+\sqrt{2}\right)^{n-1} \right) \\
+      &= \frac{1}{2} \left(\left(2-\sqrt{2} \right) \left(1-\sqrt{2} \right)^{n-1} + \left(2+\sqrt{2} \right) \left(1+\sqrt{2} \right)^{n-1} \right)
+\end{split}\end{equation*}
+\end{enumerate}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Aufgabe 3
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Aufgabe 3.}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Aufgabe 4
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Aufgabe 4.}
+
+
+\label{LastPage}
+\end{document}
