@@ -1,0 +1,74 @@
+%%%%%%%%%
+%% Task 1
+%%%%%%%%%
+
+> ex2                 ::  Or p1 p2 -> Or p2 p1
+> ex2 o                =  orE (o, orIR, orIL)
+
+%%%%%%%%%%%%
+%% Task 2
+%%%%%%%%%%%
+
+dist                   :: Or p1 (And p2 p3) -> And (Or p1 p2) (Or p1 p3)
+dist o                  = andI (orE (o, orIL, orIR . andEL), orE (o, orIl, orIR . andIR))
+
+%%%%%%%%%%%%%
+%%  Task 3
+%%%%%%%%%%%%%
+
+> ex5                 ::  Neg (Or p (Neg p)) -> Neg p
+> ex5 no               =  negE (negI (\np -> andI (orIL np, no)))
+
+> ex6                 ::  Or p (Neg p)    -- the law of excluded middle
+> ex6                  =  undefined
+
+%%%%%%%%%%%%%
+%%  Task 4
+%%%%%%%%%%%%%
+
+> ex8                  :  Ex a (\ x => Forall b (\ y => r (x, y))) ->
+>                         Forall b (\ y => Ex a (\ x => r (x, y)))
+
+There exists an element x of Type 'a' such that for all y of Type 'b' the relation r holds
+on (x,y) implies that for all y of Type 'b' holds that there exists an x of Type 'a' such that
+the relation r holds on (x, y).
+
+This means we can exchange exists and forall, where the types do not depend on each other.
+
+%%%%%%%%%%%%%
+%%  Task 5
+%%%%%%%%%%%%%
+
+> ex8 {a} {b} {r} e    =  exE e f
+>       where
+>       f       :  (x : a) -> Forall b (\ y => r (x, y)) ->
+>                  Forall b (\ y => Ex a (\ z => r (z, y)))
+>       f x fa  =  forallI ( \ z => exI x (\ y => fa z))
+
+May be right, ich weiß noch nicht so, was fa gerade genau ist. Sollte eigentelich etwas vom typ 'r' sein.
+
+
+%%%%%%%%%%%%%
+%%  Task 6
+%%%%%%%%%%%%%
+ 
+> dist2                 : Either p1 (p2, p3) -> (Either p1 p2, Either p1 p3)
+> dist2 (Left x)        = (Left x, Left x)
+> dist2 (Right (a,b))   = (Right a, Right b)
+
+%%%%%%%%%%%%%
+%%  Task 7
+%%%%%%%%%%%%%
+
+> ex5'                  : Neg (Or p (Neg p)) -> Neg p
+> ex5'                  : ((Either p (Neg p)) -> _|_) -> (p -> _|_)
+> ex5' f                = (\ p -> f (Left p))
+
+%%%%%%%%%%%%%
+%%  Task 8
+%%%%%%%%%%%%%
+
+fa(x) y : r (x , y) --> Da fa schon vorher von x abhängt in Ordnung
+
+> ex8'                  : (x : A ** ((y : b) -> r (x, y))) -> ((y:b) -> (x:A ** r(x, y)))
+> ex8' (x ** fa)        = (\y => (x ** fa y))
