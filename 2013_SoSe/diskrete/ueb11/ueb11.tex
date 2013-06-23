@@ -74,7 +74,7 @@ Es gilt $a_2 = 1, a_3 = 3, a_4 = 8, a_5 = 21$.
 \subsection*{Aufgabe 2.}
 
 \begin{enumerate}[a)]
-\item Blabla
+\item Blabla, macht irgendwie sinn!
 \item Es gilt $a_n = \frac{1}{2} \left( \left(1-\sqrt{2} \right)^{1+n}+\left(1+\sqrt{2}\right)^{1+n} \right)$. \\
 \textbf{Beweis} durch Induktion: \\
 Basis: $n = 0,1$
@@ -95,8 +95,11 @@ a_{n} &= 2a_{n-1} + a_{n-2} \\
       &\stackrel{IV}{=} 2* \frac{1}{2} \left( \left(1-\sqrt{2} \right)^{n}+\left(1+\sqrt{2}\right)^{n} \right)
         +  \frac{1}{2} \left( \left(1-\sqrt{2} \right)^{n-1}+\left(1+\sqrt{2}\right)^{n-1} \right) \\
       &= \frac{1}{2} \left(\left(1-\sqrt{2} \right)^{n}+\left(1+\sqrt{2}\right)^{n} + \left(1-\sqrt{2} \right)^{n-1}+\left(1+\sqrt{2}\right)^{n-1} \right) \\
-      &= \frac{1}{2} \left(\left(2-\sqrt{2} \right) \left(1-\sqrt{2} \right)^{n-1} + \left(2+\sqrt{2} \right) \left(1+\sqrt{2} \right)^{n-1} \right)
+      &= \frac{1}{2} \left(\left(2-\sqrt{2} \right) \left(1-\sqrt{2} \right)^{n-1} + \left(2+\sqrt{2} \right) \left(1+\sqrt{2} \right)^{n-1} \right) \\
+      &= \frac{1}{2} \left(2\left(1-\sqrt{2} \right)^{n-1}-\sqrt{2}\left(1-\sqrt{2} \right)^{n-1} + 2 \left(1+\sqrt{2} \right)^{n-1} + \sqrt{2}\left(1+\sqrt{2} \right)^{n-1} \right)
 \end{split}\end{equation*}
+
+blablbla!
 \end{enumerate}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -104,6 +107,27 @@ a_{n} &= 2a_{n-1} + a_{n-2} \\
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection*{Aufgabe 3.}
 
+\begin{enumerate}[a)]
+\item Z.z. $ \sum_{k=0}^\infty \binom{\alpha +k -1}{k} z^k = (1-z)^{-\alpha} $, für $\alpha \in \mathbb{R}$ \\
+
+\textbf{Beweis}: \\
+Es gilt die Identität $\binom{-\alpha}{k} = (-1)^k \binom{\alpha + k -1}{k}$. Dann ist
+\begin{equation*}\begin{split}
+\sum_{k=0}^\infty \binom{\alpha +k -1}{k} z^k
+&= \sum_{k=0}^\infty (-1)^k (-1)^k \binom{\alpha +k -1}{k} z^k \\
+&= \sum_{k=0}^\infty (-1)^k \binom{-\alpha}{k} z^k \\
+&= \sum_{k=0}^\infty \binom{-\alpha}{k} (-z)^k \\
+&\stackrel{Binom.Lehrsatz}{=} (1 + (-z))^{-\alpha} = (1 - z)^{-\alpha}
+\end{split}\end{equation*}
+\item Z.z. $\sum_{k=0}^\infty (-1)^k \binom{n+k}{k} z^k = (1-z)^{n+1}$, für $n \in \mathbb{N}$ \\
+
+\textbf{Beweis}:
+\begin{equation*}\begin{split}
+\sum_{k=0}^\infty (-1)^k \binom{n+k}{k} z^k 
+&= \sum_{k=0}^\infty (-1)^k \binom{n+k-1}{k-1} z^k + (-1)^k \binom{n+k-1}{k} z^k \\
+\end{split}\end{equation*}
+
+\end{enumerate}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Aufgabe 4
