@@ -1,0 +1,305 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm]{geometry} 
+\usepackage{babel}
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc} 
+\usepackage{ae} 
+\usepackage{amssymb} 
+\usepackage{amsmath}
+\usepackage{amsthm} 
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{paralist}
+
+\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[C]{Höhere Algorithmik}
+\fancyhead[L]{Übungsblatt Nr. 10}
+\fancyhead[R]{SoSe 2013}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage \hspace{1px} of \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\setlength{\parindent}{0pt} 
+\setlength{\headheight}{0pt}
+
+\date{}
+\title{Übungsblatt Nr. 10}
+\author{Max Wisniewski, Alexander Steen}
+
+
+%%
+%% Enviroments for proofs and lemmas
+%%
+\newtheorem{lemma}{\bfseries Lemma}
+\newtheorem{claim}{\bfseries claim}
+\newtheorem{theorem}{\bfseries Theorem}
+
+\begin{document}
+
+\renewcommand{\figurename}{Figure}
+\maketitle
+\thispagestyle{fancy}
+
+    
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%      Aufgabe 1
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Aufgabe 1}
+
+Sie $G=(V,E)$ ein zusammenhängender ungerichteter gewichteter Graph mit $n$ Knoten und $m$ Kanten. Die Kantengewichte seien alle verschieden.
+
+\subsubsection*{(a)}
+Zeigen Sie, dass der Algorithmus von Boruvka tatsächlich einen MST berechnet.\\
+
+\textbf{Beweis:}\\
+
+\begin{lemma} Sei $F \subseteq V$ eine Teilmenge der Kanten. Dann ist
+    $S(F) = \{ \{ v_1, v_2 \} \in E \, | \, v_1 \in F \land v_2 \in E \setminus F \}$ ein Schnitt. Und es gilt für
+    $e := \underset{e \in S(F)}{\text{argmin }} w(e)$,
+    $e \in$ MST $(V,E)$.\\
+\end{lemma}
+
+\textbf{Beweis:}
+    Sei $S(F)$ ein Schnitt im Graph $G$. Dann ist im resultierenden
+    MST sowohl der auf $F$ eingeschränkte Baum ein MST, als auch 
+    $E \setminus E$. Nun müssen diese beiden Komponenten verbunden werden
+    und es verlaufen nur $S(F)$ Kanten zwischen den beiden Bäumen.\\
+    Da der MST aber minimal ist, muss 
+    $\underset{e \in S(F)}{\text{argmin }} w(e)$ ausgewählt werden,
+    da der Baum sonst nicht minimal ist.
+
+\mbox{}\hfill$\square$
+
+Für einen Knoten $v$ in einer Boruvka-Phase $n$ sein $V^n(v)$ die
+Knotenmenge die in diesen Knoten kontrahiert wurde. Sei $E^n(v)$ die
+Kantenmenge die bis in Runde $n$ zwischen den Knoten $V^n(v)$ ausgewählt
+wurden.\\
+
+Wir zeigen nun $\forall n \in \mathbb{N} \forall v \in V^n: G(V^n(v), E^n(v))$ ist ein MST.\\
+
+\begin{description}
+    \item[I.A.] Zu Beginn ist $V^0(v) = \{ v \}$ und $E^0(v) = \emptyset$
+        und damit ein MST.\\
+    \item[I.S.] Sei $v \in V^{n+1}$ und $v_1, ..., v_k \in V^n$ die 
+        Knotenmenge, die in Runde $n$ in $e$ konstrahiert wurde.
+        Nach konstruktion ist die Kante $e$ zwischen $v_i, v_j$
+        die kleinste Kante zwischen $V^n(v_i)$ und $V^n(v_j)$.\\
+
+        Sei nun $e$ eine Kante entlang der zu $v$ konstrahiert wurde
+        und verlaufe $e$ zwischen $v_i, v_j$ und sei $v_i$ o.B.d.A.
+        der Knoten für den $e$ minimales Gewicht hatte.\\
+
+        Nun stellt $S(V^{n}(v_i))$ einen Schnitt dar und deshalb
+        muss $e$ im resultieren MST sein. Dies gilt insbesondere
+        für den reduzierten Graphen $V^{n+1}(v)$.
+
+        Wir wissen nun für alle Kanten, entlang denen kontrahiert wurde,
+        dass diese im MST sind und $E^{n}(v_i)$ sind auch alle Kanten
+        im MST, da sich die Schnitteigenschaft immer auf den gesammten
+        Graph bezog.\\
+
+        Damit ist $(V^{n+1}, E^{n+1})$ ein MST.
+
+        \mbox{}\hfill$\square$
+\end{description}
+
+        Im letzten Schritt sind haben wir nun noch einen Knoten
+        und nach Induktion ist der Repräsentierte Graph ein MST.
+    
+        \mbox{}\hfill$\square$
+\subsubsection*{(b)}
+
+Zeigen Sie, dass sich eine Boruvka-Phase in Zeit $O(m')$ implementieren lässt,
+wobei $m'$ die Anzahl der Kanten im aktuellen Graphen bezeichnet.\\
+
+\textbf{Beweis:}\\
+Wir nehmen an, dass die Knoten $V = \{1, ..., n \}$ nummeriert sind.
+Weiter nehmen  wir an, dass alle adjazenten Knoten aufsteigend
+ihrer Nummerierung in der Adjazenzliste stehen.\\
+
+Zunächst müssen wir in jeder Runde die Kante mit minimalem Gewicht für
+jeden Knoten suchen. Dazu betrachten wir einfach jede Kante,
+die adjazent zu einem Knoten ist, was $2m'$ angesehene Kanten sind.\\
+
+Danach müssen wir die Komponenten kontrahieren. Dazu bestimmen
+wir zunächst ein Representaten pro Komponenten (den kleinsten
+nach Nummerierung) und speichern und
+ein Mapping, dass in $O(n) = O(m')$ geht.\\
+
+Für jeden Representanten legen wir ein Bucket an.\\
+
+Danach sehen wir uns alle Knoten einer neuen Komponente an. Wir gehen
+die Listen von vorne an durch. Da die Listen die Knoten sortiert enthalten
+sehen wir also, falls wir auf den selben Knoten mappen, immer gleichzeitig.
+Wir wählen die kleinste Kante aus uns speichern sie im Bucket, für den Representanten.\\
+
+Danach lassen wir alle Pointer eins weiterrücken in der Adjazenzliste,
+die gemeinsam auf den zur Zeit kleinsten gezeigt haben. (Falls ein
+Knoten nicht in der Adjazenzliste stand, so wird er hier nicht ein
+Knoten übersprungen). 
+Für diesen Schritt sehen wir uns wiederum nur jede Kante aus 2 Richtungen
+an. Was zu einer Laufzeit von $O(m')$ führt.\\
+
+Als letztes müssen wir nun die Buckets durchgehen und uns aus
+den gleichen Representanten die kleinste Kante herraussuchen. Da wir
+die Representanten aber zusammengeschrieben haben, werden wir über
+jeden Teil nur einmal durchlaufen müssen und schreiben dann die Listen
+wiederum zusammen. Da wird die Buckets schon sortiert anlegen können,
+müssen wir nur noch über alle Buckets gehen und das Minimum aufnehmen,
+was uns $O(n') = O(m')$ kostet.
+Dieser Teil wird weniger als $3m'$ Schritte benötigen, da wir schon Kanten
+eliminiert haben.\\
+
+Insgesamt brauchen wir also $O(m')$ Schritte.
+
+\mbox{}\hfill$\square$
+
+\subsubsection*{(c)}
+
+Folgern Sie, dass der Algorithmus $O(\min \{ m log n, n^2 \})$ Schritte benötigt.
+
+\textbf{Lösung:}\\
+
+Wir fassen die Laufzeit $T$ als eine Funktion von $n,m$ abhängig auf.
+Dann erhalten wir für $n',m'$ im nächsten Schritt
+$$
+    T(n,m) = T(n',m') + O(m)
+$$
+wir müssen nun analysieren, wie sich $n'$ und $m'$ verhalten. Für $n'$ wissen
+wir nur, dass sich die Anzahl der Knoten in jedem Schritt mindestens halbiert.
+$$
+    T(n,m) = T(\frac{n}{2}, m') + O(m)
+$$
+Schreiben wir also $m_i$ als die Knoten im $i$-ten Schritt erhalten wir als Laufzeit
+$$
+    T(n,m) = \overset{\log n}{\underset{i = 1}{\sum}} m_i
+$$
+Sollten sich die Kanten im Graphen von einem zum nächsten Schritt kaum verändern (wir verlieren nur $\frac{n}{2}$ Kanten),
+so erhalten wir $m_0 = ... = m_{\log n}$, da wir die Differenz in der Landau-Notation fallen lassen können. Dies gibt uns eine obere Schranke und
+dafür erhalten wir $m \log n$. 
+
+Sollte der Graph voller besetzt sein, so dass wir in jedem Schritt einen Bruchteil von Kanten behalten,
+so ergibt sich für $0 < c < 1$ als Anteil
+$$
+    T(n,m) = m \overset{\log n}{\underset{i = 1}{\sum}} c^i.
+$$
+Wir sehen, dass dies in $O(m)$ liegt. Da dieses Szenario aber nur in Graphen der Fall sein kann, die $O(n^2)$ Kanten besitzten,
+da wir sonst nicht diesen Anteil erhalten, ist der zweite Teil des Minimums erklärt.
+
+Für annährend Vollbesetzte Graphen ist die Laufzeit $O(n^2)$ und für schwach besetzte Graphen $O(m \log n)$.
+
+\subsubsection*{(d)}
+
+Kombinieren Sie Prim und Boruvka um einen MST-Algorithmus zu erhalten, der $O(m \log \log n)$ Schritte benötigt.\\
+
+\textbf{Lösung:}\\
+
+Wir führen zunächst $\log \log n$ Runden Boruvka aus. Auf dem resultierenden kontrohierten Graphen führen wir
+Prim aus und fügen die Kanten zum Ergebnis der Boruvka Phasen hinzu.\\
+
+Der Algorithmus ist korrekt. Wir in (a) gezeigt sind die einzelnen Knoten representanten für unterbäume im MST und diese
+müssen mit MST Kanten verbunden werden. Da PRIM diese findet, ist das gesammtergebnis korrekt.\\
+
+Die ersten $\log \log n$ Runden brauchen, wie in (c) gezeigt
+maximal $O(m \log \log n)$ Zeit.
+Nun halbiert sich die Anzahl der Knoten in jeder Runde, so dass wir
+$n' = n / 2^{\log \log n} = n / \log n$ Knoten haben und $O(m)$ Kanten (im schlimmsten Fall).
+
+Geben wir diese Zahlen in die Laufzeit für PRIM erhalten wir
+$$
+   \frac{n}{\log n} \log \frac{n}{\log n} + m = \frac{n}{\log n} \log n - \frac{n}{\log n} \log\log n + m = O(n + m)
+$$
+
+Addieren wir nun beide auf, so ergibt sich, da $n < m \log \log n$ und $m < m\log \log n$,
+dass
+$$
+    T(n,m) = O(m \log \log n) + O(n + m) = O(m \log \log n)
+$$
+gilt.
+
+\subsection*{Aufgabe 2}
+
+Sei $G=(V,E)$ ein zusammenhängender ungerichteter gewichteter Graph mit $n$ Knoten
+ und $m$ Kanten, so dass alle Kantengewichte paarweise verschieden sind.
+Sei $F \subseteq E$ kreisfrei. Eine Kante $e \in E$ heißt F-\emph{leicht}, wenn
+(i) $F \cup \{ e \}$ kreisfrei ist oder (ii) der eindeutige Kreis $C$ in $F \cup \{ e \}$ eine Kante enthält, die schwerer ist als $e$.
+
+\subsubsection*{(a)}
+
+Beweisen Sie, dass $F$ genau dann ein minimaler aufspannender Baum von $G$ ist, wenn $E \setminus F$ keine F-leichten Kanten enthält.\\
+
+\textbf{Beweis:}\\
+
+$\Rightarrow$:\\
+
+Sei $F$ ein MST von $G$.\\
+Sei $e \in E \setminus F$ eine F-leichte Kante. Dann gilt nach Def. von F-leicht
+\begin{enumerate}[(1)]
+    \item $F \cup \{ e \}$ ist kreisfrei. Da aber $F$ ein Spannbaum ist, ist dies unmöglich,
+        da sonst vorher die Endpunkte $(a,b) := e$ nicht miteinander verbunden wären. Dies
+        ist ein Wiederspruch zur Spannbaumeigenschaft von $F$.
+    \item In $F \cup \{ e \}$ entsteht ein Kreis $C$, so dass eine Kante $e'$ in $C$ existiert mit $e' \not= e$ und
+        einem höheren Gewicht als $e$.
+
+        Zunächst muss $e$ auf dem Kreis liegen, da durch dass entfernen von $e$ der Kreis wieder verschwindet.\\
+        Entfernen wir $e'$ vom Kreis so entsteht wieder ein Spannbaum, der aber geringer im Gewicht ist als
+        $F$. Dies ist ein Widerspruch zur minimalität von $F$.
+\end{enumerate}
+
+$\Leftarrow$:\\
+    Sei $F \subseteq E$ kreisfrei und $E \setminus F$ enthalte keine F-leichten Kanten.\\
+    
+    Zunächst ist $F$ ein Spannbaum, da wir keine weitere Kante hinzufügen können, ohne dass sich ein Kreis schließt.
+    Desweiteren ist $F$ minimal.
+
+    Angenommen es wäre nicht so, dann gäbe es eine Kante in $e' E \setminus F$, so dass wir durch das austauschen mit
+    einer Kante $e \in F$ einen kleineren Spannbaum erhalten könnten.\\
+    
+    Da die erste Eigenschaft schon erfüllt ist, wissen wir, dass $F \cup \{ e' \}$ einen Kreis enthält. Damit
+    durch das entfernen von $e$ wieder ein Spannbaum entsteht, muss $e$ auf dem geschlossenen Kreis liegen.\\
+
+    Nun liegt aber auf dem Kreis, denn $e'$ geschlossen hat eine Kante mit geringerem Gewicht und damit ist $e'$ F-leicht,
+    was ein Widerspruch zu unserer Annahme ist.
+
+    \mbox{} \hfill $\square$
+
+\subsubsection*{(b)}
+
+Beweisen Sie, dass $e\in E$ genau dann F-leicht ist, wenn $e \in MSF(F \cup \{ e\})$ ist, wobei MSF den minimalen aufspannenden \emph{Wald} bezeichne.\\
+
+\textbf{Beweis:}\\
+
+$\Rightarrow$:\\
+    Sei $e \in E$ F-leicht. 
+    \begin{enumerate}[(1)]
+        \item $F \cup \{ e \}$ ist kreisfrei. Da $MSF(F)$ eine Teilmenge von $F$ ist, wird $e$ in $MSF(F)$ keinen Kreis schließen.
+            Sollte daher $e \not\in MSF(F)$ sein, könnten wir sie hinzufügen und $MSF(F)$ wäre kein Spannwald gewesen.
+        \item $F \cup \{ e \}$ schließt einen Kreis $C$ so, dass eine Kante $e'$ in $C$ existiert mit $w(e') > w(e)$.\\
+            Hier gilt zu beobachten, dass $MSF(F) = F$ gilt, da $F$ kreisfrei ist. Da $e$ einen Kreis in $F$ schließt,
+            wird auch in $MSF(F) \cup \{ e \}$ ein Kreis geschlossen und wieder liegt $e'$ auf diesem Kreis.
+
+            Nehmen wir an $e \not\in MSF(F \cup \{ e \})$ so ist $MSF(F \cup \{ e \}) = MSF(F) = F$, da wir nicht genommenene
+            Kanten herrausnehmen können ohne das Ergebnis zu verändern. Dies ist aber ein Widerspruch zur Minimalität von $MSF(F \cup \{ e \})$,
+            da wir schon wissen, dass $e$ in $MSF(F)$ F-leicht ist.
+    \end{enumerate}
+
+$\Leftarrow$:\\
+    Sei $e \in MSF(F \cup \{ e\})$.
+    \begin{enumerate}[(1)]
+        \item Falls $MSF(F) \cup \{ e \}$ keinen Kreis schließt, dann verbindet $e = (a,b)$ zwei Komponenten an den Knoten $a,b$, die
+            vorher nicht verbunden waren. Da $MSF(F)$ ein Spannbaum ist, gibt es auch in $F$ keinen Weg von $a$ nach $b$.
+            Daher schließt $F \cup \{ e \}$ keinen Kreis und $e$ ist daher F-leicht.
+        \item Falls $MSF(F) \cup \{ e \}$ einen Kreis $C$ schließt, dann gibt es auf diesem Kreis eine Kante $e'$ mit kleinerem Gewicht als $e$,
+            da $e \in MSF(F \cup \{ e \})$ und die Kantengewichte eindeutig sind. Da $MSF(F) \subseteq F$ existiert der Kreis auch in $F$.
+
+            Daraus folgt, dass $e$ F-leicht sein muss.
+    \end{enumerate}
+    \mbox{}\hfill $\square$
+\label{LastPage}
+\end{document}

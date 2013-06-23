@@ -85,10 +85,104 @@ a_n &= \left(1 - \frac{1}{n}\right)^n \stackrel{*}{\leq} 1
 %%%%%%%%%%%%%%%%%%%%%%%%
 \subsection*{Aufgabe 2}
 
+Beschreiben Sie einen 2D randomzied incremental algorithm um die Konvexe Hülle zu berechnen. Gehen Sie vom 3D Algortihmus aus und vereinfachen Sie ihn so weit es geht.\\
+
+\textbf{Lösung:}
+
+Wir sehen uns als erstes an, wie die Konfliktmengen und die Konfliktzeiger aussehen.\\
+
+Wie in Übung 8 gezeigt, können wir in $O(\log n)$ Zeit bestimmen, ob wir in
+der bisherigen Konvexen Hülle liegen. Dieser
+Ansatz brachte uns insbesondere eine Kante der Hülle, bei
+der wir außen lagen. Diese beiden Punkte sind
+nun unsere Konfliktzeiger. Da wir nun eine Konvexe Hülle haben und
+einen Punkt außerhalb, wenden wir nun den Algorithmus von Übung 2 (b) an.
+(Falls wir ihn nicht so hatten: Nimm einen Punkte $q$ auf der Konvexen Hülle
+und ziehe eine Gerade vom aktuellen Punkt $p$. Suche nun den anderen
+Schnittpunkt außer $q$ von $\overline{pq}$ mit der konvexen Hülle.
+Dazu spannen wir ein Dreieck auf. Startdreieck ist $q+1,q-1$ und $p+\frac{n}{2}$ der Gegenüberliegende Punkt. Die gerade wird durch $q+1,q-1$ gehen, sonst
+war $q$ ein Extrempunkt und wir konnten ihn schon sehen, und wird
+daher das Dreieck $q+1,q-1,q+\frac{n}{2}$ wieder verlassen. Wir nehmen die Verlassende Seite und nehmen den Mittelpunkt der Endpunkte iterativ, bis wir
+die Kante gefunden haben an der $\overline{pq}$ das Dreieck verlässt. Dies
+dauert $O(\log n)$ Zeit, da wir jedesmal den Suchbereich halbieren können und
+pro Schritt müsssen wir nur 2 Seiten auf einen Schnitt mit einer Geraden testen.)
+
+
+Wir setzen einen Punkt der gerade gefundenen Kante als Referenzpunkt fest
+und ziehen eine linie zum neuen Punkt. Nun suchen wir die beiden Winkelmaximierenden Punkt links und recht zu dieser Strecke an die Konvexe Hülle.\\
+
+Dies geht, wie wir in Übung 2 gezeigt haben in $O(\log n)$ Zeit. Da die
+Konvexe Hülle ein Geradenzug ist, sind auch alle betroffenen Konfliktmengen
+zwischen den beiden Gefundenen Punkten enthalten und wir müssen diese nicht
+explizit suchen.\\
+
+Wie im 3D Algorithmus verbinden wir nun die beiden Endpunkte (Winkelmaximierenden) mit dem neu einzufügendem Punkt und lassen alle alten Geradenstücke
+zwischen den Maximierenden Punkten fallen, da sie im Dreieck der Maximierenden
+und des neuen liegen.\\
+
+\begin{lstlisting}[frame=single]
+ConvexHull(P Points)
+    Hull <- P(1), P(2), P(3)    // ccw order
+    for i = 4 to n
+        p <- P(i)
+        q, r, test <- inside(p, Hull)
+        if test
+            w1 <- maximizeAngle(r,p)
+            w2 <- minimizeAngle(r,p)
+            for j = w1+1; j<w2; j++
+                Delete(Hull,j)
+            Insert(w1,p)
+            Insert(p,w2)
+\end{lstlisting}
+
+Der Algorithmus ist korrekt, da wir wie in Chen's Algorithmus mit
+den Tangenten an die Hülle vom letzten Schritt heran gehen und wir dort
+bewiesen haben, da wir dann wieder etwas Konvexes erhalten. Somit ist
+der Algorithmus korrekt.\\
+
+Nun erschaffen wir pro Schritt höchstens zwei Seiten und damit
+werden wir maximal $2n$ Kanten erzeugen und auch höchstens $2n-3$ Kanten
+wieder löschen.
+Davon abgesehen braucht jede der $n$ Runden $O(\log n)$ Zeit.
+
+Der Algorithmus hat also eine Laufzeit von $O(n \log n)$ und aufgrund
+der besseren Sucheigenschaften auf der Konvexen Hülle müssen wir noch nicht
+einmal die punkte vorher permutieren.
+
 %%%%%%%%%%%%%%%%%%%%%%%%
 %% Aufgabe 3
 %%%%%%%%%%%%%%%%%%%%%%%%
 \subsection*{Aufgabe 3}
 
+Ein \emph{Platonischer Körper} ist ein Konvexes Polytop im $\mathbb{R}^3$, so
+dass jeder Vertex mit genau $a$ Kanten verbunden ist und jede Seitenfläche
+von genau $b$ Kanten begrenzt ist.
+
+Zeigen Sie, dass es höchstens 5 verschiedene Platonische Körper gibt.\\
+
+\textbf{Lösung:}\\
+
+Eulers Formel besagt
+$$
+    n - m + f = 2.
+$$
+Nun wissen wir, dass für einen Platonischen Körper über doppeltes Abzählen
+gilt
+$$ \begin{array}{rcl}
+    a*n &=& 2m\\
+    b*f &=& 2m.    
+\end{array}$$
+Da $a,b$ nicht $0$ sein können, da der Körper sonst nicht zusammenhängt,
+können wir die Formeln nach $n,f$ umstellen und in Eulers Formel einsetzten.
+
+$$\begin{array}{lrcl}
+    &\frac{2m}{a} - m + \frac{2m}{b} &=& 2\\
+\Leftrightarrow &
+    \frac{2bm -abm + 2am}{ab} &=& 2\\
+\Leftrightarrow &
+    2bm - abm + 2am &=& 2ab\\
+\Leftrightarrow &
+    2m( a + b ) - ab (m + 2) &=& 0
+\end{array}$$
 \label{LastPage}
 \end{document}
