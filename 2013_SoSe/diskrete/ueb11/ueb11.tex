@@ -134,6 +134,41 @@ Es gilt die Identität $\binom{-\alpha}{k} = (-1)^k \binom{\alpha + k -1}{k}$. D
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection*{Aufgabe 4.}
 
+Für das Zählen erschaffen wir uns eine Indikatorfunktion
+$$
+    f(0) = 1, \, f(2) = 1, \, f(4) = 1 \, f(x) = 0 \, \text{sonst}
+$$
+mit der wir nun die Kombinationen zählen.
+
+Wir können uns $2b$ Berliner wählen (damit ist die Anzahl durch 2 teilbar)
+und $6m$ Münchener (Bayern, damit wir die bezeichner unterscheiden können).
+
+Dann ist die Anzahl beschrieben durch
+$$
+    \overset{50}{\underset{b=0}{\sum}} \overset{17}{\underset{m=0}{\sum}} f(100 - 2b - 6m)
+$$
+Wir testen einfach, ob bei $b$ Berlinern und $m$ Münchern noch $0,2,4$ übrig bleiben. Ist dies
+der Fall handelt es sich um eine gültige Lösung.
+
+Um diese gegebene Form zu lösen haben wir in Haskel das Programm geschrieben
+
+\begin{lstlisting}[language=Haskell]
+ind :: Integer -> Integer
+ind 0   =   1
+ind 2   =   1
+ind 4   =   1
+ind _   =   0
+
+sumOf :: Integer -> Integer -> (Integer -> Integer) -> Integer
+sumOf a b f   = foldr (+) 0 [f x | x <- [a..b]]
+
+amount = sumOf 0 50 (\b -> sumOf 0 17 (\m -> ind (100 - 2*x - 6*y)))
+\end{lstlisting}
+
+Die Grenzen $50$ und $17$ sind so gewählt, da wir nicht mehr als $50*2 = 100$ Berliner oder
+$17*6 = 102$ Münchener geben kann.
+
+Führen wir das Programm aus, so erhalten wir das Ergebnis $51$.
 
 \label{LastPage}
 \end{document}
