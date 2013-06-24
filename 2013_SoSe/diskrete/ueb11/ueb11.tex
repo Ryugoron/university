@@ -74,7 +74,9 @@ Es gilt $a_2 = 1, a_3 = 3, a_4 = 8, a_5 = 21$.
 \subsection*{Aufgabe 2.}
 
 \begin{enumerate}[a)]
-\item Blabla, macht irgendwie sinn!
+\item Für $n=0$ haben wir eine Möglichkeit ''keinen'' Pfad zu beschreiben, bei $n=1$ drei Stück (nach links, nach rechts, nach oben. \\
+Für einen um eins längeren Pfad...
+
 \item Es gilt $a_n = \frac{1}{2} \left( \left(1-\sqrt{2} \right)^{1+n}+\left(1+\sqrt{2}\right)^{1+n} \right)$. \\
 \textbf{Beweis} durch Induktion: \\
 Basis: $n = 0,1$
@@ -88,18 +90,19 @@ und
 & = \frac{1}{2} \left(1-2\sqrt{2}+2+1+2\sqrt{2}+2 \right) \\
 & = \frac{1}{2} 6 = 3 = a_1
 \end{split}\end{equation*}
-I.V. Behauptung gilt für alle $n$ mit $1 \geq n_0 < n$ \\
+I.V. Behauptung gilt für alle $n$ mit $n < n_0$ \\
 I.S. $n-1 \rightsquigarrow n$ \\
 \begin{equation*}\begin{split}
 a_{n} &= 2a_{n-1} + a_{n-2} \\
       &\stackrel{IV}{=} 2* \frac{1}{2} \left( \left(1-\sqrt{2} \right)^{n}+\left(1+\sqrt{2}\right)^{n} \right)
-        +  \frac{1}{2} \left( \left(1-\sqrt{2} \right)^{n-1}+\left(1+\sqrt{2}\right)^{n-1} \right) \\
-      &= \frac{1}{2} \left(\left(1-\sqrt{2} \right)^{n}+\left(1+\sqrt{2}\right)^{n} + \left(1-\sqrt{2} \right)^{n-1}+\left(1+\sqrt{2}\right)^{n-1} \right) \\
-      &= \frac{1}{2} \left(\left(2-\sqrt{2} \right) \left(1-\sqrt{2} \right)^{n-1} + \left(2+\sqrt{2} \right) \left(1+\sqrt{2} \right)^{n-1} \right) \\
-      &= \frac{1}{2} \left(2\left(1-\sqrt{2} \right)^{n-1}-\sqrt{2}\left(1-\sqrt{2} \right)^{n-1} + 2 \left(1+\sqrt{2} \right)^{n-1} + \sqrt{2}\left(1+\sqrt{2} \right)^{n-1} \right)
+        +   \left( \left(1-\sqrt{2} \right)^{n-1}+\left(1+\sqrt{2}\right)^{n-1} \right) \\
+      &= \left(1-\sqrt{2} \right)^{n}+\left(1+\sqrt{2}\right)^{n} + \frac{1}{2}\left(1-\sqrt{2} \right)^{n-1}+\frac{1}{2}\left(1+\sqrt{2}\right)^{n-1} \\
+      &= \frac{1}{2}\left(2 \left(1-\sqrt{2}\right)^{n} + \left(1-\sqrt{2}\right)^{n-1} \right)
+          + \frac{1}{2}\left(2 \left(1+\sqrt{2}\right)^{n} + \left(1+\sqrt{2}\right)^{n-1} \right) \\
+      &= \frac{1}{2} \left(1-\sqrt{2} \right)^{n+1}
+         + \frac{1}{2} \left(1+\sqrt{2} \right)^{n+1} \\
+      &= \frac{1}{2}\left(\left(1-\sqrt{2} \right)^{n+1} +\left(1+\sqrt{2} \right)^{n+1}  \right)
 \end{split}\end{equation*}
-
-blablbla!
 \end{enumerate}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
