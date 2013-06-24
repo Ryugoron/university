@@ -64,8 +64,9 @@
 \item Rekursion für $a_n$: \\
 $a_n = 2 a_{n-1} + \sum_{k=1}^{n-2} a_k$, wobei $a_1 := 1$.
 \item spezifische Werte bzw. geschlossene Formel: \\
-Es gilt $a_2 = 1, a_3 = 3, a_4 = 8, a_5 = 21$.
-\item Beweis von (b): \\
+Es gilt $a_2 = 1, a_3 = 3, a_4 = 8, a_5 = 21$. \\
+Geschlossene Formel: Gute Frage!
+\item Beweis von (b): Hier gibt's nichts zu tun ;-)\\
 \end{enumerate}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -74,8 +75,9 @@ Es gilt $a_2 = 1, a_3 = 3, a_4 = 8, a_5 = 21$.
 \subsection*{Aufgabe 2.}
 
 \begin{enumerate}[a)]
-\item Für $n=0$ haben wir eine Möglichkeit ''keinen'' Pfad zu beschreiben, bei $n=1$ drei Stück (nach links, nach rechts, nach oben. \\
-Für einen um eins längeren Pfad...
+\item Kurze Erklärung, warum die Rekursion Sinn ergibt: \\
+Für $n=0$ haben wir eine Möglichkeit ''keinen'' Pfad zu beschreiben, bei $n=1$ drei Stück (nach links, nach rechts, nach oben. \\
+Für einen Pfad der Länge $n+1$ können wir für jeden Endpunkt eines Pfades der Länge $n$ den Weg nach oben erweitern (das geht immer, $a_n$ Möglichkeiten) und entweder nach links oder nach rechts (je nachdem, ob vorher links oder rechts gegangen wurde, $a_n$ Möglichkeiten). Die Pfade, die im letzten Schritt einen Schritt nach oben gemacht haben, können wir sowohl links als auch rechts erweitern (also zusätzlich $a_{n-1}$ Möglichkeiten, da wir die Entscheidung ''rückgängig machen können'' um nach oben zu erweitern).
 
 \item Es gilt $a_n = \frac{1}{2} \left( \left(1-\sqrt{2} \right)^{1+n}+\left(1+\sqrt{2}\right)^{1+n} \right)$. \\
 \textbf{Beweis} durch Induktion: \\
@@ -123,13 +125,13 @@ Es gilt die Identität $\binom{-\alpha}{k} = (-1)^k \binom{\alpha + k -1}{k}$. D
 &\stackrel{Binom.Lehrsatz}{=} (1 + (-z))^{-\alpha} = (1 - z)^{-\alpha}
 \end{split}\end{equation*}
 \item Z.z. $\sum_{k=0}^\infty (-1)^k \binom{n+k}{k} z^k = (1-z)^{n+1}$, für $n \in \mathbb{N}$ \\
-
-\textbf{Beweis}:
-\begin{equation*}\begin{split}
-\sum_{k=0}^\infty (-1)^k \binom{n+k}{k} z^k 
-&= \sum_{k=0}^\infty (-1)^k \binom{n+k-1}{k-1} z^k + (-1)^k \binom{n+k-1}{k} z^k \\
-\end{split}\end{equation*}
-
+Nicht bearbeitet.
+%\textbf{Beweis}:
+%\begin{equation*}\begin{split}
+%\sum_{k=0}^\infty (-1)^k \binom{n+k}{k} z^k 
+%&= \sum_{k=0}^\infty (-1)^k \binom{n+k-1}{k-1} z^k + (-1)^k \binom{n+k-1}{k} z^k \\
+%\end{split}\end{equation*}
+%
 \end{enumerate}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
