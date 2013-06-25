@@ -164,11 +164,20 @@ Examples:
 > ex4                 ::  Neg (Or p (Neg p)) -> p
 > ex4 no               =  negE (negI (\ np -> andI (orIR np, no)))
 
+> dist          :: Or p1 (And p2 p3) -> And (Or p1 p2) (Or p1 p3)
+> dist o        = andI (orE (o, orIL, orIR . andEL), orE (o, orIL, orIR . andER))
+
 > ex5                 ::  Neg (Or p (Neg p)) -> Neg p
-> ex5 no               =  undefined
+> ex5 no               =  negI (\p -> andI(orIL p, no))
 
 > ex6                 ::  Or p (Neg p)    -- the law of excluded middle
 > ex6                  =  undefined
+
+
+> dist2                 :: Either p1 (p2, p3) -> (Either p1 p2, Either p1 p3)
+> dist2 (Left x)        = (Left x, Left x)
+> dist2 (Right (a,b))   = (Right a, Right b)
+
 
 In all these cases, the type checker will protest if we make a
 mistake.  As before, the implementation of the given inference

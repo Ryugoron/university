@@ -141,6 +141,9 @@ adopt:
 
 |idE| is called |replace| in the Idris Prelude.
 
+> ex5       : ((Either p ( p -> _|_ )) -> _|_ ) -> ( p -> _|_ )
+> ex5 f       = (\ p -> f (Left p))
+
 Example:
 
 > symm : (x1 : a) -> (x2 : a) -> x1 = x2 -> x2 = x1
@@ -160,3 +163,10 @@ Most proofs really benefit from the concrete representation.  But can
 we be sure that we cannot prove more using the concrete representation
 than using the abstract one?  The answer is yes, we can.  This is a
 famous theorem, going under the name ``the Curry-Howard isomorphism''.
+
+
+
+> ex8'                  : (x : a ** ((y : b) -> r (x, y))) -> ((y:b) -> (x:a ** r(x, y)))
+> ex8' (x ** fa)        = (\y => (x ** fa y))
+
+

@@ -5,19 +5,37 @@
 > ex2                 ::  Or p1 p2 -> Or p2 p1
 > ex2 o                =  orE (o, orIR, orIL)
 
+We want to reduce both |p1| and |p2| to |Or p2 p1|.
+We eliminate |o : Or p1 p2|. If we have |x : p1| we
+can introduce an Or by switching the position |orIR x : Or a p1|
+and the other way around for |y : p2| is |orIL y : Or p2 b|
+for some arbitrary types a,b. By unification we conclude
+|a = p2| and |b = p1|.
+
 %%%%%%%%%%%%
 %% Task 2
 %%%%%%%%%%%
 
-dist                   :: Or p1 (And p2 p3) -> And (Or p1 p2) (Or p1 p3)
-dist o                  = andI (orE (o, orIL, orIR . andEL), orE (o, orIl, orIR . andIR))
+> dist                   :: Or p1 (And p2 p3) -> And (Or p1 p2) (Or p1 p3)
+> dist o                  = andI (orE (o, orIL, orIR . andEL), orE (o, orIL, orIR . andER))
+
+We are given |o : Or p1 (And p2 p3)|. If we apply |orE|
+we want to reduce to the same result which in the first case should
+be |Or p1 p2|. If we get |x : p1| we apply |orIl x : Or p1 a|.
+If we get |y : And p2 p3| we apply first |andEL y : p2| and put it into
+|orIR (andEl y) : Or b p2|. By unification the first element
+of the tupel is |Or p1 p2|.
+
+The second element of the tupel is symmetric with |andER y : p3|.
+Lastly the |andI| on both created elements (f1 : Or p1 p2, f2 : Or p1 p3)
+will result in |andI (f1, f2) : And (Or p1 p2) (Or p1 p3)|.
 
 %%%%%%%%%%%%%
 %%  Task 3
 %%%%%%%%%%%%%
 
 > ex5                 ::  Neg (Or p (Neg p)) -> Neg p
-> ex5 no               =  negE (negI (\np -> andI (orIL np, no)))
+> ex5 no               =  negI (\p -> andI(orIL p, no))
 
 
 
@@ -50,31 +68,57 @@ This means we can exchange exists and forall, where the types do not depend on e
 >       where
 >       f       :  (x : a) -> Forall b (\ y => r (x, y)) ->
 >                  Forall b (\ y => Ex a (\ z => r (z, y)))
->       f x fa  =  forallI ( \ z => exI x (\ y => fa z))
+>       f x fa  =  forallI (\ y => exI x (\ z => forallE fa y))
 
-May be right, ich weiß noch nicht so, was fa gerade genau ist. Sollte eigentelich etwas vom typ 'r' sein.
+This function creates a new forall and an exist in the right order.
+In the exist function we deconstruct the forall quantifier |fa|
+with the argument of the outer forall function |y|. Because fa
+comes from the deconstruction of the input exist quantifier it
+type is r (x, y) where the |x| comes from the |exE| and the
+|y| from the |forallE|.
 
+This function had the problem, that idris cannot unify and we did not know
+how to tell idris this. We got the error:
+
+Can't unify argTy -> (\ y => r (x, y)) y with r (x, y)
+
+Where we can see, that both are indeed equal, after evaluating the left function.
 
 %%%%%%%%%%%%%
 %%  Task 6
 %%%%%%%%%%%%%
  
-> dist2                 : Either p1 (p2, p3) -> (Either p1 p2, Either p1 p3)
+> dist2                 :: Either p1 (p2, p3) -> (Either p1 p2, Either p1 p3)
 > dist2 (Left x)        = (Left x, Left x)
 > dist2 (Right (a,b))   = (Right a, Right b)
+
+We can explicitly match here.
+If |x : p1| is given (p1 is true), we know (Left x) holds
+and we can therefor return the tupel (and on itself).
+If |(a,b) : (p2,p3)| is given (p1 && p2 is true), we
+can return (Right a) and (Right b) because we are given the elements
+and (p1 and p2) hold.
 
 %%%%%%%%%%%%%
 %%  Task 7
 %%%%%%%%%%%%%
 
-> ex5'                  : ((Either p (Neg p)) -> _|_) -> (p -> _|_)
+> ex5'                  : ((Either p (p -> _|_)) -> _|_) -> (p -> _|_)
 > ex5' f                = (\ p -> f (Left p))
+
+As input we get a function |f| from (p || not p) to _|_, therefor
+we can return a function, that takes a |p| and returns
+|f| applied to |Left p : Either p (p -> _|_)|, because
+|f (Left p) : _|_ |.
 
 %%%%%%%%%%%%%
 %%  Task 8
 %%%%%%%%%%%%%
 
-fa(x) y : r (x , y) --> Da fa schon vorher von x abhängt in Ordnung
-
-> ex8'                  : (x : A ** ((y : b) -> r (x, y))) -> ((y:b) -> (x:A ** r(x, y)))
+> ex8'                  : (x : a ** ((y : b) -> r (x, y))) -> ((y:b) -> (x:a ** r(x, y)))
 > ex8' (x ** fa)        = (\y => (x ** fa y))
+
+
+This is the same as Task 5, only this time idris typechecks.
+We create a new forall, wich is a function and the result is a DP (exists),
+depeding on an (x:a) and return |fa y : r (x,y)|.
