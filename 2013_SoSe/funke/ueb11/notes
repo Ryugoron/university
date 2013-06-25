@@ -19,6 +19,13 @@ dist o                  = andI (orE (o, orIL, orIR . andEL), orE (o, orIl, orIR 
 > ex5                 ::  Neg (Or p (Neg p)) -> Neg p
 > ex5 no               =  negE (negI (\np -> andI (orIL np, no)))
 
+
+
+For the next i do not know what to do. We cannot create
+an element of type |p| and I do not know, if there
+exists smth. like (TOP) which is always true, such
+that we prove (Or p (Neg p) -> TOP).
+
 > ex6                 ::  Or p (Neg p)    -- the law of excluded middle
 > ex6                  =  undefined
 
@@ -60,7 +67,6 @@ May be right, ich weiß noch nicht so, was fa gerade genau ist. Sollte eigenteli
 %%  Task 7
 %%%%%%%%%%%%%
 
-> ex5'                  : Neg (Or p (Neg p)) -> Neg p
 > ex5'                  : ((Either p (Neg p)) -> _|_) -> (p -> _|_)
 > ex5' f                = (\ p -> f (Left p))
 
