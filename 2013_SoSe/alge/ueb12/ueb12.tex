@@ -1,0 +1,192 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm]{geometry} 
+\usepackage{babel}
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc} 
+\usepackage{ae} 
+\usepackage{amssymb} 
+\usepackage{amsmath}
+\usepackage{amsthm} 
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{paralist}
+
+\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[C]{Algorithmische Geometrie}
+\fancyhead[L]{Aufgabenblatt 12}
+\fancyhead[R]{SoSe 2013}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage \hspace{1px} of \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\setlength{\parindent}{0pt} 
+\setlength{\headheight}{0pt}
+
+\date{}
+\title{Aufgabenblatt 12}
+\author{Max Wisniewski, Alexander Steen}
+
+
+%%
+%% Enviroments for proofs and lemmas
+%%
+\newtheorem{lemma}{\bfseries Behauptung}
+
+\begin{document}
+
+\lstset{language=Pascal, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2, mathescape=true}
+
+\renewcommand{\figurename}{Figur}
+
+\maketitle
+\thispagestyle{fancy}
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+%% Aufgabe 1 
+%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Aufgabe 1}
+
+Beweisen Sie die Formeln
+$$
+    \sum^{m}_{i=1} a_i (b_{i+1} - b_i) = a_{m+1}b_{m+1} - a_1b_1 - \sum^{m}_{i=1} b_{i+1} (a_{i+1} - a_i)
+$$
+und folgern Sie daraus
+$$
+    \sum^{n-4}_{k=1} \frac{6}{k^2} (|L_{\leq k}| - |L_{\leq (k-1)}|) = \frac{6}{(n-3)^3}|L_{\leq(n-4)} - 6 |L_0| + \sum^{n-4}_{k=1} |L_{\leq k}|(\frac{6}{k^2}-\frac{6}{(k+1)^2}
+$$
+
+\textbf{Beweis:}\\
+
+Zum ersten Teil
+\begin{equation*}\begin{array}{rcl}
+    a_{m+1}b_{m+1} - a_1b_1 - \overset{m}{\underset{i=1}{\sum}} b_{i+1}(a_{i+1} - a_i)
+        &=& a_{m+1}b_{m+1} - a_1b_1 - \overset{m}{\underset{i=1}{\sum}} b_{i+1}a_{i+1} + \overset{m}{\underset{i=1}{\sum}} b_{i+1}a_i\\
+        &=& -a_1b_1 - \overset{m-1}{\underset{i=1}{\sum}} b_{i+1}a_{i+1} + \overset{m}{\underset{i=1}{\sum}} b_{i+1}a_i\\
+        &=& -a_1b_1 - \overset{m}{\underset{i=2}{\sum}} b_ia_i + \overset{m}{\underset{i=1}{\sum}} b_{i+1}a_i\\
+        &=& - \overset{m}{\underset{i=1}{\sum}} b_ia_i + \overset{m}{\underset{i=1}{\sum}} b_{i+1}a_i\\
+        &=& \overset{m}{\underset{i=1}{\sum}} (- b_ia_i + b_{i+1}a_i)\\
+        &=& \overset{m}{\underset{i=1}{\sum}} a_i(b_{i+1} - b_i)
+\end{array}\end{equation*}
+
+Dies wenden wir das ganze auf den zweiten Teil an:
+\begin{equation*}\begin{array}{rcl}
+    \overset{n-4}{\underset{k=1}{\sum}} \frac{6}{k^2} (|L_{\leq k}| - |L_{\leq (k-1)}|)
+        &\stackrel{\text{sumParts}}{=}&
+            \frac{6}{(n-3)^2)}|L_{\leq (n-4)}| - \frac{6}{1^2}|L_{\leq 0}| - \overset{n-4}{\underset{k=1}{\sum}}|L_{\leq k}|\left( \frac{6}{(k+1)^2} - \frac{6}{k^2} \right)\\
+        &=& \frac{6}{(n-3)^2)}|L_{\leq (n-4)}| - 6|L_0| + \overset{n+4}{\underset{k=1}{\sum}}|L_{\leq k}| \left( \frac{6}{k^2} - \frac{6}{(k+1)^2}\right)
+\end{array}\end{equation*}
+
+\mbox{}\hfill$\square$
+
+\subsection*{Aufgabe 2}
+
+
+Sei $\mathcal{P} \subseteq \mathbb{R}^3$ ein Simplicial Polytop gegeben durch eine DCEL. Beschreiben Sie eine
+Anfragedatenstrucktur, die in $O(\log n)$ erwarteter Laufzeit entscheidet, ob ein gegebener Punkt $q \in \mathbb{R}^3$
+innerhalb von $\mathcal{P}$ liegt.\
+
+\textbf{Beweis:}\\
+
+Wir nutzen die Konstruktion aus der Vorlesung um das Polytop auf eine Ebene zu projezieren.\\
+Dazu legen wir zunächst eine Kugel $B_r(x_0)$ um das Polytop, so dass $\mathcal{P} \subset B_r(x_0)$ und $x_0 \in \mathcal{P}$
+und projezieren von $x_0$ aus alle Ecken und Kanten auf die Kugel $B_r$.
+
+Danach projezieren wir vom Nordpol der Kugel alle Ecken und Kanten auf eine Tangentialebene am Südpol. (Wir nehmen an, dass
+nicht am Nord- und Südpol ein Punkte liegt).\\
+
+Auf dieser Projektion können wir nun eine planare point-location ausführen. Dazu stehen uns Trapezoidal Maps und
+eine Sequence von Triangulierungen (wie in der letzten Vorlesung gezeigt wurde) zur Verfügung.\\
+
+Da ein Simplicial Polytop schon Trianguliert ist, entscheiden wir uns für die zweite Datenstrucktur. Diese hat
+$O(n)$ Vorverarbeitungszeit und $O(n)$ Speicherbedarf.\\
+
+Wollen wir nun entscheiden, ob ein Punkt $q \in \mathbb{R}^3$ in $\mathcal{P}$ liegt, testen wir zunächst, ob $q \in B_r(x_0)$ liegt
+(konstante zeit). Ist dies nicht der Fall verwerfen wir. Sonst wenden wir beide Projektion an um den Punkt in die Ebene
+zu übertragen (projektion in 3D dauern konstante Zeit) und führen die Pointlocation aus. Daraus erhalten wir in welcher Facette wir liegen.\\
+
+\vspace{5cm}
+
+Wie im Bild dargestellt wissen wir, dass $q$ in der Pyramide mit Grundfläche $f$ (der Facette, die wir ermittelt haben) liegt, wobei
+diese potentiell über die Facette erweitert werden muss.\\
+Wir müssen also nur noch einen Orientierungstest mit der Facette machen. Liegt der Punkt außerhalb, verwerfen wir und sonst akzeptieren wir.\\
+
+Wir müssen keine andere Facette prüfen, da wir wissen, dass $q$ in der ermittelten Pyramide liegt.\\
+
+Die Anfragezeit dauert also $O(\log n)$ determiniert. (Erwartet, falls man Trapezoidal Maps verwendet.)
+
+\mbox{}\hfill$\square$
+
+\subsection*{Aufgabe 3}
+
+\subsubsection*{(a)}
+
+\vspace{7cm}
+
+\subsubsection*{(b)}
+
+Rechtfertigen Sie die Annahmen aus dem dritten Schritt.\\
+
+\textbf{Lösung:}\\
+
+Alle Voronoi Knoten in $x \in D$ stehen im Konflikt mit $s$. Das bedeutet, dass der Kreis $C$, der $x$ erzeugt hat,
+nicht leer ist. Wäre nun $D$ nicht verbunden, so gäbe es auf der Strecke von $s$ zu $x \in D$ einen Knoten $y$ , der nicht
+Berührt wurde. Da aber $s \in C_x \Rightarrow y \in C_x$. Damit erfüllt auch $y$ die Empty-Circle Eigenschaft nicht und
+muss Teil von $D$ sein.\\
+
+Nachdem $D$ gelöscht wurde, gehen wir alle umgebenden Punkte ab und erstellen jeweils Bisectors zwischen $s$ und dem Vertex
+zu der Zelle in $D$, die wir gerade gelöscht haben. Da $\mathcal{P}$ konvex war müssen alle so entstandenen Bisectors in $VD(S)$ liegen.
+Außerhalb von $D$ galt die Empty-Circle Property noch. Innerhalb von $D$ haben wir sie gerade bestimmt. Daher gilt sie überall
+und es handelt sich um ein Voronoi-Diagram.
+
+\subsubsection*{(c)}
+
+Zeigen Sie, wie man den dritten Schritt in $O(d)$ Zeit implementieren kann, wobei $d$ die Anzahl der Voronoi vertices der Voronoizelle von $s$ ist.\\
+
+\textbf{Lösung:}\\
+
+Wir führen eine Tiefensuche von der ermittelten Zelle $x$ aus und brechen ab, wenn die Empty-Circle Property erfüllt ist ($s$ liegt nicht im erschaffenen
+Kreis). Das ermittelte Set $D$ ist wie in \emph{(b)} beschrieben verbunden, damit können wir so vorgehen. Nun muss jeder Knoten in
+$D$ eine Kante hinzufügen (also auch höchstens zwei Knoten), da wie vorher beschrieben die Punktemenge Konvex war.
+
+\subsubsection*{(d)}
+
+Zeigen Sie, dass der dritte Schritt konstante Zeit benötigt.\\
+
+\textbf{Lösung:}\\
+
+Wir müssen ermitteln wie viele Knoten die Voronoizelle für $s$ hat. Dazu benutzen wir Backward Analysis und bestimmen
+stattdessen was die erwartete Anzahl von Knoten pro Voronoizelle ist.\\
+
+Dabei benutzen wir, dass es sich beim Voronoi Diagram um einen planaren Graphen handelt und dass die Anzahl
+der Kanten demnach $\leq 3 n - 6$ ist. Dies ist wichtig, da eine Nachbarvoronoizelle durch eine Kante abgegrenzt wird.\\
+
+Wir hatten hier keine Zeit mehr. Klausurstress.
+
+
+\subsubsection*{(e)}
+
+Folgern Sie, dass der Algorithmus erwartet $O(n)$ Zeit benötigt.\\
+
+\textbf{Lösung:}\\
+
+Haben wir $3$ Knoten oder weniger können wir es direkt ausrechnen.\\
+Darüber fügen wir je einen Knoten hinzu und benötigen dafür $d$ Zeit, wobei wie in \emph{(d)} gezeigt konstant ist.
+Demnach ist
+$$
+    \sum^{n-3}_{k=1} d = O(n)
+$$
+\mbox{} \hfill $\square$
+
+\subsubsection*{(f)}
+
+Ohne die konvexe Eigenschaft, wissen wir nicht in welcher Voronoizelle aus $VD(S \setminus \{s \})$ der Knoten $s$ liegt
+und wir müssten somit noch eine Pointlocation ausführen, was uns wieder auf die gegebene Laufzeit bringt.
+
+\label{LastPage}
+\end{document}
