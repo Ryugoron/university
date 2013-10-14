@@ -1,0 +1,114 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm]{geometry} 
+\usepackage{babel}
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc} 
+\usepackage{ae} 
+\usepackage{amssymb} 
+\usepackage{amsmath}
+\usepackage{amsthm} 
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{paralist}
+
+\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[C]{Stochastik I}
+\fancyhead[L]{Übung 1}
+\fancyhead[R]{WiSe 2013/14}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage \hspace{1px} of \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\newcommand{\set}[1]{ \{ #1 \}}
+\setlength{\parindent}{0pt} 
+\setlength{\headheight}{0pt}
+
+\date{}
+\title{Übung 1}
+\author{Max Wisniewski, Alexander Steen}
+
+
+%%
+%% Enviroments for proofs and lemmas
+%%
+\newtheorem{prop}{\bfseries Behauptung}
+\newtheorem{lemma}{\bfseries Lemma}
+
+\begin{document}
+
+\lstset{language=Pascal, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2, mathescape=true}
+
+\renewcommand{\figurename}{Figure}
+
+\maketitle
+\thispagestyle{fancy}
+
+
+\subsection*{Aufgabe 1}
+Sei $\Omega = \{1,2,3,4\}$. Geben Sie alle $\sigma$-Algebren über $\Omega$ an. \\
+
+\textbf{Lösung}: \\
+Es bezeichnen $\xi_i$ die $\sigma$-Algebren über $\Omega$:
+\begin{enumerate}[$\xi_1 = $]
+% Partition 1,2,3,4
+\item $\{\emptyset, \Omega \}$
+%Partition 1;2,3,4
+\item $\set{\emptyset, \set{1}, \set{2,3,4}, \Omega}$
+%Partition 2; 1,3,4
+\item $\set{\emptyset, \set{2}, \set{1,3,4},\Omega}$
+%Partition 3;1,2,4
+\item $\set{\emptyset, \set{3}, \set{1,2,4},\Omega}$
+%Partition 4;1,2,3
+\item $\set{\emptyset, \set{4}, \set{1,2,3},\Omega}$
+% Partition 1,2;    3,4
+\item $\{\emptyset, \set{1,2}, \set{3,4}, \Omega \}$
+% Partition 1,3;    2,4
+\item $\{\emptyset, \set{1,3}, \set{2,4}, \Omega \}$
+% Partition 1,4;    2,3
+\item $\{\emptyset, \set{1,4}, \set{2,3}, \Omega \}$
+%Partition 1,2;3;4
+\item $\{\emptyset, \set{3}, \set{4}, \set{1,2}, \set{3,4}, \set{1,2,3}, \set{1,2,4}, \Omega \}$
+%Partition 1,3;2;4
+\item $\{\emptyset, \set{2}, \set{4}, \set{1,3}, \set{2,4}, \set{1,2,3}, \set{1,3,4}, \Omega \}$
+%Partition 1,4;2;3
+\item $\{\emptyset, \set{2}, \set{3}, \set{1,4}, \set{2,3}, \set{1,2,4}, \set{1,3,4}, \Omega \}$
+%Partition 2,3;1;4
+\item $\{\emptyset, \set{1}, \set{4}, \set{1,4}, \set{2,3}, \set{1,2,3}, \set{2,3,4}, \Omega \}$
+%Partition 2,4;1;3
+\item $\{\emptyset, \set{1}, \set{3}, \set{1,3}, \set{2,4}, \set{1,2,4}, \set{2,3,4}, \Omega \}$
+%Partition 3,4;1;2
+\item $\{\emptyset, \set{1}, \set{2}, \set{1,2}, \set{3,4}, \set{1,3,4}, \set{2,3,4}, \Omega \}$
+% Partition 1;2;3;4
+\item $\mathcal{P}(\Omega) = \{\emptyset, \set{1},\set{2},\set{3}, \set{4}, \set{1,2}, \ldots, \set{2,3,4}, \Omega \}$
+\end{enumerate}
+
+\begin{lemma}
+Sei $\Omega$ eine endliche Menge. Dann existiert eine Bijektion zwischen der Menge $\Xi := \set{\xi | \xi \in \mathcal{P}(\Omega) \text{ ist $\sigma$-Algebra}}$ aller $\sigma$-Algebren über $\Omega$ und der Menge der Partitionen von $\Omega$.	
+\end{lemma}
+
+\textbf{Beweis}: todo $\mbox{}$ \hfill $\square$
+
+\begin{prop}
+ Es gibt keine weiteren $\sigma$-Algebren über $\Omega$. 
+\end{prop}
+\textbf{Beweis}: Wie man leicht nachprüfen kann, sind alle obigen Mengensysteme gültige $\sigma$-Algebren. Bezeichne $S_{n,k}$ die Stirlingzahl zweiter Art.
+Dann gilt für die Anzahl $N$ der verschiedenen Partitionen von $\Omega$: 
+\begin{equation}
+N = \sum_{k=1}^4 S_{4,k} = 1 +6+ 7+ 1=15
+\end{equation}
+Da zusätzliche alle obenstehenden Mengensysteme paarweise verschiedenen sind, folgt die Aussage.
+$\mbox{}$ \hfill $\square$
+
+\subsection*{Aufgabe 2}
+\subsection*{Aufgabe 3}
+\subsection*{Aufgabe 4}
+
+
+\label{LastPage}
+\end{document}
