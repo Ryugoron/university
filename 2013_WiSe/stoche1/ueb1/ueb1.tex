@@ -1,6 +1,6 @@
 \documentclass[11pt,a4paper,ngerman]{article}
 \usepackage[bottom=2.5cm,top=2.5cm]{geometry} 
-%\usepackage{babel}
+\usepackage[ngerman]{babel}
 \usepackage[utf8]{inputenc} 
 \usepackage[T1]{fontenc} 
 \usepackage{ae} 
@@ -118,20 +118,31 @@ $\mbox{}$ \hfill $\square$
 $\mbox{}$ \hfill $\square$
 \end{enumerate}
 \subsection*{Aufgabe 3\footnote{Niederschrift von Santa Claus}}
-Seien $\Prob_1, \Prob_2$ Wahrscheinlichkeitsmaße auf $\Omega$ und $\Prob: \Omega \to \mathbb{R}$ definiert durch $\Prob(E) = \min \set{\Prob_1(E), \Prob_2(E)}$. Z.z. $\Prob$ ist ein Wahrscheinlichkeitsmaß genau dann, wenn $\Prob_1 = \Prob_2$.
+Seien $\Prob_1, \Prob_2$ Wahrscheinlichkeitsmaße auf $(\Omega, \xi)$ und $\Prob: \xi \to \mathbb{R}$ definiert durch $\Prob(E) = \min \set{\Prob_1(E), \Prob_2(E)}$. Z.z. $\Prob$ ist ein Wahrscheinlichkeitsmaß genau dann, wenn $\Prob_1 = \Prob_2$.
 
 \textbf{Beweis}: \\
-Sei $E \subseteq \Omega$. Dann gilt
-\begin{equation}\begin{split}
+"$\Leftarrow$": \\
+Wegen $\Prob_1 = \Prob_2$ folgt $\forall E \in \xi: \Prob_1(E) = \Prob_2(E)$ und damit
+\begin{equation}
+\Prob(E) = \min \set{\Prob_1(E), \Prob_2(E)} = \min \set{\Prob_1(E), \Prob_1(E)} = \Prob_1(E)
+\end{equation}
+Also gilt $\Prob = \Prob_1 = \Prob_2$ und damit die Behauptung.
+
+"$\Rightarrow$": \\
+Sei $E \in \xi$. Dann gilt
+\begin{equation}\label{3}\begin{split}
 1-\min \set{\Prob_1(E),\Prob_2(E)}
 &= 1- \Prob(E) \\
-&= \Prob(E^c)\\
+&\stackrel{2}{=} \Prob(E^c)\\
 &= \min \set{\Prob_1(E^c),\Prob_2(E^c)} \\
 &= \min \set{1-\Prob_1(E),1-\Prob_2(E)} \\
 &= 1- \max \set{\Prob_1(E),\Prob_2(E)} \\
 \end{split}\end{equation}
-Wegen $\max \set{a,b} = \min \set{a,b} \Leftrigtarrow a = b$ folgt
+Wegen $\max \set{a,b} = \min \set{a,b} \Leftrightarrow a = b$ folgt
 $\Prob_1(E) = \Prob_2(E)$ und damit $\Prob_1 = \Prob_2$.
+
+Gleichheit 2 in Gleichung (\ref{3}) gilt wegen $1 = \Prob(\Omega) = \Prob(E \dot{\cup} E^c) = \Prob(E) + \Prob(E^c)$.
+$\mbox{}$ \hfill $\square$
 \subsection*{Aufgabe 4\footnote{Niederschrift von Santa Claus}}
 
 
