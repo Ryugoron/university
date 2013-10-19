@@ -111,7 +111,15 @@ Seien $\Omega$ eine Menge, $\xi$ eine $\sigma$-Algebra auf $\Omega$ und $\xi_C :
 Zu zeigen:
 \begin{enumerate}[(i)]
 \item $\xi_C$ ist eine $\sigma$-Algebra \\
-\textbf{Beweis}: todo \\
+\textbf{Beweis}: $\xi_C$ ist $\sigma$-Algebra über $C$. \\
+(i) $\emptyset ,C \in \xi_C$ \\
+Da $\emptyset, \Omega \in \xi$ folgt $\emptyset \cap C = \emptyset \in \xi_C$ und $\Omega \cap C = C \in \xi_C$.\\
+(ii) $\forall E \in \xi_C: E^c \in \xi_C$ \\
+Sei $E \in \xi_C$. Dann ex. ein $E' \in \xi$ s.d. $E = E' \cap C$. Dann gilt auch $E'^c \in \xi$ (Komplement von $E$ bzgl. $\Omega$) und damit für 
+$E^c$ (Komplement von $E$ bzgl. $C$) $E^c = E'^c \cap C \in \xi_C$, da $C \subseteq \Omega$. \\
+(iii) $\forall \left(E_i\right)_{i \in I} \subseteq \xi_C: \bigcup_{i \in I} {E_i} \in \xi_C$  \\
+Sei $\left(E_i\right)_{i \in I} \subseteq \xi_C$ eine Folge von Ereignissen.
+
 $\mbox{}$ \hfill $\square$
 \item $C \in \xi \Rightarrow \xi_C = \set{E \in \xi | E \subseteq C}$ \\
 \textbf{Beweis}: todo \\
