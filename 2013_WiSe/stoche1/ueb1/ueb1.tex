@@ -1,6 +1,6 @@
 \documentclass[11pt,a4paper,ngerman]{article}
 \usepackage[bottom=2.5cm,top=2.5cm]{geometry} 
-\usepackage{babel}
+%\usepackage{babel}
 \usepackage[utf8]{inputenc} 
 \usepackage[T1]{fontenc} 
 \usepackage{ae} 
@@ -26,6 +26,7 @@
 \renewcommand{\footrulewidth}{0.5pt}
 \renewcommand{\headrulewidth}{0.5pt}
 \newcommand{\set}[1]{ \{ #1 \}}
+\newcommand{\Prob}{\mathbb{P}}
 \setlength{\parindent}{0pt} 
 \setlength{\headheight}{0pt}
 
@@ -117,6 +118,20 @@ $\mbox{}$ \hfill $\square$
 $\mbox{}$ \hfill $\square$
 \end{enumerate}
 \subsection*{Aufgabe 3\footnote{Niederschrift von Santa Claus}}
+Seien $\Prob_1, \Prob_2$ Wahrscheinlichkeitsmaße auf $\Omega$ und $\Prob: \Omega \to \mathbb{R}$ definiert durch $\Prob(E) = \min \set{\Prob_1(E), \Prob_2(E)}$. Z.z. $\Prob$ ist ein Wahrscheinlichkeitsmaß genau dann, wenn $\Prob_1 = \Prob_2$.
+
+\textbf{Beweis}: \\
+Sei $E \subseteq \Omega$. Dann gilt
+\begin{equation}\begin{split}
+1-\min \set{\Prob_1(E),\Prob_2(E)}
+&= 1- \Prob(E) \\
+&= \Prob(E^c)\\
+&= \min \set{\Prob_1(E^c),\Prob_2(E^c)} \\
+&= \min \set{1-\Prob_1(E),1-\Prob_2(E)} \\
+&= 1- \max \set{\Prob_1(E),\Prob_2(E)} \\
+\end{split}\end{equation}
+Wegen $\max \set{a,b} = \min \set{a,b} \Leftrigtarrow a = b$ folgt
+$\Prob_1(E) = \Prob_2(E)$ und damit $\Prob_1 = \Prob_2$.
 \subsection*{Aufgabe 4\footnote{Niederschrift von Santa Claus}}
 
 
