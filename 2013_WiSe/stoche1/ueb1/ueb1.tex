@@ -118,13 +118,20 @@ Da $\emptyset, \Omega \in \xi$ folgt $\emptyset \cap C = \emptyset \in \xi_C$ un
 Sei $E \in \xi_C$. Dann ex. ein $E' \in \xi$ s.d. $E = E' \cap C$. Dann gilt auch $E'^c \in \xi$ (Komplement von $E$ bzgl. $\Omega$) und damit für 
 $E^c$ (Komplement von $E$ bzgl. $C$) $E^c = E'^c \cap C \in \xi_C$, da $C \subseteq \Omega$. \\
 (iii) $\forall \left(E_i\right)_{i \in I} \subseteq \xi_C: \bigcup_{i \in I} {E_i} \in \xi_C$  \\
-Sei $\left(E_i\right)_{i \in I} \subseteq \xi_C$ eine Folge von Ereignissen.
-
+Sei $\left(E_i\right)_{i \in I} \subseteq \xi_C$ eine Folge von Ereignissen. Dann gibt es für jedes $E_i$ ein $E'_i \in \xi$ mit $E'_i \cap C = E_i$.
+Dann ist aber auch $\bigcup_{i \in I} E'_i \in \xi$ und damit $\left( \bigcup_{i \in I} E'_i \right) \cap C = \bigcup_{i \in I} \left( E'_i \cap C \right) = \bigcup_{i \in I} E_i \in \xi_C$
 $\mbox{}$ \hfill $\square$
-\item $C \in \xi \Rightarrow \xi_C = \set{E \in \xi | E \subseteq C}$ \\
-\textbf{Beweis}: todo \\
+\item $C \in \xi \Rightarrow \xi_C = \set{E \in \xi | E \subseteq C} =: \xi'_C$ \\
+\textbf{Beweis}: Seien $C \in \xi$, .\\
+"$\subseteq$": \\
+todo
+
+"$\supseteq$": \\
+Sei $E \in \xi'_C$. Dann gilt $E \in \xi$, $E \subseteq C$. Dann ist $E = E \cap C \in \xi_C$.
 $\mbox{}$ \hfill $\square$
 \end{enumerate}
+
+
 \subsection*{Aufgabe 3\footnote{Niederschrift von Santa Claus}}
 Seien $\Prob_1, \Prob_2$ Wahrscheinlichkeitsmaße auf $(\Omega, \xi)$ und $\Prob: \xi \to \mathbb{R}$ definiert durch $\Prob(E) = \min \set{\Prob_1(E), \Prob_2(E)}$. Z.z. $\Prob$ ist ein Wahrscheinlichkeitsmaß genau dann, wenn $\Prob_1 = \Prob_2$.
 
