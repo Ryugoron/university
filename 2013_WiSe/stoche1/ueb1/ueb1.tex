@@ -55,10 +55,15 @@
 Sei $\Omega = \{1,2,3,4\}$. Geben Sie alle $\sigma$-Algebren über $\Omega$ an. \\
 
 \textbf{Lösung}: \\
-Es bezeichnen $\xi_i$ die $\sigma$-Algebren über $\Omega$:
-\begin{enumerate}[$\xi_1 = $]
+Es können alle $\sigma$-Algebren folgendermaßen erzeugt werden: Sei $\mathcal{P}$ eine Partition von $\Omega$. Dann ist $\set{\bigcup_i P_i|\set{P_1,P_2,\ldots} \subseteq \mathcal{P}}$ eine $\sigma$-Algebra auf $\Omega$. Dies können wir nun für alle Partitionen von $\Omega$ tun. Es bezeichnen $\xi^j_i$ die $\sigma$-Algebren über $\Omega$: \\
+
+\emph{von 1-elementigen Partitionen}:
+\begin{enumerate}[$\xi^1_1 = $]
 % Partition 1,2,3,4
 \item $\{\emptyset, \Omega \}$
+\end{enumerate}
+\emph{von 2-elementigen Partitionen}:
+\begin{enumerate}[$\xi^2_1 = $]
 %Partition 1;2,3,4
 \item $\set{\emptyset, \set{1}, \set{2,3,4}, \Omega}$
 %Partition 2; 1,3,4
@@ -73,6 +78,9 @@ Es bezeichnen $\xi_i$ die $\sigma$-Algebren über $\Omega$:
 \item $\{\emptyset, \set{1,3}, \set{2,4}, \Omega \}$
 % Partition 1,4;    2,3
 \item $\{\emptyset, \set{1,4}, \set{2,3}, \Omega \}$
+\end{enumerate}
+\emph{von 3-elementigen Partitionen}:
+\begin{enumerate}[$\xi^3_1 = $]
 %Partition 1,2;3;4
 \item $\{\emptyset, \set{3}, \set{4}, \set{1,2}, \set{3,4}, \set{1,2,3}, \set{1,2,4}, \Omega \}$
 %Partition 1,3;2;4
@@ -85,6 +93,9 @@ Es bezeichnen $\xi_i$ die $\sigma$-Algebren über $\Omega$:
 \item $\{\emptyset, \set{1}, \set{3}, \set{1,3}, \set{2,4}, \set{1,2,4}, \set{2,3,4}, \Omega \}$
 %Partition 3,4;1;2
 \item $\{\emptyset, \set{1}, \set{2}, \set{1,2}, \set{3,4}, \set{1,3,4}, \set{2,3,4}, \Omega \}$
+\end{enumerate}
+\emph{von 4-elementigen Partitionen}:
+\begin{enumerate}[$\xi^4_1 = $]
 % Partition 1;2;3;4
 \item $\mathcal{P}(\Omega) = \{\emptyset, \set{1},\set{2},\set{3}, \set{4}, \set{1,2}, \ldots, \set{2,3,4}, \Omega \}$
 \end{enumerate}
@@ -127,7 +138,7 @@ $\mbox{}$ \hfill $\square$
 todo
 
 "$\supseteq$": \\
-Sei $E \in \xi'_C$. Dann gilt $E \in \xi$, $E \subseteq C$. Dann ist $E = E \cap C \in \xi_C$.
+Sei $E \in \xi'_C$. Dann gilt $E \in \xi$, $E \subseteq C$. Dann ist  $E \cap C = C \in \xi_C$.
 $\mbox{}$ \hfill $\square$
 \end{enumerate}
 
