@@ -133,9 +133,20 @@ Sei $\left(E_i\right)_{i \in I} \subseteq \xi_C$ eine Folge von Ereignissen. Dan
 Dann ist aber auch $\bigcup_{i \in I} E'_i \in \xi$ und damit $\left( \bigcup_{i \in I} E'_i \right) \cap C = \bigcup_{i \in I} \left( E'_i \cap C \right) = \bigcup_{i \in I} E_i \in \xi_C$
 $\mbox{}$ \hfill $\square$
 \item $C \in \xi \Rightarrow \xi_C = \set{E \in \xi | E \subseteq C} =: \xi'_C$ \\
-\textbf{Beweis}: Seien $C \in \xi$, .\\
+\textbf{Beweis}: Es gelte $C \in \xi$. \\
 "$\subseteq$": \\
-todo
+Sei $E \in \xi_C$. Dann ex. ein $E' \in \xi$ s.d. $E = E' \cap C$. \\
+(1) z.z. $E \in \xi$: Es gilt
+\begin{equation}\begin{split}
+E^c &= \Omega \setminus E \\
+&= \Omega \setminus \left(E' \cap C \right) \\
+&= \Omega \setminus E' \cup \Omega \setminus C \\
+&= E'^c \cup C^c
+\end{split}\end{equation}
+Da $C, E' \in \xi \Rightarrow C^c, E'^c \in \xi$ und damit auch $E'^c \cup C^c \in \xi$. Also ist $E^c \in \xi$ und damit auch $E \in \xi$.
+
+(2) z.z. $E \subseteq C$: Da $E = E' \cap C$ für ein $E' \in \xi$, gilt $E \subseteq C$.\\
+Also gilt $E \in \xi'_C$.
 
 "$\supseteq$": \\
 Sei $E \in \xi'_C$. Dann gilt $E \in \xi$, $E \subseteq C$. Dann ist  $E \cap C = C \in \xi_C$.
