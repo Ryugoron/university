@@ -152,7 +152,8 @@ die Representanten aber zusammengeschrieben haben, werden wir über
 jeden Teil nur einmal durchlaufen müssen und schreiben dann die Listen
 wiederum zusammen. Da wird die Buckets schon sortiert anlegen können,
 müssen wir nur noch über alle Buckets gehen und das Minimum aufnehmen,
-was uns $O(n') = O(m')$ kostet.
+was uns $O(n') = O(m')$ kostet, wir müssen dabei unseren eigenen Bucket immer
+überspringen, da dieser eine Selbstkante hinzufügen würde.
 Dieser Teil wird weniger als $3m'$ Schritte benötigen, da wir schon Kanten
 eliminiert haben.\\
 

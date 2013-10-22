@@ -211,6 +211,73 @@ Gleichheit 2 in Gleichung (\ref{3}) gilt wegen $1 = \Prob(\Omega) = \Prob(E \dot
 $\mbox{}$ \hfill $\square$
 \subsection*{Aufgabe 4$^\dagger$}
 
+Sei $\Omega$ eine Menge mit $\left| \Omega \right| \geq 2$ und sei $\mathcal{E} = \mathcal{P}\left( \Omega \right)$ die Potenzmenge von $\Omega$. Seien
+zwei verschiedene Elemente $x_0, y_0 \in \Omega$ fest gewählt. Weiter seien $a,b,c,d \in \mathbb{R}$ reele Zahlen. Definieren wir die Abbildung
+$$
+    \mathbb{P}(E) := \left\{ \begin{array}{lr} 
+        a, &\quad \text{wenn } x_0 \not\in E \text{ and } y_0 \not\in E\\
+        b, &\quad \text{wenn } x_0 \in E \text{ and } y_0 \not\in E\\
+        c, &\quad \text{wenn } x_0 \not\in E \text{ and } y_0 \in E\\
+        d, &\quad \text{wenn } x_0 \in E \text{ and } y_0 \in E
+    \end{array}\right.
+$$
+
+Finden Sie notwendige und hinreichende Bedingungen an $a,b,c,d$, dass durch $\mathbb{P}$ ein Wahrscheinlichkeitsmaß definiert wird.\\
+
+\textbf{Lösung:}\\
+
+Fangen wir zunächst mit den notwendigen Bedingungen an, d.h.
+eine Eigenschaft $A$ mit
+\[
+    \mathbb{P}\text{ ist Warscheinlichkeitsmaß} \Rightarrow A
+\]
+
+\begin{enumerate}[1.]
+    \item Für ein WMaß $\mathbb{P}$ muss gelten $\mathbb{P}(\emptyset) = 0$. Da nun $x_0, y_0 \not\in \emptyset$ gilt, muss auch
+            $\mathcal{P}(\emptyset) = a = 0$ gelten. Daher ist die Bedingung $a = 0$ notwendig.
+    \item Für ein WMaß $\mathbb{P}$ muss gelten $\mathbb{P}(\Omega) = 1$. Da $x_0, y_0 \in \Omega$ gilt, muss auch
+            $\mathcal{P}(\Omega) = d = 1$. Daher ist die Bedingung $d = 1$ notwendig.
+    \item Ist $\mathcal{P}$ ein WMaß, so muss $\mathcal{P}(A \dot\cup B) = \mathcal{P}(A) + \mathcal{P}(B)$. Sollte also
+        eine Menge $E\in\mathcal{E}$ mit $x_0 \in E$ und $y_0 \not\in E$ existieren, so ist auch
+            $b + c = 1$ notwendig. 
+\end{enumerate}
+
+Alle 3 zusammen sind hinreichend.\\
+\textbf{Beweis:}\\
+Sei $a = 0, b+c = 1, d = 1$.
+\begin{enumerate}[1.]
+    \item z.z. $\mathbb{P}(\emptyset) = 0$.\\
+        Wie schon gezeigt ist $\mathbb{P}(\emptyset) = a = 0$.
+    \item z.z. $\mathbb{P}(\Omega) = 1$.\\
+        Wie schon gezeigt ist $\mathbb{P}(\Omega) = d = 1$.
+    \item z.z. $\mathbb{P}(\dot\bigcup A_i) = \overset{\infty}{\underset{i=1}{\sum}} A_i$.\\
+        Wir unterscheiden 4 Fälle.
+        \begin{enumerate}[a.]
+            \item $x_0, y_0 \not\in \dot\bigcup A_i$. Dann gilt insbesondere $\forall i\in \mathbb{N} \, : \, x_0, y_0 \not\in A_i$.\\
+                Also ist $\mathbb{P}(\dot\bigcup A_i) = 0 = \overset{\infty}{\underset{i=1}{\sum}} A_i $.
+            \item $x_0 \in \dot\bigcup A_i$ und $y_0 \not\in \dot\bigcup A_i$. Dann gilt $\forall i \in \mathbb{N} \, : \, y_0 \not\in A_i$ und
+                $\exists ! i \in \mathbb{N} \, : \, x_0 \in A_i$. Sei $j$ das eindeutige Elemente mit $x_0 \in A_j$.\\
+                Dann ist $\mathbb{P}(\dot\bigcup A_i) = b$ und
+                \[
+                    \overset{\infty}{\underset{i=1}{\sum}} \mathbb{P}(A_i) = \mathbb{P}(A_j) + \underset{i \in \mathbb{N} \setminus \{j \}}{\sum} A_i = b + 0.
+                \]
+                Analog geht $x_0 \not\in \dot\bigcup A_i$ und $y_0 \in \dot\bigcup A_i$.\\
+            \item $x_0, y_0 \in \dot\bigcup A_i$. Falls $j$ existiert mit $x_0, y_0 \in A_i$, dann ist $\mathbb{P}(A_i) = 1$ und insbesondere gilt die Behauptung.
+                Sonst muss es zwei Zahlen $i,j \in \mathbb{N}$ mit $i \not= j$ geben, so dass $x_0 \in A_i$ und $y_0 \in A_j$.
+                Dann ist
+                \[
+                    \underset{k \in \mathbb{N}}{\sum} \mathbb{P}(A_k) = \mathbb{P}(A_i) + \mathbb{P}(A_j) + \underset{k \in \mathbb{N}}{\sum} \mathbb{P}(A_k) = b + c + 0 = 1
+                \]
+                Was genau $\mathbb{P}(\dot\bigcup A_i) = 1$ entspricht.
+        \end{enumerate}
+\end{enumerate}
+
+Eine weitere hinreichende Bedingung ist:
+\[
+    a = 0, d = 1 \text{ und } \forall E \in \mathcal{E} \, : \, x_0, y_0 \in E \lor x_0, y_0 \not\in E
+\]
+
+Dies folgt aus dem letzten Beweis, da wir Fall b) für beide Möglichkeiten nicht mehr haben und der zweite Fall in Fall c) auch nicht möglich ist.
 
 \label{LastPage}
 \end{document}
