@@ -33,7 +33,7 @@
 
 \date{}
 \title{Übung 1}
-\author{Max Wisniewski, Alexander Steen}
+\author{Max Wisniewski$^\curlywedgedownarrow$, Alexander Steen$^\dagger$}
 
 
 %%
@@ -50,6 +50,10 @@
 
 \maketitle
 \thispagestyle{fancy}
+
+\begin{center}
+\textbf{Hinweis}: Die Angabe, wer welche Aufgabe in \LaTeX formuliert hat, ist als hochgestellter Symbol der Aufgabenüberschrift zu entnehmen.
+\end{center}
 
 
 \subsection*{Aufgabe 1$^\curlywedgedownarrow$}
@@ -102,10 +106,34 @@ Es können alle $\sigma$-Algebren folgendermaßen erzeugt werden: Sei $\mathcal{
 \end{enumerate}
 
 \begin{lemma}
-Sei $\Omega$ eine endliche Menge. Dann existiert eine Bijektion zwischen der Menge $\Xi := \set{\xi | \xi \in \mathcal{P}(\Omega) \text{ ist $\sigma$-Algebra}}$ aller $\sigma$-Algebren über $\Omega$ und der Menge der Partitionen von $\Omega$.	
+Sei $\Omega$ eine endliche Menge. Dann existiert eine Bijektion zwischen der Menge $\Xi := \set{\xi | \xi \in \mathcal{P}(\Omega) \text{ ist $\sigma$-Algebra}}$ aller $\sigma$-Algebren über $\Omega$ und der Menge $\mathfrak{P}$  der Partitionen von $\Omega$.	
 \end{lemma}
 
-\textbf{Beweis}: todo $\mbox{}$ \hfill $\square$
+\textbf{Beweis}: \\
+"$\Xi \to \mathfrak{P}$": \\
+Sei $\xi$ eine $\sigma$-Algebra auf $\Omega$. Dann ist 
+\begin{equation*}P = \{ E \in \xi \setminus \emptyset \; | \; C \subseteq E \Rightarrow C = \emptyset \lor C = E  \} \end{equation*}
+eine Partition von $\Omega$. Denn
+
+....
+
+"$\mathfrak{P} \to \Xi$": \\
+Sei $P = \left\{ P_i \right\}_{i \in I} \in \mathfrak{P}$ eine Partition von $\Omega$ mit $I$ abzählbare Indexmenge. Dann ist die Menge
+\begin{equation*}\xi := \{ \bigcup_{j \in J} P_j | J \subseteq I \} \end{equation*}
+eine $\sigma$-Algebra auf $\Omega$. Denn\\
+
+(1) $\emptyset, \Omega \in \xi$ \\
+Wähle $J := \emptyset$ (bzw. $J := I$), dann ist $\bigcup_{j \in \emptyset} P_j = \emptyset \in \xi$ (bzw. $\bigcup_{j \in I} P_j = \Omega \in \xi$).
+
+(2) $E \in \xi \Rightarrow E^c \in \xi$ \\
+Sei $E \in \xi$. Dann ex. ein $J \subseteq I$ mit $\bigcup_{j \in J} P_j = E$. Wähle $J' := I \setminus J$.\\
+Dann ist $\bigcup_{j' \in J'} P_{j'} = \Omega \setminus E = E^c \in \xi$.
+
+(3) $\left( E_\ell \right)_{\ell \in L} \subseteq \xi \Rightarrow \bigcup_{\ell \in L} E_\ell \in \xi$ \\
+Gilt nach Konstruktion.
+
+
+ $\mbox{}$ \hfill $\square$
 
 \begin{prop}
  Es gibt keine weiteren $\sigma$-Algebren über $\Omega$. 
