@@ -1,0 +1,140 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm]{geometry} 
+\usepackage[ngerman]{babel}
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc} 
+\usepackage{ae} 
+\usepackage{amssymb} 
+\usepackage{amsmath}
+\usepackage{amsthm} 
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{stmaryrd}
+\usepackage{paralist}
+
+\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[C]{Stochastik I}
+\fancyhead[L]{Übung 2}
+\fancyhead[R]{WiSe 2013/14}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage \hspace{1px} of \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\newcommand{\set}[1]{ \{ #1 \}}
+\newcommand{\Prob}{\mathbb{P}}
+\setlength{\parindent}{0pt} 
+\setlength{\headheight}{0pt}
+
+\date{}
+\title{Übung 2}
+\author{Max Wisniewski$^\curlywedgedownarrow$, Alexander Steen$^\dagger$}
+
+
+%%
+%% Enviroments for proofs and lemmas
+%%
+\newtheorem{prop}{\bfseries Behauptung}
+\newtheorem{lemma}{\bfseries Lemma}
+
+\begin{document}
+
+\lstset{language=Pascal, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2, mathescape=true}
+
+\renewcommand{\figurename}{Figure}
+
+\maketitle
+\thispagestyle{fancy}
+
+\begin{center}
+\textbf{Hinweis}: Die Angabe, wer welche Aufgabe in \LaTeX formuliert hat, ist als hochgestellter Symbol der Aufgabenüberschrift zu entnehmen.
+\end{center}
+
+
+\subsection*{Aufgabe 1$^\curlywedgedownarrow$}
+Sei $\Omega$ eine Menge und $\xi$ eine $\sigma$-Algebra auf $\Omega$. Beweisen Sie
+
+\begin{enumerate}[a)]
+\item Zwei verschiedene Atome sind disjunkt. \\
+	\textbf{Beweis}: \\
+Annahme: Seien $P \neq P' \in \xi$ Atome mit $P \cap P' = Q \neq \emptyset$.\\
+ Da $P, P' \in \xi$, gilt dann aber $(P^c \cup P'^c)^c = Q \in \xi$.
+Damit ist $Q \in\xi$ und $Q \subseteq P,P'$, jedoch $\emptyset \neq Q \neq P,P' \Rightarrow P,P'$ keine Atome. Widerspruch!
+ $\mbox{}$ \hfill $\square$
+
+\item 
+\begin{enumerate}[(1)]
+\item Sei $\Omega$ höchstens abzählbar. Sei $\xi$ eine $\sigma$-Algebra auf $\Omega$. Dann ist die Menge $\mathcal{P}$ der Atome von $\xi$ mit
+\begin{equation*}\mathcal{P} = \{ E \in \xi \setminus \emptyset \; | \; C \in \xi \land C \subseteq E \Rightarrow C = \emptyset \lor C = E  \} \end{equation*}
+eine Partition von $\Omega$. Denn 
+
+\begin{enumerate}[(1)]
+\item $\forall P \in \mathcal{P}: P \neq \emptyset$: \\
+Gilt nach Konstruktion.
+
+\item $\forall P \neq P' \in \mathcal{P}: P \cap P' = \emptyset$: \\
+Annahme: Seien $P \neq P' \in \mathcal{P}$ mit $P \cap P' = Q \neq \emptyset$.\\
+ Da $P, P' \in \xi$, gilt dann aber $(P^c \cup P'^c)^c = Q \in \xi$.
+Damit ist $Q \in\xi$ und $Q \subseteq P$, jedoch $\emptyset \neq Q \neq P$. Widerspruch zur Definition von $\mathcal{P}$.
+
+\item $\Omega = \bigcup_{P \in \mathcal{P}} P $ \\
+Annahme: Es ex. ein $e \in \Omega$ mit $e \notin  \bigcup_{P \in \mathcal{P}} P$. \\
+Da aber $e \in \Omega$ ex. eine Menge $E \in \xi$, sodass $e  \in E$. Dann ex. ebenfalls eine inklusionsminimale Menge $Q \in \xi$, $Q \neq \emptyset$ mit $Q \subseteq E$.
+Es ist also $Q \in \mathcal{P}$. Widerspruch zur Annahme. \\
+\end{enumerate}
+ $\mbox{}$ \hfill $\square$
+
+
+\item \textbf{ICH GLAUB IN DER AUFGABE WIRD ETWAS STÄRKERES GEFORDERT}
+Sei $\mathcal{P}$ eine Partition von $\Omega$. Dann ist die Menge
+\begin{equation*}\xi := \{ \bigcup_{P \in \mathcal{P'}} P | \mathcal{P'} \subseteq \mathcal{P} \} \end{equation*}
+eine $\sigma$-Algebra auf $\Omega$. Denn
+
+\begin{enumerate}[(1)]
+\item $\emptyset, \Omega \in \xi$ \\
+Wähle $\mathcal{P'} := \emptyset$ (bzw. $\mathcal{P'} := \mathcal{P}$), dann ist $\bigcup_{P \in \emptyset} P = \emptyset \in \xi$ (bzw. $\bigcup_{P \in \mathcal{P}} P = \Omega \in \xi$).
+
+\item $E \in \xi \Rightarrow E^c \in \xi$ \\
+Sei $E \in \xi$. Dann ex. ein $\mathcal{P'} \subseteq \mathcal{P}$ mit $\bigcup_{P \in \mathcal{P'}} P = E$. Wähle $\overline{\mathcal{P}} := \mathcal{P} \setminus \mathcal{P'}$.\\
+Dann ist $\bigcup_{P \in \overline{\mathcal{P}}} P = \Omega \setminus E = E^c \in \xi$.
+
+\item $\left( E_\ell \right)_{\ell \in L} \subseteq \xi \Rightarrow \bigcup_{\ell \in L} E_\ell \in \xi$ \\
+Gilt nach Konstruktion.
+\end{enumerate}
+ $\mbox{}$ \hfill $\square$
+\end{enumerate}
+\end{enumerate}
+
+
+
+\subsection*{Aufgabe 2$^\dagger$}
+\begin{enumerate}[a)]
+\item Sei $\Omega$ die Menge aller abzählbar unendlichen Folgen von Würfen mit einem Würfel. Es ist $A_k := \set{\text{6 im $k$-ten Wurf}}$. Beschrieben
+Sie mit Worten das Ereignis $A = \cap_{n=1}^\infty \cup_{k=n}^\infty A_k$.
+
+\item Es sei $\Omega$ eine Menge, $\xi, \xi_1, \xi_2,\ldots$ $\sigma$-Algebren auf $\Omega$ mit $\xi_1 \subseteq \xi_2 \subseteq \ldots \subseteq \xi$.
+Z.z. $\cup_{n=1}^\infty \xi_n$ ist nicht notwendigerweise $\sigma$-Algebra.
+\end{enumerate}
+
+
+
+
+\subsection*{Aufgabe 3$^\curlywedgedownarrow$}
+Sei $\Prob$ ein Wahrscheinlichkeitsmaß auf $\mathbb{N}$. Zu zeigen: Für jedes $\varepsilon > 0 \; $ ex. eine Primzahl $p$ sodass $\Prob(\set{p,p+1,\ldots}) < \varepsilon$.
+
+\textbf{Beweis}: \\
+
+
+
+\subsection*{Aufgabe 4$^\dagger$}
+Zu zeigen: $\sigma(\mathcal{M}) = \sigma(\mathcal{O})$, wobei $\mathcal{M} = \set{[a, +\infty) | a \in \mathbb{Q}}$.
+
+
+
+\label{LastPage}
+\end{document}

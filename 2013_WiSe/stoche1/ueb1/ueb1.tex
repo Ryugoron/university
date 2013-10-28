@@ -60,7 +60,7 @@
 Sei $\Omega = \{1,2,3,4\}$. Geben Sie alle $\sigma$-Algebren über $\Omega$ an. \\
 
 \textbf{Lösung}: \\
-Es können alle $\sigma$-Algebren folgendermaßen erzeugt werden: Sei $\mathcal{P}$ eine Partition von $\Omega$. Dann ist $\set{\bigcup_i P_i|\set{P_1,P_2,\ldots} \subseteq \mathcal{P}}$ eine $\sigma$-Algebra auf $\Omega$. Dies können wir nun für alle Partitionen von $\Omega$ tun. Es bezeichnen $\xi^j_i$ die $\sigma$-Algebren über $\Omega$: \\
+Es können alle $\sigma$-Algebren folgendermaßen erzeugt werden: Sei $ \mathcal{P}$ eine Partition von $\Omega$. Dann ist $\set{\bigcup_{P \in  \mathcal{P}'} P|  \mathcal{P}' \subseteq  \mathcal{P}}$ eine $\sigma$-Algebra auf $\Omega$. Dies können wir nun für alle Partitionen von $\Omega$ tun. Es bezeichnen $\xi^j_i$ die $\sigma$-Algebren über $\Omega$: \\
 
 \emph{von 1-elementigen Partitionen}:
 \begin{enumerate}[$\xi^1_1 = $]
@@ -106,32 +106,48 @@ Es können alle $\sigma$-Algebren folgendermaßen erzeugt werden: Sei $\mathcal{
 \end{enumerate}
 
 \begin{lemma}
-Sei $\Omega$ eine endliche Menge. Dann existiert eine Bijektion zwischen der Menge $\Xi := \set{\xi | \xi \in \mathcal{P}(\Omega) \text{ ist $\sigma$-Algebra}}$ aller $\sigma$-Algebren über $\Omega$ und der Menge $\mathfrak{P}$  der Partitionen von $\Omega$.	
+Sei $\Omega$ eine endliche Menge. Dann existiert eine Bijektion zwischen der Menge $\Xi := \set{\xi \in \mathcal{P}(\Omega) | \xi \text{ ist $\sigma$-Algebra über } \Omega}$ aller $\sigma$-Algebren über $\Omega$ und der Menge $\mathfrak{P}$  der Partitionen von $\Omega$.	
 \end{lemma}
 
-\textbf{Beweis}: \\
-"$\Xi \to \mathfrak{P}$": \\
-Sei $\xi$ eine $\sigma$-Algebra auf $\Omega$. Dann ist 
-\begin{equation*}P = \{ E \in \xi \setminus \emptyset \; | \; C \subseteq E \Rightarrow C = \emptyset \lor C = E  \} \end{equation*}
-eine Partition von $\Omega$. Denn
+\textbf{Beweis}: 
+\begin{enumerate}[(i)]
+\item "$\Xi \to \mathfrak{P}$": \\
+Sei $\xi$ eine $\sigma$-Algebra auf $\Omega$. Dann ist die Menge $\mathcal{P}$ der Atome von $\xi$ mit
+\begin{equation*}\mathcal{P} = \{ E \in \xi \setminus \emptyset \; | \; C \in \xi \land C \subseteq E \Rightarrow C = \emptyset \lor C = E  \} \end{equation*}
+eine Partition von $\Omega$. Denn 
 
-....
-
-"$\mathfrak{P} \to \Xi$": \\
-Sei $P = \left\{ P_i \right\}_{i \in I} \in \mathfrak{P}$ eine Partition von $\Omega$ mit $I$ abzählbare Indexmenge. Dann ist die Menge
-\begin{equation*}\xi := \{ \bigcup_{j \in J} P_j | J \subseteq I \} \end{equation*}
-eine $\sigma$-Algebra auf $\Omega$. Denn\\
-
-(1) $\emptyset, \Omega \in \xi$ \\
-Wähle $J := \emptyset$ (bzw. $J := I$), dann ist $\bigcup_{j \in \emptyset} P_j = \emptyset \in \xi$ (bzw. $\bigcup_{j \in I} P_j = \Omega \in \xi$).
-
-(2) $E \in \xi \Rightarrow E^c \in \xi$ \\
-Sei $E \in \xi$. Dann ex. ein $J \subseteq I$ mit $\bigcup_{j \in J} P_j = E$. Wähle $J' := I \setminus J$.\\
-Dann ist $\bigcup_{j' \in J'} P_{j'} = \Omega \setminus E = E^c \in \xi$.
-
-(3) $\left( E_\ell \right)_{\ell \in L} \subseteq \xi \Rightarrow \bigcup_{\ell \in L} E_\ell \in \xi$ \\
+\begin{enumerate}[(1)]
+\item $\forall P \in \mathcal{P}: P \neq \emptyset$: \\
 Gilt nach Konstruktion.
 
+\item $\forall P \neq P' \in \mathcal{P}: P \cap P' = \emptyset$: \\
+Annahme: Seien $P \neq P' \in \mathcal{P}$ mit $P \cap P' = Q \neq \emptyset$.\\
+ Da $P, P' \in \xi$, gilt dann aber $(P^c \cup P'^c)^c = Q \in \xi$.
+Damit ist $Q \in\xi$ und $Q \subseteq P$, jedoch $\emptyset \neq Q \neq P$. Widerspruch zur Definition von $\mathcal{P}$.
+
+\item $\Omega = \bigcup_{P \in \mathcal{P}} P $ \\
+Annahme: Es ex. ein $e \in \Omega$ mit $e \notin  \bigcup_{P \in \mathcal{P}} P$. \\
+Da aber $e \in \Omega$ ex. eine Menge $E \in \xi$, sodass $e  \in E$. Dann ex. ebenfalls eine inklusionsminimale Menge $Q \in \xi$, $Q \neq \emptyset$ mit $Q \subseteq E$.
+Es ist also $Q \in \mathcal{P}$. Widerspruch zur Annahme. \\
+\end{enumerate}
+
+\item "$\mathfrak{P} \to \Xi$": \\
+Sei $\mathcal{P} \in \mathfrak{P}$ eine Partition von $\Omega$. Dann ist die Menge
+\begin{equation*}\xi := \{ \bigcup_{P \in \mathcal{P'}} P | \mathcal{P'} \subseteq \mathcal{P} \} \end{equation*}
+eine $\sigma$-Algebra auf $\Omega$. Denn
+
+\begin{enumerate}[(1)]
+\item $\emptyset, \Omega \in \xi$ \\
+Wähle $\mathcal{P'} := \emptyset$ (bzw. $\mathcal{P'} := \mathcal{P}$), dann ist $\bigcup_{P \in \emptyset} P = \emptyset \in \xi$ (bzw. $\bigcup_{P \in \mathcal{P}} P = \Omega \in \xi$).
+
+\item $E \in \xi \Rightarrow E^c \in \xi$ \\
+Sei $E \in \xi$. Dann ex. ein $\mathcal{P'} \subseteq \mathcal{P}$ mit $\bigcup_{P \in \mathcal{P'}} P = E$. Wähle $\overline{\mathcal{P}} := \mathcal{P} \setminus \mathcal{P'}$.\\
+Dann ist $\bigcup_{P \in \overline{\mathcal{P}}} P = \Omega \setminus E = E^c \in \xi$.
+
+\item $\left( E_\ell \right)_{\ell \in L} \subseteq \xi \Rightarrow \bigcup_{\ell \in L} E_\ell \in \xi$ \\
+Gilt nach Konstruktion.
+\end{enumerate}
+\end{enumerate}
 
  $\mbox{}$ \hfill $\square$
 
@@ -148,24 +164,29 @@ $\mbox{}$ \hfill $\square$
 
 \subsection*{Aufgabe 2$^\dagger$}
 Seien $\Omega$ eine Menge, $\xi$ eine $\sigma$-Algebra auf $\Omega$ und $\xi_C := \set{E \cap C | E \in \xi}$ für ein $C \subseteq \Omega$.
-Zu zeigen:
+
 \begin{enumerate}[(i)]
-\item $\xi_C$ ist eine $\sigma$-Algebra \\
-\textbf{Beweis}: $\xi_C$ ist $\sigma$-Algebra über $C$. \\
-(i) $\emptyset ,C \in \xi_C$ \\
-Da $\emptyset, \Omega \in \xi$ folgt $\emptyset \cap C = \emptyset \in \xi_C$ und $\Omega \cap C = C \in \xi_C$.\\
-(ii) $\forall E \in \xi_C: E^c \in \xi_C$ \\
+\item $\xi_C$ ist eine $\sigma$-Algebra  über $C$\\
+\textbf{Beweis}:
+\begin{enumerate}[(1)]
+\item $\emptyset ,C \in \xi_C$ \\
+Da $\emptyset, \Omega \in \xi$ folgt $\emptyset \cap C = \emptyset \in \xi_C$ und $\Omega \cap C = C \in \xi_C$.
+\item $\forall E \in \xi_C: E^c \in \xi_C$ \\
 Sei $E \in \xi_C$. Dann ex. ein $E' \in \xi$ s.d. $E = E' \cap C$. Dann gilt auch $E'^c \in \xi$ (Komplement von $E$ bzgl. $\Omega$) und damit für 
-$E^c$ (Komplement von $E$ bzgl. $C$) $E^c = E'^c \cap C \in \xi_C$, da $C \subseteq \Omega$. \\
-(iii) $\forall \left(E_i\right)_{i \in I} \subseteq \xi_C: \bigcup_{i \in I} {E_i} \in \xi_C$  \\
+$E^c$ (Komplement von $E$ bzgl. $C$) $E^c = E'^c \cap C \in \xi_C$, da $C \subseteq \Omega$. 
+\item $\forall \left(E_i\right)_{i \in I} \subseteq \xi_C: \bigcup_{i \in I} {E_i} \in \xi_C$  \\
 Sei $\left(E_i\right)_{i \in I} \subseteq \xi_C$ eine Folge von Ereignissen. Dann gibt es für jedes $E_i$ ein $E'_i \in \xi$ mit $E'_i \cap C = E_i$.
 Dann ist aber auch $\bigcup_{i \in I} E'_i \in \xi$ und damit $\left( \bigcup_{i \in I} E'_i \right) \cap C = \bigcup_{i \in I} \left( E'_i \cap C \right) = \bigcup_{i \in I} E_i \in \xi_C$
+\end{enumerate}
 $\mbox{}$ \hfill $\square$
+
 \item $C \in \xi \Rightarrow \xi_C = \set{E \in \xi | E \subseteq C} =: \xi'_C$ \\
-\textbf{Beweis}: Es gelte $C \in \xi$. \\
-"$\subseteq$": \\
-Sei $E \in \xi_C$. Dann ex. ein $E' \in \xi$ s.d. $E = E' \cap C$. \\
-(1) z.z. $E \in \xi$: Es gilt
+\textbf{Beweis}: Es gelte $C \in \xi$. 
+\begin{description}
+\item["$\subseteq$":] 
+Sei $E \in \xi_C$. Dann ex. ein $E' \in \xi$ s.d. $E = E' \cap C$. 
+\begin{enumerate}[(1)]
+\item $E \in \xi$: Es gilt
 \begin{equation}\begin{split}
 E^c &= \Omega \setminus E \\
 &= \Omega \setminus \left(E' \cap C \right) \\
@@ -174,17 +195,19 @@ E^c &= \Omega \setminus E \\
 \end{split}\end{equation}
 Da $C, E' \in \xi \Rightarrow C^c, E'^c \in \xi$ und damit auch $E'^c \cup C^c \in \xi$. Also ist $E^c \in \xi$ und damit auch $E \in \xi$.
 
-(2) z.z. $E \subseteq C$: Da $E = E' \cap C$ für ein $E' \in \xi$, gilt $E \subseteq C$.\\
+\item $E \subseteq C$: \\
+	Da $E = E' \cap C$ für ein $E' \in \xi$, gilt $E \subseteq C$.\\
 Also gilt $E \in \xi'_C$.
-
-"$\supseteq$": \\
+\end{enumerate}
+\item["$\supseteq$":] 
 Sei $E \in \xi'_C$. Dann gilt $E \in \xi$, $E \subseteq C$. Dann ist  $E \cap C = E \in \xi_C$.
+\end{description}
 $\mbox{}$ \hfill $\square$
 \end{enumerate}
 
 
 \subsection*{Aufgabe 3$^\curlywedgedownarrow$}
-Seien $\Prob_1, \Prob_2$ Wahrscheinlichkeitsmaße auf $(\Omega, \xi)$ und $\Prob: \xi \to \mathbb{R}$ definiert durch $\Prob(E) = \min \set{\Prob_1(E), \Prob_2(E)}$. Z.z. $\Prob$ ist ein Wahrscheinlichkeitsmaß genau dann, wenn $\Prob_1 = \Prob_2$.
+Seien $\Prob_1, \Prob_2$ Wahrscheinlichkeitsmaße auf $(\Omega, \xi)$ und $\Prob: \xi \to \mathbb{R}$ definiert durch $\Prob(E) = \min \set{\Prob_1(E), \Prob_2(E)}$. Z.z. $\Prob$ ist ein Wahrscheinlichkeitsmaß genau dann, wenn $\Prob_1 = \Prob_2$. \\
 
 \textbf{Beweis}: \\
 "$\Leftarrow$": \\
@@ -210,7 +233,6 @@ $\Prob_1(E) = \Prob_2(E)$ und damit $\Prob_1 = \Prob_2$.
 Gleichheit 2 in Gleichung (\ref{3}) gilt wegen $1 = \Prob(\Omega) = \Prob(E \dot{\cup} E^c) = \Prob(E) + \Prob(E^c)$.
 $\mbox{}$ \hfill $\square$
 \subsection*{Aufgabe 4$^\dagger$}
-
 Sei $\Omega$ eine Menge mit $\left| \Omega \right| \geq 2$ und sei $\mathcal{E} = \mathcal{P}\left( \Omega \right)$ die Potenzmenge von $\Omega$. Seien
 zwei verschiedene Elemente $x_0, y_0 \in \Omega$ fest gewählt. Weiter seien $a,b,c,d \in \mathbb{R}$ reele Zahlen. Definieren wir die Abbildung
 $$

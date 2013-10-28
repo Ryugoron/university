@@ -14,8 +14,6 @@
 \usepackage{xcolor}
 \usepackage{paralist}
 \usepackage{tabularx}
-\usepackage{tikz}
-\usetikzlibrary{arrows,automata}
 \usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
 \usepackage{fancyhdr}
 \pagestyle{fancy}
@@ -226,24 +224,7 @@ Damit haben wir ein Unabhängigkeitssystem und wir konstruieren ein Beispiel.\\
 
 Sei der Graph gegeben durch das Bild \ref{disk:ueb6:wc}.
 
-\begin{figure}[h!]
-    \centering
-    \frame{
-    \begin{tikzpicture}
-        [node distance=2cm]
-        \node [circle,draw=black,name=b]{$v_2$};
-        \node [circle,draw=black,name=a,left of=b] {$v_1$};
-        \node [circle,draw=black,name=c,right of=b] {$v_3$};
-        \node [circle,draw=black,name=d,right of=c] {$v_4$};
 
-        \path[-] (a) edge node[above] {$c_1$} (b)
-              (b) edge node[above] {$c_2$} (c)
-              (c) edge node[above] {$c_3$} (d);
-    \end{tikzpicture}
-    }
-    \caption{Worstcase für Aufgabe 4}
-    \label{disk:ueb6:wc}
-\end{figure}
 
 Wenn nun $c_1 < c_2$ und $c_1 < c_3$, dann wird vom Algorithmus immer zuerst $\overline{v_1v_2}$
 in die Lösung aufgenommen. Da dies keine Basis ist, wird die letzte mögliche Kante noch mitgenommen,
