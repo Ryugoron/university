@@ -167,7 +167,42 @@ Sei $\Prob$ ein Wahrscheinlichkeitsmaß auf $\mathbb{N}$. Zu zeigen: Für jedes 
 \subsection*{Aufgabe 4$^\dagger$}
 Zu zeigen: $\sigma(\mathcal{M}) = \sigma(\mathcal{O})$, wobei $\mathcal{M} = \set{[a, +\infty) | a \in \mathbb{Q}}$.
 
+\textbf{Beweis:}\\
 
+$\subseteq$:\\
+
+Sei $m = [ a, \infty) \in \mathcal{M}$. z.z. $m \in \sigma (\mathcal{O})$,
+da, falls alle Atome von $\mathcal{M}$ enthalten sind auch zwangsläufig die
+komplette $\sigma$-Algebra enthalten ist, da die $\sigma$-Algebra und vereinigung und komplement abgeschlossen ist.
+
+
+Sei $(a_i, \infty)$ mit $\lim_{n\rightarrow \infty} a_i = a$ und die $a_i$ fallen streng monoton gegen $a$ eine
+Folge von offenen Teilmengen in $\mathbb{R}$.\\
+Dann gilt $(a_k, \infty) \subset (a_{k+1}, \infty)$ für alle $k$.
+Demnach ist $\cup_{n=1}^\infty (a_n, \infty) = [a, \infty)$, nach üblichen
+Grenzwert regeln, da $a$ im Grenzwert enthalten ist und so die Menge in dieser
+Richtung abgeschlossen ist.
+
+$\supseteq$:\\
+
+Wir wissen, dass $\mathcal{O}$ von der unendlichen Vereinigung von 
+offenen Intervallen $(a,b)$ gebildet wird. Wir untersuchen also wiederum, ob
+$(a,b)$ in $\sigma(\mathcal{M})$ liegt und nach Abschlusseigenschaften muss
+somit die gesammte $\sigma$-Algebra enthalten sein.\\
+
+Sei $(a,b)$ ein offenes Intervall in $\mathbb{R}$. Zunächst sehen wir,
+dass wir aus $[x, \infty)$ mit $x \in \mathbb{Q}$ durch Komplementbildung in $\sigma$ $(\infty, x)$ erhalten können.
+Wir suchen uns also zwei Intervalle $(\infty, b)$ und $(a, \infty)$ mit $a,b \in \mathbb{R}$ und scheiden diese, so erhalten wir $(a,b)$. Beide vorgehen sind
+analog, wir zeigen also nur eins der beiden.
+
+
+Sei $[x_n, \infty)$ eine Folge von Intervallen mit $(x_n)_{n \in \mathbb{N}}$
+ist streng monoton fallend und $\lim_{n\rightarrow\infty} x_n = a$.
+
+Dann ist $\cup_{n=1}^\infty [x_n, \infty) = (a, \infty)$. Das Intervall wird
+offen und wir wissen, dass es für jede Zahl $a \in \mathbb{R}$ eine Cauchy-Folge in $\mathbb{Q}$ gibt, so dass der Grenzwert der Folge genau $a$ ist.
+
+\mbox{}\hfill$\square$
 
 \label{LastPage}
 \end{document}
