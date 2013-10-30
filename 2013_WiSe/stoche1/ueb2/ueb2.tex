@@ -67,11 +67,13 @@ Annahme: Seien $P \neq P' \in \xi$ Atome mit $P \cap P' = Q \neq \emptyset$.\\
 Damit ist $Q \in\xi$ und $Q \subseteq P,P'$, jedoch $\emptyset \neq Q \neq P,P' \Rightarrow P,P'$ keine Atome. Widerspruch!
  $\mbox{}$ \hfill $\square$
 
-\item 
-\begin{enumerate}[(1)]
-\item Sei $\Omega$ höchstens abzählbar. Sei $\xi$ eine $\sigma$-Algebra auf $\Omega$. Dann ist die Menge $\mathcal{P}$ der Atome von $\xi$ mit
+\item Sei $\Omega$ höchstens abzählbar. Dann ist die Menge $\mathcal{P}$ der Atome von $\xi$ mit
 \begin{equation*}\mathcal{P} = \{ E \in \xi \setminus \emptyset \; | \; C \in \xi \land C \subseteq E \Rightarrow C = \emptyset \lor C = E  \} \end{equation*}
-eine Partition von $\Omega$. Denn 
+\begin{enumerate}[(1)]
+
+
+
+\item Z.z. $\mathcal{P}$ ist eine Partition von $\Omega$.
 
 \begin{enumerate}[(1)]
 \item $\forall P \in \mathcal{P}: P \neq \emptyset$: \\
@@ -90,23 +92,30 @@ Es ist also $Q \in \mathcal{P}$. Widerspruch zur Annahme. \\
  $\mbox{}$ \hfill $\square$
 
 
-\item \textbf{ICH GLAUB IN DER AUFGABE WIRD ETWAS STÄRKERES GEFORDERT}
-Sei $\mathcal{P}$ eine Partition von $\Omega$. Dann ist die Menge
-\begin{equation*}\xi := \{ \bigcup_{P \in \mathcal{P'}} P | \mathcal{P'} \subseteq \mathcal{P} \} \end{equation*}
-eine $\sigma$-Algebra auf $\Omega$. Denn
+\item Z.z. es gilt
+\begin{equation*}\xi = \{ \bigcup_{P \in \mathcal{P'}} P | \mathcal{P'} \subseteq \mathcal{P} \} =: \xi' \end{equation*}
 
-\begin{enumerate}[(1)]
-\item $\emptyset, \Omega \in \xi$ \\
-Wähle $\mathcal{P'} := \emptyset$ (bzw. $\mathcal{P'} := \mathcal{P}$), dann ist $\bigcup_{P \in \emptyset} P = \emptyset \in \xi$ (bzw. $\bigcup_{P \in \mathcal{P}} P = \Omega \in \xi$).
+\begin{description}
+\item[$\subseteq$:] Sei $E \in \xi$. \\
+(1) $E$ ist Atom \\
+Also ist $E \in \mathcal{P}$ und damit $\set{E} \subseteq \mathcal{P}$. Also $E \in \xi'$.
 
-\item $E \in \xi \Rightarrow E^c \in \xi$ \\
-Sei $E \in \xi$. Dann ex. ein $\mathcal{P'} \subseteq \mathcal{P}$ mit $\bigcup_{P \in \mathcal{P'}} P = E$. Wähle $\overline{\mathcal{P}} := \mathcal{P} \setminus \mathcal{P'}$.\\
-Dann ist $\bigcup_{P \in \overline{\mathcal{P}}} P = \Omega \setminus E = E^c \in \xi$.
+(2) $E$ ist kein Atom. Dann gibt es ein $P_1 \in \mathcal{P}$, s.d. $P_1 \cup (E \setminus P_1) = E$. Da $E \setminus P_1 \subsetneq E$ können wir nach Induktion $E \setminus P_1$ als Vereinigung von Atomen $P_2,P_3,\ldots$ darstellen. Es ist also $E = \bigcup_{i = 1,2,\ldots}P_i$ und damit $E \in \xi'$.
+\item[$\supseteq$:] Nach Konstruktion. $\mbox{}$ \hfill $\square$
+\end{description}
 
-\item $\left( E_\ell \right)_{\ell \in L} \subseteq \xi \Rightarrow \bigcup_{\ell \in L} E_\ell \in \xi$ \\
-Gilt nach Konstruktion.
-\end{enumerate}
- $\mbox{}$ \hfill $\square$
+%\begin{enumerate}[(1)]
+%\item $\emptyset, \Omega \in \xi$ \\
+%Wähle $\mathcal{P'} := \emptyset$ (bzw. $\mathcal{P'} := \mathcal{P}$), dann ist $\bigcup_{P \in \emptyset} P = \emptyset \in \xi$ (bzw. $\bigcup_{P \in \mathcal{P}} P = \Omega \in \xi$).
+%
+%\item $E \in \xi \Rightarrow E^c \in \xi$ \\
+%Sei $E \in \xi$. Dann ex. ein $\mathcal{P'} \subseteq \mathcal{P}$ mit $\bigcup_{P \in \mathcal{P'}} P = E$. Wähle $\overline{\mathcal{P}} := \mathcal{P} \setminus \mathcal{P'}$.\\
+%Dann ist $\bigcup_{P \in \overline{\mathcal{P}}} P = \Omega \setminus E = E^c \in \xi$.
+%
+%\item $\left( E_\ell \right)_{\ell \in L} \subseteq \xi \Rightarrow \bigcup_{\ell \in L} E_\ell \in \xi$ \\
+%Gilt nach Konstruktion.
+%\end{enumerate}
+% $\mbox{}$ \hfill $\square$
 \end{enumerate}
 \end{enumerate}
 
@@ -142,7 +151,7 @@ Z.z. $\cup_{n=1}^\infty \xi_n$ ist nicht notwendigerweise $\sigma$-Algebra.\\
 Sei $\xi_n = \sigma \{ \{1\} , ... , \{n\}\}$ und $\xi = \subset{n\rightarrow \infty}{\lim} \xi_n$.
 Dann ist $\xi_1 \subseteq \xi_2 \subseteq ... \subseteq \xi$.
 
-Nun gilt, dass wir mit $\subset{n\rightarrow\infty}{\lim}\cup_{k=1}^n \xi_k$
+Nun gilt, dass wir mit $\underset{n\rightarrow\infty}{\lim}\cup_{k=1}^n \xi_k$
 niemals die Menge $\{2k \, | \, k \in mathbb{N}\}$ erzeugen können.
 Da wir in jedem $\xi_n$ nur die endlichen Vereinigungen der ersten $n$ Zahlen
 zur Verfügung haben und die unendlichen kompletemente $\mathbb{N} \ \{x\}$ für alle $x \leq n$, kann kein $\xi_k$ jemals die Menge der geraden Zahlen enthalten.
@@ -151,20 +160,24 @@ Da aber $\cup_{n=1}^\infty \xi_n$ alle Atome $\{k\}$ für $k\in \mathbb{N}$
 enthält, müsste auch die unendliche Vereinigung $\{2k \, | \, k \in \mathbb{N}\}$ in der $\sigma$-Algebra liegen.
 
 Demnach kann $\cup_{n=1}^\infty \xi_n$ keine $\sigma$-Algebra sein.
+ $\mbox{}$ \hfill $\square$
 
 \end{enumerate}
 
 
 
-
-\subsection*{Aufgabe 3$^\curlywedgedownarrow$}
+\subsection*{Aufgabe 3$^\dagger$}
 Sei $\Prob$ ein Wahrscheinlichkeitsmaß auf $\mathbb{N}$. Zu zeigen: Für jedes $\varepsilon > 0 \; $ ex. eine Primzahl $p$ sodass $\Prob(\set{p,p+1,\ldots}) < \varepsilon$.
 
 \textbf{Beweis}: \\
+Es bezeichne $p_i$ die $i$-te Primzahl (in natürlicher Ordnung). Sei $E_i := \mathbb{N} \setminus \set{1,2,\ldots,p_i}$. \\
+Sei weiterhin $\varepsilon > 0$. Es gilt offensichtlich $E_1 \supset E_2 \supset E_3 \supset \ldots$ und es gilt
+$\lim_{i \to \infty} \Prob(E_i) = 0$. Dann ex. nach Stetigkeit von $\Prob$ (und weil es unendlich viele Primzahlen gibt) ein $i$, sodass $\forall j \geq i: \Prob(E_j) < \varepsilon$.
+Dann ist $\Prob(\set{p_i,p_i+1,\ldots}) <\varepsilon$. $\mbox{}$ \hfill $\square$
 
 
 
-\subsection*{Aufgabe 4$^\dagger$}
+\subsection*{Aufgabe 4$^\curlywedgedownarrow$}
 Zu zeigen: $\sigma(\mathcal{M}) = \sigma(\mathcal{O})$, wobei $\mathcal{M} = \set{[a, +\infty) | a \in \mathbb{Q}}$.
 
 \textbf{Beweis:}\\
