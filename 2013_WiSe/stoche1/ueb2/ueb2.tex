@@ -115,10 +115,43 @@ Gilt nach Konstruktion.
 \subsection*{Aufgabe 2$^\dagger$}
 \begin{enumerate}[a)]
 \item Sei $\Omega$ die Menge aller abzählbar unendlichen Folgen von Würfen mit einem Würfel. Es ist $A_k := \set{\text{6 im $k$-ten Wurf}}$. Beschrieben
-Sie mit Worten das Ereignis $A = \cap_{n=1}^\infty \cup_{k=n}^\infty A_k$.
+Sie mit Worten das Ereignis $A = \cap_{n=1}^\infty \cup_{k=n}^\infty A_k$.\\
+
+\textbf{Lösung:}\\
+
+Die innere Vereinigung nimmt alle Ereignisse, bei denen ab dem $k=n$ten
+Schritt irgendwann einmal eine $6$ gewürfelt wird.
+
+Schneiden wir nur bis zu einer Obergrenze $n'$ so würden wir auf jedenfall
+die Ereigniss behaten, die in Wurf $n'$ eine $6$ haben. Nun schieben
+wir das $n' \rightarrow \infty$. Schieben wir allerdings auch die $6$ einzig und
+allein so weit hinaus, sehen wir sie niemals.
+
+Die einzige möglichkeit um alle der inneren Mengen zu befriedigen, ist
+es für jeden Wurf $k$ muss es irgendwann in endlicher Zukunft eine $6$ geben.
+Dann ist dieses $k$ auf jedenfall für den Schnitt befriedigt. Sind wir bei $k'$ nach der $6$ muss es wieder in endlicher Zukunft eine $6$ geben, usw.
+
+Somit lässt sich $A$ als die Menge aller Folge von Würfen beschreiben, bei denen
+unendlich oft eine $6$ geworfen wird.
 
 \item Es sei $\Omega$ eine Menge, $\xi, \xi_1, \xi_2,\ldots$ $\sigma$-Algebren auf $\Omega$ mit $\xi_1 \subseteq \xi_2 \subseteq \ldots \subseteq \xi$.
-Z.z. $\cup_{n=1}^\infty \xi_n$ ist nicht notwendigerweise $\sigma$-Algebra.
+Z.z. $\cup_{n=1}^\infty \xi_n$ ist nicht notwendigerweise $\sigma$-Algebra.\\
+
+\textbf{Beweis:}\\
+
+Sei $\xi_n = \sigma \{ \{1\} , ... , \{n\}\}$ und $\xi = \subset{n\rightarrow \infty}{\lim} \xi_n$.
+Dann ist $\xi_1 \subseteq \xi_2 \subseteq ... \subseteq \xi$.
+
+Nun gilt, dass wir mit $\subset{n\rightarrow\infty}{\lim}\cup_{k=1}^n \xi_k$
+niemals die Menge $\{2k \, | \, k \in mathbb{N}\}$ erzeugen können.
+Da wir in jedem $\xi_n$ nur die endlichen Vereinigungen der ersten $n$ Zahlen
+zur Verfügung haben und die unendlichen kompletemente $\mathbb{N} \ \{x\}$ für alle $x \leq n$, kann kein $\xi_k$ jemals die Menge der geraden Zahlen enthalten.
+
+Da aber $\cup_{n=1}^\infty \xi_n$ alle Atome $\{k\}$ für $k\in \mathbb{N}$ 
+enthält, müsste auch die unendliche Vereinigung $\{2k \, | \, k \in \mathbb{N}\}$ in der $\sigma$-Algebra liegen.
+
+Demnach kann $\cup_{n=1}^\infty \xi_n$ keine $\sigma$-Algebra sein.
+
 \end{enumerate}
 
 
