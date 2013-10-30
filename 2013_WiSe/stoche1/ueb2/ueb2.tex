@@ -192,15 +192,16 @@ somit die gesammte $\sigma$-Algebra enthalten sein.\\
 
 Sei $(a,b)$ ein offenes Intervall in $\mathbb{R}$. Zunächst sehen wir,
 dass wir aus $[x, \infty)$ mit $x \in \mathbb{Q}$ durch Komplementbildung in $\sigma$ $(\infty, x)$ erhalten können.
-Wir suchen uns also zwei Intervalle $(\infty, b)$ und $(a, \infty)$ mit $a,b \in \mathbb{R}$ und scheiden diese, so erhalten wir $(a,b)$. Beide vorgehen sind
+Wir suchen uns also zwei Intervalle $(-\infty, b)$ und $(a, \infty)$ mit $a,b \in \mathbb{R}$ und scheiden diese, so erhalten wir $(a,b)$. Beide vorgehen sind
 analog, wir zeigen also nur eins der beiden.
 
 
 Sei $[x_n, \infty)$ eine Folge von Intervallen mit $(x_n)_{n \in \mathbb{N}}$
-ist streng monoton fallend und $\lim_{n\rightarrow\infty} x_n = a$.
+ist streng monoton fallend und $\lim_{n\rightarrow\infty} x_n = b$.
 
-Dann ist $\cup_{n=1}^\infty [x_n, \infty) = (a, \infty)$. Das Intervall wird
-offen und wir wissen, dass es für jede Zahl $a \in \mathbb{R}$ eine Cauchy-Folge in $\mathbb{Q}$ gibt, so dass der Grenzwert der Folge genau $a$ ist.
+Dann ist $\cup_{n=1}^\infty [x_n, \infty) = [b, \infty)$. Das Intervall wird
+offen und wir wissen, dass es für jede Zahl $a \in \mathbb{R}$ eine Cauchy-Folge in $\mathbb{Q}$ gibt, so dass der Grenzwert der Folge genau $b$ ist.
+Damit ist $[b, \infty)^c = (-\infty, b)$ und somit das eine Interval, das wir erhalten wollten.
 
 \mbox{}\hfill$\square$
 
