@@ -1,0 +1,104 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm]{geometry} 
+\usepackage[ngerman]{babel}
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc} 
+\usepackage{ae} 
+\usepackage{amssymb} 
+\usepackage{amsmath}
+\usepackage{amsthm} 
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{stmaryrd}
+\usepackage{paralist}
+
+\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[C]{Stochastik I}
+\fancyhead[L]{Übung 3}
+\fancyhead[R]{WiSe 2013/14}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage \hspace{1px} of \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\newcommand{\set}[1]{ \{ #1 \}}
+\newcommand{\Prob}{\mathbb{P}}
+\setlength{\parindent}{0pt} 
+\setlength{\headheight}{0pt}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\Pot}{\mathcal{P}}
+\newcommand{\abs}[1]{ |#1|}
+\newcommand{\solved}{$\mbox{}$ \hfill $\square$}
+
+\newcommand{\maxw}{$^\curlywedgedownarrow$}
+\newcommand{\alex}{$^\dagger$}
+\newcommand{\marcel}{$^\diamondsuit$}
+
+\date{}
+\title{Übung 3}
+\author{Max Wisniewski\maxw, Alexander Steen\alex, Marcel Ehrhardt\marcel}
+
+
+%%
+%% Enviroments for proofs and lemmas
+%%
+\newtheorem{prop}{\bfseries Behauptung}
+\newtheorem{lemma}{\bfseries Lemma}
+
+\begin{document}
+
+\lstset{language=Pascal, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2, mathescape=true}
+
+\renewcommand{\figurename}{Figure}
+
+\maketitle
+\thispagestyle{fancy}
+
+\begin{center}
+\textbf{Hinweis}: Die Angabe, wer welche Aufgabe in \LaTeX formuliert hat, ist als hochgestellter Symbol der Aufgabenüberschrift zu entnehmen.
+\end{center}
+
+
+\subsection*{Aufgabe 1}
+Gegeben ist ein fairer W"urfel mit 6 Seiten. Wie wahrscheinlich ist es dass nie eine
+6 vorkommt wenn wir k-mal werfen bzw. abz"ahlbar oft werfen? Vergessen Sie nicht
+Ihre Antwort zu begr"unden (wie immer)!
+
+\subsection*{Aufgabe 2}
+Es seien $A, B \in E$ zwei Ereignisse mit $\Prob(A) = \dfrac{3}{5}$ und $\Prob(B) = \dfrac{1}{2}.$
+
+\begin{enumerate}[(i)]
+  \item Zeigen Sie, dass \[\dfrac{1}{10} \le \Prob(A \cap B) \le \dfrac{1}{2}\]
+  \item Finden Sie Beispiele, in denen die Schranken, angenommen werden.
+  \item Finden und beweisen Sie analoge Schranken f"ur $\Prob(A \cup B)$.
+\end{enumerate}
+
+\subsection*{Aufgabe 3}
+
+\newcommand{\SetM}{M_{3,4}}
+
+Gegeben sei eine beliebige Menge $\Omega$. Sei \[
+  \SetM := \set{E \in \Pot(\Omega)\ :\ \abs{E} = 3 \mbox{ oder } \abs{E} = 4}.
+\]
+Beschreiben Sie die von $\SetM$ erzeugte $\sigma$-Algebra.
+
+\subsection*{Aufgabe 4}
+
+Zeigen Sie nur unter Benutzung der Definition von Borelmengen, dass die folgenden
+Teilmengen von $\R$ Borelmengen sind (Bereits bewiesene Ergebnisse "uber
+$\sigma$-Algebren d"urfen dabei benutzt werden):
+
+\begin{enumerate}[(i)]
+  \item die Menge der positiven rationalen Zahlen, deren Wurzel kleiner als $3$ ist.
+  \item $(-2, 8] \setminus \Q.$
+\end{enumerate}
+
+\label{LastPage}
+\end{document}
