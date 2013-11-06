@@ -89,7 +89,53 @@ Es seien $A, B \in E$ zwei Ereignisse mit $\Prob(A) = \dfrac{3}{5}$ und $\Prob(B
 Gegeben sei eine beliebige Menge $\Omega$. Sei \[
   \SetM := \set{E \in \Pot(\Omega)\ :\ \abs{E} = 3 \mbox{ oder } \abs{E} = 4}.
 \]
-Beschreiben Sie die von $\SetM$ erzeugte $\sigma$-Algebra.
+Beschreiben Sie die von $\SetM$ erzeugte $\sigma$-Algebra.\\
+
+\textbf{Beweis}:
+
+\begin{itemize}
+  \item[Fall 1:] $\abs{\Omega} \le 2$.
+
+    Dann ist $\SetM = \emptyset$, wodurch $\sigma(\SetM) = \set{\emptyset,
+    \Omega}$
+
+  \item[Fall 2:] $\abs{\Omega} = 3$.
+
+    Dann ist $\SetM = \set{\Omega}$, wodurch $\sigma(\SetM) = \set{\emptyset,
+    \Omega}$
+
+  \item[Fall 3:] $\abs{\Omega} \ge 4$ und $\Omega$ ist abz"ahlbar (unendlich).
+
+    Dann ist $\sigma(\SetM) = \Pot(\Omega)$.
+
+    \begin{itemize}
+      \item Dazu zeige $x \in \Omega \Rightarrow \set x \in \sigma(\SetM)$. \\
+
+        Seien $A = \set{x, y, z} \subseteq \Omega$ und $B = \set{x', y, z}
+        \subseteq \Omega$ mit $x,x',y,z$ paarweise verschieden (das geht, da
+        $\abs{\Omega} \ge 4$).
+
+        Da $\abs{A} = \abs{B} = 3$, ist $A,B \in \sigma(\SetM)$, wodurch auch
+        $\set x = A\setminus B \in \sigma(\SetM)$.
+
+      \item Zeige $\sigma(\SetM) = \Pot(\Omega)$. \\
+
+        Die Richtung ``$\subseteq$'' ist offensichtlich.
+
+        Sei $X \in \Pot(\Omega)$, dann ist $X$ abz"ahlbar, weil $\Omega$
+        abz"ahlbar ist. Schreibe $X$ als $X = \set{x_1, \ldots} \subseteq
+        \Omega$, dann ist \[
+          \bigcup_{i\in\N} \set{x_i} = X,
+        \]
+        wodurch $X \in \sigma(\SetM)$.
+
+    \end{itemize}
+
+  \item[Fall 4:] $\Omega$ ist "uberabz"ahlbar.
+
+    TODO!!
+
+\end{itemize}
 
 \subsection*{Aufgabe 4\marcel}
 
