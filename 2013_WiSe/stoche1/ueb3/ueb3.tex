@@ -35,6 +35,7 @@
 \newcommand{\Q}{\mathbb{Q}}
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\bigO}{\mathcal{O}}
+\newcommand{\Rarr}{\Rightarrow}
 \newcommand{\Pot}{\mathcal{P}}
 \newcommand{\abs}[1]{ |#1|}
 \newcommand{\solved}{$\mbox{}$ \hfill $\square$}
@@ -74,12 +75,82 @@ Gegeben ist ein fairer W"urfel mit 6 Seiten. Wie wahrscheinlich ist es dass nie 
 Ihre Antwort zu begr"unden (wie immer)!
 
 \subsection*{Aufgabe 2}
-Es seien $A, B \in E$ zwei Ereignisse mit $\Prob(A) = \dfrac{3}{5}$ und $\Prob(B) = \dfrac{1}{2}.$
+Es seien $A, B \in E$ zwei Ereignisse mit $\Prob(A) = \dfrac{3}{5}$ und
+$\Prob(B) = \dfrac{1}{2}.$
 
 \begin{enumerate}[(i)]
-  \item Zeigen Sie, dass \[\dfrac{1}{10} \le \Prob(A \cap B) \le \dfrac{1}{2}\]
+  \item Zeigen Sie, dass \[
+      \dfrac{1}{10} \le \Prob(A \cap B) \le \dfrac{1}{2}
+    \]
+
+    \textbf{Beweis}:
+
+    Aus $A \cap B \subseteq A$ folgt $\Prob(A \cap B) \le \Prob(A)$, sowie aus
+    $A \cap B \subseteq B$ folgt $\Prob(A \cap B) \le \Prob(B)$. Somit ist \[
+      \Prob(A \cap B) \le \min\set{\Prob(A), \Prob(B)} = \dfrac{1}{2}.
+    \]
+
+    Wir Wissen, dass $\Prob(A\cup B) = \Prob(A) + \Prob(B) - \Prob(A\cap B)$ ist.\\
+    Also auch $\Prob(A\cap B) = \Prob(A) + \Prob(B) - \Prob(A\cup B)$.
+    \[
+      \Prob(A\cap B) = \dfrac{11}{10} - \Prob(A\cup B) \ge 0
+    \]
+
+    $\Prob(A\cup B) = 1$ ist der gr"o"ste Wert den $\Prob(A\cup B)$ annehmen
+    kann. Demzufolge ist $\Prob(A\cap B) = \frac{1}{10}$ der kleinst m"ogliche
+    Wert.
+
   \item Finden Sie Beispiele, in denen die Schranken, angenommen werden.
+
+    \textbf{Beispiele}:
+
+    $\Omega = \set{1,2,\ldots,10}$ mit $\Prob(\set i) = \frac{1}{10}$.
+
+    F"ur die untere Grenze sei $A = \set{1,\ldots,6}$ und
+    $B = \set{6, \ldots 10}$. \[
+      \Prob(A) = \dfrac{3}{5} \\ \qquad\qquad
+      \Prob(B) = \dfrac{1}{2} \\ \qquad\qquad
+      \Prob(A\cap B) = \Prob(\set 6) = \dfrac{1}{10}.
+    \]
+
+    F"ur die obere Grenze sei $A = \set{1,\ldots,6}$ und
+    $B = \set{1,\ldots, 5}$. \[
+      \Prob(A) = \dfrac{3}{5} \\ \qquad\qquad
+      \Prob(B) = \dfrac{1}{2} \\ \qquad\qquad
+      \Prob(A\cap B) = \Prob(\set{1,\ldots,5}) = \dfrac{1}{2}.
+    \]
+
   \item Finden und beweisen Sie analoge Schranken f"ur $\Prob(A \cup B)$.
+
+    Es gilt \[
+      \dfrac{3}{5} \le \Prob(A \cup B) \le 1
+    \]
+
+    \textbf{Beweis}:
+
+    Da nicht ausgeschlossen werden kann, dass $A \cup B = \Omega$ gilt. Kann
+    $\Prob(A\cup B) = 1$ sein.
+
+    Aus $A \subseteq A\cup B$ folgt $\Prob(A) \le \Prob(A\cup B)$ und aus
+    $B \subseteq A\cup B$ folgt $\Prob(B) \le \Prob(A\cup B)$, wodurch \[
+      \dfrac{3}{5} = \max\set{\Prob(A), \Prob(B)} \le \Prob(A\cup B).
+    \]
+
+    \textbf{Beispiele}:
+
+    F"ur die obere Grenze sei $A = \set{1,\ldots,6}$ und
+    $B = \set{6, \ldots 10}$. \[
+      \Prob(A) = \dfrac{3}{5} \\ \qquad\qquad
+      \Prob(B) = \dfrac{1}{2} \\ \qquad\qquad
+      \Prob(A\cup B) = \Prob(\Omega) = 1.
+    \]
+
+    F"ur die untere Grenze sei $A = \set{1,\ldots,6}$ und
+    $B = \set{1,\ldots, 5}$. \[
+      \Prob(A) = \dfrac{3}{5} \\ \qquad\qquad
+      \Prob(B) = \dfrac{1}{2} \\ \qquad\qquad
+      \Prob(A\cup B) = \Prob(\set{1,\ldots,6}) = \dfrac{3}{5}.
+    \]
 \end{enumerate}
 
 \subsection*{Aufgabe 3}
@@ -109,7 +180,7 @@ Beschreiben Sie die von $\SetM$ erzeugte $\sigma$-Algebra.\\
     Dann ist $\sigma(\SetM) = \Pot(\Omega)$.
 
     \begin{itemize}
-      \item Dazu zeige $x \in \Omega \Rightarrow \set x \in \sigma(\SetM)$. \\
+      \item Dazu zeige $x \in \Omega \Rarr \set x \in \sigma(\SetM)$. \\
 
         Seien $A = \set{x, y, z} \subseteq \Omega$ und $B = \set{x', y, z}
         \subseteq \Omega$ mit $x,x',y,z$ paarweise verschieden (das geht, da
