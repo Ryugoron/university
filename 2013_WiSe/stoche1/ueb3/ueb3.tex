@@ -1,12 +1,12 @@
 \documentclass[11pt,a4paper,ngerman]{article}
-\usepackage[bottom=2.5cm,top=2.5cm]{geometry} 
+\usepackage[bottom=2.5cm,top=2.5cm]{geometry}
 \usepackage[ngerman]{babel}
-\usepackage[utf8]{inputenc} 
-\usepackage[T1]{fontenc} 
-\usepackage{ae} 
-\usepackage{amssymb} 
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{ae}
+\usepackage{amssymb}
 \usepackage{amsmath}
-\usepackage{amsthm} 
+\usepackage{amsthm}
 \usepackage{graphicx}
 \usepackage{fancyhdr}
 \usepackage{fancyref}
@@ -28,11 +28,13 @@
 \renewcommand{\headrulewidth}{0.5pt}
 \newcommand{\set}[1]{ \{ #1 \}}
 \newcommand{\Prob}{\mathbb{P}}
-\setlength{\parindent}{0pt} 
+\setlength{\parindent}{0pt}
 \setlength{\headheight}{0pt}
 
-\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
 \newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\bigO}{\mathcal{O}}
 \newcommand{\Pot}{\mathcal{P}}
 \newcommand{\abs}[1]{ |#1|}
 \newcommand{\solved}{$\mbox{}$ \hfill $\square$}
@@ -89,15 +91,49 @@ Gegeben sei eine beliebige Menge $\Omega$. Sei \[
 \]
 Beschreiben Sie die von $\SetM$ erzeugte $\sigma$-Algebra.
 
-\subsection*{Aufgabe 4}
+\subsection*{Aufgabe 4\marcel}
 
 Zeigen Sie nur unter Benutzung der Definition von Borelmengen, dass die folgenden
 Teilmengen von $\R$ Borelmengen sind (Bereits bewiesene Ergebnisse "uber
 $\sigma$-Algebren d"urfen dabei benutzt werden):
 
 \begin{enumerate}[(i)]
-  \item die Menge der positiven rationalen Zahlen, deren Wurzel kleiner als $3$ ist.
-  \item $(-2, 8] \setminus \Q.$
+  \item die Menge der positiven rationalen Zahlen, deren Wurzel kleiner als $3$
+    ist.\\
+
+    \textbf{Beweis}:
+
+    Die in der Aufgabe beschriebene Menge l"asst sich wie folgt ausdr"ucken: \[
+      \set{x \in \Q\ :\ 0 \le \sqrt x < 3} =
+      \set{x \in \R\ :\ 0 \le x < 3 ^ 2, x \in \Q} = [0, 3^2) \cap \Q.
+    \]
+
+    Betrachte $[0, 3^2) = \set{0} \cup (0, 3^2)$, wobei $(0, 3^2)$ eine
+    Borelmenge ist, da sie offen ist. Somit ist nur z.z., dass jede ein-
+    elementige Menge und $\Q$ Borelmengen sind. \\
+
+    Wir wissen, dass alle Mengen in der $\sigma$-Algebra $\sigma(\bigO)$ als
+    Borelmengen bezeichnet werden. Da die Komplemente von offenen Mengen
+    abgeschlossen sind, sind abgeschlossene Mengen Borelmengen. Insbesondere ist
+    jede ein-elementige Menge abgeschlossen und somit eine Borelmenge.
+
+    Seien $q_1, q_2, \ldots$ alle Elemente aus $\Q$ (ist abz"ahlbar).
+    Damit ist \[
+      \Q = \bigcup_{i\in\N} \set{q_i}
+    \]
+    eine abz"ahlbar unendliche Vereinigung von ein-elementigen Mengen, welche
+    wie oben gezeigt Borelmengen sind, wodurch auf Grund der Eigenschaft von
+    $\sigma$-Algebren auch $\Q$ eine Borelmenge ist.
+
+  \item $(-2, 8] \setminus \Q.$\\
+
+    \textbf{Beweis}:
+
+    Es ist $(-2, 8] = (-2, 8) \cup \set 8$ eine Borelmenge, da $(-2, 8)$ und
+    $\set 8$ welche sind. Damit ist auch $(-2, 8] \setminus \Q$ eine Borelmenge,
+    da in $\sigma$-Algebren relative Komplemente nicht aus der $\sigma$-Algebra
+    herausf"uhren.
+
 \end{enumerate}
 
 \label{LastPage}
