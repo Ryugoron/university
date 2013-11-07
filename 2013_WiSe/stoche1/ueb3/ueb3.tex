@@ -1,6 +1,6 @@
 \documentclass[11pt,a4paper,ngerman]{article}
 \usepackage[bottom=2.5cm,top=2.5cm]{geometry}
-%\usepackage[ngerman]{babel}
+\usepackage[ngerman]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{ae}
@@ -69,7 +69,7 @@
 \end{center}
 
 
-\subsection*{Aufgabe 1}
+\subsection*{Aufgabe 1\alex}
 Gegeben ist ein fairer W"urfel mit 6 Seiten. Wie wahrscheinlich ist es dass nie eine
 6 vorkommt wenn wir k-mal werfen bzw. abz"ahlbar oft werfen? Vergessen Sie nicht
 Ihre Antwort zu begr"unden (wie immer)!  \\
@@ -88,9 +88,11 @@ Dann gilt für das Ereignis "keine 6 in $k$ Würfen":\\
 $\Prob(\text{keine 6 in $k$ Würfen}) = \Prob(\bigcup_{i=1}^k 6_i^c)
 = \prod_{i=1}^k \Prob(6_i^c) = \left(\frac{5}{6}\right)^k$.
 
-ist mir abzählbarer fall limes davon gemeint?
+Für den abzählbaren Fall erhalten wir \\
+$\Prob(\bigcup_{i=1}^\infty 6_i^c) = \lim_{k\to \infty} \Prob(\bigcup_{i=1}^k 6_i^c)
+= \lim_{k\to \infty} \left(\frac{5}{6}\right)^k = 0$.
 
-\subsection*{Aufgabe 2} 
+\subsection*{Aufgabe 2\maxw} 
 Es seien $A, B \in E$ zwei Ereignisse mit $\Prob(A) = \dfrac{3}{5}$ und
 $\Prob(B) = \dfrac{1}{2}.$
 
@@ -169,7 +171,7 @@ $\Prob(B) = \dfrac{1}{2}.$
     \]
 \end{enumerate}
 
-\subsection*{Aufgabe 3}
+\subsection*{Aufgabe 3\marcel}
 
 \newcommand{\SetM}{M_{3,4}}
 
