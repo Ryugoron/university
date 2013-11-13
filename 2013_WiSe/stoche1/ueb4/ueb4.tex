@@ -69,7 +69,7 @@
 \end{center}
 
 
-\subsection*{Aufgabe 1}
+\subsection*{Aufgabe 1\marcel}
 Es ist $\Prob(\text{6 wird gewürfelt}) = \frac{1}{3}$ und $\Prob(\text{$i$ wird gewürfelt}) = \frac{2}{15}$ für $i = 1,2,3,4,5$. Es sei $\Omega = \set{1,2,3,4,5,6}^2$ die Menge der Ereignisse. Gesucht sind die Wahrscheinlichkeiten für
 
 \begin{enumerate}[i)]
@@ -106,8 +106,32 @@ $\Prob(\set{x}) = \frac{2}{45}$, für $x \in \set{(1,6), (6,1)}$ und es gilt
 \end{split}\end{equation*}
 
 \end{enumerate}
-\subsection*{Aufgabe 2}
-\subsection*{Aufgabe 3}
+\subsection*{Aufgabe 2\alex}
+Z.z. Für $\lambda > 0$ gilt $\Prob_\lambda(\set{2k | k \in \mathbb{N}_0}) > \Prob_\lambda(\set{2k+1 | k \in \mathbb{N}_0})$ \\
+\textbf{Beweis}: \\
+Es ist $\Prob_\lambda(\set{2k | k \in \mathbb{N}_0}) = e^{-\lambda}\sum_{k = 0}^\infty \frac{\lambda^{2k}}{(2k)!}$ und $\Prob_\lambda(\set{2k+1 | k \in \mathbb{N}_0}) = e^{-\lambda}\sum_{k = 0}^\infty \frac{\lambda^{2k+1}}{(2k+1)!}$.
+Also reicht es zu zeigen, dass $\sum_{k = 0}^\infty \frac{\lambda^{2k}}{(2k)!} > \sum_{k = 0}^\infty \frac{\lambda^{2k+1}}{(2k+1)!}$.
+
+Es gilt
+
+\begin{equation*}
+ e^\lambda + e^{-\lambda} \stackrel{Def.}{=} \sum_{k=0}^\infty \frac{\lambda^k}{k!} + \sum_{k=0}^\infty \frac{(-\lambda)^k}{k!}
+\stackrel{(*)}{=} 2\cdot\sum_{k=0}^\infty \frac{\lambda^{2k}}{(2k)!}
+\end{equation*}
+\begin{equation*}
+e^\lambda - e^{-\lambda}  \stackrel{Def.}{=}   \sum_{k=0}^\infty \frac{\lambda^k}{k!} - \sum_{k=0}^\infty \frac{(-\lambda)^k}{k!} 
+\stackrel{(**)}{=} 2\cdot\sum_{k=0}^\infty \frac{\lambda^{2k+1}}{(2k+1)!}
+\end{equation*}
+
+und da $e^\lambda + e^{-\lambda} > e^\lambda - e^{-\lambda}$ die Behauptung. \\
+(*) bzw. (**) gilt, da in jedem zweiten Schritt sich je zwei Summanden auslöschen (gerade $k$, bzw. ungerade $k$) bzw. addieren (ungerade $k$, bzw. gerade $k$).
+\mbox{} \hfill $\square$
+
+Es sei weiter $p_\lambda := \sum_{k = 0}^\infty \frac{\lambda^{2k}}{(2k)!} - \sum_{k = 0}^\infty \frac{\lambda^{2k+1}}{(2k+1)!} = \frac{1}{2}\left(e^\lambda + e^{-\lambda} - (e^\lambda - e^{-\lambda})  \right)= e^{-\lambda}$.
+
+Dann ist $p_\lambda = 0.05 \Leftrightarrow e^{-\lambda} = 0.05 \Leftrightarrow \lambda = \ln 20 $ die einzige Lösung für $\lambda$ in den reellen Zahlen.
+
+\subsection*{Aufgabe 3\alex}
 Ansatz: Da wir vier Einschränkungen in die Dichtefunktion unterbringen müssen (drei Bedingungen in der Aufgabe, eine Bedingung für die Integralsumme gleich 1), haben
 wir es mit einem Polynom $p$ dritten Grades (vier Freiheitsgrade) versucht. Es ist also $p(x) = ax^3 + bx^2 + cx +d$ der Ansatz der Dichtefunktion.
 
@@ -149,7 +173,7 @@ und damit auf die Dichtefunktion
 f: [0,6] \to \mathbb{R}, x \mapsto  -\frac{2}{495} x^3 +  \frac{8}{165} x^2 - \frac{109}{495}x +  \frac{51}{110}
 \end{equation*}
 Da es sich um ein Polynom handelt, ist $f$ stetig.
-\subsection*{Aufgabe 4}
+\subsection*{Aufgabe 4\maxw}
 
 \begin{enumerate}[i)]
 \item Wie groß ist $\Prob([-0.67,0.38])$ unter $N(0,1)$? \\
