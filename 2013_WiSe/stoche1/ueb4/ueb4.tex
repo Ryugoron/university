@@ -1,0 +1,175 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm]{geometry}
+\usepackage[ngerman]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{ae}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{stmaryrd}
+\usepackage{paralist}
+
+\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[C]{Stochastik I}
+\fancyhead[L]{Übung 4}
+\fancyhead[R]{WiSe 2013/14}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage \hspace{1px} of \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\newcommand{\set}[1]{ \{ #1 \}}
+\newcommand{\Prob}{\mathbb{P}}
+\setlength{\parindent}{0pt}
+\setlength{\headheight}{0pt}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\bigO}{\mathcal{O}}
+\newcommand{\Rarr}{\Rightarrow}
+\newcommand{\Pot}{\mathcal{P}}
+\newcommand{\abs}[1]{ |#1|}
+\newcommand{\solved}{$\mbox{}$ \hfill $\square$}
+
+\newcommand{\maxw}{$^\curlywedgedownarrow$}
+\newcommand{\alex}{$^\dagger$}
+\newcommand{\marcel}{$^\diamondsuit$}
+
+\date{}
+\title{Übung 4}
+\author{Max Wisniewski\maxw, Alexander Steen\alex, Marcel Ehrhardt\marcel}
+
+
+%%
+%% Enviroments for proofs and lemmas
+%%
+\newtheorem{prop}{\bfseries Behauptung}
+\newtheorem{lemma}{\bfseries Lemma}
+
+\begin{document}
+
+\lstset{language=Pascal, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2, mathescape=true}
+
+\renewcommand{\figurename}{Figure}
+
+\maketitle
+\thispagestyle{fancy}
+
+\begin{center}
+\textbf{Hinweis}: Die Angabe, wer welche Aufgabe in \LaTeX\ formuliert hat, ist als hochgestelltes Symbol der Aufgabenüberschrift zu entnehmen.
+\end{center}
+
+
+\subsection*{Aufgabe 1}
+Es ist $\Prob(\text{6 wird gewürfelt}) = \frac{1}{3}$ und $\Prob(\text{$i$ wird gewürfelt}) = \frac{2}{15}$ für $i = 1,2,3,4,5$. Es sei $\Omega = \set{1,2,3,4,5,6}^2$ die Menge der Ereignisse. Gesucht sind die Wahrscheinlichkeiten für
+
+\begin{enumerate}[i)]
+\item 6 erscheint genau einmal \\
+Die hierzu gehörenden Elementarereignisse sind $(6,i)$, $(i, 6)$, für $i = 1,\ldots,5$.\\
+Es gilt $\Prob(\set{(6,i)}) = \Prob(\set{(i,6)}) = \frac{2}{15} \frac{1}{3} = \frac{2}{45}$, für $ i = 1,\ldots,5$.
+Dann ist 
+\begin{equation*}\begin{split}
+\Prob(\text{genau einmal 6}) &= \Prob \left( \bigcup_{i=1}^5 \set{(6,i)} \cup \bigcup_{i=1}^5 \set{(i,6)}\right)\\
+&= \sum_{i=1}^5 \frac{2}{45} + \sum_{i=1}^5 \frac{2}{45} \\
+&= \frac{20}{45}
+\end{split}\end{equation*}
+\item beide Zahlen sind gerade
+Die hierzu gehörenden Elementarereignisse sind\\
+$(2,2), (2,4), (2, 6), (4,2), (4,4), (4,6), (6,2), (6,4), (6,6)$. 
+Es ist \\ $\Prob(\set{x}) = \frac{4}{225}$, für $x \in \set{(2,2), (2,4), (4,2), (4,4)}$, \\
+$\Prob(\set{x}) = \frac{2}{45}$, für $x \in \set{(2,6), (4,6), (6,2), (6,4)}$, und \\
+$\Prob(\set{6,6}) = \frac{1}{9}$ und es gilt
+\begin{equation*}\begin{split}
+\Prob(\text{beide Zahlen gerade}) &= 4 \Prob(\set{(2,2)}) + 4 \Prob(\set{(4,6)}) + \Prob( \set{(6,6)}) \\
+&= 4 \frac{4}{225} + 4\frac{2}{45} + \frac{1}{9} \\
+&= \frac{9}{25}
+\end{split}\end{equation*}
+
+\item Summe ist 7
+Die hierzu gehörenden Elementarereignisse sind\\
+$(1,6), (2, 5), (3, 4), (4, 3), (5, 2), (6, 1)$.
+Es ist \\ $\Prob(\set{x}) = \frac{4}{225}$, für $x \in \set{(2,5), (3,4), (4,3), (5,2)}$, und \\
+$\Prob(\set{x}) = \frac{2}{45}$, für $x \in \set{(1,6), (6,1)}$ und es gilt
+\begin{equation*}\begin{split}
+\Prob(\text{Summe ist 7}) &= 4 \Prob(\set{(2,5)}) + 2 \Prob(\set{(1,6)}) \\
+&= 4 \frac{4}{225} + 2\frac{2}{45}\\
+&= \frac{4}{25}
+\end{split}\end{equation*}
+
+\end{enumerate}
+\subsection*{Aufgabe 2}
+\subsection*{Aufgabe 3}
+Ansatz: Da wir vier Einschränkungen in die Dichtefunktion unterbringen müssen (drei Bedingungen in der Aufgabe, eine Bedingung für die Integralsumme gleich 1), haben
+wir es mit einem Polynom $p$ dritten Grades (vier Freiheitsgrade) versucht. Es ist also $p(x) = ax^3 + bx^2 + cx +d$ der Ansatz der Dichtefunktion.
+
+Die Einschränkungen sind (1) $\int_0^2 p(x) dx = 0.6$, (2) $\int_1^4 p(x) dx = 0.5$, (3) $\int_3^5 p(x) = 0.2$, (4) $\int_0^6 p(x) dx = 1$.
+
+Das Gleichungssystem ergibt sich wegen
+\begin{equation}
+\int_0^2 p(x) dx = 4 a + \frac{8b}{3} + 2 (c + d)
+\end{equation}
+\begin{equation}
+\int_1^4 p(x) dx =\frac{3 (85 a + 28 b + 10 c + 4 d)}{4}
+\end{equation}
+\begin{equation}
+\int_3^5 p(x) dx =136 a + \frac{98 b}{3} + 8 c + 2 d
+\end{equation}
+\begin{equation}
+\int_0^6 p(x) dx =6 (54 a + 12 b + 3 c + d)
+\end{equation}
+zu
+\begin{equation*}
+\left\{
+\begin{array}{rcl}
+ 4 a + \frac{8b}{3} + 2 (c + d) & = & 0.6 \\
+\frac{3 (85 a + 28 b + 10 c + 4 d)}{4} & = & 0.5 \\
+136 a + \frac{98 b}{3} + 8 c + 2 d &= & 0.2 \\
+6 (54 a + 12 b + 3 c + d) &=& 1
+\end{array}
+\right.
+\end{equation*}
+
+Nach einigem Rechnen (z.B. Gauß-Eliminierungsverfahren) kommt man auf die Lösung\\
+\begin{equation*}\begin{split}
+a = -\frac{2}{495} & \qquad b = \frac{8}{165} \\
+c = -\frac{109}{495} & \qquad d = \frac{51}{110}
+\end{split}\end{equation*}
+
+und damit auf die Dichtefunktion 
+\begin{equation*}
+f: [0,6] \to \mathbb{R}, x \mapsto  -\frac{2}{495} x^3 +  \frac{8}{165} x^2 - \frac{109}{495}x +  \frac{51}{110}
+\end{equation*}
+Da es sich um ein Polynom handelt, ist $f$ stetig.
+\subsection*{Aufgabe 4}
+
+\begin{enumerate}[i)]
+\item Wie groß ist $\Prob([-0.67,0.38])$ unter $N(0,1)$? \\
+Der Tabelle entnehmen wir $\Prob(]\infty, 0.38]) =0.6480 $ und $\Prob(]-\infty,-0.67]) =  0.2514$.
+Dann ist  $\Prob([-0.67,0.38]) = 0.6480 -  0.2514 = 0.3966$.
+\item Bestimme $a$, sodass $\Prob([-0.67, a]) = 0.5$ unter $N(0,1)$.\\
+Es ist   $\Prob(]-\infty,-0.67]) =  0.2514$ (Tabelle). Für $a$ muss gelten: \\
+$\Prob(]-\infty, a]) - \Prob(]-\infty,-0.67])  = \Prob(]-\infty, a]) -  0.2514=  0.5$, also $\Prob(]-\infty, a]) = 0.2486$.
+
+Durch suchen in der Tablle erhalten wir: $a \approx -0.68$, denn $\Prob(]-\infty,-0.68]) =  0.2483$.
+
+\item Wie groß ist $\sigma$, wenn man weiß, dass $\Prob([-2,2]) = 0.82$ unter $N(0,\sigma^2)$?\\
+Es gilt: $\Prob_{N(a,\sigma^2)}([c,d]) = \Prob_{N(0,1)}([(c-a)/\sigma, (d-a)/ \sigma])$  (siehe Buch ''Elementare Stochastik, Behrends, Seite 53'').
+
+Es ist also hier ein $\sigma$ für $\Prob_{N(0,1)}([-2/\sigma, 2/ \sigma]) = 0.82$ gesucht. \\
+Da  $\Prob_{N(0,1)}([-2/\sigma, 2/ \sigma]) =   \Prob(]-\infty, 2/ \sigma]) -  \Prob(]-\infty, - 2/ \sigma])$ suchen wir nun symmetrisch vom Nullpunkt in der Tabelle,
+bis die Differenz von rechter und linker Seite 0.82 entspricht. Nach einigem Suchen findet man  $\Prob(]-\infty, 1.34]) -  \Prob(]-\infty, -1.34]) = 0.8194 \approx 0.82$.
+Dann ergibt sich für $\sigma$ ein Wert von $\sigma = 0.5 \cdot 1.34 = 0.67$.
+\end{enumerate}
+
+
+\label{LastPage}
+\end{document}
