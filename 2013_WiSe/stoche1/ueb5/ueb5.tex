@@ -1,0 +1,95 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm]{geometry}
+\usepackage[ngerman]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{ae}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{stmaryrd}
+\usepackage{paralist}
+
+\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[C]{Stochastik I}
+\fancyhead[L]{Übung 5}
+\fancyhead[R]{WiSe 2013/14}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage \hspace{1px} of \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\newcommand{\set}[1]{ \{ #1 \}}
+\newcommand{\Prob}{\mathbb{P}}
+\setlength{\parindent}{0pt}
+\setlength{\headheight}{0pt}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\bigO}{\mathcal{O}}
+\newcommand{\Rarr}{\Rightarrow}
+\newcommand{\Pot}{\mathcal{P}}
+\newcommand{\abs}[1]{ |#1|}
+\newcommand{\solved}{$\mbox{}$ \hfill $\square$}
+
+\newcommand{\maxw}{$^\curlywedgedownarrow$}
+\newcommand{\alex}{$^\dagger$}
+\newcommand{\marcel}{$^\diamondsuit$}
+
+\date{}
+\title{Übung 5}
+\author{Max Wisniewski\maxw, Alexander Steen\alex, Marcel Ehrhardt\marcel}
+
+
+%%
+%% Enviroments for proofs and lemmas
+%%
+\newtheorem{prop}{\bfseries Behauptung}
+\newtheorem{lemma}{\bfseries Lemma}
+
+\begin{document}
+
+\lstset{language=Pascal, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2, mathescape=true}
+
+\renewcommand{\figurename}{Figure}
+
+\maketitle
+\thispagestyle{fancy}
+
+\begin{center}
+\textbf{Hinweis}: Die Angabe, wer welche Aufgabe in \LaTeX\ formuliert hat, ist als hochgestelltes Symbol der Aufgabenüberschrift zu entnehmen.
+\end{center}
+
+
+\subsection*{Aufgabe 1}
+
+\subsection*{Aufgabe 2}
+
+
+\subsection*{Aufgabe 3\alex}
+Es sei $\Omega = [-1,1]$, verstehen mit der $\sigma$-Algebra der Borelmengen. $\Prob_0$ sei das Diracmaß bei 0.\\
+Zu zeigen: Es gibt keine stetige Funktion $f: \Omega \to  \mathbb{R}$, sodass $\Prob_0$ das von $f$ induzierte Wahrscheinlichkeitsmaß ist. \\
+
+\textbf{Beweis} durch Widerspruch: \\
+Sei $f: \Omega \to \mathbb{R}$ eine stetige Funktion. Dann ist $f$ integrierbar und die Stammfunktion $F = \int f$ existiert. Weiterhin sei $\Prob_0([a,b]) = \int_a^b f(x) dx$ das von $f$ induzierte Wahrscheinlichkeitsmaß. Da $[a,b]$ ein Intervall ist, stimmt $\Prob_0([a,b]) = \int_a^b f(x) dx$ mit dem Riemann-Integral überein und es gilt
+
+\begin{equation*}\begin{split}
+1 = \Prob_0([-1,1]) &= \int_{-1}^1 f(x) dx \\
+  &=  \int_{-1}^0 f(x) dx +  \int_{0}^1 f(x) dx \\
+  &= \Prob_0([-1,0]) +  \Prob_0([0,1]) = 1 + 1 = 2 \quad \lightning
+\end{split}\end{equation*}
+Also kann ein solches $f$ nicht existieren.
+\mbox{} \hfill $\square$
+
+\subsection*{Aufgabe 4}
+
+\label{LastPage}
+\end{document}
