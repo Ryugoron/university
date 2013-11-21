@@ -36,9 +36,11 @@
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\bigO}{\mathcal{O}}
 \newcommand{\Rarr}{\Rightarrow}
+\newcommand{\rarr}{\rightarrow}
 \newcommand{\Pot}{\mathcal{P}}
 \newcommand{\abs}[1]{ |#1|}
 \newcommand{\solved}{$\mbox{}$ \hfill $\square$}
+\newcommand{\Epsilon}{\mathcal{E}}
 
 \newcommand{\maxw}{$^\curlywedgedownarrow$}
 \newcommand{\alex}{$^\dagger$}
@@ -163,7 +165,47 @@ Also kann ein solches $f$ nicht existieren.
 
 \subsection*{Aufgabe 4}
 
+X sei eine reellwertige Zufallsvariable auf $\Omega$. Definiere $Y : \Omega \rarr \R$
+durch $Y(\omega) := X(\omega)$ f"ur $\abs{X(\omega)}< 1$  und $Y(\omega) := 0$
+sonst. Zeigen Sie, dass auch Y eine Zufallsvariable ist. \\
 
+{\bf Beweis:}
+
+Nach VL ist $X$ ZV $\Leftrightarrow \forall F\in \mathcal{F}:\ \set{X \in F} \in \Epsilon$. \\
+
+Da $C = \R$ in $Y,X: \Omega \rarr C$, ist $\mathcal{F} = \sigma(\bigO)$ (also
+die Borel-$\sigma$-Algebra). \\
+
+Z.z. $\forall F \in \mathcal{F}:\ \set{Y \in F} \in \Epsilon$. \\
+
+Sei nun ein $F \in \mathcal{F}$ beliebig.
+Betrachte
+\begin{eqnarray}
+  \set{Y \in F} &=& \set{\omega\ |\ Y(\omega) \in F} \\
+  &=& \set{\omega\ |\ Y(\omega) \in F,\ \abs{X(\omega)} < 1} \cup
+      \set{\omega\ |\ Y(\omega) \in F,\ \abs{X(\omega)} \ge 1} \\
+  &=& \set{\omega\ |\ X(\omega) \in F,\ \abs{X(\omega)} < 1} \cup
+      \set{\omega\ |\ 0 \in F,\ \abs{X(\omega)} \ge 1} \\
+  &=& \set{\omega\ |\ X(\omega) \in F\cap(-1, 1)} \cup
+      \set{\omega\ |\ 0 \in F,\ \abs{X(\omega)} \ge 1}
+\end{eqnarray}
+
+Da $F\cap(-1, 1)$ eine Borelmenge ist und $X$ eine ZV ist, gilt
+$\set{\omega\ |\ X(\omega) \in F\cap(-1, 1)} \in \Epsilon$. \\
+
+Wir m"ussen also nur zeigen, dass die zweite Vereinigung $\in \Epsilon$ ist.
+Angenommen $0 \not\in F$, dann ist sie $ = \emptyset \in \Epsilon$. \\
+
+Sei also $0 \in F$, dann ist sie
+\begin{eqnarray}
+  \set{\omega\ |\ \abs{X(\omega)} \ge 1} &=& 
+  \set{\omega\ |\ X(\omega) \ge 1\ \lor\ X(\omega) \le -1} \\
+  &=& \set{\omega\ |\ X(\omega) \ge 1} \cup \set{\omega\ |\ X(\omega) \le -1} \\
+  &=& \set{X \in [1, +\infty)} \cup \set{X \in (-\infty, -1]}
+\end{eqnarray}
+
+Da $(-\infty, -1]$ und $[1, +\infty)$ Borelmengen sind und $X$ eine ZV ist,
+sind die beiden Mengen $\in \Epsilon$. Wodurch auch $Y$ eine ZV ist. \solved
 
 \label{LastPage}
 \end{document}
