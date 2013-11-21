@@ -1,0 +1,169 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm]{geometry}
+\usepackage[ngerman]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{ae}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{stmaryrd}
+\usepackage{paralist}
+
+\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[C]{Stochastik I}
+\fancyhead[L]{Übung 5}
+\fancyhead[R]{WiSe 2013/14}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage \hspace{1px} of \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\newcommand{\set}[1]{ \{ #1 \}}
+\newcommand{\Prob}{\mathbb{P}}
+\setlength{\parindent}{0pt}
+\setlength{\headheight}{0pt}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\bigO}{\mathcal{O}}
+\newcommand{\Rarr}{\Rightarrow}
+\newcommand{\Pot}{\mathcal{P}}
+\newcommand{\abs}[1]{ |#1|}
+\newcommand{\solved}{$\mbox{}$ \hfill $\square$}
+
+\newcommand{\maxw}{$^\curlywedgedownarrow$}
+\newcommand{\alex}{$^\dagger$}
+\newcommand{\marcel}{$^\diamondsuit$}
+
+\date{}
+\title{Übung 5}
+\author{Max Wisniewski\maxw, Alexander Steen\alex, Marcel Ehrhardt\marcel}
+
+
+%%
+%% Enviroments for proofs and lemmas
+%%
+\newtheorem{prop}{\bfseries Behauptung}
+\newtheorem{lemma}{\bfseries Lemma}
+
+\begin{document}
+
+\lstset{language=Pascal, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2, mathescape=true}
+
+\renewcommand{\figurename}{Figure}
+
+\maketitle
+\thispagestyle{fancy}
+
+\begin{center}
+\textbf{Hinweis}: Die Angabe, wer welche Aufgabe in \LaTeX\ formuliert hat, ist als hochgestelltes Symbol der Aufgabenüberschrift zu entnehmen.
+\end{center}
+
+
+\subsection*{Aufgabe 1\alex}
+Es Punkt $(a,b)$ wird zufällig im Einheitsquadrat gewählt und die Summe $s := a + b$ ausgegeben.
+Bestimmen Sie die Verteilungsfunktion $F(x) = \Prob(a + b \leq x)$ und daraus die Dichtefunktion $f(x)$. \\
+
+\textbf{Lösung}: \\
+Bei der Gleichverteilung auf $[0,1] \times [0,1]$ gilt
+$\Prob(E) = \frac{\text{Flächeninhalt von }E}{\text{Flächeninhalt von }\Omega} = \text{Flächeninhalt von }E$,
+für alle messbaren Mengen $E \subseteq [0,1] \times [0,1]$. \\
+Es bezeichne $E_x = \set{(a,b) \in [0,1]^2 | a+b \leq x}$.
+Dann ist 
+\begin{equation*}
+\Prob(a+b \leq x) = \Prob(\set{(a,b) \in [0,1]^2 | a+b \leq x}) = \Prob(E_x)
+\end{equation*}
+
+Für fixiertes $a \in [0,1]$ können nun drei Fälle unterschieden werden in denen $(a,b) \in E_x$:
+\begin{enumerate}[(i)]
+	\item $0 \leq x \leq 1$: $b \leq x - a$
+	\item $1 < x \leq 2$: $b \leq \min(1, x - a)$
+	\item $2 < x$: $b \leq 1$
+\end{enumerate}
+
+Damit können wir nun eine Funktion $b_x: [0,1] \to \mathbb{R}$ beschreiben, die uns die obere Grenze der erlaubten $b$ für ein gegebenes $a$ zu einer Summengrenze $x$ gibt:
+\begin{equation*}
+b_x(a) = \begin{cases}
+                  x - a & \text{, falls $0 \leq x \leq 1$} \\
+                  \min(1,x - a) & \text{, falls $1 < x \leq 2$} \\
+                  1 & \text{, falls $2 < x$} \\
+               \end{cases}
+\end{equation*}
+
+Die Verteilungsfunktion $F(x)$ erhalten wir nun durch\\
+$F(x) = \Prob(a+b \leq x) = \Prob(E_x) = \text{Flächeninhalt von $E_x$}$.
+Dies ist für die drei Fälle gegeben durch:
+\begin{enumerate}[(i)]
+\item $0 \leq x \leq 1$: 
+\begin{equation*}
+ \Prob(E_x) = \int_0^1 b_x(a) \; da =  \int_0^1 x-a \; da = x - \frac{1}{2}
+\end{equation*}
+\item $1 < x \leq 2$: 
+\begin{equation*}\begin{split}
+ \Prob(E_x) &= \int_0^1 b_x(a) \; da =  \int_0^1 \min(1, x - a) \; da
+\end{split}\end{equation*}
+Um dieses Integral aufzulösen, teilen wir es in zwei Integrale auf: \\
+Es gilt $1 \leq x-a \Leftrightarrow a \geq x-1$ und damit:
+\begin{equation*}\begin{split}
+\int_0^1 \min(1, x - a) \; da = \int_0^{x-1} 1 \; da + \int_{x-1}^1 (x-a) \; da = -\frac{1}{2}x^2 +2x-1
+\end{split}\end{equation*}
+\item $2 < x$: 
+\begin{equation*}
+ \Prob(E_x) = \int_0^1 b_x(a) \; da =  \int_0^1 1 \; da = x-1
+\end{equation*}
+\end{enumerate}
+
+Es ist also
+\begin{equation*}
+F(x) = \Prob(E_x) = \begin{cases}
+                          x - \frac{1}{2} & \text{, falls $0 \leq x \leq 1$} \\
+                          -\frac{1}{2}x^2 +2x-1 & \text{, falls $1 < x \leq 2$} \\
+                          x - 1 & \text{, falls $2 < x$} \\
+                     \end{cases}
+\end{equation*}
+die Verteilungsfunktion.
+Die Dichtefunktion $f$ erhalten wir nun durch Ableitung:
+\begin{equation*}
+f(x) = \frac{d\, F}{d \, x} = \begin{cases}
+                          -x +2 & \text{, falls $1 < x \leq 2$} \\
+                          1 & \text{, sonst} \\
+                     \end{cases}
+\end{equation*}
+\subsection*{Aufgabe 2}
+
+
+\subsection*{Aufgabe 3\alex}
+Es sei $\Omega = [-1,1]$, verstehen mit der $\sigma$-Algebra der Borelmengen.
+$\Prob_0$ sei das Diracmaß bei 0.\\
+Zu zeigen: Es gibt keine stetige Funktion $f: \Omega \to  \mathbb{R}$,
+sodass $\Prob_0$ das von $f$ induzierte Wahrscheinlichkeitsmaß ist. \\
+
+\textbf{Beweis} durch Widerspruch: \\
+Sei $f: \Omega \to \mathbb{R}$ eine stetige Funktion. Dann ist $f$ integrierbar und
+die Stammfunktion $F = \int f$ existiert. Weiterhin sei $\Prob_0([a,b]) = \int_a^b f(x) dx$
+das von $f$ induzierte Wahrscheinlichkeitsmaß. Da $[a,b]$ ein Intervall ist,
+stimmt $\Prob_0([a,b]) = \int_a^b f(x) dx$ mit dem Riemann-Integral überein und es gilt
+
+\begin{equation*}\begin{split}
+1 = \Prob_0([-1,1]) &= \int_{-1}^1 f(x) dx \\
+  &=  \int_{-1}^0 f(x) dx +  \int_{0}^1 f(x) dx \\
+  &= \Prob_0([-1,0]) +  \Prob_0([0,1]) = 1 + 1 = 2 \quad \lightning
+\end{split}\end{equation*}
+Also kann ein solches $f$ nicht existieren.
+\mbox{} \hfill $\square$
+
+\subsection*{Aufgabe 4}
+
+
+
+\label{LastPage}
+\end{document}
