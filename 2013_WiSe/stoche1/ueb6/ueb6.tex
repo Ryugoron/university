@@ -1,0 +1,170 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm]{geometry}
+\usepackage[ngerman]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{ae}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{stmaryrd}
+\usepackage{paralist}
+
+\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[C]{Stochastik I}
+\fancyhead[L]{Übung 6}
+\fancyhead[R]{WiSe 2013/14}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage \hspace{1px} of \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\newcommand{\set}[1]{ \{ #1 \}}
+\newcommand{\Prob}{\mathbb{P}}
+\setlength{\parindent}{0pt}
+\setlength{\headheight}{0pt}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\bigO}{\mathcal{O}}
+\newcommand{\Rarr}{\Rightarrow}
+\newcommand{\rarr}{\rightarrow}
+\newcommand{\Pot}{\mathcal{P}}
+\newcommand{\abs}[1]{ |#1|}
+\newcommand{\solved}{$\mbox{}$ \hfill $\square$}
+\newcommand{\Epsilon}{\mathcal{E}}
+
+\newcommand{\maxw}{$^\curlywedgedownarrow$}
+\newcommand{\alex}{$^\dagger$}
+\newcommand{\marcel}{$^\diamondsuit$}
+
+\date{}
+\title{Übung 5}
+\author{Max Wisniewski\maxw, Alexander Steen\alex, Marcel Ehrhardt\marcel}
+
+
+%%
+%% Enviroments for proofs and lemmas
+%%
+\newtheorem{prop}{\bfseries Behauptung}
+\newtheorem{lemma}{\bfseries Lemma}
+
+\begin{document}
+
+\lstset{language=Pascal, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2, mathescape=true}
+
+\renewcommand{\figurename}{Figure}
+
+\maketitle
+\thispagestyle{fancy}
+
+\begin{center}
+\textbf{Hinweis}: Die Angabe, wer welche Aufgabe in \LaTeX\ formuliert hat, ist als hochgestelltes Symbol der Aufgabenüberschrift zu entnehmen.
+\end{center}
+
+
+\subsection*{Aufgabe 1}
+
+Die Punktmenge der 2-Sphäre $S = \{ x \in \mathbb{R}^3 \, : \, \|x\| = 1\}$ ist zu $90\%$ rot und zu $10\%$ blau gefärbt. Beweisen Sie,
+dass es einen in die Kugeloberfläche einbeschriebenen Würfel gibt mit nur roten Ecken.\\
+
+\textbf{Beweis:}\\
+
+tbd
+
+\subsection*{Aufgabe 2}
+
+\subsubsection*{a)}
+
+Berechnen Sie den Erwartungswert der Exponentialverteilung mit Parameter $\lambda > 0$.\\
+
+\textbf{Lösung:}\\
+
+tbd
+
+
+\subsubsection*{b)}
+
+Berechnen Sie den Erwartungswert der Normalverteilung $\mathcal{N}(a, \sigma^2)$.\\
+
+\textbf{Lösung:}\\
+
+tbd
+
+
+\subsection*{Aufgabe 3}
+
+Es sei $\Omega = [a,b]$, versehen mit der $\sigma$ Algebra der Borelmengen und einem beliebigen W-Maß $\mathbb{P}$. Weiterhin sei $X \ : \, \Omega \rightarrow \mathbb{R}$ eine
+differenzierbare Zufallsvariable. Beweisen Sie, dass auch die Ableitung $X'$ eine Zufallsvariable ist.\\
+
+\textbf{Beweis:}\\
+
+tbd
+
+
+\subsection*{Aufgabe 4}
+
+Sei $\Omega = [1,27]$ mit der Dichte $f(x) = cx$ versehen. Eine Zufallsvariable $X \, : \, \Omega \rightarrow \mathbb{R}$ sei durch $X(x) := \sqrt[3]{x}$ definiert.
+Bestimmen Sie den Wert von $c$, die Dichte von $\mathbb{P}_X$ und berechnen Sie damit $\mathbb{P}(\{X \in [1,2]\})$.\\
+
+\textbf{Lösung}:\\
+
+Damit es sich bei der Dichtefunktion um eine Dichtefunktion handelt, muss
+\[
+    \int_1^{27} f(x) = 1
+\]
+gelten.
+Wir erhalten also
+$$\begin{array}{crcl}
+                & \int_1^{27} f(x) &=& 1\\
+\Leftrightarrow & \left[ \frac{1}{2} cx^2\right]_1^{27} & = & 1\\
+\Leftrightarrow & \frac{c*27^2 - c}{2} & = & 1\\
+\Leftrightarrow & 364 * c &=& 1\\
+\Leftrightarrow & c &=& \frac{1}{364}
+\end{array}$$
+
+Damit ist die Dichtefunktion also $f(x) = \frac{x}{364}$.
+
+Berechnen wir nun $\mathbb{P}_X$. Dieser erhalten wir durch auflösen der Definition $\mathbb{P}_X([a,b]) = \mathbb{P}(X \in [a,b])$ mit $a,b \in [1,27]$.
+$$\begin{array}{rlc}
+    \mathbb{P}_X([a,b]) &=& \mathbb{P}(X \in [a,b])\\
+                        &=& \mathbb{P}(\{x \, : \, X(x) \in [a,b]\})\\
+                        &=& \mathbb{P}([\text{min}\{a^3,27\},\text{min}\{b^3,27\}])\\
+\end{array}$$
+
+    Nun folgt daraus
+\[
+    \mathbb{P}_X([a,b]) = \left\{ 
+    \begin{array}{lr}
+        0 &,\text{falls }a\geq3\\
+        1 - \frac{1}{728} a^6 &,\text{falls }b\geq 3, a<3\\
+        \frac{1}{728}\left( b^6 - a^6\right)&, \text{sonst}
+    \end{array}
+    \right.
+\]
+
+    Die Dichte ist die Ableitung der Verteilungsfunktions, die hier über $\Omega$ von $1$ bis $x$ geht.
+\[
+   \begin{array}{rcl}
+        (\mathbb{P}([1,x]))'    &=& \left( \frac{1}{728} \left( x^6 - 1\right) \right)'\\
+                                &=& \frac{3}{362} x^5
+    \end{array}
+\]
+    Und zuletzt können wir $P_X([1,2])$ ausrechen.
+\[
+    \begin{array}{rcl}
+        \mathbb{P}([1,2])   &=& \frac{1}{728} (2^6 - 1^6)\\
+                            &=& \frac{1}{728} (63)\\
+                            &=& \frac{9}{104}
+    \end{array}
+\]
+\label{LastPage}
+\end{document}
