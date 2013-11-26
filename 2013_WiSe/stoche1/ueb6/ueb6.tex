@@ -88,7 +88,21 @@ Berechnen Sie den Erwartungswert der Exponentialverteilung mit Parameter $\lambd
 
 \textbf{Lösung:}\\
 
-tbd
+Die Dichtefunktion der Exponentialverteilung ist
+\[
+    f_\lambda (x) = \left\{ \begin{array}{rl} \lambda e^{-\lambda x} &, x\geq 0 \\ 0 &, x < 0 \end{array} \right.
+\]
+
+Der Erwartungswert ist nun
+$$\begin{array}{rcl}
+    \int_{-\infty}^\infty f_\lambda (x) &=& \int^\infty_0 x \cdot f_\lambda (x)\\
+                &=& \int^\infty_0 \lambda x \cdot e^{-\lambda x} dx\\
+                &=& \underset{a \rightarrow \infty}{\lim} \left[ - \frac{1}{\lambda} \cdot (\lambda x  + 1) e^{-\lambda x}\right]_0^a\\
+                &=& \frac{1}{\lambda} (\lambda 0 + 1) e^{-\lambda 0} = \frac{1}{\lambda}
+\end{array}$$
+
+Wobei bei man das integral durch einmal Partielles Integrieren berechnen kann. Damit ist
+$$E(X) = \frac{1}{\lambda}$$
 
 
 \subsubsection*{b)}
@@ -97,8 +111,20 @@ Berechnen Sie den Erwartungswert der Normalverteilung $\mathcal{N}(a, \sigma^2)$
 
 \textbf{Lösung:}\\
 
-tbd
+Im Gegensatz zur Normalverteilung $\mathcal{N}(0,1)$ ist $\mathcal{N}(a,\sigma)$ achsensymmetrisch zur Achse $x = a$. Dies machen wir uns zu nutzen,
+indem wir die Funktion geeignet verschieben. Betrachten wir $E(X)$ so können wir $X$ unter der standard Normalverteilung darstellen als
+$X = X_{st} + a$. Damit ergibt sich
+$$\begin{array}{rcl}
+    E(X)    &=& E(X_{st} + a)\\
+            &=& E(X) + a\\
+            &=& a
+\end{array}$$
 
+Dies gilt, da $f_{(0,\sigma^2)}(x)$ symmetrisch ist und daher gilt
+$$
+    -\int_{-\infty}^0 x f(x) dx = \int_0^\infty x f(x)
+$$
+und so das gesammte Integral zu $0$ zerfällt.
 
 \subsection*{Aufgabe 3}
 
