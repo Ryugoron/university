@@ -47,7 +47,7 @@
 \newcommand{\marcel}{$^\diamondsuit$}
 
 \date{}
-\title{Übung 5}
+\title{Übung 6}
 \author{Max Wisniewski\maxw, Alexander Steen\alex, Marcel Ehrhardt\marcel}
 
 
@@ -80,7 +80,7 @@ dass es einen in die Kugeloberfläche einbeschriebenen Würfel gibt mit nur rote
 
 tbd
 
-\subsection*{Aufgabe 2}
+\subsection*{Aufgabe 2\marcel}
 
 \subsubsection*{a)}
 
@@ -126,17 +126,31 @@ $$
 $$
 und so das gesammte Integral zu $0$ zerfällt.
 
-\subsection*{Aufgabe 3}
+\subsection*{Aufgabe 3\alex}
 
 Es sei $\Omega = [a,b]$, versehen mit der $\sigma$ Algebra der Borelmengen und einem beliebigen W-Maß $\mathbb{P}$. Weiterhin sei $X \ : \, \Omega \rightarrow \mathbb{R}$ eine
 differenzierbare Zufallsvariable. Beweisen Sie, dass auch die Ableitung $X'$ eine Zufallsvariable ist.\\
 
 \textbf{Beweis:}\\
 
-tbd
+Es gilt $X$ ist eine Zufallsvariable, wenn $\{X \geq a\}$ für alle $a$ ein Ereignis ist.\\
 
+Wenn $X$ differenzierbar ist, muss $X$ zunächst stetig sein. Wir wissen also, dass es eine Abzählbar Folge von Intervallen gibt,
+auf denen $X$ stetig differenzierbar ist. Wäre dies nicht der Fall, so gebe es einen Punkt $x \in [a,b]$ bei dem die Funktion $X$ im Grenzwert von links und von
+rechts andere Werte annehmen müsste (da die Ableitung hier nicht existieren darf) und damit in $x$ nicht stetig wäre.\\
 
-\subsection*{Aufgabe 4}
+Wir betrachten also die Unterteilung von $X$ auf dem Intervall $[a,b]$ in die Intervall $(I_n)_{n\in\mathbb{N}} = I_1, I_2, ...$, so dass $X |_{I_i}$ steig differenzierbar ist
+und die Intervalle $\bigcup I_i = [a,b]$ ist sind.\\
+
+Nun sind die einzelnen $X'(I_i)$ alle stetig und daher Borelmessbar. Somit ist $\{x \, | \, X(x) \in [c,d]\}$ für $a\leq c$ und $d \leq d$ als Unterteilung $I_i \cap [c,d]$
+darstellbar und darauf jeweils als abzählbare vereinigung von abgeschlossenen Mengen darstellbar. Nun ist die abzählbare Vereinigung von jeweils abzählbar vielen Mengen
+wieder abzählbar (konstruktion iterativ wie für die rationalen Zahlen).
+
+Damit können wir $\{x \, | \, X(x) \in [c,d]\}$ also Vereinigung von abgeschlossenen Mengen darstellen, also ist das ganze borelmessbar und $X'$ eine Zufallsvariable.
+
+\mbox{}\hfill$\square$
+
+\subsection*{Aufgabe 4\maxw}
 
 Sei $\Omega = [1,27]$ mit der Dichte $f(x) = cx$ versehen. Eine Zufallsvariable $X \, : \, \Omega \rightarrow \mathbb{R}$ sei durch $X(x) := \sqrt[3]{x}$ definiert.
 Bestimmen Sie den Wert von $c$, die Dichte von $\mathbb{P}_X$ und berechnen Sie damit $\mathbb{P}(\{X \in [1,2]\})$.\\
