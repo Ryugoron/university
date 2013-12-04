@@ -1,0 +1,123 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm]{geometry}
+\usepackage[ngerman]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{ae}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{stmaryrd}
+\usepackage{paralist}
+
+\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[C]{Stochastik I}
+\fancyhead[L]{Übung 7}
+\fancyhead[R]{WiSe 2013/14}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage \hspace{1px} of \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\newcommand{\set}[1]{ \{ #1 \}}
+\newcommand{\Prob}{\mathbb{P}}
+\setlength{\parindent}{0pt}
+\setlength{\headheight}{0pt}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\bigO}{\mathcal{O}}
+\newcommand{\Rarr}{\Rightarrow}
+\newcommand{\rarr}{\rightarrow}
+\newcommand{\Pot}{\mathcal{P}}
+\newcommand{\abs}[1]{ |#1|}
+\newcommand{\solved}{$\mbox{}$ \hfill $\square$}
+\newcommand{\Epsilon}{\mathcal{E}}
+
+\newcommand{\maxw}{$^\curlywedgedownarrow$}
+\newcommand{\alex}{$^\dagger$}
+\newcommand{\marcel}{$^\diamondsuit$}
+
+\date{}
+\title{Übung 7}
+\author{Max Wisniewski\maxw, Alexander Steen\alex, Marcel Ehrhardt\marcel}
+
+
+%%
+%% Enviroments for proofs and lemmas
+%%
+\newtheorem{prop}{\bfseries Behauptung}
+\newtheorem{lemma}{\bfseries Lemma}
+
+\begin{document}
+
+\lstset{language=Pascal, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2, mathescape=true}
+
+\renewcommand{\figurename}{Figure}
+
+\maketitle
+\thispagestyle{fancy}
+
+\begin{center}
+\textbf{Hinweis}: Die Angabe, wer welche Aufgabe in \LaTeX\ formuliert hat, ist als hochgestelltes Symbol der Aufgabenüberschrift zu entnehmen.
+\end{center}
+
+
+\subsection*{Aufgabe 1}
+
+Ein Kartenspiel mit $n$ Karten enthält 2 Asse. Es wird gemischt und die Karten werden aufgedeckt. Sei $X$ die Anzahl der Karten
+bis das erste Ass erscheint, $Y$ die Anzahl bis das zweite Ass erscheint. Beweisen Sie, dass $E(X) = \frac{n+1}{3}$ und $E(Y) = \frac{2}{3}(n+1)$.\\
+
+\textbf{Lösung:}\\
+
+tbd
+
+\subsection*{Aufgabe 2}
+
+\subsubsection*{a)}
+
+Berechnen Sie die Streuung der geometrischen Verteilung mit Parameter $q \in [0,1)$.\\
+
+\textbf{Lösung:}\\
+
+tbd
+
+\subsubsection*{b)}
+
+Bewesien Sie, dass $\sigma^2$ die Varianz der Normalverteilung $\mathcal{N}(a,\sigma^2)$ ist.\\
+
+\textbf{Beweis:}\\
+
+tbd
+
+\subsection*{Aufgabe 3}
+
+In einem Kasino wird nach folgenden Regeln mit drei Wurfeln gespielt. Ein Spieler
+bekommt 1000 Euro fur drei Sechsen, 100 Euro für zwei Sechsen und 10 Euro f ur
+eine Sechs. In allen anderen allen gibt es gar nichts. Welchen Mindesteinsatz wird
+der Kasinobetreiber verlangen, wenn er nicht draufzahlen will?\\
+
+\textbf{Lösung:}\\
+
+tbd
+
+\subsection*{Aufgabe 4}
+
+Es sind dreizehn 1-Euro Münzen zwischen Wilhelm, Xavier, Yvette und Zora zufällig verteilt, so dass jede Verteilung gleich Wahrscheinlich ist.
+Wie groß ist die Wahrscheinlichkeit, dass jemand kein Geld bekommt?\\
+
+\textbf{Lösung:}\\
+
+tbd
+
+
+\label{LastPage}
+\end{document}
