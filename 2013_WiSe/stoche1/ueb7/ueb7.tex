@@ -116,7 +116,28 @@ Wie groß ist die Wahrscheinlichkeit, dass jemand kein Geld bekommt?\\
 
 \textbf{Lösung:}\\
 
-tbd
+Um das Geld aufzuteilen betrachten wir ungeordnete Zahlpartitionen. D.h. wir wollen eine Zahl $n$ in $r$ Teile spalten, mit $n = n_0 + .. + n_{r-1}$.\\
+
+Dieses Experiement stellen wir dar, indem wir $n$ Münzen hinstellen und uns noch $r-1$ Partitionsgegenstände hinzustellen. Danach wählen wir $r-1$ Position
+aus diesen Elementen aus und alles, das zwischen 2 Gewählten Position liegt, sind die Münzen, des Spielers (die äußeren zählen zu je einem).
+
+Dadurch erhalten wir $\left( \begin{array}{cc} n + r - 1 \\ r - 1\end{array}\right)$ als Anzahl von Zahlpartitionen.\\ In unserem Konkreten Fall ist dies
+insgesammt $\begin{pmatrix} 16 \\ 3 \end{pmatrix} = 560$.\\
+
+Nun betrachten wir gültige Ereignisse. Dazu müssen wir uns dem Inclusions-/Exclusions-Schema auf Mengen bedienen, da wir sonst Ereignisse doppelt Zählen.
+Da die Spieler symmetrisch verlaufen, zählen wir
+\[
+    4 \cdot \text{min. 1 Spieler leer} - 6 \cdot \text{ min. 2 Spieler leer} + 6 \cdot \text{min . 3 Spieler leer} + 4 \cdot \text{min. 4 Spieler leer}
+\]
+
+Nun ist 1 Spieler leer eine Zahlpartion von $13$ auf $3$, 2 Spieler leer eine Zahlpartiont von $13$ auf $2$, und so weiter. Es ergibt sich
+\[\begin{array}{ll}
+    &3 \cdot \begin{pmatrix} 15 \\ 2\end{pmatrix} - 6 \cdot \begin{pmatrix} 14 \\ 1 \end{pmatrix} + 6 \cdot \begin{pmatrix} 13 \\ 0 \end{pmatrix} - 0\\
+    = & 3 \cdot 105 - 6 \cdot 13 + 6 \cdot 1\\
+    = & 315 - 78 + 6 = 243
+\end{array}\]
+
+Nun ist $P(X) = \frac{|X|}{|\Omega|} = \frac{243}{560} = 0.43392 \approx 43 \%$
 
 
 \label{LastPage}
