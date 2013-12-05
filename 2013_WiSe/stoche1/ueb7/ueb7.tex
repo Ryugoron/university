@@ -79,7 +79,6 @@ bis das erste Ass erscheint, $Y$ die Anzahl bis das zweite Ass erscheint. Beweis
 \textbf{Lösung:}\\
 
 \begin{description}
-
     \item[Erstes Ass:] Wir wollen die Wahrscheinlichkeit betrachten, dass das erste Ass an Position $i$ liegt.
         \[
             P(X=i) = 2 \cdot \begin{pmatrix} n - 2 \end{pmatrix} \cdot (i-1)! \cdot (n-i)! \frac{1}{n!}
@@ -106,10 +105,28 @@ bis das erste Ass erscheint, $Y$ die Anzahl bis das zweite Ass erscheint. Beweis
 \subsubsection*{a)}
 
 Berechnen Sie die Streuung der geometrischen Verteilung mit Parameter $q \in [0,1)$.\\
-
 \textbf{Lösung:}\\
+Wir nehmen an, dass $\Omega = \mathbb{N}$; damit ist die geometrische Verteilung zu Parameter $q$ gegeben durch $\Prob(\set{n}) = q^{n-1}(1-q)$ für $n \in \mathbb{N}$.
+Dann ist der Erwartungswert $\mathbb{E}(X)$ für $X(n) = n$ bekannterweise gegeben durch $E(X) = \sum_{n=1}^\infty n \cdot q^{n-1}(1-q) = \frac{1}{1-q}$.
+Da $V(X) = \mathbb{E}((X - \mathbb{E}(X))^2)$ ist die Varianz gegeben durch
+\begin{equation*}\begin{split}
+V(X) &=  \mathbb{E}(X^2) -   (\mathbb{E}(X))^2  
+\end{split}\end{equation*}
+Wegen
+\begin{equation*}\begin{split}
+\mathbb{E}(X^2) &=  \sum_{n=1}^\infty n^2 \cdot q^{n-1}(1-q) \\
+&= \frac{1-q}{q} \sum_{n=1}^\infty n^2 \cdot q^{n}  \\
+&\stackrel{(*)}{=}  \frac{1-q}{q} \cdot \frac{q(1+q)}{(1-q)^3}  \\
+&= \frac{q+1}{(1-q)^2}
+\end{split}\end{equation*}
+folgt
+\begin{equation*}\begin{split}
+\mathbb{E}(X^2) -   (\mathbb{E}(X))^2  = \frac{q+1}{(1-q)^2} -  \frac{1}{(1-q)^2} = \frac{q}{(1-q)^2}
+\end{split}\end{equation*}
 
-tbd
+
+(*) folgt aus $\sum_{i=0}^\infty i^2 a^i = \frac{a (1+a)}{(1-a)^3}$ für $a \in (0,1)$.
+
 
 \subsubsection*{b)}
 
