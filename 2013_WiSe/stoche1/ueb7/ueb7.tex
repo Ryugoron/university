@@ -97,20 +97,20 @@ bis das erste Ass erscheint, $Y$ die Anzahl bis das zweite Ass erscheint. Beweis
         \end{array}\]
         Dabei können wir auch den Grenzfall $i=n$ betrachten, da wir eine Wahrscheinlichkeit von $0$ dafür haben.
     \item[Zweites Ass:]
-        Wir können das Experiement genau umgekehrt betrachten. Wir zweite Element zunächst an einer Position $i$. Danach wählen wir
+        Wir können das Experiment genau umgekehrt betrachten. Wir zweite Element zunächst an einer Position $i$. Danach wählen wir
         für die hinteren $n-i$ Plätze aus $n-2$ nicht Assen die Karten und permutieren dann alles, wiederum für beide Asse.
 
         \[
             P(X=i) = 2 \cdot \begin{pmatrix} n - 2 \\ n-i \end{pmatrix} \cdot (i-1)! \cdot (n-i)! \frac{1}{n!}
         \]
-        Dadurch ergibt sich der Erwartungsert:
+        Dadurch ergibt sich der Erwartungswert:
         \[\begin{array}{rcl}
             E[X] &=& \underset{i=1}{\overset{n}{\sum}} i \cdot P(X=i)\\
                 &=& \underset{i=1}{\overset{n}{\sum}} 2 \cdot i \cdot \begin{pmatrix} n - 2 \\ n - i \end{pmatrix} \cdot (i-1)! \cdot (n-i)! \frac{1}{n!}\\
                 &=& 2 \cdot \underset{i=1}{\overset{n}{\sum}} \frac{ i \cdot (n-2)! (i-1)! (n-i)!} { (n-i)! (i - 2)!n!}\\
                 &=& 2 \cdot \underset{i=1}{\overset{n}{\sum}} \frac{ i \cdot (i-1)} {n \cdot (n-1)}\\
                 &=& \frac{2}{n \cdot (n-1)} \cdot \left( \underset{i=1}{\overset{n}{\sum}} i^2 - \underset{i=1}{\overset{n}{\sum}} i\right)\\
-                &=& \frac{2}{n \cdot (n-1)} \cdot \left( \frac{n(n+1)(2 n+1)}{6} + \frac{n(n+1)}{2}\right)\\
+                &=& \frac{2}{n \cdot (n-1)} \cdot \left( \frac{n(n+1)(2 n+1)}{6} - \frac{n(n+1)}{2}\right)\\
                 &=& \frac{2}{3} (n+1)
         \end{array}\]
         Ebenso ist hier der Grenzfall $i=1$ mit einer Wahrscheinlichkeit von $0$ betrachtet.
@@ -151,7 +151,7 @@ Die Streuung erhalten wir als Wurzel der Varianz:
 
 \subsubsection*{b)}
 
-Bewesien Sie, dass $\sigma^2$ die Varianz der Normalverteilung $\mathcal{N}(a,\sigma^2)$ ist.\\
+Beweisen Sie, dass $\sigma^2$ die Varianz der Normalverteilung $\mathcal{N}(a,\sigma^2)$ ist.\\
 
 \textbf{Beweis:}\\
 Die Varianz ist gegeben durch $V(X) = \mathbb{E}((X - \mathbb{E}(X))^2)$.
@@ -171,16 +171,16 @@ Durch partielle Integration $\int u' v dx = u v - \int u v' dx$ mit $u =  t \cdo
 
 \subsection*{Aufgabe 3}
 
-In einem Kasino wird nach folgenden Regeln mit drei Wurfeln gespielt. Ein Spieler
-bekommt 1000 Euro fur drei Sechsen, 100 Euro für zwei Sechsen und 10 Euro für
-eine Sechs. In allen anderen allen gibt es gar nichts. Welchen Mindesteinsatz wird
+In einem Kasino wird nach folgenden Regeln mit drei W"urfeln gespielt. Ein Spieler
+bekommt 1000 Euro f"ur drei Sechsen, 100 Euro für zwei Sechsen und 10 Euro für
+eine Sechs. In allen anderen F"allen gibt es gar nichts. Welchen Mindesteinsatz wird
 der Kasinobetreiber verlangen, wenn er nicht draufzahlen will?\\
 
 \textbf{Lösung:}\\
 
 Nehmen wir an, dass das Casino faire Würfel verwendet. Dann ist
 $P( X = 3\times6) = \frac{1}{6^3}$, für einen 3er Treffer. $P( X = 2 \times 6) = \frac{6}{6^3} = \frac{1}{6^2}$ für
-die 2 Treffer und $\frac{6^2}{6^3}$ werden auch benötigt. Der erwartet Velust ist demnach
+die 2 Treffer und $\frac{6^2}{6^3}$ werden auch benötigt. Der erwartet Verlust ist demnach
 \[
     E(Verl) = 1000 \cdot \frac{1}{6^3} + 100 \cdot \frac{1}{6^2} + 10 \cdot \frac{1}{6} = 9.07407407407
 \]
@@ -196,11 +196,11 @@ Wie groß ist die Wahrscheinlichkeit, dass jemand kein Geld bekommt?\\
 
 Um das Geld aufzuteilen betrachten wir ungeordnete Zahlpartitionen. D.h. wir wollen eine Zahl $n$ in $r$ Teile spalten, mit $n = n_0 + .. + n_{r-1}$.\\
 
-Dieses Experiement stellen wir dar, indem wir $n$ Münzen hinstellen und uns noch $r-1$ Partitionsgegenstände hinzustellen. Danach wählen wir $r-1$ Position
+Dieses Experiment stellen wir dar, indem wir $n$ Münzen hinstellen und uns noch $r-1$ Partitionsgegenstände hinzustellen. Danach wählen wir $r-1$ Position
 aus diesen Elementen aus und alles, das zwischen 2 Gewählten Position liegt, sind die Münzen, des Spielers (die äußeren zählen zu je einem).
 
 Dadurch erhalten wir $\left( \begin{array}{cc} n + r - 1 \\ r - 1\end{array}\right)$ als Anzahl von Zahlpartitionen.\\ In unserem Konkreten Fall ist dies
-insgesammt $\begin{pmatrix} 16 \\ 3 \end{pmatrix} = 560$.\\
+insgesamt $\begin{pmatrix} 16 \\ 3 \end{pmatrix} = 560$.\\
 
 Nun betrachten wir gültige Ereignisse. Dazu müssen wir uns dem Inclusions-/Exclusions-Schema auf Mengen bedienen, da wir sonst Ereignisse doppelt Zählen.
 Da die Spieler symmetrisch verlaufen, zählen wir
