@@ -81,7 +81,7 @@ bis das erste Ass erscheint, $Y$ die Anzahl bis das zweite Ass erscheint. Beweis
 \begin{description}
     \item[Erstes Ass:] Wir wollen die Wahrscheinlichkeit betrachten, dass das erste Ass an Position $i$ liegt.
         \[
-            P(X=i) = 2 \cdot \begin{pmatrix} n - 2 \end{pmatrix} \cdot (i-1)! \cdot (n-i)! \frac{1}{n!}
+            P(X=i) = 2 \cdot \begin{pmatrix} n - 2 \\ i - 1\end{pmatrix} \cdot (i-1)! \cdot (n-i)! \frac{1}{n!}
         \]
         gilt, da wir zunächst $i-1$ Elemente vor das erste Ass legen müssen und das können wir aus den $n-2$ nicht Assen tun.
         Danach können wir vor und hinter dem ersten Ass permutieren. Dies gibt uns alle Eregnisse für $X$. Zuletzt teilen wir
@@ -90,14 +90,30 @@ bis das erste Ass erscheint, $Y$ die Anzahl bis das zweite Ass erscheint. Beweis
         Für den Erwartungswert ergibt sich:
         \[\begin{array}{rcl}
             E[X] &=& \underset{i=1}{\overset{n}{\sum}} i \cdot P(X=i)\\
-                &=& 2\cdot\underset{i=1}{\overset{n}{\sum}} i \cdot \begin{pmatrix} n - 2 \end{pmatrix} \cdot (i-1)! \cdot (n-i)! \frac{1}{n!}\\
+                &=& 2\cdot\underset{i=1}{\overset{n}{\sum}} i \cdot \begin{pmatrix} n - 2 \\ i - 1\end{pmatrix} \cdot (i-1)! \cdot (n-i)! \frac{1}{n!}\\
                 &=& 2\cdot\underset{i=1}{\overset{n}{\sum}} \frac{i\cdot (n-i)}{(n-1)\cdot n}\\
                 &=& 2\cdot \frac{n+1}{6}\\
                 &=& \frac{n+1}{3}
         \end{array}\]
-
+        Dabei können wir auch den Grenzfall $i=n$ betrachten, da wir eine Wahrscheinlichkeit von $0$ dafür haben.
     \item[Zweites Ass:]
+        Wir können das Experiement genau umgekehrt betrachten. Wir zweite Element zunächst an einer Position $i$. Danach wählen wir
+        für die hinteren $n-i$ Plätze aus $n-2$ nicht Assen die Karten und permutieren dann alles, wiederum für beide Asse.
 
+        \[
+            P(X=i) = 2 \cdot \begin{pmatrix} n - 2 \\ n-i \end{pmatrix} \cdot (i-1)! \cdot (n-i)! \frac{1}{n!}
+        \]
+        Dadurch ergibt sich der Erwartungsert:
+        \[\begin{array}{rcl}
+            E[X] &=& \underset{i=1}{\overset{n}{\sum}} i \cdot P(X=i)\\
+                &=& \underset{i=1}{\overset{n}{\sum}} 2 \cdot i \cdot \begin{pmatrix} n - 2 \\ n - i \end{pmatrix} \cdot (i-1)! \cdot (n-i)! \frac{1}{n!}\\
+                &=& 2 \cdot \underset{i=1}{\overset{n}{\sum}} \frac{ i \cdot (n-2)! (i-1)! (n-i)!} { (n-i)! (i - 2)!n!}\\
+                &=& 2 \cdot \underset{i=1}{\overset{n}{\sum}} \frac{ i \cdot (i-1)} {n \cdot (n-1)}\\
+                &=& \frac{2}{n \cdot (n-1)} \cdot \left( \underset{i=1}{\overset{n}{\sum}} i^2 - \underset{i=1}{\overset{n}{\sum}} i\right)\\
+                &=& \frac{2}{n \cdot (n-1)} \cdot \left( \frac{n(n+1)(2 n+1)}{6} + \frac{n(n+1)}{2}\right)\\
+                &=& \frac{2}{3} (n+1)
+        \end{array}\]
+        Ebenso ist hier der Grenzfall $i=1$ mit einer Wahrscheinlichkeit von $0$ betrachtet.
 \end{description}
 
 \subsection*{Aufgabe 2}
@@ -169,7 +185,7 @@ die 2 Treffer und $\frac{6^2}{6^3}$ werden auch benötigt. Der erwartet Velust i
     E(Verl) = 1000 \cdot \frac{1}{6^3} + 100 \cdot \frac{1}{6^2} + 10 \cdot \frac{1}{6} = 9.07407407407
 \]
 Der erwartet Verlust für das Casino ist $9.07$ Dollar. Sollte das Casion also min $9.08$ Dollar verlangen, so
-würde die Klausur gewinn machen. Alles darüber würde gewinn bedeuten.
+würde das Casino Gewinn machen. Alles darüber würde nur mehr Gewinn bedeuten.
 
 \subsection*{Aufgabe 4}
 
@@ -192,7 +208,7 @@ Da die Spieler symmetrisch verlaufen, zählen wir
     4 \cdot \text{min. 1 Spieler leer} - 6 \cdot \text{ min. 2 Spieler leer} + 6 \cdot \text{min . 3 Spieler leer} + 4 \cdot \text{min. 4 Spieler leer}
 \]
 
-Nun ist 1 Spieler leer eine Zahlpartion von $13$ auf $3$, 2 Spieler leer eine Zahlpartiont von $13$ auf $2$, und so weiter. Es ergibt sich
+Nun ist 1 Spieler leer eine Zahlpartion von $13$ auf $3$, 2 Spieler leer eine Zahlpartion von $13$ auf $2$, und so weiter. Es ergibt sich
 \[\begin{array}{ll}
     &3 \cdot \begin{pmatrix} 15 \\ 2\end{pmatrix} - 6 \cdot \begin{pmatrix} 14 \\ 1 \end{pmatrix} + 6 \cdot \begin{pmatrix} 13 \\ 0 \end{pmatrix} - 0\\
     = & 3 \cdot 105 - 6 \cdot 13 + 6 \cdot 1\\
