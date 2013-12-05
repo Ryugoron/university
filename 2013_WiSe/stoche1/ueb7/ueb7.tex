@@ -138,8 +138,20 @@ Die Streuung erhalten wir als Wurzel der Varianz:
 Bewesien Sie, dass $\sigma^2$ die Varianz der Normalverteilung $\mathcal{N}(a,\sigma^2)$ ist.\\
 
 \textbf{Beweis:}\\
+Die Varianz ist gegeben durch $V(X) = \mathbb{E}((X - \mathbb{E}(X))^2)$.
+Es ist also
+\begin{equation*}\begin{split}
+V(X) &= \int_{-\infty}^{\infty} (x-a)^2 \frac{1}{\sqrt{2 \pi} \sigma} \exp\left(- \frac{(x-a)^2}{2\sigma^2} \right) dx \\
+&=\frac{1}{\sqrt{2 \pi} \sigma}  \int_{-\infty}^{\infty} (x-a)^2  \exp\left(- \frac{1}{2} \left(  \frac{x-a}{\sigma} \right)^2 \right) dx 
+\end{split}\end{equation*}
+Durch Substitution $t = \frac{x-a}{\sigma}$ erhalten wir
+\begin{equation*}\begin{split}
+& \frac{\sigma^2}{\sqrt{2 \pi} \sigma}  \int_{-\infty}^{\infty} t^2  \exp\left(- \frac{1}{2} t^2 \right) dt \\
+& \frac{\sigma^2}{\sqrt{2 \pi} \sigma}  \int_{-\infty}^{\infty} t \cdot t \cdot \exp\left(- \frac{1}{2} t^2 \right) dt
+\end{split}\end{equation*}
+Durch partielle Integration $\int u' v dx = u v - \int u v' dx$ mit $u =  t \cdot \exp\left(- \frac{1}{2} t^2 \right)$ und $ v = t$ erhalten wir
 
-tbd
+....
 
 \subsection*{Aufgabe 3}
 
