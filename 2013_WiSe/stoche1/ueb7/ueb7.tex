@@ -163,11 +163,17 @@ V(X) &= \int_{-\infty}^{\infty} (x-a)^2 \frac{1}{\sqrt{2 \pi} \sigma} \exp\left(
 Durch Substitution $t = \frac{x-a}{\sigma}$ erhalten wir
 \begin{equation*}\begin{split}
 & \frac{\sigma^2}{\sqrt{2 \pi} \sigma}  \int_{-\infty}^{\infty} t^2  \exp\left(- \frac{1}{2} t^2 \right) dt \\
-& \frac{\sigma^2}{\sqrt{2 \pi} \sigma}  \int_{-\infty}^{\infty} t \cdot t \cdot \exp\left(- \frac{1}{2} t^2 \right) dt
+=& \frac{\sigma^2}{\sqrt{2 \pi} \sigma}  \int_{-\infty}^{\infty} t \cdot t \cdot \exp\left(- \frac{1}{2} t^2 \right) dt
 \end{split}\end{equation*}
 Durch partielle Integration $\int u' v dx = u v - \int u v' dx$ mit $u =  t \cdot \exp\left(- \frac{1}{2} t^2 \right)$ und $ v = t$ erhalten wir
+\begin{equation*}\begin{split}
+& \frac{\sigma^2}{\sqrt{2 \pi} \sigma}  \int_{-\infty}^{\infty} t \cdot t \cdot \exp\left(- \frac{1}{2} t^2 \right) dt \\
+=& \frac{\sigma^2}{\sqrt{2 \pi} \sigma} \left( \left[  t^2  \exp\left(- \frac{1}{2} t^2 \right)  \right]_{-\infty}^\infty - \int_{-\infty}^{\infty} - \exp\left( -\frac{1}{2} t^2\right) dt \right)\\
+=& \frac{\sigma^2}{\sqrt{2 \pi} \sigma} \left( \left[  t^2  \exp\left(- \frac{1}{2} t^2 \right)  \right]_{-\infty}^\infty + \sqrt{2 \pi} \right)\\
+=& ....
+\end{split}\end{equation*}
 
-....
+Nicht ganz geschafft :)
 
 \subsection*{Aufgabe 3}
 
