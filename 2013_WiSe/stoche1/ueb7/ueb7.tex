@@ -82,7 +82,7 @@ bis das erste Ass erscheint, $Y$ die Anzahl bis das zweite Ass erscheint. Beweis
 
     \item[Erstes Ass:] Wir wollen die Wahrscheinlichkeit betrachten, dass das erste Ass an Position $i$ liegt.
         \[
-            P(X=i) = 2 \cdot \begin{pmatrix} n - 2 \end{pmatrix} \cdot (i-1)! \cdot (n-i)! \frac{1}{n!}
+            P(X=i) = 2 \cdot \begin{pmatrix} n - 2 \\ i - 1\end{pmatrix} \cdot (i-1)! \cdot (n-i)! \frac{1}{n!}
         \]
         gilt, da wir zunächst $i-1$ Elemente vor das erste Ass legen müssen und das können wir aus den $n-2$ nicht Assen tun.
         Danach können wir vor und hinter dem ersten Ass permutieren. Dies gibt uns alle Eregnisse für $X$. Zuletzt teilen wir
@@ -91,14 +91,30 @@ bis das erste Ass erscheint, $Y$ die Anzahl bis das zweite Ass erscheint. Beweis
         Für den Erwartungswert ergibt sich:
         \[\begin{array}{rcl}
             E[X] &=& \underset{i=1}{\overset{n}{\sum}} i \cdot P(X=i)\\
-                &=& 2\cdot\underset{i=1}{\overset{n}{\sum}} i \cdot \begin{pmatrix} n - 2 \end{pmatrix} \cdot (i-1)! \cdot (n-i)! \frac{1}{n!}\\
+                &=& 2\cdot\underset{i=1}{\overset{n}{\sum}} i \cdot \begin{pmatrix} n - 2 \\ i - 1\end{pmatrix} \cdot (i-1)! \cdot (n-i)! \frac{1}{n!}\\
                 &=& 2\cdot\underset{i=1}{\overset{n}{\sum}} \frac{i\cdot (n-i)}{(n-1)\cdot n}\\
                 &=& 2\cdot \frac{n+1}{6}\\
                 &=& \frac{n+1}{3}
         \end{array}\]
-
+        Dabei können wir auch den Grenzfall $i=n$ betrachten, da wir eine Wahrscheinlichkeit von $0$ dafür haben.
     \item[Zweites Ass:]
+        Wir können das Experiement genau umgekehrt betrachten. Wir zweite Element zunächst an einer Position $i$. Danach wählen wir
+        für die hinteren $n-i$ Plätze aus $n-2$ nicht Assen die Karten und permutieren dann alles, wiederum für beide Asse.
 
+        \[
+            P(X=i) = 2 \cdot \begin{pmatrix} n - 2 \\ n-i \end{pmatrix} \cdot (i-1)! \cdot (n-i)! \frac{1}{n!}
+        \]
+        Dadurch ergibt sich der Erwartungsert:
+        \[\begin{array}{rcl}
+            E[X] &=& \underset{i=1}{\overset{n}{\sum}} i \cdot P(X=i)\\
+                &=& \underset{i=1}{\overset{n}{\sum}} 2 \cdot i \cdot \begin{pmatrix} n - 2 \\ n - i \end{pmatrix} \cdot (i-1)! \cdot (n-i)! \frac{1}{n!}\\
+                &=& 2 \cdot \underset{i=1}{\overset{n}{\sum}} \frac{ i \cdot (n-2)! (i-1)! (n-i)!} { (n-i)! (i - 2)!n!}\\
+                &=& 2 \cdot \underset{i=1}{\overset{n}{\sum}} \frac{ i \cdot (i-1)} {n \cdot (n-1)}\\
+                &=& \frac{2}{n \cdot (n-1)} \cdot \left( \underset{i=1}{\overset{n}{\sum}} i^2 - \underset{i=1}{\overset{n}{\sum}} i\right)\\
+                &=& \frac{2}{n \cdot (n-1)} \cdot \left( \frac{n(n+1)(2 n+1)}{6} + \frac{n(n+1)}{2}\right)\\
+                &=& \frac{2}{3} (n+1)
+        \end{array}\]
+        Ebenso ist hier der Grenzfall $i=1$ mit einer Wahrscheinlichkeit von $0$ betrachtet.
 \end{description}
 
 \subsection*{Aufgabe 2}
