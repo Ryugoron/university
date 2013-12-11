@@ -73,11 +73,57 @@
 
 \subsection*{Aufgabe 1}
 
+Es werden 4 Kugeln auf gut Glück auf 4 Fächer verteilt. Wie groß ist die Wahrscheinlichkeit dafür, dass genau ein Fach leer bleibt?\\
 
+\textbf{Lösung:}\\
+Wir nehmen erstmal an, dass es sich bei emph{auf gut Glück} um eine gleichverteilung der Aufteilungen handelt. Und darüber hinaus nehmen
+wir an, dass am Ende auch 4 Kugeln in den 4 Fächern sind (nicht, dass er auf gut Glück eine daneben fallen lässt).\\
+
+Dann ist $\left| \Omega \right| = 4^4$, da wir für jede Kugel $4$ Möglichkeiten haben, sie in ein Fach zu legen.\\
+
+Betrachten wir das Ereignis \emph{genau ein Fach bleibt leer}, dann haben wir zunächst $\binom{4}{1} = 4$ Möglichkeiten, das Fach zu wählen,
+dass leer bleibt. Nun wollen wir $4$ Kugeln auf $3$ Fächer aufteilen, so dass jedes Fach mindestens einmal getroffen wird.
+
+Dazu könnten wir die Aufteilung jetzt als \emph{surjektiv} betrachten, mit einer unterscheidbaren Menge an Objekten, die auf eine unterscheidbare
+Menge an Objekten aufgeteilt wird, was der Größe $r!S_{n,r}$\footnote{Hierbei ist $S_{n,r}$ die Stirlingzahl zweiter Art} entspricht. Aber wir können uns
+das ganze auch einfacher machen. Wenn jedes Fach mindestens einmal getroffen wird, bleibt genau eine Kugel über, die wir auf eins der 3 Fächer aufteilen können.
+
+Wir wählen also eins der drei aus $\binom{3}{1} = 3$.\\
+
+$\left|E\right| = \binom{4}{1} \cdot \binom{3}{1} = 12$.\\
+
+\[
+    P(E) = \frac{\left|E\right|}{\left|\Omega\right|} = \frac{12}{4^4} = \frac{3}{4^3} = \frac{3}{64}
+\]
 
 \subsection*{Aufgabe 2}
 
+Eine Ameise steht auf dem Nullpunkt des Gitters $\mathbb{Z}^2$ und bewegt sich einen Gitterpunkt mit jedem Schritt entweder nach rechts oder nach 
+oben mit gleicher Wahrscheinlichkeit. Es gibt einen elektrischen Zaun zwischen den Punkten $(0,14)$ und $(23,14)$, sowie zwischen den Punkten $(25,0)$ und
+$(25,12)$; wenn die Ameise auf einen Zaun trifft, stirbt sie. Wie Warhscheinlich ist es, dass die Ameise überlebt und die Freiheit erreicht?\\
 
+\textbf{Lösung:}\\
+
+Zunächst wieder eine Annahmen:\\
+Die Randpunkte $(0,14), (23,14), (25,0), (25,12)$ gehören zum Zaun und dürfen für das überleben ebenfalls nicht betreten werden.\\
+
+Betrachten wir uns das Feld der Ameise, so ist sie von einem (nahezu) Rechteck umrahmt und der einzige Weg in die Freiheit führt über
+das Feld $(24,13)$. Sind wir auf dieses Feld gelangt können wir vorher keinen der Zaune berührt haben, da wir jede Komponente des Tupels nur erhöhen,
+aber nicht verringern können durch einen Schritt.
+Umgekehrt wird jeder Schritt von hieraus den Zaun passieren.\\
+
+Wir wollen also die Wahrscheinlichkeit berechnen auf dieses Feld zu gelangen.\\
+Dies ist ein kanonischer Anwendungsfall für den Binomialkoeffizienten. Wir erhöhen in jedem Schritt eine Komponente des Tupels um 1, d.h.
+um von $(0,0)$ auf $(24,13)$ zu kommen machen wir $24+13 = 37$ Schritte. Nun fragen wir uns, wie viele Wege es gibt.
+Da wir unterwegs auf keinen Zaun treffen, ist jede Kombination von Oben/Rechts erlaubt, was insgesammt
+$ \binom{37}{13} $ ist.\\
+
+Ein Weg von $37$ Schritten hat, da beide Möglichkeiten gleich Wahrscheinlich sind, die Wahrscheinlichkeit $0.5^{37}$. Wir erhalten für
+das Ereignis $E$ \emph{Überleben} also
+
+\[
+    P(E) = \binom{37}{13} * 0.5^{37} = 0.02592036107671447098255157470703125 \approx 2.5\%
+\]
 
 \subsection*{Aufgabe 3}
 
