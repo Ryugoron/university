@@ -128,6 +128,69 @@ das Ereignis $E$ \emph{Überleben} also
 
 \subsection*{Aufgabe 3}
 
+Sie m"ochten wissen, wie viele Karpfen in Ihrem Fischteich leben. Zuerst fangen
+Sie 15 Karpfen, markieren alle und setzen sie wieder aus. Ein paar Tage sp"ater
+fangen Sie 25 Karpfen und stellen fest, dass 3 bereits markiert sind. Geben Sie
+eine Sch"atzung f"ur die gesamte Anzahl der Karpfen im Fischteich und begr"unden
+Sie Ihre Antwort mit einem maximum-likelihood Argument. \\
+
+\textbf{Lösung:}\\
+
+Als erstes Stellen wir fest, dass wir mit diesem Vorgehen uns im Setting einer
+hypergeom. Verteilung befinden. Wobei $n$ unbekannt ist und $r = 15$, $k=3$ und
+$m = 25$ aus dem Text bekannt sind.
+
+Das $n$ soll "uber ein maximum-likelihood Argument bestimmt werden. Dazu gehen
+wir wie in der Vorlesung vor und schauen uns den Quotienten \[
+  \dfrac{h(k,m;r,n)}{h(k,m;r,n-1)}\ \Box\ 1
+\] an, wobei wir annehmen, dass $k,m,r$ fixiert sind.
+
+Das Ziel ist es nach $n$ aufzul"osen, und uns f"ur $\Box$ mit der Relation $\le$
+den gr"o"sten Wert $n$ anzusehen, s.d. $\le$ eingehalten wird, da dort das
+Maximum angenommen wird.
+
+Betrachte: \[
+  \dfrac{\binom{a-1}{b}}{\binom{a}{b}} = \dfrac{(a-1)! b! (a-b)!}{b! (a-1-b)! a!}
+  = \dfrac{a-b}{a} \tag*{*}
+\]
+
+Quotienten aufl"osen:
+\begin{align}
+  \dfrac{h(k,m;r,n)}{h(k,m;r,n-1)}
+  &=
+    \dfrac{
+      \binom{r}{k}\binom{n-r}{m-k}\binom{n-1}{m}
+    }{
+      \binom{n}{m}\binom{r}{k}\binom{n-1-r}{m-k}
+    } \\
+  &=
+    \dfrac{
+      \binom{n-r}{m-k}
+    }{
+      \binom{n-1-r}{m-k}
+    }
+    \dfrac{
+      \binom{n-1}{m}
+    }{
+      \binom{n}{m}
+    } \\
+  &\stackrel{*}{=}
+    \dfrac{(n-r)(n-m)}{(n-r-m+k)n}
+\end{align}
+
+Also ist der Quotient nach $n$ aufzul"osen
+\begin{align}
+  \dfrac{(n-r)(n-m)}{(n-r-m+k)n} &\ \Box\  1 \\
+  (n-r)(n-m) &\ \Box\  (n-r-m+k)n \\
+  n^2 + n(-r-m) + mr &\ \Box\  n^2 - (r+m-k)n \\
+  n(-r-m) + (r+m-k)n + mr &\ \Box\  0 \\
+  mr &\ \Box\  kn \\
+  \dfrac{mr}{k} &\ \Box\  n
+\end{align}
+
+Aus den Vorbetrachtungen folgt, dass bei $n \approx \dfrac{mr}{k}$ die Wkt.
+$h(k,m; r,n)$ maximal ist. Also in unserem Beispiel mit den Fischen, ist $n
+\approx \dfrac{15*25}{3} = 125$.
 
 \subsection*{Aufgabe 4}
 
