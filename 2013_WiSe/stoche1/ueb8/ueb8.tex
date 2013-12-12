@@ -130,30 +130,45 @@ das Ereignis $E$ \emph{Überleben} also
 
 \subsection*{Aufgabe 4}
 
-Es muss $\int_0^1 f(x) dx = 1$ sein und damit $\int_0^1 c x^2 = 1 \Leftrightarrow \frac{1}{3}c = 1 \Leftrightarrow c = 3$.
+Es muss 
+\[
+    \int_0^1 f(x) dx = 1
+\] gelten und damit 
+\[
+    \int_0^1 c x^2 = 1 \Leftrightarrow \frac{1}{3}c = 1 \Leftrightarrow c = 3.
+\]
 
-Es ist $[a,b]$ von $[0,0.4]$ unabhängig gdw. $\Prob([a,b] \cap [0,0.4]) = \Prob([a,b]) \Prob([0,0.4])$.
-Es ist $\Prob([a,b]) \Prob([0,0.4]) = \int_a^b 3x^2 dx \cdot \int_0^{0.4} 3x^2 dx = 0.064 (b^3 - a^3)$. \\
+Es ist $[a,b]$ von $[0,0.4]$ unabhängig gdw. $\Prob([a,b] \cap [0,0.4]) = \Prob([a,b]) \Prob([0,0.4])$.\\
+Es ist 
+\[
+    \Prob([a,b]) \Prob([0,0.4]) = \int_a^b 3x^2 dx \cdot \int_0^{0.4} 3x^2 dx = 0.064 (b^3 - a^3).
+\]
 
-1. Fall: $b \leq 0.4$ \\
-Dann ist $[a,b] \cap [0,0.4] = [a,b]$ und damit $\Prob([a,b] \cap [0,0.4]) = \Prob([a,b]) = b^3 - a^3$.
-Dann ist $ b^3 - a^3 =  0.064 (b^3 - a^3) \Leftrightarrow b = a$. \\
-Also $[a,b] = [a,a] = \emptyset$. \\
+\begin{description}
 
-2. Fall $b > 0.4$ \\
-(i) Fall $a \leq 0.4$: \\
-Dann ist $[a,b] \cap [0,0.4] = [a, 0.4]$ und damit  $\Prob([a,b] \cap [0,0.4]) = \Prob([a,0.4]) = 0.064 - a^3$.
-Dann ist $ 0.064 - a^3 =  0.064 (b^3 - a^3) \Leftrightarrow b = \frac{1}{2} \sqrt{8-117a^3}^3$. \\
-Also $[a,b] = [a,\frac{1}{2} \sqrt{8-117a^3}^3]$ für $a \leq 0.4$, $b > 0.4$. \\
+    \item[\bfseries 1. Fall:] $b \leq 0.4$ \\
+        Dann ist $[a,b] \cap [0,0.4] = [a,b]$ und damit 
+        \[
+            \Prob([a,b] \cap [0,0.4]) = \Prob([a,b]) = b^3 - a^3.
+        \]
+        Dann ist $ b^3 - a^3 =  0.064 (b^3 - a^3) \Leftrightarrow b = a$. \\
+        Also $[a,b] = [a,a] = \{a\}$ und hat die Wahrscheinlichekit $\Prob ([a,a]) = 0$. \\
+    \item[\bfseries 2. Fall:] $b > 0.4$ und $a \leq 0.4$: \\
+        Dann ist $[a,b] \cap [0,0.4] = [a, 0.4]$ und damit 
+        \[
+            \Prob([a,b] \cap [0,0.4]) = \Prob([a,0.4]) = 0.064 - a^3.
+        \]
+        Dann ist $ 0.064 - a^3 =  0.064 (b^3 - a^3) \Leftrightarrow b = \frac{1}{2} \sqrt[3]{8-117a^3}$. \\
+        Also $[a,b] = [a,\frac{1}{2} \sqrt[3]{8-117a^3}]$ für $a \leq 0.4$, $b > 0.4$. \\
 
-(ii) Fall $a > 0.4$: \\
-Dann ist $[a,b] \cap [0,0.4] = \emptyset$ und damit  $\Prob([a,b] \cap [0,0.4]) = \Prob(\emptyset) =0$.
-Dann ist $ 0=  0.064 (b^3 - a^3) \Leftrightarrow b = a$. \\
-Also $[a,b] = [a,a] = \emptyset$. \\
+    \item[\bfseries 3. Fall:] $b > 0$ und $ a > 0.4$: \\
+        Dann ist $[a,b] \cap [0,0.4] = \emptyset$ und damit  $\Prob([a,b] \cap [0,0.4]) = \Prob(\emptyset) =0$.
+        Dann ist $ 0=  0.064 (b^3 - a^3) \Leftrightarrow b = a$. \\
+        Also $[a,b] = [a,a] = \{a\}$.\\
+\end{description}
 
-Macht das Sinn? Sieht irgendwie komisch aus.
-Ich mach morgen ab ca. 9 Uhr weiter (Alex)
-
+    Es gilt also nur im 2. Fall und für alle $0$-Mengen, also ein elementige und Intervalle $[a,b]$ mit $a>b$, da diese
+    hier $[a,b] = \emptyset$ auch die Bedingung erfüllt.
 
 \label{LastPage}
 \end{document}
