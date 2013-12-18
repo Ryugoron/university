@@ -135,7 +135,58 @@ und daher auch
 \]
 
 \subsection*{Aufgabe 2}
-Marcel, hast du Bock drauf? :D
+
+Drei Kästen $K_1,K_2,K_3$ enthalten gut durchmischte schwarze und weiße Kugeln.\\
+
+\subsubsection*{(a)}
+
+Aus Kasten $K_3$ wird dreimal mit zurücklegen gezogen. Wie groß ist die Wahrscheinlichkeit, dass die erste Kugel
+weiß, die zweite schwarz und die dritte wieder weiß ist.\\
+
+\textbf{Lösung:}\\
+In $K_3$ ist eine schwarze und 3 weiße Kugeln. Da wir mit zurücklegen ziehen, ändert sich die 
+Wahrscheinlichkeit für eine Farbe von Zug zu Zug nicht. Wir nehmen an, dass \emph{gut durchmischt} Gleichverteilung bedeutet.\\
+
+Dann ist $\Prob(\text{weiß}) = \frac{3}{4}$ und $\Prob(\text{schwarz}) = \frac{1}{4}$.\\
+Für die gewünschte Folge erhalten wir also:
+\[
+    \Prob(E_a) = \Prob(\text{weiß})\Prob(\text{schwarz})\Prob(\text{weiß}) = \frac{3}{4} \frac{1}{4} \frac{3}{4} = \frac{9}{64}
+\]
+
+\subsubsection*{(b)}
+
+Nun wird zunächst ein Kasten mit der Wahrscheinlichkeit $\frac{1}{3}$ gewählt und dann eine Kugel gezogen. Mit welcher Wahrscheinlichkeit
+ist es eine weiße Kugel.\\
+
+\textbf{Lösung:}\\
+
+Die Wahrscheinlichkeit einen Kasten zu bekommen ist $\Prob(K_i) = \frac{1}{3}$ für $i \in [3]$.
+Im ersten Kasten haben wir die Wahrscheinlichkeit
+$\Prob(W \,|\, K_1) = \frac{2}{3}$ eine weiße Kugel zu ziehen, im zweiten $\Prob(W \,|\, K_2) = \frac{5}{8}$ und im dritten $\Prob(W \,|\, K_3) = \frac{1}{4}$.
+Daraus folgt
+\[
+    \begin{array}{rcl}
+    \Prob(W) &=& \Prob(K_1)\Prob(W \, | \, K_1) + \Prob(K_2)\Prob(W \, | \, K_2) + \Prob(K_3)\Prob(W \, | \, K_3)\\
+            &=& \frac{1}{3} \cdot \left( \frac{2}{3} + \frac{5}{8} + \frac{1}{4} \right)\\
+            &=& \frac{37}{72}
+    \end{array}
+\]
+
+\subsubsection*{(c)}
+
+Wenn eine Ziehung wie in (b) eine weiße Kugel liefert, mit welcher Wahrscheinlichkeit wurde dann im ersten Schritt Kasten $K_2$ gewählt.\\
+
+\textbf{Lösung:}\\
+
+Wir benutzen hier den Satz von Bayes da wir in (b) schon alles notwendige berechnet haben.
+
+\[
+    \begin{array}{rcl}
+        \Prob( K_2 \, | \, W) &=& \frac{\Prob(W \, | \, K_2) \cdot \Prob(K_2)}{\Prob(W)}\\
+            &=& \frac{5}{8} \cdot \frac{1}{3} \cdot \frac{72}{37}\\
+            &=& \frac{15}{37}
+    \end{array}
+\]
 
 \subsection*{Aufgabe 3}
 \newcommand{\D}{\mathcal{D}}
