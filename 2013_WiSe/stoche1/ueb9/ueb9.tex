@@ -118,7 +118,7 @@ Ist $\Omega = \left[ 48 \right]$, so trifft unser zweite Fall nicht mehr zu. Es 
     48 \cdot \left| A \cap B \right| = |A| \cdot |B|
 \]
 
-Aber ich kann nun die $48$ aufteilen. Z.B. ist $A = \{1,2\}$ und $B = \{2,\dots,25\}$.\\
+Aber ich kann nun die $48$ aufteilen. Z.B. ist $A = \{1,2\}$ und $B = \{2,\ldots,25\}$.\\
 
 Hier ist
 \[
@@ -176,8 +176,78 @@ und damit $\bigcup_i E_i \in \D$.
 \end{enumerate}
 Also ist $\D$ ein Dynkin-System.
 \mbox{} \hfill $\square$
+
 \subsection*{Aufgabe 4}
 
+Sei $\Omega = [7]^{11}$ mit Gleichverteilung versehen. Wir definieren $E_{k,l} = \{(x_1, \ldots , x_11) \, | \, x_k = l \}$ für $k \in [11]$ und $l \in [7]$.
+Was ist die maximale Anzahl der Ereignisse, die Sie aus diesen $77$ wählen können, so dass sie eine unabhängige Menge von Ereignissen formen.\\
+
+\textbf{Lösung:}\\
+
+Als erstes können wir uns die Wahrscheinlichkeit von einem Ereignis $E_{k,l}$ berechnen. Da alle Elemente gleich Wahrscheinlich sind,
+müssen wir nur die Anzahl der Elemente in $E_{k,l}$ zählen.\\
+In $E_{k,l}$ ist nach definition eine Stelle auf ein Element fixiert und der  Rest ist frei und kann daher beliebig belegt werden.\\
+Dies sind $10$ Stellen mit $7$ Ziffern, was $7^{10}$ Kombinationen erlaub.
+\[
+    \Rightarrow \Prob (E_{k,l}) = \frac{|E_{k,l}|}{|\Omega|} = \frac{7^{10}}{7^{11}} = \frac{1}{7} = 7^{-1}
+\]
+
+Wir betrachten als nächstes, wann für eine Menge $E_1, ..., E_n$ mit $E_i = E_{k_i, l_i}$ die Bedingung
+\[
+    \Prob( \bigcap_i E_i) = \prod_i \Prob (E_i) = 7^{-n}
+\]
+erfüllt ist.\\
+
+Wir sehen zunächst, dass falls $k_i = k_j$ gilt, auch $l_i = l_j$ gelten muss.\\
+\textbf{Beweis:}\\
+    Nehmen wir an, dass $k_i = k_j$ und $l_i \not= l_j$ gelten würde.
+    Dann folgt
+    \[
+        E_i \cap E_j = \{(x_1, \ldots, x_{11}) | x_{k_i} = l_i \land x_{k_j} = l_j\}
+    \]
+    und da $x_{k_i} = x_{k_j}$ gilt ist
+    \[
+        E_i \cap E_j = \emptyset.
+    \]
+
+    Nun ist aber $\Prob (\emptyset) \not= 7^{-2}$ und $E_i$ und $E_j$ können nicht unabhängig sein.\\
+\mbox{}\hfill$\square$\\
+
+Dies zeigt uns auch, dass falls $E_i$ und $E_j$ $k_i = k_j$ haben auch in der Tat $E_i = E_j$ gilt und wir daher keine 2 verschiedenen Mengen haben.\\
+
+Wir können also schnell folgern, dass eine Menge von Ereignissen $\{E_1, \ldots, E_n\}$ höchstens $11$ Ereignisse enthält und dass $k_i \not= k_j$
+für alle $\forall i,j \in [11] : i \not= j$. Wobei wir den zweiten Teil nun schon bewiesen haben.\\
+
+\textbf{Beweis:}\\
+Sei $D = \{E_1, \ldots, E_{n} \}$ mit $n>11$ eine maximale Menge von unabhängigen Ereinissen. Dann gibt es nach Taubenschlagprinzip 2 Ereignisse $E_i$ und $E_j$ mit
+$k_i = k_j$. Wie schon gezeigt ist nun aber $E_i = E_j$ also ist auch $D \setminus \{ E_i \}$ eine maximale Menge (in der Tat ist es $D$).
+Also hat $D$ maximal $n-1$ Elemente.\\
+\mbox{}\hfill$\square$\\
+
+Lässt uns noch den Beweis, dass diese Menge auch unabhängig ist.\\
+\textbf{Beweis:}\\
+Sei $D = \{E_1, \ldots E_{11}\}$ wie gegeben. Dann gilt für jede Teilmenge $D' = \{E'_1, \ldots, E'_m\}$ mit $2\leq m \leq 11$
+\[
+    \begin{array}{rcl}
+        \Prob(\underset{i=1}{\overset{k}{\bigcap}} E'_i) &=& \Prob(\{ (x_1, \ldots, x_{11}) \, | \, \underset{i=1}{\overset{k}{\bigwedge}} k_i = l_i\}\\
+            &\stackrel{*}{=}& \frac{7^{11-k}}{7^11}\\
+            &=& 7^{-k}\\
+            &=& \underset{i=1}{\overset{k}{\prod}} \Prob(E'_i)
+    \end{array}
+\]
+
+(*) gilt, da alle $k_i$ verschieden sind. Wir zählen also wieder die Größe von $\bigcap E'_i$. Hier sind $k$ stellen Fix und wir können noch
+für $11-k$ Positionen eine Zahl aus $[7]$ auswählen.
+
+Da dies für alle Teilmengen von $D$ gilt, ist $D$ unabhängig.\\
+\mbox{}\hfill$\square$\\
+
+
+Wir sehen also, dass wir zu einer $11$ elementigen Menge von Ereignissen kein weiteres hinzugeben können, ohne sie entweder abhängig zu machen oder
+das selbe Ereignis nocheinmal hinzuzugeben und wir sehen, dass alle so gebildeten $11$ elementigen Mengen auch wirklich unabhängig sind.
+
+Daher ist die maximale Anzahl von Ereignissen die man bilden kann $11$.\\
+\mbox{}\hfill$\square$
 
 \label{LastPage}
 \end{document}
