@@ -73,6 +73,67 @@
 
 \subsection*{Aufgabe 1}
 
+\subsubsection*{(a)}
+Sei die Menge $\Omega = [47]$ mit der Gleichverteilung versehen. Zeigen Sie, dass wenn Ereignisse $A$ und $B \in \mathcal{P}(\Omega)$ unabhängig sind,
+dann eine der beiden Mengen leer oder $\Omega$ ist.\\
+
+\textbf{Lösung:}\\
+
+Seien $\Omega, A, B$ wie in der Aufgabe. $A$, $B$ heißen unabhängig, wenn
+\[
+    \Prob(A \cap B) = \Prob(A) \cdot \Prob(B)
+\]
+gilt.
+
+Da wir es mit einer Gleichverteilung zu tun haben, ist die Wahrscheinlichkeit einer Menge $C$, $\Prob(C) = \frac{|C|}{|Omega|} = \frac{|C|}{47}$.
+
+Setzen wir dies in die unabhängigkeit ein, so erhalten wir
+\[
+    \begin{array}{lrcl}
+        &\frac{\left| A \cap B \right|}{47} &=& \frac{|A|}{47} \cdot \frac{|B|}{47}\\
+        \Leftrightarrow & 47 \cdot \left| A \cap B \right| &=& |A| \cdot |B|
+    \end{array}
+\]
+
+Sollte der Schnitt $A \cap B$ leer sein, so müsste $A$ oder $B$ die leere Menge sein, da $0 = |A| \cdot |B|$ impliziert, das einer der Faktoren die größe Null hat
+und der Satz wäre bewiesen.\\
+
+Sollte der Schnitt $A \cap B$ nicht leer sein, so wissen wir, dass die linke Seite der Gleichung den Faktor $47$ enthält. Da $47$ eine Primzahl ist, muss
+aber $47$ ein Primteiler von $A$ oder $B$ sein (unteilbarkeit von $47$).\\
+
+Nun ist $A \subseteq \Omega$, $B \subseteq \Omega$ und daher gilt $|A| \leq 47$ und $|B| \leq 47$. Da eins der beiden aber $47$ als Teiler hat muss $A$ oder $B$
+$47$ Elemente enthalten, was bei $|\Omega| = 47$ komplett $\Omega$ ist.
+
+\mbox{}\hfill$\square$
+
+\subsubsection*{(b)}
+
+Zeigen Sie, dass die analoge Behauptung für $\Omega = [48]$ nicht richtig ist.\\
+
+\textbf{Lösung:}\\
+
+Ist $\Omega = \left[ 48 \right]$, so trifft unser zweite Fall nicht mehr zu. Es gilt zwar immer noch
+
+\[
+    48 \cdot \left| A \cap B \right| = |A| \cdot |B|
+\]
+
+Aber ich kann nun die $48$ aufteilen. Z.B. ist $A = \{1,2\}$ und $B = \{2,\dots,25\}$.\\
+
+Hier ist
+\[
+    \begin{array}{rcl}
+        A \cap B    &=& \{2\}\\
+        |A \cap B| &=& 1\\
+        |A|     &=& 2\\
+        |B|     &=& 24\\
+    \end{array}
+\]
+und daher auch
+\[
+    48 \cdot \left| A \cap B \right| = 48 \cdot 1 = 2 \cdot 24 = |A| \cdot |B|
+\]
+
 \subsection*{Aufgabe 2}
 \subsection*{Aufgabe 3}
 
