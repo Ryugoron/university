@@ -75,7 +75,43 @@
 
 \subsection*{Aufgabe 2}
 \subsection*{Aufgabe 3}
+\newcommand{\D}{\mathcal{D}}
+Sei $(\Omega, \Epsilon, \Prob)$ ein W-Raum und $A,B \in \Epsilon$ zwei unabh. Ereignisse. \\
+Z.z.: $\mathcal{D} = \set{E \in \Epsilon \; | \; \set{A,B, E} \text{ ist unabhängig}}$ ist Dynkin-System. \\
 
+\textbf{Beweis}: Sei  $A,B \in \Epsilon$ zwei unabhängige Ereignisse.
+\begin{enumerate}[(i)]
+\item $\emptyset \in \D, \Omega \in \D$: \\
+Es ist $\emptyset \in \Epsilon$ und $\Omega \in \Epsilon$ (da $\Epsilon$ $\sigma$-Algebra). \\
+Weiterhin ist $\Prob(A \cap B \cap \emptyset) = \Prob(\emptyset) = 0 = \Prob(A) \Prob(B) \underbrace{\Prob(\emptyset)}_{=0}$ und \\
+$\Prob(A \cap B \cap \Omega) = \Prob(A \cap B) = \Prob(A) \Prob(B) =  \Prob(A) \Prob(B) \underbrace{\Prob(\Omega)}_{=1}$. \\
+Also ist $\emptyset \in \D$ und $\Omega \in \D$.
+\item Für alle $E \in \D$ gilt  $\Omega \setminus E \in \D$: \\
+Sei $E \in \D$. Also gilt $\Prob(A \cap B \cap E) = \Prob(A) \Prob(B) \Prob(E)$. Dann gilt aber
+\begin{equation*}\begin{split}
+ \Prob(A \cap B \cap E^c) &=  \Prob((A \cap B) \cap (\Omega \setminus E)) \\
+&=  \Prob((A \cap B \cap \Omega) \setminus (A \cap B \cap E)) \\
+&= \Prob((A \cap B) \setminus (A \cap B \cap E)) \\
+&=  \Prob(A)\Prob(B) - \Prob(A)\Prob(B)\Prob(E) \\
+&= \Prob(A)\Prob(B) \cdot (1 - \Prob(E)) \\
+&= \Prob(A)\Prob(B) \Prob(E^c) \\
+\end{split}\end{equation*}
+und damit $E^c \in \D$.
+\item Sei $\left( E_i \right)_{i \in \mathbb{N}}$ eine Folge von paarweise disjunkten Ereignissen mit $E_i \in \D$. \\
+Z.z. $\bigcup_i E_i \in \D$. \\
+Es ist
+\begin{equation*}\begin{split}
+ \Prob(A \cap B \cap \bigcup_i E_i) &=  \Prob((A \cap B) \cap \bigcup_i E_i) \\
+&= \Prob(\bigcup_i A \cap B \cap E_i) \\
+&\stackrel{(*)}{=} \sum_i \Prob(A \cap B \cap E_i) \\
+&\stackrel{Unabh.}{=} \sum_i \Prob(A) \Prob(B) \Prob(E_i) \\
+&= \Prob(A)\Prob(B) \sum_i \Prob(E_i) \\
+&\stackrel{(*)}{=} \Prob(A)\Prob(B) \Prob(\bigcup_i E_i) \\
+\end{split}\end{equation*}
+und damit $\bigcup_i E_i \in \D$.
+(*) gilt, da für disjunkte Folgen $A_1, A_2, \ldots$ gilt: $\Prob(\bigcup_i A_i) = \sum_i \Prob(A_i)$.
+\end{enumerate}
+\mbox{} \hfill $\square$
 \subsection*{Aufgabe 4}
 
 
