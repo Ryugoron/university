@@ -76,7 +76,7 @@ Konstruieren Sie Zufallsvariablen $X$ und $Y$, die nicht unabhängig sind, so da
 Erwartungswerte von $X$, $Y$ und $XY$ existieren und $E(XY) = E(X)E(Y)$. \\
 
 \textbf{Lösung}: \\
-Wahrscheinlichkeitsraum $\Omega = {\omega_1, \omega_2, \omega_3}$ mit Gleichverteilung.
+Seu $(\Omega, \Epsilon, \Prob)$ ein Wahrscheinlichkeitsraum mit $\Omega = {\omega_1, \omega_2, \omega_3}$ und Gleichverteilung.
 
 Sei $X$ gegeben durch
 \begin{equation}
@@ -94,30 +94,41 @@ Y(y) = \begin{cases}
          1 & \text{, falls $y = \omega_3$}
        \end{cases}
 \end{equation}
+Die Erwartungswerte von $X$ bzw. $Y$ sind gegeben durch $E(X) = 0$, $E(Y) = 2/3$. \\
+Da $(XY)(\omega_i) = X(\omega_i) \cdot Y(\omega_i)$ ist die Produkt-Zufallsvariable gegeben durch: \\
+$XY(\omega_1) = X(\omega_1)Y(\omega_1) = -1  \cdot 1 = -1$ \\
+$XY(\omega_2) = X(\omega_2)Y(\omega_2) = 0 \cdot 0 = 0$ \\
+$XY(\omega_3) =X(\omega_3)Y(\omega_3)  = 1$ \\
+und damit der Erwartungswert (weil gleichverteilt) $E(XY) = 0$. \\
 
-$XY(\omega_1) = X(\omega_1)Y(\omega_1) = -1 * 1 = -1$
+Nun suchen wir $x, y$ sodass die Ereignisse $\set{X >= x}$ und $\set{Y >= y}$ nicht unabhängig sind.
+Dies ist gegeben bei den Ereignissen $\set{X >=1}  = \set{\omega_3}$ und $\set{Y >=1} = \set{\omega_1, \omega_3}$, da
 
-$XY(\omega_2) = ... = 0*0 = 0$
+\begin{equation}\begin{split}
+ &\Prob(\set{X >=1} \cap \set{Y>=1})=  \Prob(\set{\omega_3}) =  \frac{1}{3} \\
+&\neq \frac{2}{9}= \frac{1}{3} \cdot \frac{2}{3} = \Prob(\set{X>=1}) \cdot \Prob(\set{Y>=1})
+\end{split}\end{equation}
 
-$XY(\omega_3) = 1$
+\section*{Aufgabe 2}
+Die Dichtefunktionen für $X, Y, Z$ sind gegeben durch $f_X \equiv f_Y \equiv f_Z \equiv x \mapsto 1$.
+Bezeichne $f_X, f_Y, f_Z$ im Folgenden die auf $\mathbb{R}$ mit 0 fortgesetzten Dichtefunktionen, also
+\begin{equation}
+f_X \equiv f_Y \equiv f_Z \equiv x \mapsto \begin{cases}
+								1 & \text{, falls $x \in [0,1]$} \\
+								0 & \text{, sonst}
+							\end{cases}
+\end{equation}
 
-$E(XY) = 0$
-
-$E(X) = 0$
-
-$E(Y) = 2/3$
-
-z.z. x x, y s.d. ereignisse ${X >= x}$ und ${Y >= y}$ nicht unabh. sind
-
-${X >=1}  = {omega3}$
-
-${Y >=1} = {omega1, omega3}$
-
-
-$P({X >=1} cap {Y>=1}) = P(omega3} = 1/3$
-
-$P({X>=1})P({Y>=1}) = 1/3 * 2/3 = 2/9$
-
+\begin{equation}\begin{split}
+f_{XY}(x) := (X+Y)(x) = (f_X * f_Y)(x) &= \int_\mathbb{R} f_X(a) f_Y(x-a) \;da \\
+&= \begin{cases}
+		0 & \text{, falls $x < 0$} \\
+		x & \text{, falls $0 \leq x \leq 1$} \\
+		2-x  & \text{, falls $1 < x \leq 2$} \\
+		0 & \text{, falls $x > 2$}
+     \end{cases}
+\end{split}\end{equation}
+Puh, das ist nervig. Kein Bock mehr.
 
 \label{LastPage}
 \end{document}
