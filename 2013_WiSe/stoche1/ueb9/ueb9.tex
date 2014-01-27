@@ -71,7 +71,7 @@
 \end{center}
 
 
-\subsection*{Aufgabe 1}
+\subsection*{Aufgabe 1\maxw}
 
 \subsubsection*{(a)}
 Sei die Menge $\Omega = [47]$ mit der Gleichverteilung versehen. Zeigen Sie, dass wenn Ereignisse $A$ und $B \in \mathcal{P}(\Omega)$ unabhängig sind,
@@ -134,7 +134,7 @@ und daher auch
     48 \cdot \left| A \cap B \right| = 48 \cdot 1 = 2 \cdot 24 = |A| \cdot |B|
 \]
 
-\subsection*{Aufgabe 2}
+\subsection*{Aufgabe 2\marcel}
 
 Drei Kästen $K_1,K_2,K_3$ enthalten gut durchmischte schwarze und weiße Kugeln.\\
 
@@ -162,13 +162,13 @@ ist es eine weiße Kugel.\\
 
 Die Wahrscheinlichkeit einen Kasten zu bekommen ist $\Prob(K_i) = \frac{1}{3}$ für $i \in [3]$.
 Im ersten Kasten haben wir die Wahrscheinlichkeit
-$\Prob(W \,|\, K_1) = \frac{2}{3}$ eine weiße Kugel zu ziehen, im zweiten $\Prob(W \,|\, K_2) = \frac{5}{8}$ und im dritten $\Prob(W \,|\, K_3) = \frac{1}{4}$.
+$\Prob(W \,|\, K_1) = \frac{2}{3}$ eine weiße Kugel zu ziehen, im zweiten $\Prob(W \,|\, K_2) = \frac{5}{8}$ und im dritten $\Prob(W \,|\, K_3) = \frac{3}{4}$.
 Daraus folgt
 \[
     \begin{array}{rcl}
     \Prob(W) &=& \Prob(K_1)\Prob(W \, | \, K_1) + \Prob(K_2)\Prob(W \, | \, K_2) + \Prob(K_3)\Prob(W \, | \, K_3)\\
-            &=& \frac{1}{3} \cdot \left( \frac{2}{3} + \frac{5}{8} + \frac{1}{4} \right)\\
-            &=& \frac{37}{72}
+            &=& \frac{1}{3} \cdot \left( \frac{2}{3} + \frac{5}{8} + \frac{3}{4} \right)\\
+            &=& \frac{49}{72}
     \end{array}
 \]
 
@@ -183,12 +183,12 @@ Wir benutzen hier den Satz von Bayes da wir in (b) schon alles notwendige berech
 \[
     \begin{array}{rcl}
         \Prob( K_2 \, | \, W) &=& \frac{\Prob(W \, | \, K_2) \cdot \Prob(K_2)}{\Prob(W)}\\
-            &=& \frac{5}{8} \cdot \frac{1}{3} \cdot \frac{72}{37}\\
-            &=& \frac{15}{37}
+            &=& \frac{5}{8} \cdot \frac{1}{3} \cdot \frac{72}{49}\\
+            &=& \frac{15}{49}
     \end{array}
 \]
 
-\subsection*{Aufgabe 3}
+\subsection*{Aufgabe 3\alex}
 \newcommand{\D}{\mathcal{D}}
 Sei $(\Omega, \Epsilon, \Prob)$ ein W-Raum und $A,B \in \Epsilon$ zwei unabh. Ereignisse. \\
 Z.z.: $\mathcal{D} = \set{E \in \Epsilon \; | \; \set{A,B, E} \text{ ist unabhängig}}$ ist Dynkin-System. \\
@@ -225,17 +225,23 @@ Es ist
 und damit $\bigcup_i E_i \in \D$.
 (*) gilt, da für disjunkte Folgen $A_1, A_2, \ldots$ gilt: $\Prob(\bigcup_i A_i) = \sum_i \Prob(A_i)$.
 \end{enumerate}
+\textbf{Hinweis:}
+Wir haben nur den Fall $A \cap B \cap E$ betrachtet, da alle anderen Indexmengen, wo mit
+$E$ geschnitten wird, den exakt gleichen Beweis haben. Dadurch fehlen nur die F"alle wo
+nicht mit $E$ geschnitten wird. Aber da gibt es nur den Fall $A \cap B$ und der ist
+nach Vorr. erf"ullt.
+
 Also ist $\D$ ein Dynkin-System.
 \mbox{} \hfill $\square$
 
-\subsection*{Aufgabe 4}
+\subsection*{Aufgabe 4\maxw}
 
 Sei $\Omega = [7]^{11}$ mit Gleichverteilung versehen. Wir definieren $E_{k,l} = \{(x_1, \ldots , x_11) \, | \, x_k = l \}$ für $k \in [11]$ und $l \in [7]$.
 Was ist die maximale Anzahl der Ereignisse, die Sie aus diesen $77$ wählen können, so dass sie eine unabhängige Menge von Ereignissen formen.\\
 
 \textbf{Lösung:}\\
 
-Als erstes können wir uns die Wahrscheinlichkeit von einem Ereignis $E_{k,l}$ berechnen. Da alle Elemente gleich Wahrscheinlich sind,
+Als erstes können wir uns die Wahrscheinlichkeit von einem Ereignis $E_{k,l}$ berechnen. Da alle Elemente gleich wahrscheinlich sind,
 müssen wir nur die Anzahl der Elemente in $E_{k,l}$ zählen.\\
 In $E_{k,l}$ ist nach definition eine Stelle auf ein Element fixiert und der  Rest ist frei und kann daher beliebig belegt werden.\\
 Dies sind $10$ Stellen mit $7$ Ziffern, was $7^{10}$ Kombinationen erlaub.
@@ -270,7 +276,7 @@ Wir können also schnell folgern, dass eine Menge von Ereignissen $\{E_1, \ldots
 für alle $\forall i,j \in [11] : i \not= j$. Wobei wir den zweiten Teil nun schon bewiesen haben.\\
 
 \textbf{Beweis:}\\
-Sei $D = \{E_1, \ldots, E_{n} \}$ mit $n>11$ eine maximale Menge von unabhängigen Ereinissen. Dann gibt es nach Taubenschlagprinzip 2 Ereignisse $E_i$ und $E_j$ mit
+Sei $D = \{E_1, \ldots, E_{n} \}$ mit $n>11$ eine maximale Menge von unabhängigen Ereignissen. Dann gibt es nach Taubenschlagprinzip 2 Ereignisse $E_i$ und $E_j$ mit
 $k_i = k_j$. Wie schon gezeigt ist nun aber $E_i = E_j$ also ist auch $D \setminus \{ E_i \}$ eine maximale Menge (in der Tat ist es $D$).
 Also hat $D$ maximal $n-1$ Elemente.\\
 \mbox{}\hfill$\square$\\
@@ -287,7 +293,7 @@ Sei $D = \{E_1, \ldots E_{11}\}$ wie gegeben. Dann gilt für jede Teilmenge $D' 
     \end{array}
 \]
 
-(*) gilt, da alle $k_i$ verschieden sind. Wir zählen also wieder die Größe von $\bigcap E'_i$. Hier sind $k$ stellen Fix und wir können noch
+(*) gilt, da alle $k_i$ verschieden sind. Wir zählen also wieder die Größe von $\bigcap E'_i$. Hier sind $k$ stellen fix und wir können noch
 für $11-k$ Positionen eine Zahl aus $[7]$ auswählen.
 
 Da dies für alle Teilmengen von $D$ gilt, ist $D$ unabhängig.\\
