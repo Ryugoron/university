@@ -1,0 +1,195 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm]{geometry}
+\usepackage[ngerman]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{ae}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{stmaryrd}
+\usepackage{paralist}
+
+\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[C]{Stochastik I}
+\fancyhead[L]{Übung 12}
+\fancyhead[R]{WiSe 2013/14}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage \hspace{1px} of \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\newcommand{\set}[1]{ \{ #1 \}}
+\newcommand{\Prob}{\mathbb{P}}
+\setlength{\parindent}{0pt}
+\setlength{\headheight}{0pt}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\bigO}{\mathcal{O}}
+\newcommand{\Rarr}{\Rightarrow}
+\newcommand{\rarr}{\rightarrow}
+\newcommand{\Pot}{\mathcal{P}}
+\newcommand{\abs}[1]{ |#1|}
+\newcommand{\solved}{$\mbox{}$ \hfill $\square$}
+\newcommand{\Epsilon}{\mathcal{E}}
+
+\newcommand{\maxw}{$^\curlywedgedownarrow$}
+\newcommand{\alex}{$^\dagger$}
+\newcommand{\marcel}{$^\diamondsuit$}
+
+\date{}
+\title{Übung 12}
+\author{Max Wisniewski\maxw, Alexander Steen\alex, Marcel Ehrhardt\marcel}
+
+
+%%
+%% Enviroments for proofs and lemmas
+%%
+\newtheorem{prop}{\bfseries Behauptung}
+\newtheorem{lemma}{\bfseries Lemma}
+
+\begin{document}
+
+\lstset{language=Pascal, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2, mathescape=true}
+
+\renewcommand{\figurename}{Figure}
+
+\maketitle
+\thispagestyle{fancy}
+
+\begin{center}
+\textbf{Hinweis}: Die Angabe, wer welche Aufgabe in \LaTeX\ formuliert hat, ist als hochgestelltes Symbol der Aufgabenüberschrift zu entnehmen.
+\end{center}
+
+
+\subsection*{Aufgabe 1}
+
+Jemand wirft solange, bis er das erste Mal "Augensumme 11" erhält.
+
+\subsubsection*{a)}
+Wie oft muss er im Mittel würfeln?\\
+
+\textbf{Lösung:}\\
+
+Es handelt sich um ein geometrisches Zufalls experiement.
+Die Wahrscheinlichkeit bei einem mal werfen ist
+$\Prob(W = 11) = \frac{1}{13}$, da es bei $36$ Kombinationen nur $2$ gibt,
+bei denen die Augensumme $11$ ist.
+
+Nun gilt bei geometrischen Verteilungen, dass der Mittelwert
+$E[W] = \frac{1}{p}$ ist. In unserem Fall erwarten wir also $13$
+durchgänge, bis wir eine $11$ bekommen.
+
+\subsubsection*{b)}
+
+Nun hat er schon 20 Mal gewürfelt, ohne dass die Augensumme einmal 11 gewesen ist. Mit welcher Wahrscheinlichkeit wird er auch in den nächsten beiden Versuchen keinen Erfolgt haben.\\
+
+\textbf{Lösung:}\\
+
+Eine geometrische Verteilung ist gedächnislos. D.h. die Anzahl der bisherigen
+Misserfolge ist ohne belang für die Wahrscheinlichkeit. Also müssen wir
+nur die Wahrscheinlichkeit für beide Hintereinander ausgeführten Versuche berechnen.
+
+\[
+    P(W_1 \not= 11 \land W_2 \not=11) = P(W_1 \not= 11) \cdot P(W_2 \not= 11) =
+        (1-p)^2 = \frac{12^2}{13^2} = \frac{144}{169}
+\]
+
+\textbf{Kommt mir etwas zu leicht vor...}
+
+\subsection*{Aufgabe 2}
+
+Seien $X_1, X_2, ... : \Omega \rightarrow \mathbb{R}$ Zufallsvariablen auf dem Wahrscheinlichkeitsraum $\left( \Omega, \mathcal{E}, \Prob \right)$ wobei $\Omega$
+höchstens abzählbar ist. Zeigen Sie, dass von $\lim_{\text{i.W.}} X_n = X$ folgt $\lim_{\text{f.s.}} X_n = X$.\\
+
+\textbf{Beweis:}\\
+
+Wir wissen, dass für die $X_n$ gilt:
+\[
+    \lim_{n \rightarrow \infty} \Prob(\left| X_n - X \right| > \varepsilon) = 0
+\]
+für alle $\varepsilon > 0$.
+
+Nehmen wir nun auch an, dass
+\[
+    P(\left\{ \omega \in \Omega \, : \, \lim_{n \rightarrow \infty} X_n(\omega) = X(\omega) \right\}) < 1
+\]
+
+ist. Wir wissen also, dass eine Menge $N(\varepsilon) \subseteq \Omega$ von $\omega \in \Omega$ auf denen die Folge für ein festes $\varepsilon > 0$ 
+von Zufallsvariablen nicht konvergiert, d.h. $\forall \omega \in N(\varepsilon) \forall n \in \mathbb{N} \, . \, X_n(\omega) - X > \varepsilon$.
+und $\Prob(N(\varepsilon)) > 0$ also, gilt $|N(\varepsilon)| > 0$. 
+
+Da $\Omega$ abzählbar ist kann $|X_n - X| > \varepsilon$ also nur $\Prob(N) > 0$ sein, und da $|N| > 0$ und abzählbar ist. Das ist aber ein Widerspruch zur annahme.
+
+\subsection*{Aufgabe 3}
+
+Ein Theater hat 200 Plätze und zwei Garderoben. Jeder Zuschauer gibt seinen Mantel an einer der beiden Garderoben ab, mit Wahrscheinlichkeit $\frac{1}{2}$, unabhängig
+von den anderen. Der Herr Direktor will, dass in $99\%$ der Fälle jeder seinen Mantel an der gewünschten Garderobe abgeben kann. Wären 170 Haken dafür genug dafür?\\
+
+\textbf{Lösung:}\\
+
+Da beide Gerderoben die selbe Wahrscheinlichkeit haben, müssen wir nur einen Fall betrachten, wie viele Mäntel Wahrscheinlich an einer Garderobe hängen werden.\\
+Wir haben hier ein einfaches Bernoulli Experiment, mit Gleichbleibenden Wahrscheinlichkeiten. Wir beschreiben die Zufallsvariable $X$ als, es haben so viele
+Leute an der Garderobe abgegeben. Wir können daher $X$ darstellen als
+\[
+    X = \sum_{i=1}^{200} X_i
+\]
+wobei $X_i$ eine Indikatorvariable ist, die beschreibt ob der $i$te Gast an dieser Garderobe abgegeben hat.
+
+Da wir nicht wissen mit welcher Genauigkeit die Abschätzung geschehen soll, arbeiten wir uns von unten nach oben vor.\\
+
+\begin{description}
+    \item[\bfseries Markov Ungleichung:] Der Erwartungswert ist $E[X] = 200 \cdot \frac{1}{2} = 100$, wie man es von einem Bernoulli Experiment kennt.
+        Die Markov Ungleichung ergibt nun
+        \[\begin{array}{rcl}
+            P(X \geq 170) &=& \frac{E[X]}{170}\\ &=& \frac{100}{170}\\ &=& 0.588235.
+        \end{array}\]
+        Nach Markov würde es also nicht reichen.
+    \item[\bfseries Tschebyscheff Ungleichung:] Die Varianz einer Bernoulli Verteilung ist $\text{Var}(X) = p*(1-p) = \frac{1}{4}$ in diesem Fall.
+        Wir wissen aber, dass alle Mäntel auf die Gerderobe passen, wenn wir nicht mehr als $70$ vom Erwartungswert abweichen, also
+        können wir nach Tschebyscheff Ungleichung bestimmen:
+        \[\begin{array}{rcl}
+            P(|X - 100| < 70) &\geq& 1 - \frac{\text{Var}^2(X)}{70^2}\\
+                &=& 1 - \left(\frac{1}{4^2} \cdot \frac{1}{70^2}\right)\\
+                &=& \frac{78399}{78400}\\
+                &=& 0.999987
+        \end{array}\]
+
+        Damit hätten wir auch schon gezeigt, das wir die Wahrscheinlichkeit erreichen. Um aber noch eine schönere Abschätzung zu bekommen, schauen
+        wir uns noch den nächsten Abschätzer an.
+    \item[\bfseries Chernoff Schranke:] Wir befinden uns in der Situation eine Zufallsvariable zu haben, die aus der Summe von unabhängigen
+        Indikatorvariablen mit je gleicher Wahrscheinlichkeit zu befinden. Damit können wir die folgende Schranke anwenden.
+        \[
+            \forall \delta > 0 \, : \, \Prob \left[\sum X_i \geq (1+\delta)\cdot p \cdot n \right] \leq e^{-\frac{\min{\delta, \delta^2}}{3}pn}
+        \]
+        Um die Schranke zu benutzen, müssen wir erst den relativen Faktor $\delta$ bestimmen. Wir wollen $X \geq 171$ untersuchen. 
+        Also gilt $(1+ \delta) 100 = 171 \Rightarrow \delta = \frac{71}{100}$.
+
+        Es folgt also für dieses $\delta$, dass
+        \[
+            P(X \geq 171) \leq e^{-\frac{\delta^2}{3}\cdot 100} = e^{-\frac{5041}{300}} \approx 5.0397 \cdot 10^{-8}
+        \] 
+        gilt. Wir sind also für $P(X \leq 170)$ mit einer Zahl recht nah an $1$ dabei. Wobei wir im gegensatz zu Tschebyscheff noch einmal 4 weiere Stellen
+        mit $9$en fixieren.
+\end{description}
+
+\subsection*{Aufgabe 4}
+
+Es seien $X, X_1, X_2, ... : \Omega \rightarrow \mathbb{R}$ Zufallsvariablen auf dem Wahrscheinlichkeitsraum $(\Omega, \mathcal{E}, \Prob)$,
+so dass $\Prob(X_n \geq c) = 1$ für jedes $n$ und $\lim_{\text{i.V.}}X_n = X$. Zeigen Sie, dass auch $\Prob(X \geq c) = 1$.\\
+
+\textbf{Beweis:}\\
+
+blub.
+
+\label{LastPage}
+\end{document}
