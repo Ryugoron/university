@@ -1,0 +1,248 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm]{geometry}
+\usepackage[ngerman]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{ae}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{stmaryrd}
+\usepackage{paralist}
+
+\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[C]{ADS}
+\fancyhead[L]{Übung 1}
+\fancyhead[R]{SoSe 2014}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage \hspace{1px} of \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\newcommand{\set}[1]{ \{ #1 \}}
+\setlength{\parindent}{0pt}
+\setlength{\headheight}{0pt}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\bigO}{\mathcal{O}}
+\newcommand{\Rarr}{\Rightarrow}
+\newcommand{\rarr}{\rightarrow}
+\newcommand{\Pot}{\mathcal{P}}
+\newcommand{\abs}[1]{\left |#1\right|}
+\newcommand{\solved}{$\mbox{}$ \hfill $\square$}
+\newcommand{\Epsilon}{\mathcal{E}}
+
+\newcommand{\erw}[1]{\text{\bfseries E} \left[ #1 \right]}
+\newcommand{\prob}[1]{\text{Pr}\left[ #1 \right]}
+
+\date{}
+\title{Übung 12}
+\author{Max Wisniewski, Melanie Skodzik}
+
+
+%%
+%% Enviroments for proofs and lemmas
+%%
+\newtheorem{prop}{\bfseries Behauptung}
+\newtheorem{lemma}{\bfseries Lemma}
+
+\begin{document}
+
+\lstset{language=Pascal, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2, mathescape=true}
+
+\renewcommand{\figurename}{Figure}
+
+\maketitle
+\thispagestyle{fancy}
+
+
+\subsection*{Aufgabe 1}
+
+Angenommen, wir haben eine Hashtabelle mit $n$ Plätzen, die eine Menge $S \subseteq K$ der Größe $n$ speichert. Konflikte werden mit Hilfe von Verkettung gelöst. Wir nehmen an, dass sich die Hashfunktion wie eine zufällige Funktion verhält.
+
+Für einen Platz $i$ in der Hashtabelle, bezeichne mit $Q_i$, die \emph{Anzahl der Schlüssel}, die auf $i$ gehasht werden. Unser Ziel ist es 
+$\erw{max_{i=0}^{n-1} Q_i}$ zu bestimmen, also den Erwartungswert für die maximale Anzahl an Elementen, die auf denselben Platz abgebildet werden.
+
+\subsubsection*{(a)}
+
+Begründen Sie in einem Satz: Es gilt für $i = 0, \dots n-1$ und $ = 0 , \dots, n$,
+$$
+	\prob{Q_i = r} = \left(\frac{1}{n} \right)^r \left( 1 - \frac{1}{n}\right)^{n-r} \binom{n}{r}.
+$$
+
+\noindent\textbf{Begründung:}\\
+Die Hashfunktion verhält sich wie eine zufällige Funktion auf dem Array der Größe $n$, womit jedes Element die Wahrscheinlichkeit $\frac{1}{n}$ hat auf ein bestimmten Platz gehasht zu werden, und damit $r$ Elemente in einem fixierten Platz $i$ sind müssen eben $r$ mal dieses Ereignis eintreten und $n-r$ mal das Gegenereignis, wobei wir aus den $n$ Elementen die gehasht werden beliebige $r$ nehmen können und diese Ereignisse unterscheiden sich auch, da wir die Elemente unterscheiden können.
+
+\subsubsection*{(b)}
+
+Zeigen Sie,
+
+$$
+	\prob{max_{i=0}^{n-1} Q_i = r} \leq n \cdot \prob{Q_0 = r}.
+$$
+
+\noindent\textbf{Beweis:}\\
+Damit das Maximum von allen gleich $r$ ist, muss mindestens ein Platz $r$ Elemente haben und alle anderen höchstens $r$, daher gilt das folgende
+$$\begin{array}{rcl}
+	\prob{max_{i=0}^{n-1} Q_i = r} &=& \prob{\bigvee_{i=0}^{n-1} \left( Q_i = r \wedge \bigwedge_{j=0, j \not= i}^{n-1} Q_j \leq r \right)}\\
+		&=& \sum_{i=0}^{n-1} \prob{Q_i = r} \cdot \prod_{j=0, j \not= i}^{n-1} \prob{Q_j \leq r}\\
+		&\stackrel{|\prob{.}|\leq 1}{\leq} & \sum_{i=0}^{n-1} \prob{Q_i = r}\\
+		&\stackrel{(a)}{=}& \sum_{i=0}^{n-1} \prob{Q_0 = r}\\
+		&=& n \cdot \prob{Q_0 = r}.
+\end{array}$$
+
+\subsubsection*{(c)}
+
+Zeigen Sie $\prob{Q_0 = r} \leq e^r / r^r$.\\
+
+\noindent\textbf{Beweis:}
+
+$$\begin{array}{rcl}
+	\prob{Q_0 = r} &\stackrel{(a)}{=}&  \left(\frac{1}{n} \right)^r \left( 1 - \frac{1}{n}\right)^{n-r} \binom{n}{r}\\
+		&\stackrel{\text{Stirling}}{=}&  \left(\frac{1}{n} \right)^r \left( 1 - \frac{1}{n}\right)^{n-r} \left( \frac{ne}{r} \right)^r\\
+		&=& \frac{(n-1)^{n-r}n^re^r}{n^r n^{n-r} r^r}\\
+		&\leq& \frac{n^{n-r}n^re^r}{n^nr^r}\\
+		&=& \frac{e^r}{r^r}.
+\end{array}$$
+
+\subsubsection*{(d)}
+
+Definiere $r_0 := c \log \, n / \log \log \, n$, für eine Konstante $c > 1$. Zeigen Sie, dass man $c$ so wählen kann, dass $\prob{Q_0 = r} < 1 / n^3$ ist, für alle $r \geq r_0$.\\
+Folgern Sie daraus:
+$$
+	\prob{max_{i=0}^{n-1} Q_i \geq r_0} \leq \frac{1}{n}.
+$$
+
+\noindent\textbf{Beweis:}\\
+
+Sei $r_0$ wie in der Aufgabe und $r \geq r_0$.\\
+
+Zunächst beobachten wir, dass $r^{-r}$ eine Nullfolge ist und streng monoton fallenend. Daher wird das maximum in $r = r_0$ angenommen.
+
+$$\begin{array}{rcl}
+	\prob{Q_0 = r} &=& e^r \cdot r^{-r}\\
+			&\leq& e^{r_0} \cdot r_0^{-r_0}\\
+			&=& (e / r_0)^{r_0}\\
+			&=& \left(\frac{e \cdot \log \log \, n}{c \log n}\right)^\frac{c \log \, n}{\log \log \, n}\\
+\end{array}$$
+
+Wir zeigen mit dieser Gleichung nun, dass wir das gewünschte Ziel erreichen können.
+$$\begin{array}{crcl}
+	&\left(\frac{e\cdot \log \log \, n}{c \cdot \log \, n}\right)^\frac{c \cdot \log n}{\log \log n} &<& \frac{1}{n^3}\\
+\Leftrightarrow & \frac{e\log \log \, n}{c\log \, n} &<& \left(\frac{1}{n}\right)^\frac{3\log \log \, n}{c\log n}\\
+\Leftrightarrow & \frac{e\log \log \, n}{c\log \, n} &<& \left(e^{- \log n} \right)^\frac{3\log \log \, n}{c\log n}\\
+\Leftrightarrow & \frac{e\log \log \, n }{c\log \, n} &<& \left(e^{- \log \log \, n}\right)^\frac{3}{c}\\
+\Leftrightarrow & \frac{e\log \log \, n}{c\log \, n} &<& \frac{1}{\left(\log \, n\right)^\frac{c}{3}}\\
+\Leftrightarrow & e \log \log \, n &<& \frac{c \log \, n}{(\log n)^\frac{c}{3}}\\
+\Leftrightarrow & e \log \log \, n &<& c (\log \, n)^{1 - \frac{c}{3}}
+\end{array}$$
+
+Wir wissen, dass der Logarithmus schwächer wächst als jede Potenzialfunktion -- auch wurzel funktionen -- solange die Potenz positiv ist, die Funktion also auch wirklich wächst. Daher ist eine Bedingung an die Konstante, dass 
+$$
+	1 - \frac{c}{3} > 0 \Leftrightarrow 3 > c
+$$
+gilt. Die nächste Einschränkung ist, dass wir größer sein solten als der Vorfaktor, also
+$$
+	c > e.
+$$
+Damit gibt sich ein Intervall von $[e,3]$ aus dem wir $c$ wählen können und da es nicht leer ist, existiert eine Konstante, so dass
+$\prob{Q_0 = r} \leq n^{-3}$ ist für alle $r \geq r_0$.\\
+
+Dieses Ergebnis können wir verwenden um die nächste Abschätzung zu machen.
+$$\begin{array}{rcl}
+	\prob{\max_{i=0}^{n-1} Q_i \geq r_0} &=& \prob{\underset{r \geq r_0}{\bigvee} \max_{i=0}^{n-1} Q_i = r}\\
+		&=& \underset{r\geq r_0}{\sum} \prob{\max_{i=0}^{n-1} Q_i = r}\\
+		&\stackrel{(b)}{\leq}& \underset{r\geq r_0}{\sum} n \cdot \prob{Q_0 = r}\\
+		&<& \underset{r \geq r_0}{\sum} n \cdot \frac{1}{n^3}\\
+		&\leq& \underset{r \geq 0}{\sum} n \cdot \frac{1}{n^3}\\
+		&=& n \cdot n \cdot \frac{1}{n^3} = \frac{1}{n}
+\end{array}$$
+
+\subsubsection*{(e)}
+Zeigen Sie
+$$
+	\erw{\max_{i=0}^{n-1} Q_i} \leq r_0 \cdot \prob{\max_{i=0}^{n-1} Q_i < r_0} + n \cdot \prob{\max_{i=0}^{n-1} Q_i \geq r_0}.
+$$
+
+und folgern Sie daraus $\erw{\max_{i=0}^{n-1}Q_i} = \mathcal{O}(\log \, n / \log \log \, n)$.
+
+\noindent\textbf{Beweis:}\\
+
+Der diskrete Erwartungswert hierfür ist definiert als
+$$
+	\erw{\max_{i=0}^{n-1} Q_i} = \sum_{r=0}^n r \cdot \prob{\max_{i=0}^{n-1} Q_i = r}
+$$
+wobei wir die Summe bei $r_0$ in zwei Hälften teilen können
+$$
+	\erw{\max_{i=0}^{n-1} Q_i} = \sum_{r=0}^{r_0-1}r \cdot \prob{\max_{i=0}^{n-1} Q_i = r} + \sum_{r= r_0}^n  r \cdot \prob{\max_{i=0}^{n-1} Q_i = r}
+$$
+Nun können wir in beiden Summen die Faktoren nach oben abschätzen.
+$$
+	\erw{\max_{i=0}^{n-1} Q_i} \leq \sum_{r=0}^{r_0-1}r_0 \cdot \prob{\max_{i=0}^{n-1} Q_i = r} + \sum_{r= r_0}^n  n \cdot \prob{\max_{i=0}^{n-1} Q_i = r}
+$$
+Nun erhalten wir genau das heraus, was wir wollten, da wir jetzt über die gesammten Intervalle summieren.
+$$
+	\erw{\max_{i=0}^{n-1}Q_i} \leq r_0 \prob{max_{i=0}^{n-1} Q_i < r_0} + n \cdot \prob{max_{i=0}^{n-1} Q_i \geq r_0}
+$$
+
+Nun können wir das ganze schnell umformen.
+$$\begin{array}{rcl}
+	\erw{\max_{i=0}^{n-1}Q_i} &\leq& \leq r_0 \prob{max_{i=0}^{n-1} Q_i < r_0} + n \cdot \prob{max_{i=0}^{n-1} Q_i \geq r_0}\\
+		&=& \leq r_0 (1 - \prob{max_{i=0}^{n-1} Q_i \geq r_0}) + n \cdot \prob{max_{i=0}^{n-1} Q_i \geq r_0}\\
+		&=& r_0  + (n - r_0) \cdot  \prob{max_{i=0}^{n-1} Q_i \geq r_0}\\
+		&\leq& r_0 + n \cdot  \prob{max_{i=0}^{n-1} Q_i \geq r_0}\\
+		&\stackrel{(d)}{\leq}& r_0 + n \cdot \frac{1}{n}\\
+		&=& r_0 = c \log \, n / \log \log \, n
+\end{array}$$
+
+\mbox{}\hfill$\square$
+
+\subsection*{Aufgabe 2}
+
+Eine Varianete der amortisierten Analyse verwendet so genannte \emph{Potentialfunktionen}. Wir betrachten eine Datenstruktur $D$. Sei $\mathcal{D}$ die Menge aller möglichen Zustände von $D$. Eine Potentialfunktion $\Phi \, : \, \mathcal{D} \rightarrow \mathbb{N}_0$ ist eine Funktion, die jedem Zustand $D \in \mathcal{D}$ der Datenstruktur eine natürliche Zahl $\Phi(D)$ zuordnet. Für den ursprünglichen Zustand $D_0$ muss gelten $\Phi(D_0) = 0$. 
+
+Wir definieren nun die \emph{amortisierten Kosten} einer Operation $X$ auf der Datenstruktur. Sei $D$ die Datenstruktur vor der Operation $X$ und $D'$ die Datenstruktur nach $X$. Seien $c_X$ die tatsächlichen Kosten von $X$. Dann sind die amortisierten Kosten von $X$, $\hat{c}_X := c_X + \Phi(D') - \Phi(D)$.
+
+\subsubsection*{(a)}
+
+Geben Sie eine Interpretation der Potentialfunktion und erklären Sie die Intuition hinter der obigen Definition der amortisierten Kosten.\\
+
+\noindent\textbf{Lösung:}\\
+
+Bei der amortisierten Analyse versuchen wir die Kosten einer Folge von Operationen auf die Einzelnen Operationen aufzuteilen, so dass im Durchschnitt jede Operation nicht zu lange dauert. Bei der Potentialfunktion handelt es sich um eine Funktion, die der Datenstruktur ein \emph{Guthaben} zuweist. Jede Operation kann nun entweder Guthaben hinzufügen oder vorhandenes Guthaben wegnehmen. Es kann allerdings nur schon vorhandenes verbraucht werden (Codomain ist $\mathbb{N}_0$), da Folgen, die nun genau nach dieser Operation enden nicht global ausgeglichen sind.
+
+So kann man sich auch die Definition der amortisierten Kosten erklären. Sollte die Operation tatsächlich hohe kosten haben, so kann sie etwas vom Guthaben nehmen und so auf geringere Kosten kommen.
+$\Phi(D') - \Phi(D) > 0 \Rightarrow \hat{c}_X < c_X$. Die Datenstruktur hat dadurch aber natürlich weniger Guthaben.
+
+Sollte eine Operation sehr geringe Kosten haben, kann Sie Guthaben hinterlegen. Die amortisierten Kosten sind dann für diese Operation höher,
+aber die Datenstruktur hat mehr zum Abheben. $\hat(c)_X > c_X \Rightarrow \Phi(D) < \Phi(D')$.
+
+\subsubsection*{(b)}
+
+Sei $X_1, X_2, \dots, X_n$ eine Folge von Operationen, die auf der initialen Datenstruktur $D_0$ ausgeführt wird. Zeigen Sie, dass 
+$\sum_i c_{X_i} \leq \sum_i \hat{c}_{X_i}$ ist. Interpretieren Sie das Ergebnis.\\
+
+\noindent\textbf{Beweis:}\\
+Wir formen zunächst nach definition der amortisierten Kosten um.
+$$
+	\sum_i c_{X_i} = \sum_i \hat{c}_{X_i} + \Phi(D_i) - \Phi(D_{i-1}) = \Phi(D_n) - \Phi(D_0) + \sum_i \hat{c}_{X_i} \leq \sum_i \hat{c}_{X_i}
+$$
+Der letzte Schritt gilt, da $\Phi(D_0) = 0$ und $\Phi(D_n) \geq 0$ da dies genau der Bildbereich ist.\\
+
+Dies sollte auch intuitiv klar sein, da jede Operation etwas auf dem Konto hinterlegen kann. Nach dem alle Operationen ausgeführt worden sind, kann also immer noch etwas auf dem Konte sein, wodurch die amortiesierte Folge schwerer erscheint. Dies ist aber auch gut so, denn sollte das Guthaben nach jeder Folge auf $0$ zurückgehen, so würden die amortisierten Kosten gleich den tatsächlichen Kosten sein.
+
+\subsubsection*{(c)}
+
+billig.
+
+\label{LastPage}
+\end{document}
