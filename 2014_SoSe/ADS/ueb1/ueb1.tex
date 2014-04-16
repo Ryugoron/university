@@ -242,7 +242,35 @@ Dies sollte auch intuitiv klar sein, da jede Operation etwas auf dem Konto hinte
 
 \subsubsection*{(c)}
 
-billig.
+Ein Binärzählerk ist eine Datnstruktur, die einen Binärstring der Länge $n$ speicherert und nur eine einzige Funktionuntertützt, \emph{increment}, die den gespeicherten Wert um genau eins erhöht. Die Kosten sind dabei dei Anzahl der Bits, die geändert werden.
+
+Sei $\Phi$ die Funktion, die einen Zustand des Binärzählwerks die Anzahl der Einsen im aktuellen Zählerstand zuordnet.
+
+Verwenden Sie $\Phi$, um zu zeigen, dass die amortisierten Kosten pro Zählvorgang kosntant sind. Folgern Sie, dass das Binärzählwerk mit Kosten $O(n)$ von $0$ bis $n$ zählen kann.\\
+
+\noindent\textbf{Beweis:}\\
+Da wir nur eine einzige Operation haben, besteht die Folge aus $n$ Operation nur aus \emph{increment}. Sei $X$ eine beliebige \emph{increment} Operation, sowei $D'=a_n'\dots a_1'$ der Zustand nach dem ausführen von $X$ und $D=a_n\dots a_1$ der Zustand vor dem ausführen. Da $X$ ein inkrement auf $D$ ist, interessieren wir uns für das folgende: Solange $D$ nicht maximal ist ($2^n$) sei $i$ die Stelle mit $a_i = 0$ und $\forall j < i \, . \, a_j = 1$, also die erst e Stelle die gleich $0$ ist. Die Operation $X$ tut nun das folgende:
+$$\begin{array}{rclr}
+	a_x &=& a_x\qquad \qquad &  x > i\\
+	a_x &=& 1 & x = i\\
+	a_x &=& 0 & x < i
+\end{array}$$
+
+Sehen wir uns die tatsächlichen Kosten von $X$ an, so sind dies $c_X = 1 + (i-1) = i$, wir setzen die $i$-te Stelle auf $1$ und alle kleineren auf $0$.
+Sehen wir uns die Datenstruktur an. Ist $w_D$ das Guthaben der Datenstruktur vorher, so ist $w_{D'} = w_D - (i-1) + 1 = w_D - i +2$ der Wert danach, da wir die ersten $i-1$ Stellen von $1$ auf $0$ ändern, den Wert also veringern, aber die $i$-te Stelle von $0$ auf $1$ ändern. Der Rest bleibt gleich.
+
+Die amortisierten Kosten der Operation sind daher
+$$
+	\hat{c}_X = c_X + \Phi(D') - \Phi(D) = i + \Phi(D) -  i  + 2 - \Phi(D) = 2
+$$
+und somit ist jede Operation konstant.
+
+Wir können noch sehen, dass $\Phi$ die Anforderungen erfüllt, da der Zähler zu beginn $0$ ist, also $\Phi(0) = 0$ gilt.\\
+
+Nun kostet eine Folge von $n$ \emph{increment} Operationen genau
+$$
+	\sum_{i=1}^n c_{X_i} \stackrel{(b)}{\leq} \sum_{i=1}^n \hat{c}_{X_i} = \sum_{i=1}^n 2 = 2n = \mathcal{O}(n)
+$$
 
 \label{LastPage}
 \end{document}
