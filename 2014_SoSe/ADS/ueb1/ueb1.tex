@@ -94,7 +94,7 @@ $$
 Damit das Maximum von allen gleich $r$ ist, muss mindestens ein Platz $r$ Elemente haben und alle anderen höchstens $r$, daher gilt das folgende
 $$\begin{array}{rcl}
 	\prob{max_{i=0}^{n-1} Q_i = r} &=& \prob{\bigvee_{i=0}^{n-1} \left( Q_i = r \wedge \bigwedge_{j=0, j \not= i}^{n-1} Q_j \leq r \right)}\\
-		&=& \sum_{i=0}^{n-1} \prob{Q_i = r} \cdot \prod_{j=0, j \not= i}^{n-1} \prob{Q_j \leq r}\\
+		&\leq& \sum_{i=0}^{n-1} \prob{Q_i = r} \cdot \prod_{j=0, j \not= i}^{n-1} \prob{Q_j \leq r}\\
 		&\stackrel{|\prob{.}|\leq 1}{\leq} & \sum_{i=0}^{n-1} \prob{Q_i = r}\\
 		&\stackrel{(a)}{=}& \sum_{i=0}^{n-1} \prob{Q_0 = r}\\
 		&=& n \cdot \prob{Q_0 = r}.
@@ -141,21 +141,12 @@ $$\begin{array}{crcl}
 \Leftrightarrow & \frac{e\log \log \, n}{c\log \, n} &<& \left(\frac{1}{n}\right)^\frac{3\log \log \, n}{c\log n}\\
 \Leftrightarrow & \frac{e\log \log \, n}{c\log \, n} &<& \left(e^{- \log n} \right)^\frac{3\log \log \, n}{c\log n}\\
 \Leftrightarrow & \frac{e\log \log \, n }{c\log \, n} &<& \left(e^{- \log \log \, n}\right)^\frac{3}{c}\\
-\Leftrightarrow & \frac{e\log \log \, n}{c\log \, n} &<& \frac{1}{\left(\log \, n\right)^\frac{c}{3}}\\
-\Leftrightarrow & e \log \log \, n &<& \frac{c \log \, n}{(\log n)^\frac{c}{3}}\\
-\Leftrightarrow & e \log \log \, n &<& c (\log \, n)^{1 - \frac{c}{3}}
+\Leftrightarrow & \frac{e\log \log \, n}{c\log \, n} &<& \frac{1}{\left(\log \, n\right)^\frac{3}{c}}\\
+\Leftrightarrow & e \log \log \, n &<& \frac{c \log \, n}{(\log n)^\frac{3}{c}}\\
+\Leftrightarrow & e \log \log \, n &<& c (\log \, n)^{1 - \frac{3}{c}}
 \end{array}$$
 
-Wir wissen, dass der Logarithmus schwächer wächst als jede Potenzialfunktion -- auch wurzel funktionen -- solange die Potenz positiv ist, die Funktion also auch wirklich wächst. Daher ist eine Bedingung an die Konstante, dass 
-$$
-	1 - \frac{c}{3} > 0 \Leftrightarrow 3 > c
-$$
-gilt. Die nächste Einschränkung ist, dass wir größer sein solten als der Vorfaktor, also
-$$
-	c > e.
-$$
-Damit gibt sich ein Intervall von $[e,3]$ aus dem wir $c$ wählen können und da es nicht leer ist, existiert eine Konstante, so dass
-$\prob{Q_0 = r} \leq n^{-3}$ ist für alle $r \geq r_0$.\\
+Auf der llinken Seite haben wir nun den Logarithmus von $\log \, n$ zu stehen und auf der rechten Seite $1-\frac{3}{c}$ zu stehen. Wir wissen, dass der Logarithmus langsamer wächst als jede Wurzel oder Potenzfunktion, also müssen wir nur sicher gehen, dass die rechte Seite wirklich wächst. Dafür muss die Potenz nämlich größer als $0$ sein. Demnach muss unser $c>3$ sein. Da unser Vorfaktor damit auch größer als $e$ ist, können wir ein beliebiges $c > 3$ nehmen. Da wir unbeschränkt sind, können wir, falls es für die ersten Folgenglieder noch nicht gilt unser $c$ so groß wählen, dass es passt, da wir ja wissen, dass es eine Konstante gibt (und damit auch einen konstanten Wert) ab dem die Wurzelfunktion größer ist als der Logarithmus.
 
 Dieses Ergebnis können wir verwenden um die nächste Abschätzung zu machen.
 $$\begin{array}{rcl}
@@ -189,19 +180,20 @@ Nun können wir in beiden Summen die Faktoren nach oben abschätzen.
 $$
 	\erw{\max_{i=0}^{n-1} Q_i} \leq \sum_{r=0}^{r_0-1}r_0 \cdot \prob{\max_{i=0}^{n-1} Q_i = r} + \sum_{r= r_0}^n  n \cdot \prob{\max_{i=0}^{n-1} Q_i = r}
 $$
-Nun erhalten wir genau das heraus, was wir wollten, da wir jetzt über die gesammten Intervalle summieren.
+Nun erhalten wir genau das heraus, was wir wollten, da wir jetzt über die gesammten Intervalle summieren (wichtig ist,
+dass die rechten Seiten gleich bleiben, da die Ereignisse disjunkt sind).
 $$
 	\erw{\max_{i=0}^{n-1}Q_i} \leq r_0 \prob{max_{i=0}^{n-1} Q_i < r_0} + n \cdot \prob{max_{i=0}^{n-1} Q_i \geq r_0}
 $$
 
 Nun können wir das ganze schnell umformen.
 $$\begin{array}{rcl}
-	\erw{\max_{i=0}^{n-1}Q_i} &\leq& \leq r_0 \prob{max_{i=0}^{n-1} Q_i < r_0} + n \cdot \prob{max_{i=0}^{n-1} Q_i \geq r_0}\\
-		&=& \leq r_0 (1 - \prob{max_{i=0}^{n-1} Q_i \geq r_0}) + n \cdot \prob{max_{i=0}^{n-1} Q_i \geq r_0}\\
+	\erw{\max_{i=0}^{n-1}Q_i} &\leq&  r_0 \prob{max_{i=0}^{n-1} Q_i < r_0} + n \cdot \prob{max_{i=0}^{n-1} Q_i \geq r_0}\\
+		&=& r_0 (1 - \prob{max_{i=0}^{n-1} Q_i \geq r_0}) + n \cdot \prob{max_{i=0}^{n-1} Q_i \geq r_0}\\
 		&=& r_0  + (n - r_0) \cdot  \prob{max_{i=0}^{n-1} Q_i \geq r_0}\\
 		&\leq& r_0 + n \cdot  \prob{max_{i=0}^{n-1} Q_i \geq r_0}\\
 		&\stackrel{(d)}{\leq}& r_0 + n \cdot \frac{1}{n}\\
-		&=& r_0 = c \log \, n / \log \log \, n
+		&=& r_0 + 1 =  \mathcal{O} (\log \, n / \log \log \, n)
 \end{array}$$
 
 \mbox{}\hfill$\square$
@@ -249,11 +241,11 @@ Sei $\Phi$ die Funktion, die einen Zustand des Binärzählwerks die Anzahl der E
 Verwenden Sie $\Phi$, um zu zeigen, dass die amortisierten Kosten pro Zählvorgang kosntant sind. Folgern Sie, dass das Binärzählwerk mit Kosten $O(n)$ von $0$ bis $n$ zählen kann.\\
 
 \noindent\textbf{Beweis:}\\
-Da wir nur eine einzige Operation haben, besteht die Folge aus $n$ Operation nur aus \emph{increment}. Sei $X$ eine beliebige \emph{increment} Operation, sowei $D'=a_n'\dots a_1'$ der Zustand nach dem ausführen von $X$ und $D=a_n\dots a_1$ der Zustand vor dem ausführen. Da $X$ ein inkrement auf $D$ ist, interessieren wir uns für das folgende: Solange $D$ nicht maximal ist ($2^n$) sei $i$ die Stelle mit $a_i = 0$ und $\forall j < i \, . \, a_j = 1$, also die erst e Stelle die gleich $0$ ist. Die Operation $X$ tut nun das folgende:
+Da wir nur eine einzige Operation haben, besteht die Folge aus $n$ Operation nur aus \emph{increment}. Sei $X$ eine beliebige \emph{increment} Operation, sowie $D'=a_n'\dots a_1'$ der Zustand nach dem ausführen von $X$ und $D=a_n\dots a_1$ der Zustand vor dem ausführen. Da $X$ ein inkrement auf $D$ ist, interessieren wir uns für das folgende: Solange $D$ nicht maximal ist ($2^n$) sei $i$ die Stelle mit $a_i = 0$ und $\forall j < i \, . \, a_j = 1$, also die erste Stelle die gleich $0$ ist. Die Operation $X$ tut nun das folgende:
 $$\begin{array}{rclr}
-	a_x &=& a_x\qquad \qquad &  x > i\\
-	a_x &=& 1 & x = i\\
-	a_x &=& 0 & x < i
+	a_x' &=& a_x\qquad \qquad &  x > i\\
+	a_x' &=& 1 & x = i\\
+	a_x' &=& 0 & x < i
 \end{array}$$
 
 Sehen wir uns die tatsächlichen Kosten von $X$ an, so sind dies $c_X = 1 + (i-1) = i$, wir setzen die $i$-te Stelle auf $1$ und alle kleineren auf $0$.
