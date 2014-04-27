@@ -337,7 +337,50 @@ $$
 
 \noindent\textbf{Beweis:}\\
 
-tbd
+Die Kosten der Gesammtlaufzeit für die Folge $A$ sind abschätzbar durch
+
+$$
+	T(A) = \sum_{i=1}^n A_i + \Phi_m - \Phi_0 \leq \sum_{i=1}^n A_i + \Phi_{max} - \Phi_{min}
+$$
+
+Nun müssen schätzen wir zunächst $\Phi_{max}$ und $\Phi_{min}$ ab. 
+
+$$
+	\Phi(T) = \sum_{x=1}^n \log \, \sum_{y \in T_x} \left(|x - f| + 1\right)^{-2} \leq \sum_{x=1}^n \log \, \sum_{y=1}^n 1 = n \log \, n
+$$
+Die wir Schätzen das Maximum ab, indem wir jedem Knoten das Maximale Gewicht geben und jeder Knoten wird als Wurzel betrachtet.
+
+Für das Minimum sehen wir, dass ein Blatt die geringesten Kosten hat, das es keinen anderen Knoten mit summiert.
+$$
+	\Phi_{min} = \sum_{i=1}^n \log \, \frac{1}{n^2} = \mathcal{O}(1)
+$$
+
+Das ergbit für die Gesammtkosten
+$$
+	T(A) = \mathcal{O}(n \log \, n) + \sum_{i=1}^m A_i = \mathcal{O}(n \log \, n) + m + \sum_{i=1}^m 3(r(t) - r(a_i))
+$$
+also bleibt zu beweisen, dass $\sum_{i=1}^m r(t) - r(a_i) = \sum_{i=1}^m \log (|a_i - f| + 1)$ gilt. Und wir zeigen
+zunächst, dass jeder Einzelne summand kleiner ist. Was wir erstmal sehen, ist, dass alle Werte positiv sind, wodurch
+wir das überhaupt tun können. Es gilt weiterhin, dass $r(t) \geq 0$ und somit können wir den Wert weglassen,
+solange die Abschätzung noch stimmt, ist das Endergebnis richtig. Dann können wir das ganze noch weiter abschätzen, indem wir annehmen,
+dass $x$ ein Blatt ist, da dort $r(x)$ am geringesten ist.
+
+$$\begin{array}{crcl}
+	&  - r(x) &\leq& c \cdot \log (|x - f| + 1)\\ 
+\Leftrightarrow & - \log \, (|x - f| + 1)^{-2} & \leq & c \cdot \log (|x - f|+ 1)\\
+\Leftrightarrow & 2 \log \, (|x - f| + 1) & \leq & c \cdot \log (|x - f| + 1)
+\end{array}$$
+
+Wir können also sehen, dass für $c \geq 2$ die Abschätzung stimmt.
+
+\mbox{}\hfill$\square$
+
+Die Interpretation des Satzen zeigt uns eine ähnliche Einschätzung wie die erste Abschätzung der Laufzeit für Splaybäume. 
+Die amortisierte Laufzeit für eine einzelne Operation ist $\log (|a_i - f| + 1)$. Also logarithmisch im Abstand zum Finger. Beeindruckend ist dabei,
+dass wir uns nichteinmal die Elemente im Baum anschauen müssen, sondern nur den Finger und den angefragten Wert.
+
+Die anderen Teile der Gesammtlaufzeit sagen aus, dass wir bei jeder Operation mindestens $O(1)$ benötigen und wir $n \log \, n$ Zeit
+benötigen für die gesammte Folge um im Baum eine Ordnung (Splay Strucktur, wenn man es so will) aufrecht zu erhalten.
 
 \subsection*{Aufgabe 3}
 Benutzen Sie den Codierungssatz von Shannon um die folgende Aussage zu beweisen.
@@ -349,9 +392,38 @@ $$
 
 \noindent\textbf{Beweis:}\\
 
-tbd
+Wir betrachten zunächst die tatsächlichen Kosten für eine Suchanfrage in binären Suchbaum. Befindet sich ein Knoten in Tiefe $d$ so können wir
+die Kosten für die Anfrage mit $d+1$ abschätzen. Da wir in tiefe $d$ gehen müssen und im Knoten zumindest noch den Vergleich machen, ob es sich um den gesuchten handelt. Daher können wir die Kosten der Folge $A$ beschreiben durch
 
+$$
+	T(A) = \sum_{i=1}^m d(a_i) + 1 = m + \sum_{i=1}^m d(a_i)
+$$
 
+Um den Satz von Shannon anwenden zu können müssen wir nun einen prefixfreien Code finden, der in mit der Tiefe des Angefragen Knotens
+korreliert. Wir konstruieren den Code wie folgt:\\
+
+Seien $d(x)$ die Tiefe für Knoten $x$ im ursprünglichen Baum und $p(x)$ die binärcodierung der Zahl die beschreibt, der wie vielte Knoten $x$ in seiner Ebene ist. Wobei alle Knoten in tiefe $d(x)$ genau $d(x)$ Bits benutzen um $p(x)$ zu Codieren.\\
+Dann ist der Code $C(X) = 0^{d(x)}1p(x)$.
+
+Wir können damit alle Knoten im Baum beschreiben. Auf Höhe $i$ haben wir genau $2^i$ Knoten und diese können wir mit $i$ Bits alle Codieren.
+
+Der Code ist prefixfrei. Zum einen Unterscheiden sich Knoten unterschiedlicher Höhe um die Anzahl führender Nullen. Knoten einer Ebene können nun kein Prefix von einander sein, da die Codes alle die selbe Länge haben.
+
+Betrachten wir nun die Länge des Codes, so sehen wir, dass $|C(x)| = 2d(x) + 1 = \Theta(d(x))$ gilt.\\
+
+Dies können wir nun benutzen um die Gesamtlaufzeit abzuschätzen.
+
+$$\begin{array}{rcl}
+	T(A) 	&=&  m + \sum_{i=1}^m d(a_i)\\
+		&\geq& m + \sum_{i=1}^m c \cdot |C(x)|\\
+		&=& m + c \cdot \sum_{i=1}^n q_i |C(x)|\\
+		&=& m + c \cdot m \cdot \sum_{i=1}^n \frac{q_i}{m} |C(x)|\\
+		&=& m + c \cdot m \cdot \erw{|C(x)|}\\
+		&\stackrel{\text{Shannon}}{\geq}&
+			m + c \cdot m \cdot \sum_{i=1}^n  \frac{q_i}{m} \log \, \frac{m}{q_i}\\
+		&=& m + c \cdot \sum_{i=1}^n q_i \log \, \frac{m}{q_i}\\
+		&=& \Omega \left( m + \sum_{i=1}^n q_i \log \, \frac{m}{q_i} \right)
+\end{array}$$
 
 \label{LastPage}
 \end{document}
