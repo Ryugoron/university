@@ -51,41 +51,9 @@
 \newcommand{\erw}[1]{\text{\bfseries E} \left[ #1 \right]}
 \newcommand{\prob}[1]{\text{Pr}\left[ #1 \right]}
 
-\long\def\scribble#1{%
-    \newbox\contentbox%
-    \newbox\bkgdbox%
-    \setbox\contentbox\hbox to \hsize{%
-        \vtop{
-            \kern\columnsep
-            \hbox to \hsize{%
-                \kern\columnsep%
-                \advance\hsize by -2\columnsep%
-                \setlength{\textwidth}{\hsize}%
-                \vbox{
-                    \parskip=\baselineskip
-                    \parindent=0bp
-                    #1
-                }%
-                \kern\columnsep%
-            }%
-            \kern\columnsep%
-        }%
-    }%
-    \setbox\bkgdbox\vbox{
-        \pdfliteral{0.85 0.85 0.85 rg}
-        \hrule width  \wd\contentbox %
-               height \ht\contentbox %
-               depth  \dp\contentbox
-        \pdfliteral{0 0 0 rg}
-    }%
-    \wd\bkgdbox=0bp%
-    \vbox{\hbox to \hsize{\box\bkgdbox\box\contentbox}}%
-    \vskip\baselineskip%
-}
-
 \date{}
 \title{Übung 2}
-\author{Max Wisniewski <3, Melanie Skodzik}
+\author{Max Wisniewski, Melanie Skodzik}
 
 
 %%
@@ -106,7 +74,6 @@
 
 \subsection*{Aufgabe 1}
 
-\scribble{Test}
 
 Eine plausible Alternative zu Splay-Bäumen besteht darin, die Operationen \emph{splay(x)} durch eine Operation \emph{moveToRoot(x)} zu ersetzen, welche den Knoten $x$ durch wiederholte Links- bzw. Rechtsrotationen n die Wurzel befürdert. Der resultierende Algortihmus wird als \emph{MTR-Heuristik} bezeichnet.
 
@@ -141,14 +108,14 @@ Wir betrachten nur Suchoperationen.
    \end{center}
 
    Dann 
-   ist die Laufzeit der Anfragefolge $A = a_1, \ldots, a_n$ mit \underline{ 
-   $a_i = i$ $\Theta(n^2)$} und der Baum sieht nach $A$ aus wie zu Beginn.
+   ist die Laufzeit $\Theta(n^2)$ für die Anfragefolge $A = a_1, \ldots, a_n$ mit $a_i = i$ und der Baum sieht nach $A$ aus wie zu Beginn.
 \end{propo}
 
 Für diesen Satz führen wir zunächst zwei Hilfssätze ein.
 
 \begin{lemmas} \label{ads:ueb2:lemma1} (Ankerlemma)\\
-   Wird \emph{moveToRoot(x)} auf den minimalen Knoten $1$ in der Kette wie in Satz \ref{ads:ueb2:mtrheu} auf gerufen,  \underline{resultiert dies in einem Baum}
+   Wird \emph{moveToRoot(x)} auf den minimalen Knoten $1$ in der Kette wie in Satz \ref{ads:ueb2:mtrheu} auf gerufen,  resultiert dies im 
+   folgenden Baum
 
    \begin{center}
    \begin{tikzpicture}
@@ -284,10 +251,9 @@ der Länge $j-1$, wobei das $j$-te Element die Wurzel ist.
    \item[\bfseries Anker:] Wenden wir auf die Kette der Länge $n$ die erste Operation $a_1 = 1$ an, so erhalten wir als Ergebnis einfach
          Lemma \ref{ads:ueb2:lemma1}. Die rechte Kette ist um $1$ kürzer, die Linke ist noch $0$ lang und $1$ ist die Wurzel.
    \item[\bfseries Schritt:] $j \rightarrow j+1$\\
-         Wenden wir auf die Kette der Länge $n$ die I.V. an, so erhalten wir die Voraussetzung für Lemma \underline{ 2 oder 3?} \ref{ads:ueb2:lemma2}
+         Wenden wir auf die Kette der Länge $n$ die I.V. an, so erhalten wir die Voraussetzung für Lemma \ref{ads:ueb2:lemma2}
          mit einer rechten Kette der Länge $n-j$ einer linken Kette der Länge $j-1$ und als Wurzel $j$. Rufen wir nun moveToRoot auf $j+1$ auf,
-         so erhalten wir nach Lemma  \underline{    \ref{ads:ueb2:lemma2} }einen Baum  \underline{mit einer linken Kette mit der Länge $j$ einer Wurzel von $j+1$ und die rechte Kette ist auch
-         um eins kürzer.}
+         so erhalten wir nach Lemma  \ref{ads:ueb2:lemma2}einen Baum mit einer linken Kette mit der Länge $j$, einer Wurzel von $j+1$ und die rechte Kette ist um eins kürzer.
 \end{description}
 Nach der $n$-ten Operation ist die rechte Kette $0$ lang und wir haben nur eine linke Kette mit $n$ Elementen, wenn wir die Wurzel dazu zählen. Da Rotationen
 die Sortierung aufrecht erhalten, gibt es mit den Elementen $\{1, \ldots , n\}$ nur einen einzigen Baum, der so aussieht und dies ist der Startbaum.
@@ -354,9 +320,9 @@ Gilt trivialerweise, da das Quadrat einer rationalen Zahl immer größer oder gl
 
 Nun folgt aus der Monotonie des Logarithmus, dass für $c \geq a+b$
 $$
-   \log \, (a+b) \leq \log \, c        gilt, \underline{?}
+   \log \, (a+b) \leq \log \, c
 $$
-und somit die gesamte Aussage.
+gilt und somit die gesamte Aussage.
 
 \mbox{}\hfill$\square$
 
@@ -395,8 +361,7 @@ $$
 $$
 also bleibt zu beweisen, dass $\sum_{i=1}^m r(t) - r(a_i) = \sum_{i=1}^m \log (|a_i - f| + 1)$ gilt. Und wir zeigen
 zunächst, dass jeder einzelne Summand kleiner ist. Was wir erstmal sehen, ist, dass alle Werte positiv sind, wodurch
-wir das überhaupt tun können. Es gilt weiterhin, dass $r(t) \geq 0$ und somit können wir den Wert weglassen,
-solange die Abschätzung noch stimmt, \underline{ ist das Endergebnis richtig.} Dann können wir das Ganze noch weiter abschätzen, indem wir annehmen,
+wir das überhaupt tun können. Es gilt weiterhin, dass $r(t) \geq 0$ und somit können wir den Wert weglassen.
 dass $x$ ein Blatt ist, da dort $r(x)$ am geringsten ist.
 
 $$\begin{array}{crcl}
@@ -445,7 +410,7 @@ Der Code ist prefixfrei. Zum einen unterscheiden sich Knoten unterschiedlicher H
 
 Betrachten wir nun die Länge des Codes, so sehen wir, dass $|C(x)| = 2d(x) + 1 = \Theta(d(x))$ gilt.\\
 
-Dies können wir nun benutzen um die Gesamtlaufzeit abzuschätzen.
+Dies können wir nun benutzen um die Gesamtlaufzeit abzuschätzen. Für das Zufallsexperiment setzen wir die Wahrscheinlichkeit für ein Element $x \in T$ auf $\frac{q_i}{m}$ und benutzen $|C(x)|$ als Zufallsvariable.
 
 $$\begin{array}{rcl}
 	T(A) 	&=&  m + \sum_{i=1}^m d(a_i)\\
@@ -458,6 +423,8 @@ $$\begin{array}{rcl}
 		&=& m + c \cdot \sum_{i=1}^n q_i \log \, \frac{m}{q_i}\\
 		&=& \Omega \left( m + \sum_{i=1}^n q_i \log \, \frac{m}{q_i} \right)
 \end{array}$$
+
+\mbox{}\hfill$\square$
 
 \label{LastPage}
 \end{document}
