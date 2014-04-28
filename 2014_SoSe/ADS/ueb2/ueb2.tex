@@ -51,6 +51,38 @@
 \newcommand{\erw}[1]{\text{\bfseries E} \left[ #1 \right]}
 \newcommand{\prob}[1]{\text{Pr}\left[ #1 \right]}
 
+\long\def\scribble#1{%
+    \newbox\contentbox%
+    \newbox\bkgdbox%
+    \setbox\contentbox\hbox to \hsize{%
+        \vtop{
+            \kern\columnsep
+            \hbox to \hsize{%
+                \kern\columnsep%
+                \advance\hsize by -2\columnsep%
+                \setlength{\textwidth}{\hsize}%
+                \vbox{
+                    \parskip=\baselineskip
+                    \parindent=0bp
+                    #1
+                }%
+                \kern\columnsep%
+            }%
+            \kern\columnsep%
+        }%
+    }%
+    \setbox\bkgdbox\vbox{
+        \pdfliteral{0.85 0.85 0.85 rg}
+        \hrule width  \wd\contentbox %
+               height \ht\contentbox %
+               depth  \dp\contentbox
+        \pdfliteral{0 0 0 rg}
+    }%
+    \wd\bkgdbox=0bp%
+    \vbox{\hbox to \hsize{\box\bkgdbox\box\contentbox}}%
+    \vskip\baselineskip%
+}
+
 \date{}
 \title{Übung 2}
 \author{Max Wisniewski <3, Melanie Skodzik}
@@ -73,6 +105,8 @@
 
 
 \subsection*{Aufgabe 1}
+
+\scribble{Test}
 
 Eine plausible Alternative zu Splay-Bäumen besteht darin, die Operationen \emph{splay(x)} durch eine Operation \emph{moveToRoot(x)} zu ersetzen, welche den Knoten $x$ durch wiederholte Links- bzw. Rechtsrotationen n die Wurzel befürdert. Der resultierende Algortihmus wird als \emph{MTR-Heuristik} bezeichnet.
 
