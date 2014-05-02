@@ -81,58 +81,20 @@ Versuchen Sie, so effizient wie möglich zu sein.\\
 
 \noindent\textbf{Beweis:}\\
 
-In unserem Algorithmus werden wir nur in der Wurzel des gerade betrachteten Baumes rotieren. 
+Um den Baum $T_1$ in den Baum $T_2$ zu transformieren, können wir dies entweder direkt angeben oder beide über einen Referenzbaum führen. Dazu sehen wir zunächst, dass eine Links-/Rechtsrotationen hintereinander auf den selben Knoten (nicht Wert sondern Position im Baum) den Baum nicht verändern. Damit ist jede Rotation umkehrbar.
 
-Im folgenden bezeichnen $t_1,t_2$ die Wurzeln der Bäume $T_1$ und $T_2$, sowie $l_1,l_2, r_1, r_2$ die unmittelbaren linken und rechten Kinder.\\
+Dies können wir benutzen. Wenn $T'$ ein Referenzbaum ist und $R_1 = a_1 ... a_k$ eine Folge von Rotation um $T_1$ in $T'$ zu transformieren und
+$R_2 = b_1 ... b_l$ ist um $T_2$ in $T'$ zu transformieren dann ist $R = a_1 .. a_k b_l^{-1} .. b_1^{-1}$ eine Folge von Rotationen um $T_1$ in $T_2$ zu transformieren,
+wobei $b_i^{-1}$ genau die Inverse Rotation ist.
 
-Sei o.B.d.A. $t_1 \leq t_2$. Nun haben wir 5 Mögliche Fälle (im anderen Fall
-sind die ersten beiden Symmetrisch zu einander) zu betrachten:
-\begin{enumerate}[1.]
-   \item $t_1 < t_2$ und $t_1 \geq r_2$:\\
-      Falls $l_1 < t_2$, müssen wir $l_1$ und seinen linken Teilbaum
-      links der Wurzel lassen, da sie auch im resultierenden Baum dort stehen.\\
-      Wir machen erst eine Rechtsrotation um $l_1$ und dann eine Rechtsrotation
-      um die Wurzel.\\
-      Im anderen Fall nur eine einfache Rechtsrotation um $t_1$.\\
-      Beobachtung: Komplett $r_2$ stehen schon im Richtigen Teilbaum und müssen
-      nicht mehr über diesen Knoten (egal was später drin steht) verschoben werden.
-      Im ersten Fall ist $l_1$ und der linke Unterbaum schon an der richtigen 
-      Stelle. Beim zweiten Fall wissen wir, dass der rechte Unterbaum von $l_1$
-      nun auf jeden Fall auf der richtigen Seite von $t_1$ steht.
-   \item $t_1 < t_2$ und $t_1 < r_2$:\\
-      Wie im letzten Fall schauen wir, ob $l_1 < t_2$ ist und führen zunächst
-      eine Linksrotation um $l_1$ aus, falls $l_1$ kleiner ist. Sonst in jedem Fall ein      Rechtsrotation.\\
-      Nun führen wir noch im rechten Teilbaum wo nun $t_1$ steht 
-      eine eine Linksrotation aus.\\
-      Beobachtung: Sowohl $t_1$ als auch die Knoten der inneren beiden Unterbäume 
-      müssen nicht mehr über die Position von $r$ Verschoben werden.
-   \item $t_1 = t_2$:\\
-      Fahre Rekursiv mit mit den beiden Unterbäumen fort.\\
-      Beobachtung:\\
-      Aufgrund der Sortierung sollte nie ein Knoten über die Wurzel wandern müssen.
-\end{enumerate}
+Nun brauchen wir noch einen Referenzbaum.\\
 
-Wir definieren nun zunächst für einen Knoten $x \in \{1, \ldots, n \}$ den Wert 
-$\Delta_T(x)$ als die Länge des Weges im vollständigen Baum um von seiner Position
-in $T$ zu seiner Position in $T_2$ zu kommen.\\
+Wir haben hierzu den listenförmigen Baum gewählt, der nur linke Kinder hat. Sei $T$ ein Baum, bei dem noch ein rechtes Kind existiert und $x$ ein Knoten, der nur linkes Kind ist, mit einem rechten Kind (dies existiert, solange ein rechts Kind existiert, solange wir die Wurzel als linkes Kind betrachten). Machen wir nun eine Linksrotation um $x$,
+so wird $x$ auf dem Linken Pfad bleiben so wie alle linken Kinder darunter. Dagegen wird das Rechte Kind zum Vater von $x$ (dessen Linkes Kind es ist). Da $x$ vorher linkes Kind war ist der neue Vater nun auch linkes Kind.\\
 
+Was wir schon festgestellt haben, ist das pro Rotation ein weiteres Kind links wird. Damit ist die maximale Anzahl von Rotationen $n-1$, da mindestens die Wurzel zu Beginn auf dem linken Pfad liegt. Würden wir die Taktik von beiden Bäumen $T_1$ und $T_2$ aus so benutzen, hätten wir eine Laufzeit von $2n-2$ was in $O(n)$ liegt, aber es schaut noch nicht so optimal aus.\\
 
-Wir sehen zunächst, dass $\Delta_{T_1}(x) \leq 2(n-1)$ für alle $x \in \{1, \ldots, n \}$, da die maximale Tiefe eines Baumes mit $n$ Knoten $n-1$ ist.\\
-
-Wir definieren die Unordnung $\mathcal{U}(T) = \underset{x \in T}{\max} \Delta_T(x)$.\\
-
-\begin{lemmas} \label{ads:ueb3:aufr} (Aufräumlemma)\\
-   Die maximale Pfadlänge zur Ordnung wird in jedem Schritt um mindestens eins kleiner.   D.h. für $T$ BSB über $\{1, \ldots, n\}$ und $T'$ BSB von $T$ nach Ausführung eines
-   Schrittes des Algorithmus gilt
-   $$
-      \mathcal{U}(T') \leq \mathcal{U}(T) - 1.
-   $$
-\end{lemmas} 
-
-
-\noindent\textbf{Beweis \ref{ads:ueb3:aufr}.}\\
-
-tbd
+\textbf{tbd}
 
 \subsubsection*{(b)}
 
