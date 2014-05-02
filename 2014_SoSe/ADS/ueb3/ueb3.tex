@@ -1,0 +1,116 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm]{geometry}
+\usepackage[ngerman]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{ae}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{stmaryrd}
+\usepackage{paralist}
+\usepackage{tikz}
+\usepackage{amsthm}
+
+\usetikzlibrary{arrows,automata}
+
+\newtheorem{propo}{Satz}
+\newtheorem{lemmas}[propo]{Lemma}
+
+\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[C]{ADS}
+\fancyhead[L]{Übung 3}
+\fancyhead[R]{SoSe 2014}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage \hspace{1px} von \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\newcommand{\set}[1]{ \{ #1 \}}
+\setlength{\parindent}{0pt}
+\setlength{\headheight}{0pt}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\bigO}{\mathcal{O}}
+\newcommand{\Rarr}{\Rightarrow}
+\newcommand{\rarr}{\rightarrow}
+\newcommand{\Pot}{\mathcal{P}}
+\newcommand{\abs}[1]{\left |#1\right|}
+\newcommand{\solved}{$\mbox{}$ \hfill $\square$}
+\newcommand{\Epsilon}{\mathcal{E}}
+
+\newcommand{\erw}[1]{\text{\bfseries E} \left[ #1 \right]}
+\newcommand{\prob}[1]{\text{Pr}\left[ #1 \right]}
+
+\date{}
+\title{Übung 3}
+\author{Max Wisniewski, Melanie Skodzik}
+
+
+%%
+%% Enviroments for proofs and lemmas
+%%
+\newtheorem{prop}{\bfseries Behauptung}
+\newtheorem{lemma}{\bfseries Lemma}
+
+\begin{document}
+
+\lstset{language=Pascal, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2, mathescape=true}
+
+\renewcommand{\figurename}{Grafik}
+
+\maketitle
+\thispagestyle{fancy}
+
+
+\subsection*{Aufgabe 1}
+
+\subsubsection*{(a)}
+Seien $T_1$ und $T_2$ zwei binäre Suchbäume mit Schlüsselmenge $\{1, \ldots, n\}$. Zeigen Sie, dass sich $T_1$ mit $O(n)$ Rotationen in $T_2$ konvertieren lässt. Bestimmen Sie die Anzahl der Rotationen für Ihre Strategie im schlimmsten Fall exakt.
+
+Versuchen Sie, so effizient wie möglich zu sein.\\
+
+\noindent\textbf{Beweis:}\\
+
+tbd
+
+\subsubsection*{(b)}
+
+Sei $n=5$. Betrachte Sie die Anfragefolge $\sigma = 2,1,5,1,2,4,4,2,3,5$. Bestimmen Sie $I(\sigma)$. Geben Sie eine möglichst gute Bearbeitungsstrategie für $\sigma$ an. Berechnen Sie die Kosten für Ihren Algorithmus und vergleichen Sie sie mit $I(\sigma)$.\\
+
+\noindent\textbf{Lösung:}\\
+
+tbd
+
+
+\subsection*{Aufgabe 2}
+
+Geben Sie die Details für die Operationen \lstinline|join| und \lstinline|split| aus der Vorlesung.
+
+\begin{description}
+
+\item[\bfseries join:] Gegeben ein binärer Suchbaum $T$, dessen linker und rechter Teilbaum gültige AVL-Bäume sind, transformiere $T$ in einen gültigen AVL-Baum. Die Operationen soll $T$ nur durch Rotationen verändern und $\mathcal{O}(1 + | h_1 - h_2|)$ Schritte benötigen, wobei $h_1$ und $h_2$ die Höhen des linken und des rechten Teilbaums von $T$ sind.\\
+
+\noindent\textbf{Lösung:}\\
+
+tbd
+
+\item[\bfseries split:] Gegeben ein AVL-Baum $T$ und ein Knoten $x \in T$, transformiere $T$ in einen binären Suchebaum mit Wurzel $x$, so dass der linke und der rechte Teilbaum jeweils gültige AVL-Bäume sind. Die Operationen soll $T$ nur durch Rotationen verändern und $O(h)$ Schritte benötigen, wobei $H$ die Höhe von $T$ ist.\\
+
+\noindent\textbf{Lösung:}\\
+
+tbd
+
+\end{description}
+
+\label{LastPage}
+\end{document}
