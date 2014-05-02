@@ -74,15 +74,16 @@
 
 \subsection*{Aufgabe 1}
 
-Eine plausible Alternative zu Splay-Bäumen besteht darin, die Operationen \emph{splay(x)} durch eine Operation \emph{moveToRoot(x)} zu ersetzen, welche den Knoten $x$ durch wiederholte Links- bzw. Rechtsrotationen n die Wurzel befürdert. Der resultierende Algortihmus wird als \emph{MTR-Heuristik} bezeichnet.
 
-Wie unterscheidet sich die MTR-Heuristik von Splay-Bäumen? Zeigen Sie durch eine explizite Konstruktion, dass die MTR-Heuristik im worst-case amortiesierte Laufzeit $\Omega(n)$ ausfweisen kann. Dabei ist $n$ die Anzahl der Elemente im Suchbaum.\\
+Eine plausible Alternative zu Splay-Bäumen besteht darin, die Operationen \emph{splay(x)} durch eine Operation \emph{moveToRoot(x)} zu ersetzen, welche den Knoten $x$ durch wiederholte Links- bzw. Rechtsrotationen die Wurzel befördert. Der resultierende Algorithmus wird als \emph{MTR-Heuristik} bezeichnet.
 
-\noindent\textbf{Beweis:}\\
+Wie unterscheidet sich die MTR-Heuristik von Splay-Bäumen? Zeigen Sie durch eine explizite Konstruktion, dass die MTR-Heuristik im worst-case amortisierte Laufzeit $\Omega(n)$ aufweisen kann. Dabei ist $n$ die Anzahl der Elemente im Suchbaum.\\
 
-Die MTR-Heuristik unterscheidet sich vom Splay-Baum nur in einer einzelnen Situation, nämlich im zick-zick-Schritt. Im zick-zack- und im zick-Schritt ist die splay Operation nämlich auch einfach eine eine Rotation um den nach oben zu bewegenden Knoten. Der zick-zick Schritt bei Splay-Bäumen rotiert aber einmal um den Großvater(-mutter) von $x$ und nicht direkt um $x$.\\
+\noindent\textbf{Lösung:}\\
 
-Damit wir also eine andere Laufzeit als bei Splay-Bäumen erhalten, muss unser Worst-Case möglichst viele zick-zick-Schritte benötigen -- oder einen Baum, der bei Splay-Bäumen einen zick-zick-Schritt auslöst. Dazu beweisen wir den folgenden Satz.\\
+Die MTR-Heuristik unterscheidet sich vom Splay-Baum nur in einer einzelnen Situation, nämlich im zick-zick-Schritt. Im zick-zack- und im zick-Schritt ist die splay(x) Operation nämlich auch einfach eine Rotation um den nach oben zu bewegenden Knoten. Der zick-zick Schritt bei Splay-Bäumen rotiert aber einmal um den Großvater(-mutter) von $x$ und nicht direkt um $x$.\\
+
+Damit wir also eine andere Laufzeit als bei Splay-Bäumen erhalten, muss unser worst-case möglichst viele zick-zick-Schritte benötigen -- oder einen Baum, der bei Splay-Bäumen einen zick-zick-Schritt auslöst. Dazu beweisen wir den folgenden Satz.\\
 
 Wir betrachten nur Suchoperationen.
 
@@ -107,14 +108,14 @@ Wir betrachten nur Suchoperationen.
    \end{center}
 
    Dann 
-   ist die Laufzeit der Anfragefolge $A = a_1, \ldots, a_n$ mit 
-   $a_i = i$ $\Theta(n^2)$ und der Baum sieht nach $A$ aus wie zu Beginn.
+   ist die Laufzeit $\Theta(n^2)$ für die Anfragefolge $A = a_1, \ldots, a_n$ mit $a_i = i$ und der Baum sieht nach $A$ aus wie zu Beginn.
 \end{propo}
 
-Für diesen Satz führen wir zunächst zwei Hilfssaätze ein.
+Für diesen Satz führen wir zunächst zwei Hilfssätze ein.
 
 \begin{lemmas} \label{ads:ueb2:lemma1} (Ankerlemma)\\
-   Wird \emph{moveToRoot} auf den minimalen Knoten $1$ in der Kette wie in Satz \ref{ads:ueb2:mtrheu} auf gerufen, resultiert dies in einem Baum
+   Wird \emph{moveToRoot(x)} auf den minimalen Knoten $1$ in der Kette wie in Satz \ref{ads:ueb2:mtrheu} auf gerufen,  resultiert dies im 
+   folgenden Baum
 
    \begin{center}
    \begin{tikzpicture}
@@ -134,7 +135,7 @@ Für diesen Satz führen wir zunächst zwei Hilfssaätze ein.
 \end{lemmas}
 
 \begin{lemmas} \label{ads:ueb2:lemma2} (Schrittlemma)\\
-   Wenden wir moveToRoot auf $l_1$ im linken Baum an, so erhalten wir den rechten Baum. 
+   Wenden wir moveToRoot(x) auf $l_1$ im linken Baum an, so erhalten wir den rechten Baum. 
 
    \begin{center}
       \begin{tikzpicture}
@@ -187,7 +188,7 @@ Beweisen wir zunächst die beiden Lemmas.\\
 Wir machen eine Induktion über $n$. Die Anker sind trivial, da bei $n=1$ nichts passiert und $n=2$ genau die Definition der Linksrotation ist.
 Betrachtet werden muss also nur noch der Induktionsschritt.\\
 
-Wir haben also unsere Kette von $1$ bis $n+1$. Führen wir nun moveToRoot durch, wird erst die Kette von $1$ bis $n$ durchgegangen und hochrotiert.
+Wir haben also unsere Kette von $1$ bis $n+1$. Führen wir nun moveToRoot(x) durch, wird erst die Kette von $1$ bis $n$ durchgegangen und hoch rotiert.
 Dies führt nach I.V. zu einer Kette der Form 
 
    \begin{center}
@@ -206,14 +207,14 @@ Dies führt nach I.V. zu einer Kette der Form
    \end{tikzpicture}
    \end{center}
 
-Führen wir rauf noch eine Rotation auf $1$ aus, so erhalten wir noch Definition der Rotation den gewünschten Baum.
+Führen wir darauf noch eine Rotation auf $1$ aus, so erhalten wir noch Definition der Rotation den gewünschten Baum.
 
-Haben wir nun für den Baum der Höhe $n$ genau $c \ cdot n$ Rotationen gebraucht, so benötigen wir nun $c \cdot (n+1)$ Rotationen und die Laufzeit ergibt sich.
+Haben wir nun für den Baum der Höhe $n$ genau $c \cdot n$ Rotationen gebraucht, so benötigen wir nun $c \cdot (n+1)$ Rotationen und die Laufzeit ergibt sich.
 
 \mbox{}\hfill$\square$
 
 \noindent\textbf{Beweis \ref{ads:ueb2:lemma2}.}\\
-Wir machen eine Induktion über $k$. Die Anker sind wir in Lemma \ref{ads:ueb2:lemma1} trivial, da es genau der Definition der Rotation entspricht. Im Schritt
+Wir machen eine Induktion über $k$. Die Anker sind wie in Lemma \ref{ads:ueb2:lemma1} trivial, da es genau der Definition der Rotation entspricht. Im Schritt
 nehmen wir die Kette der Länge $k+1$. Für die Kette von $r_1 \ldots r_k$ können wir Lemma \ref{ads:ueb2:lemma1} benutzen.
  
       \begin{center}  
@@ -237,26 +238,25 @@ nehmen wir die Kette der Länge $k+1$. Für die Kette von $r_1 \ldots r_k$ könn
             (rm)  edge  (rb1);
       \end{tikzpicture}
       \end{center} 
-Nun können wir $r_1$ in einer Rotation auf die andere Seite bringen und haben den Zielbaum erreicht. Wir benätigen wiederum eine Rotation mehr als die Kette mit $k+1$ Elementen. Daher kommen wir insgesammt auf eine Laufzeit von $\Theta(k)$.
+Nun können wir $r_1$ in einer Rotation auf die andere Seite bringen und haben den Zielbaum erreicht. Wir benötigen wiederum eine Rotation mehr als die Kette mit $k+1$ Elementen. Daher kommen wir insgesamt auf eine Laufzeit von $\Theta(k)$.
 
 \mbox{}\hfill$\square$
 
 Mit diesen beiden wenden wir uns dem Satz zu.
 
 \noindent\textbf{Beweis \ref{ads:ueb2:mtrheu}.}
-Wir zeigen, dass nach $j$ Schritten der Baum aussieht, wie in Lemma \ref{ads:ueb2:lemma2} mit einer Kette rechten Kette der Länge $n-j$ und einer linken Kette
+Wir zeigen, dass nach $j$ Schritten der Baum aussieht wie in Lemma \ref{ads:ueb2:lemma2} mit einer rechten Kette der Länge $n-j$ und einer linken Kette
 der Länge $j-1$, wobei das $j$-te Element die Wurzel ist.
 \begin{description}
    \item[\bfseries Anker:] Wenden wir auf die Kette der Länge $n$ die erste Operation $a_1 = 1$ an, so erhalten wir als Ergebnis einfach
          Lemma \ref{ads:ueb2:lemma1}. Die rechte Kette ist um $1$ kürzer, die Linke ist noch $0$ lang und $1$ ist die Wurzel.
    \item[\bfseries Schritt:] $j \rightarrow j+1$\\
-         Wenden wir auf die Kette der Länge $n$ die I.V. an, so erhalten wir die Vorraussetzung für Lemma \ref{ads:ueb:lemma2}
+         Wenden wir auf die Kette der Länge $n$ die I.V. an, so erhalten wir die Voraussetzung für Lemma \ref{ads:ueb2:lemma2}
          mit einer rechten Kette der Länge $n-j$ einer linken Kette der Länge $j-1$ und als Wurzel $j$. Rufen wir nun moveToRoot auf $j+1$ auf,
-         so erhalten wir nach Lemma \ref{ads:ueb:lemma2} einen Baum mit einer Linken Kette von Länge $j$ einer Wurzel von $j+1$ und die rechte Kette ist auch
-         um eins Kürzer.
+         so erhalten wir nach Lemma  \ref{ads:ueb2:lemma2}einen Baum mit einer linken Kette mit der Länge $j$, einer Wurzel von $j+1$ und die rechte Kette ist um eins kürzer.
 \end{description}
 Nach der $n$-ten Operation ist die rechte Kette $0$ lang und wir haben nur eine linke Kette mit $n$ Elementen, wenn wir die Wurzel dazu zählen. Da Rotationen
-die Sortierung aufrecht erhalten gibt es mit den Elementen $\{1, \ldots , n\}$ nur einen einzigen Baum, der so aussieht und dies ist der Startbaum.
+die Sortierung aufrecht erhalten, gibt es mit den Elementen $\{1, \ldots , n\}$ nur einen einzigen Baum, der so aussieht und dies ist der Startbaum.
 
 Die Laufzeit für eine solche Kette von $n$ Operationen beträgt
 $$
@@ -274,7 +274,7 @@ Nun müssen wir diesen Satz nur noch nehmen und auf beliebige Ketten von $n$ erw
 \end{propo}
 
 \noindent\textbf{Beweis \ref{ads:ueb2:mtrheuend}.}\\
-   Wir haben hier $m \text{ div } n$ mal die Operationskette aus Satz \ref{ads:ueb2:mtrheu}. Die Vorraussetzungen sind wie gezeigt nach jedem mal wieder hergestellt.
+   Wir haben hier $m \text{ div } n$ mal die Operationskette aus Satz \ref{ads:ueb2:mtrheu} . Die Voraussetzungen sind wie gezeigt nach jedem mal wieder hergestellt.
    Wir müssen also nur noch beweisen, dass der letzte angebrochene Versuch nicht die Laufzeit kaputt macht.
 
    $$\begin{array}{rcl}
@@ -282,10 +282,10 @@ Nun müssen wir diesen Satz nur noch nehmen und auf beliebige Ketten von $n$ erw
            = (\left\lceil \frac{m}{n} \right\rceil) \cdot \frac{n(n+1}{2} - \sum_{i=1}^{m \text{ mod } n}
            = \Theta (m \cdot n)
    \end{array}$$
-   Im falle, dass wir im linken Teil zu viel nehmen und auf $+1$ kommen ziehen wir im rechten Teil nicht ganz so viel ab, wie der Faktor im linken Teil ist,
+   Im Falle, dass wir im linken Teil zu viel nehmen und auf $+1$ kommen, ziehen wir im rechten Teil nicht ganz so viel ab, wie der Faktor im linken Teil ist,
    wir bewegen uns also zwischen $m \cdot n$ und $(m+1) \cdot n$. Dies liegt eindeutig in $\Theta(m\cdot n)$.\\
 
-   Für die amortiesierten Kosten müssen wir die Gesammtkosten durch die Anzahl der Operationen teilen. Wir erhalten so also $\Theta(n)$ und somit auch $\Omega(n)$.
+   Für die amortisierten Kosten müssen wir die Gesamtkosten durch die Anzahl der Operationen teilen. Wir erhalten so also $\Theta(n)$ und somit auch $\Omega(n)$.
 
    \mbox{}\hfill$\square$
 
@@ -316,13 +316,13 @@ $$\begin{array}{crcl}
 \Leftrightarrow & 0 & \leq & a^2 - 2ab + b^2\\
 \Leftrightarrow & 0 & \leq & (a-b)^2
 \end{array}$$
-Gilt trivialer weise, da das quadrat einer rationalen Zahl immer größer oder gleich $0$ ist.
+Gilt trivialerweise, da das Quadrat einer rationalen Zahl immer größer oder gleich $0$ ist.
 
-Nun folgt aus der monotonie des Logarithmus, dass für $c \geq a+b$
+Nun folgt aus der Monotonie des Logarithmus, dass für $c \geq a+b$
 $$
    \log \, (a+b) \leq \log \, c
 $$
-Und somit die gesammte Aussage.
+gilt und somit die gesamte Aussage.
 
 \mbox{}\hfill$\square$
 
@@ -330,28 +330,102 @@ Und somit die gesammte Aussage.
 
 Nehmen Sie an, ein Splaybaum enthält die Elemente $1, \ldots, n$ und bearbeitet eine Folge $A = a_1, \ldots a_n$ von $m$ Suchanfragen mit $a_i\in\{1,\ldots,n\}$. Beweisen Sie den Satz vom \emph{statischen Finger}.\\
 
-Sei $f\in\{1,\ldots,n\}$ fest. Dann ist die Gesammtlaufzeit für die Folge $A$
+Sei $f\in\{1,\ldots,n\}$ fest. Dann ist die Gesamtlaufzeit für die Folge $A$
 $$
    O(n \log \, n + m + \sum_{i=1}^m \log \, (|a_i - f| + 1)).
 $$
 
 \noindent\textbf{Beweis:}\\
 
-tbd
+Die Kosten der Gesamtlaufzeit für die Folge $A$ sind abschätzbar durch
+
+$$
+	T(A) = \sum_{i=1}^n A_i + \Phi_m - \Phi_0 \leq \sum_{i=1}^n A_i + \Phi_{max} - \Phi_{min}
+$$
+
+Nun schätzen wir zunächst $\Phi_{max}$ und $\Phi_{min}$ ab. 
+
+$$
+	\Phi(T) = \sum_{x=1}^n \log \, \sum_{y \in T_x} \left(|x - f| + 1\right)^{-2} \leq \sum_{x=1}^n \log \, \sum_{y=1}^n 1 = n \log \, n
+$$
+
+Wir schätzen das Maximum ab, indem wir jedem Knoten das maximale Gewicht geben und jeder Knoten als Wurzel betrachten.
+
+Für das Minimum sehen wir, dass ein Blatt die geringsten Kosten hat, da es keinen anderen Knoten mit summiert.
+$$
+	\Phi_{min} = \sum_{i=1}^n \log \, \frac{1}{n^2} = \mathcal{O}(1)
+$$
+
+Das ergibt für die Gesamtkosten
+$$
+	T(A) = \mathcal{O}(n \log \, n) + \sum_{i=1}^m A_i = \mathcal{O}(n \log \, n) + m + \sum_{i=1}^m 3(r(t) - r(a_i))
+$$
+also bleibt zu beweisen, dass $\sum_{i=1}^m r(t) - r(a_i) = \sum_{i=1}^m \log (|a_i - f| + 1)$ gilt. Und wir zeigen
+zunächst, dass jeder einzelne Summand kleiner ist. Was wir erstmal sehen, ist, dass alle Werte positiv sind, wodurch
+wir das überhaupt tun können. Es gilt weiterhin, dass $r(t) \geq 0$ und somit können wir den Wert weglassen.
+dass $x$ ein Blatt ist, da dort $r(x)$ am geringsten ist.
+
+$$\begin{array}{crcl}
+	&  - r(x) &\leq& c \cdot \log (|x - f| + 1)\\ 
+\Leftrightarrow & - \log \, (|x - f| + 1)^{-2} & \leq & c \cdot \log (|x - f|+ 1)\\
+\Leftrightarrow & 2 \log \, (|x - f| + 1) & \leq & c \cdot \log (|x - f| + 1)
+\end{array}$$
+
+Wir können also sehen, dass für $c \geq 2$ die Abschätzung stimmt.
+
+\mbox{}\hfill$\square$
+
+Die Interpretation des Satzes zeigt uns eine ähnliche Einschätzung wie die erste Abschätzung der Laufzeit für Splaybäume. 
+Die amortisierte Laufzeit für eine einzelne Operation ist $\log (|a_i - f| + 1)$. Also logarithmisch im Abstand zum Finger. Beeindruckend ist dabei,
+dass wir uns nicht einmal die Elemente im Baum anschauen müssen, sondern nur den Finger und den angefragten Wert.
+
+Die anderen Teile der Gesamtlaufzeit sagen aus, dass wir bei jeder Operation mindestens $O(1)$ benötigen und wir $n \log \, n$ Zeit
+benötigen für die gesamte Folge um im Baum eine Ordnung (Splay Struktur, wenn man es so will) aufrecht zu erhalten.
 
 \subsection*{Aufgabe 3}
 Benutzen Sie den Codierungssatz von Shannon um die folgende Aussage zu beweisen.
 
-Sei $T$ ein fester binärer Suchbaum, der die Elemente $\{1,\ldots,n\}$ enthält und sei $A=a_1,\ldots,a_m$ eine Folge von $m$ Suchanfragen, die jedes Element mindestens einmal enthält. Sei $q_i$ die Anzahl der Anfragen an das Element $i$. Dann ist die Gesammlaufzeit für $A$ mindestens
+Sei $T$ ein fester binärer Suchbaum, der die Elemente $\{1,\ldots,n\}$ enthält und sei $A=a_1,\ldots,a_m$ eine Folge von $m$ Suchanfragen, die jedes Element mindestens einmal enthält. Sei $q_i$ die Anzahl der Anfragen an das Element $i$. Dann ist die Gesamtlaufzeit für $A$ mindestens
 $$
    \Omega\left(m + \sum_{i=1}^n q_i \log \frac{m}{q_i}\right)
 $$
 
 \noindent\textbf{Beweis:}\\
 
-tbd
+Wir betrachten zunächst die tatsächlichen Kosten für eine Suchanfrage in binären Suchbaum. Befindet sich ein Knoten in Tiefe $d$, so können wir
+die Kosten für die Anfrage mit $d+1$ abschätzen. Da wir in Tiefe $d$ gehen müssen und im Knoten zumindest noch den Vergleich machen, ob es sich um den Gesuchten handelt. Daher können wir die Kosten der Folge $A$ beschreiben durch
 
+$$
+	T(A) = \sum_{i=1}^m d(a_i) + 1 = m + \sum_{i=1}^m d(a_i)
+$$
 
+Um den Satz von Shannon anwenden zu können, müssen wir nun einen prefixfreien Code finden, der mit der Tiefe des angefragten Knotens
+korreliert. Wir konstruieren den Code wie folgt:\\
+
+Seien $d(x)$ die Tiefe für Knoten $x$ im ursprünglichen Baum und $p(x)$ die Binärcodierung der Zahl, die beschreibt, der wievielte Knoten $x$ in seiner Ebene ist. Wobei alle Knoten in Tiefe $d(x)$ genau $d(x)$ Bits benutzen um $p(x)$ zu codieren.\\
+Dann ist der Code $C(X) = 0^{d(x)}1p(x)$.
+
+Wir können damit alle Knoten im Baum beschreiben. Auf Höhe $i$ haben wir genau $2^i$ Knoten und diese können wir mit $i$ Bits alle codieren.
+
+Der Code ist prefixfrei. Zum einen unterscheiden sich Knoten unterschiedlicher Höhe um die Anzahl führender Nullen. Knoten einer Ebene können nun kein Prefix von einander sein, da die Codes alle die selbe Länge haben.
+
+Betrachten wir nun die Länge des Codes, so sehen wir, dass $|C(x)| = 2d(x) + 1 = \Theta(d(x))$ gilt.\\
+
+Dies können wir nun benutzen um die Gesamtlaufzeit abzuschätzen. Für das Zufallsexperiment setzen wir die Wahrscheinlichkeit für ein Element $x \in T$ auf $\frac{q_i}{m}$ und benutzen $|C(x)|$ als Zufallsvariable.
+
+$$\begin{array}{rcl}
+	T(A) 	&=&  m + \sum_{i=1}^m d(a_i)\\
+		&\geq& m + \sum_{i=1}^m c \cdot |C(x)|\\
+		&=& m + c \cdot \sum_{i=1}^n q_i |C(x)|\\
+		&=& m + c \cdot m \cdot \sum_{i=1}^n \frac{q_i}{m} |C(x)|\\
+		&=& m + c \cdot m \cdot \erw{|C(x)|}\\
+		&\stackrel{\text{Shannon}}{\geq}&
+			m + c \cdot m \cdot \sum_{i=1}^n  \frac{q_i}{m} \log \, \frac{m}{q_i}\\
+		&=& m + c \cdot \sum_{i=1}^n q_i \log \, \frac{m}{q_i}\\
+		&=& \Omega \left( m + \sum_{i=1}^n q_i \log \, \frac{m}{q_i} \right)
+\end{array}$$
+
+\mbox{}\hfill$\square$
 
 \label{LastPage}
 \end{document}
