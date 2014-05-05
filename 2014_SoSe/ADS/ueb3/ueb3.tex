@@ -91,11 +91,17 @@ wobei $b_i^{-1}$ genau die Inverse Rotation ist.
 Nun brauchen wir noch einen Referenzbaum.\\
 
 Wir haben hierzu den listenförmigen Baum gewählt, der nur linke Kinder hat. Sei $T$ ein Baum, bei dem noch ein rechtes Kind existiert und $x$ ein Knoten, der nur linkes Kind ist, mit einem rechten Kind (dies existiert, solange ein rechts Kind existiert, solange wir die Wurzel als linkes Kind betrachten). Machen wir nun eine Linksrotation um $x$,
-so wird $x$ auf dem Linken Pfad bleiben so wie alle linken Kinder darunter. Dagegen wird das Rechte Kind zum Vater von $x$ (dessen Linkes Kind es ist). Da $x$ vorher linkes Kind war ist der neue Vater nun auch linkes Kind.\\
+so wird $x$ auf dem Linken Pfad bleiben so wie alle linken Kinder darunter. Dagegen wird das unmittelbar rechte Kind zum Vater von $x$ (dessen Linkes Kind es ist). Da $x$ vorher linkes Kind war ist der neue Vater nun auch linkes Kind.\\
 
-Was wir schon festgestellt haben, ist das pro Rotation ein weiteres Kind links wird. Damit ist die maximale Anzahl von Rotationen $n-1$, da mindestens die Wurzel zu Beginn auf dem linken Pfad liegt. Würden wir die Taktik von beiden Bäumen $T_1$ und $T_2$ aus so benutzen, hätten wir eine Laufzeit von $2n-2$ was in $O(n)$ liegt, aber es schaut noch nicht so optimal aus.\\
+Was wir schon festgestellt haben, ist das pro Rotation ein weiteres Kind links wird. Damit ist die maximale Anzahl von Rotationen $n-1$, da mindestens die Wurzel zu Beginn auf dem linken Pfad liegt. Würden wir die Taktik von beiden Bäumen $T_1$ und $T_2$ aus so benutzen, hätten wir eine Laufzeit von $2n-2$ was in $O(n)$ liegt.
 
-\textbf{tbd}
+Da in jedem Schritt nur ein Knoten auf den linken Pfad kommen kann, es der schlechteste Fall, wenn zu Beginn kein Knoten auf dem Linken Pfad ist. Das würde an sich aber
+bedeuten, dass die Wurzel das Minimum des Baumes ist. Falls im anderen Baum auch das Minimum die Wurzel ist, so müssen wir die Wurzel nicht anfassen. Und lassen diese fix.
+
+Um also die maximale Strecke zu gehen muss im Ziel (oder Quellbaum) nicht das Minimum Wurzel sein, damit wäre aber schon ein Knoten mehr auf dem linken Pfad,
+da die Wurzel nun mindestens das Minimum links von sich haben muss.\\
+
+Dies würde sich in einer Laufzeit von $2n-3$ niederschlagen. Wir können jetzt von der Wurzel her (und von den Blätter her) schon existierende Strukturen anangetastet lassen. Und diese als Nullpointer betrachten (wie in der Analyse der Tangobäume). Es ist uns aber nicht möglich zu sehen, ob die Grenze von $2n-3$ damit durchbrochen werden kann.
 
 \subsubsection*{(b)}
 
@@ -108,7 +114,14 @@ Im vollständigen Baum befinden sich $4,2,1$ auf dem linken Pfad. Es wird also d
 Demnach ist $I(\sigma) = 3$.\\
 
 Bei der optimalen Strategie für $\sigma$ sollten wir im Linksvollständigen Baum starten (1.). Um zu sehen, wie gut wir werden,
-betrachten wir eine Strategie ohne Rotationen. Diese hat die Kosten $21$.
+betrachten wir eine Strategie ohne Rotationen. Diese hat die Kosten $21$.\\
+
+Zum anderen können wir eine unscharfe untere Abschätzung angeben. Wenn wir die Folge von Operationen durchgehen, so wissen wir, 
+dass wenn wir bei zwei aufeinanderfolgenden Operationen auf $2$ verschiedene Elemente zugreifen, so werden wir nicht besser als mit einer  Laufzeit von $3$ auskommen,
+da nur ein Element die Wurzel sein konnte. Der Zugriff auf das zweite Element besucht also mindestens 2 Knoten oder im Schritt vorher wurde das Element hoch rotiert.\\
+
+In jedem Fall können wir für zwei aufeinander Folgende unterschiedliche Elemente immer eins an Kosten extra zählen. Zusammen mit den Kosten für einen Zugriff von mindestens
+$1$ ergibt die schoneinmal eine Laufzeit von $18$. Um die optimale Folge zu finden haben wir also schon einmal einen sehr kleinen Spielraum.
 
 \begin{center}
    1.
@@ -125,65 +138,7 @@ betrachten wir eine Strategie ohne Rotationen. Diese hat die Kosten $21$.
          (c) edge (d)
          (d) edge (e);
    \end{tikzpicture}
-   2.
-    \begin{tikzpicture}[font=\small, minimum size=0.5cm]
-      \node[circle, draw=black,name=a] {$2$};
-      \node[circle, draw=black, name=b, below left of=a] {$1$};
-      \node[circle, draw=black, name=c, below right of =a] {$4$};
-      \node[circle, draw=black, name=d, below left of = c] {$3$};
-      \node[circle, draw=black, name=e, below right of =c] {$5$};
-
-      \path[-]
-         (a) edge (b)
-         (a) edge (c)
-         (c) edge (d)
-         (c) edge (e);
-   \end{tikzpicture}
-   3.
-  \begin{tikzpicture}[font=\small, minimum size=0.5cm]
-      \node[circle, draw=black,name=a] {$4$};
-      \node[circle, draw=black, name=b, below left of=a] {$2$};
-      \node[circle, draw=black, name=c, below left of =b] {$1$};
-      \node[circle, draw=black, name=d, below right of = b] {$3$};
-      \node[circle, draw=black, name=e, below right of =a] {$5$};
-
-      \path[-]
-         (a) edge (b)
-         (b) edge (c)
-         (b) edge (d)
-         (a) edge (e);
-   \end{tikzpicture}
-   4.
-   \begin{tikzpicture}[font=\small, minimum size=0.5cm]
-      \node[circle, draw=black,name=a] {$4$};
-      \node[circle, draw=black, name=b, below left of=a] {$3$};
-      \node[circle, draw=black, name=c, below left of =b] {$2$};
-      \node[circle, draw=black, name=d, below left of = c] {$1$};
-      \node[circle, draw=black, name=e, below right of = a] {$5$};
-
-      \path[-]
-         (a) edge (b)
-         (b) edge (c)
-         (c) edge (d)
-         (a) edge (e);
-   \end{tikzpicture}
 \end{center}
-
-Wir starten im 1. Baum und lesen dort $2,1,5$ und machen dann eine Rotation in $5$. Die Kosten hierfür sind insgesamt $6$.
-
-Im 2. Baum lesen wir $1,2$ und machen dann in der 2 eine Rotation. Die Kosten sind $4$.
-
-Im dritten Baum lesen wir die $4,4,2$ und machen in der $2$ dann eine Rotation. Die Kosten sind $5$.
-
-Im letzten Baum lesen wir nur noch die $3$ und die $5$ mit den Kosten $4$.\\
-
-Insgesamt kommen wir also auf $19$ an kosten. Um dies zu Vergleichen ziehen wir erstmal die Kosten für die Zugriffe auf
-die benötigten Elemente ab (Das Interleaving Bound hat deshalb auch $O(m + I(\sigma)$ als Laufzeit). Bleiben uns also
-$9$ als Kosten.\\
-
-So direkt im Vergleich fällt einem nicht so viel auf. Da man für das Interleaving Bound nur Änderungen nach Rechts zählt und nicht links
-hätte man das doppelte des Interleaving Bounds erwarten können. Nun sind wir bei den 3fachen Kosten. Wir haben aber zumindest nur 3 mal rotiert,
-   was uns bei einem Wechsel von $3$ sinnvoll erscheint. Es könnte aber natürlich auch sein, dass die Strategie nicht optimal ist.
 
 \subsection*{Aufgabe 2}
 
