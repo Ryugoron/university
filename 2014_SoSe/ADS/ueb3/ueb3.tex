@@ -16,8 +16,9 @@
 \usepackage{paralist}
 \usepackage{tikz}
 \usepackage{amsthm}
+\usepackage{tabularx}
 
-\usetikzlibrary{arrows,automata}
+\usetikzlibrary{arrows,automata,shapes.geometric}
 
 \newtheorem{propo}{Satz}
 \newtheorem{lemmas}[propo]{Lemma}
@@ -106,16 +107,17 @@ Im vollständigen Baum befinden sich $4,2,1$ auf dem linken Pfad. Es wird also d
 
 Demnach ist $I(\sigma) = 3$.\\
 
-Bei der optimalen Strategie für $\sigma$ sind wir uns unsicher, mit welchem Baum wir starten, deswegen geben wir uns schon einen möglichst guten Baum vor.
+Bei der optimalen Strategie für $\sigma$ sollten wir im Linksvollständigen Baum starten (1.). Um zu sehen, wie gut wir werden,
+betrachten wir eine Strategie ohne Rotationen. Diese hat die Kosten $21$.
 
 \begin{center}
    1.
    \begin{tikzpicture}[font=\small, minimum size=0.5cm]
-      \node[circle, draw=black,name=a] {$2$};
-      \node[circle, draw=black, name=b, below left of=a] {$1$};
+      \node[circle, draw=black,name=a] {$4$};
+      \node[circle, draw=black, name=b, below left of=a] {$2$};
       \node[circle, draw=black, name=c, below right of =a] {$5$};
-      \node[circle, draw=black, name=d, below left of = c] {$4$};
-      \node[circle, draw=black, name=e, below left of =d] {$3$};
+      \node[circle, draw=black, name=d, below left of = b] {$1$};
+      \node[circle, draw=black, name=e, below right of =b] {$3$};
 
       \path[-]
          (a) edge (b)
@@ -181,7 +183,7 @@ $9$ als Kosten.\\
 
 So direkt im Vergleich fällt einem nicht so viel auf. Da man für das Interleaving Bound nur Änderungen nach Rechts zählt und nicht links
 hätte man das doppelte des Interleaving Bounds erwarten können. Nun sind wir bei den 3fachen Kosten. Wir haben aber zumindest nur 3 mal rotiert,
-was uns bei einem Wechsel von $3$ sinnvoll erscheint. Es könnte aber natürlich auch sein, dass die Strategie nicht optimal ist.
+   was uns bei einem Wechsel von $3$ sinnvoll erscheint. Es könnte aber natürlich auch sein, dass die Strategie nicht optimal ist.
 
 \subsection*{Aufgabe 2}
 
@@ -193,14 +195,190 @@ Geben Sie die Details für die Operationen \lstinline|join| und \lstinline|split
 
 \noindent\textbf{Lösung:}\\
 
-tbd
+Wir verfallen für die Analyse in eine große Fallunterscheidung. Sei o.B.d.A. der rechte Teilbaum der Größere.
+
+\begin{enumerate}[1. {Fall:}]
+   \item Im ersten Fall betrachten wir den Baum 
+      \begin{center}
+         \begin{tikzpicture}
+            \node[circle, draw=black,name=a] {$x$};
+            \node[circle, draw=black, name=b, below right of=a] {$y$};
+            \node[draw=black, name=c, below right of =b] {$T_3$};
+            \node[draw=black, name=d, below left of = a] {$T_1$};
+            \node[draw=black, name=e, below left of =b] {$T_2$};
+
+            \path[-]
+               (a) edge (b)
+               (a) edge (d)
+               (b) edge (c)
+               (b) edge (e);
+         \end{tikzpicture}
+      \end{center}
+      wobei $h_1, h_2, h_3$ die Höhen von $T_1, T_2, T_3$ sind. Im ersten Fall nehmen wir dann, dass $h_2 \leq h_3$ gilt.
+      
+      Führen wir nun eine einfache Rotation um $x$ aus. Die Höhe des Baumes um das resultiernde $x$ ist nun $h_2 + 1$, damit ist die Höhendifferenz richtig.
+      Die gesammte Höhe das Baumes verändert sich nicht.\\
+
+      Wir werden im folgenden sehen, dass die Höhe sich um maximal $1$ verringern kann, damit bleibt die Höhendifferenz immer noch richtig und der Baum verliert in diesem auch 
+      höchstens nur eins an Höhe.\\
+
+      Wir können nun Rekursiv in $x$ fortfahren, wobei die Höhendifferenz unter $x$ um mindestens $1$ und maximal $2$ kleiner geworden ist.
+   \item In den nächsten beiden Fällen ist der innere Baum der größere. Wir haben also die folgende Situation.
+      \begin{center}
+         \begin{tikzpicture}
+            \node[circle, draw=black,name=a] {$x$};
+            \node[circle, draw=black, name=b, below right of=a] {$y$};
+            \node[circle, draw=black, name=c, below left of=b] {$z$};
+            \node[draw=black, name=d, below left of =a] {$T_1$};
+            \node[draw=black, name=e, below left of = c] {$T_2$};
+            \node[draw=black, name=f, below right of =c] {$T_3$};
+            \node[draw=black, name=g, below right of=b] {$T_4$};
+
+            \path[-]
+               (a) edge (d)
+               (a) edge (b)
+               (b) edge (c)
+               (b) edge (g)
+               (c) edge (e)
+               (c) edge (f);
+         \end{tikzpicture}
+      \end{center}
+      Wir bezeichnen wieder mit $h_1$ bis $h_4$ die Höhe der Unterbäume und mit $h_x, h_y, h_z$ die Höhe der Bäume unter den Knoten $x,y,z$.\\
+
+      Der Fall den wir nun betrachten ist, $h_2 < h_3$ ist. Wir wissen, dass $h_x = h_4 +1$ ist. Und damit ist $h_3 = h_4$ und $h_2 = h_3 - 1$.
+      Was wir nun tun ist, dass wir einmal Links um $x$ rotieren und dann nocheinmal. Der resultierende Baum ist\\
+      \begin{center}
+          \begin{tikzpicture}
+            \node[circle, draw=black,name=a] {$y$};
+            \node[circle, draw=black, name=b, below left of=a] {$z$};
+            \node[circle, draw=black, name=c, below left of=b] {$x$};
+            \node[draw=black, name=d, below left of =c] {$T_1$};
+            \node[draw=black, name=e, below right of = c] {$T_2$};
+            \node[draw=black, name=f, below right of =b] {$T_3$};
+            \node[draw=black, name=g, below right of=a] {$T_4$};
+
+            \path[-]
+               (a) edge (b)
+               (a) edge (g)
+               (b) edge (c)
+               (b) edge (f)
+               (c) edge (d)
+               (c) edge (e);
+         \end{tikzpicture}
+      \end{center}
+      
+      Die Höhe vom ursprünglichen Baum war $h_3 + 2$, nur nach diesen Rotationen ist die Höhe immer noch $h_3$. Die Höhendifferenz in $y$ danach ist noch
+      korrekt, da $h_4 = h_z + 1$ gilt ($h_3$ ist nun unter $z$ eins Tiefer).
+      In $z$ stimmt es auch, da $h_2 = h_3 - 1$ ist nun eins Tiefer steht. Damit ist die Höhendifferenz $0$. Fahren wir nun fort, reduziert sich die Höhe
+      in $x$ um maximal $1$. Damit bleibt die AVL-Eigenschaft der Knoten erhalten.\\
+
+      Wir fahren Rekursiv in $x$ fort und die Höhendifferenz ist auch um $2$ gefallen.
+
+      \item Der letzte Fall wird aus dem Baum des letzten Falls gebildet, nur dass diesmal $h_2 \geq h_3$ angenommen wird. Wir führen die selben Rotationen,
+         wie im letzten Fall aus und rotieren danach noch einmal um $y$ nach Links. Der resultierende Baum ist
+
+      \begin{center}
+         \begin{tikzpicture}
+            \node[circle, draw=black,name=a] {$z$};
+            \node[circle, draw=black, name=b, below left of=a] {$x$};
+            \node[circle, draw=black, name=c, below right of=a] {$y$};
+            \node[draw=black, name=d, below left of =b] {$T_1$};
+            \node[draw=black, name=e, below right of = b] {$T_2$};
+            \node[draw=black, name=f, below left of =c] {$T_3$};
+            \node[draw=black, name=g, below right of=c] {$T_4$};
+
+            \path[-]
+               (a) edge (b)
+               (a) edge (c)
+               (b) edge (d)
+               (b) edge (e)
+               (c) edge (f)
+               (c) edge (g);
+         \end{tikzpicture}
+      \end{center}
+
+      TODO : Den Graph noch auseinander Rücken.\\
+
+      Betrachten wir nur den linken Ergebnisbaum unter $y$, so stimmt hier die AVL Eigenschaft. Unsere forraussetzung war, das $h_z < h_4$ vorher war. Demnach ist
+      $h_4 = max\{ h_2, h_3 \}$. Im Unterbaum von $y$ ist dann entweder $h_3 = h_4$ oder $h_3 = h_4 - 1$, was die AVL-Eigenschaft erhält.\\
+   
+      Wir wissen, dass $h_2 \geq h_3$ ist (unser Fall), daher ist $h_x = h_y$ oder $h_x = h_y +1$ nach den Rotationen ($h_4$ und $h_1$ sind nach Vorraussetzung höchstens so groß, spielen
+      für die Höhe also keine Rolle). Die gesammte Höhe von des Baumes ist immer noch genau so groß.
+
+      Fahren wir nun Rekursiv fort, so wird $h_x = h_y - 1$ oder $h_x = h_y$ (es ist zwar nicht mehr $x$, aber wir meinen den Knoten). Falls $h_2$ echt größer war als $h_3$,
+      verringert sich die Höhe des gesammten Baumes um $1$, sonst bleibt sie gleich. Die Höhendifferenz wird auch um mindestens $1$ kleiner.
+\end{enumerate}
+
+Mit diesen Fällen fahren wir so lange fort, bis die Höhendifferenz unter $x$ kleiner als 2 ist. Da wir in jedem Schritt konstant viele Rotationen benötigen und
+auch nur konstant viele Knoten mehr besuchen, ist die Laufzeit $O(|h_1 - h_2|)$, da wir in jedem Schritt die Höhendifferenz um mindestens $1$ reduzieren. Wir haben
+auch gesehen, dass die Höhe eines Baumes um maximal $1$ abnehmen kann.
 
 \item[\bfseries split:] Gegeben ein AVL-Baum $T$ und ein Knoten $x \in T$, transformiere $T$ in einen binären Suchebaum mit Wurzel $x$, so dass der linke und der rechte Teilbaum jeweils gültige AVL-Bäume sind. Die Operationen soll $T$ nur durch Rotationen verändern und $O(h)$ Schritte benötigen, wobei $H$ die Höhe von $T$ ist.\\
 
+\mbox{}\hfill$\square$
+
 \noindent\textbf{Lösung:}\\
 
-tbd
+Als generellen Ansatz bubbeln wir $x$ nach oben. Nach jeder Rotation von $x$ nach oben rufen wir \lstinline|join| auf dem nach unten rotierten Knoten auf um einen
+AVL Baum daraus zu machen.
 
+Sei o.B.d.A. der Baum wie folgt
+
+\begin{center}
+   \begin{tabularx}{0.6\textwidth}{ccc}
+   \begin{tikzpicture}[font=\small, minimum size=0.5cm]
+      \node[circle, draw=black,name=a] {$y$};
+      \node[circle, draw=black, name=b, below left of=a] {$x$};
+      \node[draw=black, name=c, below right of =a] {$T_3$};
+      \node[draw=black, name=d, below left of = b] {$T_1$};
+      \node[draw=black, name=e, below right of =b] {$T_2$};
+
+      \path[-]
+         (a) edge (b)
+         (a) edge (c)
+         (b) edge (d)
+         (b) edge (e);
+   \end{tikzpicture}
+   &
+   $\leadsto$
+   
+   \vspace{1cm}
+   &
+    \begin{tikzpicture}[font=\small, minimum size=0.5cm]
+      \node[circle, draw=black,name=a] {$x$};
+      \node[circle, draw=black, name=b, below right of=a] {$y$};
+      \node[draw=black, name=c, below right of =b] {$T_3$};
+      \node[draw=black, name=d, below left of =a] {$T_1$};
+      \node[draw=black, name=e, below left of =b] {$T_2$};
+
+      \path[-]
+         (a) edge (b)
+         (a) edge (d)
+         (b) edge (c)
+         (b) edge (e);
+   \end{tikzpicture}
+   \end{tabularx} 
+\end{center} 
+
+Und danach rufen wir \lstinline|join| auf $y$ auf. Seien $h_1, h_2, h_3$ die Höhen der Bäume $T_1, T_2, T_3$.
+
+Was wir nun beobachten ist, dass der linke Teilbaum von $x$, nähmlich $T_1$ in der Höhe gleich geblieben ist. 
+
+Für den rechten Teilbaum gilt, dass der Baum nur größer wird. Falls $h_3$ größer oder gleich der Höhe vom Teilbaum von $x$ vor der Rotation ist,
+so ist der Baum unter $y$ im resultierenden Baum um mindestens 2 größer. Führen wir nun \lstinline|join| auf, so verringert sich die Höhe um höchstens $1$.
+
+Ist $h_3$ um 1 kleiner , so muss $h_3$ so groß sein, wie der größere der beiden Bäume. Falls $h_2 = h_3$ sind wir fertig und der rechte Teilbaum ist auf größe $h_3 + 1$ gestiegen. Falls $h_2 < h_3$ ist, so steigt die Höhe des rechten Teilbaums nach dem \lstinline|join| genau $h_3$, was auch größer ist.\\
+
+Wir sehen, dass in jedem Fall die Höhe vom gesammten Baum steigt. Damit können wir nun im nächsten Schritt weiter machen.\\
+
+Was wir auf jeden Fall sehen ist, dass der rechte Baum immer nur größer wird. Und wir ziehen ihn bei einer Höhendifferenz $|h_1 - h_2|$ beim \lstinline|join| 
+immer auf das Höhere Niveu. Wenn wir von unten her anfangen können wir so nur eine Partition von $h = h_1 + |h_2 - h_1| + |h_3 - h_2|$ von Höhendifferenzen bekommen,
+so dass das \lstinline|join| auf den rechten Baum nur insgesammt $O(h)$ Operationen benötigt. Das selbe gilt für den linken Teilbaum. Nun kann es beides zwar nicht
+beides gleichzeitig so groß werden, aber es reicht für die Abschätzung nach oben.\\
+
+Zu guter letzt benötigen wir noch $O(h)$ Operationen um $x$ nach oben zu bubbeln.
+
+\mbox{}\hfill$\square$
 \end{description}
 
 \label{LastPage}
