@@ -91,14 +91,14 @@ wobei $b_i^{-1}$ genau die Inverse Rotation ist.
 Nun brauchen wir noch einen Referenzbaum.\\
 
 Wir haben hierzu den listenförmigen Baum gewählt, der nur linke Kinder hat. Sei $T$ ein Baum, bei dem noch ein rechtes Kind existiert und $x$ ein Knoten, der nur linkes Kind ist, mit einem rechten Kind (dies existiert, solange ein rechts Kind existiert, solange wir die Wurzel als linkes Kind betrachten). Machen wir nun eine Linksrotation um $x$,
-so wird $x$ auf dem Linken Pfad bleiben so wie alle linken Kinder darunter. Dagegen wird das unmittelbar rechte Kind zum Vater von $x$ (dessen Linkes Kind es ist). Da $x$ vorher linkes Kind war ist der neue Vater nun auch linkes Kind.\\
+so wird $x$ auf dem linken Pfad bleiben so wie alle linken Kinder darunter. Dagegen wird das unmittelbar rechte Kind zum Vater von $x$ (dessen linkes Kind es ist). Da $x$ vorher linkes Kind war ist der neue Vater nun auch linkes Kind.\\
 
-Was wir schon festgestellt haben, ist das pro Rotation ein weiteres Kind links wird. Damit ist die maximale Anzahl von Rotationen $n-1$, da mindestens die Wurzel zu Beginn auf dem linken Pfad liegt. Würden wir die Taktik von beiden Bäumen $T_1$ und $T_2$ aus so benutzen, hätten wir eine Laufzeit von $2n-2$ was in $O(n)$ liegt.
+Was wir schon festgestellt haben ist, dass pro Rotation ein weiteres Kind links wird. Damit ist die maximale Anzahl von Rotationen $n-1$, da mindestens die Wurzel zu Beginn auf dem linken Pfad liegt. Würden wir die Taktik von beiden Bäumen $T_1$ und $T_2$ aus so benutzen, hätten wir eine Laufzeit von $2n-2$ was in $O(n)$ liegt.
 
 Da in jedem Schritt nur ein Knoten auf den linken Pfad kommen kann, es der schlechteste Fall, wenn zu Beginn kein Knoten auf dem Linken Pfad ist. Das würde an sich aber
 bedeuten, dass die Wurzel das Minimum des Baumes ist. Falls im anderen Baum auch das Minimum die Wurzel ist, so müssen wir die Wurzel nicht anfassen. Und lassen diese fix.
 
-Um also die maximale Strecke zu gehen muss im Ziel (oder Quellbaum) nicht das Minimum Wurzel sein, damit wäre aber schon ein Knoten mehr auf dem linken Pfad,
+Um also die maximale Strecke zu gehen, muss im Ziel (oder Quellbaum) nicht das Minimum Wurzel sein, damit wäre aber schon ein Knoten mehr auf dem linken Pfad,
 da die Wurzel nun mindestens das Minimum links von sich haben muss.\\
 
 Dies würde sich in einer Laufzeit von $2n-3$ niederschlagen. Wir können jetzt von der Wurzel her (und von den Blätter her) schon existierende Strukturen unangetastet lassen. Und diese als Nullpointer betrachten (wie in der Analyse der Tangobäume). Es ist uns aber nicht möglich zu sehen, ob die Grenze von $2n-3$ damit durchbrochen werden kann.
@@ -109,7 +109,7 @@ Sei $n=5$. Betrachte Sie die Anfragefolge $\sigma = 2,1,5,1,2,4,4,2,3,5$. Bestim
 
 \noindent\textbf{Lösung:}\\
 
-Im vollständigen Baum befinden sich $4,2,1$ auf dem linken Pfad. Es wird also das erste mal bei Anfrage $3$ auf die 5 ein rechter Pfad Liebling, der danach sofort wieder auf links gesetzt wird. Nun bleiben wir bis zu den letzten beiden Anfragen auf links. Bei den letzten beiden gehen wir genau 2 mal nach Rechts, wobei wir vorher auf links waren.\\
+Im vollständigen Baum befinden sich $4,2,1$ auf dem linken Pfad. Es wird also das erste Mal bei Anfrage $3$ auf die 5 ein rechter Pfad Liebling, der danach sofort wieder auf links gesetzt wird. Nun bleiben wir bis zu den letzten beiden Anfragen auf links. Bei den letzten beiden gehen wir genau 2 mal nach Rechts, wobei wir vorher auf links waren.\\
 
 Demnach ist $I(\sigma) = 3$.\\
 
@@ -201,7 +201,7 @@ Wir verfallen für die Analyse in eine große Fallunterscheidung. Sei o.B.d.A. d
       Wir bezeichnen wieder mit $h_1$ bis $h_4$ die Höhe der Unterbäume und mit $h_x, h_y, h_z$ die Höhe der Bäume unter den Knoten $x,y,z$.\\
 
       Der Fall den wir nun betrachten ist, $h_2 < h_3$ ist. Wir wissen, dass $h_x = h_4 +1$ ist. Und damit ist $h_3 = h_4$ und $h_2 = h_3 - 1$.
-      Was wir nun tun ist, dass wir einmal Links um $x$ rotieren und dann noch einmal. Der resultierende Baum ist\\
+      Was wir nun tun ist, dass wir einmal links um $x$ rotieren und dann noch einmal. Der resultierende Baum ist\\
       \begin{center}
           \begin{tikzpicture}
             \node[circle, draw=black,name=a] {$y$};
