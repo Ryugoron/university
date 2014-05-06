@@ -1,0 +1,16 @@
+\definecolor{darkblue}{rgb}{0,0,.6}
+\definecolor{darkgreen}{rgb}{0,0.5,0}
+\definecolor{darkred}{rgb}{0.5,0,0}
+\definecolor{normblack}{rgb}{0,0,0}
+
+\lstdefinestyle{moreC}{deletekeywords={return}, morekeywords={assert, define, subrange, subtype, int, bool, ::, check, set-evidence! true}}
+
+\lstset{language=C, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\color{darkgreen}\sffamily, keywordstyle=\color{darkblue}\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2, mathescape=true, showstringspaces=false, stringstyle=\color{darkred}, escapeinside={\%*}{*)}}
+
+\lstset{literate=%
+{\$}{\$}1
+{\_}{\textunderscore}1
+}
+\lstset{extendedchars=\true}
+\lstset{inputencoding=utf8}
+
