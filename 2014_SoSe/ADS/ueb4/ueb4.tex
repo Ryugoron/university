@@ -120,78 +120,39 @@ unser $I(\sigma)$  substituiert haben.
 \noindent\textbf{Beweis:}\\
 
 
-Wir betrachten nun zunächst, wann ein eine Inkrementierung des Interleavebounds stattfindet. \\
-
-Wir erhöhen das Interleavebound immer wenn wir bezüglich eines Knotens zunächst links und dann rechts auf einen Knoten zugreifen (für alle bis auf den ersten rechten zugriff gilt dies). Wir für zwei Elemente $i,j$ also einem Knoten (dem lca von $i,j$) einen Interleave hinzu, wenn
-dazwischen auf kein anderes Element zugegriffen wurde, dass links, bzw. rechts vom lca stand. Wir weisen das Interleave also dem Zugriff der Elemente zu, die unmittelbar vor dem Unbiegen der Lieblingszeiger lagen.
-
-Wir beschreiben mit $\pi_k$ die Position nach der Permutation von $k$, $lca(i,j)$ den tiefesten gemeinsamen Vorfahren sowie
-$u(k)$ alle Knoten Unterbaum von $k$ im Referenzbaum.\\
-
-Wir erstellen uns eine Zufallsvariable
-
 $$
-	X_{ij} = \left\{ \begin{array}{lr}
-		1 \qquad \qquad&,  \pi_i < \pi_j , j \not=lca(i,j), \forall k \in u(lca(i,j)) \, : \, \pi_k \leq \pi_i \lor \pi_k \geq \pi_j\\
-		0 &, otherwise
-	\end{array}
-	\right.
+	\erw{I(\sigma)} = \sum_{i=1}^n i \cdot Pr(I(\sigma) = i)
 $$
 
-Also interpretiert muss $i$ in der Permutation links von $j$ stehen (sonst haben wir kein Wechsel von links nach rechts. Dann darf der tiefste gemeinse Vorfahr nicht $j$ sein, (da sonst der Lieblinszeiger auch nicht geändert wird. Ist es dagegen $i$, so wird er in $i$ auf links gesetzt und bei der
-Anfrage auf $j$ dann auf rechts). Zu guter letzt darf keiner der Knoten aus unter dem lca noch zwischen den beiden stehen, da wir sonst diesen
-Elementen den Wechselzuschreiben würden.\\
 
-Mit dieser Indikatorvariable können wir nun das Interleavebound aufschreiben
+Da wir auf alle Knoten zugreifen müssen beobachten wir zunächst, das für jeden nicht Blatt Knoten mindestens $1$ gezählt wird, da wir mindestens einmal nach Rechts gehen müssen (-1, da er linksvollständig ist).
+
+Da wir einen vollständigen Baum haben, ist die Hälfte aller Knoten in den Blättern. Da $I(\sigma) \geq \frac{n}{2}$ sein muss,
+brauchen wir auch erst ab hier zu zälen.
+
 $$
-	\erw{I(\sigma)} = \erw{\sum_{i=1}^n \sum_{j=1}^n X_{ij}} \stackrel{\text{lin. erw.}}{=} \sum_{i=1}^n \sum_{j=1}^n \prob{X_{ij}=1}
+	\erw{I(\sigma)} = \sum_{i=\frac{n}{2}}^n i \cdot \prob{I(\sigma) = i} \geq \frac{n}{2} \sum_{i=\frac{n}{2}}^n \prob{I(\sigma)=i}
 $$
 
-Wir müssen also bestimmen, wie hoch die Wahrscheinlichkeit für zwei beliebige Elemente ist, dass sie eins zum Interleavebound hinzufügen.
+Nun müssen wir noch die Wahrscheinlichkeit abschätzen. Wir betrachten dazu eine Abfolge um auf $i$ zu kommen. Wenn wir auch $i$ kommen
+wollen, so müssen wir zunächst $i$ mal nach rechts abbiegen. Wir fixieren eine Folge in der wir für $i$ Elemente nur ein einziges mal (neu) nach rechts abbiegen, wobei wir uns nicht darum scheren, ob der Lieblingszeiger schon zuvor nach rechts gesetzt wurde. So wissen wir, dass am Ende
+$I(\sigma) \geq i$. Dann können wir die Restlichen $i-n$ Elemente wild permutieren. Wir erhalten eine
+Wahrscheinlichkeit von $\frac{1}{(n-i)!}$ hierfür.
 
-Da wir versuchen den Schnitt von Ereignissen zu berechnen, müssen wir dies mit den Abhängigkeiten tuen.
-Das heißt $Pr(A \cap B \cap C) = Pr(A) \cdot Pr(B|A) \cdot Pr(C| A \land B)$.
+Nun gilt $\prob{I(\sigma) = i} = \prob{I(\sigma) \geq i+1} -  \prob{\sigma \geq i}$. Und wir können die Wahrscheinlichkeit hierfür vom
+ersten nach unten abschätzen durch \footnote{Ich habe keine Ahnung, wie man hier weiter kommen soll, aber das Ergebnis
+kommt wenigstens so hin, dass ich damit weiter arbeiten kann. Fehlt nur der Beweis, dass es gilt}
 
-Da den $lca$ für alle Elemente zu bestimmen zu kompliziert ist, gruppieren wir das ganze einfach um. Wir berechnen nun die Wahrscheinlichkeiten bezüglich einer Ebene $m$ im Baum. Jeder Knoten im Baum (da er vollständig ist), halbiert die Menge der Elemente unter sich. Dementsprechend
-ist der lca auf dem Intervall, dass wir betrachten immer die Mitte des Intervalls. $i$ und $j$ sollen also immer in der oberen oder der Unteren hälfte liegen.
+$$\prob{I(\sigma) \geq i + 1} \geq \frac{1}{(n- (i-1)!}.$$
 
-Dies bedeutet für uns, dass wir die folgenden Wahrscheinlichkeiten berechnen müssen für ein Intervall der Länge $m$.
-\begin{description}
-	\item[$\prob{\pi_i < \pi_j}$:] Als Wahrscheinlichkeit erhalten wir alle Permuatationen, bei denen $i$ in der ersten Hälfte und $j$ in der zweiten
-		Hälfte steht.
-		$$\begin{array}{rcl}
-			\prob{\pi_i < \pi_j} &=& \left( \frac{1}{(m/2)!} \right)^2 \geq \frac{1}{m^2}
-		\end{array}$$
-	\item[$\prob{j \not= lca(i,j)}$:] Dies ist nun erheblich leichter, da wir uns auf dem Intervall der Länge $m$ befinden. Für dieses
-		wissen wir, dass nur ein Element. Auf für alle $j$ auf dem Intervall gibt es also nur ein einziges, welches der lca sein könnte.
-		$\Rightarrow \prob{...} \geq \frac{1}{m}$.
-	\item[$\prob{\forall k \in u(lca(i,j)) \, : \, \pi_j \leq \pi_i \lor \pi_k \geq \pi_j}$:] Hier ist wichtig,
-		wie wir das ganze aufschreiben. Die Wahrscheinlichkeit für eine Permutation ist ein Zufallsexperiment von Positionen für die einzelnen 		
-		Elemente ohne zurücklegen. Was wir also tun, ist, dass wir zunächst allen Elemente, die sonst noch in diesem Intervall liegen können
-		andere Positionen außerhalb von $\pi_i$ und $\pi_j$ zuweisen. Der Fall, bei dem es hier am kleinsten wird ist, wenn $i$,$j$ ganz am Rand
-		des Intervalls liegen, da wir so weniger Möglichkeiten haben um alles zu ersetzen. Sei $m = n/2^i$ (wir wissen, das es so gebildet wird).
-		$$\begin{array}{rcl}
-			\prob{\forall k \in u(lca(i,j)) \, : \, \pi_j \leq \pi_i \lor \pi_k \geq \pi_j} &\geq& 
-				\sum_{s=0}^{m-2} \frac{1}{n-m-s}\\
-			&=& \sum_{s=n-m}^{n-2} \frac{1}{s}\\
-			&=& H_{n-2} - H_{n-m}\\
-			&=& \Omega( \log (n - 2) - \log (n - m))\\
-			&=& \Omega(\log (n-2) - \log (n - n/2^i))\\
-			&=& \Omega(\log (n-2) - \log ((2^i-1)n / 2^i))\\
-			&=& \Omega(\log (n-2) - \log (2^i - 1) - \log \, n + \log \, 2^i)\\
-			&=& \Omega(\log \, 2^i - \log (2^i - 1))\\
-			&=& \Omega (\log \, \frac{2^i}{2^i - 1})\\
-			&=& \Omega(\log 1/m)
-				
-		\end{array}$$
-\end{description}
-
-
-
-
-
-
-
+Setzen wir dies in den Erwartungswert ein erhalten wir
+$$\begin{array}{rcl}
+	\erw{I(\sigma)} &\geq& \frac{n}{2} \sum_{i=\frac{n}{2}}^n  \frac{1}{(n-(i-1))!}\\
+		&=& \frac{n}{2} \sum_{i=1}^{\frac{n}{2}} \frac{1}{i!}\\
+		&=& \frac{n}{2} H_{n/2}\\
+		&=& \Omega \left(n \log \frac{n}{2} \right)\\
+		&=& \Omega \left( n \log \, n \right)
+\end{array}$$
 
 
 \subsubsection*{(b)} Sei $\sigma = (a_1, \Delta_1), \ldots, (a_m, \Delta_m)$ eine Anfragefolge für das Teilsummenproblem und sei $\sigma' = a_1, \ldots, a_m$ eine Anfragefolge an das dynamische Suchbaumproblem. Wen es einen dynamischen binären Suchbaum gibt, der $\sigma'$ mit Kosten $C$ bearbeitet, dann existiert eine Befehlsfolge für $\sigma$ mit Länge $\mathcal{O}(C)$.\\
