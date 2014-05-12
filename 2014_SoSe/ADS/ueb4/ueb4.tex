@@ -1,0 +1,339 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm]{geometry}
+\usepackage[ngerman]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{ae}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{stmaryrd}
+\usepackage{paralist}
+\usepackage{tikz}
+\usepackage{amsthm}
+\usepackage{tabularx}
+
+\usetikzlibrary{arrows,automata,shapes.geometric}
+
+\newtheorem{propo}{Satz}
+\newtheorem{lemmas}[propo]{Lemma}
+
+\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[C]{ADS}
+\fancyhead[L]{Übung 4}
+\fancyhead[R]{SoSe 2014}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage \hspace{1px} von \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\newcommand{\set}[1]{ \{ #1 \}}
+\setlength{\parindent}{0pt}
+\setlength{\headheight}{0pt}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\bigO}{\mathcal{O}}
+\newcommand{\Rarr}{\Rightarrow}
+\newcommand{\rarr}{\rightarrow}
+\newcommand{\Pot}{\mathcal{P}}
+\newcommand{\abs}[1]{\left |#1\right|}
+\newcommand{\solved}{$\mbox{}$ \hfill $\square$}
+\newcommand{\Epsilon}{\mathcal{E}}
+
+\newcommand{\erw}[1]{\text{\bfseries E} \left[ #1 \right]}
+\newcommand{\prob}[1]{\text{Pr}\left[ #1 \right]}
+
+\date{}
+\title{Übung 4}
+\author{Max Wisniewski, Melanie Skodzik}
+
+
+%%
+%% Enviroments for proofs and lemmas
+%%
+\newtheorem{prop}{\bfseries Behauptung}
+\newtheorem{lemma}{\bfseries Lemma}
+
+\begin{document}
+
+\lstset{language=Pascal, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2, mathescape=true}
+
+\renewcommand{\figurename}{Grafik}
+
+\maketitle
+\thispagestyle{fancy}
+
+
+\subsection*{Aufgabe 1}
+
+Siehe Extrablatt.
+
+\subsection*{Aufgabe 2}
+
+Zeigen Sie, dass sich die Analys der Tangobäume nicht verbessern lässt. Konstruieren Sie dazu für einen gegebenen Tangobaum beliebig lange Anfragefolgen $\sigma$, so dass $\sigma$ insgesammt $\Omega(I(\sigma) \log \log \, n)$ Schritte benötigt.\\
+
+\noindent\textbf{Lösung:}\\
+
+Wir sind uns nicht so ganz im klaren gewesen, wie wir mit $I(\sigma)$ umgehen. Daher haben wir uns für die folgende Strategie entschieden.\\
+
+Wir suche im Schritt $i$ nach dem Element $a_i$, dass im Referenzbaum das Blatt ist, wenn man von der Wurzel aus die Nicht-Lieblings Zeiger verfolgt.
+(Das Element ist eindeutig). Wir können beobachten, dass pro Anfrage pro Ebene genau ein Lieblingszeiger seine Richtung wechselt.
+
+Nun beobacheten wir das folgende Verhalten. In der $i$-ten Ebene wird in $2^{i+1}$ Schritten der Lieblingszeiger ganu $2^i$ mal von Links auf rechts gesetzt. Bei einer Höhe von $\log \, n$ können wir also $I(\sigma) = \Theta(\frac{1}{2} m \log \, n)$ abschätzen (was für die Aufgabe eigentlich egal ist).
+
+Nun müssen wir im Tangobaum immer den Lieblingspfadbaum bis in die Blätter durchlaufen um in einen angrenzenden Lieblingspfadbaum zu kommen. Ändert sich also der Lieblingszeiger, so müssen wir einmal durch den Lieblingspfadbaum laufen. Nun haben die Bäume absteigende Anzahl von Elementen.
+
+Starten wir in der Wurzel noch mit einem Lieblingspfad mit $\log \, n$ Knoten, so hat der nächste Pfad $(\log \, n)-1$ Knoten und so weiter. Da die Lieblingspfadbäume AVL Bäume sind, hat der $i$-te Lieblingspfadbaum auf unserem Weg zum angefragten Knoten also $(\log \, n) - i$ Knoten,
+also eine Höhe von $\log \, ((\log \, n) - i)$, nun gilt für eine Anfrage, die Zeit
+$$
+	\sum_{i=0}^{\log \, n - 1} \log \, ((\log \, n) - i) = \Theta((\log \,n) \cdot (\log \log \, n))
+$$\footnote{Selbe Analyse wie bei Heapsort (Anzahl der Elemente nach jedem Schritt um 1 verringert) und da ALP3 Voraussetzung ist, lassen wir die hier mal weg.}
+
+Wir die gesammte Folge brauchen wir also $\Theta(m \cdot \log \, n \cdot (\log \log \, n))= \Theta(I(\sigma) \cdot (\log \log \, n))$ nachdem wir
+unser $I(\sigma)$  substituiert haben.
+
+\mbox{}\hfill$\square$
+
+\subsection*{Aufgabe 3}
+
+\subsubsection*{(a)} Sei $\sigma$ eine zufällige Permutation von $\{ 1 , \ldots , n \}$. Dann ist $\erw{I(\sigma)} = \Omega(n \log \, n)$.\\
+
+\noindent\textbf{Beweis:}\\
+
+tbd
+
+\subsubsection*{(b)} Sei $\sigma = (a_1, \Delta_1), \ldots, (a_m, \Delta_m)$ eine Anfragefolge für das Teilsummenproblem und sei $\sigma' = a_1, \ldots, a_m$ eine Anfragefolge an das dynamische Suchbaumproblem. Wen es einen dynamischen binären Suchbaum gibt, der $\sigma'$ mit Kosten $C$ bearbeitet, dann existiert eine Befehlsfolge für $\sigma$ mit Länge $\mathcal{O}(C)$.\\
+
+\noindent\textbf{Beweis:}\\
+
+Wir werden den dynamischen BSB dahingehend erweitern, dass $\{1, \ldots, n\}$ nun nur noch die Schlüssel sind und jeder Knoten des BSB
+noch 3 weitere Werte speichert. Für einen Knoten $k$ speichert $v(k)$ den Wert im Knoten, $left(k)$ die Summe der Werte im linken Unterbaum
+und $right(k)$ die Summe der Werte im rechten Unterbaum.\\
+
+Wir können diese Datenstruktur simlulieren, indem wir uns 3 Arrays speichern $v, left, right$ und die Schlüssel für die Knoten sind die Array Indizes.\\
+
+Wir zeigen zunächst, wie man die Rotationen durchführt.\\
+
+\noindent\textbf{L-R-Rotation}:\\
+Für einen Baum mit der Rotation
+
+\begin{center}
+	\begin{tikzpicture}[font=\small, minimum size=0.5cm]
+      \node[circle, draw=black,name=a] {$x$};
+      \node[circle, draw=black, name=b, below left of=a] {$y$};
+      \node[name=c, below right of =a] {$3$};
+      \node[name=d, below left of = b] {$1$};
+      \node[name=e, below right of =b] {$2$};
+
+      \path[-]
+         (a) edge (b)
+         (a) edge (c)
+         (b) edge (d)
+         (b) edge (e);
+   \end{tikzpicture}
+   \begin{tikzpicture}[font=\small, minimum size=0.5cm]
+      \node[circle, draw=black,name=a] {$y$};
+      \node[circle, draw=black, name=b, below right of=a] {$x$};
+      \node[name=c, below right of =b] {$3$};
+      \node[name=d, below left of = a] {$1$};
+      \node[name=e, below left of =b] {$2$};
+
+      \path[-]
+         (a) edge (b)
+         (a) edge (d)
+         (b) edge (c)
+         (b) edge (e);
+   \end{tikzpicture}
+\end{center}
+
+Updaten wir die Werte wie folgt\footnote{Man braucht noch Zwischenspeicher um die Werte nicht zu überschreiben, aber wir nehmen an,
+das das lesen [rechte Seite] auf dem alten Baum und das schreiben [linke Seite] auf dem neuen Baum passiert.}
+\begin{lstlisting}[frame=single]
+	left(y)   = left(x)
+	left(x)   = right(y)
+	right(y)  = right(x) + left(y) + v(x)
+\end{lstlisting}
+
+Übersetzen wir dies nun in unsere Monoid SLP. Wir benutzen hierbei die Arrays $left, right, v$ die mit offset Codiert im Speicher liegen,
+sowie ein Eintrag \lstinline|save|, in dem wir Zwischenergebnisse speichern können, sowie ein Extraregister $0$ in dem eine Konstante $0$
+liegt um uns Aufwand zu sparen, falls wir nur Speicherstellen swappen.
+
+\begin{lstlisting}[frame=single]
+	save $\rightarrow$ left(y) + 0
+	left(y) $\rightarrow$ left(x) + 0
+	left(x) $\rightarrow$ right(y) + 0
+	right(y) $\rightarrow$ v(x) + 0
+	right(y) $\rightarrow$ right(y) + right(x)
+	right(y) $\rightarrow$ right(y) + save
+\end{lstlisting}
+
+Wir sehen, dass wir eine R-Rotation, bzw. L-Rotation symmetrisch dazu, in $6$ Schritten in der Monoid SLP simulieren können.\\
+
+Als nächstes kümmern wir uns um die Rekonstruktion unseres Wertes. Was uns vom BSB zugesichert wird, ist, dass wir einen Zusammenhängenden Pfad von der Wurzel zum gesuchten Knoten besuchen. Diesen benutzen wir nun um den Rückgabewert zu bauen. Wir speichern den Rückgabewert
+in einer Speicherzelle \lstinline|retVal|, das zu Beginn jeder Anfrage auf $0$ gesetzt wird.
+
+Nun müssen wir 3 Fälle unterscheiden für Anfrage $(a_i, \Delta_i)$, wir speichern den Wert $\Delta_i$ auch in einer Speicherzelle, die noch nicht benutzt wurde.
+
+\begin{enumerate}[1.]
+	\item Wir müssen nach Rechts gehen (von $x$ nach $y$):
+
+\begin{center}
+	\begin{tikzpicture}[font=\small, minimum size=0.5cm]
+      \node[circle, draw=black,name=a] {$x$};
+      \node[circle, draw=black, name=b, below left of=a] {$y$};
+      \node[name=c, below right of =a] {$3$};
+      \node[name=d, below left of = b] {$1$};
+      \node[name=e, below right of =b] {$2$};
+
+      \path[-]
+         (a) edge (b)
+         (a) edge (c)
+         (b) edge (d)
+         (b) edge (e);
+   \end{tikzpicture}
+\end{center}	
+
+Zu unserem Ergebnis kommt nichts hinzu, allerdings wir im linken Teilbaum von $x$ ein Knoten um den Wert $\Delta_i$ erhöht.
+\begin{lstlisting}[frame=single]
+	left(x) $\rightarrow$ left(x) + $\Delta_i$
+\end{lstlisting}
+
+\item Wir gehen nach Links (von $y$ nach $x$)
+\begin{center}
+   \begin{tikzpicture}[font=\small, minimum size=0.5cm]
+      \node[circle, draw=black,name=a] {$y$};
+      \node[circle, draw=black, name=b, below right of=a] {$x$};
+      \node[name=c, below right of =b] {$3$};
+      \node[name=d, below left of = a] {$1$};
+      \node[name=e, below left of =b] {$2$};
+
+      \path[-]
+         (a) edge (b)
+         (a) edge (d)
+         (b) edge (c)
+         (b) edge (e);
+   \end{tikzpicture}
+\end{center}
+
+Diesmal liegen $y$ und der gesamte Baum $1$ links von $a_i$, daher zählen sie mit zum Ergebnis. Ebenso wird der rechte Unterbaum von $y$
+um $\Delta_i$ größer.
+
+\begin{lstlisting}[frame=single]
+	retVal $\leftarrow$ retVal + left(y)
+	retVal $\leftarrow$ retVal + v(y)
+	right(y) $\leftarrow$ right(y) + $\Delta_i$
+\end{lstlisting}
+
+\item Wir sind im Knoten $a_i$ angelangt.\\
+
+Wir müssen zunächst den Wert $a_i$ umd $\Delta_i$ erhöhen. Dann gehören $left(a_i)$ und $v(a_i)$ noch zum Ergebnis.
+
+\begin{lstlisting}[frame=single]
+	v(a_i) $\leftarrow$ v($a_i$) + $\Delta_i$
+	retVal $\leftarrow$ retVal + v($a_i$)
+	retVal $\leftarrow$ retVal + left($a_i$)
+\end{lstlisting}
+
+\end{enumerate}
+
+Zu guter letzt benötigen wir noch die Ausgabe von $retVal$. Das anlegen der Felder von $\Delta_I$ und \lstinline|retVal|, sowie die
+Ausgabe ist pro angefragtem Element Konstant. \\
+
+Für die Korrektheit müssen wir nun sehen noch betrachten, dass die Rotationen an beliebiger Stelle im Algorithmus ausgeführt werden können,
+da alle berührten Knoten von der Rotation eh schon zur Menge der besuchten Knoten gehören. Die Kosten verändern sich also nicht.\\
+Wir können also erst unseren Knoten suchen und dann die Rotationen des Algorithmus ausführen.
+
+Für alle Knoten, die nicht auf dem Pfad liegen macht die Strategie im Monoid SLP nichts. Wir sehen, dass die Kosten für jeden besuchten Knoten
+der Strategie für den BSB im Monoid SLP $\leq 3$ ist und das eine Rotation im Monoid SLP $\leq 6$ Kostet.\\
+
+Die Kosten für die Bearbeitung eine Strategie im BSB mit $C$ kostet im Monoid SLP demnach $\leq 6 C + c \cdot m$. Da wir pro Anfrage
+mindestens $1$ Knoten besuchen müssen, ist $C \geq m$ und damit ist die Bearbeitungsdauer für $\sigma$ in $\mathcal{O}(C)$.
+
+\mbox{}\hfill$\square$
+
+\subsection*{Aufgabe 4}
+
+Seien $p_1, \ldots, p_n$ mit $p_i > 0$ für $i=1, \ldots, n$ und $\sum_{i=1}^n p_i = 1$ gegeben. Wir interpretieren $p_i$ als die Wahrscheinlichkeit dass auf Element $i$ zugegriffen wird. Nehmen Sie an, die $p_i$ liegen in einem Array $P$ vot, so dass \lstinline|P[i] = $p_i$| ist. Zeigen Sie, dass man dann 
+in $\mathcal{O}(n)$ Zeit einen BSB für $\{1, \ldots, n\}$ mit erwarteter Zugriffszeit $\mathcal{O} \left( \sum_{i=1}^n p_i \log(1/p_i)\right)$ konstruieren kann.\\
+
+\noindent\textbf{Beweis:}\\
+
+Wolfgang hat uns in der Vorlesung ja bereits verraten, worauf das ganze hinausläuft, aber rekapitulieren wir nocheinmal die Idee.\\
+
+\noindent\textbf{Gesuchter Baum:}\\
+Nehmen wir an, wir haben noch ein Interval Wahrscheinlichkeits Intervall zur Verfügung mit Länge $m$ und die Knoten $l, \ldots, r$,
+wobei $\sum_{i=l}^r p_i \leq m$.
+Dann wählen wir den Knoten $t$ als Wurzel von diesem Unterbaum mit
+$$
+	\sum_{i=l}^{t-1} p_i < \frac{m}{2} \quad \land \quad \sum_{i=l}^t p_i \geq \frac{m}{2}
+$$
+Wir wissen nun, dass auf $l, \ldots t-1$ wir ein WahrscheinlickeitsIntervall haben mit Länge $\frac{m}{2}$ und das ganze ebenso für $t+1,\ldots,r$.
+Wir können hier also rekursiv mit der Konstruktion fortfahren.
+
+Aufgrund dieser Konstruktion sind die Intervalllängen in Tiefe $m$ $\frac{1}{2^m}$.\\
+
+In welcher Tiefe werden wir nun Knoten $i$ höchstens Antreffen?
+
+Sobald $p_i > 1 / 2^{d+1}$ ist, muss er in Tiefe $d$ eingetragen sein, da in Tiefe $d$ nur ein Interval von $1 / 2^{d}$ zu Verfügung steht und
+alle anderen Elemente nur echt weniger als die Hälfte davon ausmachen.
+
+$$ p_i > 1/2^{d+1} \Leftrightarrow d > \log \, (1/ p_i) - 1$$
+
+Wie schon gesagt, suchen wir das kleinste $d$, so dass diese Eigenschaft erfüllt ist, damit ist $d(i) = \mathcal{O}(\log \, (1/ p_i))$.\\
+
+Für die erwartete dauer der Anfrage auf Elemente $X$ gilt dann 
+$$\begin{array}{rcl}
+	\erw{d(X)} &=& \sum_{i=1}^n \prob{X=i}\cdot (d(i) + 1)\\
+		  &=& \sum_{i=1}^n p_i \cdot \mathcal{O}(\log \, (1/p_i))\\
+		&=& \mathcal{O}\left( \sum_{i=1}^n p_i \cdot \log (1 / p_i)\right)
+\end{array}$$
+
+Bleibt zu zeigen, dass wir diesen Baum in $\mathcal{O}(n)$ Konstruieren können.\\
+
+\noindent\textbf{Konstruktion:}\\
+Wir verwalten einen Stack von Bäumen \lstinline|S|. Diese Bäume speichern in den Knoten die Summe aller Wahrscheinlichkeiten aller Knoten in diesem Baum \lstinline|p| und
+die Tiefe in der dieser Baum steht \lstinline|d|. Zu Beginn ist die Queue leer. Ein Baum kann als komplett oder als unvollständig geflagt sein. (Unvollständig bedeutet, er hat noch keinen Linken Unterbaum.
+
+Zu Beginn berechnen wir die Tiefe von $1$, indem wir das erste $d$ berechnen mit $p_i \geq 1/2^{d+1}$. Und wir legen $1$ als Baum mit einem Knoten
+mit Wahrscheinlichkeit $p_i$ und $d$. Wir gehen weiter, wie folgt vor. Sei $i$ der nächste wichtige Knoten (also 2 nach initialisierung).
+
+\begin{enumerate}
+	\item Sei \lstinline|t = S.pop| und $t$ vollständig. Ist $p_i + t.p \geq 1 / 2^{t.d - 1}$\footnote{Muss so sein,
+	sonst ist in der Eingabe was verkehrt gelaufen}, so $i$ der dierckte Vater von $t$. Lege $i$ mit linkem 		
+		Unterbaum $t$ auf den Stack markiert als Unvollständig, es wird die Tiefe auf $d-1$ gesetzt, die Wahrscheinlichkeit bleibt noch leer.
+	\item Andernfalls: (Lege $t$ wieder auf den Stack). Berechne die Tiefe von $i$ ausgehend von $t.d$ (t sollte unvollständig sein, sonst
+		ist etwas falsch gelaufen) als $d'$. $i$ muss unter $t$ liegen, also ist die Tiefe auch darunter. Erzeuge Blatt mit Wahrscheinlichkeit $p_i$ und
+		Tiefe $d'$ markiert als Vollständig wir nennen den Knoten $B$.\\
+
+		Solange \lstinline|t = S.pop| unvollständig und $B.d = t.d+1$ setzte $B$ als linken Unterbaum von $t$ markiere ihn als vollständig
+		und berechne die Wahrscheinlichkeit aus den beiden Unterbäumen. Nenne diesen Baum nun $B$.
+\end{enumerate}
+
+Zu Punkt $1$. Sollte $t$ vollständig sein, so muss die Eigenschaft gelten, da von Links an, die Wahrscheinlichkeiten die einzigen Möglichkeiten bilden den Baum so aufzubauen. Sollte also die Eigenschaft nicht gelten, so gebe es keinen Knoten über $t$, was nur möglich ist, wenn der Baum komplett ist, also wir gar kein $i$ mehr hatten. Die annahme bei $2$, dass $t$ unvollständig ist, leitet sich aus Punkt $1$ her.\\
+
+Der Punkt $1$ erledigt somit schon die Korrektheit des Algorithmus, zusammen mit der berechnung von $d$ in den Blättern. Wir haben also den gesuchten Baum konstruiert. Bleibt nur noch zu zeigen, dass wir die Laufzeit eingehalten haben.\\
+
+\noindent\textbf{Laufzeit:}\\
+Wir beobachten, dass wir jeden Knoten $i \in \{1, \ldots, n\}$ höchstens 2 mal auf den Stack legen (falls wir das zurücklegen in Punkt 2 vernachlässigen). Einmal als unvollständigen und einmal als vollständigen. (Blätter werden nur als vollständiger auf den Stack gelegt). Damit kann die Schleife in Punkt 2 hächsten $n$ Wechsel von unvollständig zu vollständig vollziehen.
+
+Damit haben wir für die Konstruktion abgesehen von der Tiefenberechnung schoneinmal eine Laufzeit von $\mathcal{O}(n)$. Müssen wir nur noch betrachten, wie lange es dauert, die Tiefe der Knoten zu berechnen.\\
+
+Um die Tiefe herabgehend für einen Knoten zu bestimmen, rechnen wir die aktuelle Intervalllänge immer durch 2 und addieren eins zur Tiefe. Wir gehen dabei immer vom tiefsten gemeinsamen Ahnen der bisher gesehenen Knoten aus und nicht wieder Tiefe $0$. Die Tiefenberechnung vollzieht sich demnach im Zielbaum als Inorder-Traversierung. Wir gehen zunächst ganz links ins Blatt hinab (pro wechsel der Ebene durch 2 teilen). Sind wir im Blatt, gehen wir wieder um 1 hoch (mal 2 rechnen) um einen unvollständigen Baum herzustellen und gehen dann nach rechts runter indem wir von da an durch 2 teilen.\\
+
+Pro wechsel des Knotens in der Traversierung rechnen wir also $+1$ oder $-1$ auf die Höhe. Da eine Traversierung von $n$ Knoten in $\mathcal{O}(n)$ läuft, können wir alle Höhen auch in $\mathcal{O}(n)$ berechnen.\\
+
+Unsere Konstruktion hat also eine Laufzeit von $\mathcal{O}(n)$.
+
+\mbox{}\hfill$\square$
+
+\label{LastPage}
+\end{document}
