@@ -1,26 +1,43 @@
 \begin{abstract}
-The successor of Leo2, a higher order theorem prover with term-order,
-is a Prover based on superposition and term-ordering. The underlying logic
+The successor of Leo2, a higher order theorem prover with term-order (winner CASC 2010),
+is a Prover based on ordered paramodulation/superposition. The underlying logic
 uses an erniched higher-order calculus with type polymorphism and type classes. The whole system is designed to work fully concurrent/parallel and ...
+
+wo sind wir gerade: evaluierung verschiedener agenten-modelle, und blackboard architekturen,
+auswahl einer internen term sprache. um schnelle ziele zu erreichen wollen wir vorerst nur einige
+features der sprache nutzen --- *aber* auch schon damit mehr haben als andere (rank-1 polymorphism).
+Sketch: Grundablauf Architektur (independent agents greifen auf blackboard zu, z.b. spezialagenten
+oder unifizierungsagenten...blabla).
 \end{abstract}
+
+
+
+Quellen?
 
 %%
 %% Points :
-%%    - Leo2 nachfolger
+%%    - Leo2 nachfolger                         <- muss rein
 %%    - Higher Order Logic Theorem Prover
 %%       -> Typeclasses
-%%       -> Polymorphism
+%%       -> Polymorphism                          <- muss rein
+%%       -> (also quasi richly typed formal system)
 %%       -> Wie keiner vorher war.
+%%       -> term/data sharing, labeling techniques                        <- muss rein
+%%       -> efficient reduction/substitution (z.b. durch ordering)                        <- muss rein
 %%    - Highly Concurrent
-%%       -> Blackboard Architecture
-%%       -> Mutli-Agent Architecture
-%%       -> And/Or - Parallelismus
+%%       -> Blackboard Architecture                        <- muss rein
+%%       -> Mutli-Agent Architecture                        <- muss rein
+%%       -> And/Or - Parallelismus                        <- muss rein
 %%       -> Distributed Search (Viele Kalkülagenten, die versuchen
 %%             inferenz anzuwenden)
 %%       -> Vorschlags oder Unterstützende Agenten
 %%             ( Mögliche Unifikationspartner, Mögliche Unifier,
 %%                Klauselnormalisierung, etc.)
-%%    - State of the art
-%%    - bla,blub
-%%
+%%    - State of the art                        <- muss rein
+%%    - Nah an TPTP entwickeln; kompatible Syntax                        <- muss rein
+%%    - Leicht anschließbar an ext. Systeme                        <- muss rein
+%%          ("Provision of proof objects and support for the integration
+%%           of LEO-III with proof assistants or other AI systems.")
+%%    - auch was mit special logics? also z.b. QML (modal logics)
+%%    - Modularer Aufbau um es als Framework zu nutzen (relativ wichtig)                        <- muss rein
 %%
