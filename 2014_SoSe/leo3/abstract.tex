@@ -1,41 +1,70 @@
-\begin{abstract}
-The successor of Leo2, a higher order theorem prover with term-order (winner CASC 2010),
-is a Prover based on ordered paramodulation/superposition. The underlying logic
-uses an erniched higher-order calculus with type polymorphism and type classes. The whole system is designed to work fully concurrent/parallel and ...
+\documentclass[10pt]{article}
 
-wo sind wir gerade: evaluierung verschiedener agenten-modelle, und blackboard architekturen,
-auswahl einer internen term sprache. um schnelle ziele zu erreichen wollen wir vorerst nur einige
-features der sprache nutzen --- *aber* auch schon damit mehr haben als andere (rank-1 polymorphism).
-Sketch: Grundablauf Architektur (independent agents greifen auf blackboard zu, z.b. spezialagenten
-oder unifizierungsagenten...blabla).
-\end{abstract}
+\usepackage[top=1cm, left=3cm, right=2cm]{geometry}
 
+\begin{document}
+\title{The Leo-III Project}
+\author{Christoph Benzm\"{u}ller \and Max Wisniewski \and Alexander Steen}
+\date{}
+\maketitle
+
+
+\noindent We present the Leo-III project, in which we design and implement
+a state-of-the-art Higher-Order Logic Theorem Prover, the successor of the well known LEO-II prover~\cite{Benzmüller08leo-ii—} (Winner CASC 2010). Leo-III will be based on
+ordered paramodulation/superposition.
+
+In constract to LEO-II, we replace the internal term representation
+(the commonly used simply typed lambda calculus) by a more expressive system supporting
+type polymorphism. In the course of the project, we plan to further enhance the type
+system with type classes and type constructors similar to System F$^\omega$.
+This way, Leo-III will be one of few ATPs to support all TPTP input formats up to
+TFF1~\cite{Sutcliffe:2009:TPL:1666192.1666217}.
+
+In order to achieve a substantial performance speed-up, the architecture of Leo-III
+will be based on massive parallelism (e.g. And/Or-Parallelism, Multisearch)~\cite{journals/amai/Bonacina00}.
+The current design is a multi-agent blackboard
+architecture~\cite{Weiss2013} that will allow to independently run agents with
+our proof calculus as well as agents for external (specialized) provers.
+
+\noindent The design of Leo-III will focus right from the start on compatibility to the widely used TPTP infrastructure
+~\cite{Sutcliffe:2009:TPL:1666192.1666217} including its input language. Also, we plan to offer built-in support for specialized
+external prover agents, as well as to provide external interfaces to be, itself, be used
+from other provers (e.g. Isabelle/HOL~\cite{nipkow2002isabelle}).
+The implementation will excessively use term sharing~\cite{Riazanov:2002:DIV:1218615.1218620}~\cite{Schulz:2002:EBT:1218615.1218621}
+and several indexing techniques~\cite{Nieuwenhuis03onthe}~\cite{W35}.
+
+\nocite{Sutcliffe10automatedreasoning}
+
+\bibliographystyle{alpha}
+\bibliography{cite}
+
+\end{document}
 
 
 Quellen?
 
 %%
 %% Points :
-%%    - Leo2 nachfolger                         <- muss rein
+%%    - Leo2 nachfolger                         <- muss rein X
 %%    - Higher Order Logic Theorem Prover
 %%       -> Typeclasses
-%%       -> Polymorphism                          <- muss rein
+%%       -> Polymorphism                          <- muss rein X
 %%       -> (also quasi richly typed formal system)
 %%       -> Wie keiner vorher war.
-%%       -> term/data sharing, labeling techniques                        <- muss rein
-%%       -> efficient reduction/substitution (z.b. durch ordering)                        <- muss rein
+%%       -> term/data sharing, labeling techniques                        <- muss rein X
+%%       -> efficient reduction/substitution (z.b. durch ordering)                        <- muss rein X
 %%    - Highly Concurrent
-%%       -> Blackboard Architecture                        <- muss rein
-%%       -> Mutli-Agent Architecture                        <- muss rein
-%%       -> And/Or - Parallelismus                        <- muss rein
+%%       -> Blackboard Architecture                        <- muss rein X
+%%       -> Mutli-Agent Architecture                        <- muss rein X
+%%       -> And/Or - Parallelismus                        <- muss reinX
 %%       -> Distributed Search (Viele Kalkülagenten, die versuchen
 %%             inferenz anzuwenden)
 %%       -> Vorschlags oder Unterstützende Agenten
 %%             ( Mögliche Unifikationspartner, Mögliche Unifier,
 %%                Klauselnormalisierung, etc.)
-%%    - State of the art                        <- muss rein
-%%    - Nah an TPTP entwickeln; kompatible Syntax                        <- muss rein
-%%    - Leicht anschließbar an ext. Systeme                        <- muss rein
+%%    - State of the art                        <- muss rein X
+%%    - Nah an TPTP entwickeln; kompatible Syntax                        <- muss reinX
+%%    - Leicht anschließbar an ext. Systeme                        <- muss reinX
 %%          ("Provision of proof objects and support for the integration
 %%           of LEO-III with proof assistants or other AI systems.")
 %%    - auch was mit special logics? also z.b. QML (modal logics)
