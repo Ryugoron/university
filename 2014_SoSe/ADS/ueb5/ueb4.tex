@@ -77,7 +77,7 @@
 
 \subsubsection*{(a)}
 
-Geben Sei Pseudocode wie in der Vorlesung für die \lstinline|delete|-Operation vin van-Emde-Boas-Bäumen. Beschreiben Sie Ihren Algorithmus auch in WOrten und analysieren Sie die Laufzeit.\\
+Geben Sei Pseudocode wie in der Vorlesung für die \lstinline|delete|-Operation vin van-Emde-Boas-Bäumen. Beschreiben Sie Ihren Algorithmus auch in Worten und analysieren Sie die Laufzeit.\\
 
 \noindent\textbf{Lösung:}\\
 
@@ -90,11 +90,39 @@ Lösen Sie die folgenden Rekursionsgleichung und diskutieren Sie ihre Relevanz f
 \begin{enumerate}[(i)]
 	\item $T(N) = T(\sqrt{N})) + \mathcal{O}(1)$\\
 	\noindent\textbf{Lösung:}\\
-		tbd
+		Hier liegt eine lineare Rekursion vor, bei der wir pro Schritt nur eine konstante Anzahl von Schritten benötigen
+		und pro Schritt die Wurzel aus der Anzahl ziehen. Nach $k$ Schritten sieht die Gleichung also wie folgt aus.
+		$$
+			T(N) = T(N^\frac{1}{2k}) + c \cdot k.
+		$$
+		Wir sind also nur daran interessiert, wie groß $k$ ist, bis der Anker erreicht ist. Wir setzen $N=2$ den Anker(mit
+		einer anderen konstanten Laufzeit).
+		$$
+			N^\frac{1}{2k} = 2 \Leftrightarrow \frac{1}{4} \log \, N = k.
+		$$
+		Die Laufzeit ergibt sich also als
+		$$
+			T(N) = T(2) + \frac{c}{4} \log \, N = \mathcal{O}(\log \, N).
+		$$
+		Nach dieser Konstruktion sollte kein Beweis mehr nötig sein.
 
 	\item $T(N) = 2T(\sqrt{N}) + \mathcal{O}(1)$\\
 	\noindent\textbf{Lösung:}\\
-		tbd
+		Hier verweigt sich unser Rekrusionsbaum in zwei Äste und das gleichmäßig.
+		Wir haben in Tiefe $k$ also $2^k$ Knoten. Jeder Knoten hat die \emph{nicht} Rekursive Laufzeit,
+		d.h. die gesammte Tiefe $k$ hat aufsummiert die Laufzeit $c \cdot 2^k$.
+
+		Die Laufzeit bis zur Tiefe $k$ ist demnach
+		$$
+			T(N) = 2^{k+1}T(N^\frac{1}{2k+2}) + \sum_{i=0}^kc \cdot 2^i.
+		$$
+		Wir haben im letzten Schritt den Anker schon bestimmt (ebenso bei $2$ konstant), 
+		der in diesem Fall $k = \frac{1}{4} \log \, N - 2$ ist.
+		Wir erhalten als Lösung
+		$$
+			T(N) = 2^{k+1} \cdot d + c \cdot \sum_{i=0}^k 2^i = \frac{d}{2} N + c \frac{N - 1}{4} = \mathcal{O}(N).
+		$$
+		Damit haben wir eine Lineare laufzeit in $N$.
 
 	\item $S(N) = \left( \sqrt{N} + 1 \right) S( \sqrt{N}) + \mathcal{O}(\sqrt{N})$\\
 	\noindent\textbf{Lösung:}\\
@@ -107,15 +135,41 @@ Lösen Sie die folgenden Rekursionsgleichung und diskutieren Sie ihre Relevanz f
 Sei $T$ ein Feld der Länge $N$. Zu Beginn kann $T$ beliebige Daten enthalten. Wir nehmen an, dass $N$ riesig ist und wir keine Zeit haben um $T$ zu initialisieren. Beschreiben Sie, wie wir $T$ dennoch verwenden können, um sinnvoll Daten zu speichern. Ihre Mehtode soll jeden Zugriff auf $T$ in $\mathcal{O}(1)$ Zeit unterstützen.\\
 
 \noindent\textbf{Lösung:}\\
-tbd
+Um zu wissen welche Stellen wir im Array schon initialisiert haben, benötigen wir eine Möglichkeit herraus zu finden, welche Felder wir schon beschrieben haben. Was wir dazu benutzen können ist ein zweites Arrays $T_2$. In diesem speichern wir der Reihe nach die ID des Feldes, wenn wir ein neues Beschreiben. Wir wissen zu jedem Zeitpunkt, wie weit wir schon eingefügt haben (speichern wir uns in einer Variable \lstinline|next|).\\
 
+Ein Datum an position $i$ ist also korrekt, wenn ein $j$ existiert mit $j < \lstinline|next|$ und $T_2[j] = i$. Das Problem wäre nun $j$ zu finden in $O(1)$. Dazu erstellen wir uns aber einfach ein zweites Feld $T_1$ indem wir uns eben dieses $j$ speichern.\\
+
+\begin{lstlisting}[label="Einfügen eines neuen Datums"]
+	$T_1$[i] = top
+	$T_1$[top] = i
+	top++
+	$T$[i] = val
+\end{lstlisting}
+dazu müssen wir vorher nur bestimmen, ob ein Feld beschrieben ist über die Abfrage
+\begin{lstlisting}[label="Darum existiert"]
+	$T_2$[$T_1$[i]] = i && i < top
+\end{lstlisting}
+die beiden Arrays $T_1, T_2$ müssen dazu nur die selbe größe wie $T$ haben, wir bleiben also asymptotisch im sleben Speicherplatzbedarf. Die
+Abfrage eins Datums ist dann:
+\begin{lstlisting}[label="Datum ermitteln"]
+	if $T_2$[$T_1$[i]] = i && i < top
+		return $T$[i]
+	else
+		error "Nicht gefunden"
+\end{lstlisting}
+
+Wir sehen, dass alle diese Operationen die Laufzeit $O(1)$ haben.
 \subsubsection*{(b)}
 
 Bei van-Emde-Boas  Bäumen scheint es auf den ersten Blick notwendig zu sein $\mathcal{O}(N)$ Zeit in die Initialisierung des Baumes zu inverstieren. Beschreiben Sie, wie es besser geht.\\
 
 \noindent\textbf{Lösung:}\\
 
-tbd
+Wir benutzen die Obenstehende Struktur um die Knoten des van-Emde-Boas Baumes zu initialisieren. Dabei initialisieren wir einen Knoten nur,
+wenn er das erste mal angefragt wird. Wir legen zu beginn einen Knoten an, mit leerem minimum, maximum und einem leeren array,
+das nach \emph{(a)} in $O(1)$ zu initialisieren ist, sowie den Predecessorbaum, der ja auch nur ein Wurzelknoten eines van Emde-Boas-Baumes ist.
+
+Wir benötigen so, also $T(N) = T(\sqrt{N}) + \mathcal{O}(1)$. Diese Gleichung haben wir bereits gelöst. Die Laufzeit die dabei herraus kommt ist $\mathcal{O}(log \, N)$ und bedenken wir wiederum, dass wir logarithmisch in $N$ rechnen können, so ist die Laufzeit zu initialisierung wie die jeder anderen Operaiton ebenfalls $\mathcal{O}(\log \log \, N)$.
 
 \subsection*{Aufgabe 3}
 
