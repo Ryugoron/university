@@ -98,7 +98,7 @@ Lösen Sie die folgenden Rekursionsgleichung und diskutieren Sie ihre Relevanz f
 		Wir sind also nur daran interessiert, wie groß $k$ ist, bis der Anker erreicht ist. Wir setzen $N=2$ den Anker(mit
 		einer anderen konstanten Laufzeit).
 		$$
-			N^\frac{1}{2k} = 2 \Leftrightarrow \frac{1}{4} \log \, N = k.
+			N^\frac{1}{2k} = 2 \Leftrightarrow \frac{1}{2} \log \, N = k.
 		$$
 		Die Laufzeit ergibt sich also als
 		$$
@@ -117,7 +117,7 @@ Lösen Sie die folgenden Rekursionsgleichung und diskutieren Sie ihre Relevanz f
 			T(N) = 2^{k+1}T(N^\frac{1}{2k+2}) + \sum_{i=0}^kc \cdot 2^i.
 		$$
 		Wir haben im letzten Schritt den Anker schon bestimmt (ebenso bei $2$ konstant), 
-		der in diesem Fall $k = \frac{1}{4} \log \, N - 2$ ist.
+		der in diesem Fall $k = \frac{1}{2} \log \, N - 2$ ist.
 		Wir erhalten als Lösung
 		$$
 			T(N) = 2^{k+1} \cdot d + c \cdot \sum_{i=0}^k 2^i = \frac{d}{2} N + c \frac{N - 1}{4} = \mathcal{O}(N).
@@ -126,7 +126,27 @@ Lösen Sie die folgenden Rekursionsgleichung und diskutieren Sie ihre Relevanz f
 
 	\item $S(N) = \left( \sqrt{N} + 1 \right) S( \sqrt{N}) + \mathcal{O}(\sqrt{N})$\\
 	\noindent\textbf{Lösung:}\\
-		tbd
+		Wir wollen per Induktion auf die Lösung kommen, dass $S(N) = \mathcal{O}(N)$ liegt. Dazu sehen wir uns zunächst alle Konstante
+		an.
+		$$
+			S(N) = (\sqrt{N} + 1 ) S( \sqrt{N}) + c \cdot N.
+		$$
+		\begin{description}
+			\item[Induktions Vermutung:] $S(N) \leq d \cdot N - e$, für $e > 0$. Also ist $S$ ist eine Funktion, die Konstant weg
+			von einer linearen Funktion beschränkt ist.
+			\item[I.A.] Wir haben hier noch keinen Anker gewählt, aber da in diesem Fall alles konstant ist, wählen wir uns
+				$S(1) = b$ mit $b$ so, dass alles hin haut.
+			\item[I.S.] $\sqrt{N} \rightarrow N$. (Oder für alle $N'$ kleiner $N$ gilt die Aussage).\\
+				$$\begin{array}{rcl}
+					S(N) &=& (\sqrt{N} + 1) S(\sqrt{N}) + c \cdot \sqrt{N}\\
+						&\stackrel{\text{I.V.}}{\leq}& (\sqrt{N} + 1) (d \sqrt{N} - e) + c \cdot \sqrt{N}\\
+						&=& d \cdot N - e + (d + c - e) \sqrt{N}\\
+						&\leq& d \cdot N - e
+				\end{array}$$
+				Ist nun $e \geq d +c$ so können wir den letzten Schritt machen. Wir sollten uns im klaren sein,
+				dass die Funktion für kleine $N$ negativ werden kann, weswegen wir den Rekursionsanker genügend groß
+				wählen, damit wir solche Probleme nicht bachten müssen.
+		\end{description}
 \end{enumerate}
 
 \subsection*{Aufgabe 2}
@@ -179,7 +199,8 @@ Entwerfen und analysieren Sie eine Word-RAM Datenstruktur, die eine Menge von di
 
 Wir nehmen als Grundlage einen van-Emde-Boas Baum. Zu jedem gespeicherten Wert ( der ja in min/max steht) speichern wir uns nun noch einen weiteren Wert, den wir \lstinline|right| nennen. Die Idee ist nun, dass wir nur die Linken Schranken im van-Emde-Boas Baum speichern, die jeweils ihre rechten Intervall Grenzen kennen.\\
 
-Sie $T$ der so annotierte van-Emde-Boas Baum.
+Sie $T$ der so annotierte van-Emde-Boas Baum ich nehme hier \lstinline|find| und \lstinline|predecessor| synonym, weil beide eh das selbe tun. Falls
+dies nicht gewünscht ist, so können wir in union und split find benutzen und find des neuen baumes predecessor.
 
 \begin{description}
 	\item[make(a,b):]  Wir rufen $T$.insert(a) auf mit \emph{b} annotierten $a$.
