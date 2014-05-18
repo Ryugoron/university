@@ -1,0 +1,129 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm]{geometry}
+\usepackage[ngerman]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{ae}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{stmaryrd}
+\usepackage{paralist}
+\usepackage{tikz}
+\usepackage{amsthm}
+\usepackage{tabularx}
+
+\usetikzlibrary{arrows,automata,shapes.geometric}
+
+\newtheorem{propo}{Satz}
+\newtheorem{lemmas}[propo]{Lemma}
+
+\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[C]{ADS}
+\fancyhead[L]{Übung 4}
+\fancyhead[R]{SoSe 2014}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage \hspace{1px} von \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\newcommand{\set}[1]{ \{ #1 \}}
+\setlength{\parindent}{0pt}
+\setlength{\headheight}{0pt}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\bigO}{\mathcal{O}}
+\newcommand{\Rarr}{\Rightarrow}
+\newcommand{\rarr}{\rightarrow}
+\newcommand{\Pot}{\mathcal{P}}
+\newcommand{\abs}[1]{\left |#1\right|}
+\newcommand{\solved}{$\mbox{}$ \hfill $\square$}
+\newcommand{\Epsilon}{\mathcal{E}}
+
+\newcommand{\erw}[1]{\text{\bfseries E} \left[ #1 \right]}
+\newcommand{\prob}[1]{\text{Pr}\left[ #1 \right]}
+
+\date{}
+\title{Übung 4}
+\author{Max Wisniewski, Melanie Skodzik}
+
+
+%%
+%% Enviroments for proofs and lemmas
+%%
+\newtheorem{prop}{\bfseries Behauptung}
+\newtheorem{lemma}{\bfseries Lemma}
+
+\begin{document}
+
+\lstset{language=Pascal, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2, mathescape=true}
+
+\renewcommand{\figurename}{Grafik}
+
+\maketitle
+\thispagestyle{fancy}
+
+
+\subsection*{Aufgabe 1}
+
+\subsubsection*{(a)}
+
+Geben Sei Pseudocode wie in der Vorlesung für die \lstinline|delete|-Operation vin van-Emde-Boas-Bäumen. Beschreiben Sie Ihren Algorithmus auch in WOrten und analysieren Sie die Laufzeit.\\
+
+\noindent\textbf{Lösung:}\\
+
+tbd
+
+\subsubsection*{(b)}
+
+Lösen Sie die folgenden Rekursionsgleichung und diskutieren Sie ihre Relevanz für van-Emde-Boas-Böume. Machen Sie geeignete Annahmen über den Rekursionsanker.
+
+\begin{enumerate}[(i)]
+	\item $T(N) = T(\sqrt{N})) + \mathcal{O}(1)$\\
+	\noindent\textbf{Lösung:}\\
+		tbd
+
+	\item $T(N) = 2T(\sqrt{N}) + \mathcal{O}(1)$\\
+	\noindent\textbf{Lösung:}\\
+		tbd
+
+	\item $S(N) = \left( \sqrt{N} + 1 \right) S( \sqrt{N}) + \mathcal{O}(\sqrt{N})$\\
+	\noindent\textbf{Lösung:}\\
+		tbd
+\end{enumerate}
+
+\subsection*{Aufgabe 2}
+
+\subsubsection*{(a)}
+Sei $T$ ein Feld der Länge $N$. Zu Beginn kann $T$ beliebige Daten enthalten. Wir nehmen an, dass $N$ riesig ist und wir keine Zeit haben um $T$ zu initialisieren. Beschreiben Sie, wie wir $T$ dennoch verwenden können, um sinnvoll Daten zu speichern. Ihre Mehtode soll jeden Zugriff auf $T$ in $\mathcal{O}(1)$ Zeit unterstützen.\\
+
+\noindent\textbf{Lösung:}\\
+tbd
+
+\subsubsection*{(b)}
+
+Bei van-Emde-Boas  Bäumen scheint es auf den ersten Blick notwendig zu sein $\mathcal{O}(N)$ Zeit in die Initialisierung des Baumes zu inverstieren. Beschreiben Sie, wie es besser geht.\\
+
+\noindent\textbf{Lösung:}\\
+
+tbd
+
+\subsection*{Aufgabe 3}
+
+Entwerfen und analysieren Sie eine Word-RAM Datenstruktur, die eine Menge von disjunkten Intervallen der Form $\left[a,b\right)$ speichert, mit $a,b \in \mathcal{U}$. Ihre Datenstruktur soll die folgenden Operationen in $\mathcal{O}(\log\log \, N)$ Zeit unterstützen: \lstinline|make(a,b)|, \lstinline|union(a,b,c)|, \lstinline|split(a,b,k| und \lstinline|find(k)|.\\
+
+\noindent\textbf{Lösung:}\\
+
+tbd
+
+\label{LastPage}
+\end{document}
