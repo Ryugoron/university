@@ -104,7 +104,12 @@ Lösen Sie die folgenden Rekursionsgleichung und diskutieren Sie ihre Relevanz f
 		$$
 			T(N) = T(2) + \frac{c}{4} \log \, N = \mathcal{O}(\log \, N).
 		$$
-		Nach dieser Konstruktion sollte kein Beweis mehr nötig sein.
+		Nach dieser Konstruktion sollte kein Beweis mehr nötig sein.\\
+
+		Diese Laufzeit trat bei der Analyse von van-Emde-Boas Bäumen auf. Wir haben pro Knoten eine Konstante Anzahl von
+		Schritten getätigt und sind dann in die Rekursion gegangen, aber jeweils nur eine Rekursion pro Knoten. Damit haben wir die
+		gezeigte Laufzeit erreicht. Auf der Word-RAM, die ja in einem Schritt $w \geq \log \, N$ Daten verarbeiten kann erhalten wir so
+		die Laufzeit von $\mathcal{O}(\log \log \, N)$ die wir für van-Emde-Boas Bäume gesagt bekommen haben.
 
 	\item $T(N) = 2T(\sqrt{N}) + \mathcal{O}(1)$\\
 	\noindent\textbf{Lösung:}\\
@@ -122,7 +127,13 @@ Lösen Sie die folgenden Rekursionsgleichung und diskutieren Sie ihre Relevanz f
 		$$
 			T(N) = 2^{k+1} \cdot d + c \cdot \sum_{i=0}^k 2^i = \frac{d}{2} N + c \frac{N - 1}{4} = \mathcal{O}(N).
 		$$
-		Damit haben wir eine Lineare laufzeit in $N$.
+		Damit haben wir eine Lineare laufzeit in $N$.\\
+
+		Diese Analyse ist der Grund, warum wir bei van-Embde-Boas Bäumen darauf achten mussten, dass wir nur eine
+		Rekursion pro Knoten machen. Würden wir also z.B. die Minima und Maxima nicht in den Knoten speichern, müsste
+		man in dem Fall, dass der Vorgänger nicht im zugeordneten Intervall steht, sowohl in der Hilfsdatenstruktur, als auch im
+		Rekursiven van-Embde-Boas Baum an der gefundenen Stelle suchen. Damit würde die Laufzeit exponentiell schlechter
+		sein, also mit Minima/Maxima.
 
 	\item $S(N) = \left( \sqrt{N} + 1 \right) S( \sqrt{N}) + \mathcal{O}(\sqrt{N})$\\
 	\noindent\textbf{Lösung:}\\
@@ -147,6 +158,13 @@ Lösen Sie die folgenden Rekursionsgleichung und diskutieren Sie ihre Relevanz f
 				dass die Funktion für kleine $N$ negativ werden kann, weswegen wir den Rekursionsanker genügend groß
 				wählen, damit wir solche Probleme nicht bachten müssen.
 		\end{description}
+
+		Die gefundene Funktion beschreibt den Speicherbedarf von van-Embde-Boas Bäumen. Wir speichern uns pro Knoten
+		$\sqrt{N}$ Rekursive van-Embde-Boas Bäume plus einen Hilfsbaum alle mit der Größe $\sqrt{N}$. Darüber hinaus
+		brauchen wir pro Knoten ein Array (von Pointern) der größe $\sqrt{N}$ plus Konstant viel Speicher (für z.B. minimum und maximum).
+		
+		So sehen wir nun, dass wir linear viel Speicher benötigen, was sinnvoll erscheint, wenn wir alle Schlüssel speichern wollen und im Hinblick
+		auf van-Embde-Boas Bäume, die immer unabhängig von der eingegebenen Schlüsselmenge sind.
 \end{enumerate}
 
 \subsection*{Aufgabe 2}
