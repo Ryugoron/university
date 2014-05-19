@@ -58,7 +58,7 @@
 
 \date{}
 \title{Übung 4}
-\author{Max Wisniewski, Melanie Skodzik}
+\author{Max Wisniewski, Melanie Skodzik, Paul Podlech}
 
 
 %%
@@ -83,7 +83,7 @@
 
 \subsubsection*{(b)}
 
-Lösen Sie die folgenden Rekursionsgleichung und diskutieren Sie ihre Relevanz für van-Embde-Boas-Bäume. Machen Sie geeignete Annahmen über den Rekursionsanker.
+Lösen Sie die folgenden Rekursionsgleichung und diskutieren Sie ihre Relevanz für van-Emde-Boas-Bäume. Machen Sie geeignete Annahmen über den Rekursionsanker.
 
 \begin{enumerate}[(i)]
 	\item $T(N) = T(\sqrt{N})) + \mathcal{O}(1)$\\
@@ -91,23 +91,21 @@ Lösen Sie die folgenden Rekursionsgleichung und diskutieren Sie ihre Relevanz f
 		Hier liegt eine lineare Rekursion vor, bei der wir pro Schritt nur eine konstante Anzahl von Schritten benötigen
 		und pro Schritt die Wurzel aus der Anzahl ziehen. Nach $k$ Schritten sieht die Gleichung also wie folgt aus.
 		$$
-			T(N) = T(N^\frac{1}{2k}) + c \cdot k.
+			T(N) \leq T(N^\frac{1}{2^k}) + c \cdot k.
 		$$
-		Wir sind also nur daran interessiert, wie groß $k$ ist, bis der Anker erreicht ist. Wir setzen $N=2$ den Anker(mit
+		Wir sind also daran interessiert, wie groß $k$ ist, bis der Anker erreicht ist. Wir setzen $N=2$ den Anker(mit
 		einer anderen konstanten Laufzeit).
 		$$
-			N^\frac{1}{2k} = 2 \Leftrightarrow \frac{1}{2} \log \, N = k.
+			N^\frac{1}{2^k} = 2 \Leftrightarrow \log \, N = 2^k \Leftrightarrow \log\log \, N = k.
 		$$
-		Die Laufzeit ergibt sich also als
+		Die Laufzeit ist also beschränkt durch
 		$$
-			T(N) = T(2) + \frac{c}{4} \log \, N = \mathcal{O}(\log \, N).
+			T(N) \leq T(2) + c \log\log \, N = \mathcal{O}(\log\log \, N).
 		$$
-		Nach dieser Konstruktion sollte kein Beweis mehr nötig sein.\\
 
 		Diese Laufzeit trat bei der Analyse von van-Emde-Boas Bäumen auf. Wir haben pro Knoten eine Konstante Anzahl von
 		Schritten getätigt und sind dann in die Rekursion gegangen, aber jeweils nur eine Rekursion pro Knoten. Damit haben wir die
-		gezeigte Laufzeit erreicht. Auf der Word-RAM, die ja in einem Schritt $w \geq \log \, N$ Daten verarbeiten kann erhalten wir so
-		die Laufzeit von $\mathcal{O}(\log \log \, N)$ die wir für van-Embde-Boas Bäume gesagt bekommen haben.
+		gezeigte Laufzeit erreicht.
 
 	\item $T(N) = 2T(\sqrt{N}) + \mathcal{O}(1)$\\
 	\noindent\textbf{Lösung:}\\
@@ -117,34 +115,32 @@ Lösen Sie die folgenden Rekursionsgleichung und diskutieren Sie ihre Relevanz f
 
 		Die Laufzeit bis zur Tiefe $k$ ist demnach
 		$$
-			T(N) = 2^{k+1}T(N^\frac{1}{2k+2}) + \sum_{i=0}^kc \cdot 2^i.
+			T(N) \leq 2^{k+1}T(N^\frac{1}{2^k}) + \sum_{i=0}^kc \cdot 2^i.
 		$$
 		Wir haben im letzten Schritt den Anker schon bestimmt (ebenso bei $2$ konstant), 
-		der in diesem Fall $k = \frac{1}{2} \log \, N - 2$ ist.
+		also haben wir wieder $k = \log \log \, N$.
 		Wir erhalten als Lösung
 		$$
-			T(N) = 2^{k+1} \cdot d + c \cdot \sum_{i=0}^k 2^i = \frac{d}{2} N + c \frac{N - 1}{4} = \mathcal{O}(N).
+		T(N) \leq 2^{\log\log \, N + 1} \cdot d + c \cdot \sum_{i=0}^k 2^i = 2\cdot \log \, N + c \cdot (\log \, N - 1) = \mathcal{O}(\log \, N).
 		$$
-		Damit haben wir eine Lineare Laufzeit in $N$.\\
 
-		Diese Analyse ist der Grund, warum wir bei van-Embde-Boas Bäumen darauf achten mussten, dass wir nur eine
+		Diese Analyse ist der Grund, warum wir bei van-Emde-Boas Bäumen darauf achten mussten, dass wir nur eine
 		Rekursion pro Knoten machen. Würden wir also z.B. die Minima und Maxima nicht in den Knoten speichern, müsste
 		man in dem Fall, dass der Vorgänger nicht im zugeordneten Intervall steht, sowohl in der Hilfsdatenstruktur, als auch im
-		Rekursiven van-Embde-Boas Baum an der gefundenen Stelle suchen. Damit würde die Laufzeit exponentiell schlechter
-		sein, also mit Minima/Maxima.
+		Rekursiven van-Emde-Boas Baum an der gefundenen Stelle suchen. Damit würde die Laufzeit deutlich schlechter sein.
 
 	\item $S(N) = \left( \sqrt{N} + 1 \right) S( \sqrt{N}) + \mathcal{O}(\sqrt{N})$\\
 	\noindent\textbf{Lösung:}\\
 		Wir wollen per Induktion auf die Lösung kommen, dass $S(N) = \mathcal{O}(N)$ liegt. Dazu sehen wir uns zunächst alle Konstante
 		an.
 		$$
-			S(N) = (\sqrt{N} + 1 ) S( \sqrt{N}) + c \cdot N.
+		S(N) = (\sqrt{N} + 1 ) S( \sqrt{N}) + c \cdot \sqrt{N}.
 		$$
 		\begin{description}
 			\item[Induktions Vermutung:] $S(N) \leq d \cdot N - e$, für $e > 0$. Also ist $S$ ist eine Funktion, die Konstant weg
 			von einer linearen Funktion beschränkt ist.
 			\item[I.A.] Wir haben hier noch keinen Anker gewählt, aber da in diesem Fall alles konstant ist, wählen wir uns
-				$S(1) = b$ mit $b$ so, dass alles hin haut.
+				$S(2) = b$ mit $b$ so, dass alles hin haut.
 			\item[I.S.] $\sqrt{N} \rightarrow N$. (Oder für alle $N'$ kleiner $N$ gilt die Aussage).\\
 				$$\begin{array}{rcl}
 					S(N) &=& (\sqrt{N} + 1) S(\sqrt{N}) + c \cdot \sqrt{N}\\
@@ -157,12 +153,12 @@ Lösen Sie die folgenden Rekursionsgleichung und diskutieren Sie ihre Relevanz f
 				wählen, damit wir solche Probleme nicht beachten müssen.
 		\end{description}
 
-		Die gefundene Funktion beschreibt den Speicherbedarf von van-Embde-Boas Bäumen. Wir speichern uns pro Knoten
-		$\sqrt{N}$ Rekursive van-Embde-Boas Bäume plus einen Hilfsbaum alle mit der Größe $\sqrt{N}$. Darüber hinaus
+		Die gefundene Funktion beschreibt den Speicherbedarf von van-Emde-Boas Bäumen. Wir speichern uns pro Knoten
+		$\sqrt{N}$ Rekursive van-Emde-Boas Bäume plus einen Hilfsbaum alle mit der Größe $\sqrt{N}$. Darüber hinaus
 		brauchen wir pro Knoten ein Array (von Pointern) der Größe $\sqrt{N}$ plus Konstant viel Speicher (für z.B. Minimum und Maximum).
 		
 		So sehen wir nun, dass wir linear viel Speicher benötigen, was sinnvoll erscheint, wenn wir alle Schlüssel speichern wollen und im Hinblick
-		auf van-Embde-Boas Bäume, die immer unabhängig von der eingegebenen Schlüsselmenge sind.
+		auf van-Emde-Boas Bäume, die immer unabhängig von der eingegebenen Schlüsselmenge sind.
 \end{enumerate}
 
 \subsection*{Aufgabe 2}
@@ -201,7 +197,7 @@ Bei van-Emde-Boas  Bäumen scheint es auf den ersten Blick notwendig zu sein $\m
 
 \noindent\textbf{Lösung:}\\
 
-Wir benutzen die Obenstehende Struktur um die Knoten des van-Embde-Boas Baumes zu initialisieren. Dabei initialisieren wir einen Knoten nur,
+Wir benutzen die Obenstehende Struktur um die Knoten des van-Emde-Boas Baumes zu initialisieren. Dabei initialisieren wir einen Knoten nur,
 wenn er das erste mal angefragt wird. Wir legen zu beginn einen Knoten an, mit leerem Minimum, Maximum und einem leeren Array,
 das nach \emph{(a)} in $O(1)$ zu initialisieren ist, sowie einen leeren Hilfsbaum für die Predecessorsuche in den Knoten.\\
 
@@ -217,7 +213,7 @@ Entwerfen und analysieren Sie eine Word-RAM Datenstruktur, die eine Menge von di
 
 Wir nehmen als Grundlage einen van-Emde-Boas Baum. Zu jedem gespeicherten Wert ( der ja in min/max steht) speichern wir uns nun noch einen weiteren Wert, den wir \lstinline|right| nennen. Die Idee ist nun, dass wir nur die Linken Schranken im van-Emde-Boas Baum speichern, die jeweils ihre rechten Intervall Grenzen kennen.\\
 
-Sie $T$ der so annotierte van-Embde-Boas Baum ich nehme hier \lstinline|find| und \lstinline|predecessor| synonym, weil beide eh das selbe tun. Falls
+Sie $T$ der so annotierte van-Emde-Boas Baum ich nehme hier \lstinline|find| und \lstinline|predecessor| synonym, weil beide eh das selbe tun. Falls
 dies nicht gewünscht ist, so können wir in union und split find benutzen und find des neuen Baumes predecessor.
 
 \begin{description}
@@ -230,12 +226,12 @@ dies nicht gewünscht ist, so können wir in union und split find benutzen und f
 		hinein) und danach $T$.insert(k) mit Annotation $b$. Damit repräsentiert nun $a$ das Intervall $[a,k)$ und der Knoten $k$ das Intervall
 		$[k,b)$. 
 	\item[find(k)] : Wir rufen $T$.find(k) auf. Nach der Struktur der Predecessorsuche wird uns der Wert $a$ ausgegeben, der der nächst kleinere
-		im van-Embde-Boas Baum ist. Dies ist also ein Kandidat für das Intervall. ist die Annotation von $a$ nun $b$ und $k \in [a,b)$ so
+		im van-Emde-Boas Baum ist. Dies ist also ein Kandidat für das Intervall. ist die Annotation von $a$ nun $b$ und $k \in [a,b)$ so
 		haben wir das Intervall gefunden. Falls $b < k$ ist, so ist es nicht das Intervall. Da aber nun keine andere Linke Grenze zwischen $k$ und 		
 		$b$ liegt (da kein andere Wert zwischen $a$ und $k$ lag) gibt es kein Intervall das $k$ beinhalten und das können wir zurück geben.
 \end{description}
 
-Da wir pro Operation höchstens zwei mal eine Operation auf dem van-Embde-Boas Baum aufrufen und das hinzufügen der Annotation die Laufzeit nicht ändert, ist die Laufzeit der Operationen allesamt $\mathcal{O}(\log \log \, N)$.
+Da wir pro Operation höchstens zwei mal eine Operation auf dem van-Emde-Boas Baum aufrufen und das hinzufügen der Annotation die Laufzeit nicht ändert, ist die Laufzeit der Operationen allesamt $\mathcal{O}(\log \log \, N)$.
 
 \label{LastPage}
 \end{document}
