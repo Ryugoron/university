@@ -14,47 +14,47 @@ Der in Algorithm \ref{algorithm1} angegebene Pseudocode tut folgendes:
 \noindent\textbf{Analyse:}\\
 Am Pseudo-Code sieht man sofort, dass es bis auf die zwei rekursiven Aufrufe nur konstant viele Operationen gibt. Der zweite rekursive Aufruf, das Löschen auf dem Hilfsbaum, wird aber nur dann ausgeführt, wenn der Unterbaum, der $x$ enthielt, nach dem Löschen leer ist. In diesem Fall, hat der erste rekursive Aufruf konstante Laufzeit.
 
-Insgesamt ergibt sich eine Laufzeit von $T(N) = T(\sqrt{N}) + O(1)$, also $O(\log\log \, N)$.
+Insgesamt ergibt sich eine Laufzeit von $T(N) = T(\sqrt{N}) + O(1)$, also $O(\log\log \, N)$, wie in Aufgabe 1 (b) gezeigt werden wird.
 
 \begin{algorithm}[H]
 \caption{delete(T,x)}
 \label{algorithm1}
 \begin{algorithmic}
-\REQUIRE van Emde Boas Tree $T$ for keys $0,\dots,N-1$, key $x$ 
-\ENSURE $x$ will be deleted from $T$
-\IF{$T.min == T.max == x$}
-	\STATE $T.min \leftarrow T.max \leftarrow None$
+\REQUIRE van-Emde-Boas Knoten $v$ mit Schlüsseln $0,\dots,N-1$, und zu löschendem Schlüssel $x$ 
+\ENSURE $x$ wird aus dem van-Emde-Boas Baum gelöscht
+\IF{$v.min == v.max == x$}
+	\STATE $v.min \leftarrow v.max \leftarrow None$
 	\RETURN
 \ENDIF
 
-\IF{$T.min == x$}
-	\IF{$T.aux.min == T.aux.max == None$}
-		\STATE $T.min \leftarrow T.max$
+\IF{$v.min == x$}
+	\IF{$v.h.min == v.h.max == None$}
+		\STATE $v.min \leftarrow v.max$
 		\RETURN
 	\ELSE
-		\STATE $x \leftarrow T.child[T.aux.min].min$
-		\STATE $T.min \leftarrow x$
+		\STATE $x \leftarrow v.T[v.h.min].min$
+		\STATE $v.min \leftarrow x$
 	\ENDIF
 \ENDIF
 
-\IF{$T.max == x$}
-	\IF{$T.aux.min == T.aux.max == None$}
-		\STATE $T.max \leftarrow T.min$
+\IF{$v.max == x$}
+	\IF{$v.aux.min == v.aux.max == None$}
+		\STATE $v.max \leftarrow T.min$
 		\RETURN
 	\ELSE
-		\STATE $x \leftarrow T.child[T.aux.max].max$
-		\STATE $T.max \leftarrow x$
+		\STATE $x \leftarrow v.T[v.h.max].max$
+		\STATE $v.max \leftarrow x$
 	\ENDIF
 \ENDIF
 
-\IF{$T.aux.min == T.aux.max == None$}
+\IF{$v.h.min == v.h.max == None$}
 	\RETURN
 \ENDIF
 
 \STATE $i \leftarrow \lfloor \frac{x}{\sqrt{N}} \rfloor$
-\STATE $delete(T.child[i], x \text{ mod } \sqrt{N})$
-\IF{$T.child[i].min == T.child[i].max == None$}
-	\STATE $delete(T.aux, i)$
+\STATE $delete(v.T[i], x \text{ mod } \sqrt{N})$
+\IF{$v.T[i].min == v.T[i].max == None$}
+	\STATE $delete(v.h, i)$
 \ENDIF
 \RETURN
 \end{algorithmic}
