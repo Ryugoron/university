@@ -1,10 +1,63 @@
 \subsubsection*{(a)}
 
 
-Geben Sei Pseudocode wie in der Vorlesung für die \lstinline|delete|-Operation von van-Embde-Boas-Bäumen. Beschreiben Sie Ihren Algorithmus auch in Worten und analysieren Sie die Laufzeit.\\
+Geben Sie Pseudocode, wie in der Vorlesung, für die \lstinline|delete|-Operation von van-Emde-Boas-Bäumen an. Beschreiben Sie Ihren Algorithmus auch in Worten und analysieren Sie die Laufzeit.\\
 
 \noindent\textbf{Lösung:}\\
+Der in Algorithm \ref{algorithm1} angegebene Pseudocode tut folgendes:
+\begin{itemize}
+	\item Falls $T$ nur $x$ enthält wird $T$ leer gesetzt.
+	\item Falls $T$ nur $x$ und einen weiteren Schlüssel $y$ enthält, wird $y$ als min und max eingetragen (erkennbar am Hilfsbaum).
+	\item Falls $x$ min oder max ist, wird der Index des nächstgrößeren bzw. nächstkleineren Eintrags  aus dem Hilfsbaum geholt und der entsprechende Eintrag $y$ als min, bzw. max gesetzt. Dann wird $y$ aus dem Baum gelöscht. Falls der Baum, der $y$ enthielt dann leer ist, wird der Index aus dem Hilfsbaum gelöscht.
+	\item Sonst wird der Index $i$ des Unterbaums der $x$ enthält berechnet und $x$ aus diesem gelöscht. Falls der Unterbaum dann leer ist, wird $i$ aus dem Hilfsbaum gelöscht.
+\end{itemize}
+\noindent\textbf{Analyse:}\\
+Am Pseudo-Code sieht man sofort, dass es bis auf die zwei rekursiven Aufrufe nur konstant viele Operationen gibt. Der zweite rekursive Aufruf, das Löschen auf dem Hilfsbaum, wird aber nur dann ausgeführt, wenn der Unterbaum, der $x$ enthielt, nach dem Löschen leer ist. In diesem Fall, hat der erste rekursive Aufruf konstante Laufzeit.
 
-tbd
+Insgesamt ergibt sich eine Laufzeit von $T(N) = T(\sqrt{N} + O(1))$, also $O(\log\log N)$.
+
+\begin{algorithm}[H]
+\caption{delete(T,x)}
+\label{algorithm1}
+\begin{algorithmic}
+\REQUIRE van Emde Boas Tree $T$ for keys $0,\dots,N-1$, key $x$ 
+\ENSURE $x$ will be deleted from $T$
+\IF{$T.min == T.max == x$}
+	\STATE $T.min \leftarrow T.max \leftarrow None$
+	\RETURN
+\ENDIF
+
+\IF{$T.min == x$}
+	\IF{$T.aux.min == T.aux.max == None$}
+		\STATE $T.min \leftarrow T.max$
+		\RETURN
+	\ELSE
+		\STATE $x \leftarrow T.child[T.aux.min].min$
+		\STATE $T.min \leftarrow x$
+	\ENDIF
+\ENDIF
+
+\IF{$T.max == x$}
+	\IF{$T.aux.min == T.aux.max == None$}
+		\STATE $T.max \leftarrow T.min$
+		\RETURN
+	\ELSE
+		\STATE $x \leftarrow T.child[T.aux.max].max$
+		\STATE $T.max \leftarrow x$
+	\ENDIF
+\ENDIF
+
+\IF{$T.aux.min == T.aux.max == None$}
+	\RETURN
+\ENDIF
+
+\STATE $i \leftarrow \lfloor \frac{x}{\sqrt{N}} \rfloor$
+\STATE $delete(T.child[i], x \text{ mod } \sqrt{N})$
+\IF{$T.child[i].min == T.child[i].max == None$}
+	\STATE $delete(T.aux, i)$
+\ENDIF
+\RETURN
+\end{algorithmic}
+\end{algorithm}
 
 
