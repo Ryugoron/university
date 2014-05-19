@@ -14,7 +14,7 @@ Der in Algorithm \ref{algorithm1} angegebene Pseudocode tut folgendes:
 \noindent\textbf{Analyse:}\\
 Am Pseudo-Code sieht man sofort, dass es bis auf die zwei rekursiven Aufrufe nur konstant viele Operationen gibt. Der zweite rekursive Aufruf, das Löschen auf dem Hilfsbaum, wird aber nur dann ausgeführt, wenn der Unterbaum, der $x$ enthielt, nach dem Löschen leer ist. In diesem Fall, hat der erste rekursive Aufruf konstante Laufzeit.
 
-Insgesamt ergibt sich eine Laufzeit von $T(N) = T(\sqrt{N} + O(1))$, also $O(\log\log N)$.
+Insgesamt ergibt sich eine Laufzeit von $T(N) = T(\sqrt{N}) + O(1)$, also $O(\log\log \, N)$.
 
 \begin{algorithm}[H]
 \caption{delete(T,x)}
