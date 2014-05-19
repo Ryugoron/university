@@ -79,7 +79,7 @@
 
 \subsubsection*{(b)}
 
-Lösen Sie die folgenden Rekursionsgleichung und diskutieren Sie ihre Relevanz für van-Emde-Boas-Böume. Machen Sie geeignete Annahmen über den Rekursionsanker.
+Lösen Sie die folgenden Rekursionsgleichung und diskutieren Sie ihre Relevanz für van-Embde-Boas-Bäume. Machen Sie geeignete Annahmen über den Rekursionsanker.
 
 \begin{enumerate}[(i)]
 	\item $T(N) = T(\sqrt{N})) + \mathcal{O}(1)$\\
@@ -103,13 +103,13 @@ Lösen Sie die folgenden Rekursionsgleichung und diskutieren Sie ihre Relevanz f
 		Diese Laufzeit trat bei der Analyse von van-Emde-Boas Bäumen auf. Wir haben pro Knoten eine Konstante Anzahl von
 		Schritten getätigt und sind dann in die Rekursion gegangen, aber jeweils nur eine Rekursion pro Knoten. Damit haben wir die
 		gezeigte Laufzeit erreicht. Auf der Word-RAM, die ja in einem Schritt $w \geq \log \, N$ Daten verarbeiten kann erhalten wir so
-		die Laufzeit von $\mathcal{O}(\log \log \, N)$ die wir für van-Emde-Boas Bäume gesagt bekommen haben.
+		die Laufzeit von $\mathcal{O}(\log \log \, N)$ die wir für van-Embde-Boas Bäume gesagt bekommen haben.
 
 	\item $T(N) = 2T(\sqrt{N}) + \mathcal{O}(1)$\\
 	\noindent\textbf{Lösung:}\\
-		Hier verweigt sich unser Rekrusionsbaum in zwei Äste und das gleichmäßig.
+		Hier verzweigt sich unser Rekrusionsbaum in zwei Äste und das gleichmäßig.
 		Wir haben in Tiefe $k$ also $2^k$ Knoten. Jeder Knoten hat die \emph{nicht} Rekursive Laufzeit,
-		d.h. die gesammte Tiefe $k$ hat aufsummiert die Laufzeit $c \cdot 2^k$.
+		d.h. die gesamte Tiefe $k$ hat aufsummiert die Laufzeit $c \cdot 2^k$.
 
 		Die Laufzeit bis zur Tiefe $k$ ist demnach
 		$$
@@ -121,7 +121,7 @@ Lösen Sie die folgenden Rekursionsgleichung und diskutieren Sie ihre Relevanz f
 		$$
 			T(N) = 2^{k+1} \cdot d + c \cdot \sum_{i=0}^k 2^i = \frac{d}{2} N + c \frac{N - 1}{4} = \mathcal{O}(N).
 		$$
-		Damit haben wir eine Lineare laufzeit in $N$.\\
+		Damit haben wir eine Lineare Laufzeit in $N$.\\
 
 		Diese Analyse ist der Grund, warum wir bei van-Embde-Boas Bäumen darauf achten mussten, dass wir nur eine
 		Rekursion pro Knoten machen. Würden wir also z.B. die Minima und Maxima nicht in den Knoten speichern, müsste
@@ -150,12 +150,12 @@ Lösen Sie die folgenden Rekursionsgleichung und diskutieren Sie ihre Relevanz f
 				\end{array}$$
 				Ist nun $e \geq d +c$ so können wir den letzten Schritt machen. Wir sollten uns im klaren sein,
 				dass die Funktion für kleine $N$ negativ werden kann, weswegen wir den Rekursionsanker genügend groß
-				wählen, damit wir solche Probleme nicht bachten müssen.
+				wählen, damit wir solche Probleme nicht beachten müssen.
 		\end{description}
 
 		Die gefundene Funktion beschreibt den Speicherbedarf von van-Embde-Boas Bäumen. Wir speichern uns pro Knoten
 		$\sqrt{N}$ Rekursive van-Embde-Boas Bäume plus einen Hilfsbaum alle mit der Größe $\sqrt{N}$. Darüber hinaus
-		brauchen wir pro Knoten ein Array (von Pointern) der größe $\sqrt{N}$ plus Konstant viel Speicher (für z.B. minimum und maximum).
+		brauchen wir pro Knoten ein Array (von Pointern) der Größe $\sqrt{N}$ plus Konstant viel Speicher (für z.B. Minimum und Maximum).
 		
 		So sehen wir nun, dass wir linear viel Speicher benötigen, was sinnvoll erscheint, wenn wir alle Schlüssel speichern wollen und im Hinblick
 		auf van-Embde-Boas Bäume, die immer unabhängig von der eingegebenen Schlüsselmenge sind.
@@ -164,12 +164,12 @@ Lösen Sie die folgenden Rekursionsgleichung und diskutieren Sie ihre Relevanz f
 \subsection*{Aufgabe 2}
 
 \subsubsection*{(a)}
-Sei $T$ ein Feld der Länge $N$. Zu Beginn kann $T$ beliebige Daten enthalten. Wir nehmen an, dass $N$ riesig ist und wir keine Zeit haben um $T$ zu initialisieren. Beschreiben Sie, wie wir $T$ dennoch verwenden können, um sinnvoll Daten zu speichern. Ihre Mehtode soll jeden Zugriff auf $T$ in $\mathcal{O}(1)$ Zeit unterstützen.\\
+Sei $T$ ein Feld der Länge $N$. Zu Beginn kann $T$ beliebige Daten enthalten. Wir nehmen an, dass $N$ riesig ist und wir keine Zeit haben um $T$ zu initialisieren. Beschreiben Sie, wie wir $T$ dennoch verwenden können, um sinnvoll Daten zu speichern. Ihre Methode soll jeden Zugriff auf $T$ in $\mathcal{O}(1)$ Zeit unterstützen.\\
 
 \noindent\textbf{Lösung:}\\
-Um zu wissen welche Stellen wir im Array schon initialisiert haben, benötigen wir eine Möglichkeit herraus zu finden, welche Felder wir schon beschrieben haben. Was wir dazu benutzen können ist ein zweites Arrays $T_2$. In diesem speichern wir der Reihe nach die ID des Feldes, wenn wir ein neues Beschreiben. Wir wissen zu jedem Zeitpunkt, wie weit wir schon eingefügt haben (speichern wir uns in einer Variable \lstinline|next|).\\
+Um zu wissen welche Stellen wir im Array schon initialisiert haben, benötigen wir eine Möglichkeit heraus zu finden, welche Felder wir schon beschrieben haben. Was wir dazu benutzen können ist ein zweites Arrays $T_2$. In diesem speichern wir der Reihe nach die ID des Feldes, wenn wir ein neues Beschreiben. Wir wissen zu jedem Zeitpunkt, wie weit wir schon eingefügt haben (speichern wir uns in einer Variable \lstinline|next|).\\
 
-Ein Datum an position $i$ ist also korrekt, wenn ein $j$ existiert mit $j <$ \lstinline|next| und $T_2[j] = i$. Das Problem wäre nun $j$ zu finden in $O(1)$. Dazu erstellen wir uns aber einfach ein zweites Feld $T_1$ indem wir uns eben dieses $j$ speichern.\\
+Ein Datum an Position $i$ ist also korrekt, wenn ein $j$ existiert mit $j <$ \lstinline|next| und $T_2[j] = i$. Das Problem wäre nun $j$ zu finden in $O(1)$. Dazu erstellen wir uns aber einfach ein zweites Feld $T_1$ indem wir uns eben dieses $j$ speichern.\\
 
 \begin{lstlisting}[label="Einfügen eines neuen Datums"]
 	$T_1$[i] = top
@@ -197,8 +197,8 @@ Bei van-Emde-Boas  Bäumen scheint es auf den ersten Blick notwendig zu sein $\m
 
 \noindent\textbf{Lösung:}\\
 
-Wir benutzen die Obenstehende Struktur um die Knoten des van-Emde-Boas Baumes zu initialisieren. Dabei initialisieren wir einen Knoten nur,
-wenn er das erste mal angefragt wird. Wir legen zu beginn einen Knoten an, mit leerem minimum, maximum und einem leeren array,
+Wir benutzen die Obenstehende Struktur um die Knoten des van-Embde-Boas Baumes zu initialisieren. Dabei initialisieren wir einen Knoten nur,
+wenn er das erste mal angefragt wird. Wir legen zu beginn einen Knoten an, mit leerem Minimum, Maximum und einem leeren Array,
 das nach \emph{(a)} in $O(1)$ zu initialisieren ist, sowie einen leeren Hilfsbaum für die Predecessorsuche in den Knoten.\\
 
 Wir nun ein noch leerer Baum angefragt (entweder Hilfsbaum oder im Array) so wird dieser auch zunächst initialisiert.\\
@@ -213,13 +213,13 @@ Entwerfen und analysieren Sie eine Word-RAM Datenstruktur, die eine Menge von di
 
 Wir nehmen als Grundlage einen van-Emde-Boas Baum. Zu jedem gespeicherten Wert ( der ja in min/max steht) speichern wir uns nun noch einen weiteren Wert, den wir \lstinline|right| nennen. Die Idee ist nun, dass wir nur die Linken Schranken im van-Emde-Boas Baum speichern, die jeweils ihre rechten Intervall Grenzen kennen.\\
 
-Sie $T$ der so annotierte van-Emde-Boas Baum ich nehme hier \lstinline|find| und \lstinline|predecessor| synonym, weil beide eh das selbe tun. Falls
-dies nicht gewünscht ist, so können wir in union und split find benutzen und find des neuen baumes predecessor.
+Sie $T$ der so annotierte van-Embde-Boas Baum ich nehme hier \lstinline|find| und \lstinline|predecessor| synonym, weil beide eh das selbe tun. Falls
+dies nicht gewünscht ist, so können wir in union und split find benutzen und find des neuen Baumes predecessor.
 
 \begin{description}
 	\item[make(a,b):]  Wir rufen $T$.insert(a) auf mit \emph{b} annotierten $a$.
 	\item[union(a,b,c):] Wir rufen $T$.delete(b) auf. Nun fehlt $[b,c)$ im Baum. Daher rufen wir $T$.find(a) auf, und
-		in dem schritt, in dem wir $a$ finden ändern wir die Annotation von $a$ zu $c$. Damit representiert der Knoten nun $[a,c)$.
+		in dem schritt, in dem wir $a$ finden ändern wir die Annotation von $a$ zu $c$. Damit repräsentiert der Knoten nun $[a,c)$.
 	\item[split(a,b,k):]\footnote{Wir nehmen auch hier an, dass $[a,b)$ ein Interval ist. Sonst liefert uns die Suche $T$.find(a) den Gegenbeweis.}
 		 Umgekehrt zu \lstinline|union|. Wir nehmen an, dass wir $b$ kennen (sonst machen wir ein find auf $a$ und nehmen
 		uns die Annotation). Daher ändern wir die Annotation von $a$ um zu $k$ (wir rufen find auf $a$ auf und schreiben die neue Annotation 	
@@ -231,7 +231,7 @@ dies nicht gewünscht ist, so können wir in union und split find benutzen und f
 		$b$ liegt (da kein andere Wert zwischen $a$ und $k$ lag) gibt es kein Intervall das $k$ beinhalten und das können wir zurück geben.
 \end{description}
 
-Da wir pro Operation höchstens zwei mal eine Operation auf dem van-Emde-Boas Baum aufrufen und das hinzufügen der Annotation die Laufzeit nicht ändert, ist die Laufzeit der Operationen allesamt $\mathcal{O}(\log \log \, N)$.
+Da wir pro Operation höchstens zwei mal eine Operation auf dem van-Embde-Boas Baum aufrufen und das hinzufügen der Annotation die Laufzeit nicht ändert, ist die Laufzeit der Operationen allesamt $\mathcal{O}(\log \log \, N)$.
 
 \label{LastPage}
 \end{document}
