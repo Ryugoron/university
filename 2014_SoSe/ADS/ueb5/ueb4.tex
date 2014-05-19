@@ -199,9 +199,11 @@ Bei van-Emde-Boas  Bäumen scheint es auf den ersten Blick notwendig zu sein $\m
 
 Wir benutzen die Obenstehende Struktur um die Knoten des van-Emde-Boas Baumes zu initialisieren. Dabei initialisieren wir einen Knoten nur,
 wenn er das erste mal angefragt wird. Wir legen zu beginn einen Knoten an, mit leerem minimum, maximum und einem leeren array,
-das nach \emph{(a)} in $O(1)$ zu initialisieren ist, sowie den Predecessorbaum, der ja auch nur ein Wurzelknoten eines van Emde-Boas-Baumes ist.
+das nach \emph{(a)} in $O(1)$ zu initialisieren ist, sowie einen leeren Hilfsbaum für die Predecessorsuche in den Knoten.\\
 
-Wir benötigen so, also $T(N) = T(\sqrt{N}) + \mathcal{O}(1)$. Diese Gleichung haben wir bereits gelöst. Die Laufzeit die dabei herraus kommt ist $\mathcal{O}(log \, N)$ und bedenken wir wiederum, dass wir logarithmisch in $N$ rechnen können, so ist die Laufzeit zu initialisierung wie die jeder anderen Operaiton ebenfalls $\mathcal{O}(\log \log \, N)$.
+Wir nun ein noch leerer Baum angefragt (entweder Hilfsbaum oder im Array) so wird dieser auch zunächst initialisiert.\\
+
+Wir sehen, dass eine Initialisierung eines neuen leeren Baumes uns nur $\mathcal{O}(1)$ kostet, daher können wir in den Algorithmen für insert, search, predecessor genau die Bäume die wir neu besuchen mit initialisieren, da wir pro Knoten höchstens 2 Bäume initialisieren müssen.
 
 \subsection*{Aufgabe 3}
 
