@@ -1,0 +1,63 @@
+\subsubsection*{(a)}
+
+
+Geben Sie Pseudocode, wie in der Vorlesung, für die \lstinline|delete|-Operation von van-Emde-Boas-Bäumen an. Beschreiben Sie Ihren Algorithmus auch in Worten und analysieren Sie die Laufzeit.\\
+
+\noindent\textbf{Lösung:}\\
+Der in Algorithm \ref{algorithm1} angegebene Pseudocode tut folgendes:
+\begin{itemize}
+	\item Falls $T$ nur $x$ enthält wird $T$ leer gesetzt.
+	\item Falls $T$ nur $x$ und einen weiteren Schlüssel $y$ enthält, wird $y$ als min und max eingetragen (erkennbar am Hilfsbaum).
+	\item Falls $x$ min oder max ist, wird der Index des nächstgrößeren bzw. nächstkleineren Eintrags  aus dem Hilfsbaum geholt und der entsprechende Eintrag $y$ als min, bzw. max gesetzt. Dann wird $y$ aus dem Baum gelöscht. Falls der Baum, der $y$ enthielt dann leer ist, wird der Index aus dem Hilfsbaum gelöscht.
+	\item Sonst wird der Index $i$ des Unterbaums der $x$ enthält berechnet und $x$ aus diesem gelöscht. Falls der Unterbaum dann leer ist, wird $i$ aus dem Hilfsbaum gelöscht.
+\end{itemize}
+\noindent\textbf{Analyse:}\\
+Am Pseudo-Code sieht man sofort, dass es bis auf die zwei rekursiven Aufrufe nur konstant viele Operationen gibt. Der zweite rekursive Aufruf, das Löschen auf dem Hilfsbaum, wird aber nur dann ausgeführt, wenn der Unterbaum, der $x$ enthielt, nach dem Löschen leer ist. In diesem Fall, hat der erste rekursive Aufruf konstante Laufzeit.
+
+Insgesamt ergibt sich eine Laufzeit von $T(N) = T(\sqrt{N}) + O(1)$, also $O(\log\log \, N)$, wie in Aufgabe 1 (b) gezeigt werden wird.
+
+\begin{algorithm}[H]
+\caption{delete(T,x)}
+\label{algorithm1}
+\begin{algorithmic}
+\REQUIRE van-Emde-Boas Knoten $v$ mit Schlüsseln $0,\dots,N-1$, und zu löschendem Schlüssel $x$ 
+\ENSURE $x$ wird aus dem van-Emde-Boas Baum gelöscht
+\IF{$v.min == v.max == x$}
+	\STATE $v.min \leftarrow v.max \leftarrow None$
+	\RETURN
+\ENDIF
+
+\IF{$v.min == x$}
+	\IF{$v.h.min == v.h.max == None$}
+		\STATE $v.min \leftarrow v.max$
+		\RETURN
+	\ELSE
+		\STATE $x \leftarrow v.T[v.h.min].min$
+		\STATE $v.min \leftarrow x$
+	\ENDIF
+\ENDIF
+
+\IF{$v.max == x$}
+	\IF{$v.aux.min == v.aux.max == None$}
+		\STATE $v.max \leftarrow T.min$
+		\RETURN
+	\ELSE
+		\STATE $x \leftarrow v.T[v.h.max].max$
+		\STATE $v.max \leftarrow x$
+	\ENDIF
+\ENDIF
+
+\IF{$v.h.min == v.h.max == None$}
+	\RETURN
+\ENDIF
+
+\STATE $i \leftarrow \lfloor \frac{x}{\sqrt{N}} \rfloor$
+\STATE $delete(v.T[i], x \text{ mod } \sqrt{N})$
+\IF{$v.T[i].min == v.T[i].max == None$}
+	\STATE $delete(v.h, i)$
+\ENDIF
+\RETURN
+\end{algorithmic}
+\end{algorithm}
+
+
