@@ -1,0 +1,148 @@
+%% ARW12 style file
+%% Example of use of the arw12 style
+%%
+%% LaTeX style for the Automated Reasoning Workshop 2012
+%% Fabio Papacchini (papacchf@cs.man.ac.uk)
+%% Last modified 22/12/2011
+%%
+%% Based on the previous ARW06 style file.
+%% Reinserted the custom abstract from the AISB'04 style,
+%% inserted the institute declaration from the lncs style file,
+%% modified the style for citation, and the \section command has been redifined
+%%
+%% Previous version:
+%% ARW06 by Matthew Walton (mxw@cs.nott.ac.uk)
+%% 
+%% AISB'04 by Fred Labrosse (icsrim@icsrim.org.uk)
+
+\usepackage{times}
+
+\pagestyle{empty}
+\bibliographystyle{plain}
+
+\setlength{\oddsidemargin}{-.54 true cm}
+\setlength{\evensidemargin}{-.54 true cm}
+\setlength{\topmargin}{-.54 true cm}
+\setlength{\headheight}{0 true cm}
+\setlength{\textwidth}{17.1 true cm}
+\setlength{\textheight}{24.2 true cm}
+\setlength{\columnsep}{0.5 true cm}
+
+%%
+%% \section command new definition
+%%
+\renewcommand\section{
+	\@startsection{section}{1}{\z@}%
+    {-3.5ex \@plus -1ex \@minus -.2ex}%
+	{1.3ex \@plus .2ex}%
+	{\normalfont\normalsize\bfseries}%
+}
+\renewcommand\subsection{
+	\@startsection{subsection}{1}{\z@}%
+    {-3.5ex \@plus -1ex \@minus -.2ex}%
+	{1.3ex \@plus .2ex}%
+	{\normalfont\normalsize\bfseries}%
+}
+\renewcommand\subsubsection{
+	\@startsection{subsubsection}{1}{\z@}%
+    {-3.5ex \@plus -1ex \@minus -.2ex}%
+	{1.3ex \@plus .2ex}%
+	{\normalfont\normalsize\bfseries}%
+}
+
+
+%%
+%% Institution.
+%%
+
+\def\institute#1{\gdef\@institute{#1}}
+
+\def\institutename{\par
+ \begingroup
+ \parskip=\z@
+ \parindent=\z@
+ \setcounter{@inst}{1}%
+ \def\and{\par\stepcounter{@inst}%
+ \noindent$^{\the@inst}$\enspace\ignorespaces}%
+ \setbox0=\vbox{\def\thanks##1{}\@institute}%
+ \ifnum\c@@inst=1\relax
+   \gdef\fnnstart{0}%
+ \else
+   \xdef\fnnstart{\c@@inst}%
+   \setcounter{@inst}{1}%
+   \noindent$^{\the@inst}$\enspace
+ \fi
+ \ignorespaces
+ \@institute\par
+ \endgroup}
+
+\newcounter{@inst}
+\setcounter{@inst}{0}
+\def\inst#1{\unskip$^{#1}$}
+\def\fnmsep{\unskip$^,$}
+\def\email#1{{\tt#1}}
+
+%%
+%% Abstract
+%%
+
+\def\abstract#1{\gdef\@abstract{#1}}
+
+%%
+%% maketitle
+%%
+
+\renewcommand\maketitle{\par
+  \begingroup
+    \renewcommand\thefootnote{\@fnsymbol\c@footnote}%
+    \def\@makefnmark{\rlap{\@textsuperscript{\normalfont\@thefnmark}}}%
+    \long\def\@makefntext##1{\parindent 1em\noindent
+      \hb@xt@1.8em{%
+        \hss\@textsuperscript{\normalfont\@thefnmark}}##1}%
+    \ifnum \col@number=\@ne
+      \@maketitle
+    \else
+      \twocolumn[\@maketitle]%
+    \fi
+    \thispagestyle{empty}\@thanks
+  \endgroup
+  \setcounter{footnote}{0}%
+  \global\let\thanks\relax
+  \global\let\maketitle\relax
+  \global\let\@maketitle\relax
+  \global\let\@thanks\@empty
+  \global\let\@author\@empty
+  \global\let\@date\@empty
+  \global\let\@title\@empty
+  \global\let\title\relax
+  \global\let\author\relax
+  \global\let\date\relax
+  \global\let\and\relax
+}
+\def\@maketitle{%
+  \newpage
+  \null
+  \vskip 0.5em%
+  \begin{center}%
+    \let \footnote \thanks
+    {\LARGE \@title \par}%
+    \vskip .75em%
+    {\large
+      \begin{tabular}[t]{c}%
+        \@author
+      \end{tabular}\par}%
+    \vskip .5em
+    \begin{minipage}{0.9\linewidth}
+    \begin{center}
+      \institutename
+    \end{center}
+    \end{minipage}
+    \vskip 1em%
+    \begin{minipage}{0.9\linewidth}
+      {\bf Abstract:\ }\@abstract
+    \end{minipage}
+	\vskip 1em
+  \end{center}%
+}
+
+%% End of file ARW12.sty
