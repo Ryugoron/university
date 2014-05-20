@@ -1,12 +1,50 @@
-\documentclass[10pt]{article}
+\documentclass[twocolumn,a4paper,10pt]{article}
 
-\usepackage[top=1cm, left=2cm, right=2cm]{geometry}
+\usepackage{arw-dt14}
+\usepackage{graphicx}
 
 \begin{document}
+
+%% Insert here the title of your paper
 \title{The Leo-III Project}
-\author{Max Wisniewski \and Alexander Steen \and Christoph Benzm\"{u}ller}
-\date{}
+
+%% Use \institute to create an institute
+%% in case of more than one institute use the \and command
+%% inside the institute command, like in the commented part
+\institute{
+   FU-Berlin, Arnimallee 7,
+    \email{max.wisniewski@fu-berlin.de}
+ \and
+   FU-Berlin, Arnimallee 7,
+   \email{a.steen@fu-berlin.de}
+  \and
+   FU-Berlin, Arnimallee 7,
+   \email{c.benzmueller@fu-berlin.de}
+}
+
+%% Use \inst to reference a created institute and the \and
+%% command to divide the authors, see the commented part
+\author{
+   Max Wisniewski\inst{1}
+ \and
+   Alexander Steen\inst{2}
+ \and
+   Christoph Benzm\"{u}ller\inst{3}
+}
+
+%% Write here your abstract and remember: \title, \institute, \author and
+%% \abstract MUST be specified before \maketitle is called
+\abstract{
+We present the Leo-III project --- a Higher-Order Logic Theorem Prover and successor to LEO-II.
+}
+
+%% 
+
 \maketitle
+
+
+\section{Summary}
+
 \noindent We report on the recently started Leo-III project, in which we design and implement
 a state-of-the-art Higher-Order Logic Theorem Prover, the successor of the well known LEO-II prover~\cite{Benzmüller08leo-ii—}.
 Leo-III will be based on ordered paramodulation/superposition.
@@ -30,7 +68,10 @@ and several indexing techniques~\cite{Nieuwenhuis03onthe, W35}.
 Leo-III will also offer special support for reasoning in various quantified non-classical
 logics by exploiting a semantic embedding~\cite{C35} approach.
 
-\bibliographystyle{alpha}
+
+
+% **** PUT YOUR OWN BIBLIOGRAPHY FILES IN HERE ****
 \bibliography{cite}
+
 
 \end{document}
