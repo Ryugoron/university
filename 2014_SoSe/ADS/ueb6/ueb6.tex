@@ -1,0 +1,272 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm]{geometry}
+\usepackage[ngerman]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{ae}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{stmaryrd}
+\usepackage{paralist}
+\usepackage{tikz}
+\usepackage{amsthm}
+\usepackage{tabularx}
+\usepackage{algorithmic}
+\usepackage{algorithm}
+
+
+
+\usetikzlibrary{arrows,automata,shapes.geometric}
+
+\newtheorem{propo}{Satz}
+\newtheorem{lemmas}[propo]{Lemma}
+
+\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[C]{ADS}
+\fancyhead[L]{Übung 6}
+\fancyhead[R]{SoSe 2014}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage \hspace{1px} von \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\newcommand{\set}[1]{ \{ #1 \}}
+\setlength{\parindent}{0pt}
+\setlength{\headheight}{0pt}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\bigO}{\mathcal{O}}
+\newcommand{\Rarr}{\Rightarrow}
+\newcommand{\rarr}{\rightarrow}
+\newcommand{\Pot}{\mathcal{P}}
+\newcommand{\abs}[1]{\left |#1\right|}
+\newcommand{\solved}{$\mbox{}$ \hfill $\square$}
+\newcommand{\Epsilon}{\mathcal{E}}
+
+\newcommand{\erw}[1]{\text{\bfseries E} \left[ #1 \right]}
+\newcommand{\prob}[1]{\text{Pr}\left[ #1 \right]}
+
+\date{}
+\title{Übung 6}
+\author{Max Wisniewski, Melanie Skodzik, Paul Podlech}
+
+
+%%
+%% Enviroments for proofs and lemmas
+%%
+\newtheorem{prop}{\bfseries Behauptung}
+\newtheorem{lemma}{\bfseries Lemma}
+
+\begin{document}
+
+\lstset{language=Pascal, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2, mathescape=true}
+
+\renewcommand{\figurename}{Grafik}
+
+\maketitle
+\thispagestyle{fancy}
+
+
+\subsection*{Aufgabe 1}
+
+Timothy Chan hat eine alternative Version von Fusion Trees vorgeschlagen. Sei $S$ eine Menge von $n$ gnazuen Zahlen aus dem Bereich von $\{0, \ldots, 2^w - 1\}$, wobei $w > \log \, n$ die Wortbreite ist. Wir wollen eine statische Datenstruktur für das Vorgängerproblem auf $S$ bauen.
+
+\subsubsection*{(a)}
+
+Seien $b,h,l > 0$ ganze Zahlen. Beweisen Sie das folgende Rekursionslemma:\\
+\noindent Sei $I$ ein Tinervall der Länge $2^l$ und $T \subseteq I$ eine Folge von $m$ Zahlen. Dann kann man $i$ in $O(b)$ Teilintervalle partitionieren, so dass gilt (i) die Länge eines jden Teilintervalls ist ein Vielfaches von $2^{l-h}$; und (ii) jedes Teilintervall hat höchstens $m/b$ Elemente aus $T$ oder Länge $2^{l-h}$.\\
+
+\noindent\textbf{Beweis:}\\
+
+Wir wählen den Folgenden Ansatz. Wir unterteilen das Intervall $I$ in Intervalle der Länge $2^{l-h}$. Haben nun zwei benachbarte Intervalle $I_1, I_2$ gemeinsam $\leq m/b$ Elemente, vereinigen wir sie.
+
+Nach Konstruktion sind Eigenschaft (i) und (ii) erfüllt. Es bleibt also die Anzahl der
+Intervalle abzuschätzen. Sei $a$ die Anzahl der Intervalle.
+
+Wir können keine Intervalle mehr vereinigen, wenn je $2$ benachbarte Intervalle $> m/b$ viele Elemente besitzen. Gehen wir nun von vorne durch und vereinigen wir $I_1$ mit $I_2$ und $I_3$ mit $I_4$ usw., so erhalten wir $a/2$ Intervalle mit jeweils $>m/b$ Elementen(wir nehmen an, dass die Anzahl durch 2 teilbar ist, sonst bleibt ein Intervall übrig). Und noch einmal anders herum (damit wir die beiden Intervalle am Ende auch wirklich mit rechnen
+$$
+   2\cdot\frac{a}{2} \cdot \frac{m}{b} < 2\cdot m \Rightarrow a < 2b.
+$$
+
+Wir werden also mit $2b$ Intervallen aus kommen und haben somit die Partiotion von $I$ gefunden.
+
+\mbox{}\hfill$\square$
+
+\subsubsection*{(b)}
+
+Sei $b > 0$. Benutzen Sie das Rekursionslemma, um einen Baum der Höhe $O(\log_b \, n + b)$ für $S$ zu konstruieren. Ein Knoten des Baumes sollte Ausgrad $O(b)$ haben.\\
+
+\noindent\textbf{Beweis:}\\
+
+Aufgrund der Eigenschaften der beiden Funktionen ist $O(\log_b \, n + b) = O(\max(\log_b \, n, b))$. Wir wollen also zeigen, dass die Höhe des Baumes nur $b$ oder $\log_b \, n$ sein kann.
+
+Dazu benutzen wir einen B-Baum von Grad $2b$ (aus Aufgabe (a)). In jedem Knoten wählen
+wir nun die Partition des verbleibenden Intervalls, wie in (a). 
+Es sind nun 3 Fälle zu unterscheiden:
+\begin{enumerate}
+   \item Wir haben nur einen Pfad mit Intervallen in denen $\leq m/b$ Elemente sind. 
+      Dann ist
+      die Höhe wie die eines B-Baues $O(\log_b \, n)$.
+   \item Wir haben nur einen Pfad mit Intervallen in denen $>m/b$ Elemente sind.
+      Dann ist nun der Zeitpunkt gekommen und unser $h$ zu wählen. Wir wollen 
+      nach $b$ Schritten in die Tiefe bei einer Konstanten Anzahl von Elementen im
+      Intervall angekommen sein, also
+      $$
+         2^{w-bh} \leq 1 \Rightarrow w-bh \leq 0 \Rightarrow \frac{w}{b} \leq h.
+      $$
+      Setzen wir also unser $h$ auf $\frac{w}{b}$ und dann können wir in diesem
+      Fall eine Höhe von $b$ erreichen.
+   \item Zuletzt müssen wir betrachten, was bei einem gemischten Fall passiert.
+      Dazu können wir uns überlegen, das entweder $\log_b \, n$ oder $b$ die Größere
+      der beiden Höhen ist. Fangen wir nun an die beiden zu mischen, so bekommen
+      wir eine Höhe heraus, die insgesammt kleiner ist als das maximum der beiden.
+\end{enumerate}
+
+Wir haben also gezeigt, dass für $h = \frac{w}{b}$ die Höhe des Baumes $O(\log_b \, n + b)$ ist.
+
+\mbox{}\hfill$\square$
+
+\subsubsection*{(c)}
+
+Wählen Sie $b$ geeignet, um einen Baum von Höhe $O(\log \, n / \log \log \, n)$ zu erhalten. Beschreiben Sie, wie man eine Vorgängeranfrage mit der gleichen Laufzeit umsetzen kann.\\
+
+\noindent\textbf{Lösung:}\\
+
+Wir benutzen die selbe Idee, wie bei Fusion Trees (was uns der Aufgaben Name ja schon gibt). Dazu wählen wir als Werte in den Knoten jeweils die Intervall Grenzen (das ganz rechte Element eines jeden Intervalls) und berechnen dafür wieder die ungefähren skizzen. Wird nun der Vorgänger angefragt, können wir wieder über parallelen Vergleich und
+die weiteren Verfahren aus der VL den Unterbaum finden, indem wir weiter machen müssen
+und das in konstanter Zeit.
+
+Da uns die Vorlesung also schon hergibt, wie wir jeden Knoten in konstanter Zeit bearbeiten können, müssen wir uns also nur noch um die Höhe des Baumes kümmern.\\
+
+Wir wollen erreichen, dass $O(\log_b \, n) = O(\log \, n / \log \log \, n)$ ist.
+Dazu setzen wir nun einfach $b = \log \log \, n$ und erhalten als Höhe
+$$
+   O(\log_{\log\log \, n} \, n + \log \log \, n) = O(\log \, n / \log \log \, n + \log \log \,n) = O(\log \, n / \log \log \, n)
+$$
+
+\subsection*{Aufgabe 2}
+Seien
+$$
+\begin{array}{ccccccc}
+   x_0 \, &= \,& 0 \, & 0 \, & 0 \, & 0 \,& 1\\
+   x_1 &=& 0 & 0 & 0 & 1 & 1\\
+   x_2 &=& 0 & 1 & 1 & 0 & 1\\
+   x_3 &=& 1 & 1 & 0 & 0 & 1\\
+   x_4 &=& 1 & 1 & 0 & 1 & 0
+\end{array}
+$$
+
+die Schlüssel eines Knotens in einem Fusion Tree.
+
+\subsubsection*{(a)}
+
+Bestimmen Sie die Positionen der "wichtigen" Bits und die genauen Skizzen der Schlüssel.\\
+
+\noindent\textbf{Lösung:}\\
+
+Bestimmen Sie die Positionen der "wichtigen" Bits und die genauen Skizzen der Schlüssel.\\
+
+\noindent\textbf{Lösung:}\\
+
+Da ich keine Lust habe einen Baum zu zeichen, partitionieren ich die Knoten per
+beschreibung.
+
+Zunächst werden $x_0,x_1,x_2$ von $x_3,x_4$ im ersten Bit getrennt, das damit
+wichtig ist. Als nächstes wird $x_0,x_1$ von $x_2$ getrennt im zweiten Bit,
+das damit auch wichtig ist. $x_0$ und $x_1$ unterscheiden sich dann erst im vierten Bit, das damit wichtig wird. Die Schlüssel $x_3$ und $x_4$ trennen sich auch im vierten Bit.
+
+Damit haben wir also $1,2,4$ als wichtige Bits und die Skizzen sind
+$$
+\begin{array}{rcl}
+   \text{skizze}(x_0) &=& 000\\  
+   \text{skizze}(x_1) &=& 001\\  
+   \text{skizze}(x_2) &=& 010\\  
+   \text{skizze}(x_3) &=& 110\\  
+   \text{skizze}(x_4) &=& 111\\  
+\end{array}
+$$
+
+
+\subsubsection*{(b)}
+
+Sei $q= 00101$ ein Schlüssel. Finden Sie mittels parallelem Vergleich den
+Vorgänger und Nachfolger von skizze($q$) unter den Skizzen von $x_0, \ldots, x_4$.\\
+
+\noindent\textbf{Lösung:}\\
+Um die Skizzen parallel zu vergleichen Schreiben wir sie hintereinander
+mit $1$ getrennt und ziehen dann die Skizze von $q$ ab. Die
+Skizze von $q$ ist $000$ nach Aufgabe (a).
+
+Der Algorithmus gibt uns nun
+$$
+\begin{array}{cl}
+     & 1 000 1 001 1 010 1 110 1 111\\
+   - & 0 000 0 000 0 000 0 000 0 000\\
+   \text{AND} & 1 000 1 000 1 000 1 000 1 000\\
+   \hline
+   & 1 000 1 000 1 000 1 000 1 000
+\end{array}
+$$
+
+Wir wollen nun nach Algorithmus die einzen hier aufsummieren indem wir mit
+$10001000100010001$ multiplizieren, was uns
+
+$$1 0010 0011 0100 0101 0100 0011 0010 0001$$
+
+gibt, welche wir nun nach rechts schiften und mit $0..01111$ multiplizieren können
+was uns die $101$ gibt. Wir wissen nun also, dass wir $5$ einsen haben. Also
+ist jede einzelne Skizze größer gleich als die Skizze, die wir für $q$ berechnet haben.
+
+
+Da wir noch Vergleich können, wie ob wir gleich der unteren Schranke sind, sehen wir
+nun, dass skizze($x_0$) $\leq$ skizze($q$) $\leq$ skizze($x_1$) liegt.
+
+\subsubsection*{(c)}
+
+Konstruieren Sie einen Schlüssel $e$, so dass dass folgendes gilt:
+$$
+   \text{skizze}(x_i) \leq \text{skizze}(e) \leq \text{skizze}(x_{i+1}) 
+      \Rightarrow x_i \leq q \leq x_{i+1}
+$$
+
+Finden Sie mittels parallelem Vergleich den Vorgänger und Nachfolger von skizze($e$) untern den Skizzen der Schlüssel $x_0, \ldots, x_4$.\\
+
+\noindent\textbf{Lösung:}\\
+
+Nach Algorithmus betrachten wir nun den längsten gemeinsamen Präfix von $q$ mit $x_0$ und $x_1$. Dieser ist $00$. Wir befinden uns nun im ersten Fall, da an der dritten Stelle von $q$ eine $1$ kommt. Wir machen also eine suche nach $e = 00011$.\\
+
+Die Skizze von $e$ ist $001$. Nun suchen wir wiederum mit parallelem Vergleich nach
+dieser Skizze.
+
+$$
+\begin{array}{cl}
+     & 1 000 1 001 1 010 1 110 1 111\\
+   - & 0 001 0 001 0 001 0 001 0 001\\
+   \text{AND} & 1 000 1 000 1 000 1 000 1 000\\
+   \hline
+   & 0 000 0 000 1 000 1 000 1 000
+\end{array}
+$$
+
+Wir sehen schon, dass wir hier $3$ einsen haben. Wir können dies nun wieder multiplizieren und erhalten
+$$
+ 0000 0000 0001 0010 0011 0010 0001
+$$
+Nach shiften und nullen erhalten wir $0..011$. Da uns eigentlich die Anzahl der
+$0$en interessiert müssen wir nun $4-3+1 = 2$ berechnen und wissen nun, dass
+$$
+   x_2 \leq q \leq x_3
+$$
+gilt und nach scharf hinsehen stimmt das sogar.
+\label{LastPage}
+\end{document}
