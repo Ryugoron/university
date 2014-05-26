@@ -84,13 +84,13 @@ Timothy Chan hat eine alternative Version von Fusion Trees vorgeschlagen. Sei $S
 \subsubsection*{(a)}
 
 Seien $b,h,l > 0$ ganze Zahlen. Beweisen Sie das folgende Rekursionslemma:\\
-\noindent Sei $I$ ein Tinervall der Länge $2^l$ und $T \subseteq I$ eine Folge von $m$ Zahlen. Dann kann man $i$ in $O(b)$ Teilintervalle partitionieren, so dass gilt (i) die Länge eines jden Teilintervalls ist ein Vielfaches von $2^{l-h}$; und (ii) jedes Teilintervall hat höchstens $m/b$ Elemente aus $T$ oder Länge $2^{l-h}$.\\
+\noindent Sei $I$ ein Intervall der Länge $2^l$ und $T \subseteq I$ eine Folge von $m$ Zahlen. Dann kann man $i$ in $O(b)$ Teilintervalle partitionieren, so dass gilt (i) die Länge eines jeden Teilintervalls ist ein Vielfaches von $2^{l-h}$; und (ii) jedes Teilintervall hat höchstens $m/b$ Elemente aus $T$ oder Länge $2^{l-h}$.\\
 
 \noindent\textbf{Beweis:}\\
 
-Wir wählen den Folgenden Ansatz. Wir unterteilen das Intervall $I$ in Intervalle der Länge $2^{l-h}$. Haben nun zwei benachbarte Intervalle $I_1, I_2$ gemeinsam $\leq m/b$ Elemente, vereinigen wir sie.
+Wir wählen den folgenden Ansatz. Wir unterteilen das Intervall $I$ in Intervalle der Länge $2^{l-h}$.Wir haben nun zwei benachbarte Intervalle $I_1, I_2$ gemeinsam $\leq m/b$ Elemente, die wir vereinigen.
 
-Nach Konstruktion sind Eigenschaft (i) und (ii) erfüllt. Es bleibt also die Anzahl der
+Nach der Konstruktion sind die Eigenschaften (i) und (ii) erfüllt. Es bleibt also die Anzahl der
 Intervalle abzuschätzen. Sei $a$ die Anzahl der Intervalle.
 
 Wir können keine Intervalle mehr vereinigen, wenn je $2$ benachbarte Intervalle $> m/b$ viele Elemente besitzen. Gehen wir nun von vorne durch und vereinigen wir $I_1$ mit $I_2$ und $I_3$ mit $I_4$ usw., so erhalten wir $a/2$ Intervalle mit jeweils $>m/b$ Elementen(wir nehmen an, dass die Anzahl durch 2 teilbar ist, sonst bleibt ein Intervall übrig). Und noch einmal anders herum (damit wir die beiden Intervalle am Ende auch wirklich mit rechnen
@@ -98,7 +98,7 @@ $$
    2\cdot\frac{a}{2} \cdot \frac{m}{b} < 2\cdot m \Rightarrow a < 2b.
 $$
 
-Wir werden also mit $2b$ Intervallen aus kommen und haben somit die Partiotion von $I$ gefunden.
+Wir werden also mit $2b$ Intervallen aus kommen und haben somit die Partition von $I$ gefunden.
 
 \mbox{}\hfill$\square$
 
@@ -129,7 +129,7 @@ Es sind nun 3 Fälle zu unterscheiden:
    \item Zuletzt müssen wir betrachten, was bei einem gemischten Fall passiert.
       Dazu können wir uns überlegen, das entweder $\log_b \, n$ oder $b$ die Größere
       der beiden Höhen ist. Fangen wir nun an die beiden zu mischen, so bekommen
-      wir eine Höhe heraus, die insgesammt kleiner ist als das maximum der beiden.
+      wir eine Höhe heraus, die insgesamt kleiner ist als das Maximum der beiden.
 \end{enumerate}
 
 Wir haben also gezeigt, dass für $h = \frac{w}{b}$ die Höhe des Baumes $O(\log_b \, n + b)$ ist.
@@ -170,16 +170,12 @@ die Schlüssel eines Knotens in einem Fusion Tree.
 
 \subsubsection*{(a)}
 
-Bestimmen Sie die Positionen der "wichtigen" Bits und die genauen Skizzen der Schlüssel.\\
+Bestimmen Sie die Positionen der "wichtigen\grqq{} Bits und die genauen Skizzen der Schlüssel.\\
 
 \noindent\textbf{Lösung:}\\
 
-Bestimmen Sie die Positionen der "wichtigen" Bits und die genauen Skizzen der Schlüssel.\\
-
-\noindent\textbf{Lösung:}\\
-
-Da ich keine Lust habe einen Baum zu zeichen, partitionieren ich die Knoten per
-beschreibung.
+Da wir keine Lust haben einen Baum zu zeichnen, partitionieren wir die Knoten per
+Beschreibung.
 
 Zunächst werden $x_0,x_1,x_2$ von $x_3,x_4$ im ersten Bit getrennt, das damit
 wichtig ist. Als nächstes wird $x_0,x_1$ von $x_2$ getrennt im zweiten Bit,
@@ -203,8 +199,8 @@ Sei $q= 00101$ ein Schlüssel. Finden Sie mittels parallelem Vergleich den
 Vorgänger und Nachfolger von skizze($q$) unter den Skizzen von $x_0, \ldots, x_4$.\\
 
 \noindent\textbf{Lösung:}\\
-Um die Skizzen parallel zu vergleichen Schreiben wir sie hintereinander
-mit $1$ getrennt und ziehen dann die Skizze von $q$ ab. Die
+Um die Skizzen parallel zu vergleichen, schreiben wir sie hintereinander
+mit $1$ getrennt und ziehen dann die Skizze von 5 $q$s hintereinander mit 0en getrennt ab. Die
 Skizze von $q$ ist $000$ nach Aufgabe (a).
 
 Der Algorithmus gibt uns nun
@@ -218,22 +214,22 @@ $$
 \end{array}
 $$
 
-Wir wollen nun nach Algorithmus die einzen hier aufsummieren indem wir mit
+Wir wollen nun nach Algorithmus die Einsen hier aufsummieren indem wir mit
 $10001000100010001$ multiplizieren, was uns
 
 $$1 0010 0011 0100 0101 0100 0011 0010 0001$$
 
-gibt, welche wir nun nach rechts schiften und mit $0..01111$ multiplizieren können
-was uns die $101$ gibt. Wir wissen nun also, dass wir $5$ einsen haben. Also
+gibt, welche wir nun nach rechts shiften und mit $0..01111$ multiplizieren können
+was uns die $101$ gibt. Wir wissen nun also, dass wir $5$ Einsen haben. Also
 ist jede einzelne Skizze größer gleich als die Skizze, die wir für $q$ berechnet haben.
 
 
-Da wir noch Vergleich können, wie ob wir gleich der unteren Schranke sind, sehen wir
+Da wir noch vergleichen können, ob wir gleich der unteren Schranke sind, sehen wir
 nun, dass skizze($x_0$) $\leq$ skizze($q$) $\leq$ skizze($x_1$) liegt.
 
 \subsubsection*{(c)}
 
-Konstruieren Sie einen Schlüssel $e$, so dass dass folgendes gilt:
+Konstruieren Sie einen Schlüssel $e$, so dass folgendes gilt:
 $$
    \text{skizze}(x_i) \leq \text{skizze}(e) \leq \text{skizze}(x_{i+1}) 
       \Rightarrow x_i \leq q \leq x_{i+1}
@@ -243,7 +239,7 @@ Finden Sie mittels parallelem Vergleich den Vorgänger und Nachfolger von skizze
 
 \noindent\textbf{Lösung:}\\
 
-Nach Algorithmus betrachten wir nun den längsten gemeinsamen Präfix von $q$ mit $x_0$ und $x_1$. Dieser ist $00$. Wir befinden uns nun im ersten Fall, da an der dritten Stelle von $q$ eine $1$ kommt. Wir machen also eine suche nach $e = 00011$.\\
+Nach Algorithmus betrachten wir nun den längsten gemeinsamen Präfix von $q$ mit $x_0$ und $x_1$. Dieser ist $00$. Wir befinden uns nun im ersten Fall, da an der dritten Stelle von $q$ eine $1$ kommt. Wir machen also eine Suche nach $e = 00011$.\\
 
 Die Skizze von $e$ ist $001$. Nun suchen wir wiederum mit parallelem Vergleich nach
 dieser Skizze.
@@ -258,7 +254,7 @@ $$
 \end{array}
 $$
 
-Wir sehen schon, dass wir hier $3$ einsen haben. Wir können dies nun wieder multiplizieren und erhalten
+Wir sehen schon, dass wir hier $3$ Einsen haben. Wir können dies nun wieder multiplizieren und erhalten
 $$
  0000 0000 0001 0010 0011 0010 0001
 $$
