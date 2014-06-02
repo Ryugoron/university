@@ -82,8 +82,69 @@
 Beweisen Sie mit einem Kodierungsargument, dass beim Hashing mit Verkettung die erwartete maximale Anzahl von Elementen auf dem selben Platz $O(\log \,n / \log \log \, n)$ ist.\\
 
 \noindent\textbf{Beweis:}\\
-tbd
 
+Wir betrachten zunächst, was wir für ein Ereignis eigentlich betrachten wollen.
+
+$$
+   \erw{\max_{i=1}^n S_i} \stackrel{\text{lin. Erw.}}{=} 
+      \sum_{l=1}^n l \cdot \prob{\max_{i=1}^n S_i = l}
+$$
+Nun wollen wir über ein Kodierungsargument die Wahrscheinlichkeit von $\mathcal{E}=\max_{i=1}^n S_i = l$ bestimmen. 
+
+Wir kodieren zunächst $\mathfrak{H}$ die Menge aller Hashfunktionen. Dazu schreiben wir
+immer mit fixierter Wortlänge das Element und das Bild binär codiert hintereinander.
+So erhalten wir als Länge $H := 2 n \log \, n$.
+
+Nun sehen wir uns an, wie wir eine Funktion codieren, bei der die Maximallänge 
+von Bildern auf einem Platz gleich $l$ ist. Was wir als erstes sehen, ist,
+dass wir hiermit zu viele Ereignisse erfassen, da wir nur wissen, dass $\max_{i=1}^n S_i \geq l =: \mathcal{E}$' ist, aber da $\mathcal{E} \subseteq \mathcal{E}'$ gilt
+$\prob{E} \leq \prob{E'}$.
+
+\begin{center}
+   \begin{tabularx}{0.7\textwidth}{l|r}
+      Beschreibung & Bits\\
+      \hline
+      Maximales Feld & $\log \, n$ Bits\\
+      Elemente auf diese Feld & $l \log \, n$ Bits\\
+      Rest           & $2(n - l) \log \, n$ Bits
+   \end{tabularx}
+\end{center}
+
+Wir sehen, dass $\Delta = l \log \, n - \log \, n$ ist. 
+Die Wahrscheinlichkeit ist also nach Kodierungslemma
+$$
+   \prob{E'} = 2^{- \Delta} = 2^{- l \log \, n + \log \, n} = n \cdot n^{-l}
+$$
+Was wir hier schon einmal sehen, ist das Ergebnis von Aufgabenteil (a) von ersten Zettel, wir können die $\log \, n$ herausziehen (die ja das Feld kodieren, auf dem das Maximum liegt) und erhalten so $n \cdot 2^{- \log \, n}$, was prinzipiell die Wahrscheinlichkeit ist, wenn wir ein Feld fixiert haben (im hinteren Teil).
+
+Wir setzen das ganze nun in den Erwartungswert ein.
+$$\begin{array}{rcl}
+   \erw{\max_{i=1}^n S_i} &\leq& \sum_{l=1}^n l \cdot n \cdot n^{-l}\\
+                     &=& \sum_{l=1}^n l n^{-l+1}\\
+                     &=& \sum_{l=1}^{k} \left(l n^{-l+1}\right) + \sum_{l=k + 1}^n \left(l n^{-l+1}\right)\\
+                     &\stackrel{*}{=}& \sum_{l=1}^{k} \left(l n^{-l +1}\right) + c\\
+                     &\leq& k^2 n^{1-k} + c
+\end{array}$$
+
+Wir haben mehrere Ansätze durchprobiert und dieser sah am Schluss am besten aus. 
+
+Zu (*): Die gesamte Folge konvergiert, so können wir den hinteren Teil durch eine
+konstante abschätzen.
+
+Für den letzten Schritt müssten wir nun zeigen, dass eine $k$ existiert,
+so dass $k^2 n^{1-k} \in O(\log \, n / \log \log \, n)$ liegt. Dazu interessiert
+uns die Nullstelle der Funktion 
+$f(k) = k^2 n^{1-k} - d \frac{log \, n}{\log \log \, n}$, wobei wir $1\leq k \leq n$
+frei setzen können und $c$ beliebig aber fest für alle $n$.
+
+Da der erste Teil für $k=n$ kleiner als $0$ ist müssen wir nur noch untersuchen, ob die Funktion (am besten für kleine $d$) einmal größer als $0$. Dazu kann man sich nun die als Indiz die Ableitung über $k$ ansehen, die da
+$$
+f'(k) = \left( 2kn - k^3 - k^2 \right) n^{-k}
+$$
+ist. Mit der einzigen vernünftigen Nullstelle bei $\frac{1}{2} + \frac{1}{2}\sqrt{8n+1}$ die zum Glück genau im gesuchten Intervall liegt. Da wir auf einsetzen keine Lust hatten, haben wir an dieser Stelle aufgegeben und WolframAlpha gefragt. Der spuckte uns aus, dass es sich hierbei um eine Nullfolge (für $d=1$) handelt, die allerdings echt positiv ist. Damit haben wir beim Extrempunkt einen Wert größer als $0$ und bei $n$ keinen Wert kleiner als $0$.
+
+Da die Funktion darüber hinaus stetig ist gilt nach dem Zwischenwertsatz, dass für ein $k$ der Wert $(f(k^*) = 0)$ angenommen wird. Trennen wir an diesem $k^*$, so erhalten
+wir die gesuchte Laufzeit von $O(\log \, n / \log \log \, n)$.
 
 \subsection*{Aufgabe 2}
 
@@ -92,24 +153,24 @@ Beweisen Sie das Bereichsreduktionslemma von Kirkpatrick und Reisch: Angenommen,
 \noindent\textbf{Beweis:}\\
 
 In einem van-Emde-Boas Baum können wir, wenn wir uns eine Ebene nach unten begeben unsere Zahl durch $\sqrt{2^w}$ teilen um den Index
-herrauszufinden, in welchen Teilbaum sie kommen. Da nun alle Zahlen in diesem Teilbaum genau gleich oft in die $\sqrt{2^w}$ herrein passen, können wir nur mit dem Rest im folgenden weiter rechnen (umkehren auf dem Weg nach oben ist einfach addieren mit dem Index mal $\sqrt{2^w}$ um
+herauszufinden, in welchen Teilbaum sie kommen. Da nun alle Zahlen in diesem Teilbaum genau gleich oft in die $\sqrt{2^w}$ herein passen, können wir nur mit dem Rest im folgenden weiter rechnen (umkehren auf dem Weg nach oben ist einfach addieren mit dem Index mal $\sqrt{2^w}$ um
 die Werte wieder zu rekonstruieren). Damit wissen wir, dass wir die Wortlänge pro Ebene halbieren und wir, egal wie die Wörter umsortiert werden
 pro Ebene die eigentlichen Schlüssel wieder rekonstruieren können.\\
 
-Enden wir nun nach $\log \log \, n + 2$ Ebenen, so haben wir  $w$ insgesammt $\log \log \, n + 2$ mal durch $2$ geteilt.
+Enden wir nun nach $\log \log \, n + 2$ Ebenen, so haben wir  $w$ insgesamt $\log \log \, n + 2$ mal durch $2$ geteilt.
 Also ist die Wortlänge nun
 $$
 	w' = \frac{w}{2^{\log \log \, n + 2}} = \frac{w}{4\log \,n}.
 $$
 
-Wir haben in der Vorlesung gesehen wie wir ein einzelnes Element in $O(1)$ pro Ebene einfügen können,  wir enen nun in Ebene $\log \log \, n +2$ und fügen es dort in ein Bucket ein um gleich weiter zu sortieren. Die kosten für alle Elemente ist so $O(n \log \log \, n)$.
+Wir haben in der Vorlesung gesehen wie wir ein einzelnes Element in $O(1)$ pro Ebene einfügen können,  wir enden nun in Ebene $\log \log \, n +2$ und fügen es dort in ein Bucket ein um gleich weiter zu sortieren. Die kosten für alle Elemente ist so $O(n \log \log \, n)$.
 
-Nun haben wir auf der letzten Ebene eine beliebite Partition unsere $n$ Zahlen in $n = n_1 + n_2 + \ldots + n_k$ die wir alle nach vorraussetzung in $O(n_i \log\log \, n_i)$ sortieren können.
+Nun haben wir auf der letzten Ebene eine beliebte Partition unsere $n$ Zahlen in $n = n_1 + n_2 + \ldots + n_k$ die wir alle nach Voraussetzung in $O(n_i \log\log \, n_i)$ sortieren können.
 Addieren wir diese kosten nun erhalten wir für die unterste Ebene $O(n \log \log \, n)$ kosten.
 
-Nun müssen wir noch die einzelnen Listen konkatenieren und die Werte wieder herstellen. Dazu müssen wir jedes Element pro Ebene einmal anfassen und wie oben beschrieben (in konstanter Zeit) rekonstruieren und von links nach rechts in eine Liste schreiben. Dies geht insgesammt in $O(n)$ pro Ebene, womit wir auch in diesem Schritt nur $O(n \log \log \, n$ Zeit benötigen.
+Nun müssen wir noch die einzelnen Listen konkatenieren und die Werte wieder herstellen. Dazu müssen wir jedes Element pro Ebene einmal anfassen und wie oben beschrieben (in konstanter Zeit) rekonstruieren und von links nach rechts in eine Liste schreiben. Dies geht insgesamt in $O(n)$ pro Ebene, womit wir auch in diesem Schritt nur $O(n \log \log \, n$ Zeit benötigen. Wichtig ist, dass beim zusammensetzen auf dem Weg nach oben die Sortierung nicht verloren geht. Man geht die Unterbäume von links nach rechts durch (die nach den Eigenschaften des vEB Baumes in der richtigen Reihenfolge sind) und fügen sie der Reihe nach in ein Array ein (nachdem man sie zurück gerechnet hat).
 
-Insgesammt wurde ebenfalls diese Laufzeit benötigt.
+Insgesamt wurde ebenfalls diese Laufzeit benötigt.
 \mbox{}\hfill$\square$
 \label{LastPage}
 \end{document}
