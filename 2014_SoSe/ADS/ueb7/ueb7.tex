@@ -1,0 +1,115 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm]{geometry}
+\usepackage[ngerman]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{ae}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{stmaryrd}
+\usepackage{paralist}
+\usepackage{tikz}
+\usepackage{amsthm}
+\usepackage{tabularx}
+\usepackage{algorithmic}
+\usepackage{algorithm}
+
+
+
+\usetikzlibrary{arrows,automata,shapes.geometric}
+
+\newtheorem{propo}{Satz}
+\newtheorem{lemmas}[propo]{Lemma}
+
+\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[C]{ADS}
+\fancyhead[L]{Übung 7}
+\fancyhead[R]{SoSe 2014}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage \hspace{1px} von \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\newcommand{\set}[1]{ \{ #1 \}}
+\setlength{\parindent}{0pt}
+\setlength{\headheight}{0pt}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\bigO}{\mathcal{O}}
+\newcommand{\Rarr}{\Rightarrow}
+\newcommand{\rarr}{\rightarrow}
+\newcommand{\Pot}{\mathcal{P}}
+\newcommand{\abs}[1]{\left |#1\right|}
+\newcommand{\solved}{$\mbox{}$ \hfill $\square$}
+\newcommand{\Epsilon}{\mathcal{E}}
+
+\newcommand{\erw}[1]{\text{\bfseries E} \left[ #1 \right]}
+\newcommand{\prob}[1]{\text{Pr}\left[ #1 \right]}
+
+\date{}
+\title{Übung 7}
+\author{Max Wisniewski, Melanie Skodzik}
+
+
+%%
+%% Enviroments for proofs and lemmas
+%%
+\newtheorem{prop}{\bfseries Behauptung}
+\newtheorem{lemma}{\bfseries Lemma}
+
+\begin{document}
+
+\lstset{language=Pascal, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2, mathescape=true}
+
+\renewcommand{\figurename}{Grafik}
+
+\maketitle
+\thispagestyle{fancy}
+
+
+\subsection*{Aufgabe 1}
+
+Beweisen Sie mit einem Kodierungsargument, dass beim Hashing mit Verkettung die erwartete maximale Anzahl von Elementen auf dem selben Platz $O(\log \,n / \log \log \, n)$ ist.\\
+
+\noindent\textbf{Beweis:}\\
+tbd
+
+
+\subsection*{Aufgabe 2}
+
+Beweisen Sie das Bereichsreduktionslemma von Kirkpatrick und Reisch: Angenommen, uns steht eine Wortlänge von \emph{w} Bits zur Verfügung und wir wissen, dass man $n$ Zahlen mit jeweils $w/4\log \, n$ Bits in $O(n \log\log \,n n)$ Zeit sortieren kann. Dann kann man auch $n$ Zahlen mit jeweils $w$ Bits in $O(n \log \lg \, n$) Zeit sortieren.\\
+
+\noindent\textbf{Beweis:}\\
+
+In einem van-Emde-Boas Baum können wir, wenn wir uns eine Ebene nach unten begeben unsere Zahl durch $\sqrt{2^w}$ teilen um den Index
+herrauszufinden, in welchen Teilbaum sie kommen. Da nun alle Zahlen in diesem Teilbaum genau gleich oft in die $\sqrt{2^w}$ herrein passen, können wir nur mit dem Rest im folgenden weiter rechnen (umkehren auf dem Weg nach oben ist einfach addieren mit dem Index mal $\sqrt{2^w}$ um
+die Werte wieder zu rekonstruieren). Damit wissen wir, dass wir die Wortlänge pro Ebene halbieren und wir, egal wie die Wörter umsortiert werden
+pro Ebene die eigentlichen Schlüssel wieder rekonstruieren können.\\
+
+Enden wir nun nach $\log \log \, n + 2$ Ebenen, so haben wir  $w$ insgesammt $\log \log \, n + 2$ mal durch $2$ geteilt.
+Also ist die Wortlänge nun
+$$
+	w' = \frac{w}{2^{\log \log \, n + 2}} = \frac{w}{4\log \,n}.
+$$
+
+Wir haben in der Vorlesung gesehen wie wir ein einzelnes Element in $O(1)$ pro Ebene einfügen können,  wir enen nun in Ebene $\log \log \, n +2$ und fügen es dort in ein Bucket ein um gleich weiter zu sortieren. Die kosten für alle Elemente ist so $O(n \log \log \, n)$.
+
+Nun haben wir auf der letzten Ebene eine beliebite Partition unsere $n$ Zahlen in $n = n_1 + n_2 + \ldots + n_k$ die wir alle nach vorraussetzung in $O(n_i \log\log \, n_i)$ sortieren können.
+Addieren wir diese kosten nun erhalten wir für die unterste Ebene $O(n \log \log \, n)$ kosten.
+
+Nun müssen wir noch die einzelnen Listen konkatenieren und die Werte wieder herstellen. Dazu müssen wir jedes Element pro Ebene einmal anfassen und wie oben beschrieben (in konstanter Zeit) rekonstruieren und von links nach rechts in eine Liste schreiben. Dies geht insgesammt in $O(n)$ pro Ebene, womit wir auch in diesem Schritt nur $O(n \log \log \, n$ Zeit benötigen.
+
+Insgesammt wurde ebenfalls diese Laufzeit benötigt.
+\mbox{}\hfill$\square$
+\label{LastPage}
+\end{document}
