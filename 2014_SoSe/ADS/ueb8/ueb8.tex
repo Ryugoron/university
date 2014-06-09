@@ -1,0 +1,158 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm]{geometry}
+\usepackage[ngerman]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{ae}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{stmaryrd}
+\usepackage{paralist}
+\usepackage{tikz}
+\usepackage{amsthm}
+\usepackage{tabularx}
+\usepackage{algorithmic}
+\usepackage{algorithm}
+
+
+
+\usetikzlibrary{arrows,automata,shapes.geometric}
+
+\newtheorem{propo}{Satz}
+\newtheorem{lemmas}[propo]{Lemma}
+
+\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[C]{ADS}
+\fancyhead[L]{Übung 8}
+\fancyhead[R]{SoSe 2014}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage \hspace{1px} von \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\newcommand{\set}[1]{ \{ #1 \}}
+\setlength{\parindent}{0pt}
+\setlength{\headheight}{0pt}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\bigO}{\mathcal{O}}
+\newcommand{\Rarr}{\Rightarrow}
+\newcommand{\rarr}{\rightarrow}
+\newcommand{\Pot}{\mathcal{P}}
+\newcommand{\abs}[1]{\left |#1\right|}
+\newcommand{\solved}{$\mbox{}$ \hfill $\square$}
+\newcommand{\Epsilon}{\mathcal{E}}
+
+\newcommand{\erw}[1]{\text{\bfseries E} \left[ #1 \right]}
+\newcommand{\prob}[1]{\text{Pr}\left[ #1 \right]}
+
+\date{}
+\title{Übung 8}
+\author{Max Wisniewski, Melanie Skodzik}
+
+
+%%
+%% Enviroments for proofs and lemmas
+%%
+\newtheorem{prop}{\bfseries Behauptung}
+\newtheorem{lemma}{\bfseries Lemma}
+
+\begin{document}
+
+\lstset{language=Pascal, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2, mathescape=true}
+
+\renewcommand{\figurename}{Grafik}
+
+\maketitle
+\thispagestyle{fancy}
+
+
+\subsection*{Aufgabe 1}
+Analysieren Sie batchers Sortieralgorithmus. Sei $h$ eine Zweierpotenz. Eine Folge $x_0, \ldots, x_{h-1}$ heißt \emph{bitonisch}, falls sie erst
+monoton wächst und dann monoton fällt, oder falls sie durch eine zyklische Permutation aus einer solchen Folge hervorgegangen ist.
+
+Batchers Algorithmus sortiert $x_0, \ldots, x_{h-1}$ rekursiv wie folgt: Setze $t = h / 2$ und für $i = 0, \ldots , t-1$, setze $m_i= \min \{x_i, x_{i+t}\}$, $M_i = \max \{x_i, x_{i+1} \}$. Sortiere rekursiv die Folge $m_0,\ldots, m_{t-1}$ und $M_0, \ldots, M_{t-1}$. Konkateniere dann die sortierte $m_i$-FOlge mit der sortierten $M_i$-Folge.
+
+\subsubsection*{(a)}
+Analysieren Sie die Laufzeit von Batchers Algorithmus.\\
+
+\noindent\textbf{Lösung:}\\
+
+tbd
+
+\subsubsection*{(b)}
+Zeigen Sie: Falls $x_0, \ldots, x_{j-1}$ bitonisch ist, dass sind auch $m_0, \ldots, m_{t-1}$ und $M_0, \ldots, M_{t-1}$ bitonisch.\\
+
+\noindent\textbf{Beweis:}\\
+
+tbd
+
+\subsubsection*{(c)}
+Zeigen Sie: Es ist $\max \{ m_0 , \ldots, m_{t-1}\} \leq \min \{ M_0, \ldots, M_{t-1}\}$.\\
+
+\noindent\textbf{Beweis:}\\
+
+tbd
+
+\subsubsection*{(d)}
+Folgern Sie, dass Batchers Algorithmus korrekt ist.\\
+
+\noindent\textbf{Beweis:}\\
+
+tbd
+
+
+
+\subsection*{Aufgabe 2}
+Beweisen Sie die Behauptung aus der Vorlesung. Wir interpretieren Wort $w$ als eine Folge von $k$ Einträgen mit $l$ Bits, wobei das oberste Bit \emph{Testbit} genannt wird.
+
+\subsubsection*{(a)}
+In $O(1)$ Operationen kann man eine Operation \lstinline|copyTestBit(w)| implementieren, welche jedes Feld von $w$ mit $l-1$ Kopien des entsprechenden Testbits füllt und danach alle Testbits löscht.\\
+
+\noindent\textbf{Lösung:}\\
+
+tbd
+
+\subsubsection*{(b)}
+In $O(\log \, k)$ Zeit kann man ein WOrt $A$ berechnen, das in jedem Feld die Zahl $1$ speichert.\\
+
+\noindent\textbf{Lösung:}\\
+
+tbd
+
+\subsubsection*{(c)}
+In $O(\log \, k)$ Zeit kann man ein Wort $B$ berechnen, das in Feld $i$ die Zahl $i$ speichert.\\
+
+\noindent\textbf{Lösung:}\\
+
+tbd
+
+\subsubsection*{(d)}
+In $O(\log \, k )$ Zeit kann man $\log \, k$ Wörter $C_0, \ldots, C_{\log \, k}$ berechnen, so dass das Testbit des $i$-ten Eintrags von $C_j$ das $j$-te Bit der Binärdarstellung von $i$ enthält.\\
+
+\noindent\textbf{Lösung:}\\
+
+tbd
+
+\subsubsection*{(e)}
+Sei $X$ ein Wort, das die Folge $x_0, x_1, \ldots, x_{k-1}$ darstellt. Dann kann man in $O(\log \, k)$ Zeit ein Wort $Y$ berechnen, das die Folge $x_{k-1}, x_{k-2}, \ldots, x_0$ darstellt.\\
+
+\noindent\textbf{Lösung:}\\
+
+tbd
+
+
+
+
+\label{LastPage}
+\end{document}
