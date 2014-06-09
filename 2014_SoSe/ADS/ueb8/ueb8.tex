@@ -88,28 +88,94 @@ Analysieren Sie die Laufzeit von Batchers Algorithmus.\\
 
 \noindent\textbf{Lösung:}\\
 
-tbd
+In dieser Variante, benötigen wir zunächst $O(n)$ Operationen um die Listen $m_i$ und $M_i$ zu erzeugen. Sind die beiden rekursiven Aufrufe fertig,
+müssen wir die Listen wieder zusammen hängen. Je nach verwendeter Liste, benötigen wir hier Zeit, aber wir nehmen im schlimmsten Fall $O(n)$ an,
+indem wir alle Einträge umkopieren. Dies ergibt eine Laufzeit von
+$$
+	T(1) = O(1), \qquad T(n) = 2T(\frac{n}{2}) + O(n)
+$$
+was die bekannte Laufzeit von Mergesort ist und sich zu $T(n) = O(n \log \, n)$ auflöst.\footnote{Den mach ich nicht nochmal.}
 
 \subsubsection*{(b)}
 Zeigen Sie: Falls $x_0, \ldots, x_{j-1}$ bitonisch ist, dass sind auch $m_0, \ldots, m_{t-1}$ und $M_0, \ldots, M_{t-1}$ bitonisch.\\
 
 \noindent\textbf{Beweis:}\\
 
-tbd
+Wir beweisen zunächst das folgende Lemma.
+
+\noindent\textbf{Lemma 1.} {\itshape Ist $x_0, \ldots x_{h-1}$ bitonisch und $m_i$ und $M_i$ sind folgen von Listen, die wie in
+der Aufgabenbeschreibung entstanden sind, dann sind die Elemente von $m_i$ und $M_i$ noch die selben, nachdem wir die Liste $x_0, \ldots x_{h-1}$
+um eins zyklisch Permutieren auf $x_{h-1}, x_0, \ldots, x_{h-2}$.
+}
+
+\noindent\textbf{Beweis 1.}
+Alle Einträge, die vorher nicht am Rand lagen, haben sich nicht verschoben, da wir hier bei den Indizes nur eine Verschiebung haben,
+d.h. $m_i' = \min \{x_i, x_{i+1}\} = \min \{x_{i-1}, x_i\} = m_{i-1}$ und $M_i' = \max \{ x_i, x_{i+1}\} = M_{i-1}$.
+
+Wir sehen also, das die inneren Elemente gleich sind, bis auf die Position. Die Elemente, die wir nun über den Rand vergleichen sind
+$m_0' = \min \{ x_{h-1}, x_{t-1} \}$ und $M_0' = \max \{ x_{h-1}, x_{t-1}\}$. Diese beiden entsprechen aber nun $m_{t-1}$ und $M_{t-1}$.
+
+Wir sehen, dass eine zyklische Permutation um $1$ auch eine zyklische Permutation von $1$ in den Aufgeteilten Listen $m_i$ und $M_i$ ist.
+
+\mbox{}\hfill$\square$
+
+\noindent\textbf{Korollar 2.}{\itshape 
+Ist $x$ eine bitonische Folge mit $m$ und $M$ wie in der Aufgabenstellung und $\sigma$ eine zyklische Permutation, dann
+ist $\sigma m$ und $\sigma M$ die Aufteilung von $\sigma x$.
+}
+
+Mit Hilfe dieses Korollars können wir im folgenden nur folgen betrachten, die erst monoton wachsen und dann monoton fallen, da zyklische Permuationen eine Gruppe bilden und wir immer wieder hierrauf abbilden können. Damit bleiben erstens die Elemente gleich und zweitens, falls die Folgen $m$ und $M$ bitonisch sind ist $\sigma m$ und $\sigma M$ auch bitonisch.\\
+
+Die bedeutet insbesondere auch, dass wir nun im beweis nur $m$ zu beweisen brauchen, da wir durch umdrehen eine erste fallende und dann steigende Folge erhalten können, wodurch der Beweis analog ist.
+
+Wir unterscheiden nun zwei Fälle.
+\begin{enumerate}[1.]
+	\item $t$ ist links vom Maximum.\\
+		Wir wissen nun, dass die Folge $m$ zunächst mit den Werten des linken Teils $x_0, \ldots x_t$ beginnt, da wir noch im wachsenden Teil
+		sind, wenn $x_t$ beginnt. Dies bleibt nun bis zum maximum so, wir nehmen also nur aus der ersten List, die monoton steigt.
+		Nach dem Maximum, gibt es irgendwann (möglicherweise auch nie, womit wir durch sind), ein Element $k$, bei dem im rechten Teil,
+		das Element kleiner ist, als im linken.
+		Dann ist aber, weil die Liste $x$ erst monoton wächst und dann monoton fällt $x_{r} \leq x_{r+t}$ für alle $r \geq k$.
+		Wir nehmen also nur noch aus der rechten Liste und da diese nur monoton fällt, fällt ab $k$ auch unser $m$.
+		Damit ist $m$ bitonisch.
+	\item $t$ ist rechts vom Maximum.\\
+		 Konstruieren wir diese Liste von rechts, so ist der Fall analog zu Fall 1. Wir sind damit fertig.
+\end{enumerate}
+
+Wir haben gezeigt, dass sowohl $m$ als auch $M$ bitonisch sind.
+
+\mbox{}\hfill$\square$
 
 \subsubsection*{(c)}
 Zeigen Sie: Es ist $\max \{ m_0 , \ldots, m_{t-1}\} \leq \min \{ M_0, \ldots, M_{t-1}\}$.\\
 
 \noindent\textbf{Beweis:}\\
 
-tbd
+Wir nehmen (b) als Ausgangslage. Wir haben gesehen, dass die Konstruktion alles analog zum ersten Fall war. Diesen verwenden wir auch in diesem Fall.
+
+Wir haben hier zwei Interesannte Punkt. Zum einen ist dies $t$ und zum andere $k$. Wir fangen mit $M$ in $t$ an. Da $x$ zu beginn monoton steigt, ist $m$ zunächst insgesammt (also im maximum) kleiner als $M$ (im Miniumum). Dies bleibt auf jedenfall so, bis $M$ das Maximum der Folge $x$ erreicht.
+
+Nun fällt $M$ monoton, wogegen $m$ noch monoton wächst. Wir nehmen allerdings noch weiter $x$ aus dem linken Teil für $m$ und aus dem rechten für $M$. Dies tun wir solange, bis wir $k$ erreichen. Da dies aber der erste Punkt war, an dem der rechte Teil kleiner als der linke ist, ist bis hier hin
+das Maximum von $m$ immer noch kleiner als das Minimum von $M$.
+
+Ab diesem Zeitpunkt wird für $M$ der linke Teil genommen und für $m$ der rechte. Da nun aber $x$ im rechten Teil monoton fällt und im linken steigt,
+wird ab hier das Minimum von $M$ und das Maximum von $m$ sich niemals mehr ändern.
+
+\mbox{}\hfill$\square$
 
 \subsubsection*{(d)}
 Folgern Sie, dass Batchers Algorithmus korrekt ist.\\
 
 \noindent\textbf{Beweis:}\\
 
-tbd
+Der Beweis geht über Induktion.
+
+Im Anker sehen wir, dass für Folgen der Länge eins der Algorithmus trivialierweise sortiert.
+
+Im Schritt nehmen wir an, dass die beiden Teillisten $m$ und $M$ sortiert sind. Dies können wir annehmen, da wir in (b) gezeigt haben, dass
+sie bitonisch sind und eine Länge $\leq h$ haben, womit wir die Induktionsannahme auf sie anwenden können.
+
+Nun wissen wir als nächstes, dass die beiden Listen nach (c) in eine untere und eine obere Hälfte getrennt wurden. Wir haben also die selben Aussagen, wie für Quicksort bewiesen. Damit wissen wir, dass wir insgesammt eine soriterte Liste erhalten, wenn wir die Rekursiv sortierten Listen konkatenieren.
 
 
 
@@ -240,6 +306,8 @@ rekursiv die Ordnung umgekehrt wurde, können wir die beiden Listen einfach anei
 
 Der Algorithmus ist korrekt, aber die Laufzeit ist $O(k \log \, k)$, was uns noch nichts bringt. Daher untersuchen wir analog zum gepackten Mergesort,
 ob wir eine Ebene des Rekursionsbaumes in konstanter Zeit berechnen können. Da der Rekursionsbaum $\log \, k$ Ebenen hat, wäre die Laufzeit dann $O(\log \, k)$.\\
+
+\newpage
 
 \noindent\textbf{Algorithmus:}
 \begin{lstlisting}[frame=single,language=C, morekeywords={:=,SHR,SHL,NOT,XOR,AND,OR,MUL}]
