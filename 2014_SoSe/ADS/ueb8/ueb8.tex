@@ -121,38 +121,146 @@ In $O(1)$ Operationen kann man eine Operation \lstinline|copyTestBit(w)| impleme
 
 \noindent\textbf{Lösung:}\\
 
-tbd
+Wir nehmen an, dass wie in der Vorlesung die Felder alle auf $0$ gesetzt sind.
+
+\begin{lstlisting}[frame=single, language=C,morekeywords={:=,SHR,SHL,NOT,XOR,AND,OR,MUL}]
+	w := w SHR (l-1)
+	y := NOT (y XOR y)
+	y := y SHL ((k-1)*l)
+	y := y SHR (k-1)*l+1)
+	w := w MUL y
+\end{lstlisting}
+
+Im ersten Schritt werden alle Testbits auf die erste Zelle des Eintrages verschoben. Die nächsten drei Schritte
+legen in einem (nicht benötigten) Wort $y$ eine Zahl an, die genau $l-1$ Einsen ganz rechts besetzt, also der Binärzahl
+$1\ldots1$ ($l-1$ mal) entspricht.
+
+Binäres multiplizieren funktioniert nun durch shiften und addieren. Da alle Bits der Felder auf $0$ gesetzt sind, bis auf das erste (möglicherweise),
+wird der erste Eintrag insgesammt $l-1$ mal nach links geshifted (steht also einmal auf jeder Zelle des Eintrages) und wird dann addiert.
+Da wir genügend Platz haben, kann ein Bit also höchstens einmal eine Eins enthalten.
+
+Hatten wir im Testbit nun eine Eins, so steht diese ingesammt auf allen unteren $l-1$ Feldern des Eintrags (das Testbit bleibt leer) und
+falls wir eine $0$ hatten, haben wir nur $0$en addiert und das gesammte Feld ist nur mit $0$ gefüllt (inklusive des Testbits).
+
+Dazu haben wir insgesammt fünf Operationen gebraucht, was in $O(1)$ liegt. (Zählen wir das ausrechnen für das shiften hinzu ein bisschen mehr, aber noch konstant).
 
 \subsubsection*{(b)}
-In $O(\log \, k)$ Zeit kann man ein WOrt $A$ berechnen, das in jedem Feld die Zahl $1$ speichert.\\
+In $O(\log \, k)$ Zeit kann man ein Wort $A$ berechnen, das in jedem Feld die Zahl $1$ speichert.\\
 
 \noindent\textbf{Lösung:}\\
 
-tbd
+\begin{lstlisting}[frame=single, language=C,morekeywords={:=,SHR,SHL,NOT,XOR,AND,OR,MUL}]
+	A := (NOT (A XOR A)) SHR (k*l -1)
+	for i := 0 to $\log$ k
+		A1 := A
+		A  := A SHL ($2^i$ * l)
+		A  := A OR A1
+\end{lstlisting}
+
+Als erstes erzeugen wir in $A$ eine einzelne $1$, die ganz rechts steht. Dann gehen wir eine Schleife durch. In Runde $i$ haben
+wir von rechts an schon $2^i$ Felder mit einer $1$ beschrieben (gilt initial, da wir eine $1$ haben). Nun shiften wir diese einsen
+um genau diese Anzahl von Feldern nach links. Womit wir $2^i$ einsen auf den Plätzen $2^i+1, \ldots 2^{i+1}$ haben. 
+Verodern wir nun diese Zahl mit der Alten, so haben wir auf insgesammt $2^{i+1}$ Plätzen von rechts an $1$en.
+
+Dies zeigt uns (per Induktion), dass die Zahl die gesuchte ist. Pro durchlauf haben wir eine konstante Zahl von Operationen und
+wir müssen nur $\log \, k$ mal iterieren. Damit ist die Laufzeit $O(\log \, k)$.
 
 \subsubsection*{(c)}
 In $O(\log \, k)$ Zeit kann man ein Wort $B$ berechnen, das in Feld $i$ die Zahl $i$ speichert.\\
 
 \noindent\textbf{Lösung:}\\
 
-tbd
+Die Felder sind bei uns von Links nach Rechts absteigend sortiert und wir gehen davon aus,
+dass die binärcodierte Zahl $i$ in das Feld $i$ hineinpasst.
+
+\begin{lstlisting}[frame=single, language=C, morekeywords={:=,SHR,SHL,NOT,XOR,AND,OR,MUL}]
+	B := A
+	for i := 0 to $\log$ k
+		B1:= B
+		B := B SHL ($2^i$ * l)
+		B := B ADD B1
+\end{lstlisting}
+
+Wir initialisieren zunächst jedes Feld von $B$ mit einer $1$ in $O(log \, k$ nach Aufgabenteil (b).
+
+Die Schleifeninvariante ist nun, dass in Runde $i$ die ersten $2^i$ Felder (von rechts an) die Zahlen $1, \ldots 2^i$ enthalten und
+die restlichen Felder mit $2^i$ beschrieben sind. Dies gilt initial, da alles mit $1$ beschrieben ist.
+
+Nach einer Iteration sind die ersten $1, \ldots, 2^i$ Felder gleich geblieben, da wir von rechts $0$en hereinschiften. Die obersten Felder ($\geq 2^{i+1}$) beinhalten $2^{i+1}$ als Eintrag, da die Felder in $B'$ $2^i$ enthalten und beim shiften die Felder über $2^{i+1}$ vorher die Felder
+über $2^i$ waren, also auch alle $2^i$ enthalten. Nach addition enthalten sie also $2^{i+1}$ als Eintrag.
+
+Die Felder von $2^i+1$ bis $2^{i+1}$ enthalten nun in $B1$ alle $2^i$ als Eintrag. Nach dem shiften von $B$ steht in den Feldern die zahlen
+$1, \ldots 2^i$. Addieren wir also auf diese Zahlen immer $2^i$ so erhalten wir $2^i+1,\ldots 2^{i+1}$, was genau den Feldern entspricht.
+
+Nach einer Iteration ist die Invariante also erhalten und wir haben pro Iteration nur konstant viele Operationen benötigt.
+
+Am Ende der Schleife gibt es über $2^{\log \, k} = k$ keine Felder mehr und die unterhalb von $k$ beinhalten genau die gesuchten Einträge.
+Insgesammt benötigen wir eine Zeit von $O(\log \, k) + O(\log \, k) = O(\log \, k)$ Operationen.
 
 \subsubsection*{(d)}
 In $O(\log \, k )$ Zeit kann man $\log \, k$ Wörter $C_0, \ldots, C_{\log \, k}$ berechnen, so dass das Testbit des $i$-ten Eintrags von $C_j$ das $j$-te Bit der Binärdarstellung von $i$ enthält.\\
 
 \noindent\textbf{Lösung:}\\
 
-tbd
+Wir verwenden (c) um (d) zu berechnen. (Bei uns ist das $0$te Bit nicht existent, daher betrachten wir $C_0$ getrennt.)
+
+\begin{lstlisting}[frame=single,language=C, morekeywords={:=,SHR,SHL,NOT,XOR,AND,OR,MUL}]
+	$C_0$ :=$ C_0 $ OR $C_0$
+	MASK := A SHL l
+	for i := 1 to $\log$ k
+		$C_i$ = (B SHl (l-i)) AND MASK
+\end{lstlisting}
+
+Hier kommt es wieder auf die Zählweise der Bits an, falls es anders herum gewünscht ist, können wir einfach um $l$ shiften und nicht um $l-i$.
+
+Ab $C_1$ tun wir genauch das, was die Definition sagt. In $B$ haben wir im Feld $i$ genau die Zahl $i$ gespeichert. Wenn wir für $C_j$ nun genauch um $l-j$ shiften, so haben wir das $j$ te Bit genau im Testbit stehen. Nun löschen wir zuletzt noch alle anderen Bits (damit wir die Vorraussetzung für
+\lstinline|copyTestbit(w)| erfüllen).
+
+Wir brauchen hierfür einmal $B$ in $O(\log \, k)$ und können dann die $C_i$ jeweils in $O(1)$ berechnen, was insgesammt $O(\log \, k)$ dauert.
 
 \subsubsection*{(e)}
 Sei $X$ ein Wort, das die Folge $x_0, x_1, \ldots, x_{k-1}$ darstellt. Dann kann man in $O(\log \, k)$ Zeit ein Wort $Y$ berechnen, das die Folge $x_{k-1}, x_{k-2}, \ldots, x_0$ darstellt.\\
 
 \noindent\textbf{Lösung:}\\
 
-tbd
+Wir verwenden an dieser Stelle einen Algorithmus, equivalent zum gepackten Mergesort aus der Vorlesung. Die Idee ist die folgende:
+\begin{lstlisting}[frame=single,language=C]
+reverse(x = $x_1$ ... $x_k$)
+	if k = 1
+		return x
+	a = $x_1$ ... $x_{k /2}$
+	b = $x_{k/2 + 1}$ ... $x_k$
+	return (reverse(b) ++ reverse(a)
+\end{lstlisting}
 
+Wir teilen die Folge in zwei Hälften und drehen diese um und hängen die beiden anders herum aneinander.
+Der Algorithmus ist offensichtlich korrekt, da er nur die Sortierung umdreht. Wir können hier die Korrektheit von Quicksort benutzen,
+da das Element in der Mitte der Meridian ist, der die Liste genau in der Mitte teilt (da sie vorher sortiert war). Nehmen wir an, dass
+rekursiv die Ordnung umgekehrt wurde, können wir die beiden Listen einfach aneinander hängen.\\
 
+Der Algorithmus ist korrekt, aber die Laufzeit ist $O(k \log \, k)$, was uns noch nichts bringt. Daher untersuchen wir analog zum gepackten Mergesort,
+ob wir eine Ebene des Rekursionsbaumes in konstanter Zeit berechnen können. Da der Rekursionsbaum $\log \, k$ Ebenen hat, wäre die Laufzeit dann $O(\log \, k)$.\\
 
+\noindent\textbf{Algorithmus:}
+\begin{lstlisting}[frame=single,language=C, morekeywords={:=,SHR,SHL,NOT,XOR,AND,OR,MUL}]
+for i := 2 to log k
+	XL := X SHL ($2^i$ * l)
+	XR := X SHR ($2^i$ * l)
+	MASKA := copyTestbit($C_i$)
+	MASKB := MASKA SHL ($2^i$ * l)
+
+	XL := X AND MASKA
+	XR := X AND MASKB
+	
+	X := XL OR XR
+\end{lstlisting}
+
+In der $i$ten Ebene sind schon $2^i$ aufeinander folgende Felder korrekt umgedreht. Als nächstes shiften wir die Eintrage nun um $2^i$ Einträge nach links und nach rechts, mit dem Effekt, das die linke List \lstinline|a| an der Stelle der rechten Steht in XR und die rechte Liste \lstinline|b| an der Stelle der linken in XL. Nun sind die jeweils anderen Felder nach auf falsche Einträge gesetzt, daher bauen wir uns zwei Masken, die genau dort
+$1$en haben, wo die gesuchten Einträge sind (die selben aus der Vorlesung). Nun können wir alles außerhalb der benutzen Einträge auf $0$ setzen.
+
+Vorodert man zuletzt die beiden Listen, hat man genau die Teillisten umgedreht.
+
+Die Laufzeit ist Augenscheinlich $O(\log \, k)$, da wir $\log \, k$ Iterationen haben (Höhe des Rekursionsbaumes) und pro Iteration nur sieben Operationen benötigen.
 
 \label{LastPage}
 \end{document}
