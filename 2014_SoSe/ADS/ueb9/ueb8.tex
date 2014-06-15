@@ -1,0 +1,267 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm]{geometry}
+\usepackage[ngerman]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{ae}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{stmaryrd}
+\usepackage{paralist}
+\usepackage{tikz}
+\usepackage{amsthm}
+\usepackage{tabularx}
+\usepackage{algorithmic}
+\usepackage{algorithm}
+
+
+
+\usetikzlibrary{arrows,automata,shapes.geometric}
+
+\newtheorem{propo}{Satz}
+\newtheorem{lemmas}[propo]{Lemma}
+
+\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[C]{ADS}
+\fancyhead[L]{Übung 8}
+\fancyhead[R]{SoSe 2014}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage \hspace{1px} von \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\newcommand{\set}[1]{ \{ #1 \}}
+\setlength{\parindent}{0pt}
+\setlength{\headheight}{0pt}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\bigO}{\mathcal{O}}
+\newcommand{\Rarr}{\Rightarrow}
+\newcommand{\rarr}{\rightarrow}
+\newcommand{\Pot}{\mathcal{P}}
+\newcommand{\abs}[1]{\left |#1\right|}
+\newcommand{\solved}{$\mbox{}$ \hfill $\square$}
+\newcommand{\Epsilon}{\mathcal{E}}
+
+\newcommand{\erw}[1]{\text{\bfseries E} \left[ #1 \right]}
+\newcommand{\prob}[1]{\text{Pr}\left[ #1 \right]}
+
+\date{}
+\title{Übung 8}
+\author{Max Wisniewski, Melanie Skodzik}
+
+
+%%
+%% Enviroments for proofs and lemmas
+%%
+\newtheorem{prop}{\bfseries Behauptung}
+\newtheorem{lemma}{\bfseries Lemma}
+
+\begin{document}
+
+\lstset{language=Pascal, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2, mathescape=true}
+
+\renewcommand{\figurename}{Grafik}
+
+\maketitle
+\thispagestyle{fancy}
+
+
+\subsection*{Aufgabe 1}
+
+Sei $u$ eine Menge von $u$ Schlüsseln und $T$ eine Hashtabelle mit $m$ Plätzen. Eine Familie $\mathcal{H}$ von Hashfunktionen $h \, : \, U \rightarrow \{0, \ldots, m-1\}$ heißt \emph{universell}, falls für alle $s \not= t \in U$ gilt
+$$
+	\prob{\sum_{i=0}^{n-1} n_i^2 } \leq 2n
+$$
+
+Beweisen Sei:
+
+\subsubsection*{(a)}
+Sei $S \subset U$ eine Menge von $n$ Schlüsseln, die in einer Hashtabelle mit $n$ Plätzen gespeichert sind., Nehmen Sie an, die Hashfunktion $h$ wird zufällig gleichverteilt aus einer universellen Hashfamilie $\mathcal{H}$ gewählt. Sei $n_i$ die Anzahl der Schlüssel in $s$, die auf den Platz $i$ gehasht werden. Dann ist die erwartet Zeit für eine \lstinline|lookup|-Operation $O(1)$ und es gilt
+	$$
+		\erw{\sum_{i=0}^{n-1} n_i^2} \leq 2n.
+	$$
+
+\noindent\textbf{Beweis:}\\
+Als erstes zeigen wir, dass die erwartete Zugriffszeit der lookup Operationen $O(1)$ ist.\\
+
+$$\begin{array}{rcl}
+	\erw{T_\text{lookup}(x)} &=& \sum_{i=0}^{n-1} \prob{h(x)=i} \cdot n_i\\
+					&\leq& \sum_{i=0}^{n-1} \frac{1}{n} \cdot n_i\\
+					&=& \frac{1}{n} \sum_{i=0}^{n-1} \cdot n_i\\
+					&=& \frac{1}{n} n\\
+					&=& 1
+\end{array}$$
+
+Wir können $\prob{h(x)=i} \leq 1 / n$ abschätzen (sogar mit gleich). Wäre dies nicht so, würde für ein Element $y$ mit $h(y) = i$ gelten, dass
+$\prob{h(x) = h(y)} > \frac{1}{n}$ ist und damit wäre die Funktion nicht universell.\\
+
+Schauen wir uns den zweiten Teil an.
+$$\begin{array}{rcl}
+	\erw{\sum_{i=0}^{n-1} n_i^2} &=& \sum_{i=0}^{n-1} \erw{n_i^2}\\
+				&=& \sum_{i=0}^{n-1} \left( \sum_{k=0}^n \prob{n_i = k} k^2 \right)\\
+				&\stackrel{*}{\leq}& \sum_{i=0}^{n-1} \left( \sum_{k=0}^n \frac{1}{n} k^2 \right)\\
+				&\leq& \sum_{i=0}^{n-1} \left( \frac{1}{n}  \sum_{k=0}^n k^2\right)\\
+\end{array}$$
+
+Tada keine Ahung.
+
+\subsubsection*{(b)}
+Sei $S \subset U$ eine Menge von $n$ Schlüsseln, die in einer Hashtabelle mit $n^2$ Plätzen gespeicher tsind. Nehmen Sie an, die Hashfunktion $h$ wird zufällig gleichverteilt aus einer universellen Hashfamilie $\mathcal{H}$ gewählt. Eine \emph{Kollision} von $S$ unter $h$ ist ein ungeordnetes Paar $s \not= t \in S$ von Schlüsseln mit $h(s) = h(t)$. Es gilt:
+$$
+	\erw{\text{Anszahl Kollisionen von }S\text{ unter }h} \leq 1 / 2 .
+$$
+
+\noindent\textbf{Beweis:}\\
+Diesen Wert können wir straight-forward ausrechnen. Sei $K$ die erwartete Anzahl von Kollisionen von $S$ unter $h$.
+Wir benutzen die Indikatorvariable
+$$
+	X_{ij} = \left\{ \begin{array}{rl} 1 \quad &\text{, falls }h(i) = h(j)\\ 0 &\text{ sonst} \end{array}\right.
+$$
+Damit ist $K = \sum_{i=1}^{n-1}\sum_{j=i+1}^n X_{ij}$, da wir jedes paar nur einmal Zählen wollen.
+
+$$\begin{array}{rcl}
+	\erw{K} &=& \sum_{i=1}^{n-1}\sum_{j=i+1}^n \erw{X_{ij}}\\
+		&=& \sum_{i=1}^{n-1}\sum_{j=i+1}^n \prob{h(i)=h(j)}\\
+		   &\stackrel{\text{unabh.}}{=}& \sum_{i=1}^{n-1} \sum_{j=i+1}^n \frac{1}{n^2}\\
+		  &=& \frac{1}{n^2} \cdot \frac{n\cdot (n-1)}{2} \leq \frac{n^2}{2n^2} = \frac{1}{2}
+\end{array}$$
+
+Die Summen können wir durch $\frac{n(n-1)}{2}$ abschätzen, da wir alle geordneten Paar aufsummieren.
+Die Formel dafür ist $\binom{n}{2} = \frac{n(n-1)}{2}$.
+
+\subsection*{Tabulation Hashing}
+Sei $k \in \mathbb{N}$. Eine Familie $\mathcal{H}$ von Hashfunktionen $h \, : \, U \rightarrow \{ 0, \ldots, m\}$ heißt $k$-\emph{unabhängig}, falls für alle $k-$Tupel $(s_1,\ldots, s_k) \in U^k$ von paarweise verschiedenen Schlüsseln und für alle $k$-Tupel $(x_1, \ldots, x_k) \in \{0, \ldots, m-1\}^k$ von Plätzen gilt:
+$$
+	\prob{\bigwedge_{i=1}^k h(s_i) = x_i} = \prod_{i=1}^k \prob{h(s_i) = x_i}.
+$$
+Beweisen Sie, dass Tabulation Hashing eine Familie von Funktionen liefert, die 3-unabhängig ist, aber nicht 4-unabhängig.\\
+
+\noindent\textbf{Beweis:}\\
+Beim Tabulation Hashing teilen wir unsere Schlüssel $s \in U$ in $c$ Teile $s = s^1 \ldots s^c$ mit $s^i \in U'$ und $|U'| = |U|^\frac{1}{c}$.
+
+Wir nehmen zunächst an, dass $c > 1$, da bei $c$ gleich eins, jeder Wert einzeln randominisert bestimmt wird. Damit ist für $c = 1$ die Funktion komplett zufällig und damit auch $k$-unabhängig für jedes $k$.
+
+Wir zeigen zunächst, dass für $s_1,s_2,s_3 \in U$ und $x_1, x_2, x_3 \in \{ 0, \ldots , m-1\}$ gilt:
+$$
+	\prob{h(s_1) = x_1 \land h(s_2) = x_2 \land h(s_3) = x_3} = \prob{h(s_1)=x_1} \cdot \prob{h(s_2) = x_2} \cdot \prob{h(s_3) = x_3}.
+$$
+
+Die Tabellen $T_1, \ldots T_c$ werden sind durch die Wahl von $h$ festgelegt. Daher können wir bei der Auswertung die betrachteten Schlüssel beliebig sortieren. (Wir in der analyse von Schälbarkeit). Als nächstes können wir, da die Werte per xor verknüpft werden auch die Teile $s_i^1, \ldots s_i^c$ beliebig herumdrehen können (solange wir es in allen Schlüsseln gleich Permutieren).\\
+
+Wir sortieren nun also bei den Schlüsseln diejenigen nach vorne, die unterschiedlich sind. Gibt es nur einen Index, an denen sich alle Unterscheiden,
+so müssen, da $s_1 \not= s_2 \not= s_3$ dort insgesammt unterschiedliche Schlüssel stehen. da jeder Eintrag komplett zufällig ist, sind die erzielten Ergebnisse unabhänig und die Aussage stimmt.
+
+Die Schlüssel sich paarweise an mehr ($\geq$) als drei Stellen, so können wir jede dieser Stellen für je einen der Schlüssel unabhängig setzen, so dass
+die Schlüssel paarweise unabhängig sind und wir so die $3$-fache unabhängigkeit erreichen.
+
+Unterscheiden sich die Schlüssel nun an genau zwei Stellen, nehmen wir an, dass es sich nur um $2$ verschiedene Werte handelt. Wären es $3$ verschiedene Werte auf den $2$ Positionen, hätten wir ebenfalls genug Plätze in den Tabellen (nämlich 3) um die Hashwerte unabhängig zu wählen.
+Da wir nun $2$ Wete an $2$ Stellen haben, wissen wir, dass bei einer 3er Kombination immer eine Reihenfolge existiert, bei der wir für jeden Schlüssel ein Tabellen Platz nie beschrieben haben (siehe Schälbarkeit).
+
+Damit ist für jede Unterteilung das Tabulation Hashing 3-unabhängig.\\
+
+Für die Konstruktion eines Beispiels, das nicht 4-unabhänigig ist, betrachten wir den letzten Fall. Wir haben genau zwei Stellen an denen sich die Schlüssel unterscheiden:
+$$\begin{array}{rcl}
+	s_1 &=& a a x_1 \ldots x_c\\
+	s_2 &=& a b x_1 \ldots x_c\\
+	s_3 &=& b a x_1 \ldots x_c\\
+	s_4 &=& b b x_1 \ldots x_c
+\end{array}$$
+Egal wie rum wir wir die Schlüssel nun aufschreiben, der letzte Schlüssel hat einen Wert, der durch die anderen Schlüssel schon vollständig bestimmt wird.
+Also ist 
+$$
+	\prob{\bigwedge_{i=1}^4 h(s_i) = x_i} = m^{-3}
+$$
+also genau eins zu wenig.
+
+\subsection*{Lineares Sondieren}
+In dieser Aufgabe sollen Sie Hashing mit linearem Sondieren analysieren unter der Annahme, adss die Hashunktion sich wie eine zufällige Funktion verhält.
+
+{
+\subsubsection*{(a)}
+Rufen Sie sich ins Gedächtnis, wie Hashing mit linearem Sondieren funktioniert. Geben Sie Pseudocode für die Operatione \lstinline|insert| und \lstinline|lookup|.\\
+
+\noindent\textbf{Lösung:}\\
+
+Wir halten ein Array $T$  mit Länge $N$ im Speicher, das zu Beginn mit $\perp$ gefüllt ist, also leer ist.
+
+\begin{lstlisting}[language=Pascal, frame=single, caption={Insert lineares sondieren}]
+	insert(x)
+		i := 0
+		while T[h(x) + i mod N] != $\perp$
+			i++
+		T[h(x) + i mod N] := x
+\end{lstlisting}
+
+Wir gehen vom Startwert $h(x)$ solange zirkulär nach rechts weiter, bis wir einen leeren Platz finden. 
+
+\begin{lstlisting}[language=Pascal, frame=single, caption={Lookup lineares sondieren}]
+	lookup(x)
+		i:= 0
+		while T[h(x) + i mod N] != x || T[h(x) + i mod N] != $\perp$
+			i++
+		return T[h(x) + i mod N] == x
+\end{lstlisting}
+
+Wir gehen $T$ durch bis wir entweder nichts sehen, da in diesem Fall das $x$ nicht eingefügt worden sein konnte (da wir ja einmal bis zu einem $\perp$ durchlaufen zum einfügen), oder wir unser Element gefunden haben. Wir geben hier (nicht Wörterbuchfall) nur wahr oder falsch zurück.
+
+}
+\vspace{10\lineskip}
+Nehmen Sie nun an, dass wir eine Menge $S$ von $n$ Schlüsseln in einer Hashtabelle $T$ mit $m = 2n$ Plätzen hashen, wobei lineares sodneieren zum Einsatz kommt. Wir sagen, die Hashtabelle enthält einen Lauf der Länge $k$ an der Stelle $i$, wenn
+$T[i-1] = T[i+k]=\perp$ und $T[i], T[i+1], \ldots, T[i+k-1] \not= \perp$ sind.
+
+\subsubsection*{(b)}
+Zeigen Sie: Die Wahrscheinlichkeit, dass ein Lauf der Länge $k$ an der Stelle $i$ beginnt, ist höchstens
+$$
+	p_k = \binom{n}{k}\left(\frac{k}{m}\right)^k \left( \frac{m-k}{m}\right)^{n-k}.
+$$
+
+\noindent\textbf{Beweis:}\\
+In welchem Fall hat die Kette die Länge $k$?
+Zunächst müssen wir $k$ Elemente auf den Pfad hashen. Für das erste Elemente haben wir hierbei die Wahrscheinlichkeit $\frac{k}{m}$, für
+das zweite $\frac{k-1}{m}$ und so weiter. Wir können hierbei jede einzelwahrscheinlichkeit durch $\frac{k}{m}$ nach oben abschätzen.
+
+Für die anderen Elemente dürfen diese auf ein beliebigen anderen Platz ausserhalb der Kette hashen, außer auf den Platz $i+k$, damit ist die Kette (ebendso fallend) $\frac{m-k}{m}, \frac{m-k-1}{m}, \ldots$. Die Gesamtwahrscheinlichkeit ist also
+$$
+	\leq \binom{n}{k} \left(\frac{k}{m}\right)^k \left( \frac{m-k}{m} \right)^{n-k} = p_k.
+$$
+
+\subsubsection*{(c)}
+Zeigen Sie: es gibt eine Konstante $c \in (0,1)$, so dass $p_k = O(c^k)$ ist.\\
+
+\noindent\textbf{Beweis:}\\
+tbd
+
+\subsubsection*{(c)}
+Sei $s \in U \setminus S$ ein Schlüssel. Zeigen Sie: Die erwartete Laufzeit für \lstinline|lookup(s)| ist $O(1)$.\\
+
+\noindent\textbf{Beweis:}\\
+Das $s$ noch nicht eingefügt ist, bedeutet jede Kollision von $s$ mit einem Schlüssel aus $s$ eine Erhöhung der Laufzeit. Falls $s \in S$ wäre,
+könnten wir schon früher aufhören, falls wir $s$ gefunden hätten.\\
+
+Die Funktion lookup geht nun solange durch $T$ bis wir $\perp$ find, da $s$ ja nicht in $T$ liegen kann. Damit ist die Laufzeit für \lstinline|lookup| genau die Länge eines Laufes beginnend an Position $h(s)$. Da wir die Wahrscheinlichkeit für einen Lauf der Länge $k$ von dieser Position an kennen, können wir unseren erwartungswert so aufschreiben. In der folgenden Betrachtung sei $n$ groß genug und $p_k \leq d c^k$ für große $n$.
+$$\begin{array}{rcl}
+	\erw{T_\text{lookup}(s)} &=& \sum_{k=0}^n \prob{\text{Lauflänge }=i} \cdot k\\
+					&\leq& \sum_{k=0}^n p_k \cdot k\\
+					&\leq& \sum_{k=1}^n d c^k\cdot k\\
+					&=& d \sum_{k=1}^n c^k \cdot k\\
+					&\leq& d\int_0^{n} k \cdot c^k\\
+					&\leq& d\int_0^{n} (k+1) \cdot c^k\\
+					&=& d\left[ (k+1)^2 c^{k+1} \right]_0^{n}\\
+					&=& d(n+1)^2 c^{n+1} - c\\
+					&=& O(1)
+\end{array}$$
+Nun fällt eine Exponentialfunktion schneller als eine quadratische Funktion steigt. da nun der erste Teil eine monoton fallenden Folge ist, wird 
+$(n+1)^2 c^{n+1} - c$ konvergieren und ist somit konstant.
+\label{LastPage}
+\end{document}
