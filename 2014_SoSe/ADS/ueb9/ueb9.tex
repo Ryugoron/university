@@ -106,13 +106,38 @@ $$\begin{array}{rcl}
 Wir können $\prob{h(x)=i} \leq 1 / n$ abschätzen (sogar mit gleich). Wäre dies nicht so, würde für ein Element $y$ mit $h(y) = i$ gelten, dass
 $\prob{h(x) = h(y)} > \frac{1}{n}$ ist und damit wäre die Funktion nicht universell.\\
 
-Schauen wir uns den zweiten Teil an.
+Schauen wir uns den zweiten Teil an.\\
+
+Hierzu führen wir eine Indikatorvariable ein
+$$
+	X_i^s = \left\{ \begin{array}{lr} 1 \quad&\text{, falls }h(s) = i\\ 0 &\text{, sonst} \end{array} \right.
+$$
+
+Mit diesen Indikatorvariablen können wir nun die Zufallsvariablen $n_i$ umschreiben als
+$$
+	n_i = \sum_{s=1}^{n} X_i^s
+$$
+
 $$\begin{array}{rcl}
-	\erw{\sum_{i=0}^{n-1} n_i^2} &=& \sum_{i=0}^{n-1} \erw{n_i^2}\\
-				&=& \sum_{i=0}^{n-1} \left(\erw{n_i}^2 + \text{Var}(n_i)\right)
+	\erw{\sum_{i=0}^{n-1} n_i^2} 
+				&=& \erw{\sum_{i=0}^{n-1}\left(\sum_{s=1}^n X_i^s\right)^2}\\
+				&=&\erw{ \sum_{i=0}^{n-1} \sum_{s=1}^n (X_i^s)^2 + \sum_{i=0}^{n-1}\sum_{s=1}^n \sum_{t=1, s\not=t}^n X_i^s X_i^t}\\
+				&\stackrel{(*)}{\leq}& 
+				\sum_{i=0}^{n-1} \sum_{s=1}^n \erw{X_i^s} + \erw{\sum_{i=0}^{n-1}\sum_{s=1}^n \sum_{t=1, s\not=t}^n X_i^s X_i^t} \\
+				&=& \sum_{i=0}^{n-1}\sum_{s=1}^n \erw{X_i^s} + \erw{\sum_{i=0}^{n-1}\sum_{s=1}^n \sum_{t=1, s\not=t}^n X_i^s X_i^t} \\
+				&\stackrel{(a)}{\leq}& n +\erw{\sum_{i=0}^{n-1}\sum_{s=1}^n \sum_{t=1, s\not=t}^n X_i^s X_i^t} \\
+				&=& n + \erw{ \sum_{s=1}^n \sum_{t=1, s\not=t}^n\sum_{i=0}^{n-1} X_i^s X_i^t}\\
+				&\stackrel{(**)}{\leq}& n + \erw{\sum_{s=1}^n \sum_{t=1, s\not=t}^n  X_k^s X_k^t} \\
+				&\stackrel{(***)}{=}& n + \sum_{s=1}^n \sum_{t=1,s\not=t}^n \prob{h(s)=h(t)}\\
+				&\leq& n + 2\cdot \binom{n}{2} \frac{1}{n}\\
+				&=& n + 2 \frac{n(n-1)}{n} \leq 2n
+				
 \end{array}$$
 
-Tada keine Ahung.
+Für $(*)$ betrachten wir nun, dass $\erw{(X_i^s)^2} = \erw{X_i^s}$, da das Bild $1,0$ ist und somit unter Quadrat gleich.\\
+Bei $(**)$ wissen wir, dass in den Zufallsvariablen jeder Schlüssel nur auf ein Feld gehasht wird, damit kann höchstens ein Index $k$ existieren,
+auf den sowohl $s$ als auch $t$ hashen.\\
+Zum Ende ist bei $(***)$ nur der Erwartungswert hereingezogen und aufgelöst, da $X_k^s \cdot X_k^t$ nur dann $1$ ist, wenn beide auf das selbe Feld hashen und zwar bei $k$.
 
 \subsubsection*{(b)}
 Sei $S \subset U$ eine Menge von $n$ Schlüsseln, die in einer Hashtabelle mit $n^2$ Plätzen gespeicher tsind. Nehmen Sie an, die Hashfunktion $h$ wird zufällig gleichverteilt aus einer universellen Hashfamilie $\mathcal{H}$ gewählt. Eine \emph{Kollision} von $S$ unter $h$ ist ein ungeordnetes Paar $s \not= t \in S$ von Schlüsseln mit $h(s) = h(t)$. Es gilt:
@@ -238,7 +263,19 @@ $$
 Zeigen Sie: es gibt eine Konstante $c \in (0,1)$, so dass $p_k = O(c^k)$ ist.\\
 
 \noindent\textbf{Beweis:}\\
-tbd
+Wir setzten zunächst für jede Fakultät in der Formel für den Binomialkoeffizienten die Sterlingformel ein und vereinfachen ein wenig.
+$$
+	\binom{n}{k} \left(\frac{k}{m}\right)^k \left(\frac{m-k}{m}\right)^{n-k} \leq \sqrt{\frac{2 n}{\pi k (n-k)}} \left( \frac{n}{m} \right)^k \left(\frac{k}{m}\right)^{n-k} \left(\frac{m-k}{n-k}\right)^{n-k}
+$$
+
+Zunächst sehen wir, dass der erste Teil nach oben gegen eine Konstante abzuschätzen ist. Dies gilt, da
+$$n \leq k (n-k) \Leftrightarrow 0 \leq kn - k^2 - n = (k-1) n - k^2$$
+nun ist $n$ immer größer als $k$ sein muss (da wir sonst auch in unserer Formel durch $0$ teilen würden). Wir können also $n$ durch $k+1$
+nach unten abschätzen und erhalten $(k-1)n - k^2 \geq (k-1)(k+1) - k^2 = k^2 + 1 - k^2 = 1 \geq 0$. Damit sehen wir, dass wir die ganze Wurzel durch
+$\sqrt{\frac{2}{\pi}}$ abschätzen.\\
+Sehen wir uns den Rest an.\\
+Der erste Term $\left(\frac{n}{m}\right)^k = \left(\frac{n}{2m}\right)^k$  erreichen wir durch einsätzen ein $c = \frac{1}{2}$.\\\
+
 
 \subsubsection*{(c)}
 Sei $s \in U \setminus S$ ein Schlüssel. Zeigen Sie: Die erwartete Laufzeit für \lstinline|lookup(s)| ist $O(1)$.\\
