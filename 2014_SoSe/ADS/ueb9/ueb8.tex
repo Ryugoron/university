@@ -109,9 +109,7 @@ $\prob{h(x) = h(y)} > \frac{1}{n}$ ist und damit wäre die Funktion nicht univer
 Schauen wir uns den zweiten Teil an.
 $$\begin{array}{rcl}
 	\erw{\sum_{i=0}^{n-1} n_i^2} &=& \sum_{i=0}^{n-1} \erw{n_i^2}\\
-				&=& \sum_{i=0}^{n-1} \left( \sum_{k=0}^n \prob{n_i = k} k^2 \right)\\
-				&\stackrel{*}{\leq}& \sum_{i=0}^{n-1} \left( \sum_{k=0}^n \frac{1}{n} k^2 \right)\\
-				&\leq& \sum_{i=0}^{n-1} \left( \frac{1}{n}  \sum_{k=0}^n k^2\right)\\
+				&=& \sum_{i=0}^{n-1} \left(\erw{n_i}^2 + \text{Var}(n_i)\right)
 \end{array}$$
 
 Tada keine Ahung.
@@ -258,10 +256,10 @@ $$\begin{array}{rcl}
 					&\leq& d\int_0^{n} k \cdot c^k\\
 					&\leq& d\int_0^{n} (k+1) \cdot c^k\\
 					&=& d\left[ (k+1)^2 c^{k+1} \right]_0^{n}\\
-					&=& d(n+1)^2 c^{n+1} - c\\
+					&=& d(n+1)^2 c^{n+1}\\
 					&=& O(1)
 \end{array}$$
 Nun fällt eine Exponentialfunktion schneller als eine quadratische Funktion steigt. da nun der erste Teil eine monoton fallenden Folge ist, wird 
-$(n+1)^2 c^{n+1} - c$ konvergieren und ist somit konstant.
+$(n+1)^2 c^{n+1}$ konvergieren und ist somit konstant. (Da immer großer als 0)
 \label{LastPage}
 \end{document}
