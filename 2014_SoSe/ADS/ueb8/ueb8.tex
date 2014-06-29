@@ -78,10 +78,10 @@
 
 
 \subsection*{Aufgabe 1}
-Analysieren Sie batchers Sortieralgorithmus. Sei $h$ eine Zweierpotenz. Eine Folge $x_0, \ldots, x_{h-1}$ heißt \emph{bitonisch}, falls sie erst
+Analysieren Sie Batchers Sortieralgorithmus. Sei $h$ eine Zweierpotenz. Eine Folge $x_0, \ldots, x_{h-1}$ heißt \emph{bitonisch}, falls sie erst
 monoton wächst und dann monoton fällt, oder falls sie durch eine zyklische Permutation aus einer solchen Folge hervorgegangen ist.
 
-Batchers Algorithmus sortiert $x_0, \ldots, x_{h-1}$ rekursiv wie folgt: Setze $t = h / 2$ und für $i = 0, \ldots , t-1$, setze $m_i= \min \{x_i, x_{i+t}\}$, $M_i = \max \{x_i, x_{i+1} \}$. Sortiere rekursiv die Folge $m_0,\ldots, m_{t-1}$ und $M_0, \ldots, M_{t-1}$. Konkateniere dann die sortierte $m_i$-FOlge mit der sortierten $M_i$-Folge.
+Batchers Algorithmus sortiert $x_0, \ldots, x_{h-1}$ rekursiv wie folgt: Setze $t = h / 2$ und für $i = 0, \ldots , t-1$, setze $m_i= \min \{x_i, x_{i+t}\}$, $M_i = \max \{x_i, x_{i+1} \}$. Sortiere rekursiv die Folge $m_0,\ldots, m_{t-1}$ und $M_0, \ldots, M_{t-1}$. Konkateniere dann die sortierte $m_i$-Folge mit der sortierten $M_i$-Folge.
 
 \subsubsection*{(a)}
 Analysieren Sie die Laufzeit von Batchers Algorithmus.\\
@@ -90,7 +90,7 @@ Analysieren Sie die Laufzeit von Batchers Algorithmus.\\
 
 In dieser Variante, benötigen wir zunächst $O(n)$ Operationen um die Listen $m_i$ und $M_i$ zu erzeugen. Sind die beiden rekursiven Aufrufe fertig,
 müssen wir die Listen wieder zusammen hängen. Je nach verwendeter Liste, benötigen wir hier Zeit, aber wir nehmen im schlimmsten Fall $O(n)$ an,
-indem wir alle Einträge umkopieren. Dies ergibt eine Laufzeit von
+indem wir alle Einträge um kopieren. Dies ergibt eine Laufzeit von
 $$
 	T(1) = O(1), \qquad T(n) = 2T(\frac{n}{2}) + O(n)
 $$
@@ -124,15 +124,15 @@ Ist $x$ eine bitonische Folge mit $m$ und $M$ wie in der Aufgabenstellung und $\
 ist $\sigma m$ und $\sigma M$ die Aufteilung von $\sigma x$.
 }
 
-Mit Hilfe dieses Korollars können wir im folgenden nur folgen betrachten, die erst monoton wachsen und dann monoton fallen, da zyklische Permuationen eine Gruppe bilden und wir immer wieder hierrauf abbilden können. Damit bleiben erstens die Elemente gleich und zweitens, falls die Folgen $m$ und $M$ bitonisch sind ist $\sigma m$ und $\sigma M$ auch bitonisch.\\
+Mit Hilfe dieses Korollars können wir im folgenden nur folgen betrachten, die erst monoton wachsen und dann monoton fallen, da zyklische Permuationen eine Gruppe bilden und wir immer wieder hierauf abbilden können. Damit bleiben erstens die Elemente gleich und zweitens, falls die Folgen $m$ und $M$ bitonisch sind ist $\sigma m$ und $\sigma M$ auch bitonisch.\\
 
-Die bedeutet insbesondere auch, dass wir nun im beweis nur $m$ zu beweisen brauchen, da wir durch umdrehen eine erste fallende und dann steigende Folge erhalten können, wodurch der Beweis analog ist.
+Die bedeutet insbesondere auch, dass wir nun im Beweis nur $m$ zu beweisen brauchen, da wir durch umdrehen eine erste fallende und dann steigende Folge erhalten können, wodurch der Beweis analog ist.
 
 Wir unterscheiden nun zwei Fälle.
 \begin{enumerate}[1.]
 	\item $t$ ist links vom Maximum.\\
 		Wir wissen nun, dass die Folge $m$ zunächst mit den Werten des linken Teils $x_0, \ldots x_t$ beginnt, da wir noch im wachsenden Teil
-		sind, wenn $x_t$ beginnt. Dies bleibt nun bis zum maximum so, wir nehmen also nur aus der ersten List, die monoton steigt.
+		sind, wenn $x_t$ beginnt. Dies bleibt nun bis zum Maximum so, wir nehmen also nur aus der ersten List, die monoton steigt.
 		Nach dem Maximum, gibt es irgendwann (möglicherweise auch nie, womit wir durch sind), ein Element $k$, bei dem im rechten Teil,
 		das Element kleiner ist, als im linken.
 		Dann ist aber, weil die Liste $x$ erst monoton wächst und dann monoton fällt $x_{r} \leq x_{r+t}$ für alle $r \geq k$.
@@ -153,7 +153,7 @@ Zeigen Sie: Es ist $\max \{ m_0 , \ldots, m_{t-1}\} \leq \min \{ M_0, \ldots, M_
 
 Wir nehmen (b) als Ausgangslage. Wir haben gesehen, dass die Konstruktion alles analog zum ersten Fall war. Diesen verwenden wir auch in diesem Fall.
 
-Wir haben hier zwei Interesannte Punkt. Zum einen ist dies $t$ und zum andere $k$. Wir fangen mit $M$ in $t$ an. Da $x$ zu beginn monoton steigt, ist $m$ zunächst insgesammt (also im maximum) kleiner als $M$ (im Miniumum). Dies bleibt auf jedenfall so, bis $M$ das Maximum der Folge $x$ erreicht.
+Wir haben hier zwei Interessante Punkt. Zum einen ist dies $t$ und zum andere $k$. Wir fangen mit $M$ in $t$ an. Da $x$ zu beginn monoton steigt, ist $m$ zunächst insgesamt (also im Maximum) kleiner als $M$ (im Minimum). Dies bleibt auf jeden Fall so, bis $M$ das Maximum der Folge $x$ erreicht.
 
 Nun fällt $M$ monoton, wogegen $m$ noch monoton wächst. Wir nehmen allerdings noch weiter $x$ aus dem linken Teil für $m$ und aus dem rechten für $M$. Dies tun wir solange, bis wir $k$ erreichen. Da dies aber der erste Punkt war, an dem der rechte Teil kleiner als der linke ist, ist bis hier hin
 das Maximum von $m$ immer noch kleiner als das Minimum von $M$.
@@ -170,12 +170,12 @@ Folgern Sie, dass Batchers Algorithmus korrekt ist.\\
 
 Der Beweis geht über Induktion.
 
-Im Anker sehen wir, dass für Folgen der Länge eins der Algorithmus trivialierweise sortiert.
+Im Anker sehen wir, dass für Folgen der Länge eins der Algorithmus trivialerweise sortiert.
 
 Im Schritt nehmen wir an, dass die beiden Teillisten $m$ und $M$ sortiert sind. Dies können wir annehmen, da wir in (b) gezeigt haben, dass
 sie bitonisch sind und eine Länge $\leq h$ haben, womit wir die Induktionsannahme auf sie anwenden können.
 
-Nun wissen wir als nächstes, dass die beiden Listen nach (c) in eine untere und eine obere Hälfte getrennt wurden. Wir haben also die selben Aussagen, wie für Quicksort bewiesen. Damit wissen wir, dass wir insgesammt eine soriterte Liste erhalten, wenn wir die Rekursiv sortierten Listen konkatenieren.
+Nun wissen wir als nächstes, dass die beiden Listen nach (c) in eine untere und eine obere Hälfte getrennt wurden. Wir haben also die selben Aussagen, wie für Quicksort bewiesen. Damit wissen wir, dass wir insgesamt eine sortierte Liste erhalten, wenn wir die Rekursiv sortierten Listen konkatenieren.
 
 
 
@@ -202,13 +202,13 @@ legen in einem (nicht benötigten) Wort $y$ eine Zahl an, die genau $l-1$ Einsen
 $1\ldots1$ ($l-1$ mal) entspricht.
 
 Binäres multiplizieren funktioniert nun durch shiften und addieren. Da alle Bits der Felder auf $0$ gesetzt sind, bis auf das erste (möglicherweise),
-wird der erste Eintrag insgesammt $l-1$ mal nach links geshifted (steht also einmal auf jeder Zelle des Eintrages) und wird dann addiert.
+wird der erste Eintrag insgesamt $l-1$ mal nach links geshifted (steht also einmal auf jeder Zelle des Eintrages) und wird dann addiert.
 Da wir genügend Platz haben, kann ein Bit also höchstens einmal eine Eins enthalten.
 
-Hatten wir im Testbit nun eine Eins, so steht diese ingesammt auf allen unteren $l-1$ Feldern des Eintrags (das Testbit bleibt leer) und
-falls wir eine $0$ hatten, haben wir nur $0$en addiert und das gesammte Feld ist nur mit $0$ gefüllt (inklusive des Testbits).
+Hatten wir im Testbit nun eine Eins, so steht diese insgesamt auf allen unteren $l-1$ Feldern des Eintrags (das Testbit bleibt leer) und
+falls wir eine $0$ hatten, haben wir nur $0$en addiert und das gesamte Feld ist nur mit $0$ gefüllt (inklusive des Testbits).
 
-Dazu haben wir insgesammt fünf Operationen gebraucht, was in $O(1)$ liegt. (Zählen wir das ausrechnen für das shiften hinzu ein bisschen mehr, aber noch konstant).
+Dazu haben wir insgesamt fünf Operationen gebraucht, was in $O(1)$ liegt. (Zählen wir das ausrechnen für das shiften hinzu ein bisschen mehr, aber noch konstant).
 
 \subsubsection*{(b)}
 In $O(\log \, k)$ Zeit kann man ein Wort $A$ berechnen, das in jedem Feld die Zahl $1$ speichert.\\
@@ -224,11 +224,11 @@ In $O(\log \, k)$ Zeit kann man ein Wort $A$ berechnen, das in jedem Feld die Za
 \end{lstlisting}
 
 Als erstes erzeugen wir in $A$ eine einzelne $1$, die ganz rechts steht. Dann gehen wir eine Schleife durch. In Runde $i$ haben
-wir von rechts an schon $2^i$ Felder mit einer $1$ beschrieben (gilt initial, da wir eine $1$ haben). Nun shiften wir diese einsen
-um genau diese Anzahl von Feldern nach links. Womit wir $2^i$ einsen auf den Plätzen $2^i+1, \ldots 2^{i+1}$ haben. 
-Verodern wir nun diese Zahl mit der Alten, so haben wir auf insgesammt $2^{i+1}$ Plätzen von rechts an $1$en.
+wir von rechts an schon $2^i$ Felder mit einer $1$ beschrieben (gilt Initial, da wir eine $1$ haben). Nun shiften wir diese Einsen
+um genau diese Anzahl von Feldern nach links. Womit wir $2^i$ Einsen auf den Plätzen $2^i+1, \ldots 2^{i+1}$ haben. 
+Verodern wir nun diese Zahl mit der Alten, so haben wir auf insgesamt $2^{i+1}$ Plätzen von rechts an $1$en.
 
-Dies zeigt uns (per Induktion), dass die Zahl die gesuchte ist. Pro durchlauf haben wir eine konstante Zahl von Operationen und
+Dies zeigt uns (per Induktion), dass die Zahl die gesuchte ist. Pro Durchlauf haben wir eine konstante Zahl von Operationen und
 wir müssen nur $\log \, k$ mal iterieren. Damit ist die Laufzeit $O(\log \, k)$.
 
 \subsubsection*{(c)}
@@ -250,10 +250,10 @@ dass die binärcodierte Zahl $i$ in das Feld $i$ hineinpasst.
 Wir initialisieren zunächst jedes Feld von $B$ mit einer $1$ in $O(log \, k$ nach Aufgabenteil (b).
 
 Die Schleifeninvariante ist nun, dass in Runde $i$ die ersten $2^i$ Felder (von rechts an) die Zahlen $1, \ldots 2^i$ enthalten und
-die restlichen Felder mit $2^i$ beschrieben sind. Dies gilt initial, da alles mit $1$ beschrieben ist.
+die restlichen Felder mit $2^i$ beschrieben sind. Dies gilt Initial, da alles mit $1$ beschrieben ist.
 
-Nach einer Iteration sind die ersten $1, \ldots, 2^i$ Felder gleich geblieben, da wir von rechts $0$en hereinschiften. Die obersten Felder ($\geq 2^{i+1}$) beinhalten $2^{i+1}$ als Eintrag, da die Felder in $B'$ $2^i$ enthalten und beim shiften die Felder über $2^{i+1}$ vorher die Felder
-über $2^i$ waren, also auch alle $2^i$ enthalten. Nach addition enthalten sie also $2^{i+1}$ als Eintrag.
+Nach einer Iteration sind die ersten $1, \ldots, 2^i$ Felder gleich geblieben, da wir von rechts $0$en hereinschauten. Die obersten Felder ($\geq 2^{i+1}$) beinhalten $2^{i+1}$ als Eintrag, da die Felder in $B'$ $2^i$ enthalten und beim shiften die Felder über $2^{i+1}$ vorher die Felder
+über $2^i$ waren, also auch alle $2^i$ enthalten. Nach Addition enthalten sie also $2^{i+1}$ als Eintrag.
 
 Die Felder von $2^i+1$ bis $2^{i+1}$ enthalten nun in $B1$ alle $2^i$ als Eintrag. Nach dem shiften von $B$ steht in den Feldern die zahlen
 $1, \ldots 2^i$. Addieren wir also auf diese Zahlen immer $2^i$ so erhalten wir $2^i+1,\ldots 2^{i+1}$, was genau den Feldern entspricht.
@@ -261,7 +261,7 @@ $1, \ldots 2^i$. Addieren wir also auf diese Zahlen immer $2^i$ so erhalten wir 
 Nach einer Iteration ist die Invariante also erhalten und wir haben pro Iteration nur konstant viele Operationen benötigt.
 
 Am Ende der Schleife gibt es über $2^{\log \, k} = k$ keine Felder mehr und die unterhalb von $k$ beinhalten genau die gesuchten Einträge.
-Insgesammt benötigen wir eine Zeit von $O(\log \, k) + O(\log \, k) = O(\log \, k)$ Operationen.
+Insgesamt benötigen wir eine Zeit von $O(\log \, k) + O(\log \, k) = O(\log \, k)$ Operationen.
 
 \subsubsection*{(d)}
 In $O(\log \, k )$ Zeit kann man $\log \, k$ Wörter $C_0, \ldots, C_{\log \, k}$ berechnen, so dass das Testbit des $i$-ten Eintrags von $C_j$ das $j$-te Bit der Binärdarstellung von $i$ enthält.\\
@@ -279,17 +279,17 @@ Wir verwenden (c) um (d) zu berechnen. (Bei uns ist das $0$te Bit nicht existent
 
 Hier kommt es wieder auf die Zählweise der Bits an, falls es anders herum gewünscht ist, können wir einfach um $l$ shiften und nicht um $l-i$.
 
-Ab $C_1$ tun wir genauch das, was die Definition sagt. In $B$ haben wir im Feld $i$ genau die Zahl $i$ gespeichert. Wenn wir für $C_j$ nun genauch um $l-j$ shiften, so haben wir das $j$ te Bit genau im Testbit stehen. Nun löschen wir zuletzt noch alle anderen Bits (damit wir die Vorraussetzung für
+Ab $C_1$ tun wir genau das, was die Definition sagt. In $B$ haben wir im Feld $i$ genau die Zahl $i$ gespeichert. Wenn wir für $C_j$ nun genau um $l-j$ shiften, so haben wir das $j$ te Bit genau im Testbit stehen. Nun löschen wir zuletzt noch alle anderen Bits (damit wir die Voraussetzung für
 \lstinline|copyTestbit(w)| erfüllen).
 
-Wir brauchen hierfür einmal $B$ in $O(\log \, k)$ und können dann die $C_i$ jeweils in $O(1)$ berechnen, was insgesammt $O(\log \, k)$ dauert.
+Wir brauchen hierfür einmal $B$ in $O(\log \, k)$ und können dann die $C_i$ jeweils in $O(1)$ berechnen, was insgesamt $O(\log \, k)$ dauert.
 
 \subsubsection*{(e)}
 Sei $X$ ein Wort, das die Folge $x_0, x_1, \ldots, x_{k-1}$ darstellt. Dann kann man in $O(\log \, k)$ Zeit ein Wort $Y$ berechnen, das die Folge $x_{k-1}, x_{k-2}, \ldots, x_0$ darstellt.\\
 
 \noindent\textbf{Lösung:}\\
 
-Wir verwenden an dieser Stelle einen Algorithmus, equivalent zum gepackten Mergesort aus der Vorlesung. Die Idee ist die folgende:
+Wir verwenden an dieser Stelle einen Algorithmus, äquivalent zum gepackten Mergesort aus der Vorlesung. Die Idee ist die folgende:
 \begin{lstlisting}[frame=single,language=C]
 reverse(x = $x_1$ ... $x_k$)
 	if k = 1

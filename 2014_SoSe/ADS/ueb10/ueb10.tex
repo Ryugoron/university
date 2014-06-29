@@ -1,0 +1,146 @@
+\documentclass[11pt,a4paper,ngerman]{article}
+\usepackage[bottom=2.5cm,top=2.5cm]{geometry}
+\usepackage[ngerman]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{ae}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{fancyref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{stmaryrd}
+\usepackage{paralist}
+\usepackage{tikz}
+\usepackage{amsthm}
+\usepackage{tabularx}
+\usepackage{algorithmic}
+\usepackage{algorithm}
+
+
+
+\usetikzlibrary{arrows,automata,shapes.geometric}
+
+\newtheorem{propo}{Satz}
+\newtheorem{lemmas}[propo]{Lemma}
+
+\usepackage[pdftex, bookmarks=false, pdfstartview={FitH}, linkbordercolor=white]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[C]{ADS}
+\fancyhead[L]{Übung 10}
+\fancyhead[R]{SoSe 2014}
+\fancyfoot{}
+\fancyfoot[L]{}
+\fancyfoot[C]{\thepage \hspace{1px} von \pageref{LastPage}}
+\renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.5pt}
+\newcommand{\set}[1]{ \{ #1 \}}
+\setlength{\parindent}{0pt}
+\setlength{\headheight}{0pt}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\bigO}{\mathcal{O}}
+\newcommand{\Rarr}{\Rightarrow}
+\newcommand{\rarr}{\rightarrow}
+\newcommand{\Pot}{\mathcal{P}}
+\newcommand{\abs}[1]{\left |#1\right|}
+\newcommand{\solved}{$\mbox{}$ \hfill $\square$}
+\newcommand{\Epsilon}{\mathcal{E}}
+
+\newcommand{\erw}[1]{\text{\bfseries E} \left[ #1 \right]}
+\newcommand{\prob}[1]{\text{Pr}\left[ #1 \right]}
+
+\date{}
+\title{Übung 10}
+\author{Max Wisniewski, Melanie Skodzik}
+
+
+%%
+%% Enviroments for proofs and lemmas
+%%
+\newtheorem{prop}{\bfseries Behauptung}
+\newtheorem{lemma}{\bfseries Lemma}
+
+\begin{document}
+
+\lstset{language=Pascal, basicstyle=\ttfamily\fontsize{10pt}{10pt}\selectfont\upshape, commentstyle=\rmfamily\slshape, keywordstyle=\rmfamily\bfseries, breaklines=true, frame=single, xleftmargin=3mm, xrightmargin=3mm, tabsize=2, mathescape=true}
+
+\renewcommand{\figurename}{Grafik}
+
+\maketitle
+\thispagestyle{fancy}
+
+
+\subsection*{Aufgabe 1}
+Fügen Sie die Schlüssel A, L, P, D, R, E, I, F, O, M, N in dieser Reihenfolge in einen anfangs leeren partiell persistenten AVL-Baum ein. Nehmen Sie an, dass jeder Knoten maximal zwei Modifikationseintraäge speichern kann. Löschen Sie dann die Schlüssel A, M, R. Zeichnen Sie den Baum nach jedem Einfügen- und Löschvorgang.\\
+
+\noindent\textbf{Lösung:}\\
+Siehe Extrablatt
+
+\subsection*{Aufgabe 2}
+In der Vorlesung haben wir ein Verfahren gesehen, um eine Datenstruktur in der Pointer Machine in einen partiell persistente Datenstruktur zu überführen, falls die maximale Anzahl der Zeiger auf einen Knoten konstant ist. Zeigen SIe die folgenden Eigenschaften dieses Verfahrens:
+
+\subsubsection*{(a)}
+Das Angelgen der Modifikationseinträge, benötigt amortisiert nur $O(1)$ Zeit.\\
+
+\noindent\textbf{Beweis:}\\
+tbd
+
+\subsubsection*{(b)}
+Begründen Sie, warum aus der Analyse aus (a) folgt, dass das Anlegen der Modifikationseinträge amortisiert nur $O(1)$ zusätzlich Speicherplatz benötigt.\\
+
+\noindent\textbf{Beweis.}\\
+tbd
+
+\subsubsection*{(c)}
+Sie $D$ eine Datenstruktur und $D'$ die partiell persistente Datenstruktur, die man durch Anwendung des Verfahrens aus der Vorlesung auf $D$ erhält- Bezüglich einer Folge von Operationen $o_1, o_2, \ldots, o_k$ bezeichnen wir mit $D_i$ den Zustand von $D$ nachdem die Operationen $o_1, o_2, \ldots, o_i$ auf $D$ ausgeführt wurden. Folgern sie aus (a) und (b) die beiden Aussagen:
+
+\begin{enumerate}[(i)]
+   \item Sei $T_i$ die Zeit, die $D_{i-1}$ benätigt um die Operation $o_i$ auszuführen. Dann benötigt $D_{i-1}'$ $O(T_i)$ amortisierte Zeit um $o_i$ auszuführen.\\
+
+   \noindent\textbf{Beweis:}\\
+      tbd
+
+   \item Sei $s_i$ die Anzahl der Update-Schritte, die bei Operationen $o_i$ auf $D_{i-1}$ durch geführt werden. Dann belegt $D'$ nach Ausführung der Operationen $o_1, \ldots, i_k$ insgesamt $O(\sum_{i=1}^k s_i)$ Speicherzellen.\\
+   \noindent\textbf{Beweis:}\\
+      tbd
+
+\end{enumerate}
+
+
+\subsection*{Aufgabe 3}
+   Sei $G = (V,E)$ ein geometrischer Graph, d.h., die Knotenmenge $V$ von $G$ ist eine endliche Punktmenge in der Ebene und die Kantenmenge $E$ von $G$ besteht aus Strecken, welche die Punkte aus $V$ miteinander verbinden. Die Strecken aus $E$ schneiden sich hächstens in ihren Endpunkten. IM folgenden nehmen wir an, dass $G$ zusammenhängend ist.
+
+\subsubsection*{(a)}
+Geben Sie eine sinnvolle Mäglichkeit an, wie man $G$ im Computer darstellen kann.\\
+
+\noindent\textbf{Lösung:}\\
+tbd
+
+\vspace{4\baselineskip}
+
+Das \emph{Punktlokalisierungsproblem} besteht darin, eine Datenstruktur für $G$ zu berechnen, welche die folgende Anfrage beherrscht: Gegeben ein Punkt $p \in \mathbb{R}^2$, finde die Facette von $G$, welche $P$ enthält.
+
+\subsubsection*{(b)}
+Zeigen Sie, dass es genügt, die folgende Anfrage zu beantworten: Gegeben $p\in \mathbb{R}^2$, finde die Kante von $G$, welche direkt über $p$ liegt.\\
+
+\noindent\textbf{Beweis:}\\
+
+tbd
+
+\subsubsection*{(c)}
+
+Zeigen Sie, wie man einen persistenten binären Suchbaum benutzen kann, um das Punktlokalisierungsproblem zu lösen. Ihre Lösung sollte $O(n)$ Platz benötigen und $O(\log \, n)$ Anfragezeit erreichen.\\
+
+\noindent\textbf{Beweis:}\\
+
+tbd
+
+\label{LastPage}
+\end{document}

@@ -146,6 +146,25 @@ ist. Mit der einzigen vernünftigen Nullstelle bei $\frac{1}{2} + \frac{1}{2}\sq
 Da die Funktion darüber hinaus stetig ist gilt nach dem Zwischenwertsatz, dass für ein $k$ der Wert $(f(k^*) = 0)$ angenommen wird. Trennen wir an diesem $k^*$, so erhalten
 wir die gesuchte Laufzeit von $O(\log \, n / \log \log \, n)$.
 
+\subsubsection*{Alternative}
+
+Alternativ, was uns zu spät auffiel hätte man als kodierung auch wählen können:
+$$
+\mathcal{H} = \text{Bilder der Schlüssel unter den Hashfunktion}
+$$
+und für die Ereignisse $\mathcal{E}$ wählen wir:
+\begin{center}
+   \begin{tabularx}{0.7\textwidth}{l|r}
+Erklärung & Bits\\
+\hline
+Feld & $(\log \, n)$ Bits\\
+Schlüssel auf Feld & $ n$ Bits \\
+Rest & $(n-l)\log \, n$ Bits
+\end{tabularx}
+\end{center}
+
+Indem wir uns eine Bitmap anlegen und eine 1 Schreiben, falls wir den Schlüssel an position $n$ auf das Feld Hashen.
+
 \subsection*{Aufgabe 2}
 
 Beweisen Sie das Bereichsreduktionslemma von Kirkpatrick und Reisch: Angenommen, uns steht eine Wortlänge von \emph{w} Bits zur Verfügung und wir wissen, dass man $n$ Zahlen mit jeweils $w/4\log \, n$ Bits in $O(n \log\log \,n n)$ Zeit sortieren kann. Dann kann man auch $n$ Zahlen mit jeweils $w$ Bits in $O(n \log \lg \, n$) Zeit sortieren.\\
