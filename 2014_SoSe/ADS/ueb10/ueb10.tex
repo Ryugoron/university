@@ -90,13 +90,37 @@ In der Vorlesung haben wir ein Verfahren gesehen, um eine Datenstruktur in der P
 Das Angelgen der Modifikationseinträge, benötigt amortisiert nur $O(1)$ Zeit.\\
 
 \noindent\textbf{Beweis:}\\
-tbd
+Wir führen zwei Konten $\mathcal{K}_1$, $\mathcal{K}_2, \mathcal{K}_3$ für Modifikationseinträge an, dass zu beginn leer ist.
+
+Das Konto $\mathcal{K}_1$ benutzen wir um dass Zusammenausführen der Felder zu bezahlen (der Knoten läuft über und muss alle Knoten verschieben) und das Konte $\mathcal{K}_2$ um Rückzeiger aller Knoten um zusammengefassten Knoten $v'$ zu updaten. Das Konto $\mathcal{K}_3$ benutzen
+wir um im Rekursiven Schritt die Konten $\mathcal{K}_1$ und $\mathcal{K}_2$ aufzufüllen.
+
+Wir bezahlen pro Veränderung (von außen) auf der Datenstruktur nun immer $1$ auf das Konto $\mathcal{K}_1$ um den Modeintrag einmal
+ausführen zu können, falls der Knoten überläuft. Dannach geben wir auf das Konto $\mathcal{K}_2$ noch $1$. Da wir $d+p$ Einträge
+haben, sollte also beim Überlaufen pro Zeiger Geld da sein um den Rückzeiger umzubiegen.
+
+Müssen wir uns also nur noch das Einträgen der Modeinträge in allen Knoten $u$ angucken, die auf $v$ zeigen und ab der neuen Version auf $v'$ zeigen sollen. Wir müssen hier zumindest $3$ bezahlen können. Einen der auf $\mathcal{K}_1$ gezahlt wird und einen der auf $\mathcal{K}_2$ gezahlt wird
+für den neuen Modeintrag, den wir vom $3.$ bezahlen. 
+
+Nun müssen wir beim Eintragen der Modeinträge insgesammt $3p$ (also die 3 für jeden) zusammen bekommen. Diese Kosten können wir
+auf die $d+p$ Einträge aufteilen. Die Kosten die wir so erhalten sind $3p+r$ wobei $r$ ein Rest ist, den wir benötigen um das ganze aufzuteilen.
+
+Nun also ist nun
+$$
+	r = \frac{3p+r}{d+p} \Leftrightarrow \frac{(d+p - 1)r}{d+p} = \frac{3p}{d+p} \Leftrightarrow r = \frac{3p}{d+p} \cdot \frac{d+p}{d+p-1}
+$$
+und damit eine Konstante (quasi Iterative übertragung der Kosten auf alle Felder).
+
+Wir zahlen also $3p+r$ bei einem neuen Modeintrag und können damit alles bezahlen, wie gezeigt.
+
 
 \subsubsection*{(b)}
 Begründen Sie, warum aus der Analyse aus (a) folgt, dass das Anlegen der Modifikationseinträge amortisiert nur $O(1)$ zusätzlich Speicherplatz benötigt.\\
 
 \noindent\textbf{Beweis.}\\
-tbd
+Da wir Pro Operation auf der Stack Maschine nur $O(1)$ neuen Speicher alluzieren können, können wir also mit $O(1)$ zusätzlichen armortisierten Kosten nur $O(1)$ zusätzlichen Speicher amortisiert alluziieren.
+
+(Im allgemeinen kann man nie mehr Speicher als Laufzeit haben.)
 
 \subsubsection*{(c)}
 Sie $D$ eine Datenstruktur und $D'$ die partiell persistente Datenstruktur, die man durch Anwendung des Verfahrens aus der Vorlesung auf $D$ erhält- Bezüglich einer Folge von Operationen $o_1, o_2, \ldots, o_k$ bezeichnen wir mit $D_i$ den Zustand von $D$ nachdem die Operationen $o_1, o_2, \ldots, o_i$ auf $D$ ausgeführt wurden. Folgern sie aus (a) und (b) die beiden Aussagen:
@@ -105,12 +129,19 @@ Sie $D$ eine Datenstruktur und $D'$ die partiell persistente Datenstruktur, die 
    \item Sei $T_i$ die Zeit, die $D_{i-1}$ benätigt um die Operation $o_i$ auszuführen. Dann benötigt $D_{i-1}'$ $O(T_i)$ amortisierte Zeit um $o_i$ auszuführen.\\
 
    \noindent\textbf{Beweis:}\\
-      tbd
+      Wir führen hier maximal $T_i$ Änderungen aus um die Operation $o_i$ auszuführen. Damit müssen wir auf $D_i'$ also maximal $T_i$ Modifikationseinträge (initial) hinzufügen. Wir in (a) gezeigt, hat das Anlegen eines Modifikationseintrag höchstens $O(1)$ armotisierte Zeit
+	zur Folge.
+
+	Also benötigen wir höchstens $T_i \cdot O(1) = O(T_i)$ Zeit um $o_i$ auszuführen. (Wenn wir die Änderungen der vorherigen Operationen
+	amortisiert mit betrachten, dass heißt wir teilen die Folge von Anlegen der Modifikationseinträge, die wir vorher betrachtet haben
+	auf in eine zusammenhängende Partition, die die Operationen $o_i$ nach sich ziehen)
 
    \item Sei $s_i$ die Anzahl der Update-Schritte, die bei Operationen $o_i$ auf $D_{i-1}$ durch geführt werden. Dann belegt $D'$ nach Ausführung der Operationen $o_1, \ldots, i_k$ insgesamt $O(\sum_{i=1}^k s_i)$ Speicherzellen.\\
    \noindent\textbf{Beweis:}\\
-      tbd
-
+      
+	Ebenso können wir beim Anlegen der Modifikationseinträge für die $s_i$ Update Schritte höchstens $O(s_i)$ neue Speicherzellen erzeugen.
+	Dies gilt für jede einzelne Runde, also haben wir nach $k$ Schritten eine Datenstruktur der Größe
+	$O(\sum_{i=1}^k s_i)$, was also multiplikativ konstant weg vom Ursprünglichen Platz weg beschränkt.
 \end{enumerate}
 
 
@@ -121,7 +152,18 @@ Sie $D$ eine Datenstruktur und $D'$ die partiell persistente Datenstruktur, die 
 Geben Sie eine sinnvolle Mäglichkeit an, wie man $G$ im Computer darstellen kann.\\
 
 \noindent\textbf{Lösung:}\\
-tbd
+Wir können z.B. eine DCEL (Doubly-Connected-Edge-List) benutzen, wie sie in Algorithmischer Geometrie betrachtet wird. Wir speichern hier
+für jede Facette, jede Kante und jeden Knoten einen Container.
+
+Die Kanten stellen wir gerichtet dar, wobei jede Kante über \lstinline|twin|, seinen gegenpart kennt. Die Kanten kenne nun zwei weitere Felder
+\lstinline|next,prev| die einem die nächste Kante auf dem Weg um die linke Facette geben (die sich die Kante auch speichert), sowie die beiden Endpunkte.
+
+Eine Facette speichert sich eine Kante, die sie begrenzt und ein Knoten speichert sich eine einzelne Kante, die an sie grenzt.
+
+(Wir können alle Kanten und Knoten einer Facette bekommen indem wir die Kanten mit \lstinline|next| ablaufen, alle Kanten an einem Knoten erhalten
+wir, wenn wir abwechseln, \lstinline|twin| und \lstinline|prev| benutzen, da wir uns so gegen den Uhrzeigersinn um einen Knoten drehen.)
+
+Diese Datenstruktur lässt sich sehr gut durchlaufen und wir haben gute Zusammenhänge zwischen Facetten, Knoten und Kanten. Darüber hinaus benötigen wir nur $O(m+n+f)$ Speicher, wobei $m$ die Kanten, $n$ die Knoten und $f$ die Facetten Anzahl ist, wobei wir durch die eulersche Ungleichung wissen, dass dies Linear in $G$ ist.
 
 \vspace{4\baselineskip}
 
@@ -132,7 +174,15 @@ Zeigen Sie, dass es genügt, die folgende Anfrage zu beantworten: Gegeben $p\in 
 
 \noindent\textbf{Beweis:}\\
 
-tbd
+Benutzen wir als Datenstruktur die DCEL wie in (a) gezeigt, so wissen wir, dass wenn wir eine Kante bekommen, die direkt über $p$ liegt, dass
+diese Kante $e$ entweder $e$ zur linken hat oder \lstinline|twin(e)|. Die Facetten (hier angenommen links) können nun über den Eintrag der Facette der Kante nun das Ergebnis berechnen.\\
+
+Der Orientierungstest ist auch leicht (in konstanter Zeit) zu berechnen, so dass wir, wenn wir eine Kante bekommen, schon alle Informationen über die
+Facette haben, die wir suchen.\\
+
+Haben wir die Anfrage beantwortet können wir also in $O(1)$ mehraufwand die Facette finden, womit die Beantwortung mehr als genügt.
+
+\mbox{}\hfill$\square$
 
 \subsubsection*{(c)}
 
@@ -140,7 +190,34 @@ Zeigen Sie, wie man einen persistenten binären Suchbaum benutzen kann, um das P
 
 \noindent\textbf{Beweis:}\\
 
-tbd
+Wir bekommen den Graphen alss DCEL gegeben und berechnen sie aus der Darstellung (wie schon gesagt ist die Darstellung linear in der Größe,
+also ein Speicherbedarf von $O(n)$).
+
+Was wir tuen ist, dass wir die Kanten durchgehen und einfügen und simulieren damit quasi ein Sweepline Algorithmus.
+
+Wir gehen die Punkte von links nach rechts durch, erreichen wir einen Knoten, so löschen wir alle Kanten, die in diesen Knoten eingehen (die von links nach Rechts laufen, auf den Knoten zu) und dann fügen wir alle Kanten hinzu, die aus dem Knoten aus gehen (von links nach rechts vom Knoten weg).
+
+Wir schreiben für den $i$-ten Knoten, sortiert nach $x$ Koordinate diese ganzen Wechsel mit Modeintrag zur Phase $i$ an, so dass wir danach schnell herrausfinden, wo wir hin müssen.
+
+Die Kanten im Suchbaum werden nun nach der $y$ Koordinate des rechten Endpunktes sortiert in den Suchbaum eingefügt.\\
+Wir fügen in den Suchbaum höchstens $O(n)$ Kanten ein und nehmen $O(n)$ Kanten heraus, wodurch wir in der persistenten Datenstruktur
+nach aufgabenteil (a) einen Speicherbedarf von $O(n)$ haben.\\
+
+Suchen wir nun die Kante über einem Punkt $p$, so führen wir eine binäre Suche nach dem vorgänger von $p$. Sei $v$ die Version, zu der wir die
+Kanten vom gefundenen Vorgänger Knoten aus eingefügt haben.
+Dann sind im Suchbaum genau die Kanten enthalten, die im Slope (dem Intervall zwischen den beiden Endpunkten) liegen, die echt über und unter $p$ liegen. Dazu müssen wir nun erkennen, dass wir zwar nicht anhand der $y$ Koordinaten direkt suchen könne, aber über diese sind die Geraden sortiert, so wie sie übereinander liegen.
+
+Wir merken uns zunächst $\bot$, als die bisher gefundene kante über $p$
+Um nun die Kante über $p$ zu suchen, sehen wir uns an, ob $p$ über oder unter der Wurzel liegt. Ist die Wurzel darunter, so gehen wir in den Linken teilbaum (der über der Kante in der Wurzel liegt) und machen dort rekursiv weiter. Ist die Wurzel über $p$ so merken wir uns die Wurzel und machen im rechten teilbaum weiter.
+
+Wir erhalten so die Kante, die direkt über $p$ liegt, da wir nur Kanten betrachten die zur Zeit von $p$ aktiv sind und davon nehmen wir durch
+das durchgehen des Baumes die niedrigste über $p$.
+
+Handelt es sich beim Suchbaum um einen balancierten Baum (AVL, Rot-Schwarz), so können wir den Knoten in Zeit $O(\log \, n)$ finden, da wir
+in der Vorlesung gezeigt haben, dass partiell Persistente Datenstrukturen reine Suchanfragen in der selben Zeit beantworten. Da wir
+über binäre Suche die Version auch in $O(\log \, n)$ finden, dauert das finden der Kante über $p$ genau $O(\log \, n)$ Zeit und nach (a) können
+wir ebenfalls in dieser Zeit ingesammt die Facette finden.
+
 
 \label{LastPage}
 \end{document}
